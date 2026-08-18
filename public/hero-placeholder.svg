@@ -1,0 +1,31 @@
+<svg width="1600" height="1000" viewBox="0 0 1600 1000" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder endurance course backdrop">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#15150f" />
+      <stop offset="55%" stop-color="#232620" />
+      <stop offset="100%" stop-color="#313823" />
+    </linearGradient>
+    <linearGradient id="fade" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#15150f" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#15150f" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="1000" fill="url(#bg)" />
+
+  <g stroke="#a97a4c" stroke-opacity="0.16" stroke-width="1.5" fill="none">
+    <path d="M-50,850 C 300,780 500,900 850,760 S 1400,700 1650,780" />
+    <path d="M-50,700 C 320,640 560,760 900,620 S 1420,560 1650,650" />
+    <path d="M-50,550 C 340,500 600,600 950,480 S 1440,420 1650,520" />
+    <path d="M-50,400 C 360,360 620,440 980,340 S 1450,300 1650,390" />
+    <path d="M-50,250 C 380,220 640,280 1000,200 S 1460,180 1650,260" />
+  </g>
+
+  <g fill="#d8cdac" fill-opacity="0.5">
+    <circle cx="850" cy="760" r="4" />
+    <circle cx="950" cy="480" r="4" />
+    <circle cx="1000" cy="200" r="4" />
+  </g>
+
+  <rect width="1600" height="1000" fill="url(#fade)" />
+</svg>

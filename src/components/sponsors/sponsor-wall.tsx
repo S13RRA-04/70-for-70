@@ -1,0 +1,53 @@
+import type { SponsorRow, SponsorTier } from "@/types/database";
+import { SponsorCard } from "./sponsor-card";
+
+const TIER_ORDER: SponsorTier[] = ["presenting", "mission", "supporting", "mile", "community"];
+
+const TIER_LABELS: Record<SponsorTier, string> = {
+  presenting: "Presenting Sponsors",
+  mission: "Mission Sponsors",
+  supporting: "Supporting Sponsors",
+  mile: "Mile Sponsors",
+  community: "Community Partners",
+};
+
+const TIER_GRID: Record<SponsorTier, string> = {
+  presenting: "sm:grid-cols-1",
+  mission: "sm:grid-cols-2",
+  supporting: "sm:grid-cols-3",
+  mile: "sm:grid-cols-4",
+  community: "sm:grid-cols-4",
+};
+
+export function SponsorWall({ sponsors }: { sponsors: SponsorRow[] }) {
+  const tiersWithSponsors = TIER_ORDER.filter((tier) =>
+    sponsors.some((s) => s.tier === tier),
+  );
+
+  if (tiersWithSponsors.length === 0) {
+    return (
+      <p className="text-sm text-charcoal-light">
+        No sponsors yet — be the first to support the mission.
+      </p>
+    );
+  }
+
+  return (
+    <div className="space-y-10">
+      {tiersWithSponsors.map((tier) => (
+        <div key={tier}>
+          <p className="text-xs font-semibold uppercase tracking-widest text-bronze">
+            {TIER_LABELS[tier]}
+          </p>
+          <div className={`mt-3 grid grid-cols-2 gap-4 ${TIER_GRID[tier]}`}>
+            {sponsors
+              .filter((s) => s.tier === tier)
+              .map((sponsor) => (
+                <SponsorCard key={sponsor.id} sponsor={sponsor} />
+              ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
