@@ -5,7 +5,7 @@ import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { SponsorWall } from "@/components/sponsors/sponsor-wall";
 import { CTASection } from "@/components/shared/cta-section";
-import { SPONSORSHIP_LEVELS } from "@/lib/constants";
+import { CUSTOM_PARTNERSHIP_CATEGORIES, SPONSORSHIP_LEVELS, SPONSOR_VALUE_PROPS } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -31,7 +31,27 @@ export default async function SponsorsPage() {
 
       <section className="py-16 sm:py-20">
         <Container>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <SectionHeading
+            eyebrow="Why Sponsor"
+            title="Put Your Company Behind 70 Miles of Mission"
+          />
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {SPONSOR_VALUE_PROPS.map((prop) => (
+              <div key={prop.id} className="rounded-sm border border-ink/10 bg-off-white p-6">
+                <h3 className="font-display text-base font-semibold uppercase tracking-wide text-ink">
+                  {prop.title}
+                </h3>
+                <p className="mt-2 text-sm text-charcoal-light">{prop.body}</p>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      <section className="border-t border-ink/10 bg-sand-light py-16 sm:py-20">
+        <Container>
+          <SectionHeading eyebrow="Sponsorship Levels" title="Choose a Level" />
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {SPONSORSHIP_LEVELS.map((level) => (
               <div
                 key={level.id}
@@ -55,6 +75,33 @@ export default async function SponsorsPage() {
                 </ul>
               </div>
             ))}
+          </div>
+
+          <div className="mt-6 rounded-sm border border-bronze/40 bg-bronze/10 p-6">
+            <h3 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+              Custom / In-Kind Partnership
+            </h3>
+            <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
+              Not every contribution fits a dollar tier. Bicycle and equipment, apparel,
+              nutrition, travel, lodging, race services, media, photography, and community
+              events are all forms of support we&apos;d welcome hearing about.
+            </p>
+            <ul className="mt-4 flex flex-wrap gap-2">
+              {CUSTOM_PARTNERSHIP_CATEGORIES.map((category) => (
+                <li
+                  key={category}
+                  className="rounded-full border border-ink/15 bg-off-white px-3 py-1 text-xs font-medium text-charcoal-light"
+                >
+                  {category}
+                </li>
+              ))}
+            </ul>
+            <Link
+              href="/sponsors/request"
+              className="mt-5 inline-flex rounded-sm border border-ink/20 px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
+            >
+              Start a Sponsorship Conversation
+            </Link>
           </div>
 
           <div className="mt-8">

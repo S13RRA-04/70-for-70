@@ -43,6 +43,12 @@ export function formatDateLong(date: string | Date) {
   }).format(d);
 }
 
+/** Whole weeks between two ISO timestamps, floored, never negative. */
+export function weeksBetween(fromIso: string, toIso: string): number {
+  const ms = new Date(toIso).getTime() - new Date(fromIso).getTime();
+  return Math.max(Math.floor(ms / (1000 * 60 * 60 * 24 * 7)), 0);
+}
+
 export function mileStatusLabel(status: MileStatus) {
   switch (status) {
     case "available":

@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
+import { ShieldCheck } from "lucide-react";
 import { getPartners } from "@/lib/data/partners";
+import { getCampaign } from "@/lib/data/campaign";
+import { getAllocationBreakdown } from "@/lib/data/allocation";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { PartnerCard } from "@/components/partners/partner-card";
+import { CampaignAllocation } from "@/components/campaign/campaign-allocation";
 
 export const metadata: Metadata = {
   title: "Donate",
@@ -15,7 +19,8 @@ export default async function DonatePage(props: PageProps<"/donate">) {
   const mileParam = Array.isArray(searchParams.mile) ? searchParams.mile[0] : searchParams.mile;
   const mileNumber = mileParam ? Number.parseInt(mileParam, 10) : null;
 
-  const partners = await getPartners();
+  const [partners, campaign] = await Promise.all([getPartners(), getCampaign()]);
+  const allocationBreakdown = await getAllocationBreakdown(campaign);
 
   return (
     <>
@@ -43,12 +48,50 @@ export default async function DonatePage(props: PageProps<"/donate">) {
               <PartnerCard key={partner.id} partner={partner} />
             ))}
           </div>
+        </Container>
+      </section>
 
-          <p className="mt-10 max-w-2xl text-sm text-charcoal-light">
-            Donations are directed through the respective nonprofit organization&apos;s
-            authorized donation platform. 70 for 70 does not independently process
-            charitable contributions unless explicitly stated.
+      <section className="border-t border-ink/10 bg-sand-light py-16 sm:py-20">
+        <Container className="max-w-3xl">
+          <SectionHeading eyebrow="Where It Goes" title="Your Donation Goes to the Mission" />
+
+          <div className="mt-8 space-y-4">
+            {partners.map((partner) => (
+              <div
+                key={partner.id}
+                className="rounded-sm border border-ink/10 bg-off-white p-5"
+              >
+                <div className="flex flex-wrap items-center gap-2">
+                  <p className="font-display text-base font-semibold uppercase tracking-wide text-ink">
+                    {partner.name}
+                  </p>
+                  {partner.nonprofit_status_verified && (
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-olive/30 bg-olive/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-olive">
+                      <ShieldCheck size={13} aria-hidden />
+                      Verified 501(c)(3){partner.ein ? ` · EIN ${partner.ein}` : ""}
+                    </span>
+                  )}
+                </div>
+                <p className="mt-2 text-sm text-charcoal-light">
+                  Donation processed by <span className="text-ink">{partner.name}</span> —
+                  through its own, separately operated donation platform
+                  {partner.donation_url ? "." : " (link coming once approved)."}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <p className="mt-8 max-w-2xl text-sm font-medium text-charcoal-light">
+            70 for 70 does not take possession of charitable donations. Donations are directed
+            through each nonprofit organization&apos;s authorized donation platform, and 70 for
+            70 does not independently process charitable contributions unless explicitly stated.
           </p>
+
+          {allocationBreakdown && (
+            <div className="mt-6">
+              <CampaignAllocation breakdown={allocationBreakdown} />
+            </div>
+          )}
         </Container>
       </section>
     </>

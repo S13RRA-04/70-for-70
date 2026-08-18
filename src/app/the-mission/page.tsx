@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
+import { CampaignByTheNumbers } from "@/components/campaign/campaign-by-the-numbers";
 import { MISSION_SECTIONS } from "@/lib/content/mission";
 
 export const metadata: Metadata = {
@@ -22,6 +23,9 @@ export default function MissionPage() {
             title="One Mile. One Thousand Dollars. One Mission."
             description="70 for 70 pairs an IRONMAN 70.3-distance triathlon with a $70,000 fundraising goal in support of veteran-focused nonprofit organizations."
           />
+          <div className="mt-10">
+            <CampaignByTheNumbers />
+          </div>
         </Container>
       </section>
 

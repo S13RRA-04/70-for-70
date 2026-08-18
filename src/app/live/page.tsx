@@ -1,0 +1,140 @@
+import type { Metadata } from "next";
+import { getCampaign } from "@/lib/data/campaign";
+import { getRecentDonations } from "@/lib/data/donations";
+import { getRaceDayStatus } from "@/lib/race-day";
+import { Container } from "@/components/shared/container";
+import { SectionHeading } from "@/components/shared/section-heading";
+import { EmptyState } from "@/components/shared/empty-state";
+import { CTASection } from "@/components/shared/cta-section";
+import {
+  formatCurrency,
+  formatDateLong,
+  formatNumber,
+  milesFunded,
+  percentFunded,
+} from "@/lib/utils";
+
+export const metadata: Metadata = {
+  title: "Race Day Live",
+  description: "Live race-day status and fundraising progress for 70 for 70.",
+  alternates: { canonical: "/live" },
+};
+
+const DISCIPLINE_LABEL: Record<"swim" | "bike" | "run" | "finished", string> = {
+  swim: "swimming",
+  bike: "on the bike",
+  run: "running",
+  finished: "finished",
+};
+
+export default async function LivePage() {
+  const [campaign, status, recentDonations] = await Promise.all([
+    getCampaign(),
+    getRaceDayStatus(),
+    getRecentDonations(5),
+  ]);
+
+  const percent = percentFunded(campaign.amount_raised, campaign.fundraising_goal);
+  const miles70 = milesFunded(campaign.amount_raised);
+  const remainingMiles = Math.max(70 - miles70, 0);
+
+  return (
+    <>
+      <section className="border-b border-ink/10 bg-ink py-16 text-off-white sm:py-20">
+        <Container>
+          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-bronze-light">
+            Race Day
+          </p>
+
+          {status.isLive ? (
+            <>
+              <h1 className="mt-4 text-balance font-display text-4xl font-bold uppercase tracking-tight sm:text-5xl">
+                Cody is {status.currentDiscipline ? DISCIPLINE_LABEL[status.currentDiscipline] : "racing"}
+              </h1>
+              <p className="mt-3 text-lg text-off-white/85">
+                {status.currentMile !== null
+                  ? `Mile ${formatNumber(status.currentMile, 1)} of ${status.totalMiles}`
+                  : `${status.totalMiles} miles`}
+                {status.elapsedTime ? ` · ${status.elapsedTime} elapsed` : ""}
+              </p>
+              {status.latestSplit && (
+                <p className="mt-1 text-sm text-off-white/70">
+                  Latest split: {status.latestSplit.discipline} — {status.latestSplit.time}
+                </p>
+              )}
+              {status.mapUrl && (
+                <a
+                  href={status.mapUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 inline-block text-sm font-semibold uppercase tracking-wide text-bronze-light hover:underline"
+                >
+                  View Live Map
+                </a>
+              )}
+            </>
+          ) : (
+            <h1 className="mt-4 text-balance font-display text-4xl font-bold uppercase tracking-tight sm:text-5xl">
+              Race Day Hasn&apos;t Started Yet
+            </h1>
+          )}
+
+          <div className="mt-10 max-w-xl rounded-sm border border-off-white/15 bg-ink/40 p-6 backdrop-blur-sm">
+            <p className="font-display text-3xl font-semibold tabular-nums sm:text-4xl">
+              {formatCurrency(campaign.amount_raised)}{" "}
+              <span className="text-lg font-medium text-off-white/70">raised</span>
+            </p>
+            <p className="mt-1 text-sm font-semibold uppercase tracking-wide text-bronze-light">
+              {formatNumber(miles70, 1)} of 70 fundraising miles funded
+            </p>
+            <div className="mt-3 h-3 w-full overflow-hidden rounded-full bg-off-white/15">
+              <div className="h-full rounded-full bg-bronze" style={{ width: `${percent}%` }} />
+            </div>
+            <p className="mt-2 text-xs text-off-white/60">
+              {formatNumber(remainingMiles, 1)} fundraising miles left
+            </p>
+          </div>
+        </Container>
+      </section>
+
+      <section className="py-16 sm:py-20">
+        <Container className="max-w-2xl">
+          <SectionHeading eyebrow="Latest Support" title="Recent Mission Support" />
+          <div className="mt-8">
+            {recentDonations.length > 0 ? (
+              <ul className="space-y-3">
+                {recentDonations.map((donation) => (
+                  <li
+                    key={donation.id}
+                    className="flex items-center justify-between rounded-sm border border-ink/10 bg-off-white p-4 text-sm"
+                  >
+                    <div>
+                      <p className="font-medium text-ink">
+                        {donation.anonymous ? "Anonymous" : donation.donor_name}
+                      </p>
+                      <p className="text-xs text-charcoal-light">{formatDateLong(donation.date)}</p>
+                    </div>
+                    <span className="tabular-nums font-medium text-ink">
+                      {formatCurrency(donation.amount)}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <EmptyState
+                title="No donations recorded yet."
+                description="Recent verified support will show up here as it comes in."
+              />
+            )}
+          </div>
+        </Container>
+      </section>
+
+      <CTASection
+        title="Help Get 70 for 70 Across the Finish Line"
+        description="Every mile funded on race day is a mile that mattered beyond the course."
+        buttons={[{ label: "Donate", href: "/donate" }]}
+      />
+    </>
+  );
+}

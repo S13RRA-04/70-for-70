@@ -23,6 +23,7 @@ export function MileCard({
     <button
       type="button"
       onClick={() => onSelect(mile.mile_number)}
+      data-analytics-event="mile_viewed"
       className={cn(
         "flex flex-col rounded-sm border p-4 text-left transition-shadow hover:shadow-md focus-visible:shadow-md",
         STATUS_STYLES[mile.status],

@@ -37,6 +37,13 @@ export type InquiryInterest =
 
 export type InquiryStatus = "new" | "contacted" | "closed";
 
+/** How donations are credited across beneficiary orgs. Null = undecided. */
+export type AllocationPolicy =
+  | "even_split"
+  | "donor_choice"
+  | "campaign_defined"
+  | "separate_totals";
+
 export type SponsorshipSupportType =
   | "cash"
   | "goods"
@@ -66,6 +73,7 @@ export interface CampaignRow {
   race_distance: number;
   race_date: string | null;
   race_location: string | null;
+  allocation_policy: AllocationPolicy | null;
   updated_at: string;
 }
 
@@ -79,6 +87,8 @@ export interface MileRow {
   updated_at: string;
 }
 
+export type DedicationType = "in_honor_of" | "in_memory_of";
+
 export interface DonationRow {
   id: string;
   mile_id: string | null;
@@ -86,7 +96,10 @@ export interface DonationRow {
   amount: number;
   organization_benefited: string | null;
   anonymous: boolean;
-  dedication: string | null;
+  dedication_type: DedicationType | null;
+  dedication_name: string | null;
+  dedication_message: string | null;
+  dedication_public: boolean;
   date: string;
   external_reference: string | null;
   verified: boolean;
@@ -130,7 +143,18 @@ export interface PartnerRow {
   logo_url: string | null;
   website_url: string | null;
   donation_url: string | null;
+  /** Trust signals — only set once independently verified; hidden until then. */
+  ein: string | null;
+  nonprofit_status_verified: boolean;
   active: boolean;
+}
+
+export interface EmailSubscriberRow {
+  id: string;
+  first_name: string;
+  email: string;
+  synced_to_provider: boolean;
+  created_at: string;
 }
 
 export interface InquiryRow {

@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getPosts } from "@/lib/data/posts";
-import { SITE_URL } from "@/lib/constants";
+import { SITE_URL, TOTAL_FUNDRAISING_MILES } from "@/lib/constants";
 
 const STATIC_ROUTES = [
   "",
@@ -15,6 +15,9 @@ const STATIC_ROUTES = [
   "/contact",
   "/sponsors/request",
   "/privacy",
+  "/terms",
+  "/live",
+  "/press",
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -30,5 +33,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: post.published_at ? new Date(post.published_at) : new Date(),
   }));
 
-  return [...staticEntries, ...postEntries];
+  const mileEntries: MetadataRoute.Sitemap = Array.from(
+    { length: TOTAL_FUNDRAISING_MILES },
+    (_, i) => ({
+      url: `${SITE_URL}/miles/${i + 1}`,
+      lastModified: new Date(),
+    }),
+  );
+
+  return [...staticEntries, ...postEntries, ...mileEntries];
 }

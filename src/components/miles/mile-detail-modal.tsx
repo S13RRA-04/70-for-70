@@ -87,14 +87,24 @@ export function MileDetailModal({
               </p>
               <ul className="mt-2 space-y-1.5">
                 {mile.donations.map((donation) => (
-                  <li
-                    key={donation.id}
-                    className="flex items-center justify-between text-sm text-ink"
-                  >
-                    <span>{donation.donor_name}</span>
-                    <span className="tabular-nums text-charcoal-light">
-                      {formatCurrency(donation.amount)}
-                    </span>
+                  <li key={donation.id} className="text-sm text-ink">
+                    <div className="flex items-center justify-between">
+                      <span>{donation.donor_name}</span>
+                      <span className="tabular-nums text-charcoal-light">
+                        {formatCurrency(donation.amount)}
+                      </span>
+                    </div>
+                    {donation.dedication_public &&
+                      donation.dedication_type &&
+                      (donation.dedication_name || donation.dedication_message) && (
+                        <p className="text-xs italic text-charcoal-light">
+                          {donation.dedication_type === "in_memory_of"
+                            ? "In memory of"
+                            : "In honor of"}
+                          {donation.dedication_name ? ` ${donation.dedication_name}` : ""}
+                          {donation.dedication_message ? ` — ${donation.dedication_message}` : ""}
+                        </p>
+                      )}
                   </li>
                 ))}
               </ul>
@@ -148,6 +158,13 @@ export function MileDetailModal({
                 </p>
               </>
             )}
+
+            <Link
+              href={`/miles/${mile.mile_number}`}
+              className="block text-center text-xs font-semibold uppercase tracking-wide text-charcoal-light hover:text-bronze"
+            >
+              View &amp; Share This Mile &rarr;
+            </Link>
           </div>
         </div>
       )}

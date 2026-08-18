@@ -113,7 +113,13 @@ export function SponsorshipRequestForm({ defaultMileNumber }: { defaultMileNumbe
           Contact
         </legend>
         <div className="grid gap-5 sm:grid-cols-2">
-          <Field id="contactName" name="contactName" label="Contact Name" required />
+          <Field
+            id="contactName"
+            name="contactName"
+            label="Contact Name"
+            required
+            analyticsEvent="sponsor_request_started"
+          />
           <Field id="organizationName" name="organizationName" label="Company / Organization" required />
           <Field id="email" name="email" label="Email" type="email" required />
           <Field id="phone" name="phone" label="Phone" type="tel" />
@@ -255,7 +261,7 @@ export function SponsorshipRequestForm({ defaultMileNumber }: { defaultMileNumbe
       <button
         type="submit"
         disabled={status === "submitting"}
-        data-analytics-event="sponsor_inquiry"
+        data-analytics-event="sponsor_request_submitted"
         className="w-full rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light disabled:opacity-60 sm:w-auto"
       >
         {status === "submitting" ? "Submitting..." : "Submit Sponsorship Request"}
@@ -274,6 +280,7 @@ function Field({
   max,
   defaultValue,
   hint,
+  analyticsEvent,
 }: {
   id: string;
   name: string;
@@ -284,6 +291,7 @@ function Field({
   max?: number;
   defaultValue?: number | string;
   hint?: string;
+  analyticsEvent?: string;
 }) {
   return (
     <div>
@@ -298,6 +306,7 @@ function Field({
         min={min}
         max={max}
         defaultValue={defaultValue}
+        data-analytics-event={analyticsEvent}
         className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze"
       />
       {hint && <p className="mt-1 text-xs text-charcoal-light">{hint}</p>}

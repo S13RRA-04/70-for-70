@@ -1,5 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ExternalLink, ShieldCheck } from "lucide-react";
+import { ExternalDonateButton } from "@/components/shared/external-donate-button";
 import type { PartnerRow } from "@/types/database";
 
 export function PartnerCard({ partner }: { partner: PartnerRow }) {
@@ -25,6 +27,13 @@ export function PartnerCard({ partner }: { partner: PartnerRow }) {
         {partner.name}
       </h3>
 
+      {partner.nonprofit_status_verified && (
+        <p className="mt-1.5 inline-flex w-fit items-center gap-1.5 rounded-full border border-olive/30 bg-olive/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-olive">
+          <ShieldCheck size={13} aria-hidden />
+          Verified 501(c)(3){partner.ein ? ` · EIN ${partner.ein}` : ""}
+        </p>
+      )}
+
       {partner.what_they_do && (
         <div className="mt-3">
           <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
@@ -42,28 +51,22 @@ export function PartnerCard({ partner }: { partner: PartnerRow }) {
       </div>
 
       {hasLinks && (
-        <div className="mt-5 flex flex-wrap gap-3">
+        <div className="mt-5 flex flex-wrap items-center gap-3">
           {partner.website_url && (
             <Link
               href={partner.website_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-sm border border-ink/20 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
+              data-analytics-event="beneficiary_selected"
+              className="inline-flex items-center gap-1.5 rounded-sm border border-ink/20 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
             >
               Learn More
+              <ExternalLink size={13} aria-hidden />
             </Link>
           )}
 
           {partner.donation_url && (
-            <Link
-              href={partner.donation_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-analytics-event="partner_click"
-              className="rounded-sm bg-bronze px-4 py-2 text-xs font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
-            >
-              Donate
-            </Link>
+            <ExternalDonateButton href={partner.donation_url} orgName={partner.name} />
           )}
         </div>
       )}

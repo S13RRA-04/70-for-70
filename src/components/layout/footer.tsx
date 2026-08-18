@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { CONTACT_EMAIL, NAV_LINKS, SITE_NAME, SITE_TAGLINE } from "@/lib/constants";
 import { Container } from "@/components/shared/container";
 
@@ -7,9 +8,12 @@ export function Footer() {
     <footer className="border-t border-off-white/10 bg-ink text-off-white">
       <Container className="grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
         <div className="lg:col-span-2">
-          <p className="font-display text-xl font-semibold uppercase tracking-wide">
-            {SITE_NAME}
-          </p>
+          <div className="flex items-center gap-2.5">
+            <Image src="/logo-white.png" alt="" aria-hidden="true" width={32} height={32} />
+            <p className="font-display text-xl font-semibold uppercase tracking-wide">
+              {SITE_NAME}
+            </p>
+          </div>
           <p className="mt-3 max-w-sm text-sm text-off-white/70">{SITE_TAGLINE}</p>
         </div>
 
@@ -47,6 +51,16 @@ export function Footer() {
               </Link>
             </li>
             <li>
+              <Link href="/live" className="transition-colors hover:text-off-white">
+                Race Day Live
+              </Link>
+            </li>
+            <li>
+              <Link href="/press" className="transition-colors hover:text-off-white">
+                Press &amp; Media
+              </Link>
+            </li>
+            <li>
               {CONTACT_EMAIL ? (
                 <a href={`mailto:${CONTACT_EMAIL}`} className="transition-colors hover:text-off-white">
                   {CONTACT_EMAIL}
@@ -69,6 +83,9 @@ export function Footer() {
             </p>
             <Link href="/privacy" className="underline-offset-2 hover:text-off-white/80 hover:underline">
               Privacy Policy
+            </Link>
+            <Link href="/terms" className="underline-offset-2 hover:text-off-white/80 hover:underline">
+              Site Terms
             </Link>
           </div>
           <p>

@@ -62,7 +62,11 @@ Schema and seed data live in [`supabase/`](supabase):
   Project Echelon partner rows (Cody's real "why it matters to me" copy,
   `what_they_do` and donation URLs left `null` until each org supplies its
   own approved description/link — see
-  [Eliminating Placeholder Content](#eliminating-placeholder-content))
+  [Eliminating Placeholder Content](#eliminating-placeholder-content)).
+  `donations` also supports optional structured dedications
+  (`dedication_type`/`dedication_name`/`dedication_message`/
+  `dedication_public`) and `email_subscribers` captures "Follow the Road to
+  70.3" signups — both start empty.
 - [`seed-demo.sql`](supabase/seed-demo.sql) — **optional, local/demo only.**
   Layers in a partially-funded campaign, plus one illustrative sponsorship
   request, so the UI (including the admin review queue) can be previewed
@@ -123,36 +127,51 @@ src/
                              and the WHOOP connection page (admin/whoop/)
     api/inquiries/          General inquiry form submission endpoint
     api/sponsorship-requests/  Sponsorship request submission endpoint
+    api/subscribe/          Email signup submission endpoint
     api/whoop/              OAuth authorize + callback routes (admin-only)
     fund-a-mile/            70-mile grid with filtering + detail modal
+    miles/[number]/         Permanent, shareable page per mile
     the-mission/ the-race/  Mission and race pages (race page includes the
-                             live WHOOP training snapshot)
+                             live WHOOP training snapshot, training volume,
+                             and a real milestone timeline)
     partners/ sponsors/     Beneficiary orgs, sponsorship levels, and the
                              sponsorship request form (sponsors/request/)
     updates/[slug]/         Campaign journal / training updates
     donate/ contact/        Donation routing and general contact form
-    privacy/                Privacy policy
+    live/                   Provider-neutral race-day status page
+    press/                  Press/media kit
+    privacy/ terms/         Privacy policy; site terms, sponsorship and
+                             charitable-giving disclosures, trademark
+                             disclaimer
     sitemap.ts robots.ts    SEO
     opengraph-image.tsx     Generated social share image
   components/
     layout/                 Header, Footer
-    campaign/                CampaignProgress, RaceProgress
+    campaign/                CampaignProgress, RaceProgress,
+                              CampaignAllocation, CampaignByTheNumbers
     miles/                    MileCard, MileGrid, MileDetailModal
     partners/ sponsors/      PartnerCard, SponsorCard, SponsorWall
     updates/                   UpdateCard
     training/                    TrainingSnapshot
-    forms/                       SponsorInquiryForm, SponsorshipRequestForm
+    forms/                       SponsorInquiryForm, SponsorshipRequestForm,
+                                   EmailSignupForm
     shared/                       Container, SectionHeading, CTASection,
                                     StatCard, Countdown, EmptyState,
-                                    MediaPlaceholder
+                                    MediaPlaceholder, ExternalDonateButton,
+                                    ShareButtons
   lib/
     data/                    Supabase reads with seed-data fallback
+                              (donations.ts, allocation.ts's
+                              getAllocationBreakdown)
     supabase/                Browser / server / admin (service-role) clients,
                               require-admin auth guard
     whoop/                   OAuth token storage/refresh + WHOOP API client
-    content/                 Editable narrative copy (Mission, About, Privacy)
+    content/                 Editable narrative copy (Mission, About,
+                              Privacy, Terms)
     validation/               zod schemas
-    sponsorship.ts notifications.ts constants.ts rate-limit.ts utils.ts
+    race-day.ts               Provider-neutral race-day status abstraction
+    email-list.ts sponsorship.ts notifications.ts constants.ts
+    rate-limit.ts utils.ts
   types/                     Hand-authored DB row types + shared UI types
 supabase/                   schema.sql, seed.sql, seed-demo.sql
 ```
@@ -276,6 +295,52 @@ replace with a real empty state" rule applied consistently. A flag would add
 a layer of indirection without doing anything these direct checks don't
 already do.
 
+## Campaign Logo
+
+The campaign's compact icon/mark is in place — a colored ring around a
+bold "70 FOR 70" mark. Only that icon/mark was supplied; **no horizontal
+lockup exists yet**, so nothing invents one.
+
+Two versions exist — dark numerals for light backgrounds, white numerals
+for dark backgrounds:
+
+- Source files: [`brand/70for70-logo-source.png`](brand/70for70-logo-source.png)
+  and [`brand/70for70-logo-white-source.png`](brand/70for70-logo-white-source.png)
+  (full resolution, not publicly served — kept for regenerating assets later)
+- [`public/logo.png`](public/logo.png) / [`public/logo-white.png`](public/logo-white.png) —
+  1024×1024 optimized versions used for on-site display and the `/press` downloads
+- `src/app/icon.png` (32×32, light-background version) and
+  `src/app/apple-icon.png` (180×180, flattened onto the off-white brand
+  background since Apple's convention doesn't respect transparency) replace
+  the previous dynamically-generated text-only favicon
+- `Header` (light background) uses `logo.png`; `Footer` and
+  `opengraph-image.tsx` (both dark) use `logo-white.png` — both pair the
+  icon with visible "70 FOR 70" text (nav/footer) or the headline (OG
+  image). The icon images themselves are `alt=""`/`aria-hidden` since the
+  adjacent text already gives screen readers the accessible name, avoiding
+  a duplicate announcement — this satisfies "navigation should still
+  include readable text" without relying on alt text alone.
+- [`opengraph-image.tsx`](src/app/opengraph-image.tsx) composites the white
+  logo (read from disk, base64-encoded) alongside the headline/tagline on
+  the existing dark gradient, so it flows through automatically to
+  Twitter/OG social cards
+- [`/press`](src/app/press/page.tsx)'s "Logo Downloads" section offers both
+  versions for download instead of an `EmptyState`, with an explicit note
+  that the horizontal lockup is still pending
+
+If a horizontal lockup is produced later, add it as
+`public/logo-horizontal.png` and swap it in wherever a wider format reads
+better (the OG image and `/press` are the most likely candidates).
+
+**Partner logos**: Mighty Oaks Foundation's and Project Echelon's own
+official logos are also in place now (`brand/mighty-oaks-logo-source.png`
+/ `brand/project-echelon-logo-source.png`, optimized into
+`public/partners/`), set as `partners.logo_url` in both
+[`seed-data.ts`](src/lib/data/seed-data.ts) and
+[`seed.sql`](supabase/seed.sql). `PartnerCard` and `SponsorCard` still fall
+back to a text wordmark for any partner/sponsor without a `logo_url`, but
+neither beneficiary needs that fallback anymore.
+
 ## What's Implemented (Milestone 1)
 
 - Responsive nav (sticky, distinct Donate CTA, accessible mobile menu)
@@ -312,9 +377,69 @@ already do.
   both fully functional
 - Live WHOOP training snapshot on the Race page (see dedicated section
   above), with OAuth tokens stored server-only and zero public RLS access
-- SEO: metadata, OpenGraph/Twitter cards (generated), sitemap, robots.txt
-- `data-analytics-event` attributes on key CTAs, ready to wire into an
-  analytics provider (see Remaining TODOs)
+- Sponsors page leads with a "Put Your Company Behind 70 Miles of Mission"
+  value-proposition section before pricing tiers, plus a Custom / In-Kind
+  Partnership tier (equipment, apparel, nutrition, travel, lodging, race
+  services, media, photography, community events) → "Start a Sponsorship
+  Conversation"
+- Donate page trust section: per-partner "donation processed by"
+  statement, a verified-501(c)(3)/EIN badge (hidden until
+  `nonprofit_status_verified` is true), and an explicit "70 for 70 does not
+  take possession of charitable donations" statement. Donate buttons open
+  an `ExternalDonateButton` confirmation dialog ("You're leaving 70 for
+  70...") before navigating out, with an external-link icon indicator —
+  never a direct outbound `<a>`
+- Campaign allocation architecture (`campaign.allocation_policy`,
+  `getAllocationBreakdown()`, `CampaignAllocation`): computed from verified
+  donations grouped by `organization_benefited`, and renders nothing at all
+  while `allocation_policy` is unset — no policy has been decided yet, so
+  nothing currently implies donations pool across the two organizations
+- Race page: "The Work" training-volume stats (swim/bike/run miles, hours,
+  weeks completed/remaining — computed from `RACE_INFO.trainingStartDate`/
+  `raceDate` where set) and a real Milestone Timeline sourced from
+  published posts in the "Milestones" category, both falling back to
+  `EmptyState` until there's real data
+- Reusable `CampaignByTheNumbers` stat row (70 miles / $70K goal / 70.3
+  race distance / 2 orgs / 1 mission) on the Mission page
+- Every mile has a permanent, shareable page at `/miles/[number]` (its own
+  OG title, progress, supporters, dedication, segment, and CTA — the
+  "fully funded" state links to the next mile); `ShareButtons` (Copy Link,
+  Facebook, LinkedIn, X, Email) appear there, on updates, and on the
+  homepage
+- Optional donation dedications ("In Honor Of" / "In Memory Of" + name +
+  message, public/private) render on both the mile detail modal and the
+  `/miles/[number]` page whenever `dedication_public` is true
+- "Follow the Road to 70.3" email signup (first name + email) on the
+  homepage, backed by a provider-abstracted `subscribeToUpdates()` — it
+  durably records signups now and is the single place to wire a real
+  provider later, per `src/lib/email-list.ts`
+- Provider-neutral `/live` race-day page: shows real fundraising progress
+  and recent donations always, and a live status panel (discipline,
+  current mile, elapsed time, latest split, map) once `getRaceDayStatus()`
+  reports `isLive` — currently a static "not live" stub behind a typed
+  interface so a GPS/timing provider can be swapped in without touching
+  the page
+- `/press` media kit (campaign summary, athlete bio, beneficiary links,
+  media contact) and `/terms` (Terms of Use, Sponsorship Disclosure,
+  Charitable Giving Disclosure, trademark/endorsement disclaimer) —
+  logo/photo/press-coverage sections use `EmptyState` until real assets
+  exist
+- Nav simplified to Mission / My Story / The Race / Fund a Mile / Partners
+  / Updates, with right-aligned Sponsor and Donate CTAs ("About" now reads
+  "My Story" in the nav — same `/about` route, so no links break)
+- Additional `data-analytics-event` markers: `mile_viewed`,
+  `beneficiary_selected`, `sponsor_request_started`/`_submitted`,
+  `mailing_list_signup`, `share_click` — see Remaining TODOs for what
+  still needs a real provider
+- Mobile-first pass verified across the homepage, Fund a Mile grid + mile
+  modal, sponsorship request form, About, Donate, and `/live` at a 375px
+  viewport — nav, forms, and dialogs all confirmed usable with no
+  obstruction or overflow issues
+- Real campaign logo (icon/mark) in nav, footer, favicon, apple-touch-icon,
+  the OpenGraph/social share image, and `/press`'s logo download — see
+  [Campaign Logo](#campaign-logo)
+- SEO: metadata, OpenGraph/Twitter cards (generated, now with the real
+  logo), sitemap (including every `/miles/[number]` URL), robots.txt
 
 ## Remaining TODOs
 
@@ -330,17 +455,26 @@ already do.
   [Eliminating Placeholder Content](#eliminating-placeholder-content)).
   There are no posts yet, so Updates shows an empty state instead of
   placeholder posts.
-- **Media**: hero photography, athlete portrait, partner/sponsor logos, and
-  post images are all unset; the hero uses a generated placeholder SVG
-  (`public/hero-placeholder.svg`) and every other missing photo uses
-  `MediaPlaceholder` — no "Image TODO"/"Portrait TODO" labels anywhere
+- **Media**: hero photography, athlete portrait, sponsor logos, and post
+  images are still unset (partner logos are done — see below); the hero
+  uses a generated placeholder SVG (`public/hero-placeholder.svg`) and
+  every other missing photo uses `MediaPlaceholder` — no "Image TODO"/
+  "Portrait TODO" labels anywhere
 - **Donation URLs**: `partners.donation_url` is `null` for both
   organizations pending approved links — do not invent these
 - **Contact email**: `CONTACT_EMAIL` (`src/lib/constants.ts`) is `null` —
   no confirmed public address yet. Every page falls back to the contact
   form; set a real address once one exists and it'll appear automatically
-- **Race details**: date, location, course info, and goal time are `null`
-  in `src/lib/constants.ts` (`RACE_INFO`)
+- **Race details**: date, location, course info, goal time, and training
+  start date are `null` in `src/lib/constants.ts` (`RACE_INFO`);
+  `TRAINING_VOLUME` (swim/bike/run miles, hours) is also all `null` pending
+  a real data source
+- **Trust signals**: `partners.ein` and `partners.nonprofit_status_verified`
+  are unset for both organizations — do not populate until independently
+  verified
+- **Campaign allocation**: `campaign.allocation_policy` is `null` — no
+  policy (even split / donor choice / campaign-defined / separate totals)
+  has been decided yet; `CampaignAllocation` stays hidden until it is
 - **Analytics**: `data-analytics-event` markers exist but no provider is
   wired up yet (see brief's privacy-respecting analytics requirement)
 - **Full admin CRUD**: `/admin` is read-only by design for this milestone,
@@ -348,6 +482,15 @@ already do.
 - **Sponsorship notifications**: acknowledgment/administrator emails are
   stubbed (logged, not sent) — see `src/lib/notifications.ts`, needs a real
   provider (e.g. Resend) before launch
+- **Email list provider**: "Follow the Road to 70.3" signups are captured
+  in `email_subscribers` but not yet synced anywhere — `subscribeToUpdates()`
+  in `src/lib/email-list.ts` is the single place to wire a real provider
+  (Mailchimp, ConvertKit, Buttondown, etc.)
+- **Press kit assets**: `/press`'s logo download now offers the real icon/
+  mark (see [Campaign Logo](#campaign-logo) below); approved photos remain
+  an `EmptyState` pending real campaign photography
+- **Horizontal logo lockup**: only the compact icon/mark was provided — see
+  [Campaign Logo](#campaign-logo)
 - **Privacy Policy**: [`/privacy`](src/app/privacy/page.tsx) accurately
   describes current data practices, but two subsections (specific retention
   period, jurisdiction-specific rights language) are marked `TODO` pending
@@ -403,106 +546,41 @@ already do.
    decides to accept donations directly instead of routing to partner
    platforms — any such integration must still honor the sponsorship
    approval gate (generate payment links/invoices only after `approved`)
-8. Have legal counsel review the Privacy Policy's two open subsections
-   (retention period, jurisdiction-specific rights) before launch
+8. Have legal counsel review the Privacy Policy's and Site Terms' open
+   subsections (retention period, jurisdiction-specific rights) before launch
 9. Connect the athlete's WHOOP account at `/admin/whoop` to light up the
    Race page's training snapshot
+10. Wire a real email list provider (`src/lib/email-list.ts`) and a
+    GPS/timing provider for `/live` (`src/lib/race-day.ts`) once chosen
+11. Produce a horizontal logo lockup, if wanted, to complement the icon/
+    mark already in place (see [Campaign Logo](#campaign-logo))
 
 ## Site Improvement Priorities (Backlog)
 
 A larger site-improvement brief prioritized 25 items toward making the site
 feel like "a credible, emotionally compelling national fundraising
-campaign." Priorities 1, 2, 3, 5, and 6 are done — see What's Implemented
-and Eliminating Placeholder Content above. The rest, in the brief's own
-priority order:
+campaign." Done: 1, 2, 3, 4 (icon/mark; no horizontal lockup was supplied),
+5, 6, 7, 8, 9, 10, 11, 12, 13 (mostly), 14, 15, 16, 17, 18, 19, 20, 21
+(partly), 22, 25 — see What's Implemented, Eliminating Placeholder Content,
+and Campaign Logo above. Genuinely outstanding, in the brief's own priority
+order:
 
-- **4 — Campaign logo**: blocked on a finalized logo asset. Once available,
-  create a horizontal lockup and a compact icon/mark; apply to nav
-  (`Header`), favicon (`src/app/icon.tsx`), footer, OpenGraph image
-  (`src/app/opengraph-image.tsx`), social cards, and sponsor materials.
-  Keep readable nav text alongside the mark for accessibility.
-- **7 — Make the Sponsors page more persuasive**: add a "Put Your Company
-  Behind 70 Miles of Mission" section *before* the pricing tiers (veteran
-  impact, endurance story, community visibility, the $1,000-per-mile
-  concept, sponsor recognition, race-day storytelling), plus a "Custom /
-  In-Kind Partnership" tier (equipment, apparel, nutrition, travel,
-  lodging, race services, media, photography, community events) with CTA
-  "Start a Sponsorship Conversation" → `/sponsors/request`. Keep the
-  existing vetting workflow as-is.
-- **9 — Trust signals near Donate**: beneficiary org name, verified
-  501(c)(3)/EIN where confirmed, external destination, "Donation processed
-  by [organization]," an explicit "70 for 70 does not take possession of
-  charitable donations" statement, an external-link indicator, and a
-  pre-redirect interstitial ("You're leaving 70 for 70 to donate securely
-  through [Org]'s authorized platform" → "Continue to [Org]").
-- **10 — Campaign allocation explanation**: no allocation policy exists yet
-  (50/50, donor-choice, campaign-defined, or separate per-org totals are
-  all still open). Build an editable allocation component and the
-  underlying fields (`total_campaign_credited`, per-org credited amounts)
-  once the policy is decided — until then, don't imply donations pool
-  automatically across the two organizations.
-- **11 — Race page as a campaign journey**: "Next Race" details (most
-  fields already wired to `RACE_INFO`, just need real data), "The Work"
-  (training volume — swim/bike/run miles, hours, weeks completed/
-  remaining — needs a data source), and a real Milestone Timeline
-  (status/date/photo/update) replacing the current empty state once
-  milestones exist.
-- **12 — `/live` race-day page**: provider-neutral interface (race status,
-  current discipline/mile, elapsed time, latest split, map if available,
-  live fundraising total, latest donors, donate CTA). Abstract the data
-  source behind a typed interface so Garmin/official timing/etc. can plug
-  in later; start with a manual/static data source.
 - **13 — About page editorial layout**: mostly done — 9 real sections with
   an Isaiah 61:3 pull quote (see `src/app/about/page.tsx`). Alternating
   image/text sections and a visual timeline are still worth doing once real
   photography exists.
-- **14 — "Campaign by the Numbers"**: reusable stat-row component — 70
-  (fundraising miles), $70K (goal), 70.3 (race distance), 2 (veteran
-  orgs), 1 (mission) — extensible later for donors/sponsors/training
-  hours/days remaining.
-- **15/16 — Social sharing + individual mile pages**: share controls (copy
-  link, Facebook, LinkedIn, X, email) on the homepage, mile detail,
-  updates, and sponsor announcements; a permanent `/miles/[number]` page
-  per mile with its own OG title ("Help Fund Mile 27 | 70 for 70"),
-  progress, supporters, dedication, segment, and CTA — essentially
-  promoting `MileDetailModal`'s content to a shareable route.
-- **17 — Dedications**: extend `donations` with `dedication_type` (in
-  honor of / in memory of), `dedication_name`, `dedication_message`, and a
-  public/private flag. Only ever publish after verification.
-- **18 — Email signup**: "Follow the Road to 70.3" (first name + email),
-  provider-abstracted — use a hosted provider's API/embed rather than
-  building custom bulk-email infrastructure.
-- **19 — Press/media kit** (`/media` or `/press`): campaign summary,
-  athlete bio, logo downloads (blocked on #4), approved photos, beneficiary
-  links, media contact, press releases, coverage. Mostly blocked on real
-  assets and approved copy — scaffold with empty states, not fabricated
-  content, per Eliminating Placeholder Content above.
-- **20 — Remaining legal pages**: Privacy Policy is done (`/privacy`).
-  Still needed: Terms/Site Terms, Sponsorship Disclosure, Charitable Giving
-  Disclosure, a trademark disclaimer, and an explicit "personal capacity —
-  not an endorsement by any employer, government entity, IRONMAN, the
-  Navy, Mighty Oaks, or Project Echelon" disclaimer. All pending legal
-  review before publishing, same as the Privacy Policy.
-- **21 — Conversion tracking**: `data-analytics-event` markers already
-  exist on key CTAs; still need a real privacy-respecting analytics
-  provider, more event markers (mile viewed, beneficiary selected, sponsor
-  request started, update shared, mailing list signup, returning visitor),
-  and eventually an admin conversion dashboard.
-- **22 — Mobile-first audit**: not yet performed as a dedicated pass —
-  hero image cropping, nav, progress bars, the mile grid, the sponsorship
-  form, About typography, donate CTA visibility, modal accessibility,
-  share controls, plus a persistent (non-obstructive) mobile "Fund a Mile"
-  CTA.
-- **23 — Empty states**: the homepage's $0 state ("The starting line." /
-  "Fund the First Mile") is done (see `hasStarted` in `src/app/page.tsx`).
-  Worth refining further once the first mile is actually funded — e.g.
-  referencing that specific mile in the copy.
-- **24 — Recent activity feed**: "Recent Mission Support" (e.g. "Mile 4
-  received $100," "Acme Corp requested Mile 32 sponsorship") once donation
-  verification/admin CRUD exists. Never expose private donor info; keep it
-  factual, not fake urgency.
-- **25 — Nav simplification**: consider Mission / My Story / The Race /
-  Fund a Mile / Partners / Updates with right-aligned Sponsor/Donate CTAs,
-  renaming "About" to "My Story." Not yet done — current nav is still the
-  original 8-item Milestone 1 structure; worth revisiting alongside #4
-  since a logo mark changes the nav's visual weight.
+- **21 — Conversion tracking, remainder**: most event markers exist now
+  (see What's Implemented); still need a real privacy-respecting analytics
+  provider wired to them, a `returning_visitor` signal (needs an actual
+  client-side identifier — not just a data attribute, so deliberately not
+  faked), and eventually an admin conversion dashboard.
+- **23 — Empty states, refinement**: the homepage's $0 state ("The
+  starting line." / "Fund the First Mile") is done (see `hasStarted` in
+  `src/app/page.tsx`). Worth refining further once the first mile is
+  actually funded — e.g. referencing that specific mile in the copy.
+- **24 — Recent activity feed**: blocked on real donation data — "Recent
+  Mission Support" (e.g. "Mile 4 received $100," "Acme Corp requested Mile
+  32 sponsorship") needs either verified donations flowing in or admin
+  CRUD to enter them. `/live`'s "Recent Mission Support" section is ready
+  to receive that data (`getRecentDonations()`) but is empty today because
+  there's nothing to show. Never expose private donor info when built.

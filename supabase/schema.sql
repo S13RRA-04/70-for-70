@@ -17,6 +17,15 @@ create table if not exists public.campaign (
   race_distance numeric(5, 2) not null check (race_distance > 0),
   race_date timestamptz,
   race_location text,
+  -- How donations are credited across beneficiary organizations. Null until
+  -- the campaign owner finalizes a policy — the frontend must not display
+  -- or imply an allocation breakdown while this is null. See
+  -- CampaignAllocation and README's Priority 10 notes.
+  allocation_policy text check (
+    allocation_policy is null or allocation_policy in (
+      'even_split', 'donor_choice', 'campaign_defined', 'separate_totals'
+    )
+  ),
   updated_at timestamptz not null default now()
 );
 
@@ -55,7 +64,12 @@ create table if not exists public.donations (
   amount numeric(10, 2) not null check (amount > 0),
   organization_benefited text,
   anonymous boolean not null default false,
-  dedication text,
+  -- Optional "in honor of" / "in memory of" dedication. Only ever rendered
+  -- publicly once both `verified` and `dedication_public` are true.
+  dedication_type text check (dedication_type is null or dedication_type in ('in_honor_of', 'in_memory_of')),
+  dedication_name text,
+  dedication_message text,
+  dedication_public boolean not null default true,
   date timestamptz not null default now(),
   external_reference text,
   verified boolean not null default false,
@@ -224,6 +238,10 @@ create table if not exists public.partners (
   logo_url text,
   website_url text,
   donation_url text,
+  -- Trust signals — only ever populated once independently verified, and
+  -- hidden on the frontend while null/false. Never fabricate these.
+  ein text,
+  nonprofit_status_verified boolean not null default false,
   active boolean not null default true
 );
 
@@ -250,6 +268,24 @@ create table if not exists public.inquiries (
 );
 
 create index if not exists inquiries_status_idx on public.inquiries (status);
+
+-- ---------------------------------------------------------------------------
+-- email_subscribers
+--
+-- "Follow the Road to 70.3" signups. This table is just a durable capture
+-- point — not bulk-email infrastructure. `synced_to_provider` tracks
+-- whether a real email provider (not yet chosen) has picked it up; see
+-- src/lib/email-list.ts.
+-- ---------------------------------------------------------------------------
+create table if not exists public.email_subscribers (
+  id uuid primary key default gen_random_uuid(),
+  first_name text not null,
+  email text not null unique,
+  synced_to_provider boolean not null default false,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists email_subscribers_synced_idx on public.email_subscribers (synced_to_provider);
 
 -- ---------------------------------------------------------------------------
 -- whoop_tokens
@@ -296,6 +332,7 @@ alter table public.inquiries enable row level security;
 alter table public.sponsorship_requests enable row level security;
 alter table public.sponsorship_status_history enable row level security;
 alter table public.whoop_tokens enable row level security;
+alter table public.email_subscribers enable row level security;
 
 create policy "campaign is publicly readable"
   on public.campaign for select
@@ -344,3 +381,8 @@ create policy "active partners are publicly readable"
 -- server-side code using the service-role key reads/writes this table
 -- (the OAuth callback route, the admin connect/disconnect actions, and the
 -- training-snapshot fetcher that derives the public-safe display data).
+
+-- No policies on public.email_subscribers: default-deny for anon/authenticated.
+-- Signups are written by /api/subscribe using the service-role key
+-- server-side, same pattern as inquiries/sponsorship_requests — never a
+-- client-issued insert policy.

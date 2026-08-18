@@ -4,17 +4,23 @@ export const SITE_NAME = "70 for 70";
 export const SITE_TAGLINE = "70 miles. $70,000. One mission for veterans.";
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
+/**
+ * Simplified primary nav — "About" reads as "My Story" since it's the more
+ * emotionally meaningful framing (still the same /about route, so existing
+ * links/SEO aren't disturbed). "Home" and "Sponsors" were dropped from the
+ * link list: the logo already goes home, and Sponsor/Donate are
+ * right-aligned CTAs instead (see SPONSOR_LINK/DONATE_LINK below).
+ */
 export const NAV_LINKS: NavLink[] = [
-  { label: "Home", href: "/" },
   { label: "The Mission", href: "/the-mission" },
+  { label: "My Story", href: "/about" },
   { label: "The Race", href: "/the-race" },
   { label: "Fund a Mile", href: "/fund-a-mile" },
   { label: "Partners", href: "/partners" },
   { label: "Updates", href: "/updates" },
-  { label: "Sponsors", href: "/sponsors" },
-  { label: "About", href: "/about" },
 ];
 
+export const SPONSOR_LINK: NavLink = { label: "Sponsor", href: "/sponsors" };
 export const DONATE_LINK: NavLink = { label: "Donate", href: "/donate" };
 
 export const FUNDRAISING_GOAL = 70_000;
@@ -85,12 +91,73 @@ export const SPONSORSHIP_LEVELS = [
   },
 ] as const;
 
+/** Why sponsor 70 for 70 — shown before pricing tiers on the Sponsors page. */
+export const SPONSOR_VALUE_PROPS = [
+  {
+    id: "veteran-impact",
+    title: "Veteran Impact",
+    body: "Every dollar raised supports organizations helping veterans rebuild purpose, community, and a path forward after service.",
+  },
+  {
+    id: "endurance-story",
+    title: "An Endurance Story Worth Telling",
+    body: "70.3 miles of swimming, biking, and running gives your brand a real, ongoing story to be part of — not just a logo on a page.",
+  },
+  {
+    id: "community-visibility",
+    title: "Community Visibility",
+    body: "Training updates, campaign milestones, and race day all carry your name forward to a community that shows up for veterans.",
+  },
+  {
+    id: "tangible-impact",
+    title: "A Tangible Way to Give",
+    body: "The $1,000-per-mile model makes your contribution concrete — you can point to the exact mile your company helped fund.",
+  },
+  {
+    id: "sponsor-recognition",
+    title: "Recognition That Lasts",
+    body: "Sponsor logos and recognition live on the site's Sponsor Wall and in campaign updates — not just a one-time mention.",
+  },
+  {
+    id: "race-day-storytelling",
+    title: "Race-Day Storytelling",
+    body: "As race day approaches, sponsors are woven into the story — training milestones, countdown updates, and race-day coverage.",
+  },
+] as const;
+
+/** In-kind categories offered on the Sponsors page's custom partnership tier. */
+export const CUSTOM_PARTNERSHIP_CATEGORIES = [
+  "Bicycle / Equipment",
+  "Apparel",
+  "Nutrition",
+  "Travel",
+  "Lodging",
+  "Race Services",
+  "Media",
+  "Photography",
+  "Community Events",
+] as const;
+
 /** TODO: replace with the athlete's real training/race timeline. */
 export const RACE_INFO = {
   raceDate: null as string | null, // e.g. "2026-11-08T07:00:00-05:00" — TODO
   raceLocation: null as string | null, // TODO
   courseInfoUrl: null as string | null, // TODO
   athleteGoalTime: null as string | null, // TODO, e.g. "6:30:00"
+  trainingStartDate: null as string | null, // e.g. "2026-03-01T00:00:00-05:00" — TODO, used to compute weeks completed/remaining
+};
+
+/**
+ * Aggregate training volume for the Race page's "The Work" section. All
+ * null by default — hidden (EmptyState) rather than shown as zeros/TODO
+ * until real training data is logged. Weeks completed/remaining are
+ * computed from RACE_INFO.trainingStartDate/raceDate instead of stored here.
+ */
+export const TRAINING_VOLUME = {
+  swimMiles: null as number | null,
+  bikeMiles: null as number | null,
+  runMiles: null as number | null,
+  totalHours: null as number | null,
 };
 
 /**

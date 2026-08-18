@@ -4,7 +4,9 @@ import Image from "next/image";
 import { getPostBySlug, getPosts } from "@/lib/data/posts";
 import { Container } from "@/components/shared/container";
 import { MediaPlaceholder } from "@/components/shared/media-placeholder";
+import { ShareButtons } from "@/components/shared/share-buttons";
 import { formatDateLong } from "@/lib/utils";
+import { SITE_URL } from "@/lib/constants";
 
 export async function generateStaticParams() {
   const posts = await getPosts();
@@ -70,6 +72,13 @@ export default async function UpdatePostPage(props: PageProps<"/updates/[slug]">
 
         <div className="mt-8 max-w-none text-base leading-relaxed whitespace-pre-line text-charcoal-light">
           {post.body}
+        </div>
+
+        <div className="mt-10 border-t border-ink/10 pt-6">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+            Share This Update
+          </p>
+          <ShareButtons url={`${SITE_URL}/updates/${post.slug}`} title={`${post.title} | 70 for 70`} />
         </div>
       </Container>
     </article>

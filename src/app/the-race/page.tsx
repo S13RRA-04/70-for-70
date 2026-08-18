@@ -6,7 +6,14 @@ import { CTASection } from "@/components/shared/cta-section";
 import { TrainingSnapshot } from "@/components/training/training-snapshot";
 import { EmptyState } from "@/components/shared/empty-state";
 import { getTrainingSnapshot } from "@/lib/whoop/client";
-import { RACE_INFO, RACE_LEGS, RACE_TOTAL_DISTANCE } from "@/lib/constants";
+import { getPosts } from "@/lib/data/posts";
+import { formatDateLong, weeksBetween } from "@/lib/utils";
+import {
+  RACE_INFO,
+  RACE_LEGS,
+  RACE_TOTAL_DISTANCE,
+  TRAINING_VOLUME,
+} from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "The Race",
@@ -21,7 +28,24 @@ const LEGS = [
 ];
 
 export default async function RacePage() {
-  const trainingSnapshot = await getTrainingSnapshot();
+  const [trainingSnapshot, posts] = await Promise.all([getTrainingSnapshot(), getPosts()]);
+  const milestonePosts = posts.filter((p) => p.category === "Milestones");
+
+  const weeksCompleted =
+    RACE_INFO.trainingStartDate && new Date(RACE_INFO.trainingStartDate) <= new Date()
+      ? weeksBetween(RACE_INFO.trainingStartDate, new Date().toISOString())
+      : null;
+  const weeksRemaining =
+    RACE_INFO.raceDate && new Date(RACE_INFO.raceDate) >= new Date()
+      ? weeksBetween(new Date().toISOString(), RACE_INFO.raceDate)
+      : null;
+  const hasTrainingVolume =
+    TRAINING_VOLUME.swimMiles !== null ||
+    TRAINING_VOLUME.bikeMiles !== null ||
+    TRAINING_VOLUME.runMiles !== null ||
+    TRAINING_VOLUME.totalHours !== null ||
+    weeksCompleted !== null ||
+    weeksRemaining !== null;
 
   return (
     <>
@@ -62,6 +86,69 @@ export default async function RacePage() {
             <SectionHeading eyebrow="Live" title="Latest Training" />
             <div className="mt-6">
               <TrainingSnapshot snapshot={trainingSnapshot} />
+            </div>
+          </div>
+
+          <div className="mt-16">
+            <SectionHeading eyebrow="Behind the Race" title="The Work" />
+            <div className="mt-6">
+              {hasTrainingVolume ? (
+                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+                  {TRAINING_VOLUME.swimMiles !== null && (
+                    <div className="rounded-sm border border-ink/10 bg-off-white p-4 text-center">
+                      <p className="font-display text-2xl font-semibold text-ink">
+                        {TRAINING_VOLUME.swimMiles}
+                      </p>
+                      <p className="text-xs text-charcoal-light">Swim Miles</p>
+                    </div>
+                  )}
+                  {TRAINING_VOLUME.bikeMiles !== null && (
+                    <div className="rounded-sm border border-ink/10 bg-off-white p-4 text-center">
+                      <p className="font-display text-2xl font-semibold text-ink">
+                        {TRAINING_VOLUME.bikeMiles}
+                      </p>
+                      <p className="text-xs text-charcoal-light">Bike Miles</p>
+                    </div>
+                  )}
+                  {TRAINING_VOLUME.runMiles !== null && (
+                    <div className="rounded-sm border border-ink/10 bg-off-white p-4 text-center">
+                      <p className="font-display text-2xl font-semibold text-ink">
+                        {TRAINING_VOLUME.runMiles}
+                      </p>
+                      <p className="text-xs text-charcoal-light">Run Miles</p>
+                    </div>
+                  )}
+                  {TRAINING_VOLUME.totalHours !== null && (
+                    <div className="rounded-sm border border-ink/10 bg-off-white p-4 text-center">
+                      <p className="font-display text-2xl font-semibold text-ink">
+                        {TRAINING_VOLUME.totalHours}
+                      </p>
+                      <p className="text-xs text-charcoal-light">Training Hours</p>
+                    </div>
+                  )}
+                  {weeksCompleted !== null && (
+                    <div className="rounded-sm border border-ink/10 bg-off-white p-4 text-center">
+                      <p className="font-display text-2xl font-semibold text-ink">
+                        {weeksCompleted}
+                      </p>
+                      <p className="text-xs text-charcoal-light">Weeks Completed</p>
+                    </div>
+                  )}
+                  {weeksRemaining !== null && (
+                    <div className="rounded-sm border border-bronze/40 bg-bronze/10 p-4 text-center">
+                      <p className="font-display text-2xl font-semibold text-ink">
+                        {weeksRemaining}
+                      </p>
+                      <p className="text-xs text-bronze">Weeks Remaining</p>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <EmptyState
+                  title="Training volume will be tracked here."
+                  description="Swim, bike, and run mileage, training hours, and the weeks-to-race countdown will appear here once training logging begins."
+                />
+              )}
             </div>
           </div>
 
@@ -107,11 +194,32 @@ export default async function RacePage() {
                 Training Milestones
               </h2>
               <div className="mt-4">
-                <EmptyState
-                  title="Milestones are on the way."
-                  description="Key training milestones — first open-water swim, century ride, half-marathon time trial — will be logged here as they happen."
-                  cta={{ label: "View Updates", href: "/updates" }}
-                />
+                {milestonePosts.length > 0 ? (
+                  <ul className="space-y-3">
+                    {milestonePosts.map((post) => (
+                      <li key={post.id} className="border-t border-ink/10 pt-3 first:border-0 first:pt-0">
+                        <a
+                          href={`/updates/${post.slug}`}
+                          className="text-sm font-medium text-ink hover:text-bronze"
+                        >
+                          {post.title}
+                        </a>
+                        {post.published_at && (
+                          <p className="text-xs text-charcoal-light">
+                            {formatDateLong(post.published_at)}
+                          </p>
+                        )}
+                        <p className="mt-1 text-sm text-charcoal-light">{post.summary}</p>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <EmptyState
+                    title="Milestones are on the way."
+                    description="Key training milestones — first open-water swim, century ride, half-marathon time trial — will be logged here as they happen."
+                    cta={{ label: "View Updates", href: "/updates" }}
+                  />
+                )}
               </div>
             </div>
           </div>

@@ -12,8 +12,10 @@ import { CTASection } from "@/components/shared/cta-section";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { MediaPlaceholder } from "@/components/shared/media-placeholder";
+import { ShareButtons } from "@/components/shared/share-buttons";
+import { EmailSignupForm } from "@/components/forms/email-signup-form";
 import { ABOUT_CONTENT } from "@/lib/content/about";
-import { SITE_TAGLINE } from "@/lib/constants";
+import { SITE_TAGLINE, SITE_URL } from "@/lib/constants";
 import { formatCurrency, formatNumber, milesFunded, percentFunded } from "@/lib/utils";
 
 const HERO_SUPPORTING_SENTENCE =
@@ -216,6 +218,26 @@ export default async function HomePage() {
           </Container>
         </section>
       )}
+
+      {/* Email signup */}
+      <section className="border-t border-ink/10 bg-sand-light py-16 sm:py-20">
+        <Container className="max-w-2xl">
+          <SectionHeading eyebrow="Stay Close" title="Follow the Road to 70.3" />
+          <div className="mt-6">
+            <EmailSignupForm />
+          </div>
+        </Container>
+      </section>
+
+      {/* Share */}
+      <section className="py-10">
+        <Container className="flex flex-wrap items-center justify-between gap-4">
+          <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+            Share 70 for 70
+          </p>
+          <ShareButtons url={SITE_URL} title="70 for 70 — 70 miles. $70,000. One mission for veterans." />
+        </Container>
+      </section>
 
       <CTASection
         eyebrow="Join the Mission"
