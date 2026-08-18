@@ -5,6 +5,7 @@ import { getPartners } from "@/lib/data/partners";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { EmptyState } from "@/components/shared/empty-state";
+import { CampaignByTheNumbers } from "@/components/campaign/campaign-by-the-numbers";
 import { CONTACT_EMAIL, SITE_TAGLINE } from "@/lib/constants";
 import { ABOUT_CONTENT } from "@/lib/content/about";
 
@@ -32,19 +33,28 @@ export default async function PressPage() {
               Campaign Summary
             </h2>
             <p className="mt-3 text-base leading-relaxed text-charcoal-light">
-              70 for 70 pairs an IRONMAN 70.3-distance triathlon with a $70,000 fundraising goal
-              — $1,000 per race mile — in support of veteran-focused nonprofit organizations.
+              70 for 70 pairs a 70.3-mile triathlon with a $70,000 fundraising goal — $1,000 per
+              race mile — in support of veteran-focused nonprofit organizations.
               {" "}{SITE_TAGLINE}
             </p>
+            <div className="mt-6">
+              <CampaignByTheNumbers />
+            </div>
           </div>
 
           <div>
             <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
               Athlete Bio
             </h2>
-            <p className="mt-3 text-base leading-relaxed text-charcoal-light">
-              {ABOUT_CONTENT.name} is a Navy veteran, husband, father, and endurance athlete
-              training for a 70.3-mile triathlon. Full biography on the{" "}
+            <div className="mt-3 space-y-3">
+              {ABOUT_CONTENT.homepageTeaser.map((paragraph, i) => (
+                <p key={i} className="text-base leading-relaxed text-charcoal-light">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+            <p className="mt-3 text-sm text-charcoal-light">
+              Full biography, testimony, and campaign story on the{" "}
               <Link href="/about" className="text-bronze hover:underline">
                 About page
               </Link>

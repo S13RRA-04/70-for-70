@@ -66,7 +66,11 @@ export function PartnerCard({ partner }: { partner: PartnerRow }) {
           )}
 
           {partner.donation_url && (
-            <ExternalDonateButton href={partner.donation_url} orgName={partner.name} />
+            <ExternalDonateButton
+              href={partner.donation_url}
+              orgName={partner.name}
+              label={`Donate to ${partner.name} →`}
+            />
           )}
         </div>
       )}

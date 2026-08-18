@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { Waves, Bike, Footprints } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { MILE_SEGMENTS } from "@/lib/constants";
 import { MileCard } from "./mile-card";
@@ -12,6 +13,12 @@ const SEGMENT_ACCENT: Record<(typeof MILE_SEGMENTS)[number]["accent"], string> =
   charcoal: "bg-charcoal",
   olive: "bg-olive",
   bronze: "bg-bronze",
+};
+
+const SEGMENT_ICON: Record<(typeof MILE_SEGMENTS)[number]["key"], typeof Waves> = {
+  swim: Waves,
+  bike: Bike,
+  run: Footprints,
 };
 
 type FilterValue = "all" | MileStatus;
@@ -83,9 +90,21 @@ export function MileGrid({
       )}
 
       <div className="mt-6 space-y-8">
-        {segments.map((segment) => (
+        {segments.map((segment) => {
+          const SegmentIcon = SEGMENT_ICON[segment.key];
+          return (
           <div key={segment.key}>
             <div className="flex items-center gap-2">
+              <SegmentIcon
+                aria-hidden
+                size={16}
+                className={cn(
+                  "shrink-0",
+                  segment.accent === "charcoal" && "text-charcoal",
+                  segment.accent === "olive" && "text-olive",
+                  segment.accent === "bronze" && "text-bronze",
+                )}
+              />
               <span
                 aria-hidden
                 className={cn("h-2.5 w-2.5 rounded-full", SEGMENT_ACCENT[segment.accent])}
@@ -105,7 +124,8 @@ export function MileGrid({
               ))}
             </div>
           </div>
-        ))}
+          );
+        })}
       </div>
 
       <MileDetailModal mile={selectedMile} onClose={() => setSelectedMileNumber(null)} />

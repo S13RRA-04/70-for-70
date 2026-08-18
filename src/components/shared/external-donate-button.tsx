@@ -46,7 +46,7 @@ export function ExternalDonateButton({
         )}
       >
         {label}
-        <ExternalLink size={13} aria-hidden />
+        {!label.includes("→") && <ExternalLink size={13} aria-hidden />}
       </button>
 
       <dialog

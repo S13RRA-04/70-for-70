@@ -583,7 +583,7 @@ order:
   client-side identifier — not just a data attribute, so deliberately not
   faked), and eventually an admin conversion dashboard.
 - **23 — Empty states, refinement**: the homepage's $0 state ("The
-  starting line." / "Fund the First Mile") is done (see `hasStarted` in
+  Starting Line" / "Claim the First Mile") is done (see `hasStarted` in
   `src/app/page.tsx`). Worth refining further once the first mile is
   actually funded — e.g. referencing that specific mile in the copy.
 - **24 — Recent activity feed**: blocked on real donation data — "Recent
@@ -592,3 +592,57 @@ order:
   CRUD to enter them. `/live`'s "Recent Mission Support" section is ready
   to receive that data (`getRecentDonations()`) but is empty today because
   there's nothing to show. Never expose private donor info when built.
+
+## Second-Pass Site Improvements (P0–P30)
+
+A follow-up brief added 30 more priorities plus a "Definition of Ready for
+Public Launch" checklist. Done this pass: P2, P3, P6 (from the earlier
+pass), P8, P10, P12, P14, P15, P16, P18, P19, P21, P22, P23, P25, P26, P27,
+P29, P30, and a P0 placeholder-text re-audit (clean — see grep pattern in
+git history for the exact check).
+
+- **P16 — Training dashboard**: `src/lib/training-stats.ts` is a new
+  provider-neutral function (same pattern as `race-day.ts` and the WHOOP
+  client) feeding the-race page's "Road to 70.3" section. All fields are
+  `null` today — hidden via `EmptyState`, not shown as zeros — until a real
+  training-log source is wired in.
+- **P18/P30 — Milestone rail**: `src/components/campaign/milestone-rail.tsx`
+  is wired into its own "Fundraising Milestones" section on the homepage,
+  between Latest Training and Sponsors.
+- **P22 — Dedication branch**: `donations.dedication_branch` (optional free
+  text, e.g. "U.S. Army") added to the schema, `DonationRow` type, and both
+  mile-detail rendering surfaces. No donation intake form exists in this
+  app (donations happen off-site through partner platforms), so there's no
+  form field to add — this only affects display once verified donations
+  carry the field.
+- **P27 — Mobile conversion bar**: `src/components/layout/mobile-conversion-bar.tsx`,
+  a fixed bottom bar (Fund a Mile / Sponsor) shown on mobile only, hidden on
+  `/admin*`, `/fund-a-mile`, `/donate`, `/sponsors*`, and `/miles/[number]`
+  since those pages already carry their own primary CTA. A matching spacer
+  component reserves space after the footer so the bar never overlaps page
+  content.
+- **P29 — Logo color meaning**: added as a dedicated "The Brand" section on
+  `/about` (not the homepage hero, per the brief) — the six logo ring colors
+  mapped to the six U.S. Armed Forces branches.
+- **Race date (not in the original brief)**: the user provided the real
+  official race page, https://www.ironman.com/races/im703-chattanooga
+  (IRONMAN 70.3 Chattanooga), now set as `RACE_INFO.courseInfoUrl`. Web
+  search corroborated a May 2027 date but third-party race calendars
+  disagreed on the exact day (some said Monday, May 10, which is unusual
+  for a triathlon and likely an aggregator error) — `RACE_INFO.raceDate`
+  is deliberately left `null` rather than guessed. Set it once the exact
+  date/time is confirmed on the official page; the countdown component
+  picks it up automatically.
+
+Not done this pass, and why:
+- **P5 — Alternating backgrounds/timeline on `/about`**: still blocked on
+  real photography for the visual timeline to feel worth building (same
+  reasoning as the original brief's item 13).
+- **P7 — segment icon polish**: done at the base level (Waves/Bike/
+  Footprints icons on `/fund-a-mile` segment headers, "The Swim/Bike/Run"
+  labels), but no further icon treatment was added to the individual
+  `MileCard`s themselves — the card grid is dense/compact by design and
+  adding a third icon there was judged more cluttering than clarifying.
+- **P17 real journal posts, P20 real donation momentum data, P11 real
+  EIN/501(c)(3) values**: all blocked on content/data the user hasn't
+  provided yet, unchanged from the original brief.

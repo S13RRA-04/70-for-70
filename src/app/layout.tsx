@@ -3,6 +3,10 @@ import { Inter, Oswald } from "next/font/google";
 import { SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/constants";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import {
+  MobileConversionBar,
+  MobileConversionBarSpacer,
+} from "@/components/layout/mobile-conversion-bar";
 import "./globals.css";
 
 const oswald = Oswald({
@@ -60,6 +64,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </main>
         <Footer />
+        <MobileConversionBarSpacer />
+        <MobileConversionBar />
       </body>
     </html>
   );

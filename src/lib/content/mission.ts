@@ -17,7 +17,7 @@ export const MISSION_SECTIONS: MissionSection[] = [
     id: "the-challenge",
     heading: "The Challenge",
     body: [
-      "70 for 70 pairs an IRONMAN 70.3-distance triathlon — a 1.2-mile swim, 56-mile bike, and 13.1-mile run — with a $70,000 fundraising goal: one mile completed on race day, one mile of fundraising, at $1,000 per mile.",
+      "70 for 70 pairs a 70.3-mile triathlon — a 1.2-mile swim, 56-mile bike, and 13.1-mile run — with a $70,000 fundraising goal: one mile completed on race day, one mile of fundraising, at $1,000 per mile.",
       "The race itself is the vehicle, not the point. The training, the setbacks, the early mornings, and the finish line all become part of something larger than one race.",
     ],
   },
@@ -52,7 +52,7 @@ export const MISSION_SECTIONS: MissionSection[] = [
     id: "the-goal",
     heading: "The Goal",
     body: [
-      "The fundraising model is simple: every $1,000 raised funds one mile of the race. There are 70 fundraising miles in total, matching the approximately 70-mile distance of an IRONMAN 70.3.",
+      "The fundraising model is simple: every $1,000 raised funds one mile of the race. There are 70 fundraising miles in total, matching the approximately 70-mile distance of a 70.3-mile triathlon.",
       "Donors and sponsors can fund a mile outright or contribute toward one alongside other supporters — no single mile requires one donor to cover the full $1,000.",
     ],
   },

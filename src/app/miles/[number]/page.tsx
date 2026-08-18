@@ -71,7 +71,7 @@ export default async function MilePage(props: PageProps<"/miles/[number]">) {
             </h1>
             {segment && (
               <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-bronze">
-                {segment.label} Segment
+                {segment.label}
               </p>
             )}
           </div>
@@ -134,6 +134,7 @@ export default async function MilePage(props: PageProps<"/miles/[number]">) {
                       <p className="mt-1 text-xs italic text-charcoal-light">
                         {donation.dedication_type === "in_memory_of" ? "In memory of" : "In honor of"}
                         {donation.dedication_name ? ` ${donation.dedication_name}` : ""}
+                        {donation.dedication_branch ? ` (${donation.dedication_branch})` : ""}
                         {donation.dedication_message ? ` — ${donation.dedication_message}` : ""}
                       </p>
                     )}
@@ -141,6 +142,12 @@ export default async function MilePage(props: PageProps<"/miles/[number]">) {
               ))}
             </ul>
           </div>
+        )}
+
+        {mile.status === "available" && mile.amount_funded === 0 && (
+          <p className="mt-6 font-display text-lg font-semibold uppercase tracking-wide text-bronze">
+            The road is open. Be the first to move this mile.
+          </p>
         )}
 
         {(mile.status === "available" || mile.status === "partially_funded") && (

@@ -27,11 +27,17 @@ export function SponsorWall({ sponsors }: { sponsors: SponsorRow[] }) {
 
   if (tiersWithSponsors.length === 0) {
     return (
-      <EmptyState
-        title="The first 70 for 70 sponsors are coming soon."
-        description="Be the first company behind the mission."
-        cta={{ label: "Request to Sponsor", href: "/sponsors/request" }}
-      />
+      <div>
+        <p className="text-xs font-semibold uppercase tracking-widest text-bronze">
+          Founding Sponsors
+        </p>
+        <div className="mt-3">
+          <EmptyState
+            title="We're currently building the first group of organizations backing 70 for 70."
+            cta={{ label: "Request to Sponsor", href: "/sponsors/request" }}
+          />
+        </div>
+      </div>
     );
   }
 

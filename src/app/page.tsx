@@ -2,12 +2,17 @@ import Link from "next/link";
 import { getCampaign } from "@/lib/data/campaign";
 import { getMilesWithDonations } from "@/lib/data/miles";
 import { getPartners } from "@/lib/data/partners";
+import { getSponsors } from "@/lib/data/sponsors";
 import { getLatestPosts } from "@/lib/data/posts";
+import { getTrainingSnapshot } from "@/lib/whoop/client";
 import { CampaignProgress } from "@/components/campaign/campaign-progress";
 import { RaceProgress } from "@/components/campaign/race-progress";
+import { MilestoneRail } from "@/components/campaign/milestone-rail";
 import { MileGrid } from "@/components/miles/mile-grid";
 import { PartnerCard } from "@/components/partners/partner-card";
 import { UpdateCard } from "@/components/updates/update-card";
+import { TrainingSnapshot } from "@/components/training/training-snapshot";
+import { SponsorWall } from "@/components/sponsors/sponsor-wall";
 import { CTASection } from "@/components/shared/cta-section";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
@@ -19,14 +24,16 @@ import { SITE_TAGLINE, SITE_URL } from "@/lib/constants";
 import { formatCurrency, formatNumber, milesFunded, percentFunded } from "@/lib/utils";
 
 const HERO_SUPPORTING_SENTENCE =
-  "I'm training for a 70.3-mile triathlon with one goal beyond the finish line: raise $70,000 for organizations helping veterans rediscover purpose, community, and a path forward.";
+  "I'm taking on a 70.3-mile triathlon to raise $70,000 for organizations helping veterans find recovery, community, and their next mission.";
 
 export default async function HomePage() {
-  const [campaign, miles, partners, latestPosts] = await Promise.all([
+  const [campaign, miles, partners, sponsors, latestPosts, trainingSnapshot] = await Promise.all([
     getCampaign(),
     getMilesWithDonations(),
     getPartners(),
+    getSponsors(),
     getLatestPosts(3),
+    getTrainingSnapshot(),
   ]);
 
   const percent = percentFunded(campaign.amount_raised, campaign.fundraising_goal);
@@ -67,7 +74,7 @@ export default async function HomePage() {
               </p>
             ) : (
               <p className="font-display text-2xl font-semibold uppercase tracking-wide sm:text-3xl">
-                The starting line.
+                The Starting Line
               </p>
             )}
             <p className="mt-1 text-sm font-semibold uppercase tracking-wide text-bronze-light">
@@ -79,7 +86,7 @@ export default async function HomePage() {
             <p className="mt-2 text-xs text-off-white/60">
               {hasStarted
                 ? `Goal: ${formatCurrency(campaign.fundraising_goal)} · ${formatNumber(remainingMiles, 1)} miles remaining`
-                : "70 miles are waiting to be funded. Be the first to put 70 for 70 on the course."}
+                : "$0 raised. 70 miles ahead. Somebody has to fund the first one."}
             </p>
           </div>
 
@@ -89,7 +96,7 @@ export default async function HomePage() {
               data-analytics-event="fund_mile_click"
               className="rounded-sm bg-bronze px-8 py-4 text-base font-semibold uppercase tracking-wide text-off-white shadow-sm transition-colors hover:bg-bronze-light"
             >
-              {hasStarted ? "Fund a Mile" : "Fund the First Mile"}
+              {hasStarted ? "Fund a Mile" : "Claim the First Mile"}
             </Link>
             <a
               href="#why-im-doing-this"
@@ -113,7 +120,7 @@ export default async function HomePage() {
           <SectionHeading
             eyebrow="Campaign Progress"
             title="70 Miles. $70,000. One Mission."
-            description="Every $1,000 raised funds one mile of the race. Track fundraising progress against the campaign goal and the IRONMAN 70.3 course itself."
+            description="Every $1,000 raised funds one mile of the race. Track fundraising progress against the campaign goal and the 70.3-mile race course itself."
           />
 
           <div className="mt-10 grid gap-10 lg:grid-cols-2">
@@ -165,7 +172,7 @@ export default async function HomePage() {
           <SectionHeading
             eyebrow="Fund a Mile"
             title="70 Miles. 70 Ways to Help."
-            description="Sponsor a full mile or contribute alongside other supporters — no single mile requires one donor."
+            description="Fund a full mile or contribute toward one alongside other supporters — no single mile requires one donor."
           />
           <div className="mt-8">
             <MileGrid miles={teaserMiles} showFilters={false} />
@@ -193,6 +200,48 @@ export default async function HomePage() {
             {partners.map((partner) => (
               <PartnerCard key={partner.id} partner={partner} />
             ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* Latest Training */}
+      <section className="py-16 sm:py-20">
+        <Container>
+          <SectionHeading eyebrow="Live" title="Latest Training" />
+          <div className="mt-8">
+            <TrainingSnapshot snapshot={trainingSnapshot} />
+          </div>
+        </Container>
+      </section>
+
+      {/* Fundraising Milestones */}
+      <section className="bg-sand-light py-16 sm:py-20">
+        <Container>
+          <SectionHeading eyebrow="How Far We've Come" title="Fundraising Milestones" />
+          <div className="mt-8">
+            <MilestoneRail totalRaised={campaign.amount_raised} goal={campaign.fundraising_goal} />
+          </div>
+        </Container>
+      </section>
+
+      {/* Sponsors */}
+      <section className="py-16 sm:py-20">
+        <Container>
+          <SectionHeading
+            eyebrow="Backing the Mission"
+            title="Sponsors"
+            description="Organizations and businesses supporting 70 for 70 alongside individual donors."
+          />
+          <div className="mt-8">
+            <SponsorWall sponsors={sponsors} />
+          </div>
+          <div className="mt-8">
+            <Link
+              href="/sponsors"
+              className="inline-flex rounded-sm bg-ink px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-charcoal"
+            >
+              Become a Sponsor
+            </Link>
           </div>
         </Container>
       </section>
@@ -235,7 +284,10 @@ export default async function HomePage() {
           <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
             Share 70 for 70
           </p>
-          <ShareButtons url={SITE_URL} title="70 for 70 — 70 miles. $70,000. One mission for veterans." />
+          <ShareButtons
+            url={SITE_URL}
+            title="I'm helping move 70 for 70 one mile closer to $70,000 for veterans."
+          />
         </Container>
       </section>
 

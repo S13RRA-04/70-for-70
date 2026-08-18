@@ -6,6 +6,20 @@ import { CTASection } from "@/components/shared/cta-section";
 import { MediaPlaceholder } from "@/components/shared/media-placeholder";
 import { ABOUT_CONTENT } from "@/lib/content/about";
 
+/**
+ * The six rings in the 70 for 70 logo each carry a branch color — every
+ * branch of the U.S. Armed Forces, since the campaign's beneficiaries serve
+ * veterans across all of them, not just the Navy Cody served in.
+ */
+const LOGO_RING_COLORS = [
+  { branch: "Army", color: "Ranger Green", hex: "#4B5320" },
+  { branch: "Marine Corps", color: "Scarlet", hex: "#C41E3A" },
+  { branch: "Navy", color: "Navy Blue", hex: "#002147" },
+  { branch: "Air Force", color: "Air Force Blue", hex: "#00308F" },
+  { branch: "Space Force", color: "Black", hex: "#1A1A1A" },
+  { branch: "Coast Guard", color: "Coast Guard Blue", hex: "#0093AF" },
+] as const;
+
 export const metadata: Metadata = {
   title: "About",
   description: `${ABOUT_CONTENT.name} — ${ABOUT_CONTENT.tagline}`,
@@ -63,6 +77,35 @@ export default function AboutPage() {
                     </footer>
                   </blockquote>
                 )}
+              </div>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      <section id="the-brand" className="border-t border-ink/10 bg-sand-light py-16 sm:py-20">
+        <Container className="max-w-2xl">
+          <h2 className="font-display text-2xl font-semibold uppercase tracking-tight text-ink sm:text-3xl">
+            The Brand
+          </h2>
+          <p className="mt-4 text-base leading-relaxed text-charcoal-light">
+            The six rings in the 70 for 70 logo aren&apos;t decorative — each one is the color of
+            a branch of the U.S. Armed Forces. The mission behind this campaign isn&apos;t about
+            any one service. It&apos;s about every veteran, from every branch, still finding their
+            way forward.
+          </p>
+          <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3">
+            {LOGO_RING_COLORS.map((ring) => (
+              <div key={ring.branch} className="flex items-center gap-3">
+                <span
+                  aria-hidden="true"
+                  className="h-6 w-6 shrink-0 rounded-full border border-ink/10"
+                  style={{ backgroundColor: ring.hex }}
+                />
+                <div>
+                  <p className="text-sm font-semibold text-ink">{ring.branch}</p>
+                  <p className="text-xs text-charcoal-light">{ring.color}</p>
+                </div>
               </div>
             ))}
           </div>

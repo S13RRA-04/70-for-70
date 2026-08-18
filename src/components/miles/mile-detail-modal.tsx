@@ -102,6 +102,7 @@ export function MileDetailModal({
                             ? "In memory of"
                             : "In honor of"}
                           {donation.dedication_name ? ` ${donation.dedication_name}` : ""}
+                          {donation.dedication_branch ? ` (${donation.dedication_branch})` : ""}
                           {donation.dedication_message ? ` — ${donation.dedication_message}` : ""}
                         </p>
                       )}

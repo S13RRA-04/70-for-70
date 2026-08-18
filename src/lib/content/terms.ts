@@ -47,7 +47,7 @@ export const TERMS_SECTIONS: TermsSection[] = [
     body: [
       "IRONMAN® and 70.3® are trademarks of their respective owner. This site and campaign are not affiliated with, sponsored by, or endorsed by IRONMAN or its parent organization, and references to the race format are used only to describe the athletic challenge undertaken.",
       "Mighty Oaks Foundation and Project Echelon are named as the campaign's beneficiary organizations; this site is operated independently and is not an official website of either organization. Being named as a beneficiary does not mean either organization operates, endorses, or is responsible for this site's content.",
-      "The views, statements, and activities described on this site are undertaken in a personal capacity and do not represent or imply endorsement by any employer, government entity, the United States Navy, or any law enforcement agency.",
+      "The views, statements, and activities described on this site are undertaken in a personal capacity. Nothing on this site represents or implies endorsement, sponsorship, or affiliation by any employer or government entity, including the U.S. Navy, the Department of Defense, the Department of Justice, or the FBI, unless written authorization has been obtained and stated explicitly.",
     ],
   },
 ];

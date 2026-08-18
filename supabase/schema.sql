@@ -69,6 +69,10 @@ create table if not exists public.donations (
   dedication_type text check (dedication_type is null or dedication_type in ('in_honor_of', 'in_memory_of')),
   dedication_name text,
   dedication_message text,
+  -- Optional branch of service for the honoree, e.g. "U.S. Army". Free text
+  -- rather than an enum since it may name a specific unit/component, not
+  -- just the branch.
+  dedication_branch text,
   dedication_public boolean not null default true,
   date timestamptz not null default now(),
   external_reference text,

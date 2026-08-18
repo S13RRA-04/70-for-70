@@ -28,7 +28,7 @@ export default async function DonatePage(props: PageProps<"/donate">) {
         <Container>
           <SectionHeading
             eyebrow="Support the Mission"
-            title="Donate"
+            title="Where Would You Like Your Donation to Go?"
             description="70 for 70 does not process donations directly. Choose a beneficiary organization below to give through its authorized donation platform."
           />
 
@@ -38,6 +38,13 @@ export default async function DonatePage(props: PageProps<"/donate">) {
               platform supports one, so it can be recorded against that mile.
             </p>
           )}
+
+          <p className="mt-6 max-w-2xl text-sm text-charcoal-light">
+            After you give, let us know using the note field on the partner&apos;s donation form
+            (or by emailing the campaign) so your gift can be verified and credited toward a
+            specific mile here on the site. Mile totals update once a donation is confirmed with
+            the beneficiary organization — not automatically at the moment of giving.
+          </p>
         </Container>
       </section>
 

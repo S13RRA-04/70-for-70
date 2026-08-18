@@ -6,18 +6,14 @@ import { CTASection } from "@/components/shared/cta-section";
 import { TrainingSnapshot } from "@/components/training/training-snapshot";
 import { EmptyState } from "@/components/shared/empty-state";
 import { getTrainingSnapshot } from "@/lib/whoop/client";
+import { getTrainingStats } from "@/lib/training-stats";
 import { getPosts } from "@/lib/data/posts";
-import { formatDateLong, weeksBetween } from "@/lib/utils";
-import {
-  RACE_INFO,
-  RACE_LEGS,
-  RACE_TOTAL_DISTANCE,
-  TRAINING_VOLUME,
-} from "@/lib/constants";
+import { formatDateLong } from "@/lib/utils";
+import { RACE_INFO, RACE_LEGS, RACE_TOTAL_DISTANCE } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "The Race",
-  description: "An IRONMAN 70.3-distance triathlon: 1.2-mile swim, 56-mile bike, 13.1-mile run.",
+  description: "A 70.3-mile triathlon: 1.2-mile swim, 56-mile bike, 13.1-mile run.",
   alternates: { canonical: "/the-race" },
 };
 
@@ -28,24 +24,20 @@ const LEGS = [
 ];
 
 export default async function RacePage() {
-  const [trainingSnapshot, posts] = await Promise.all([getTrainingSnapshot(), getPosts()]);
+  const [trainingSnapshot, posts, trainingStats] = await Promise.all([
+    getTrainingSnapshot(),
+    getPosts(),
+    getTrainingStats(),
+  ]);
   const milestonePosts = posts.filter((p) => p.category === "Milestones");
 
-  const weeksCompleted =
-    RACE_INFO.trainingStartDate && new Date(RACE_INFO.trainingStartDate) <= new Date()
-      ? weeksBetween(RACE_INFO.trainingStartDate, new Date().toISOString())
-      : null;
-  const weeksRemaining =
-    RACE_INFO.raceDate && new Date(RACE_INFO.raceDate) >= new Date()
-      ? weeksBetween(new Date().toISOString(), RACE_INFO.raceDate)
-      : null;
   const hasTrainingVolume =
-    TRAINING_VOLUME.swimMiles !== null ||
-    TRAINING_VOLUME.bikeMiles !== null ||
-    TRAINING_VOLUME.runMiles !== null ||
-    TRAINING_VOLUME.totalHours !== null ||
-    weeksCompleted !== null ||
-    weeksRemaining !== null;
+    trainingStats.swimSessions !== null ||
+    trainingStats.bikeMiles !== null ||
+    trainingStats.runMiles !== null ||
+    trainingStats.totalHours !== null ||
+    trainingStats.weeksCompleted !== null ||
+    trainingStats.weeksRemaining !== null;
 
   return (
     <>
@@ -53,8 +45,8 @@ export default async function RacePage() {
         <Container>
           <SectionHeading
             eyebrow="The Race"
-            title="IRONMAN 70.3"
-            description="A 70.3-mile triathlon — swim, bike, and run — completed as the physical anchor of the 70 for 70 campaign."
+            title="70.3-Mile Triathlon"
+            description="A swim, bike, and run event completed as the physical anchor of the 70 for 70 campaign. Targeting IRONMAN 70.3 Chattanooga in May 2027 — exact race date to be confirmed."
           />
         </Container>
       </section>
@@ -90,63 +82,63 @@ export default async function RacePage() {
           </div>
 
           <div className="mt-16">
-            <SectionHeading eyebrow="Behind the Race" title="The Work" />
+            <SectionHeading eyebrow="Behind the Race" title="Road to 70.3" />
             <div className="mt-6">
               {hasTrainingVolume ? (
                 <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-                  {TRAINING_VOLUME.swimMiles !== null && (
+                  {trainingStats.swimSessions !== null && (
                     <div className="rounded-sm border border-ink/10 bg-off-white p-4 text-center">
                       <p className="font-display text-2xl font-semibold text-ink">
-                        {TRAINING_VOLUME.swimMiles}
+                        {trainingStats.swimSessions}
                       </p>
-                      <p className="text-xs text-charcoal-light">Swim Miles</p>
+                      <p className="text-xs text-charcoal-light">Swim Sessions</p>
                     </div>
                   )}
-                  {TRAINING_VOLUME.bikeMiles !== null && (
+                  {trainingStats.bikeMiles !== null && (
                     <div className="rounded-sm border border-ink/10 bg-off-white p-4 text-center">
                       <p className="font-display text-2xl font-semibold text-ink">
-                        {TRAINING_VOLUME.bikeMiles}
+                        {trainingStats.bikeMiles}
                       </p>
-                      <p className="text-xs text-charcoal-light">Bike Miles</p>
+                      <p className="text-xs text-charcoal-light">Miles Ridden</p>
                     </div>
                   )}
-                  {TRAINING_VOLUME.runMiles !== null && (
+                  {trainingStats.runMiles !== null && (
                     <div className="rounded-sm border border-ink/10 bg-off-white p-4 text-center">
                       <p className="font-display text-2xl font-semibold text-ink">
-                        {TRAINING_VOLUME.runMiles}
+                        {trainingStats.runMiles}
                       </p>
-                      <p className="text-xs text-charcoal-light">Run Miles</p>
+                      <p className="text-xs text-charcoal-light">Miles Run</p>
                     </div>
                   )}
-                  {TRAINING_VOLUME.totalHours !== null && (
+                  {trainingStats.totalHours !== null && (
                     <div className="rounded-sm border border-ink/10 bg-off-white p-4 text-center">
                       <p className="font-display text-2xl font-semibold text-ink">
-                        {TRAINING_VOLUME.totalHours}
+                        {trainingStats.totalHours}
                       </p>
-                      <p className="text-xs text-charcoal-light">Training Hours</p>
+                      <p className="text-xs text-charcoal-light">Total Training Hours</p>
                     </div>
                   )}
-                  {weeksCompleted !== null && (
+                  {trainingStats.weeksCompleted !== null && (
                     <div className="rounded-sm border border-ink/10 bg-off-white p-4 text-center">
                       <p className="font-display text-2xl font-semibold text-ink">
-                        {weeksCompleted}
+                        {trainingStats.weeksCompleted}
                       </p>
                       <p className="text-xs text-charcoal-light">Weeks Completed</p>
                     </div>
                   )}
-                  {weeksRemaining !== null && (
+                  {trainingStats.weeksRemaining !== null && (
                     <div className="rounded-sm border border-bronze/40 bg-bronze/10 p-4 text-center">
                       <p className="font-display text-2xl font-semibold text-ink">
-                        {weeksRemaining}
+                        {trainingStats.weeksRemaining}
                       </p>
-                      <p className="text-xs text-bronze">Weeks Remaining</p>
+                      <p className="text-xs text-bronze">Weeks to Race</p>
                     </div>
                   )}
                 </div>
               ) : (
                 <EmptyState
                   title="Training volume will be tracked here."
-                  description="Swim, bike, and run mileage, training hours, and the weeks-to-race countdown will appear here once training logging begins."
+                  description="Swim sessions, bike/run mileage, training hours, and the weeks-to-race countdown will appear here once training logging begins."
                 />
               )}
             </div>

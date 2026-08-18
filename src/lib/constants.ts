@@ -43,9 +43,9 @@ export const RACE_TOTAL_DISTANCE = 70.3;
  * 70.3-mile course (1.2 / 56 / 13.1) doesn't land on whole-mile lines.
  */
 export const MILE_SEGMENTS = [
-  { key: "swim", label: "Swim", start: 1, end: 1, accent: "charcoal" },
-  { key: "bike", label: "Bike", start: 2, end: 57, accent: "olive" },
-  { key: "run", label: "Run", start: 58, end: 70, accent: "bronze" },
+  { key: "swim", label: "The Swim", start: 1, end: 1, accent: "charcoal" },
+  { key: "bike", label: "The Bike", start: 2, end: 57, accent: "olive" },
+  { key: "run", label: "The Run", start: 58, end: 70, accent: "bronze" },
 ] as const;
 
 export const SPONSORSHIP_LEVELS = [
@@ -138,26 +138,17 @@ export const CUSTOM_PARTNERSHIP_CATEGORIES = [
   "Community Events",
 ] as const;
 
-/** TODO: replace with the athlete's real training/race timeline. */
+/** TODO: replace with the athlete's real race name/date once confirmed. */
 export const RACE_INFO = {
-  raceDate: null as string | null, // e.g. "2026-11-08T07:00:00-05:00" — TODO
-  raceLocation: null as string | null, // TODO
-  courseInfoUrl: null as string | null, // TODO
+  // Race day itself is IRONMAN 70.3 Chattanooga, targeted for May 2027 (see
+  // about.ts). Exact race date/time isn't set here yet — third-party race
+  // calendars disagree on the specific day, so it's left null rather than
+  // guessed; set it once confirmed on the official race page below.
+  raceDate: null as string | null, // e.g. "2027-05-09T07:00:00-04:00" — TODO, confirm against courseInfoUrl
+  raceLocation: "Chattanooga, Tennessee" as string | null,
+  courseInfoUrl: "https://www.ironman.com/races/im703-chattanooga" as string | null,
   athleteGoalTime: null as string | null, // TODO, e.g. "6:30:00"
   trainingStartDate: null as string | null, // e.g. "2026-03-01T00:00:00-05:00" — TODO, used to compute weeks completed/remaining
-};
-
-/**
- * Aggregate training volume for the Race page's "The Work" section. All
- * null by default — hidden (EmptyState) rather than shown as zeros/TODO
- * until real training data is logged. Weeks completed/remaining are
- * computed from RACE_INFO.trainingStartDate/raceDate instead of stored here.
- */
-export const TRAINING_VOLUME = {
-  swimMiles: null as number | null,
-  bikeMiles: null as number | null,
-  runMiles: null as number | null,
-  totalHours: null as number | null,
 };
 
 export const CONTACT_EMAIL: string | null = "seventyforseventy@gmail.com";

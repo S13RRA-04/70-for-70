@@ -99,6 +99,8 @@ export interface DonationRow {
   dedication_type: DedicationType | null;
   dedication_name: string | null;
   dedication_message: string | null;
+  /** Optional branch of service for the honoree, e.g. "U.S. Army". */
+  dedication_branch: string | null;
   dedication_public: boolean;
   date: string;
   external_reference: string | null;
