@@ -78,7 +78,7 @@ export default async function UpdatePostPage(props: PageProps<"/updates/[slug]">
           <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
             Share This Update
           </p>
-          <ShareButtons url={`${SITE_URL}/updates/${post.slug}`} title={`${post.title} | 70 for 70`} />
+          <ShareButtons url={`${SITE_URL}/updates/${post.slug}`} title={`${post.title} | 70 for 22`} />
         </div>
       </Container>
     </article>

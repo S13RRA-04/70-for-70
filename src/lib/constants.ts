@@ -1,6 +1,15 @@
 import type { NavLink } from "@/types/content";
 
-export const SITE_NAME = "70 for 70";
+/** The organization/site brand — used in the header, footer, legal copy, and site-wide metadata. */
+export const SITE_NAME = "For The 22";
+/** The org's own tagline, from the logo mark. */
+export const ORG_TAGLINE = "Endurance With A Purpose";
+/**
+ * The specific fundraising campaign/race effort — distinct from SITE_NAME.
+ * Used in the hero, mission copy, and anywhere the campaign itself (not the
+ * organization) is being named.
+ */
+export const CAMPAIGN_NAME = "70 for 22";
 export const SITE_TAGLINE = "70 miles. $70,000. One mission for veterans.";
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
@@ -86,12 +95,12 @@ export const SPONSORSHIP_LEVELS = [
     perks: [
       "Top-tier logo placement across the site",
       "Dedicated recognition in race-day communications",
-      "First right of refusal for future 70 for 70 campaigns",
+      "First right of refusal for future For The 22 campaigns",
     ],
   },
 ] as const;
 
-/** Why sponsor 70 for 70 — shown before pricing tiers on the Sponsors page. */
+/** Why sponsor 70 for 22 — shown before pricing tiers on the Sponsors page. */
 export const SPONSOR_VALUE_PROPS = [
   {
     id: "veteran-impact",

@@ -9,7 +9,7 @@ import { MISSION_SECTIONS } from "@/lib/content/mission";
 export const metadata: Metadata = {
   title: "The Mission",
   description:
-    "Why 70 for 70 exists: 70 miles, $70,000, and a mission to support veteran-focused nonprofit organizations.",
+    "Why 70 for 22 exists: 70 miles, $70,000, and a mission to support veteran-focused nonprofit organizations.",
   alternates: { canonical: "/the-mission" },
 };
 
@@ -21,7 +21,7 @@ export default function MissionPage() {
           <SectionHeading
             eyebrow="The Mission"
             title="One Mile. One Thousand Dollars. One Mission."
-            description="70 for 70 pairs a 70.3-mile triathlon with a $70,000 fundraising goal in support of veteran-focused nonprofit organizations."
+            description="70 for 22 pairs a 70.3-mile triathlon with a $70,000 fundraising goal in support of veteran-focused nonprofit organizations."
           />
           <div className="mt-10">
             <CampaignByTheNumbers />

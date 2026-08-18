@@ -11,7 +11,7 @@ import { ABOUT_CONTENT } from "@/lib/content/about";
 
 export const metadata: Metadata = {
   title: "Press & Media",
-  description: "Campaign summary, athlete bio, and media resources for 70 for 70.",
+  description: "Campaign summary, athlete bio, and media resources for For The 22.",
   alternates: { canonical: "/press" },
 };
 
@@ -33,7 +33,7 @@ export default async function PressPage() {
               Campaign Summary
             </h2>
             <p className="mt-3 text-base leading-relaxed text-charcoal-light">
-              70 for 70 pairs a 70.3-mile triathlon with a $70,000 fundraising goal — $1,000 per
+              70 for 22 pairs a 70.3-mile triathlon with a $70,000 fundraising goal — $1,000 per
               race mile — in support of veteran-focused nonprofit organizations.
               {" "}{SITE_TAGLINE}
             </p>
@@ -67,12 +67,13 @@ export default async function PressPage() {
               Logo Downloads
             </h2>
             <p className="mt-1 text-sm text-charcoal-light">
-              The compact icon/mark is available below in light- and dark-background versions.
-              A horizontal lockup hasn&apos;t been produced yet.
+              The compact icon/mark is available below in light- and dark-background versions,
+              alongside the 70 for 22 campaign mark. A horizontal lockup hasn&apos;t been
+              produced yet.
             </p>
             <div className="mt-3 flex flex-wrap gap-4">
               <div className="inline-flex flex-col items-start gap-3 rounded-sm border border-ink/10 bg-off-white p-6">
-                <Image src="/logo.png" alt="70 for 70 logo mark, dark numerals" width={140} height={140} />
+                <Image src="/logo.png" alt="For The 22 logo mark, dark numerals" width={140} height={140} />
                 <a
                   href="/logo.png"
                   download
@@ -84,7 +85,7 @@ export default async function PressPage() {
               <div className="inline-flex flex-col items-start gap-3 rounded-sm border border-ink/10 bg-ink p-6">
                 <Image
                   src="/logo-white.png"
-                  alt="70 for 70 logo mark, white numerals"
+                  alt="For The 22 logo mark, white numerals"
                   width={140}
                   height={140}
                 />
@@ -94,6 +95,21 @@ export default async function PressPage() {
                   className="inline-flex rounded-sm border border-off-white/30 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-off-white hover:bg-off-white/10"
                 >
                   Download (Dark Background)
+                </a>
+              </div>
+              <div className="inline-flex flex-col items-start gap-3 rounded-sm border border-ink/10 bg-off-white p-6">
+                <Image
+                  src="/campaign-logo.png"
+                  alt="70 for 22 campaign logo mark"
+                  width={140}
+                  height={140}
+                />
+                <a
+                  href="/campaign-logo.png"
+                  download
+                  className="inline-flex rounded-sm border border-ink/20 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
+                >
+                  Download (Campaign Mark)
                 </a>
               </div>
             </div>

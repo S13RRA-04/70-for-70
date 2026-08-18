@@ -35,7 +35,7 @@ export const ABOUT_CONTENT: AboutContent = {
       id: "my-story",
       heading: "My Story",
       body: [
-        "My name is Cody Hitson. I am a husband, father, Navy veteran, law enforcement professional, and endurance athlete. Over the years, I have worn a lot of different uniforms and carried a lot of different responsibilities, but the part of my story that matters most to 70 for 70 is not what I have done.",
+        "My name is Cody Hitson. I am a husband, father, Navy veteran, law enforcement professional, and endurance athlete. Over the years, I have worn a lot of different uniforms and carried a lot of different responsibilities, but the part of my story that matters most to 70 for 22 is not what I have done.",
         "It is what I have survived, what I have learned, and what I believe I am supposed to do with the life I have been given.",
         "I spent seven years on active duty in the United States Navy as a Mass Communication Specialist. In 2011, I deployed to Afghanistan in support of Operation Enduring Freedom as a combat journalist. My job placed me alongside service members operating in an environment where violence, loss, fear, and uncertainty were part of everyday life.",
         "Like a lot of veterans, I came home physically present but carrying things I did not fully understand how to process.",
@@ -66,7 +66,7 @@ export const ABOUT_CONTENT: AboutContent = {
         "Mighty Oaks gave me more than a place to talk about difficult experiences. It helped me look at those experiences through a different lens — one centered on faith, responsibility, purpose, relationships, and what it means to move forward intentionally.",
         "The lessons I took home affected the way I viewed myself, my marriage, my family, my service, and my future.",
         "I left understanding something I had spent years missing: recovery is not simply about becoming the person you were before something happened. Sometimes it is about becoming someone stronger, wiser, more grounded, and more useful because of what happened.",
-        "That is one of the reasons Mighty Oaks is part of 70 for 70. I know firsthand what their work can mean to a veteran and a family.",
+        "That is one of the reasons Mighty Oaks is part of 70 for 22. I know firsthand what their work can mean to a veteran and a family.",
       ],
     },
     {
@@ -110,12 +110,12 @@ export const ABOUT_CONTENT: AboutContent = {
       heading: "The Next Challenge",
       body: [
         "My next major goal is completing a 70.3-mile triathlon. That means 1.2 miles swimming, 56 miles cycling, and 13.1 miles running — 70.3 miles total.",
-        "But I do not want this race to be only about crossing another finish line. I want those miles to mean something. That is where 70 for 70 began.",
+        "But I do not want this race to be only about crossing another finish line. I want those miles to mean something. That is where 70 for 22 began.",
       ],
     },
     {
-      id: "seventy-for-seventy",
-      heading: "70 for 70",
+      id: "seventy-for-twenty-two",
+      heading: "70 for 22",
       body: [
         "The mission is simple: 70 miles. $70,000. One mission for veterans.",
         "My goal is to use the road to 70.3 as a platform to raise $70,000 in support of organizations helping veterans rebuild their lives, rediscover purpose, and find community after service. Every mile represents $1,000 toward that mission.",
@@ -136,7 +136,7 @@ export const ABOUT_CONTENT: AboutContent = {
       id: "the-mission",
       heading: "The Mission",
       body: [
-        "70 for 70 is not about proving how tough I am. I have nothing left to prove in that department.",
+        "70 for 22 is not about proving how tough I am. I have nothing left to prove in that department.",
         "This is about using the ability I still have, the opportunities I have been given, and the lessons I have learned to help someone else take their next step.",
         "If my story helps one veteran ask for help, it matters. If this campaign helps one family get their husband, wife, father, mother, son, or daughter back, it matters. If these 70 miles help create a new mission for someone who thought theirs was over, every mile will have been worth it.",
         "70 miles. $70,000. One mission for veterans. And one step at a time until we get there.",

@@ -93,7 +93,7 @@ export function SponsorshipRequestForm({ defaultMileNumber }: { defaultMileNumbe
           Request received
         </p>
         <p className="mt-1 text-sm text-charcoal-light">
-          Thank you for your interest in sponsoring 70 for 70. Every proposal is individually
+          Thank you for your interest in sponsoring 70 for 22. Every proposal is individually
           reviewed before acceptance — we&apos;ll follow up by email.
         </p>
       </div>
@@ -220,7 +220,7 @@ export function SponsorshipRequestForm({ defaultMileNumber }: { defaultMileNumbe
         <legend className="text-xs font-semibold uppercase tracking-widest text-bronze">
           Additional Information
         </legend>
-        <Field id="referralSource" name="referralSource" label="How did you hear about 70 for 70?" />
+        <Field id="referralSource" name="referralSource" label="How did you hear about 70 for 22?" />
         <div>
           <label htmlFor="message" className="text-sm font-medium text-ink">
             Message <span className="text-charcoal-light">(optional)</span>

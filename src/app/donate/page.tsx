@@ -10,7 +10,7 @@ import { CampaignAllocation } from "@/components/campaign/campaign-allocation";
 
 export const metadata: Metadata = {
   title: "Donate",
-  description: "Support 70 for 70 through an authorized partner donation platform.",
+  description: "Support 70 for 22 through an authorized partner donation platform.",
   alternates: { canonical: "/donate" },
 };
 
@@ -29,7 +29,7 @@ export default async function DonatePage(props: PageProps<"/donate">) {
           <SectionHeading
             eyebrow="Support the Mission"
             title="Where Would You Like Your Donation to Go?"
-            description="70 for 70 does not process donations directly. Choose a beneficiary organization below to give through its authorized donation platform."
+            description="For The 22 does not process donations directly. Choose a beneficiary organization below to give through its authorized donation platform."
           />
 
           {mileNumber && Number.isFinite(mileNumber) && (
@@ -89,9 +89,9 @@ export default async function DonatePage(props: PageProps<"/donate">) {
           </div>
 
           <p className="mt-8 max-w-2xl text-sm font-medium text-charcoal-light">
-            70 for 70 does not take possession of charitable donations. Donations are directed
-            through each nonprofit organization&apos;s authorized donation platform, and 70 for
-            70 does not independently process charitable contributions unless explicitly stated.
+            For The 22 does not take possession of charitable donations. Donations are directed
+            through each nonprofit organization&apos;s authorized donation platform, and For The
+            22 does not independently process charitable contributions unless explicitly stated.
           </p>
 
           {allocationBreakdown && (

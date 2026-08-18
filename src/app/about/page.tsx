@@ -7,7 +7,7 @@ import { MediaPlaceholder } from "@/components/shared/media-placeholder";
 import { ABOUT_CONTENT } from "@/lib/content/about";
 
 /**
- * The six rings in the 70 for 70 logo each carry a branch color — every
+ * The six rings in the For The 22 logo each carry a branch color — every
  * branch of the U.S. Armed Forces, since the campaign's beneficiaries serve
  * veterans across all of them, not just the Navy Cody served in.
  */
@@ -89,7 +89,7 @@ export default function AboutPage() {
             The Brand
           </h2>
           <p className="mt-4 text-base leading-relaxed text-charcoal-light">
-            The six rings in the 70 for 70 logo aren&apos;t decorative — each one is the color of
+            The six rings in the For The 22 logo aren&apos;t decorative — each one is the color of
             a branch of the U.S. Armed Forces. The mission behind this campaign isn&apos;t about
             any one service. It&apos;s about every veteran, from every branch, still finding their
             way forward.

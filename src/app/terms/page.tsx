@@ -9,7 +9,7 @@ import { formatDateLong } from "@/lib/utils";
 export const metadata: Metadata = {
   title: "Site Terms",
   description:
-    "Terms of use, sponsorship disclosure, charitable giving disclosure, and trademark disclaimer for 70 for 70.",
+    "Terms of use, sponsorship disclosure, charitable giving disclosure, and trademark disclaimer for For The 22.",
   alternates: { canonical: "/terms" },
 };
 

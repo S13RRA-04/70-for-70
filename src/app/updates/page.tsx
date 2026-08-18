@@ -7,7 +7,7 @@ import { EmptyState } from "@/components/shared/empty-state";
 
 export const metadata: Metadata = {
   title: "Updates",
-  description: "Training, fundraising, and race prep updates from the 70 for 70 campaign.",
+  description: "Training, fundraising, and race prep updates from the 70 for 22 campaign.",
   alternates: { canonical: "/updates" },
 };
 

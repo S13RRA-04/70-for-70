@@ -8,7 +8,7 @@ import { formatDateLong } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "How the 70 for 70 campaign website collects, uses, and shares information.",
+  description: "How the For The 22 website collects, uses, and shares information.",
   alternates: { canonical: "/privacy" },
 };
 

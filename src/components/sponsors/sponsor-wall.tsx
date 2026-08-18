@@ -33,7 +33,7 @@ export function SponsorWall({ sponsors }: { sponsors: SponsorRow[] }) {
         </p>
         <div className="mt-3">
           <EmptyState
-            title="We're currently building the first group of organizations backing 70 for 70."
+            title="We're currently building the first group of organizations backing 70 for 22."
             cta={{ label: "Request to Sponsor", href: "/sponsors/request" }}
           />
         </div>

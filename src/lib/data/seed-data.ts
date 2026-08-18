@@ -22,7 +22,7 @@ const now = new Date().toISOString();
 
 export const SEED_CAMPAIGN: CampaignRow = {
   id: "seed-campaign",
-  name: "70 for 70",
+  name: "70 for 22",
   fundraising_goal: 70_000,
   amount_raised: 0,
   race_distance: 70.3,

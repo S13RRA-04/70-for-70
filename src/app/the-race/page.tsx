@@ -46,7 +46,7 @@ export default async function RacePage() {
           <SectionHeading
             eyebrow="The Race"
             title="70.3-Mile Triathlon"
-            description="A swim, bike, and run event completed as the physical anchor of the 70 for 70 campaign. Targeting IRONMAN 70.3 Chattanooga in May 2027 — exact race date to be confirmed."
+            description="A swim, bike, and run event completed as the physical anchor of the 70 for 22 campaign. Targeting IRONMAN 70.3 Chattanooga in May 2027 — exact race date to be confirmed."
           />
         </Container>
       </section>

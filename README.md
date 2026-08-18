@@ -1,4 +1,4 @@
-# 70 for 70
+# For The 22 — 70 for 22
 
 70 miles. $70,000. One mission for veterans.
 
@@ -269,7 +269,8 @@ the element is hidden or replaced with a polished empty state instead:
 
 - **[`EmptyState`](src/components/shared/empty-state.tsx)** — the "nothing
   here yet" treatment (title, optional description, optional CTA). Used for
-  the sponsor wall (`"The first 70 for 70 sponsors are coming soon."`), the
+  the sponsor wall (`"We're currently building the first group of
+  organizations backing 70 for 22."`), the
   Updates page/homepage teaser, Race page training milestones, and the
   WHOOP training snapshot before anything is connected.
 - **[`MediaPlaceholder`](src/components/shared/media-placeholder.tsx)** — a
@@ -301,38 +302,67 @@ replace with a real empty state" rule applied consistently. A flag would add
 a layer of indirection without doing anything these direct checks don't
 already do.
 
+## Rebrand: For The 22 / 70 for 22
+
+The site was rebranded from "70 for 70" — **"For The 22" is now the
+organization/site brand** (header, footer, legal copy, site-wide
+metadata), and **"70 for 22" is the specific fundraising campaign/race
+effort** (hero, mission copy, share text, mile-funding language). The two
+names are deliberately distinct: `SITE_NAME`, `CAMPAIGN_NAME`, and
+`ORG_TAGLINE` ("Endurance With A Purpose") are all separate constants in
+[`constants.ts`](src/lib/constants.ts) — see each call site's context for
+which one applies (org = operating-entity/legal statements, campaign =
+race/fundraising-specific statements).
+
+The fundraising math is unchanged: still 70 miles, $70,000, $1,000/mile.
+Mighty Oaks Foundation and Project Echelon are still the actual funding
+beneficiaries — "For The 22" is Cody's own org/brand for this and future
+campaigns, not a new beneficiary.
+
+**Not changed as part of this rebrand** (not requested, and not something
+to guess at): `CONTACT_EMAIL` is still `seventyforseventy@gmail.com`,
+which now reads as a mismatch against the new brand. Update it in
+`constants.ts` once a new address exists.
+
 ## Campaign Logo
 
-The campaign's compact icon/mark is in place — a colored ring around a
-bold "70 FOR 70" mark. Only that icon/mark was supplied; **no horizontal
-lockup exists yet**, so nothing invents one.
+The compact icon/mark is in place — a colored ring around a bold
+wordmark. Only that icon/mark was supplied; **no horizontal lockup exists
+yet**, so nothing invents one.
 
-Two versions exist — dark numerals for light backgrounds, white numerals
-for dark backgrounds:
+Two org-logo versions exist — dark numerals for light backgrounds, white
+numerals for dark backgrounds — plus a separate campaign mark:
 
-- Source files: [`brand/70for70-logo-source.png`](brand/70for70-logo-source.png)
-  and [`brand/70for70-logo-white-source.png`](brand/70for70-logo-white-source.png)
-  (full resolution, not publicly served — kept for regenerating assets later)
+- Source files (full resolution, not publicly served — kept for
+  regenerating assets later): [`brand/forthe22-logo-source.png`](brand/forthe22-logo-source.png),
+  [`brand/forthe22-logo-white-source.png`](brand/forthe22-logo-white-source.png),
+  [`brand/70for22-logo-source.png`](brand/70for22-logo-source.png). The
+  original "70 for 70" sources are kept alongside them for history.
 - [`public/logo.png`](public/logo.png) / [`public/logo-white.png`](public/logo-white.png) —
-  1024×1024 optimized versions used for on-site display and the `/press` downloads
-- `src/app/icon.png` (32×32, light-background version) and
-  `src/app/apple-icon.png` (180×180, flattened onto the off-white brand
-  background since Apple's convention doesn't respect transparency) replace
-  the previous dynamically-generated text-only favicon
+  1024×1024 optimized **For The 22** org marks used for on-site display
+  (header/footer) and the `/press` downloads
+- [`public/campaign-logo.png`](public/campaign-logo.png) — the **70 for 22**
+  campaign mark, offered as a download on `/press`. Only one (dark-numeral)
+  version was supplied.
+- `src/app/icon.png` (32×32) and `src/app/apple-icon.png` (180×180,
+  flattened onto the off-white brand background since Apple's convention
+  doesn't respect transparency) — both regenerated from the **For The 22**
+  org mark
 - `Header` (light background) uses `logo.png`; `Footer` and
   `opengraph-image.tsx` (both dark) use `logo-white.png` — both pair the
-  icon with visible "70 FOR 70" text (nav/footer) or the headline (OG
-  image). The icon images themselves are `alt=""`/`aria-hidden` since the
-  adjacent text already gives screen readers the accessible name, avoiding
-  a duplicate announcement — this satisfies "navigation should still
-  include readable text" without relying on alt text alone.
-- [`opengraph-image.tsx`](src/app/opengraph-image.tsx) composites the white
-  logo (read from disk, base64-encoded) alongside the headline/tagline on
-  the existing dark gradient, so it flows through automatically to
-  Twitter/OG social cards
-- [`/press`](src/app/press/page.tsx)'s "Logo Downloads" section offers both
-  versions for download instead of an `EmptyState`, with an explicit note
-  that the horizontal lockup is still pending
+  org icon with visible "For The 22" text (nav/footer) or the "70 FOR 22"
+  campaign headline (OG image). The icon images themselves are
+  `alt=""`/`aria-hidden` since the adjacent text already gives screen
+  readers the accessible name, avoiding a duplicate announcement — this
+  satisfies "navigation should still include readable text" without
+  relying on alt text alone.
+- [`opengraph-image.tsx`](src/app/opengraph-image.tsx) composites the
+  white org logo (read from disk, base64-encoded) alongside the campaign
+  headline/tagline on the existing dark gradient, so it flows through
+  automatically to Twitter/OG social cards
+- [`/press`](src/app/press/page.tsx)'s "Logo Downloads" section offers all
+  three marks for download instead of an `EmptyState`, with an explicit
+  note that the horizontal lockup is still pending
 
 If a horizontal lockup is produced later, add it as
 `public/logo-horizontal.png` and swap it in wherever a wider format reads
@@ -390,7 +420,7 @@ neither beneficiary needs that fallback anymore.
   Conversation"
 - Donate page trust section: per-partner "donation processed by"
   statement, a verified-501(c)(3)/EIN badge (hidden until
-  `nonprofit_status_verified` is true), and an explicit "70 for 70 does not
+  `nonprofit_status_verified` is true), and an explicit "For The 22 does not
   take possession of charitable donations" statement. Donate buttons open
   an `ExternalDonateButton` confirmation dialog ("You're leaving 70 for
   70...") before navigating out, with an external-link icon indicator —

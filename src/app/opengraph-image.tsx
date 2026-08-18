@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
-import { SITE_TAGLINE } from "@/lib/constants";
+import { CAMPAIGN_NAME, SITE_TAGLINE } from "@/lib/constants";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -38,7 +38,7 @@ export default function OpengraphImage() {
               display: "flex",
             }}
           >
-            70 for 70
+            {CAMPAIGN_NAME}
           </div>
           <div
             style={{

@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 /**
  * Donate CTA that confirms the outbound trip before leaving the site — see
  * README's Priority 9 trust-signal notes. Never navigates directly; always
- * shows "You're leaving 70 for 70..." first, so it's clear 70 for 70 isn't
+ * shows "You're leaving For The 22..." first, so it's clear For The 22 isn't
  * processing the donation itself.
  */
 export function ExternalDonateButton({
@@ -62,11 +62,11 @@ export function ExternalDonateButton({
             id="donate-confirm-heading"
             className="font-display text-lg font-semibold uppercase tracking-wide"
           >
-            Leaving 70 for 70
+            Leaving For The 22
           </h3>
           <p className="mt-3 text-sm text-charcoal-light">
-            You&apos;re leaving 70 for 70 to donate securely through {orgName}&apos;s authorized
-            platform. 70 for 70 does not process or take possession of this donation.
+            You&apos;re leaving For The 22 to donate securely through {orgName}&apos;s authorized
+            platform. For The 22 does not process or take possession of this donation.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <a

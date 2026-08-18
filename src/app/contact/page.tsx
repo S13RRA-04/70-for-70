@@ -7,7 +7,7 @@ import { CONTACT_EMAIL } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "General contact for the 70 for 70 campaign — media, community partnerships, and other questions.",
+  description: "General contact for For The 22 — media, community partnerships, and other questions.",
   alternates: { canonical: "/contact" },
 };
 

@@ -20,8 +20,8 @@ export const PRIVACY_SECTIONS: PrivacySection[] = [
     id: "overview",
     heading: "Overview",
     body: [
-      "This policy explains what information the 70 for 70 campaign website collects, how it's used, and who it's shared with. It covers this website only — not Mighty Oaks Foundation, Project Echelon, or any other organization's own website or donation platform, each of which has its own privacy policy.",
-      "70 for 70 does not process donations or payments directly, and does not sell personal information.",
+      "This policy explains what information the For The 22 website collects, how it's used, and who it's shared with. It covers this website only — not Mighty Oaks Foundation, Project Echelon, or any other organization's own website or donation platform, each of which has its own privacy policy.",
+      "For The 22 does not process donations or payments directly, and does not sell personal information.",
     ],
   },
   {
