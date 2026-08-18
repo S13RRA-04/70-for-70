@@ -1,7 +1,8 @@
 /**
  * Athlete profile copy for the About page. This is Cody's own account —
  * kept as data rather than hard-coded JSX so it can be revised without
- * touching components. `portraitUrl` is still a TODO pending photography.
+ * touching components. `portraitUrl` is unset pending photography — see
+ * MediaPlaceholder for how that's handled without a visible TODO label.
  */
 
 export interface AboutSection {
@@ -15,13 +16,20 @@ export interface AboutContent {
   name: string;
   tagline: string;
   portraitUrl: string | null;
+  /** Condensed 2–3 paragraph version for the homepage "Why I'm Doing This" section. */
+  homepageTeaser: string[];
   sections: AboutSection[];
 }
 
 export const ABOUT_CONTENT: AboutContent = {
   name: "Cody Hitson",
   tagline: "Athlete. Veteran. Husband. Father. Still Moving Forward.",
-  portraitUrl: null, // TODO — portrait photography pending
+  portraitUrl: null,
+  homepageTeaser: [
+    "I'm Cody — a Navy veteran, husband, father, and endurance athlete. I spent seven years on active duty as a Mass Communication Specialist, including a 2011 deployment to Afghanistan as a combat journalist. I came home physically present but carrying things I didn't fully understand how to process.",
+    "In 2023, a Mighty Oaks Warrior Program retreat became a turning point — it taught me that recovery isn't about becoming who you were before something happened, but someone stronger because of it. Endurance sports became one of the ways I learned to keep moving forward, one step at a time.",
+    "I've benefited from people and organizations willing to invest in veterans. Now I want to return that investment — one mile, and one story, at a time.",
+  ],
   sections: [
     {
       id: "my-story",

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { getPostBySlug, getPosts } from "@/lib/data/posts";
 import { Container } from "@/components/shared/container";
+import { MediaPlaceholder } from "@/components/shared/media-placeholder";
 import { formatDateLong } from "@/lib/utils";
 
 export async function generateStaticParams() {
@@ -50,9 +51,7 @@ export default async function UpdatePostPage(props: PageProps<"/updates/[slug]">
           {post.image_url ? (
             <Image src={post.image_url} alt="" fill className="object-cover" />
           ) : (
-            <div className="flex h-full w-full items-center justify-center text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-              Image TODO
-            </div>
+            <MediaPlaceholder />
           )}
         </div>
 

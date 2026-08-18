@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
+import { MediaPlaceholder } from "@/components/shared/media-placeholder";
 import { ABOUT_CONTENT } from "@/lib/content/about";
 
 export const metadata: Metadata = {
@@ -25,11 +26,7 @@ export default function AboutPage() {
                 className="object-cover"
               />
             ) : (
-              <div className="flex h-full w-full items-center justify-center text-center text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-                Portrait
-                <br />
-                TODO
-              </div>
+              <MediaPlaceholder />
             )}
           </div>
 

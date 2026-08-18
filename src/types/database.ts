@@ -123,7 +123,10 @@ export interface PostRow {
 export interface PartnerRow {
   id: string;
   name: string;
+  /** "Why It Matters to Me" — always real, never a placeholder. */
   description: string;
+  /** "What They Do" — the org's own approved description. Hidden until set. */
+  what_they_do: string | null;
   logo_url: string | null;
   website_url: string | null;
   donation_url: string | null;

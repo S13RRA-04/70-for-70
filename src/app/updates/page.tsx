@@ -3,6 +3,7 @@ import { getPosts } from "@/lib/data/posts";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { UpdateCard } from "@/components/updates/update-card";
+import { EmptyState } from "@/components/shared/empty-state";
 
 export const metadata: Metadata = {
   title: "Updates",
@@ -28,7 +29,11 @@ export default async function UpdatesPage() {
       <section className="py-16 sm:py-20">
         <Container>
           {posts.length === 0 ? (
-            <p className="text-sm text-charcoal-light">No updates published yet.</p>
+            <EmptyState
+              title="Training updates are on the way."
+              description="Posts will start appearing here as training and fundraising milestones happen."
+              cta={{ label: "Fund a Mile", href: "/fund-a-mile" }}
+            />
           ) : (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {posts.map((post) => (

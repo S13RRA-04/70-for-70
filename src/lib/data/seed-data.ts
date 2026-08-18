@@ -51,7 +51,8 @@ export const SEED_PARTNERS: PartnerRow[] = [
     id: "seed-partner-mighty-oaks",
     name: "Mighty Oaks Foundation",
     description:
-      "TODO — replace with approved description of Mighty Oaks Foundation's mission and programs.",
+      "In 2023, I attended a Mighty Oaks Warrior Program retreat. It became an important turning point in my life — helping me look at difficult experiences through a lens centered on faith, responsibility, and purpose, and changing how I showed up for my marriage and my family. I know firsthand what their work can mean to a veteran and a family.",
+    what_they_do: null, // Awaiting the organization's own approved description — hidden until supplied, not shown as a placeholder.
     logo_url: null,
     website_url: null,
     donation_url: null,
@@ -61,7 +62,8 @@ export const SEED_PARTNERS: PartnerRow[] = [
     id: "seed-partner-project-echelon",
     name: "Project Echelon",
     description:
-      "TODO — replace with approved description of Project Echelon's mission and programs.",
+      "Project Echelon uses endurance sport, mentorship, structure, and community to help veterans keep moving forward after military service. As I began pursuing triathlon myself, that mission made immediate sense to me — there's something powerful about putting veterans back into an environment with a mission, a team, and a reason to keep showing up.",
+    what_they_do: null, // Awaiting the organization's own approved description — hidden until supplied, not shown as a placeholder.
     logo_url: null,
     website_url: null,
     donation_url: null,
@@ -69,95 +71,10 @@ export const SEED_PARTNERS: PartnerRow[] = [
   },
 ];
 
-export const SEED_SPONSORS: SponsorRow[] = [
-  {
-    id: "seed-sponsor-presenting",
-    name: "[Presenting Sponsor — sample]",
-    tier: "presenting",
-    contribution_value: 10_000,
-    logo_url: null,
-    website_url: null,
-    description: "Sample sponsor shown for layout preview only.",
-    active: true,
-    sponsorship_request_id: null,
-    display_order: 1,
-  },
-  {
-    id: "seed-sponsor-mission",
-    name: "[Mission Sponsor — sample]",
-    tier: "mission",
-    contribution_value: 5_000,
-    logo_url: null,
-    website_url: null,
-    description: "Sample sponsor shown for layout preview only.",
-    active: true,
-    sponsorship_request_id: null,
-    display_order: 2,
-  },
-  {
-    id: "seed-sponsor-supporting",
-    name: "[Supporting Sponsor — sample]",
-    tier: "supporting",
-    contribution_value: 2_500,
-    logo_url: null,
-    website_url: null,
-    description: "Sample sponsor shown for layout preview only.",
-    active: true,
-    sponsorship_request_id: null,
-    display_order: 3,
-  },
-  {
-    id: "seed-sponsor-mile",
-    name: "[Mile Sponsor — sample]",
-    tier: "mile",
-    contribution_value: 1_000,
-    logo_url: null,
-    website_url: null,
-    description: "Sample sponsor shown for layout preview only.",
-    active: true,
-    sponsorship_request_id: null,
-    display_order: 4,
-  },
-];
+// No sponsors yet. SponsorWall shows a polished "coming soon" empty state
+// rather than fake/sample sponsor cards — see components/sponsors/sponsor-wall.tsx.
+export const SEED_SPONSORS: SponsorRow[] = [];
 
-export const SEED_POSTS: PostRow[] = [
-  {
-    id: "seed-post-1",
-    title: "TODO — Campaign kickoff post title",
-    slug: "campaign-kickoff",
-    summary: "TODO — one to two sentence summary of the kickoff update.",
-    body: "TODO — full body copy for the campaign kickoff update.",
-    image_url: null,
-    category: "Fundraising",
-    published_at: now,
-    featured: true,
-    published: true,
-    training_metrics: null,
-  },
-  {
-    id: "seed-post-2",
-    title: "TODO — First training block recap",
-    slug: "first-training-block-recap",
-    summary: "TODO — summary of early swim/bike/run training progress.",
-    body: "TODO — full training recap body copy.",
-    image_url: null,
-    category: "Training",
-    published_at: now,
-    featured: false,
-    published: true,
-    training_metrics: { "Swim (wk)": "3 sessions", "Bike (wk)": "4 sessions", "Run (wk)": "3 sessions" },
-  },
-  {
-    id: "seed-post-3",
-    title: "TODO — Why Mighty Oaks and Project Echelon",
-    slug: "why-these-partners",
-    summary: "TODO — summary explaining the choice of beneficiary organizations.",
-    body: "TODO — full body copy on the partner organizations.",
-    image_url: null,
-    category: "Mighty Oaks",
-    published_at: now,
-    featured: false,
-    published: true,
-    training_metrics: null,
-  },
-];
+// No posts yet. The Updates page and homepage teaser show polished empty
+// states rather than placeholder posts — see app/updates/page.tsx and app/page.tsx.
+export const SEED_POSTS: PostRow[] = [];

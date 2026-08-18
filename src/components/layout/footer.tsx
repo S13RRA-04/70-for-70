@@ -47,12 +47,15 @@ export function Footer() {
               </Link>
             </li>
             <li>
-              <a
-                href={`mailto:${CONTACT_EMAIL}`}
-                className="transition-colors hover:text-off-white"
-              >
-                {CONTACT_EMAIL}
-              </a>
+              {CONTACT_EMAIL ? (
+                <a href={`mailto:${CONTACT_EMAIL}`} className="transition-colors hover:text-off-white">
+                  {CONTACT_EMAIL}
+                </a>
+              ) : (
+                <Link href="/contact" className="transition-colors hover:text-off-white">
+                  Contact Us
+                </Link>
+              )}
             </li>
           </ul>
         </div>

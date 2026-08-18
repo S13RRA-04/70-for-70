@@ -18,7 +18,11 @@ export default function ContactPage() {
         <SectionHeading
           eyebrow="Get in Touch"
           title="Contact"
-          description={`For media, community partnerships, or general questions, use the form below or reach us directly at ${CONTACT_EMAIL}.`}
+          description={
+            CONTACT_EMAIL
+              ? `For media, community partnerships, or general questions, use the form below or reach us directly at ${CONTACT_EMAIL}.`
+              : "For media, community partnerships, or general questions, use the form below."
+          }
         />
 
         <p className="mt-6 rounded-sm border border-bronze/30 bg-bronze/10 px-4 py-3 text-sm text-ink">

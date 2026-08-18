@@ -48,9 +48,9 @@ export function mileStatusLabel(status: MileStatus) {
     case "available":
       return "Available";
     case "requested":
-      return "Sponsorship Requested";
+      return "Sponsorship Pending";
     case "reserved":
-      return "Reserved";
+      return "Sponsorship Pending";
     case "partially_funded":
       return "Partially Funded";
     case "funded":

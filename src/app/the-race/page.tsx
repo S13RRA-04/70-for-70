@@ -4,6 +4,7 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { Countdown } from "@/components/shared/countdown";
 import { CTASection } from "@/components/shared/cta-section";
 import { TrainingSnapshot } from "@/components/training/training-snapshot";
+import { EmptyState } from "@/components/shared/empty-state";
 import { getTrainingSnapshot } from "@/lib/whoop/client";
 import { RACE_INFO, RACE_LEGS, RACE_TOTAL_DISTANCE } from "@/lib/constants";
 
@@ -73,62 +74,45 @@ export default async function RacePage() {
                 <Countdown targetIso={RACE_INFO.raceDate} />
               </div>
 
-              <dl className="mt-8 space-y-4 text-sm">
-                <div className="flex justify-between gap-4 border-t border-ink/10 pt-4">
-                  <dt className="font-medium text-charcoal-light">Race Location</dt>
-                  <dd className="text-right text-ink">
-                    {RACE_INFO.raceLocation ?? "TODO — location pending"}
-                  </dd>
-                </div>
-                <div className="flex justify-between gap-4 border-t border-ink/10 pt-4">
-                  <dt className="font-medium text-charcoal-light">Athlete Goal Time</dt>
-                  <dd className="text-right text-ink">
-                    {RACE_INFO.athleteGoalTime ?? "TODO — goal time pending"}
-                  </dd>
-                </div>
-                <div className="flex justify-between gap-4 border-t border-ink/10 pt-4">
-                  <dt className="font-medium text-charcoal-light">Course Information</dt>
-                  <dd className="text-right text-ink">
-                    {RACE_INFO.courseInfoUrl ? (
-                      <a href={RACE_INFO.courseInfoUrl} className="text-bronze hover:underline">
-                        View course details
-                      </a>
-                    ) : (
-                      "TODO — course info pending"
-                    )}
-                  </dd>
-                </div>
-              </dl>
+              {(RACE_INFO.raceLocation || RACE_INFO.athleteGoalTime || RACE_INFO.courseInfoUrl) && (
+                <dl className="mt-8 space-y-4 text-sm">
+                  {RACE_INFO.raceLocation && (
+                    <div className="flex justify-between gap-4 border-t border-ink/10 pt-4">
+                      <dt className="font-medium text-charcoal-light">Race Location</dt>
+                      <dd className="text-right text-ink">{RACE_INFO.raceLocation}</dd>
+                    </div>
+                  )}
+                  {RACE_INFO.athleteGoalTime && (
+                    <div className="flex justify-between gap-4 border-t border-ink/10 pt-4">
+                      <dt className="font-medium text-charcoal-light">Athlete Goal Time</dt>
+                      <dd className="text-right text-ink">{RACE_INFO.athleteGoalTime}</dd>
+                    </div>
+                  )}
+                  {RACE_INFO.courseInfoUrl && (
+                    <div className="flex justify-between gap-4 border-t border-ink/10 pt-4">
+                      <dt className="font-medium text-charcoal-light">Course Information</dt>
+                      <dd className="text-right text-ink">
+                        <a href={RACE_INFO.courseInfoUrl} className="text-bronze hover:underline">
+                          View course details
+                        </a>
+                      </dd>
+                    </div>
+                  )}
+                </dl>
+              )}
             </div>
 
             <div className="rounded-sm border border-ink/10 bg-off-white p-8">
               <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
                 Training Milestones
               </h2>
-              <p className="mt-2 text-sm text-charcoal-light">
-                TODO — populate with real training milestones as they&apos;re completed (e.g.
-                first open-water swim, century ride, half-marathon time trial).
-              </p>
-              <ul className="mt-5 space-y-3 text-sm text-charcoal-light">
-                <li className="flex items-center justify-between border-t border-ink/10 pt-3">
-                  <span>TODO — milestone 1</span>
-                  <span className="text-xs uppercase tracking-wide text-charcoal-light/60">
-                    Pending
-                  </span>
-                </li>
-                <li className="flex items-center justify-between border-t border-ink/10 pt-3">
-                  <span>TODO — milestone 2</span>
-                  <span className="text-xs uppercase tracking-wide text-charcoal-light/60">
-                    Pending
-                  </span>
-                </li>
-                <li className="flex items-center justify-between border-t border-ink/10 pt-3">
-                  <span>TODO — milestone 3</span>
-                  <span className="text-xs uppercase tracking-wide text-charcoal-light/60">
-                    Pending
-                  </span>
-                </li>
-              </ul>
+              <div className="mt-4">
+                <EmptyState
+                  title="Milestones are on the way."
+                  description="Key training milestones — first open-water swim, century ride, half-marathon time trial — will be logged here as they happen."
+                  cta={{ label: "View Updates", href: "/updates" }}
+                />
+              </div>
             </div>
           </div>
         </Container>

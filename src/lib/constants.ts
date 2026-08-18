@@ -30,6 +30,18 @@ export const RACE_LEGS = {
 
 export const RACE_TOTAL_DISTANCE = 70.3;
 
+/**
+ * Groups the 70 fundraising miles into race segments for the Fund a Mile
+ * visualization. This is a fundraising visualization, not an exact
+ * official race-mile boundary — the swim/bike/run split of the actual
+ * 70.3-mile course (1.2 / 56 / 13.1) doesn't land on whole-mile lines.
+ */
+export const MILE_SEGMENTS = [
+  { key: "swim", label: "Swim", start: 1, end: 1, accent: "charcoal" },
+  { key: "bike", label: "Bike", start: 2, end: 57, accent: "olive" },
+  { key: "run", label: "Run", start: 58, end: 70, accent: "bronze" },
+] as const;
+
 export const SPONSORSHIP_LEVELS = [
   {
     id: "mile",
@@ -81,4 +93,9 @@ export const RACE_INFO = {
   athleteGoalTime: null as string | null, // TODO, e.g. "6:30:00"
 };
 
-export const CONTACT_EMAIL = "TODO@70for70.org";
+/**
+ * No confirmed public contact address yet. Kept `null` rather than a fake
+ * placeholder — consumers must hide the email link/mention entirely when
+ * this is unset (the contact form remains available either way).
+ */
+export const CONTACT_EMAIL: string | null = null;

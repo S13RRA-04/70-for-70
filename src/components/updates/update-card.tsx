@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { formatDateLong } from "@/lib/utils";
+import { MediaPlaceholder } from "@/components/shared/media-placeholder";
 import type { PostRow } from "@/types/database";
 
 export function UpdateCard({ post }: { post: PostRow }) {
@@ -19,9 +20,7 @@ export function UpdateCard({ post }: { post: PostRow }) {
             sizes="(min-width: 1024px) 33vw, 100vw"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-            Image TODO
-          </div>
+          <MediaPlaceholder />
         )}
         {post.featured && (
           <span className="absolute left-3 top-3 rounded-full bg-bronze px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-off-white">

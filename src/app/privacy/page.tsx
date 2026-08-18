@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { PRIVACY_LAST_UPDATED, PRIVACY_SECTIONS } from "@/lib/content/privacy";
@@ -21,8 +22,8 @@ export default function PrivacyPage() {
             Last updated {formatDateLong(PRIVACY_LAST_UPDATED)}
           </p>
           <p className="mt-4 max-w-2xl rounded-sm border border-bronze/30 bg-bronze/10 px-4 py-3 text-sm text-ink">
-            This policy is a working draft describing what the site actually does today. Sections
-            marked TODO are pending review by qualified legal counsel before launch.
+            This policy is a working draft describing what the site actually does today, and is
+            pending final review by qualified legal counsel before launch.
           </p>
         </Container>
       </section>
@@ -50,11 +51,23 @@ export default function PrivacyPage() {
                 Contact
               </h2>
               <p className="mt-3 text-base leading-relaxed text-charcoal-light">
-                Questions about this policy can be sent to{" "}
-                <a href={`mailto:${CONTACT_EMAIL}`} className="text-bronze hover:underline">
-                  {CONTACT_EMAIL}
-                </a>
-                .
+                {CONTACT_EMAIL ? (
+                  <>
+                    Questions about this policy can be sent to{" "}
+                    <a href={`mailto:${CONTACT_EMAIL}`} className="text-bronze hover:underline">
+                      {CONTACT_EMAIL}
+                    </a>
+                    .
+                  </>
+                ) : (
+                  <>
+                    Questions about this policy can be sent using our{" "}
+                    <Link href="/contact" className="text-bronze hover:underline">
+                      contact form
+                    </Link>
+                    .
+                  </>
+                )}
               </p>
             </div>
           </div>

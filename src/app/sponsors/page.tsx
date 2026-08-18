@@ -24,7 +24,7 @@ export default async function SponsorsPage() {
           <SectionHeading
             eyebrow="For Businesses"
             title="Become a Sponsor"
-            description="Sponsorship levels below are placeholders and easily editable. Interested in supporting 70 for 70 as a corporate or in-kind sponsor? Submit a sponsorship request — all proposals are individually reviewed before acceptance."
+            description="Interested in supporting 70 for 70 as a corporate or in-kind sponsor? Submit a sponsorship request — all proposals are individually reviewed before acceptance."
           />
         </Container>
       </section>

@@ -11,8 +11,13 @@ import { UpdateCard } from "@/components/updates/update-card";
 import { CTASection } from "@/components/shared/cta-section";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
+import { MediaPlaceholder } from "@/components/shared/media-placeholder";
+import { ABOUT_CONTENT } from "@/lib/content/about";
 import { SITE_TAGLINE } from "@/lib/constants";
 import { formatCurrency, formatNumber, milesFunded, percentFunded } from "@/lib/utils";
+
+const HERO_SUPPORTING_SENTENCE =
+  "I'm training for a 70.3-mile triathlon with one goal beyond the finish line: raise $70,000 for organizations helping veterans rediscover purpose, community, and a path forward.";
 
 export default async function HomePage() {
   const [campaign, miles, partners, latestPosts] = await Promise.all([
@@ -26,10 +31,11 @@ export default async function HomePage() {
   const miles70 = milesFunded(campaign.amount_raised);
   const remainingMiles = Math.max(70 - miles70, 0);
   const teaserMiles = miles.slice(0, 14);
+  const hasStarted = campaign.amount_raised > 0;
 
   return (
     <>
-      {/* Hero */}
+      {/* Hero — who, why, what, and the dominant next action */}
       <section className="relative overflow-hidden bg-ink text-off-white">
         <div
           className="absolute inset-0 bg-cover bg-center opacity-80"
@@ -39,54 +45,61 @@ export default async function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/20" aria-hidden="true" />
 
         <Container className="relative py-24 sm:py-32">
-          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-bronze-light">
-            TODO — hero photography pending
-          </p>
-          <h1 className="mt-4 text-balance font-display text-5xl font-bold uppercase leading-[0.95] tracking-tight sm:text-7xl">
+          <h1 className="text-balance font-display text-5xl font-bold uppercase leading-[0.95] tracking-tight sm:text-7xl">
             70 for 70
           </h1>
-          <p className="mt-5 max-w-xl text-lg text-off-white/85 sm:text-xl">{SITE_TAGLINE}</p>
+          <p className="mt-4 max-w-xl text-lg font-medium text-off-white/90 sm:text-xl">
+            {SITE_TAGLINE}
+          </p>
+          <p className="mt-4 max-w-xl text-base leading-relaxed text-off-white/75">
+            {HERO_SUPPORTING_SENTENCE}
+          </p>
 
           <div className="mt-10 max-w-xl rounded-sm border border-off-white/15 bg-ink/40 p-6 backdrop-blur-sm">
-            <p className="font-display text-3xl font-semibold tabular-nums sm:text-4xl">
-              {formatCurrency(campaign.amount_raised)}{" "}
-              <span className="text-lg font-medium text-off-white/70">raised</span>
-            </p>
+            {hasStarted ? (
+              <p className="font-display text-3xl font-semibold tabular-nums sm:text-4xl">
+                {formatCurrency(campaign.amount_raised)}{" "}
+                <span className="text-lg font-medium text-off-white/70">
+                  raised of {formatCurrency(campaign.fundraising_goal)}
+                </span>
+              </p>
+            ) : (
+              <p className="font-display text-2xl font-semibold uppercase tracking-wide sm:text-3xl">
+                The starting line.
+              </p>
+            )}
             <p className="mt-1 text-sm font-semibold uppercase tracking-wide text-bronze-light">
               {formatNumber(miles70, 1)} of 70 miles funded &middot; {Math.round(percent)}% to goal
             </p>
             <div className="mt-3 h-3 w-full overflow-hidden rounded-full bg-off-white/15">
-              <div
-                className="h-full rounded-full bg-bronze"
-                style={{ width: `${percent}%` }}
-              />
+              <div className="h-full rounded-full bg-bronze" style={{ width: `${percent}%` }} />
             </div>
             <p className="mt-2 text-xs text-off-white/60">
-              Goal: {formatCurrency(campaign.fundraising_goal)} &middot;{" "}
-              {formatNumber(remainingMiles, 1)} miles remaining
+              {hasStarted
+                ? `Goal: ${formatCurrency(campaign.fundraising_goal)} · ${formatNumber(remainingMiles, 1)} miles remaining`
+                : "70 miles are waiting to be funded. Be the first to put 70 for 70 on the course."}
             </p>
           </div>
 
-          <div className="mt-8 flex flex-wrap items-center gap-4">
+          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
             <Link
               href="/fund-a-mile"
               data-analytics-event="fund_mile_click"
-              className="rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light"
+              className="rounded-sm bg-bronze px-8 py-4 text-base font-semibold uppercase tracking-wide text-off-white shadow-sm transition-colors hover:bg-bronze-light"
             >
-              Fund a Mile
+              {hasStarted ? "Fund a Mile" : "Fund the First Mile"}
             </Link>
-            <Link
-              href="/donate"
-              data-analytics-event="donate_click"
-              className="rounded-sm border border-off-white/40 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-off-white/10"
+            <a
+              href="#why-im-doing-this"
+              className="rounded-sm border border-off-white/40 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-off-white/10"
             >
-              Support the Mission
-            </Link>
+              Why I&apos;m Doing This
+            </a>
             <Link
-              href="/sponsors"
+              href="/sponsors/request"
               className="text-sm font-semibold uppercase tracking-wide text-off-white/70 underline-offset-4 hover:text-off-white hover:underline"
             >
-              Become a Sponsor
+              Request to Sponsor
             </Link>
           </div>
         </Container>
@@ -118,8 +131,34 @@ export default async function HomePage() {
         </Container>
       </section>
 
+      {/* Why I'm Doing This — the human face, before any more fundraising mechanics */}
+      <section id="why-im-doing-this" className="scroll-mt-20 border-y border-ink/10 bg-sand-light py-16 sm:py-20">
+        <Container className="grid gap-10 lg:grid-cols-[minmax(0,360px)_1fr] lg:items-center">
+          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-sm">
+            <MediaPlaceholder />
+          </div>
+
+          <div>
+            <SectionHeading eyebrow="Who's Behind 70 for 70" title="Why I'm Doing This" />
+            <div className="mt-5 space-y-4">
+              {ABOUT_CONTENT.homepageTeaser.map((paragraph, i) => (
+                <p key={i} className="text-base leading-relaxed text-charcoal-light">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+            <Link
+              href="/about"
+              className="mt-6 inline-flex rounded-sm bg-ink px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-charcoal"
+            >
+              Read My Story
+            </Link>
+          </div>
+        </Container>
+      </section>
+
       {/* Fund a Mile teaser */}
-      <section className="bg-sand-light py-16 sm:py-20">
+      <section className="py-16 sm:py-20">
         <Container>
           <SectionHeading
             eyebrow="Fund a Mile"
@@ -141,7 +180,7 @@ export default async function HomePage() {
       </section>
 
       {/* Partners */}
-      <section className="py-16 sm:py-20">
+      <section className="bg-sand-light py-16 sm:py-20">
         <Container>
           <SectionHeading
             eyebrow="Who It Supports"
@@ -158,7 +197,7 @@ export default async function HomePage() {
 
       {/* Latest updates */}
       {latestPosts.length > 0 && (
-        <section className="bg-sand-light py-16 sm:py-20">
+        <section className="py-16 sm:py-20">
           <Container>
             <SectionHeading eyebrow="Follow Along" title="Latest Updates" />
             <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

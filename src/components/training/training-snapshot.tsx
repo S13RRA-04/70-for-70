@@ -1,5 +1,6 @@
 import { cn, formatDateLong } from "@/lib/utils";
 import { StatCard } from "@/components/shared/stat-card";
+import { EmptyState } from "@/components/shared/empty-state";
 import type { WhoopTrainingSnapshot } from "@/types/whoop";
 
 function recoveryBandClass(score: number | null): string {
@@ -19,9 +20,10 @@ function formatDuration(startIso: string, endIso: string): string {
 export function TrainingSnapshot({ snapshot }: { snapshot: WhoopTrainingSnapshot | null }) {
   if (!snapshot) {
     return (
-      <div className="rounded-sm border border-dashed border-ink/20 bg-off-white p-6 text-sm text-charcoal-light">
-        Live training data is coming soon.
-      </div>
+      <EmptyState
+        title="Live training data is on the way."
+        description="Recovery, sleep, and strain will appear here once training data is connected."
+      />
     );
   }
 

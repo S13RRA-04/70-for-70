@@ -1,5 +1,6 @@
 import type { SponsorRow, SponsorTier } from "@/types/database";
 import { SponsorCard } from "./sponsor-card";
+import { EmptyState } from "@/components/shared/empty-state";
 
 const TIER_ORDER: SponsorTier[] = ["presenting", "mission", "supporting", "mile", "community"];
 
@@ -26,9 +27,11 @@ export function SponsorWall({ sponsors }: { sponsors: SponsorRow[] }) {
 
   if (tiersWithSponsors.length === 0) {
     return (
-      <p className="text-sm text-charcoal-light">
-        No sponsors yet — be the first to support the mission.
-      </p>
+      <EmptyState
+        title="The first 70 for 70 sponsors are coming soon."
+        description="Be the first company behind the mission."
+        cta={{ label: "Request to Sponsor", href: "/sponsors/request" }}
+      />
     );
   }
 

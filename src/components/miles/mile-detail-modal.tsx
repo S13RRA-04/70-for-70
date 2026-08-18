@@ -127,7 +127,9 @@ export function MileDetailModal({
                   href={`/donate?mile=${mile.mile_number}`}
                   className="inline-flex w-full items-center justify-center rounded-sm bg-bronze px-5 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light"
                 >
-                  Help Fund Mile {mile.mile_number}
+                  {mile.amount_funded > 0
+                    ? "Help Finish This Mile"
+                    : `Be the first to fund Mile ${mile.mile_number}`}
                 </Link>
                 <Link
                   href={`/sponsors/request?mile=${mile.mile_number}`}

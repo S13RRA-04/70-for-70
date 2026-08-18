@@ -1,4 +1,4 @@
-import { cn, formatCurrency, mileStatusLabel } from "@/lib/utils";
+import { cn, formatCurrency, mileStatusLabel, percentFunded } from "@/lib/utils";
 import type { MileWithDonations } from "@/types/content";
 
 const STATUS_STYLES = {
@@ -17,6 +17,7 @@ export function MileCard({
   onSelect: (mileNumber: number) => void;
 }) {
   const primarySupporter = mile.donations.find((d) => !d.anonymous);
+  const percent = percentFunded(mile.amount_funded, mile.goal_amount);
 
   return (
     <button
@@ -48,6 +49,20 @@ export function MileCard({
         {(mile.status === "available" || mile.status === "partially_funded") &&
           `${formatCurrency(mile.amount_funded)} / ${formatCurrency(mile.goal_amount)}`}
       </span>
+
+      {(mile.status === "available" || mile.status === "partially_funded") && (
+        <>
+          <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-current/10">
+            <div
+              className="h-full rounded-full bg-current opacity-60"
+              style={{ width: `${percent}%` }}
+            />
+          </div>
+          <span className="mt-1 text-xs text-current opacity-70">
+            {Math.round(percent)}% funded
+          </span>
+        </>
+      )}
     </button>
   );
 }

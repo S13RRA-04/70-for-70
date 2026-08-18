@@ -68,7 +68,7 @@ export const PRIVACY_SECTIONS: PrivacySection[] = [
     heading: "Data Retention",
     body: [
       "We keep contact and sponsorship request submissions, including the sponsorship review history, for as long as reasonably needed for campaign administration and recordkeeping (including declined or withdrawn sponsorship requests, which we retain for audit purposes rather than deleting).",
-      "TODO — a specific retention period, and the process for a requester to ask that their submission be deleted, is pending legal review.",
+      "If you'd like your submission removed, contact us using the form on this site and we'll evaluate the request. A fixed retention schedule is under legal review and will be published here once finalized.",
     ],
   },
   {
@@ -83,7 +83,7 @@ export const PRIVACY_SECTIONS: PrivacySection[] = [
     heading: "Your Choices",
     body: [
       "You can decline to submit a form — nothing on this site requires you to provide personal information to browse it.",
-      "TODO — jurisdiction-specific rights language (e.g. under CCPA, GDPR, or other applicable law) is pending legal review before publishing.",
+      "Depending on where you live, you may have additional legal rights over your information (for example, under CCPA or GDPR). That jurisdiction-specific language is under legal review and will be published here once finalized; in the meantime, contact us using the form on this site with any request.",
     ],
   },
   {

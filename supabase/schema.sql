@@ -214,7 +214,13 @@ create index if not exists posts_slug_idx on public.posts (slug);
 create table if not exists public.partners (
   id uuid primary key default gen_random_uuid(),
   name text not null unique,
+  -- "Why It Matters to Me": Cody's own words on the personal connection.
+  -- Always real content — never a placeholder — so it's safe to show publicly.
   description text not null,
+  -- "What They Do": the organization's own approved description. Nullable
+  -- and hidden on the frontend until supplied — never populated with a
+  -- placeholder. See PartnerCard.
+  what_they_do text,
   logo_url text,
   website_url text,
   donation_url text,
