@@ -160,9 +160,13 @@ export const TRAINING_VOLUME = {
   totalHours: null as number | null,
 };
 
+export const CONTACT_EMAIL: string | null = "seventyforseventy@gmail.com";
+
 /**
- * No confirmed public contact address yet. Kept `null` rather than a fake
- * placeholder — consumers must hide the email link/mention entirely when
- * this is unset (the contact form remains available either way).
+ * Social profile links for the footer's "Follow" list. Empty by default —
+ * intentionally not a placeholder set of fake icons; add entries only with
+ * real, confirmed profile URLs. See SocialLinks, which renders nothing
+ * while this is empty (same "hide, don't fake" rule as the rest of the
+ * site — see README's Eliminating Placeholder Content).
  */
-export const CONTACT_EMAIL: string | null = null;
+export const SOCIAL_LINKS: { platform: string; label: string; url: string }[] = [];

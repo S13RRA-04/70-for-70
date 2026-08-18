@@ -29,7 +29,7 @@ values
     'In 2023, I attended a Mighty Oaks Warrior Program retreat. It became an important turning point in my life — helping me look at difficult experiences through a lens centered on faith, responsibility, and purpose, and changing how I showed up for my marriage and my family. I know firsthand what their work can mean to a veteran and a family.',
     null,
     '/partners/mighty-oaks-logo.png',
-    null,
+    'https://www.mightyoaksprograms.org/',
     null,
     true
   ),
@@ -38,7 +38,7 @@ values
     'Project Echelon uses endurance sport, mentorship, structure, and community to help veterans keep moving forward after military service. As I began pursuing triathlon myself, that mission made immediate sense to me — there''s something powerful about putting veterans back into an environment with a mission, a team, and a reason to keep showing up.',
     null,
     '/partners/project-echelon-logo.png',
-    null,
+    'https://www.projectechelon.org/',
     null,
     true
   )

@@ -55,7 +55,7 @@ export const SEED_PARTNERS: PartnerRow[] = [
       "In 2023, I attended a Mighty Oaks Warrior Program retreat. It became an important turning point in my life — helping me look at difficult experiences through a lens centered on faith, responsibility, and purpose, and changing how I showed up for my marriage and my family. I know firsthand what their work can mean to a veteran and a family.",
     what_they_do: null, // Awaiting the organization's own approved description — hidden until supplied, not shown as a placeholder.
     logo_url: "/partners/mighty-oaks-logo.png",
-    website_url: null,
+    website_url: "https://www.mightyoaksprograms.org/",
     donation_url: null,
     ein: null,
     nonprofit_status_verified: false,
@@ -68,7 +68,7 @@ export const SEED_PARTNERS: PartnerRow[] = [
       "Project Echelon uses endurance sport, mentorship, structure, and community to help veterans keep moving forward after military service. As I began pursuing triathlon myself, that mission made immediate sense to me — there's something powerful about putting veterans back into an environment with a mission, a team, and a reason to keep showing up.",
     what_they_do: null, // Awaiting the organization's own approved description — hidden until supplied, not shown as a placeholder.
     logo_url: "/partners/project-echelon-logo.png",
-    website_url: null,
+    website_url: "https://www.projectechelon.org/",
     donation_url: null,
     ein: null,
     nonprofit_status_verified: false,

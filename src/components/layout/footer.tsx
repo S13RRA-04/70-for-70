@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { CONTACT_EMAIL, NAV_LINKS, SITE_NAME, SITE_TAGLINE } from "@/lib/constants";
 import { Container } from "@/components/shared/container";
+import { SocialLinks } from "@/components/shared/social-links";
 
 export function Footer() {
   return (
@@ -72,6 +73,7 @@ export function Footer() {
               )}
             </li>
           </ul>
+          <SocialLinks className="mt-4" />
         </div>
       </Container>
 

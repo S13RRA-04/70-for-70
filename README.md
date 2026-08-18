@@ -282,10 +282,16 @@ the element is hidden or replaced with a polished empty state instead:
   own real words, never a placeholder — see
   [`PartnerCard`](src/components/partners/partner-card.tsx). Learn
   More/Donate buttons are omitted entirely (not shown disabled or "coming
-  soon") when a partner has no `website_url`/`donation_url` yet.
-- **`CONTACT_EMAIL`** (`src/lib/constants.ts`) is `null`, not a placeholder
-  address — every consumer (footer, Contact page, Privacy page) hides the
-  email mention and falls back to linking the contact form instead.
+  soon") when a partner has no `website_url`/`donation_url` yet — both
+  partners now have a real `website_url` (their own homepages), but
+  `donation_url` is still `null` pending an approved donation-specific link.
+- **`CONTACT_EMAIL`** (`src/lib/constants.ts`) is a real address
+  (`seventyforseventy@gmail.com`); the same fallback-to-contact-form
+  pattern stays in place in every consumer (footer, Contact/Privacy/Terms/
+  Press pages) for whenever it's unset in the future.
+- **`SOCIAL_LINKS`** (`src/lib/constants.ts`) is an empty array by default —
+  `SocialLinks` (used in the footer's Connect column) renders nothing
+  rather than a row of placeholder icons until real profile URLs exist.
 - Race page fields with no data (location, goal time, course link) are
   omitted from the definition list entirely rather than rendering
   `"— pending"` text.
@@ -460,11 +466,13 @@ neither beneficiary needs that fallback anymore.
   uses a generated placeholder SVG (`public/hero-placeholder.svg`) and
   every other missing photo uses `MediaPlaceholder` — no "Image TODO"/
   "Portrait TODO" labels anywhere
-- **Donation URLs**: `partners.donation_url` is `null` for both
-  organizations pending approved links — do not invent these
-- **Contact email**: `CONTACT_EMAIL` (`src/lib/constants.ts`) is `null` —
-  no confirmed public address yet. Every page falls back to the contact
-  form; set a real address once one exists and it'll appear automatically
+- **Donation URLs**: `partners.donation_url` is still `null` for both
+  organizations pending an approved donation-specific link — `website_url`
+  (used for "Learn More") is set to each org's real homepage, but that's a
+  distinct field/CTA from "Donate," so it wasn't reused for this
+- **Social profiles**: `SOCIAL_LINKS` (`src/lib/constants.ts`) is empty —
+  add `{ platform, label, url }` entries once real profile URLs exist and
+  `SocialLinks` in the footer will pick them up automatically
 - **Race details**: date, location, course info, goal time, and training
   start date are `null` in `src/lib/constants.ts` (`RACE_INFO`);
   `TRAINING_VOLUME` (swim/bike/run miles, hours) is also all `null` pending
