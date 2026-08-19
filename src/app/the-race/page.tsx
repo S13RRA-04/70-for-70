@@ -5,7 +5,6 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { Countdown } from "@/components/shared/countdown";
 import { CTASection } from "@/components/shared/cta-section";
 import { TrainingSnapshot } from "@/components/training/training-snapshot";
-import { EmptyState } from "@/components/shared/empty-state";
 import { getTrainingSnapshot } from "@/lib/whoop/client";
 import { getTrainingStats } from "@/lib/training-stats";
 import { getPosts } from "@/lib/data/posts";
@@ -48,11 +47,11 @@ export default async function RacePage() {
             className="flex-1"
             eyebrow="The Race"
             title="70.3-Mile Triathlon"
-            description="A swim, bike, and run event completed as the physical anchor of the Tri campaign. Targeting IRONMAN 70.3 Chattanooga in May 2027 — exact race date to be confirmed."
+            description="A swim, bike, and run event completed as the physical anchor of the Tri For The 22 campaign. Targeting IRONMAN 70.3 Chattanooga in May 2027 — exact race date to be confirmed."
           />
           <Image
             src="/campaign-logo.png"
-            alt="Tri campaign logo mark"
+            alt="Tri For The 22 campaign logo mark"
             width={160}
             height={160}
             className="w-32 shrink-0 sm:w-40"
@@ -84,17 +83,19 @@ export default async function RacePage() {
             </div>
           </div>
 
-          <div className="mt-16">
-            <SectionHeading eyebrow="Live" title="Latest Training" />
-            <div className="mt-6">
-              <TrainingSnapshot snapshot={trainingSnapshot} />
+          {trainingSnapshot && (
+            <div className="mt-16">
+              <SectionHeading eyebrow="Live" title="Latest Training" />
+              <div className="mt-6">
+                <TrainingSnapshot snapshot={trainingSnapshot} />
+              </div>
             </div>
-          </div>
+          )}
 
-          <div className="mt-16">
-            <SectionHeading eyebrow="Behind the Race" title="Road to 70.3" />
-            <div className="mt-6">
-              {hasTrainingVolume ? (
+          {hasTrainingVolume && (
+            <div className="mt-16">
+              <SectionHeading eyebrow="Behind the Race" title="Road to 70.3" />
+              <div className="mt-6">
                 <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
                   {trainingStats.swimSessions !== null && (
                     <div className="rounded-sm border border-ink/10 bg-off-white p-4 text-center">
@@ -145,23 +146,20 @@ export default async function RacePage() {
                     </div>
                   )}
                 </div>
-              ) : (
-                <EmptyState
-                  title="Training volume will be tracked here."
-                  description="Swim sessions, bike/run mileage, training hours, and the weeks-to-race countdown will appear here once training logging begins."
-                />
-              )}
+              </div>
             </div>
-          </div>
+          )}
 
-          <div className="mt-16 grid gap-10 lg:grid-cols-2">
+          <div className={`mt-16 grid gap-10 ${milestonePosts.length > 0 ? "lg:grid-cols-2" : "lg:max-w-xl"}`}>
             <div className="rounded-sm border border-ink/10 bg-off-white p-8">
               <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
                 Race Day Countdown
               </h2>
-              <div className="mt-5">
-                <Countdown targetIso={RACE_INFO.raceDate} />
-              </div>
+              {RACE_INFO.raceDate && (
+                <div className="mt-5">
+                  <Countdown targetIso={RACE_INFO.raceDate} />
+                </div>
+              )}
 
               {(RACE_INFO.raceLocation || RACE_INFO.athleteGoalTime || RACE_INFO.courseInfoUrl) && (
                 <dl className="mt-8 space-y-4 text-sm">
@@ -191,12 +189,12 @@ export default async function RacePage() {
               )}
             </div>
 
-            <div className="rounded-sm border border-ink/10 bg-off-white p-8">
-              <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
-                Training Milestones
-              </h2>
-              <div className="mt-4">
-                {milestonePosts.length > 0 ? (
+            {milestonePosts.length > 0 && (
+              <div className="rounded-sm border border-ink/10 bg-off-white p-8">
+                <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+                  Training Milestones
+                </h2>
+                <div className="mt-4">
                   <ul className="space-y-3">
                     {milestonePosts.map((post) => (
                       <li key={post.id} className="border-t border-ink/10 pt-3 first:border-0 first:pt-0">
@@ -215,15 +213,9 @@ export default async function RacePage() {
                       </li>
                     ))}
                   </ul>
-                ) : (
-                  <EmptyState
-                    title="Milestones are on the way."
-                    description="Key training milestones — first open-water swim, century ride, half-marathon time trial — will be logged here as they happen."
-                    cta={{ label: "View Updates", href: "/updates" }}
-                  />
-                )}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </Container>
       </section>

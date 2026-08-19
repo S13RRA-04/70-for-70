@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { ExternalLink } from "lucide-react";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { MERCH_STORE_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Merch",
-  description: "Shop official Tri gear through the Jakroo team store.",
+  title: "Shop",
+  description: "Shop official Tri For The 22 gear through the Jakroo team store.",
   alternates: { canonical: "/merch" },
 };
 
@@ -15,12 +16,34 @@ export default function MerchPage() {
     <section className="py-16 sm:py-20">
       <Container className="max-w-2xl">
         <SectionHeading
-          eyebrow="Merch"
-          title="Shop Tri Gear"
-          description="Custom cycling and triathlon apparel for the Tri campaign, available through Jakroo's team store platform."
+          eyebrow="Shop — Commercial Merchandise"
+          title="Shop Tri For The 22 Gear"
+          description="Custom cycling and triathlon apparel for the Tri For The 22 campaign, available through Jakroo's team store platform."
         />
 
-        <div className="mt-8 rounded-sm border border-ink/10 bg-off-white p-6">
+        <div className="mt-6 rounded-sm border border-bronze/40 bg-bronze/10 p-5">
+          <p className="text-sm font-semibold uppercase tracking-wide text-bronze">
+            Merchandise purchases are not charitable donations
+          </p>
+          <p className="mt-2 text-sm text-charcoal-light">
+            22% of net merchandise proceeds are donated to veteran-serving nonprofit partners.
+            Remaining proceeds support For The 22 campaign expenses, athlete training, equipment,
+            race participation, and operations.
+          </p>
+          <p className="mt-3 text-sm text-charcoal-light">
+            Looking to make a charitable gift instead?{" "}
+            <Link href="/donate" className="font-semibold text-bronze hover:underline">
+              Donate directly
+            </Link>{" "}
+            or{" "}
+            <Link href="/fund-a-mile" className="font-semibold text-bronze hover:underline">
+              fund a mile
+            </Link>
+            .
+          </p>
+        </div>
+
+        <div className="mt-6 rounded-sm border border-ink/10 bg-off-white p-6">
           <p className="text-sm text-charcoal-light">
             The team store is operated independently by Jakroo — orders, sizing, shipping, and
             payment are all handled on their platform, not this site.

@@ -1,4 +1,4 @@
--- For The 22 / Tri — production seed data
+-- For The 22 / Tri For The 22 — production seed data
 --
 -- Run after schema.sql. Initializes the campaign at $0 raised with all 70
 -- fundraising miles available, per the campaign brief. Donation URLs are
@@ -14,7 +14,7 @@
 -- for production).
 
 insert into public.campaign (name, fundraising_goal, amount_raised, race_distance, race_date, race_location)
-select 'Tri', 70000, 0, 70.3, null, null
+select 'Tri For The 22', 70000, 0, 70.3, null, null
 where not exists (select 1 from public.campaign);
 
 insert into public.miles (mile_number, goal_amount, amount_funded, status)

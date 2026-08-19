@@ -5,11 +5,12 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
 import { CampaignByTheNumbers } from "@/components/campaign/campaign-by-the-numbers";
 import { MISSION_SECTIONS } from "@/lib/content/mission";
+import { MOVEMENT_CAMPAIGNS, SITE_NAME } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "The Mission",
   description:
-    "Why Tri exists: 70 miles, $70,000, and a mission to support veteran-focused nonprofit organizations.",
+    "Why Tri For The 22 exists: 70 miles, $70,000, and a mission to support veteran-focused nonprofit organizations.",
   alternates: { canonical: "/the-mission" },
 };
 
@@ -21,10 +22,44 @@ export default function MissionPage() {
           <SectionHeading
             eyebrow="The Mission"
             title="One Mile. One Thousand Dollars. One Mission."
-            description="Tri pairs a 70.3-mile triathlon with a $70,000 fundraising goal in support of veteran-focused nonprofit organizations."
+            description="Tri For The 22 pairs a 70.3-mile triathlon with a $70,000 fundraising goal in support of veteran-focused nonprofit organizations."
           />
           <div className="mt-10">
             <CampaignByTheNumbers />
+          </div>
+        </Container>
+      </section>
+
+      <section className="border-b border-ink/10 py-16 sm:py-20">
+        <Container className="max-w-3xl">
+          <SectionHeading
+            eyebrow="The Bigger Picture"
+            title="About the Movement"
+            description={`${SITE_NAME} exists to turn endurance into action for veterans and first responders. Individual campaigns operate under one naming convention: [Mission] For The 22.`}
+          />
+          <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
+            {MOVEMENT_CAMPAIGNS.map((campaign) => (
+              <div
+                key={campaign.name}
+                className={`rounded-sm border p-4 text-center ${
+                  campaign.status === "current"
+                    ? "border-bronze/40 bg-bronze/10"
+                    : "border-ink/10 bg-off-white"
+                }`}
+              >
+                <p
+                  className={`text-xs font-semibold uppercase tracking-widest ${
+                    campaign.status === "current" ? "text-bronze" : "text-charcoal-light/70"
+                  }`}
+                >
+                  {campaign.status === "current" ? "Current" : "Future"}
+                </p>
+                <p className="mt-1 font-display text-base font-semibold uppercase tracking-wide text-ink">
+                  {campaign.name}
+                </p>
+                <p className="mt-0.5 text-xs text-charcoal-light">{campaign.discipline}</p>
+              </div>
+            ))}
           </div>
         </Container>
       </section>

@@ -12,7 +12,7 @@ import {
   mileStatusLabel,
   percentFunded,
 } from "@/lib/utils";
-import { MILE_SEGMENTS, SITE_URL, TOTAL_FUNDRAISING_MILES } from "@/lib/constants";
+import { FEATURED_MILE, MILE_SEGMENTS, SITE_URL, TOTAL_FUNDRAISING_MILES } from "@/lib/constants";
 
 function segmentFor(mileNumber: number) {
   return MILE_SEGMENTS.find((s) => mileNumber >= s.start && mileNumber <= s.end) ?? null;
@@ -24,8 +24,13 @@ export async function generateMetadata(props: PageProps<"/miles/[number]">): Pro
   const mile = Number.isFinite(mileNumber) ? await getMileWithDonations(mileNumber) : null;
   if (!mile) return {};
 
-  const title = `Help Fund Mile ${mile.mile_number} | Tri`;
-  const description = `${formatCurrency(mile.amount_funded)} of ${formatCurrency(mile.goal_amount)} funded toward Mile ${mile.mile_number} of the Tri campaign.`;
+  const isFeatured = mile.mile_number === FEATURED_MILE.number;
+  const title = isFeatured
+    ? `Mile 22 — ${FEATURED_MILE.title} | Tri For The 22`
+    : `Help Fund Mile ${mile.mile_number} | Tri For The 22`;
+  const description = isFeatured
+    ? FEATURED_MILE.description
+    : `${formatCurrency(mile.amount_funded)} of ${formatCurrency(mile.goal_amount)} funded toward Mile ${mile.mile_number} of the Tri For The 22 campaign.`;
 
   return {
     title,
@@ -66,8 +71,15 @@ export default async function MilePage(props: PageProps<"/miles/[number]">) {
 
         <div className="mt-4 flex flex-wrap items-start justify-between gap-4">
           <div>
+            {mile.mile_number === FEATURED_MILE.number && (
+              <p className="text-xs font-bold uppercase tracking-widest text-bronze">
+                Featured Mile
+              </p>
+            )}
             <h1 className="font-display text-4xl font-bold uppercase tracking-tight text-ink">
-              Mile {String(mile.mile_number).padStart(2, "0")}
+              {mile.mile_number === FEATURED_MILE.number
+                ? `Mile 22 — ${FEATURED_MILE.title}`
+                : `Mile ${String(mile.mile_number).padStart(2, "0")}`}
             </h1>
             {segment && (
               <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-bronze">
@@ -79,6 +91,10 @@ export default async function MilePage(props: PageProps<"/miles/[number]">) {
             {mileStatusLabel(mile.status)}
           </span>
         </div>
+
+        {mile.mile_number === FEATURED_MILE.number && (
+          <p className="mt-3 text-sm italic text-charcoal-light">{FEATURED_MILE.description}</p>
+        )}
 
         {mile.status === "funded" ? (
           <div className="mt-8 rounded-sm border border-olive/40 bg-olive/10 p-6">
@@ -173,7 +189,7 @@ export default async function MilePage(props: PageProps<"/miles/[number]">) {
           <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
             Share This Mile
           </p>
-          <ShareButtons url={shareUrl} title={`Help Fund Mile ${mile.mile_number} | Tri`} />
+          <ShareButtons url={shareUrl} title={`Help Fund Mile ${mile.mile_number} | Tri For The 22`} />
         </div>
 
         <p className="mt-10 border-t border-ink/10 pt-6 text-sm text-charcoal-light">

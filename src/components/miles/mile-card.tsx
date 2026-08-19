@@ -1,4 +1,5 @@
 import { cn, formatCurrency, mileStatusLabel, percentFunded } from "@/lib/utils";
+import { FEATURED_MILE } from "@/lib/constants";
 import type { MileWithDonations } from "@/types/content";
 
 const STATUS_STYLES = {
@@ -18,6 +19,7 @@ export function MileCard({
 }) {
   const primarySupporter = mile.donations.find((d) => !d.anonymous);
   const percent = percentFunded(mile.amount_funded, mile.goal_amount);
+  const isFeatured = mile.mile_number === FEATURED_MILE.number;
 
   return (
     <button
@@ -26,10 +28,16 @@ export function MileCard({
       data-analytics-event="mile_viewed"
       className={cn(
         "flex flex-col rounded-sm border p-4 text-left transition-shadow hover:shadow-md focus-visible:shadow-md",
+        isFeatured ? "border-2 border-bronze" : "",
         STATUS_STYLES[mile.status],
       )}
       aria-haspopup="dialog"
     >
+      {isFeatured && (
+        <span className="mb-1 text-[10px] font-bold uppercase tracking-widest text-bronze">
+          Featured Mile
+        </span>
+      )}
       <span className="font-display text-lg font-semibold uppercase tracking-wide">
         Mile {String(mile.mile_number).padStart(2, "0")}
       </span>

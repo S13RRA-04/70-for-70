@@ -6,7 +6,7 @@ import { SponsorshipRequestForm } from "@/components/forms/sponsorship-request-f
 export const metadata: Metadata = {
   title: "Request to Sponsor",
   description:
-    "Submit a sponsorship request for Tri. All sponsorship proposals are individually reviewed before acceptance.",
+    "Submit a sponsorship request for Tri For The 22. All sponsorship proposals are individually reviewed before acceptance.",
   alternates: { canonical: "/sponsors/request" },
 };
 
@@ -21,7 +21,7 @@ export default async function SponsorshipRequestPage(props: PageProps<"/sponsors
         <SectionHeading
           eyebrow="For Businesses"
           title="Request to Sponsor"
-          description="Interested in supporting Tri as a corporate or in-kind sponsor? Submit a sponsorship request below. All sponsorship proposals are individually reviewed before acceptance — this form does not commit you or the campaign to anything."
+          description="Interested in supporting Tri For The 22 as a corporate or in-kind sponsor? Submit a sponsorship request below. All sponsorship proposals are individually reviewed before acceptance — this form does not commit you or the campaign to anything."
         />
 
         <div className="mt-10">

@@ -1,11 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { SPONSOR_INQUIRY_INTERESTS } from "@/lib/validation/inquiry";
+import { JOIN_INTEREST_TYPES } from "@/lib/validation/inquiry";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
-export function SponsorInquiryForm() {
+/**
+ * "Join the Movement" interest form — reuses the same /api/inquiries
+ * pipeline as sponsor inquiries (rate limiting, honeypot, admin-visible
+ * queue) rather than standing up a second one just to collect interest
+ * before onboarding actually opens. See JOIN_INTEREST_TYPES.
+ */
+export function JoinInterestForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const renderedAtRef = useRef<number | null>(null);
@@ -24,9 +30,9 @@ export function SponsorInquiryForm() {
 
     const payload = {
       name: String(data.get("name") ?? ""),
-      organization: String(data.get("organization") ?? ""),
+      organization: "",
       email: String(data.get("email") ?? ""),
-      phone: String(data.get("phone") ?? ""),
+      phone: "",
       interest: String(data.get("interest") ?? ""),
       message: String(data.get("message") ?? ""),
       companyWebsite: String(data.get("companyWebsite") ?? ""),
@@ -57,15 +63,13 @@ export function SponsorInquiryForm() {
 
   if (status === "success") {
     return (
-      <div
-        role="status"
-        className="rounded-sm border border-olive/30 bg-olive/10 p-6 text-ink"
-      >
+      <div role="status" className="rounded-sm border border-olive/30 bg-olive/10 p-6 text-ink">
         <p className="font-display text-lg font-semibold uppercase tracking-wide">
-          Thank you
+          You&apos;re In
         </p>
         <p className="mt-1 text-sm text-charcoal-light">
-          Your inquiry has been received. We&apos;ll follow up soon.
+          Thanks for your interest. Onboarding isn&apos;t open yet — we&apos;ll reach out as the
+          movement grows.
         </p>
       </div>
     );
@@ -73,12 +77,11 @@ export function SponsorInquiryForm() {
 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-5" aria-busy={status === "submitting"}>
-      {/* Honeypot field — hidden from sighted users, left blank by real people. */}
       <div className="absolute left-[-9999px]" aria-hidden="true">
-        <label htmlFor="companyWebsite">Leave this field blank</label>
+        <label htmlFor="join-companyWebsite">Leave this field blank</label>
         <input
           type="text"
-          id="companyWebsite"
+          id="join-companyWebsite"
           name="companyWebsite"
           tabIndex={-1}
           autoComplete="off"
@@ -87,11 +90,11 @@ export function SponsorInquiryForm() {
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="name" className="text-sm font-medium text-ink">
+          <label htmlFor="join-name" className="text-sm font-medium text-ink">
             Name <span aria-hidden="true">*</span>
           </label>
           <input
-            id="name"
+            id="join-name"
             name="name"
             type="text"
             required
@@ -100,49 +103,25 @@ export function SponsorInquiryForm() {
         </div>
 
         <div>
-          <label htmlFor="organization" className="text-sm font-medium text-ink">
-            Organization
-          </label>
-          <input
-            id="organization"
-            name="organization"
-            type="text"
-            className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze"
-          />
-        </div>
-
-        <div>
-          <label htmlFor="email" className="text-sm font-medium text-ink">
+          <label htmlFor="join-email" className="text-sm font-medium text-ink">
             Email <span aria-hidden="true">*</span>
           </label>
           <input
-            id="email"
+            id="join-email"
             name="email"
             type="email"
             required
             className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze"
           />
         </div>
-
-        <div>
-          <label htmlFor="phone" className="text-sm font-medium text-ink">
-            Phone <span className="text-charcoal-light">(optional)</span>
-          </label>
-          <input
-            id="phone"
-            name="phone"
-            type="tel"
-            className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze"
-          />
-        </div>
       </div>
 
       <div>
-        <label htmlFor="interest" className="text-sm font-medium text-ink">
-          Sponsorship Interest <span aria-hidden="true">*</span>
+        <label htmlFor="join-interest" className="text-sm font-medium text-ink">
+          I&apos;m Interested As <span aria-hidden="true">*</span>
         </label>
         <select
-          id="interest"
+          id="join-interest"
           name="interest"
           required
           defaultValue=""
@@ -151,23 +130,23 @@ export function SponsorInquiryForm() {
           <option value="" disabled>
             Select an option
           </option>
-          {SPONSOR_INQUIRY_INTERESTS.map((interest) => (
-            <option key={interest} value={interest}>
-              {interest}
+          {JOIN_INTEREST_TYPES.map((type) => (
+            <option key={type} value={type}>
+              {type}
             </option>
           ))}
         </select>
       </div>
 
       <div>
-        <label htmlFor="message" className="text-sm font-medium text-ink">
-          Message <span aria-hidden="true">*</span>
+        <label htmlFor="join-message" className="text-sm font-medium text-ink">
+          Tell Us a Little About Yourself <span aria-hidden="true">*</span>
         </label>
         <textarea
-          id="message"
+          id="join-message"
           name="message"
           required
-          rows={5}
+          rows={4}
           className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze"
         />
       </div>
@@ -181,10 +160,10 @@ export function SponsorInquiryForm() {
       <button
         type="submit"
         disabled={status === "submitting"}
-        data-analytics-event="sponsor_inquiry"
+        data-analytics-event="join_interest"
         className="w-full rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light disabled:opacity-60 sm:w-auto"
       >
-        {status === "submitting" ? "Sending..." : "Send Inquiry"}
+        {status === "submitting" ? "Sending..." : "Count Me In"}
       </button>
     </form>
   );

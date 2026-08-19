@@ -1,4 +1,4 @@
--- For The 22 / Tri — database schema
+-- For The 22 / Tri For The 22 — database schema
 --
 -- Run this against a Supabase project (SQL Editor, `supabase db query`, or a
 -- migration generated from this file) before running seed.sql. Idempotent:
@@ -260,10 +260,15 @@ create table if not exists public.inquiries (
   organization text,
   email text not null,
   phone text,
+  -- Both sponsor inquiries and "Join the Movement" interest (/join) share
+  -- this table for now — see JOIN_INTEREST_TYPES in
+  -- src/lib/validation/inquiry.ts.
   interest text not null check (
     interest in (
       'Corporate Sponsor', 'Mile Sponsor', 'In-Kind Sponsor',
-      'Community Partner', 'Media', 'Other'
+      'Community Partner', 'Media', 'Other',
+      'Veteran Athlete', 'First Responder Athlete', 'Civilian Supporter',
+      'Local Chapter/Event Interest'
     )
   ),
   message text not null,

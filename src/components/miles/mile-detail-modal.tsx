@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { X } from "lucide-react";
 import { formatCurrency, mileStatusLabel, percentFunded } from "@/lib/utils";
+import { FEATURED_MILE } from "@/lib/constants";
 import type { MileWithDonations } from "@/types/content";
 
 export function MileDetailModal({
@@ -47,7 +48,9 @@ export function MileDetailModal({
               id="mile-detail-heading"
               className="font-display text-2xl font-semibold uppercase tracking-wide"
             >
-              Mile {String(mile.mile_number).padStart(2, "0")}
+              {mile.mile_number === FEATURED_MILE.number
+                ? `Mile 22 — ${FEATURED_MILE.title}`
+                : `Mile ${String(mile.mile_number).padStart(2, "0")}`}
             </h3>
             <button
               type="button"
@@ -62,6 +65,10 @@ export function MileDetailModal({
           <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-bronze">
             {mileStatusLabel(mile.status)}
           </p>
+
+          {mile.mile_number === FEATURED_MILE.number && (
+            <p className="mt-3 text-sm italic text-charcoal-light">{FEATURED_MILE.description}</p>
+          )}
 
           <p className="mt-4 font-display text-xl font-semibold text-ink">
             {formatCurrency(mile.amount_funded)} of {formatCurrency(mile.goal_amount)} funded

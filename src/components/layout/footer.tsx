@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { CONTACT_EMAIL, NAV_LINKS, SITE_NAME, SITE_TAGLINE } from "@/lib/constants";
+import { CAMPAIGN_NAME, CONTACT_EMAIL, NAV_LINKS, ORG_TAGLINE, SITE_NAME } from "@/lib/constants";
 import { Container } from "@/components/shared/container";
 import { SocialLinks } from "@/components/shared/social-links";
 
@@ -15,7 +15,10 @@ export function Footer() {
               {SITE_NAME}
             </p>
           </div>
-          <p className="mt-3 max-w-sm text-sm text-off-white/70">{SITE_TAGLINE}</p>
+          <p className="mt-3 max-w-sm text-sm text-off-white/70">{ORG_TAGLINE}</p>
+          <p className="mt-1 max-w-sm text-xs font-semibold uppercase tracking-wide text-bronze-light">
+            Current Mission: {CAMPAIGN_NAME}
+          </p>
         </div>
 
         <div>
@@ -62,8 +65,18 @@ export function Footer() {
               </Link>
             </li>
             <li>
+              <Link href="/resources" className="transition-colors hover:text-off-white">
+                Resources
+              </Link>
+            </li>
+            <li>
+              <Link href="/join" className="transition-colors hover:text-off-white">
+                Join the Movement
+              </Link>
+            </li>
+            <li>
               <Link href="/merch" className="transition-colors hover:text-off-white">
-                Merch
+                Shop
               </Link>
             </li>
             <li>

@@ -10,7 +10,7 @@ import { CampaignAllocation } from "@/components/campaign/campaign-allocation";
 
 export const metadata: Metadata = {
   title: "Donate",
-  description: "Support Tri through an authorized partner donation platform.",
+  description: "Support Tri For The 22 through an authorized partner donation platform.",
   alternates: { canonical: "/donate" },
 };
 

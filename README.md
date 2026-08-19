@@ -124,6 +124,51 @@ from here):**
    updated in the [WHOOP Developer Dashboard](https://developer.whoop.com)
    or the OAuth connect flow at `/admin/whoop` will fail.
 
+## Movement/Campaign Model
+
+The site now distinguishes two levels deliberately:
+
+- **The movement — "For The 22"** (`SITE_NAME`): the parent organization.
+  Header, footer, legal copy, site-wide metadata.
+- **The campaign — "Tri For The 22"** (`CAMPAIGN_NAME`): the current
+  fundraising effort. Individual campaigns follow a "[Mission] For The 22"
+  naming convention — see `MOVEMENT_CAMPAIGNS` in
+  [`constants.ts`](src/lib/constants.ts) (Tri is current; Run, Ride, and
+  Ruck For The 22 are named future directions, not commitments with
+  dates). The homepage hero, footer, and `/the-mission`'s "About the
+  Movement" section all surface this hierarchy explicitly.
+
+`CURRENT_CAMPAIGN` in `constants.ts` is a first code-level step toward
+supporting multiple campaigns without a rewrite — it holds the current
+campaign as a data object (`name`, `goal`, `type`, `event`,
+`beneficiaries`) rather than values hard-coded into page markup. **This
+does not yet restructure the Supabase schema** — `public.campaign` is
+still a single row. That's a real migration (campaign table keyed by
+slug, a join table for per-campaign beneficiaries, RLS updates
+throughout) worth doing deliberately once a second campaign is actually
+being built, not speculatively right before launch. `CURRENT_CAMPAIGN` is
+the seam that migration would plug into.
+
+## New Pages (Movement Brief)
+
+- **`/resources`** — six categories (Veteran Athletes, First Responders,
+  Adaptive Sports, Recovery & Wellness, Equipment & Grants, Community),
+  each an honest empty state until real resources are curated — no
+  fabricated organizations or links. "Submit a Resource" routes to a
+  `mailto:` for now.
+- **`/join`** — "Join the Movement" interest capture. Submits through the
+  existing `/api/inquiries` pipeline (rate limiting, honeypot, admin
+  queue) with four new interest categories — see `JOIN_INTEREST_TYPES` in
+  [`src/lib/validation/inquiry.ts`](src/lib/validation/inquiry.ts). No
+  dedicated onboarding workflow exists yet; submissions just land in the
+  same `inquiries` table sponsor inquiries do, distinguished by
+  `interest`. The DB check constraint was migrated live to include these
+  new values (see the Migration note below).
+- **Mile 22** (`FEATURED_MILE` in `constants.ts`) gets distinct visual
+  treatment everywhere a mile is shown — the grid card, detail modal, and
+  `/miles/22` — framed as a collective mile rather than a single-sponsor
+  target.
+
 ## Pre-Launch Gate
 
 While `SITE_LIVE` isn't exactly `"true"`, **every route** — every page,

@@ -6,12 +6,27 @@ export const SITE_NAME = "For The 22";
 export const ORG_TAGLINE = "Endurance With A Purpose";
 /**
  * The specific fundraising campaign/race effort — distinct from SITE_NAME.
- * Used in the hero, mission copy, and anywhere the campaign itself (not the
+ * Individual campaigns follow a "[Mission] For The 22" naming convention
+ * (see MOVEMENT_CAMPAIGNS below); this is the current one. Used in the
+ * hero, mission copy, and anywhere the campaign itself (not the
  * organization) is being named.
  */
-export const CAMPAIGN_NAME = "Tri";
+export const CAMPAIGN_NAME = "Tri For The 22";
 export const SITE_TAGLINE = "70 miles. $70,000. One mission for veterans.";
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+
+/**
+ * Every campaign under the "For The 22" movement, current and future —
+ * powers the "[Mission] For The 22" explainer on /the-mission. Only Tri is
+ * real/active; the rest are named future directions, not commitments with
+ * dates — labeled "Future" rather than implying a timeline.
+ */
+export const MOVEMENT_CAMPAIGNS = [
+  { name: "Tri For The 22", discipline: "Triathlon", status: "current" as const },
+  { name: "Run For The 22", discipline: "Running", status: "future" as const },
+  { name: "Ride For The 22", discipline: "Cycling", status: "future" as const },
+  { name: "Ruck For The 22", discipline: "Rucking", status: "future" as const },
+] as const;
 
 /**
  * Simplified primary nav — "About" reads as "My Story" since it's the more
@@ -25,6 +40,7 @@ export const NAV_LINKS: NavLink[] = [
   { label: "My Story", href: "/about" },
   { label: "The Race", href: "/the-race" },
   { label: "Fund a Mile", href: "/fund-a-mile" },
+  { label: "Resources", href: "/resources" },
   { label: "Partners", href: "/partners" },
   { label: "Updates", href: "/updates" },
 ];
@@ -56,6 +72,17 @@ export const MILE_SEGMENTS = [
   { key: "bike", label: "The Bike", start: 2, end: 57, accent: "olive" },
   { key: "run", label: "The Run", start: 58, end: 70, accent: "bronze" },
 ] as const;
+
+/**
+ * Mile 22 carries the movement's name and gets distinct treatment — a
+ * collective mile meant to be funded together, not by one sponsor.
+ */
+export const FEATURED_MILE = {
+  number: 22,
+  title: "For Those Still Fighting",
+  description:
+    "Mile 22 carries the movement's name. It's meant to be funded together — by veterans, families, and first responders showing up for each other — not by a single sponsor.",
+} as const;
 
 export const SPONSORSHIP_LEVELS = [
   {
@@ -100,7 +127,7 @@ export const SPONSORSHIP_LEVELS = [
   },
 ] as const;
 
-/** Why sponsor Tri — shown before pricing tiers on the Sponsors page. */
+/** Why sponsor Tri For The 22 — shown before pricing tiers on the Sponsors page. */
 export const SPONSOR_VALUE_PROPS = [
   {
     id: "veteran-impact",
@@ -173,3 +200,21 @@ export const MERCH_STORE_URL = "https://jakroo.com/store-front?storeId=BkxZTlQ7P
  * site — see README's Eliminating Placeholder Content).
  */
 export const SOCIAL_LINKS: { platform: string; label: string; url: string }[] = [];
+
+/**
+ * The current campaign as a data object rather than hard-coded page
+ * markup — the code-level seam a future multi-campaign Supabase schema
+ * would plug into. The `campaign` table itself is still single-row for
+ * now; that's a real migration worth doing deliberately once a second
+ * campaign (Run/Ride/Ruck For The 22) is actually being built, not
+ * speculatively right before launch.
+ */
+export const CURRENT_CAMPAIGN = {
+  movement: SITE_NAME,
+  name: CAMPAIGN_NAME,
+  goal: FUNDRAISING_GOAL,
+  type: "triathlon",
+  event: "IRONMAN 70.3 Chattanooga",
+  eventUrl: RACE_INFO.courseInfoUrl,
+  beneficiaries: ["Mighty Oaks Foundation", "Project Echelon"],
+} as const;

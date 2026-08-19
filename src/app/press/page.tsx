@@ -33,7 +33,7 @@ export default async function PressPage() {
               Campaign Summary
             </h2>
             <p className="mt-3 text-base leading-relaxed text-charcoal-light">
-              Tri pairs a 70.3-mile triathlon with a $70,000 fundraising goal — $1,000 per
+              Tri For The 22 pairs a 70.3-mile triathlon with a $70,000 fundraising goal — $1,000 per
               race mile — in support of veteran-focused nonprofit organizations.
               {" "}{SITE_TAGLINE}
             </p>
@@ -68,7 +68,7 @@ export default async function PressPage() {
             </h2>
             <p className="mt-1 text-sm text-charcoal-light">
               The compact icon/mark is available below in light- and dark-background versions,
-              alongside the Tri campaign mark (light background only). A horizontal lockup
+              alongside the Tri For The 22 campaign mark (light background only). A horizontal lockup
               hasn&apos;t been produced yet.
             </p>
             <div className="mt-3 flex flex-wrap gap-4">
@@ -100,7 +100,7 @@ export default async function PressPage() {
               <div className="inline-flex flex-col items-start gap-3 rounded-sm border border-ink/10 bg-off-white p-6">
                 <Image
                   src="/campaign-logo.png"
-                  alt="Tri campaign logo mark"
+                  alt="Tri For The 22 campaign logo mark"
                   width={140}
                   height={140}
                 />

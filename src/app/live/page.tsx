@@ -16,7 +16,7 @@ import {
 
 export const metadata: Metadata = {
   title: "Race Day Live",
-  description: "Live race-day status and fundraising progress for Tri.",
+  description: "Live race-day status and fundraising progress for Tri For The 22.",
   alternates: { canonical: "/live" },
 };
 
@@ -131,7 +131,7 @@ export default async function LivePage() {
       </section>
 
       <CTASection
-        title="Help Get Tri Across the Finish Line"
+        title="Help Get Tri For The 22 Across the Finish Line"
         description="Every mile funded on race day is a mile that mattered beyond the course."
         buttons={[{ label: "Donate", href: "/donate" }]}
       />
