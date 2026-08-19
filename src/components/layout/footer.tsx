@@ -36,6 +36,7 @@ export function Footer({ mode }: { mode: SiteMode }) {
             />
             <p className="font-display text-xl font-semibold uppercase tracking-wide">
               {isCampaign ? CAMPAIGN_NAME : SITE_NAME}
+              {!isCampaign && <sup className="text-[0.5em] font-medium tracking-normal">™</sup>}
             </p>
           </div>
           {isCampaign ? (

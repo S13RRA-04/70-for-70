@@ -37,6 +37,7 @@ export default function HomePage() {
         <Container className="relative py-24 sm:py-32">
           <h1 className="text-balance font-display text-5xl font-bold uppercase leading-[0.95] tracking-tight sm:text-7xl">
             {SITE_NAME}
+            <sup className="text-[0.3em] font-medium tracking-normal">™</sup>
           </h1>
           <p className="mt-3 max-w-xl text-lg font-medium text-off-white/90 sm:text-xl">
             {ORG_TAGLINE}
