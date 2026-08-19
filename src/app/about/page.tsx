@@ -156,6 +156,41 @@ export default function AboutPage() {
               average. It&apos;s the number the entire movement is named for and built against.
             </p>
           </div>
+
+          <div className="mt-10 rounded-sm bg-ink p-8 text-off-white sm:p-10">
+            <h3 className="font-display text-xl font-semibold uppercase tracking-wide">
+              Why We Wear Black
+            </h3>
+            <p className="mt-2 font-display text-2xl font-bold uppercase tracking-tight text-bronze-light sm:text-3xl">
+              Black. Because 22 &ne; 0.
+            </p>
+            <div className="mt-5 space-y-4 text-base leading-relaxed text-off-white/80">
+              <p>Black is the foundation of the For The 22 brand because it represents mourning.</p>
+              <p>
+                We wear black for the veterans and first responders we have lost to suicide,
+                trauma, injury, and the invisible battles carried long after the uniform comes
+                off.
+              </p>
+              <p>
+                The black racing uniform is not meant to look tactical. It is meant to be a
+                memorial.
+              </p>
+              <p>
+                Every race, every mile, and every challenge begins against that black background
+                as a reminder that this mission was born from loss.
+              </p>
+              <p>
+                The colors surrounding the For The 22 mark represent the communities still
+                standing together. The black beneath them represents those who are no longer
+                here.
+              </p>
+              <p>For The 22 athletes wear black because we carry their memory with us.</p>
+            </div>
+            <p className="mt-6 text-balance font-display text-lg font-semibold uppercase leading-relaxed tracking-wide text-bronze-light sm:text-xl">
+              We do not race only for ourselves. We race in mourning. We race in remembrance. And
+              we move forward for those who no longer can.
+            </p>
+          </div>
         </Container>
       </section>
 
