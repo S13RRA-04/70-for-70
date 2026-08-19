@@ -4,8 +4,6 @@ import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { Countdown } from "@/components/shared/countdown";
 import { CTASection } from "@/components/shared/cta-section";
-import { TrainingSnapshot } from "@/components/training/training-snapshot";
-import { getTrainingSnapshot } from "@/lib/whoop/client";
 import { getTrainingStats } from "@/lib/training-stats";
 import { getPosts } from "@/lib/data/posts";
 import { formatDateLong } from "@/lib/utils";
@@ -24,11 +22,7 @@ const LEGS = [
 ];
 
 export default async function RacePage() {
-  const [trainingSnapshot, posts, trainingStats] = await Promise.all([
-    getTrainingSnapshot(),
-    getPosts(),
-    getTrainingStats(),
-  ]);
+  const [posts, trainingStats] = await Promise.all([getPosts(), getTrainingStats()]);
   const milestonePosts = posts.filter((p) => p.category === "Milestones");
 
   const hasTrainingVolume =
@@ -82,15 +76,6 @@ export default async function RacePage() {
               <p className="text-xs text-bronze">miles</p>
             </div>
           </div>
-
-          {trainingSnapshot && (
-            <div className="mt-16">
-              <SectionHeading eyebrow="Live" title="Latest Training" />
-              <div className="mt-6">
-                <TrainingSnapshot snapshot={trainingSnapshot} />
-              </div>
-            </div>
-          )}
 
           {hasTrainingVolume && (
             <div className="mt-16">

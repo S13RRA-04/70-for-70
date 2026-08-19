@@ -4,6 +4,8 @@ import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { UpdateCard } from "@/components/updates/update-card";
 import { EmptyState } from "@/components/shared/empty-state";
+import { TrainingSnapshot } from "@/components/training/training-snapshot";
+import { getTrainingSnapshot } from "@/lib/whoop/client";
 
 export const metadata: Metadata = {
   title: "Updates",
@@ -12,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default async function UpdatesPage() {
-  const posts = await getPosts();
+  const [posts, trainingSnapshot] = await Promise.all([getPosts(), getTrainingSnapshot()]);
 
   return (
     <>
@@ -25,6 +27,17 @@ export default async function UpdatesPage() {
           />
         </Container>
       </section>
+
+      {trainingSnapshot && (
+        <section className="border-b border-ink/10 py-16 sm:py-20">
+          <Container>
+            <SectionHeading eyebrow="Live" title="Latest Training" />
+            <div className="mt-6">
+              <TrainingSnapshot snapshot={trainingSnapshot} />
+            </div>
+          </Container>
+        </section>
+      )}
 
       <section className="py-16 sm:py-20">
         <Container>

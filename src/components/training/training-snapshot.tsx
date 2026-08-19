@@ -17,6 +17,15 @@ function formatDuration(startIso: string, endIso: string): string {
   return hours > 0 ? `${hours}h ${remaining}m` : `${remaining}m`;
 }
 
+/** WHOOP's sport_name comes back as a lowercase, hyphenated slug (e.g. "yard-work"). */
+function formatSportName(sportName: string): string {
+  return sportName
+    .split(/[-_]/)
+    .filter(Boolean)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
 export function TrainingSnapshot({ snapshot }: { snapshot: WhoopTrainingSnapshot | null }) {
   if (!snapshot) {
     return (
@@ -61,7 +70,7 @@ export function TrainingSnapshot({ snapshot }: { snapshot: WhoopTrainingSnapshot
                 className="flex items-center justify-between rounded-sm border border-ink/10 bg-off-white px-3 py-2 text-sm"
               >
                 <div>
-                  <p className="font-medium text-ink">{workout.sportName}</p>
+                  <p className="font-medium text-ink">{formatSportName(workout.sportName)}</p>
                   <p className="text-xs text-charcoal-light">{formatDateLong(workout.start)}</p>
                 </div>
                 <div className="text-right text-xs text-charcoal-light">
