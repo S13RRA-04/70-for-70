@@ -8,10 +8,27 @@
     "directory": ".open-next/assets",
     "binding": "ASSETS"
   },
+  "observability": {
+    "logs": {
+      "enabled": true
+    }
+  },
   "services": [
     {
       "binding": "WORKER_SELF_REFERENCE",
       "service": "forthe22"
     }
-  ]
+  ],
+  /**
+   * Non-secret runtime vars — see src/lib/launch-gate.ts and README's
+   * "Pre-Launch Gate" section. Committed here (not just set via the
+   * Cloudflare dashboard) because `wrangler deploy`/`opennextjs-cloudflare
+   * deploy` uploads a version's full var set from this file each time —
+   * a dashboard-only edit gets silently wiped by the next deploy from any
+   * machine. To flip a flag: edit here, then `npm run deploy`.
+   */
+  "vars": {
+    "SITE_LIVE": "true",
+    "CAMPAIGN_LIVE": "false"
+  }
 }

@@ -56,7 +56,8 @@ export const SEED_PARTNERS: PartnerRow[] = [
     what_they_do: null, // Awaiting the organization's own approved description — hidden until supplied, not shown as a placeholder.
     logo_url: "/partners/mighty-oaks-logo.png",
     website_url: "https://www.mightyoaksprograms.org/",
-    donation_url: null,
+    donation_url:
+      "https://my.onecause.com/fundraiser/organizations/90be7c03-c221-49a6-ba58-5993b28179c3/fundraisers/fundraiser:25d33d01-f349-491f-ab63-f283ebab0a33/personalfundraisers/personalfund:93a8c5a5-7777-4ca2-bcb6-6333dc8a1cf8",
     ein: null,
     nonprofit_status_verified: false,
     active: true,
