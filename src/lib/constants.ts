@@ -226,7 +226,9 @@ export const MERCH_STORE_URL = "https://jakroo.com/store-front?storeId=BkxZTlQ7P
  * while this is empty (same "hide, don't fake" rule as the rest of the
  * site — see README's Eliminating Placeholder Content).
  */
-export const SOCIAL_LINKS: { platform: string; label: string; url: string }[] = [];
+export const SOCIAL_LINKS: { platform: string; label: string; url: string }[] = [
+  { platform: "facebook", label: "Facebook", url: "https://www.facebook.com/profile.php?id=61593405604317" },
+];
 
 /**
  * The current campaign as a data object rather than hard-coded page
