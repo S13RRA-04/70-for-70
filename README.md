@@ -154,7 +154,7 @@ the seam that migration would plug into.
 The movement and the campaign now live on **two different domains**, served
 by the **same** Next.js app/Cloudflare Worker — no second deployment:
 
-- **www.forthe22.org** (org): home (national mission, awareness,
+- **forthe22.org** (org): home (national mission, awareness,
   resources), My Story, Resources, Join the Movement, Shop/Merch, Press,
   Contact, Privacy, Terms.
 - **tri.forthe22.org** (campaign): home (the fundraiser — hero, progress,
@@ -171,7 +171,7 @@ header:
    Server Components (reads `next/headers`).
 2. [`src/middleware.ts`](src/middleware.ts)'s `applyDomainSplit()` —
    redirects a request to the correct domain if it's on the wrong one
-   (e.g. `www.forthe22.org/donate` → `307` to
+   (e.g. `forthe22.org/donate` → `307` to
    `tri.forthe22.org/donate`), and transparently rewrites `tri.forthe22.org/`
    to the real route `/campaign-home` (the URL bar still shows `/`) since
    "/" needs different content per domain. **API routes are intentionally
@@ -212,7 +212,7 @@ cookie-sharing configuration required.
    (Worker → Settings → Domains & Routes → Add Custom Domain). No new
    deployment needed — it's the same Worker serving both hostnames.
 2. Set `NEXT_PUBLIC_CAMPAIGN_URL=https://tri.forthe22.org` alongside the
-   existing `NEXT_PUBLIC_SITE_URL=https://www.forthe22.org` in the
+   existing `NEXT_PUBLIC_SITE_URL=https://forthe22.org` in the
    Worker's environment variables.
 3. Update the WHOOP redirect URL in the
    [WHOOP Developer Dashboard](https://developer.whoop.com) to
@@ -256,7 +256,7 @@ cookie-sharing configuration required.
 ## Pre-Launch Gate
 
 Gated **per domain, independently** — see the Movement/Campaign Domain
-Split above. `SITE_LIVE` controls www.forthe22.org (the org);
+Split above. `SITE_LIVE` controls forthe22.org (the org);
 `CAMPAIGN_LIVE` controls tri.forthe22.org (the fundraising campaign).
 This is how the org site can go live while the campaign stays closed:
 **current production state is `SITE_LIVE=true`, `CAMPAIGN_LIVE=false`.**

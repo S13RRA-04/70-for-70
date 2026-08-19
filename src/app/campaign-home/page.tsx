@@ -29,7 +29,7 @@ const HERO_SUPPORTING_SENTENCE =
 /**
  * The campaign homepage — rendered at "/" on tri.forthe22.org via a
  * transparent middleware rewrite (see src/middleware.ts). The movement
- * homepage at src/app/page.tsx renders at "/" on www.forthe22.org
+ * homepage at src/app/page.tsx renders at "/" on forthe22.org
  * instead. Not directly linked/navigated to as "/campaign-home" anywhere.
  */
 export default async function CampaignHomePage() {

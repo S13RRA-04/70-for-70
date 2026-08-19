@@ -81,7 +81,7 @@ function applyLaunchGate(request: NextRequest, onCampaignHost: boolean): Respons
 }
 
 /**
- * Movement (www.forthe22.org) vs campaign (tri.forthe22.org) page split —
+ * Movement (forthe22.org) vs campaign (tri.forthe22.org) page split —
  * see README's "Movement/Campaign Domain Split". Both domains are served
  * by this same app; this is the only place that decides which pages
  * belong to which. API routes and shared assets are intentionally not

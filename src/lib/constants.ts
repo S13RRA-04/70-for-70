@@ -15,7 +15,7 @@ export const CAMPAIGN_NAME = "Tri For The 22";
 export const SITE_TAGLINE = "70 miles. $70,000. One mission for veterans.";
 
 /**
- * The org root — www.forthe22.org in production. Movement/mission pages
+ * The org root — forthe22.org in production. Movement/mission pages
  * (home, My Story, Resources, Join, Merch, Press, legal) live here.
  */
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
@@ -45,7 +45,7 @@ export const MOVEMENT_CAMPAIGNS = [
 
 /**
  * Two separate nav sets, one per domain — see README's "Movement/Campaign
- * Domain Split". www.forthe22.org (org/movement) and tri.forthe22.org
+ * Domain Split". forthe22.org (org/movement) and tri.forthe22.org
  * (fundraising campaign) each get their own header/footer nav; a visitor
  * never sees campaign nav on the org site or vice versa. "About" reads as
  * "My Story" since it's the more emotionally meaningful framing (still
