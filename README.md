@@ -109,8 +109,11 @@ from here):**
 2. **Environment variables/secrets** (Worker settings → Variables): add
    `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`,
    `SUPABASE_SERVICE_ROLE_KEY` (encrypt), `WHOOP_CLIENT_ID`,
-   `WHOOP_CLIENT_SECRET` (encrypt), and `NEXT_PUBLIC_SITE_URL` set to
-   `https://forthe22.org`.
+   `WHOOP_CLIENT_SECRET` (encrypt), `NEXT_PUBLIC_SITE_URL` set to
+   `https://forthe22.org`, and `PREVIEW_ACCESS_TOKEN` (encrypt) — see
+   [Pre-Launch Gate](#pre-launch-gate) below. Deliberately **do not** set
+   `SITE_LIVE` yet; leaving it unset keeps the gate active until you're
+   ready to launch.
 3. **Custom domain**: Worker → Settings → Domains & Routes → Add Custom
    Domain → `forthe22.org` (the zone is already on Cloudflare, so this
    provisions DNS automatically).
@@ -120,6 +123,28 @@ from here):**
    `https://forthe22.org/api/whoop/callback` — this **must** also be
    updated in the [WHOOP Developer Dashboard](https://developer.whoop.com)
    or the OAuth connect flow at `/admin/whoop` will fail.
+
+## Pre-Launch Gate
+
+While `SITE_LIVE` isn't exactly `"true"`, **every route** — every page,
+every API route (donate/sponsor/merch links included, and form
+submissions) — shows a "Coming Soon" page instead of real content.
+Implemented in [`src/middleware.ts`](src/middleware.ts) and
+[`src/lib/launch-gate.ts`](src/lib/launch-gate.ts).
+
+- **To preview the real site while gated**: visit
+  `https://forthe22.org/?preview=<PREVIEW_ACCESS_TOKEN>` (the exact value
+  you set for `PREVIEW_ACCESS_TOKEN` in the Worker's environment
+  variables). This sets a 180-day cookie on that browser and redirects to
+  the clean URL — share the link with anyone else who needs to review the
+  site (a beneficiary org checking copy, for example) before launch.
+  Rotating `PREVIEW_ACCESS_TOKEN` invalidates every previously shared link.
+- **To launch publicly**: set `SITE_LIVE=true` in the Worker's environment
+  variables (Worker settings → Variables). Takes effect on the next
+  request — no redeploy needed.
+- **Locally**, `.env` has `SITE_LIVE=true` so `npm run dev` always shows
+  the real site. To test the gate itself locally, temporarily set it to
+  `false` and restart the dev server.
 
 ## Database Initialization
 
