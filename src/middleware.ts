@@ -40,8 +40,17 @@ export function middleware(request: NextRequest) {
  * live yet; the other domain skips the gate entirely.
  */
 function applyLaunchGate(request: NextRequest, onCampaignHost: boolean): Response | null {
-  const previewToken = getPreviewToken();
   const url = request.nextUrl;
+
+  // /admin/* (and its own API routes, e.g. WHOOP OAuth) is never gated —
+  // requireAdminUser() already guards every page in there, and the owner
+  // needs to manage the site (connect WHOOP, review sponsorships) before
+  // a domain goes live, not just after.
+  if (url.pathname.startsWith("/admin") || url.pathname.startsWith("/api/whoop")) {
+    return null;
+  }
+
+  const previewToken = getPreviewToken();
 
   // Unlock via ?preview=<token> — set the cookie, then redirect to the
   // same URL with the query param stripped so it doesn't linger visibly.
