@@ -6,7 +6,7 @@ import { PartnerCard } from "@/components/partners/partner-card";
 
 export const metadata: Metadata = {
   title: "Partners",
-  description: "The veteran-focused nonprofit organizations supported by 70 for 22.",
+  description: "The veteran-focused nonprofit organizations supported by Tri.",
   alternates: { canonical: "/partners" },
 };
 
@@ -20,7 +20,7 @@ export default async function PartnersPage() {
           <SectionHeading
             eyebrow="Who It Supports"
             title="Beneficiary Organizations"
-            description="70 for 22 raises funds in support of the following veteran-focused nonprofit organizations."
+            description="Tri raises funds in support of the following veteran-focused nonprofit organizations."
           />
         </Container>
       </section>

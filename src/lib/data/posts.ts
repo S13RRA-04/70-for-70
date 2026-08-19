@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { SEED_POSTS } from "./seed-data";
 import type { PostRow } from "@/types/database";
@@ -10,7 +10,7 @@ export async function getPosts(): Promise<PostRow[]> {
       .sort((a, b) => (b.published_at ?? "").localeCompare(a.published_at ?? ""));
   }
 
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from("posts")
     .select("*")

@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { SEED_SPONSORS } from "./seed-data";
 import type { SponsorRow } from "@/types/database";
@@ -10,7 +10,7 @@ export async function getSponsors(): Promise<SponsorRow[]> {
       .sort((a, b) => a.display_order - b.display_order);
   }
 
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from("sponsors")
     .select("*")

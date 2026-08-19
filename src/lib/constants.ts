@@ -9,7 +9,7 @@ export const ORG_TAGLINE = "Endurance With A Purpose";
  * Used in the hero, mission copy, and anywhere the campaign itself (not the
  * organization) is being named.
  */
-export const CAMPAIGN_NAME = "70 for 22";
+export const CAMPAIGN_NAME = "Tri";
 export const SITE_TAGLINE = "70 miles. $70,000. One mission for veterans.";
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
@@ -100,7 +100,7 @@ export const SPONSORSHIP_LEVELS = [
   },
 ] as const;
 
-/** Why sponsor 70 for 22 — shown before pricing tiers on the Sponsors page. */
+/** Why sponsor Tri — shown before pricing tiers on the Sponsors page. */
 export const SPONSOR_VALUE_PROPS = [
   {
     id: "veteran-impact",
@@ -161,6 +161,9 @@ export const RACE_INFO = {
 };
 
 export const CONTACT_EMAIL: string | null = "seventyforseventy@gmail.com";
+
+/** Official Jakroo team store — merchandise orders are handled entirely by Jakroo, not this site. */
+export const MERCH_STORE_URL = "https://jakroo.com/store-front?storeId=BkxZTlQ7Pzg";
 
 /**
  * Social profile links for the footer's "Follow" list. Empty by default —

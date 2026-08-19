@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { Countdown } from "@/components/shared/countdown";
@@ -42,11 +43,20 @@ export default async function RacePage() {
   return (
     <>
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container>
+        <Container className="flex flex-col-reverse items-center gap-10 sm:flex-row sm:justify-between">
           <SectionHeading
+            className="flex-1"
             eyebrow="The Race"
             title="70.3-Mile Triathlon"
-            description="A swim, bike, and run event completed as the physical anchor of the 70 for 22 campaign. Targeting IRONMAN 70.3 Chattanooga in May 2027 — exact race date to be confirmed."
+            description="A swim, bike, and run event completed as the physical anchor of the Tri campaign. Targeting IRONMAN 70.3 Chattanooga in May 2027 — exact race date to be confirmed."
+          />
+          <Image
+            src="/campaign-logo.png"
+            alt="Tri campaign logo mark"
+            width={160}
+            height={160}
+            className="w-32 shrink-0 sm:w-40"
+            priority
           />
         </Container>
       </section>

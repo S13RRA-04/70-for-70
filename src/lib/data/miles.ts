@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { SEED_DONATIONS, SEED_MILES } from "./seed-data";
 import type { MileRow } from "@/types/database";
@@ -9,7 +9,7 @@ export async function getMiles(): Promise<MileRow[]> {
     return SEED_MILES;
   }
 
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from("miles")
     .select("*")
@@ -31,7 +31,7 @@ export async function getMilesWithDonations(): Promise<MileWithDonations[]> {
     }));
   }
 
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const [{ data: miles, error: milesError }, { data: donations, error: donationsError }] =
     await Promise.all([
       supabase.from("miles").select("*").order("mile_number", { ascending: true }),
@@ -66,7 +66,7 @@ export async function getMileWithDonations(
     return { ...mile, donations };
   }
 
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data: mile, error: mileError } = await supabase
     .from("miles")
     .select("*")

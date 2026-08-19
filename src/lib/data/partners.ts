@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { SEED_PARTNERS } from "./seed-data";
 import type { PartnerRow } from "@/types/database";
@@ -8,7 +8,7 @@ export async function getPartners(): Promise<PartnerRow[]> {
     return SEED_PARTNERS.filter((p) => p.active);
   }
 
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from("partners")
     .select("*")

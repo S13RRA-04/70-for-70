@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { SEED_DONATIONS } from "./seed-data";
 import type { DonationRow } from "@/types/database";
@@ -10,7 +10,7 @@ export async function getRecentDonations(limit = 5): Promise<DonationRow[]> {
       .slice(0, limit);
   }
 
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from("donations")
     .select("*")

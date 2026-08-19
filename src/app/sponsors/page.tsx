@@ -10,7 +10,7 @@ import { formatCurrency } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Sponsors",
-  description: "Sponsorship levels for businesses supporting the 70 for 22 campaign.",
+  description: "Sponsorship levels for businesses supporting the Tri campaign.",
   alternates: { canonical: "/sponsors" },
 };
 
@@ -24,7 +24,7 @@ export default async function SponsorsPage() {
           <SectionHeading
             eyebrow="For Businesses"
             title="Become a Sponsor"
-            description="Interested in supporting 70 for 22 as a corporate or in-kind sponsor? Submit a sponsorship request — all proposals are individually reviewed before acceptance."
+            description="Interested in supporting Tri as a corporate or in-kind sponsor? Submit a sponsorship request — all proposals are individually reviewed before acceptance."
           />
         </Container>
       </section>

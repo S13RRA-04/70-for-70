@@ -1,4 +1,4 @@
--- 70 for 22 — database schema
+-- For The 22 / Tri — database schema
 --
 -- Run this against a Supabase project (SQL Editor, `supabase db query`, or a
 -- migration generated from this file) before running seed.sql. Idempotent:

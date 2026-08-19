@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import type { AllocationPolicy, CampaignRow } from "@/types/database";
 
@@ -19,7 +19,7 @@ export async function getAllocationBreakdown(
   if (!campaign.allocation_policy) return null;
   if (!isSupabaseConfigured()) return null;
 
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from("donations")
     .select("organization_benefited, amount")

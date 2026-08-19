@@ -1,4 +1,4 @@
-# For The 22 — 70 for 22
+# For The 22 — Tri
 
 70 miles. $70,000. One mission for veterans.
 
@@ -18,7 +18,8 @@ Sponsorships go through a request-and-approval workflow — see
 - TypeScript (strict mode)
 - Tailwind CSS v4
 - [Supabase](https://supabase.com) (Postgres, Auth, Row Level Security)
-- Deployable to Vercel, Cloudflare, or any Node-compatible host
+- Deployed to Cloudflare Workers via the OpenNext adapter — see
+  [Deployment](#deployment-cloudflare-workers) below
 
 ## Local Setup
 
@@ -50,6 +51,75 @@ See [`.env.example`](.env.example) for the full list with descriptions:
 | `SUPABASE_SERVICE_ROLE_KEY` | For inquiries + admin | **Server-only.** Never expose to the browser |
 | `NEXT_PUBLIC_SITE_URL` | Recommended | Used for metadata, canonical URLs, sitemap |
 | `WHOOP_CLIENT_ID` / `WHOOP_CLIENT_SECRET` | For the training snapshot | **Server-only.** See [WHOOP Training Snapshot](#whoop-training-snapshot) below |
+
+## Deployment (Cloudflare Workers)
+
+The site deploys to **Cloudflare Workers** via the
+[OpenNext Cloudflare adapter](https://opennext.js.org/cloudflare)
+(`@opennextjs/cloudflare` + Wrangler), targeting the `forthe22.org` domain.
+This replaced an earlier Netlify setup (`netlify.toml` is still present but
+unused — remove it once Cloudflare is confirmed working).
+
+**Repo-side setup (done):**
+
+- [`wrangler.jsonc`](wrangler.jsonc) — Worker name (`forthe22`), assets
+  binding, `nodejs_compat` flag
+- [`open-next.config.ts`](open-next.config.ts) — default config, no R2
+  incremental cache configured yet (optional; add later if ISR caching is
+  needed)
+- `next.config.ts` calls `initOpenNextCloudflareForDev()` for local binding
+  emulation
+- `package.json` scripts: `npm run preview` (build + run locally in the
+  actual Workers runtime via Wrangler) and `npm run deploy` (build + deploy)
+- **`src/middleware.ts`, not `src/proxy.ts`**: Next.js 16 renamed
+  `middleware.ts` to `proxy.ts`, but `proxy.ts` always runs on the Node.js
+  runtime with no override, which `@opennextjs/cloudflare` doesn't support
+  yet ("Node.js middleware is not currently supported"). Deliberately kept
+  on the deprecated-but-supported `middleware.ts` convention, which still
+  defaults to the Edge runtime. Switch back to `proxy.ts` once OpenNext adds
+  Node middleware support — see
+  [cloudflare/workers-sdk#13755](https://github.com/cloudflare/workers-sdk/issues/13755).
+- **`src/lib/supabase/public.ts`**: a cookie-free anon-key client for public
+  reads (campaign, miles, partners, posts, sponsors, verified donations —
+  everything RLS grants to `anon` regardless of session). All of
+  `src/lib/data/*.ts` now use this instead of the cookie-bound
+  `supabase/server.ts` client, which broke static generation for
+  `/updates/[slug]` (`generateStaticParams` runs at build time, outside
+  request context, so `cookies()` isn't available there). The cookie-bound
+  client is now reserved for genuinely session-dependent code (the admin
+  area).
+- **`src/app/opengraph-image.tsx`** no longer reads `public/logo-white.png`
+  via `node:fs` at request time — Workers have no real on-disk filesystem
+  for bundled `public/` files. The logo is inlined as a base64 constant
+  ([`src/lib/assets/og-logo.ts`](src/lib/assets/og-logo.ts), generated from
+  the source PNG, downscaled to its actual 340×340 display size to keep the
+  Worker bundle small) and imported directly — zero runtime I/O, works
+  identically everywhere.
+
+**Remaining steps (Cloudflare dashboard — needs your login, can't be done
+from here):**
+
+1. **Workers Builds (git auto-deploy)**: Workers & Pages → Create →
+   Connect to Git → select the `S13RRA-04/70-for-70` GitHub repo. Build
+   command: `npx opennextjs-cloudflare build`. Cloudflare's Workers Builds
+   runs on Linux, so it won't hit the Windows-specific file-locking quirks
+   this local environment did (`@opennextjs/cloudflare` itself warns it
+   isn't fully compatible with Windows — WSL is recommended for local
+   `npm run preview`/`deploy` from a Windows machine).
+2. **Environment variables/secrets** (Worker settings → Variables): add
+   `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`,
+   `SUPABASE_SERVICE_ROLE_KEY` (encrypt), `WHOOP_CLIENT_ID`,
+   `WHOOP_CLIENT_SECRET` (encrypt), and `NEXT_PUBLIC_SITE_URL` set to
+   `https://forthe22.org`.
+3. **Custom domain**: Worker → Settings → Domains & Routes → Add Custom
+   Domain → `forthe22.org` (the zone is already on Cloudflare, so this
+   provisions DNS automatically).
+4. **Update the WHOOP redirect URI**: `WHOOP_REDIRECT_URI` is derived from
+   `NEXT_PUBLIC_SITE_URL` (see [`src/lib/whoop/config.ts`](src/lib/whoop/config.ts)).
+   Once step 2/3 are live, the redirect URL becomes
+   `https://forthe22.org/api/whoop/callback` — this **must** also be
+   updated in the [WHOOP Developer Dashboard](https://developer.whoop.com)
+   or the OAuth connect flow at `/admin/whoop` will fail.
 
 ## Database Initialization
 
@@ -270,7 +340,7 @@ the element is hidden or replaced with a polished empty state instead:
 - **[`EmptyState`](src/components/shared/empty-state.tsx)** — the "nothing
   here yet" treatment (title, optional description, optional CTA). Used for
   the sponsor wall (`"We're currently building the first group of
-  organizations backing 70 for 22."`), the
+  organizations backing Tri."`), the
   Updates page/homepage teaser, Race page training milestones, and the
   WHOOP training snapshot before anything is connected.
 - **[`MediaPlaceholder`](src/components/shared/media-placeholder.tsx)** — a
@@ -302,56 +372,63 @@ replace with a real empty state" rule applied consistently. A flag would add
 a layer of indirection without doing anything these direct checks don't
 already do.
 
-## Rebrand: For The 22 / 70 for 22
+## Rebrand: For The 22 / Tri
 
-The site was rebranded from "70 for 70" — **"For The 22" is now the
-organization/site brand** (header, footer, legal copy, site-wide
-metadata), and **"70 for 22" is the specific fundraising campaign/race
-effort** (hero, mission copy, share text, mile-funding language). The two
-names are deliberately distinct: `SITE_NAME`, `CAMPAIGN_NAME`, and
-`ORG_TAGLINE` ("Endurance With A Purpose") are all separate constants in
-[`constants.ts`](src/lib/constants.ts) — see each call site's context for
-which one applies (org = operating-entity/legal statements, campaign =
-race/fundraising-specific statements).
+The site was rebranded twice from its original "70 for 70" identity:
+first to org **"For The 22"** / campaign **"70 for 22"**, then the
+campaign name itself changed again to **"Tri"**. Current state —
+**"For The 22" is the organization/site brand** (header, footer, legal
+copy, site-wide metadata), and **"Tri" is the specific fundraising
+campaign/race effort** (hero, mission copy, share text, mile-funding
+language). The two names are deliberately distinct: `SITE_NAME`,
+`CAMPAIGN_NAME`, and `ORG_TAGLINE` ("Endurance With A Purpose") are all
+separate constants in [`constants.ts`](src/lib/constants.ts) — see each
+call site's context for which one applies (org = operating-entity/legal
+statements, campaign = race/fundraising-specific statements).
 
-The fundraising math is unchanged: still 70 miles, $70,000, $1,000/mile.
-Mighty Oaks Foundation and Project Echelon are still the actual funding
-beneficiaries — "For The 22" is Cody's own org/brand for this and future
-campaigns, not a new beneficiary.
+The fundraising math is unchanged throughout: still 70 miles, $70,000,
+$1,000/mile. Mighty Oaks Foundation and Project Echelon are still the
+actual funding beneficiaries — "For The 22" is Cody's own org/brand for
+this and future campaigns, not a new beneficiary.
 
-**Not changed as part of this rebrand** (not requested, and not something
-to guess at): `CONTACT_EMAIL` is still `seventyforseventy@gmail.com`,
-which now reads as a mismatch against the new brand. Update it in
-`constants.ts` once a new address exists.
+**Not changed as part of either rebrand pass** (not requested, and not
+something to guess at): `CONTACT_EMAIL` is still
+`seventyforseventy@gmail.com`, which now reads as a mismatch against the
+new brand. Update it in `constants.ts` once a new address exists.
 
 ## Campaign Logo
 
-The compact icon/mark is in place — a colored ring around a bold
-wordmark. Only that icon/mark was supplied; **no horizontal lockup exists
-yet**, so nothing invents one.
+Two brand marks are in place — a colored ring around a bold "For The 22"
+wordmark (the org), and a swim/bike/run icon with a "TRI" wordmark (the
+campaign). No horizontal lockup exists for either, so nothing invents one.
 
-Two org-logo versions exist — dark numerals for light backgrounds, white
-numerals for dark backgrounds — plus a separate campaign mark:
+The org mark has two versions — dark numerals for light backgrounds,
+white numerals for dark backgrounds. The Tri campaign mark only has one
+(dark-text, light-background) version supplied, so it's placed only where
+a light background is available (`/the-race` hero, `/press` downloads) —
+not in dark-background contexts like the OG image or footer, where its
+dark "TRI" text would be unreadable.
 
 - Source files (full resolution, not publicly served — kept for
   regenerating assets later): [`brand/forthe22-logo-source.png`](brand/forthe22-logo-source.png),
   [`brand/forthe22-logo-white-source.png`](brand/forthe22-logo-white-source.png),
-  [`brand/70for22-logo-source.png`](brand/70for22-logo-source.png). The
-  original "70 for 70" sources are kept alongside them for history.
+  [`brand/tri-logo-source.png`](brand/tri-logo-source.png). Earlier
+  "70 for 70" / "70 for 22" sources are kept alongside them for history.
 - [`public/logo.png`](public/logo.png) / [`public/logo-white.png`](public/logo-white.png) —
   1024×1024 optimized **For The 22** org marks used for on-site display
   (header/footer) and the `/press` downloads
-- [`public/campaign-logo.png`](public/campaign-logo.png) — the **70 for 22**
-  campaign mark, offered as a download on `/press`. Only one (dark-numeral)
-  version was supplied.
+- [`public/campaign-logo.png`](public/campaign-logo.png) — the **Tri**
+  campaign mark (swim/bike/run icon + "TRI" wordmark), used on the
+  `/the-race` hero and offered as a download on `/press`
 - `src/app/icon.png` (32×32) and `src/app/apple-icon.png` (180×180,
   flattened onto the off-white brand background since Apple's convention
   doesn't respect transparency) — both regenerated from the **For The 22**
   org mark
 - `Header` (light background) uses `logo.png`; `Footer` and
   `opengraph-image.tsx` (both dark) use `logo-white.png` — both pair the
-  org icon with visible "For The 22" text (nav/footer) or the "70 FOR 22"
-  campaign headline (OG image). The icon images themselves are
+  org icon with visible "For The 22" text (nav/footer) or the "TRI"
+  campaign headline (OG image, still plain text since the Tri image file
+  has no dark-background version). The icon images themselves are
   `alt=""`/`aria-hidden` since the adjacent text already gives screen
   readers the accessible name, avoiding a duplicate announcement — this
   satisfies "navigation should still include readable text" without

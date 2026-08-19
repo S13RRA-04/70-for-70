@@ -18,6 +18,7 @@ const STATIC_ROUTES = [
   "/terms",
   "/live",
   "/press",
+  "/merch",
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

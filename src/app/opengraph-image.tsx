@@ -1,15 +1,17 @@
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import { CAMPAIGN_NAME, SITE_TAGLINE } from "@/lib/constants";
+import { OG_LOGO_DATA_URI } from "@/lib/assets/og-logo";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
+/**
+ * The logo is a bundled base64 constant (see og-logo.ts), not read via
+ * `node:fs` or `fetch` at request time — both are unreliable for bundled
+ * `public/` files on Cloudflare Workers (no real on-disk fs, and fetching
+ * the app's own origin doesn't work during static build-time generation).
+ */
 export default function OpengraphImage() {
-  const logoData = readFileSync(join(process.cwd(), "public", "logo-white.png"));
-  const logoSrc = `data:image/png;base64,${logoData.toString("base64")}`;
-
   return new ImageResponse(
     (
       <div
@@ -27,7 +29,7 @@ export default function OpengraphImage() {
         }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={logoSrc} width={340} height={340} alt="" />
+        <img src={OG_LOGO_DATA_URI} width={340} height={340} alt="" />
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div
             style={{

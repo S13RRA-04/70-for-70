@@ -148,7 +148,7 @@ export default async function HomePage() {
           </div>
 
           <div>
-            <SectionHeading eyebrow="Who's Behind 70 for 22" title="Why I'm Doing This" />
+            <SectionHeading eyebrow="Who's Behind Tri" title="Why I'm Doing This" />
             <div className="mt-5 space-y-4">
               {ABOUT_CONTENT.homepageTeaser.map((paragraph, i) => (
                 <p key={i} className="text-base leading-relaxed text-charcoal-light">
@@ -194,7 +194,7 @@ export default async function HomePage() {
           <SectionHeading
             eyebrow="Who It Supports"
             title="Beneficiary Organizations"
-            description="70 for 22 raises funds in support of veteran-focused nonprofit organizations."
+            description="Tri raises funds in support of veteran-focused nonprofit organizations."
           />
           <div className="mt-8 grid gap-6 sm:grid-cols-2">
             {partners.map((partner) => (
@@ -230,7 +230,7 @@ export default async function HomePage() {
           <SectionHeading
             eyebrow="Backing the Mission"
             title="Sponsors"
-            description="Organizations and businesses supporting 70 for 22 alongside individual donors."
+            description="Organizations and businesses supporting Tri alongside individual donors."
           />
           <div className="mt-8">
             <SponsorWall sponsors={sponsors} />
@@ -282,11 +282,11 @@ export default async function HomePage() {
       <section className="py-10">
         <Container className="flex flex-wrap items-center justify-between gap-4">
           <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-            Share 70 for 22
+            Share Tri
           </p>
           <ShareButtons
             url={SITE_URL}
-            title="I'm helping move 70 for 22 one mile closer to $70,000 for veterans."
+            title="I'm helping move Tri one mile closer to $70,000 for veterans."
           />
         </Container>
       </section>

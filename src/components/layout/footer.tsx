@@ -62,6 +62,11 @@ export function Footer() {
               </Link>
             </li>
             <li>
+              <Link href="/merch" className="transition-colors hover:text-off-white">
+                Merch
+              </Link>
+            </li>
+            <li>
               {CONTACT_EMAIL ? (
                 <a href={`mailto:${CONTACT_EMAIL}`} className="transition-colors hover:text-off-white">
                   {CONTACT_EMAIL}

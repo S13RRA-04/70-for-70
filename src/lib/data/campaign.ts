@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { SEED_CAMPAIGN } from "./seed-data";
 import type { CampaignRow } from "@/types/database";
@@ -8,7 +8,7 @@ export async function getCampaign(): Promise<CampaignRow> {
     return SEED_CAMPAIGN;
   }
 
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data, error } = await supabase
     .from("campaign")
     .select("*")

@@ -1,4 +1,4 @@
--- 70 for 22 — OPTIONAL local/demo data
+-- For The 22 / Tri — OPTIONAL local/demo data
 --
 -- Run this only against a local or throwaway Supabase project, after
 -- schema.sql and seed.sql, to preview the site with a partially-funded

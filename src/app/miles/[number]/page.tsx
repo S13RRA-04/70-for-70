@@ -24,8 +24,8 @@ export async function generateMetadata(props: PageProps<"/miles/[number]">): Pro
   const mile = Number.isFinite(mileNumber) ? await getMileWithDonations(mileNumber) : null;
   if (!mile) return {};
 
-  const title = `Help Fund Mile ${mile.mile_number} | 70 for 22`;
-  const description = `${formatCurrency(mile.amount_funded)} of ${formatCurrency(mile.goal_amount)} funded toward Mile ${mile.mile_number} of the 70 for 22 campaign.`;
+  const title = `Help Fund Mile ${mile.mile_number} | Tri`;
+  const description = `${formatCurrency(mile.amount_funded)} of ${formatCurrency(mile.goal_amount)} funded toward Mile ${mile.mile_number} of the Tri campaign.`;
 
   return {
     title,
@@ -173,7 +173,7 @@ export default async function MilePage(props: PageProps<"/miles/[number]">) {
           <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
             Share This Mile
           </p>
-          <ShareButtons url={shareUrl} title={`Help Fund Mile ${mile.mile_number} | 70 for 22`} />
+          <ShareButtons url={shareUrl} title={`Help Fund Mile ${mile.mile_number} | Tri`} />
         </div>
 
         <p className="mt-10 border-t border-ink/10 pt-6 text-sm text-charcoal-light">
