@@ -67,13 +67,13 @@ export default async function PressPage() {
               Logo Downloads
             </h2>
             <p className="mt-1 text-sm text-charcoal-light">
-              The compact icon/mark is available below in light- and dark-background versions,
+              The compact icon/mark is available below, shown on both light and dark backgrounds,
               alongside the Tri For The 22 campaign mark (light background only). A horizontal lockup
               hasn&apos;t been produced yet.
             </p>
             <div className="mt-3 flex flex-wrap gap-4">
               <div className="inline-flex flex-col items-start gap-3 rounded-sm border border-ink/10 bg-off-white p-6">
-                <Image src="/logo.png" alt="For The 22 logo mark, dark numerals" width={140} height={140} />
+                <Image src="/logo.png" alt="For The 22 logo mark" width={140} height={140} />
                 <a
                   href="/logo.png"
                   download
@@ -85,7 +85,7 @@ export default async function PressPage() {
               <div className="inline-flex flex-col items-start gap-3 rounded-sm border border-ink/10 bg-ink p-6">
                 <Image
                   src="/logo-white.png"
-                  alt="For The 22 logo mark, white numerals"
+                  alt="For The 22 logo mark"
                   width={140}
                   height={140}
                 />

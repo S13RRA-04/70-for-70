@@ -8,17 +8,27 @@ import { ABOUT_CONTENT } from "@/lib/content/about";
 import { CAMPAIGN_URL } from "@/lib/constants";
 
 /**
- * The six rings in the For The 22 logo each carry a branch color — every
- * branch of the U.S. Armed Forces, since the campaign's beneficiaries serve
- * veterans across all of them, not just the Navy Cody served in.
+ * The For The 22 mark carries two rings, a star, and the "22" itself —
+ * none of it decorative. The outer ring is every branch of the U.S. Armed
+ * Forces; the inner ring is every sector of first-responder service. See
+ * "The Brand" section below for the star and the 22.
  */
-const LOGO_RING_COLORS = [
-  { branch: "Army", color: "Ranger Green", hex: "#4B5320" },
-  { branch: "Marine Corps", color: "Scarlet", hex: "#C41E3A" },
+const OUTER_RING_COLORS = [
   { branch: "Navy", color: "Navy Blue", hex: "#002147" },
-  { branch: "Air Force", color: "Air Force Blue", hex: "#00308F" },
-  { branch: "Space Force", color: "Black", hex: "#1A1A1A" },
+  { branch: "Marine Corps", color: "Scarlet", hex: "#C41E3A" },
   { branch: "Coast Guard", color: "Coast Guard Blue", hex: "#0093AF" },
+  { branch: "Air Force", color: "Air Force Blue", hex: "#00308F" },
+  { branch: "Army", color: "Ranger Green", hex: "#4B5320" },
+  { branch: "Space Force", color: "Black", hex: "#1A1A1A" },
+] as const;
+
+const INNER_RING_COLORS = [
+  { sector: "Law enforcement, police officers, and sheriff deputies", color: "Blue", hex: "#1C4E80" },
+  { sector: "Firefighters and fire rescue departments", color: "Red", hex: "#C8102E" },
+  { sector: "EMS, paramedics, nurses, and doctors", color: "White", hex: "#FFFFFF" },
+  { sector: "911 dispatchers and public safety telecommunicators", color: "Gold / Yellow", hex: "#EAB308" },
+  { sector: "Border patrol and federal security", color: "Green", hex: "#2E7D32" },
+  { sector: "Corrections officers and probation staff", color: "Silver / Grey", hex: "#9CA3AF" },
 ] as const;
 
 export const metadata: Metadata = {
@@ -90,13 +100,18 @@ export default function AboutPage() {
             The Brand
           </h2>
           <p className="mt-4 text-base leading-relaxed text-charcoal-light">
-            The six rings in the For The 22 logo aren&apos;t decorative — each one is the color of
-            a branch of the U.S. Armed Forces. The mission behind this campaign isn&apos;t about
-            any one service. It&apos;s about every veteran, from every branch, still finding their
-            way forward.
+            Nothing in the For The 22 mark is decorative. The outer ring carries a color for
+            every branch of the U.S. Armed Forces — the mission isn&apos;t about any one service,
+            it&apos;s about every veteran, from every branch, still finding their way forward. The
+            inner ring does the same for first responders, carrying a color for every sector that
+            answers the call.
           </p>
-          <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3">
-            {LOGO_RING_COLORS.map((ring) => (
+
+          <h3 className="mt-8 text-sm font-semibold uppercase tracking-wide text-ink">
+            Outer Ring — Armed Forces
+          </h3>
+          <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+            {OUTER_RING_COLORS.map((ring) => (
               <div key={ring.branch} className="flex items-center gap-3">
                 <span
                   aria-hidden="true"
@@ -109,6 +124,37 @@ export default function AboutPage() {
                 </div>
               </div>
             ))}
+          </div>
+
+          <h3 className="mt-10 text-sm font-semibold uppercase tracking-wide text-ink">
+            Inner Ring — First Responders
+          </h3>
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            {INNER_RING_COLORS.map((ring) => (
+              <div key={ring.color} className="flex items-center gap-3">
+                <span
+                  aria-hidden="true"
+                  className="h-6 w-6 shrink-0 rounded-full border border-ink/10"
+                  style={{ backgroundColor: ring.hex }}
+                />
+                <div>
+                  <p className="text-sm font-semibold text-ink">{ring.color}</p>
+                  <p className="text-xs text-charcoal-light">{ring.sector}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-10 space-y-4 border-t border-ink/10 pt-8">
+            <p className="text-base leading-relaxed text-charcoal-light">
+              <span className="font-semibold text-ink">The star</span> is for the fallen — those
+              lost in service, and those lost after it.
+            </p>
+            <p className="text-base leading-relaxed text-charcoal-light">
+              <span className="font-semibold text-ink">The 22</span> is the rough, commonly cited
+              figure for how many veterans and first responders take their own lives each day, on
+              average. It&apos;s the number the entire movement is named for and built against.
+            </p>
           </div>
         </Container>
       </section>
