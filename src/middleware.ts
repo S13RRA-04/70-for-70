@@ -96,7 +96,17 @@ function applyLaunchGate(request: NextRequest, onCampaignHost: boolean): Respons
  * belong to which. API routes and shared assets are intentionally not
  * listed here — they work identically on either host.
  */
-const ORG_PATH_PREFIXES = ["/about", "/resources", "/join", "/merch", "/contact", "/privacy", "/terms", "/press"];
+const ORG_PATH_PREFIXES = [
+  "/about",
+  "/resources",
+  "/join",
+  "/merch",
+  "/contact",
+  "/privacy",
+  "/terms",
+  "/athlete-agreement",
+  "/press",
+];
 const CAMPAIGN_PATH_PREFIXES = [
   "/the-mission",
   "/the-race",

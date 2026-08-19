@@ -3,7 +3,18 @@ import { getPosts } from "@/lib/data/posts";
 import { CAMPAIGN_URL, SITE_URL, TOTAL_FUNDRAISING_MILES } from "@/lib/constants";
 
 // Kept in sync with the split enforced in src/middleware.ts.
-const ORG_ROUTES = ["", "/about", "/resources", "/join", "/merch", "/contact", "/privacy", "/terms", "/press"];
+const ORG_ROUTES = [
+  "",
+  "/about",
+  "/resources",
+  "/join",
+  "/merch",
+  "/contact",
+  "/privacy",
+  "/terms",
+  "/athlete-agreement",
+  "/press",
+];
 const CAMPAIGN_ROUTES = [
   "/the-mission",
   "/the-race",
