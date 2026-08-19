@@ -100,6 +100,13 @@ export const RESOURCES: Resource[] = [
     categoryIds: ["adaptive-sports", "equipment-grants"],
   },
   {
+    name: "Veterans and Athletes United (VetsAU)",
+    url: "https://www.vetsau.org/",
+    description:
+      "Runs accessible retreats, adaptive sports and recreation events, and a memorial initiative for fallen service members, to empower wounded, injured, and ill veterans.",
+    categoryIds: ["veteran-athletes", "adaptive-sports"],
+  },
+  {
     name: "Veterans Crisis Line",
     url: "https://www.veteranscrisisline.net/",
     description:
@@ -128,11 +135,60 @@ export const RESOURCES: Resource[] = [
     categoryIds: ["recovery-wellness"],
   },
   {
-    name: "Semper Fi & America's Fund",
-    url: "https://thefund.org/programs/specialized-adaptive-equipment/",
+    name: "Willing Warriors — Warrior Retreat at Bull Run",
+    url: "https://www.willingwarriors.org/warrior-retreat",
     description:
-      "Funds adaptive equipment — wheelchairs, visual aids, communication tech — plus Team Semper Fi, a sports program with coaching and gear for wounded/injured service members and veterans.",
-    categoryIds: ["equipment-grants"],
+      "A 37-acre, fully handicapped-accessible respite retreat in Northern Virginia where wounded, injured, and ill service members and their families get a therapeutic break from the hospital environment.",
+    categoryIds: ["recovery-wellness"],
+  },
+  {
+    name: "Wounded Warriors Family Support (WWFS)",
+    url: "https://www.wwfs.org/familyretreats/",
+    description:
+      "Not affiliated with Wounded Warrior Project. Restorative family retreats and staycations, plus vehicle grants and caregiver support, for the families of those wounded, injured, or killed in combat.",
+    categoryIds: ["recovery-wellness"],
+  },
+  {
+    name: "Camp HERO",
+    url: "https://www.campheroky.org/activities",
+    description:
+      "All-volunteer nonprofit running multi-day Appalachian Mountain retreats — hiking, ATV riding, fishing, campfire fellowship — for wounded veterans and first responders, at no cost to participants.",
+    categoryIds: ["recovery-wellness", "first-responders"],
+  },
+  {
+    name: "Warriors Renewal Coalition — Rest, Reset, Renewal",
+    url: "https://www.warriorsrenewalcoalition.org/rest-reset/",
+    description:
+      "Fully-funded resort-style retreats (flights, lodging, meals, activities included) for combat-injured post-9/11 veterans, couples, and caregivers to reconnect and decompress.",
+    categoryIds: ["recovery-wellness"],
+  },
+  {
+    name: "Project Sanctuary",
+    url: "https://projectsanctuary.us/",
+    description:
+      "Six-day therapeutic family retreats blending outdoor recreation with counseling and relationship-building, plus two years of follow-on family support, for veterans, spouses, caregivers, and children.",
+    categoryIds: ["recovery-wellness"],
+  },
+  {
+    name: "Huts for Vets",
+    url: "https://www.hutsforvets.org/",
+    description:
+      "No-cost wilderness therapy retreats in the Colorado Rockies — guided hikes, group discussion, and community — to support veterans' mental, physical, and emotional health.",
+    categoryIds: ["recovery-wellness"],
+  },
+  {
+    name: "Operation Second Chance",
+    url: "https://operationsecondchance.org/retreats/",
+    description:
+      "All-inclusive retreats — individual, couples, family, caregiver, and Gold Star Family — for combat-wounded, injured, and ill service members to relax and reconnect outside hospital settings.",
+    categoryIds: ["recovery-wellness"],
+  },
+  {
+    name: "Semper Fi & America's Fund",
+    url: "https://www.semperfifund.org/get-assistance/",
+    description:
+      "Direct financial and family assistance for combat-wounded, critically ill, and catastrophically injured service members — bedside support, housing, caregiver retreats, and specialized adaptive equipment.",
+    categoryIds: ["equipment-grants", "recovery-wellness"],
   },
   {
     name: "Operation WarriorFit",
@@ -147,6 +203,34 @@ export const RESOURCES: Resource[] = [
     description:
       "Grant program that has funded hundreds of individual wishes, including adaptive sporting and exercise equipment, for post-9/11 veterans and military families.",
     categoryIds: ["equipment-grants"],
+  },
+  {
+    name: "The Independence Fund",
+    url: "https://independencefund.org/pages/copy-of-apply-for-assistance",
+    description:
+      "Casework, caregiver support, and a Mobility Program providing mobility assistance and equipment for veterans, through dedicated application portals for each program.",
+    categoryIds: ["equipment-grants"],
+  },
+  {
+    name: "Catch A Lift Fund",
+    url: "https://www.catchaliftfund.org/apply/",
+    description:
+      "Free 8-week wellness program for post-9/11 combat veterans with a 50%+ VA disability rating — one-on-one coaching, in-home gym equipment grants, and veteran-led mentorship.",
+    categoryIds: ["equipment-grants", "recovery-wellness"],
+  },
+  {
+    name: "Getting Back Up",
+    url: "https://www.gettingbackup.org/apply/",
+    description:
+      "Financial assistance for people with spinal cord injuries, including veterans, to fund exercise-based recovery programs and adaptable products that support independence.",
+    categoryIds: ["equipment-grants", "recovery-wellness"],
+  },
+  {
+    name: "High Fives Foundation — Empowerment Fund",
+    url: "https://highfivesfoundation.org/grant-application/",
+    description:
+      "Grants covering adaptive sports equipment, medical equipment, and living expenses for people with life-altering injuries, including service-connected veterans.",
+    categoryIds: ["equipment-grants", "adaptive-sports"],
   },
   {
     name: "wear blue: run to remember",
