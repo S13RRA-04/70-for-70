@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import { getCampaign } from "@/lib/data/campaign";
 import { getRecentDonations } from "@/lib/data/donations";
 import { getRaceDayStatus } from "@/lib/race-day";
+import { getTrainingSnapshot } from "@/lib/whoop/client";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { EmptyState } from "@/components/shared/empty-state";
 import { CTASection } from "@/components/shared/cta-section";
+import { TrainingSnapshot } from "@/components/training/training-snapshot";
 import {
   formatCurrency,
   formatDateLong,
@@ -28,10 +30,11 @@ const DISCIPLINE_LABEL: Record<"swim" | "bike" | "run" | "finished", string> = {
 };
 
 export default async function LivePage() {
-  const [campaign, status, recentDonations] = await Promise.all([
+  const [campaign, status, recentDonations, trainingSnapshot] = await Promise.all([
     getCampaign(),
     getRaceDayStatus(),
     getRecentDonations(5),
+    getTrainingSnapshot(),
   ]);
 
   const percent = percentFunded(campaign.amount_raised, campaign.fundraising_goal);
@@ -96,6 +99,21 @@ export default async function LivePage() {
           </div>
         </Container>
       </section>
+
+      {trainingSnapshot && (
+        <section className="border-b border-ink/10 py-16 sm:py-20">
+          <Container className="max-w-2xl">
+            <SectionHeading
+              eyebrow="Toward the Goal"
+              title="Training Progress & Milestones"
+              description="Recovery, sleep, and recent training sessions — pulled live from WHOOP as the work toward race day happens."
+            />
+            <div className="mt-8">
+              <TrainingSnapshot snapshot={trainingSnapshot} />
+            </div>
+          </Container>
+        </section>
+      )}
 
       <section className="py-16 sm:py-20">
         <Container className="max-w-2xl">

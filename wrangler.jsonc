@@ -25,10 +25,16 @@
    * Cloudflare dashboard) because `wrangler deploy`/`opennextjs-cloudflare
    * deploy` uploads a version's full var set from this file each time —
    * a dashboard-only edit gets silently wiped by the next deploy from any
-   * machine. To flip a flag: edit here, then `npm run deploy`.
+   * machine. To flip a flag: edit here, then `npm run deploy`. WHOOP_CLIENT_ID
+   * lives here rather than as a `wrangler secret` because it's not actually
+   * sensitive — it's already visible in the browser-facing WHOOP OAuth
+   * redirect URL (see src/app/api/whoop/authorize/route.ts) — and a
+   * dashboard-only value for it hit this exact wipe-on-deploy bug once
+   * already, silently breaking the live training snapshot.
    */
   "vars": {
     "SITE_LIVE": "true",
-    "CAMPAIGN_LIVE": "false"
+    "CAMPAIGN_LIVE": "false",
+    "WHOOP_CLIENT_ID": "fc3a41a2-08c9-4141-b5bb-35773f4c3509"
   }
 }
