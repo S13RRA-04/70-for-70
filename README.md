@@ -149,6 +149,90 @@ throughout) worth doing deliberately once a second campaign is actually
 being built, not speculatively right before launch. `CURRENT_CAMPAIGN` is
 the seam that migration would plug into.
 
+## Movement/Campaign Domain Split
+
+The movement and the campaign now live on **two different domains**, served
+by the **same** Next.js app/Cloudflare Worker — no second deployment:
+
+- **www.forthe22.org** (org): home (national mission, awareness,
+  resources), My Story, Resources, Join the Movement, Shop/Merch, Press,
+  Contact, Privacy, Terms.
+- **tri.forthe22.org** (campaign): home (the fundraiser — hero, progress,
+  Fund a Mile), The Mission, The Race, Fund a Mile, Donate, Sponsors,
+  Partners (Mighty Oaks/Project Echelon), Live, Updates, Miles, and the
+  entire `/admin` area.
+
+**How it's enforced** — three pieces, all reading the request's `Host`
+header:
+
+1. [`src/lib/site-mode.ts`](src/lib/site-mode.ts) — `isCampaignHost()` is
+   the single source of truth for "which domain is this" (hostname starts
+   with `tri.`). Shared by middleware (reads `NextRequest` directly) and
+   Server Components (reads `next/headers`).
+2. [`src/middleware.ts`](src/middleware.ts)'s `applyDomainSplit()` —
+   redirects a request to the correct domain if it's on the wrong one
+   (e.g. `www.forthe22.org/donate` → `307` to
+   `tri.forthe22.org/donate`), and transparently rewrites `tri.forthe22.org/`
+   to the real route `/campaign-home` (the URL bar still shows `/`) since
+   "/" needs different content per domain. **API routes are intentionally
+   not gated** — they work identically on either host since it's the same
+   app instance.
+3. [`src/app/layout.tsx`](src/app/layout.tsx) reads the host via
+   `getSiteMode()` and passes `mode="org" | "campaign"` down to `Header`,
+   `Footer`, and `MobileConversionBar`, which render entirely different
+   nav/branding/CTAs per mode (see `ORG_NAV_LINKS` /
+   `CAMPAIGN_NAV_LINKS` in `constants.ts`). **This makes every route
+   dynamically rendered** (`ƒ` instead of `○` in the build output) — the
+   root layout can no longer be statically optimized once it depends on
+   the request's host. Acceptable for a low-traffic campaign site; worth
+   revisiting if traffic ever justifies clawing back static rendering.
+
+**Cross-domain links**: any place org content links to a campaign-only
+path (or vice versa) uses a full absolute URL (`${CAMPAIGN_URL}/donate`),
+not a relative `<Link>` — see `src/app/merch/page.tsx`,
+`src/app/contact/page.tsx`, `src/app/about/page.tsx`, and
+`src/lib/content/mission.ts` for examples. A relative link would still
+technically work (the middleware redirect catches it) but bounces through
+an extra hop.
+
+**`SITE_URL` vs `CAMPAIGN_URL`**: both are in `constants.ts`, read from
+`NEXT_PUBLIC_SITE_URL` / `NEXT_PUBLIC_CAMPAIGN_URL`. `WHOOP_REDIRECT_URI`
+now derives from `CAMPAIGN_URL` (not `SITE_URL`) since `/admin/whoop`
+lives on the campaign domain — the callback URL registered in the WHOOP
+Developer Dashboard must be
+`https://tri.forthe22.org/api/whoop/callback`.
+
+**Admin auth**: `/admin/*` is campaign-only by design, so the Supabase
+auth cookie only ever needs to work on one host — no cross-subdomain
+cookie-sharing configuration required.
+
+**Remaining manual steps (Cloudflare dashboard — needs your login):**
+
+1. Add `tri.forthe22.org` as a second custom domain on the same Worker
+   (Worker → Settings → Domains & Routes → Add Custom Domain). No new
+   deployment needed — it's the same Worker serving both hostnames.
+2. Set `NEXT_PUBLIC_CAMPAIGN_URL=https://tri.forthe22.org` alongside the
+   existing `NEXT_PUBLIC_SITE_URL=https://www.forthe22.org` in the
+   Worker's environment variables.
+3. Update the WHOOP redirect URL in the
+   [WHOOP Developer Dashboard](https://developer.whoop.com) to
+   `https://tri.forthe22.org/api/whoop/callback`.
+
+**Known imperfections, not fixed this pass:**
+- `robots.txt` and `sitemap.xml` are shared/combined rather than
+  per-domain — the sitemap does correctly list each URL under its right
+  domain (see `sitemap.ts`), but ideally each host would serve its own
+  sitemap file. Low-risk, revisit if it matters for SEO later.
+- `opengraph-image.tsx` and the favicon (`icon.png`/`apple-icon.png`) are
+  shared across both domains (always show the "For The 22" org mark) —
+  campaign-domain shares don't get campaign-specific OG art. Fine for now
+  since the org mark is the parent brand either way.
+- `/contact`'s form (`SponsorInquiryForm`) still offers sponsor-specific
+  interest categories ("Corporate Sponsor", etc.) even though it's now
+  org-only and the real sponsorship-vetting flow lives at
+  `tri.forthe22.org/sponsors/request`. Not restructured this pass — worth
+  simplifying `/contact`'s categories to general/media/community only.
+
 ## New Pages (Movement Brief)
 
 - **`/resources`** — six categories (Veteran Athletes, First Responders,
@@ -171,25 +255,39 @@ the seam that migration would plug into.
 
 ## Pre-Launch Gate
 
-While `SITE_LIVE` isn't exactly `"true"`, **every route** — every page,
-every API route (donate/sponsor/merch links included, and form
-submissions) — shows a "Coming Soon" page instead of real content.
-Implemented in [`src/middleware.ts`](src/middleware.ts) and
+Gated **per domain, independently** — see the Movement/Campaign Domain
+Split above. `SITE_LIVE` controls www.forthe22.org (the org);
+`CAMPAIGN_LIVE` controls tri.forthe22.org (the fundraising campaign).
+This is how the org site can go live while the campaign stays closed:
+**current production state is `SITE_LIVE=true`, `CAMPAIGN_LIVE=false`.**
+While a domain's flag isn't exactly `"true"`, **every route on that
+domain** — every page, every API route (donate/sponsor/merch links
+included, and form submissions) — shows a "Coming Soon" page instead of
+real content; the other domain is entirely unaffected. Implemented in
+[`src/middleware.ts`](src/middleware.ts) and
 [`src/lib/launch-gate.ts`](src/lib/launch-gate.ts).
 
-- **To preview the real site while gated**: visit
-  `https://forthe22.org/?preview=<PREVIEW_ACCESS_TOKEN>` (the exact value
-  you set for `PREVIEW_ACCESS_TOKEN` in the Worker's environment
+Clicking from the (live) org site into the (gated) campaign — the header's
+"Tri For The 22" button, the homepage's "Current Mission" card, etc. —
+correctly redirects to tri.forthe22.org and then immediately shows
+"Coming Soon" there, tailored to name the campaign specifically
+(`src/app/coming-soon/page.tsx` reads a `?scope=campaign` query param the
+middleware attaches) with a link back to the live org site.
+
+- **To preview the gated campaign**: visit
+  `https://tri.forthe22.org/?preview=<PREVIEW_ACCESS_TOKEN>` (the exact
+  value you set for `PREVIEW_ACCESS_TOKEN` in the Worker's environment
   variables). This sets a 180-day cookie on that browser and redirects to
   the clean URL — share the link with anyone else who needs to review the
-  site (a beneficiary org checking copy, for example) before launch.
+  campaign (a beneficiary org checking copy, for example) before launch.
   Rotating `PREVIEW_ACCESS_TOKEN` invalidates every previously shared link.
-- **To launch publicly**: set `SITE_LIVE=true` in the Worker's environment
-  variables (Worker settings → Variables). Takes effect on the next
-  request — no redeploy needed.
-- **Locally**, `.env` has `SITE_LIVE=true` so `npm run dev` always shows
-  the real site. To test the gate itself locally, temporarily set it to
-  `false` and restart the dev server.
+- **To launch the campaign publicly**: set `CAMPAIGN_LIVE=true` in the
+  Worker's environment variables (Worker settings → Variables). Takes
+  effect on the next request — no redeploy needed.
+- **Locally**, `.env` has both flags `true` so `npm run dev` always shows
+  the real site on either domain. To test the gate itself locally,
+  temporarily set the relevant flag to `false` and restart the dev
+  server.
 
 ## Database Initialization
 

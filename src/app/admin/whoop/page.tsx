@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { requireAdminUser } from "@/lib/supabase/require-admin";
-import { isWhoopConfigured } from "@/lib/whoop/config";
+import { isWhoopConfigured, WHOOP_REDIRECT_URI } from "@/lib/whoop/config";
 import { getWhoopConnection } from "@/lib/whoop/tokens";
 import { getWhoopProfile } from "@/lib/whoop/client";
 import { Container } from "@/components/shared/container";
@@ -70,9 +70,7 @@ export default async function WhoopAdminPage(props: PageProps<"/admin/whoop">) {
               </a>
               ) and register this exact redirect URL there:
             </p>
-            <p className="mt-2 rounded bg-ink/5 px-3 py-2 font-mono text-xs">
-              {process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"}/api/whoop/callback
-            </p>
+            <p className="mt-2 rounded bg-ink/5 px-3 py-2 font-mono text-xs">{WHOOP_REDIRECT_URI}</p>
           </div>
         )}
 

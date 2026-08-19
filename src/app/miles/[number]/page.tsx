@@ -12,7 +12,7 @@ import {
   mileStatusLabel,
   percentFunded,
 } from "@/lib/utils";
-import { FEATURED_MILE, MILE_SEGMENTS, SITE_URL, TOTAL_FUNDRAISING_MILES } from "@/lib/constants";
+import { CAMPAIGN_URL, FEATURED_MILE, MILE_SEGMENTS, TOTAL_FUNDRAISING_MILES } from "@/lib/constants";
 
 function segmentFor(mileNumber: number) {
   return MILE_SEGMENTS.find((s) => mileNumber >= s.start && mileNumber <= s.end) ?? null;
@@ -57,7 +57,7 @@ export default async function MilePage(props: PageProps<"/miles/[number]">) {
   const campaignPercent = percentFunded(campaign.amount_raised, campaign.fundraising_goal);
   const campaignMiles = milesFunded(campaign.amount_raised);
   const nextMile = mile.mile_number < TOTAL_FUNDRAISING_MILES ? mile.mile_number + 1 : null;
-  const shareUrl = `${SITE_URL}/miles/${mile.mile_number}`;
+  const shareUrl = `${CAMPAIGN_URL}/miles/${mile.mile_number}`;
 
   return (
     <section className="py-16 sm:py-20">

@@ -6,7 +6,7 @@ import { Container } from "@/components/shared/container";
 import { MediaPlaceholder } from "@/components/shared/media-placeholder";
 import { ShareButtons } from "@/components/shared/share-buttons";
 import { formatDateLong } from "@/lib/utils";
-import { SITE_URL } from "@/lib/constants";
+import { CAMPAIGN_URL } from "@/lib/constants";
 
 export async function generateStaticParams() {
   const posts = await getPosts();
@@ -78,7 +78,7 @@ export default async function UpdatePostPage(props: PageProps<"/updates/[slug]">
           <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
             Share This Update
           </p>
-          <ShareButtons url={`${SITE_URL}/updates/${post.slug}`} title={`${post.title} | Tri For The 22`} />
+          <ShareButtons url={`${CAMPAIGN_URL}/updates/${post.slug}`} title={`${post.title} | Tri For The 22`} />
         </div>
       </Container>
     </article>

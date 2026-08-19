@@ -1,7 +1,9 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { updateSupabaseSession } from "@/lib/supabase/proxy-session";
-import { getPreviewToken, isSiteLive, PREVIEW_COOKIE_NAME } from "@/lib/launch-gate";
+import { getPreviewToken, isCampaignLive, isOrgLive, PREVIEW_COOKIE_NAME } from "@/lib/launch-gate";
+import { isCampaignHost } from "@/lib/site-mode";
+import { CAMPAIGN_URL, SITE_URL } from "@/lib/constants";
 
 const PREVIEW_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 180; // 180 days
 
@@ -16,10 +18,16 @@ const PREVIEW_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 180; // 180 days
  * middleware support — see https://github.com/cloudflare/workers-sdk/issues/13755
  */
 export function middleware(request: NextRequest) {
-  if (!isSiteLive()) {
-    const gateResponse = applyLaunchGate(request);
+  const onCampaignHost = isCampaignHost(request.headers.get("host"));
+  const live = onCampaignHost ? isCampaignLive() : isOrgLive();
+
+  if (!live) {
+    const gateResponse = applyLaunchGate(request, onCampaignHost);
     if (gateResponse) return gateResponse;
   }
+
+  const splitResponse = applyDomainSplit(request, onCampaignHost);
+  if (splitResponse) return splitResponse;
 
   return updateSupabaseSession(request);
 }
@@ -27,9 +35,11 @@ export function middleware(request: NextRequest) {
 /**
  * Returns a response if the request should be blocked/redirected by the
  * pre-launch gate, or null if the visitor has valid preview access and
- * should proceed to the real site.
+ * should proceed to the real site. Gating is per-domain — see
+ * isOrgLive/isCampaignLive — so this only runs for whichever domain isn't
+ * live yet; the other domain skips the gate entirely.
  */
-function applyLaunchGate(request: NextRequest): Response | null {
+function applyLaunchGate(request: NextRequest, onCampaignHost: boolean): Response | null {
   const previewToken = getPreviewToken();
   const url = request.nextUrl;
 
@@ -62,7 +72,60 @@ function applyLaunchGate(request: NextRequest): Response | null {
   }
 
   if (url.pathname !== "/coming-soon") {
-    return NextResponse.rewrite(new URL("/coming-soon", url));
+    const comingSoonUrl = new URL("/coming-soon", url);
+    if (onCampaignHost) comingSoonUrl.searchParams.set("scope", "campaign");
+    return NextResponse.rewrite(comingSoonUrl);
+  }
+
+  return null;
+}
+
+/**
+ * Movement (www.forthe22.org) vs campaign (tri.forthe22.org) page split —
+ * see README's "Movement/Campaign Domain Split". Both domains are served
+ * by this same app; this is the only place that decides which pages
+ * belong to which. API routes and shared assets are intentionally not
+ * listed here — they work identically on either host.
+ */
+const ORG_PATH_PREFIXES = ["/about", "/resources", "/join", "/merch", "/contact", "/privacy", "/terms", "/press"];
+const CAMPAIGN_PATH_PREFIXES = [
+  "/the-mission",
+  "/the-race",
+  "/fund-a-mile",
+  "/donate",
+  "/sponsors",
+  "/partners",
+  "/live",
+  "/updates",
+  "/miles",
+  "/admin",
+];
+
+function matchesPathPrefix(pathname: string, prefixes: string[]): boolean {
+  return prefixes.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
+}
+
+/**
+ * Returns a response if this request needs to be rewritten/redirected to
+ * stay on the correct side of the movement/campaign split, or null if it
+ * should render normally as-is.
+ */
+function applyDomainSplit(request: NextRequest, onCampaignHost: boolean): Response | null {
+  const url = request.nextUrl;
+
+  // "/" is the one path that exists on both hosts with different content.
+  // The campaign home lives at the real route /campaign-home and is
+  // rewritten in transparently — the URL bar still shows "/".
+  if (url.pathname === "/") {
+    return onCampaignHost ? NextResponse.rewrite(new URL("/campaign-home", url)) : null;
+  }
+
+  if (onCampaignHost && matchesPathPrefix(url.pathname, ORG_PATH_PREFIXES)) {
+    return NextResponse.redirect(`${SITE_URL}${url.pathname}${url.search}`);
+  }
+
+  if (!onCampaignHost && matchesPathPrefix(url.pathname, CAMPAIGN_PATH_PREFIXES)) {
+    return NextResponse.redirect(`${CAMPAIGN_URL}${url.pathname}${url.search}`);
   }
 
   return null;

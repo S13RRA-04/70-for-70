@@ -13,7 +13,22 @@ export const ORG_TAGLINE = "Endurance With A Purpose";
  */
 export const CAMPAIGN_NAME = "Tri For The 22";
 export const SITE_TAGLINE = "70 miles. $70,000. One mission for veterans.";
+
+/**
+ * The org root — www.forthe22.org in production. Movement/mission pages
+ * (home, My Story, Resources, Join, Merch, Press, legal) live here.
+ */
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+
+/**
+ * The campaign root — tri.forthe22.org in production. Fundraising pages
+ * (The Race, Fund a Mile, Donate, Sponsors, Partners, Live, Updates,
+ * Miles, Admin) live here. See src/middleware.ts for the host-based
+ * routing that enforces this split, and README's "Movement/Campaign
+ * Domain Split" section for the full picture. Defaults to the same local
+ * dev origin as SITE_URL — there's no real second host in local dev.
+ */
+export const CAMPAIGN_URL = process.env.NEXT_PUBLIC_CAMPAIGN_URL ?? "http://localhost:3000";
 
 /**
  * Every campaign under the "For The 22" movement, current and future —
@@ -29,21 +44,33 @@ export const MOVEMENT_CAMPAIGNS = [
 ] as const;
 
 /**
- * Simplified primary nav — "About" reads as "My Story" since it's the more
- * emotionally meaningful framing (still the same /about route, so existing
- * links/SEO aren't disturbed). "Home" and "Sponsors" were dropped from the
- * link list: the logo already goes home, and Sponsor/Donate are
- * right-aligned CTAs instead (see SPONSOR_LINK/DONATE_LINK below).
+ * Two separate nav sets, one per domain — see README's "Movement/Campaign
+ * Domain Split". www.forthe22.org (org/movement) and tri.forthe22.org
+ * (fundraising campaign) each get their own header/footer nav; a visitor
+ * never sees campaign nav on the org site or vice versa. "About" reads as
+ * "My Story" since it's the more emotionally meaningful framing (still
+ * the same /about route).
  */
-export const NAV_LINKS: NavLink[] = [
-  { label: "The Mission", href: "/the-mission" },
+export const ORG_NAV_LINKS: NavLink[] = [
   { label: "My Story", href: "/about" },
+  { label: "Resources", href: "/resources" },
+  { label: "Join the Movement", href: "/join" },
+];
+
+export const CAMPAIGN_NAV_LINKS: NavLink[] = [
+  { label: "The Mission", href: "/the-mission" },
   { label: "The Race", href: "/the-race" },
   { label: "Fund a Mile", href: "/fund-a-mile" },
-  { label: "Resources", href: "/resources" },
   { label: "Partners", href: "/partners" },
   { label: "Updates", href: "/updates" },
 ];
+
+/** Org header CTA — required to be visible in the header, not just the footer. */
+export const MERCH_LINK: NavLink = { label: "Shop", href: "/merch" };
+/** Org header → campaign subdomain, styled as a CTA (not a plain nav link). */
+export const CAMPAIGN_HOME_LINK: NavLink = { label: CAMPAIGN_NAME, href: CAMPAIGN_URL };
+/** Campaign header → org subdomain, styled as a CTA. */
+export const ORG_HOME_LINK: NavLink = { label: SITE_NAME, href: SITE_URL };
 
 export const SPONSOR_LINK: NavLink = { label: "Sponsor", href: "/sponsors" };
 export const DONATE_LINK: NavLink = { label: "Donate", href: "/donate" };
@@ -187,7 +214,7 @@ export const RACE_INFO = {
   trainingStartDate: null as string | null, // e.g. "2026-03-01T00:00:00-05:00" — TODO, used to compute weeks completed/remaining
 };
 
-export const CONTACT_EMAIL: string | null = "seventyforseventy@gmail.com";
+export const CONTACT_EMAIL: string | null = "admin@forthe22.org";
 
 /** Official Jakroo team store — merchandise orders are handled entirely by Jakroo, not this site. */
 export const MERCH_STORE_URL = "https://jakroo.com/store-front?storeId=BkxZTlQ7Pzg";

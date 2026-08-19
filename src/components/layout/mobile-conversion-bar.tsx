@@ -2,11 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import type { SiteMode } from "@/lib/site-mode";
 
 /**
  * Pages that already surface their own prominent Fund/Donate/Sponsor CTA in
  * the page body — showing this bar there would be redundant, not additive.
- * Admin routes never show it at all.
+ * Admin routes never show it at all. Campaign-only: the org domain
+ * shouldn't push a persistent fundraising CTA — see README's
+ * "Movement/Campaign Domain Split".
  */
 const HIDDEN_PREFIXES = [
   "/admin",
@@ -16,20 +19,20 @@ const HIDDEN_PREFIXES = [
   "/miles/",
 ];
 
-function useHideConversionBar() {
+function useHideConversionBar(mode: SiteMode) {
   const pathname = usePathname();
-  return HIDDEN_PREFIXES.some((prefix) => pathname.startsWith(prefix));
+  return mode !== "campaign" || HIDDEN_PREFIXES.some((prefix) => pathname.startsWith(prefix));
 }
 
 /** Reserves space at the bottom of the page so the fixed bar below never covers content. */
-export function MobileConversionBarSpacer() {
-  const hidden = useHideConversionBar();
+export function MobileConversionBarSpacer({ mode }: { mode: SiteMode }) {
+  const hidden = useHideConversionBar(mode);
   if (hidden) return null;
   return <div aria-hidden="true" className="h-20 sm:hidden" />;
 }
 
-export function MobileConversionBar() {
-  const hidden = useHideConversionBar();
+export function MobileConversionBar({ mode }: { mode: SiteMode }) {
+  const hidden = useHideConversionBar(mode);
 
   if (hidden) {
     return null;

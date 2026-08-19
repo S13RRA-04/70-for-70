@@ -1,10 +1,15 @@
-import { SITE_URL } from "@/lib/constants";
+import { CAMPAIGN_URL } from "@/lib/constants";
 
 export const WHOOP_CLIENT_ID = process.env.WHOOP_CLIENT_ID;
 export const WHOOP_CLIENT_SECRET = process.env.WHOOP_CLIENT_SECRET;
 
-/** Must be registered exactly (including scheme/host) in the WHOOP Developer Dashboard. */
-export const WHOOP_REDIRECT_URI = `${SITE_URL}/api/whoop/callback`;
+/**
+ * Must be registered exactly (including scheme/host) in the WHOOP
+ * Developer Dashboard. Uses CAMPAIGN_URL, not SITE_URL — /admin/whoop and
+ * its callback route live on the campaign domain (tri.forthe22.org), not
+ * the org domain. See README's "Movement/Campaign Domain Split".
+ */
+export const WHOOP_REDIRECT_URI = `${CAMPAIGN_URL}/api/whoop/callback`;
 
 export const WHOOP_AUTHORIZE_URL = "https://api.prod.whoop.com/oauth/oauth2/auth";
 export const WHOOP_TOKEN_URL = "https://api.prod.whoop.com/oauth/oauth2/token";

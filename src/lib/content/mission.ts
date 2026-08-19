@@ -2,8 +2,13 @@
  * Editable narrative copy for the Mission page. Kept as data rather than
  * hard-coded JSX so copy can be revised without touching components.
  * Condensed from Cody's full account on the About page — see
- * src/lib/content/about.ts for the complete story.
+ * src/lib/content/about.ts for the complete story. This page lives on the
+ * campaign domain but /about is org-only, so that one link below uses the
+ * full SITE_URL rather than a relative path — see README's "Movement/
+ * Campaign Domain Split".
  */
+
+import { SITE_URL } from "@/lib/constants";
 
 export interface MissionSection {
   id: string;
@@ -28,7 +33,7 @@ export const MISSION_SECTIONS: MissionSection[] = [
       "I spent seven years on active duty in the United States Navy as a Mass Communication Specialist, including a 2011 deployment to Afghanistan as a combat journalist. Like a lot of veterans, I came home physically present but carrying things I did not fully understand how to process.",
       "There is another veteran somewhere trying to figure out what comes next, and another family trying to understand why the person who came home feels different from the person who left. I have benefited from people and organizations willing to invest in veterans. Now I want to return that investment.",
     ],
-    link: { label: "Read the full story", href: "/about" },
+    link: { label: "Read the full story", href: `${SITE_URL}/about` },
   },
   {
     id: "why-mighty-oaks",

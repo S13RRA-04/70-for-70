@@ -5,6 +5,7 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
 import { MediaPlaceholder } from "@/components/shared/media-placeholder";
 import { ABOUT_CONTENT } from "@/lib/content/about";
+import { CAMPAIGN_URL } from "@/lib/constants";
 
 /**
  * The six rings in the For The 22 logo each carry a branch color — every
@@ -116,8 +117,8 @@ export default function AboutPage() {
         title="Follow the Journey"
         description="Training updates and race prep are posted regularly."
         buttons={[
-          { label: "View Updates", href: "/updates" },
-          { label: "Fund a Mile", href: "/fund-a-mile", variant: "secondary" },
+          { label: "View Updates", href: `${CAMPAIGN_URL}/updates` },
+          { label: "Fund a Mile", href: `${CAMPAIGN_URL}/fund-a-mile`, variant: "secondary" },
         ]}
       />
     </>

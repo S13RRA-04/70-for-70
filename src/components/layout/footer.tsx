@@ -1,24 +1,66 @@
 import Link from "next/link";
 import Image from "next/image";
-import { CAMPAIGN_NAME, CONTACT_EMAIL, NAV_LINKS, ORG_TAGLINE, SITE_NAME } from "@/lib/constants";
+import {
+  CAMPAIGN_HOME_LINK,
+  CAMPAIGN_NAME,
+  CAMPAIGN_NAV_LINKS,
+  CONTACT_EMAIL,
+  ORG_HOME_LINK,
+  ORG_NAV_LINKS,
+  ORG_TAGLINE,
+  SITE_NAME,
+  SITE_URL,
+} from "@/lib/constants";
 import { Container } from "@/components/shared/container";
 import { SocialLinks } from "@/components/shared/social-links";
+import type { SiteMode } from "@/lib/site-mode";
 
-export function Footer() {
+export function Footer({ mode }: { mode: SiteMode }) {
+  const isCampaign = mode === "campaign";
+  const navLinks = isCampaign ? CAMPAIGN_NAV_LINKS : ORG_NAV_LINKS;
+  // Legal pages live on the org domain only — link there directly instead
+  // of relying on the campaign-host redirect for every click.
+  const legalBase = isCampaign ? SITE_URL : "";
+
   return (
     <footer className="border-t border-off-white/10 bg-ink text-off-white">
       <Container className="grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
         <div className="lg:col-span-2">
           <div className="flex items-center gap-2.5">
-            <Image src="/logo-white.png" alt="" aria-hidden="true" width={32} height={32} />
+            <Image
+              src={isCampaign ? "/campaign-logo.png" : "/logo-white.png"}
+              alt=""
+              aria-hidden="true"
+              width={32}
+              height={32}
+            />
             <p className="font-display text-xl font-semibold uppercase tracking-wide">
-              {SITE_NAME}
+              {isCampaign ? CAMPAIGN_NAME : SITE_NAME}
             </p>
           </div>
-          <p className="mt-3 max-w-sm text-sm text-off-white/70">{ORG_TAGLINE}</p>
-          <p className="mt-1 max-w-sm text-xs font-semibold uppercase tracking-wide text-bronze-light">
-            Current Mission: {CAMPAIGN_NAME}
-          </p>
+          {isCampaign ? (
+            <>
+              <p className="mt-3 max-w-sm text-sm text-off-white/70">
+                The current campaign under {SITE_NAME}.
+              </p>
+              <a
+                href={ORG_HOME_LINK.href}
+                className="mt-1 inline-block max-w-sm text-xs font-semibold uppercase tracking-wide text-bronze-light hover:underline"
+              >
+                &larr; {ORG_HOME_LINK.label}
+              </a>
+            </>
+          ) : (
+            <>
+              <p className="mt-3 max-w-sm text-sm text-off-white/70">{ORG_TAGLINE}</p>
+              <a
+                href={CAMPAIGN_HOME_LINK.href}
+                className="mt-1 inline-block max-w-sm text-xs font-semibold uppercase tracking-wide text-bronze-light hover:underline"
+              >
+                Current Mission: {CAMPAIGN_HOME_LINK.label} &rarr;
+              </a>
+            </>
+          )}
         </div>
 
         <div>
@@ -26,7 +68,7 @@ export function Footer() {
             Navigate
           </p>
           <ul className="mt-4 space-y-2">
-            {NAV_LINKS.map((link) => (
+            {navLinks.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
@@ -44,52 +86,49 @@ export function Footer() {
             Connect
           </p>
           <ul className="mt-4 space-y-2 text-sm text-off-white/70">
-            <li>
-              <Link href="/donate" className="transition-colors hover:text-off-white">
-                Donate
-              </Link>
-            </li>
-            <li>
-              <Link href="/sponsors" className="transition-colors hover:text-off-white">
-                Become a Sponsor
-              </Link>
-            </li>
-            <li>
-              <Link href="/live" className="transition-colors hover:text-off-white">
-                Race Day Live
-              </Link>
-            </li>
-            <li>
-              <Link href="/press" className="transition-colors hover:text-off-white">
-                Press &amp; Media
-              </Link>
-            </li>
-            <li>
-              <Link href="/resources" className="transition-colors hover:text-off-white">
-                Resources
-              </Link>
-            </li>
-            <li>
-              <Link href="/join" className="transition-colors hover:text-off-white">
-                Join the Movement
-              </Link>
-            </li>
-            <li>
-              <Link href="/merch" className="transition-colors hover:text-off-white">
-                Shop
-              </Link>
-            </li>
-            <li>
-              {CONTACT_EMAIL ? (
-                <a href={`mailto:${CONTACT_EMAIL}`} className="transition-colors hover:text-off-white">
-                  {CONTACT_EMAIL}
-                </a>
-              ) : (
-                <Link href="/contact" className="transition-colors hover:text-off-white">
-                  Contact Us
-                </Link>
-              )}
-            </li>
+            {isCampaign ? (
+              <>
+                <li>
+                  <Link href="/donate" className="transition-colors hover:text-off-white">
+                    Donate
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/sponsors" className="transition-colors hover:text-off-white">
+                    Become a Sponsor
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/live" className="transition-colors hover:text-off-white">
+                    Race Day Live
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <Link href="/press" className="transition-colors hover:text-off-white">
+                    Press &amp; Media
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/merch" className="transition-colors hover:text-off-white">
+                    Shop
+                  </Link>
+                </li>
+                <li>
+                  {CONTACT_EMAIL ? (
+                    <a href={`mailto:${CONTACT_EMAIL}`} className="transition-colors hover:text-off-white">
+                      {CONTACT_EMAIL}
+                    </a>
+                  ) : (
+                    <Link href="/contact" className="transition-colors hover:text-off-white">
+                      Contact Us
+                    </Link>
+                  )}
+                </li>
+              </>
+            )}
           </ul>
           <SocialLinks className="mt-4" />
         </div>
@@ -101,12 +140,18 @@ export function Footer() {
             <p>
               &copy; {new Date().getFullYear()} {SITE_NAME}. All rights reserved.
             </p>
-            <Link href="/privacy" className="underline-offset-2 hover:text-off-white/80 hover:underline">
+            <a
+              href={`${legalBase}/privacy`}
+              className="underline-offset-2 hover:text-off-white/80 hover:underline"
+            >
               Privacy Policy
-            </Link>
-            <Link href="/terms" className="underline-offset-2 hover:text-off-white/80 hover:underline">
+            </a>
+            <a
+              href={`${legalBase}/terms`}
+              className="underline-offset-2 hover:text-off-white/80 hover:underline"
+            >
               Site Terms
-            </Link>
+            </a>
           </div>
           <p>
             Donations are directed through each beneficiary organization&apos;s

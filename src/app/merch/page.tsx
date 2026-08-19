@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { ExternalLink } from "lucide-react";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
-import { MERCH_STORE_URL } from "@/lib/constants";
+import { CAMPAIGN_URL, MERCH_STORE_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Shop",
@@ -32,13 +31,13 @@ export default function MerchPage() {
           </p>
           <p className="mt-3 text-sm text-charcoal-light">
             Looking to make a charitable gift instead?{" "}
-            <Link href="/donate" className="font-semibold text-bronze hover:underline">
+            <a href={`${CAMPAIGN_URL}/donate`} className="font-semibold text-bronze hover:underline">
               Donate directly
-            </Link>{" "}
+            </a>{" "}
             or{" "}
-            <Link href="/fund-a-mile" className="font-semibold text-bronze hover:underline">
+            <a href={`${CAMPAIGN_URL}/fund-a-mile`} className="font-semibold text-bronze hover:underline">
               fund a mile
-            </Link>
+            </a>
             .
           </p>
         </div>

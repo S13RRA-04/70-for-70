@@ -5,12 +5,24 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
-import { DONATE_LINK, NAV_LINKS, SITE_NAME, SPONSOR_LINK } from "@/lib/constants";
+import {
+  CAMPAIGN_HOME_LINK,
+  CAMPAIGN_NAME,
+  CAMPAIGN_NAV_LINKS,
+  DONATE_LINK,
+  MERCH_LINK,
+  ORG_HOME_LINK,
+  ORG_NAV_LINKS,
+  SITE_NAME,
+  SPONSOR_LINK,
+} from "@/lib/constants";
+import type { SiteMode } from "@/lib/site-mode";
 import { cn } from "@/lib/utils";
 
-export function Header() {
+export function Header({ mode }: { mode: SiteMode }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const isCampaign = mode === "campaign";
 
   // Close the mobile menu on navigation. Adjusted during render (rather than
   // in an effect) per https://react.dev/learn/you-might-not-need-an-effect.
@@ -28,21 +40,34 @@ export function Header() {
     return () => document.removeEventListener("keydown", onKeyDown);
   }, []);
 
+  const navLinks = isCampaign ? CAMPAIGN_NAV_LINKS : ORG_NAV_LINKS;
+
   return (
     <header className="sticky top-0 z-40 border-b border-ink/10 bg-off-white/95 backdrop-blur supports-[backdrop-filter]:bg-off-white/80">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2.5">
-          <Image src="/logo.png" alt="" aria-hidden="true" width={36} height={36} priority />
-          <span className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
-            {SITE_NAME}
+          <Image
+            src={isCampaign ? "/campaign-logo.png" : "/logo.png"}
+            alt=""
+            aria-hidden="true"
+            width={36}
+            height={36}
+            priority
+          />
+          <span className="flex flex-col leading-none">
+            {isCampaign && (
+              <span className="text-[10px] font-semibold uppercase tracking-widest text-charcoal-light">
+                {SITE_NAME}
+              </span>
+            )}
+            <span className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+              {isCampaign ? CAMPAIGN_NAME : SITE_NAME}
+            </span>
           </span>
         </Link>
 
-        <nav
-          aria-label="Primary"
-          className="hidden items-center gap-7 lg:flex"
-        >
-          {NAV_LINKS.map((link) => (
+        <nav aria-label="Primary" className="hidden items-center gap-7 lg:flex">
+          {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -55,18 +80,38 @@ export function Header() {
               {link.label}
             </Link>
           ))}
-          <Link
-            href={SPONSOR_LINK.href}
-            className="rounded-sm border border-ink/20 px-5 py-2 text-sm font-semibold uppercase tracking-wide text-ink transition-colors hover:bg-ink/5"
-          >
-            {SPONSOR_LINK.label}
-          </Link>
-          <Link
-            href={DONATE_LINK.href}
-            className="rounded-sm bg-bronze px-5 py-2 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light"
-          >
-            {DONATE_LINK.label}
-          </Link>
+
+          {isCampaign ? (
+            <>
+              <Link
+                href={SPONSOR_LINK.href}
+                className="rounded-sm border border-ink/20 px-5 py-2 text-sm font-semibold uppercase tracking-wide text-ink transition-colors hover:bg-ink/5"
+              >
+                {SPONSOR_LINK.label}
+              </Link>
+              <Link
+                href={DONATE_LINK.href}
+                className="rounded-sm bg-bronze px-5 py-2 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light"
+              >
+                {DONATE_LINK.label}
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link
+                href={MERCH_LINK.href}
+                className="rounded-sm border border-ink/20 px-5 py-2 text-sm font-semibold uppercase tracking-wide text-ink transition-colors hover:bg-ink/5"
+              >
+                {MERCH_LINK.label}
+              </Link>
+              <a
+                href={CAMPAIGN_HOME_LINK.href}
+                className="rounded-sm bg-bronze px-5 py-2 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light"
+              >
+                {CAMPAIGN_HOME_LINK.label}
+              </a>
+            </>
+          )}
         </nav>
 
         <button
@@ -82,13 +127,9 @@ export function Header() {
       </div>
 
       {open && (
-        <nav
-          id="mobile-nav"
-          aria-label="Mobile"
-          className="border-t border-ink/10 bg-off-white lg:hidden"
-        >
+        <nav id="mobile-nav" aria-label="Mobile" className="border-t border-ink/10 bg-off-white lg:hidden">
           <ul className="flex flex-col gap-1 px-4 py-4 sm:px-6">
-            {NAV_LINKS.map((link) => (
+            {navLinks.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
@@ -102,22 +143,53 @@ export function Header() {
                 </Link>
               </li>
             ))}
-            <li className="pt-2">
-              <Link
-                href={SPONSOR_LINK.href}
-                className="block rounded-sm border border-ink/20 px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-ink hover:bg-sand-light"
-              >
-                {SPONSOR_LINK.label}
-              </Link>
-            </li>
-            <li className="pt-2">
-              <Link
-                href={DONATE_LINK.href}
-                className="block rounded-sm bg-bronze px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
-              >
-                {DONATE_LINK.label}
-              </Link>
-            </li>
+            {isCampaign ? (
+              <>
+                <li className="pt-2">
+                  <Link
+                    href={SPONSOR_LINK.href}
+                    className="block rounded-sm border border-ink/20 px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-ink hover:bg-sand-light"
+                  >
+                    {SPONSOR_LINK.label}
+                  </Link>
+                </li>
+                <li className="pt-2">
+                  <Link
+                    href={DONATE_LINK.href}
+                    className="block rounded-sm bg-bronze px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
+                  >
+                    {DONATE_LINK.label}
+                  </Link>
+                </li>
+                <li className="pt-2">
+                  <a
+                    href={ORG_HOME_LINK.href}
+                    className="block rounded-sm px-3 py-3 text-center text-xs font-semibold uppercase tracking-wide text-charcoal-light hover:text-ink"
+                  >
+                    &larr; {ORG_HOME_LINK.label}
+                  </a>
+                </li>
+              </>
+            ) : (
+              <>
+                <li className="pt-2">
+                  <Link
+                    href={MERCH_LINK.href}
+                    className="block rounded-sm border border-ink/20 px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-ink hover:bg-sand-light"
+                  >
+                    {MERCH_LINK.label}
+                  </Link>
+                </li>
+                <li className="pt-2">
+                  <a
+                    href={CAMPAIGN_HOME_LINK.href}
+                    className="block rounded-sm bg-bronze px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
+                  >
+                    {CAMPAIGN_HOME_LINK.label}
+                  </a>
+                </li>
+              </>
+            )}
           </ul>
         </nav>
       )}

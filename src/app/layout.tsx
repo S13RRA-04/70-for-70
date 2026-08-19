@@ -7,6 +7,7 @@ import {
   MobileConversionBar,
   MobileConversionBarSpacer,
 } from "@/components/layout/mobile-conversion-bar";
+import { getSiteMode } from "@/lib/site-mode";
 import "./globals.css";
 
 const oswald = Oswald({
@@ -45,7 +46,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const mode = await getSiteMode();
+
   return (
     <html
       lang="en"
@@ -59,13 +62,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           Skip to content
         </a>
-        <Header />
+        <Header mode={mode} />
         <main id="main-content" className="flex-1">
           {children}
         </main>
-        <Footer />
-        <MobileConversionBarSpacer />
-        <MobileConversionBar />
+        <Footer mode={mode} />
+        <MobileConversionBarSpacer mode={mode} />
+        <MobileConversionBar mode={mode} />
       </body>
     </html>
   );

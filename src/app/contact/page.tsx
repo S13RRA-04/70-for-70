@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { SponsorInquiryForm } from "@/components/forms/sponsor-inquiry-form";
-import { CONTACT_EMAIL } from "@/lib/constants";
+import { CAMPAIGN_URL, CONTACT_EMAIL } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -27,9 +26,12 @@ export default function ContactPage() {
 
         <p className="mt-6 rounded-sm border border-bronze/30 bg-bronze/10 px-4 py-3 text-sm text-ink">
           Looking to sponsor the campaign as a business? Use the dedicated{" "}
-          <Link href="/sponsors/request" className="font-semibold text-bronze hover:underline">
+          <a
+            href={`${CAMPAIGN_URL}/sponsors/request`}
+            className="font-semibold text-bronze hover:underline"
+          >
             sponsorship request form
-          </Link>{" "}
+          </a>{" "}
           instead — it routes proposals through the campaign&apos;s review process.
         </p>
 
