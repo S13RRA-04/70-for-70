@@ -42,6 +42,23 @@ export const TERMS_SECTIONS: TermsSection[] = [
     ],
   },
   {
+    id: "merchandise-and-program-proceeds",
+    heading: "Merchandise and Program Proceeds",
+    body: [
+      "For The 22 merchandise may be produced, sold, fulfilled, or processed by independent third-party providers. These providers may deduct production, fulfillment, platform, transaction, refund, and related costs before remitting proceeds to For The 22. “Net merchandise proceeds” means only the amount actually received by For The 22 after those deductions — not the retail purchase price paid by the customer.",
+      "For The 22 currently allocates net merchandise proceeds according to its published 22/58/20 model: 22% to designated charitable organizations, 58% to athlete and program support, and 20% to operations, taxes, and reserves. See the Shop page for the current breakdown.",
+      "Merchandise purchases are retail transactions and are not charitable contributions to For The 22. For The 22 does not issue charitable donation receipts for merchandise purchases.",
+      "The applicable third-party provider's own terms govern the transaction itself — including payment processing, shipping, returns, and refunds. For The 22 may not directly control manufacturing, shipping, return processing, payment processing, or fulfillment.",
+    ],
+  },
+  {
+    id: "financial-disclaimer",
+    heading: "Financial Disclaimer",
+    body: [
+      "Information regarding allocations, charitable giving, program support, and merchandise proceeds is provided for transparency and does not constitute tax, legal, or financial advice. Allocation percentages apply to net proceeds actually received by For The 22 and may be subject to applicable legal, tax, accounting, or regulatory requirements.",
+    ],
+  },
+  {
     id: "trademarks-and-endorsement",
     heading: "Trademarks & Endorsement Disclaimer",
     body: [

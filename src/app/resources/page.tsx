@@ -1,50 +1,15 @@
 import type { Metadata } from "next";
-import { ExternalLink } from "lucide-react";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
-import { EmptyState } from "@/components/shared/empty-state";
 import { CTASection } from "@/components/shared/cta-section";
+import { ResourceDirectory } from "@/components/resources/resource-directory";
 import { CONTACT_EMAIL, SITE_NAME } from "@/lib/constants";
-import { getResourcesForCategory } from "@/lib/content/resources";
 
 export const metadata: Metadata = {
   title: "Resources",
-  description: "Resources for veteran and first responder athletes, curated by For The 22.",
+  description: "A resource finder for veterans and first responders, curated by For The 22.",
   alternates: { canonical: "/resources" },
 };
-
-const CATEGORIES = [
-  {
-    id: "veteran-athletes",
-    title: "Veteran Athletes",
-    description: "Programs and events built for veterans getting into endurance sport.",
-  },
-  {
-    id: "first-responders",
-    title: "First Responders",
-    description: "Programs and events built for active and retired first responders.",
-  },
-  {
-    id: "adaptive-sports",
-    title: "Adaptive Sports",
-    description: "Organizations and equipment resources for adaptive athletes.",
-  },
-  {
-    id: "recovery-wellness",
-    title: "Recovery & Wellness",
-    description: "Mental health, physical recovery, and wellness support.",
-  },
-  {
-    id: "equipment-grants",
-    title: "Equipment & Grants",
-    description: "Grants and equipment programs that help offset the cost of getting started.",
-  },
-  {
-    id: "community",
-    title: "Community",
-    description: "Local and online communities of veteran and first-responder athletes.",
-  },
-] as const;
 
 export default function ResourcesPage() {
   return (
@@ -53,47 +18,15 @@ export default function ResourcesPage() {
         <Container>
           <SectionHeading
             eyebrow="Resources"
-            title="Resources for Veteran & First Responder Athletes"
-            description={`${SITE_NAME} is building a curated directory of programs, equipment resources, and communities — organized by category below. This gives the movement value even if you never donate a dollar.`}
+            title="Find What You Need"
+            description={`${SITE_NAME} is building a resource finder for veterans and first responders — mental health, sports, equipment, family support, career, and more. Sport is one entry point, not the only one. Filter by what you need and who you are below.`}
           />
         </Container>
       </section>
 
       <section className="py-16 sm:py-20">
         <Container>
-          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
-            {CATEGORIES.map((category) => {
-              const resources = getResourcesForCategory(category.id);
-              return (
-                <div key={category.id} id={category.id}>
-                  <h2 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
-                    {category.title}
-                  </h2>
-                  <p className="mt-1 text-sm text-charcoal-light">{category.description}</p>
-                  <div className="mt-3 space-y-4">
-                    {resources.length === 0 ? (
-                      <EmptyState title="Resources are being curated for this category." />
-                    ) : (
-                      resources.map((resource) => (
-                        <div key={resource.name} className="border-t border-ink/10 pt-3">
-                          <a
-                            href={resource.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 text-sm font-semibold text-ink hover:text-bronze"
-                          >
-                            {resource.name}
-                            <ExternalLink size={13} aria-hidden />
-                          </a>
-                          <p className="mt-1 text-sm text-charcoal-light">{resource.description}</p>
-                        </div>
-                      ))
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+          <ResourceDirectory />
         </Container>
       </section>
 

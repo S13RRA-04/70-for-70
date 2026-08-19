@@ -59,7 +59,8 @@ export const PRIVACY_SECTIONS: PrivacySection[] = [
     body: [
       "Supabase: our database, authentication, and hosting infrastructure provider. Form submissions and administrator accounts are stored in Supabase.",
       "WHOOP: provides the athlete's training data displayed on the Race page, as described above.",
-      "We do not currently use an email delivery provider, payment processor, or analytics provider. If we add one, we'll update this policy first.",
+      "Jakroo: our third-party merchandise/team-store provider. If you buy Tri For The 22 merchandise, your order, sizing, shipping, and payment-card information are collected and processed by Jakroo on its own platform, not this site. We do not collect or store your payment-card information, and we may receive only limited order or transaction information from Jakroo. Jakroo's own privacy policy and terms apply to that purchase.",
+      "We do not currently use an email delivery provider or analytics provider. If we add one, we'll update this policy first.",
       "Donate buttons route to each beneficiary nonprofit organization's own, separately operated donation platform — see the disclaimer on our Donate and Partners pages. We don't receive or process your payment information for those donations.",
     ],
   },

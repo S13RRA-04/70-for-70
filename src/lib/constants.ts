@@ -220,6 +220,31 @@ export const CONTACT_EMAIL: string | null = "admin@forthe22.org";
 export const MERCH_STORE_URL = "https://jakroo.com/store-front?storeId=BkxZTlQ7Pzg";
 
 /**
+ * How For The 22 allocates net merchandise proceeds — the amount actually
+ * paid to For The 22 by the third-party merchandise provider (Jakroo) after
+ * it deducts production, fulfillment, platform, transaction, refund, and
+ * related costs. Not a percentage of the customer's retail purchase price.
+ * See the Merchandise and Program Proceeds section of the Terms of Use.
+ */
+export const MERCH_PROCEEDS_ALLOCATION = [
+  {
+    percentage: 22,
+    label: "Charitable Giving",
+    body: "Donated to designated independent charitable organizations serving veterans, first responders, and related communities.",
+  },
+  {
+    percentage: 58,
+    label: "Athlete & Program Support",
+    body: "Used to support eligible athletes and For The 22 mission programs — approved equipment, race or event entry fees, coaching, training resources, adaptive equipment, and other mission-aligned expenses. Program availability and eligibility criteria may vary.",
+  },
+  {
+    percentage: 20,
+    label: "Operations, Taxes & Reserve",
+    body: "Retained to cover applicable taxes, insurance, legal/accounting expenses, web and technology expenses, administrative costs, program infrastructure, and reasonable operating reserves.",
+  },
+] as const;
+
+/**
  * Social profile links for the footer's "Follow" list. Empty by default —
  * intentionally not a placeholder set of fake icons; add entries only with
  * real, confirmed profile URLs. See SocialLinks, which renders nothing
