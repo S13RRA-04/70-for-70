@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { ExternalLink } from "lucide-react";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { EmptyState } from "@/components/shared/empty-state";
 import { CTASection } from "@/components/shared/cta-section";
 import { CONTACT_EMAIL, SITE_NAME } from "@/lib/constants";
+import { getResourcesForCategory } from "@/lib/content/resources";
 
 export const metadata: Metadata = {
   title: "Resources",
@@ -59,18 +61,38 @@ export default function ResourcesPage() {
 
       <section className="py-16 sm:py-20">
         <Container>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {CATEGORIES.map((category) => (
-              <div key={category.id} id={category.id}>
-                <h2 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
-                  {category.title}
-                </h2>
-                <p className="mt-1 text-sm text-charcoal-light">{category.description}</p>
-                <div className="mt-3">
-                  <EmptyState title="Resources are being curated for this category." />
+          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+            {CATEGORIES.map((category) => {
+              const resources = getResourcesForCategory(category.id);
+              return (
+                <div key={category.id} id={category.id}>
+                  <h2 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+                    {category.title}
+                  </h2>
+                  <p className="mt-1 text-sm text-charcoal-light">{category.description}</p>
+                  <div className="mt-3 space-y-4">
+                    {resources.length === 0 ? (
+                      <EmptyState title="Resources are being curated for this category." />
+                    ) : (
+                      resources.map((resource) => (
+                        <div key={resource.name} className="border-t border-ink/10 pt-3">
+                          <a
+                            href={resource.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 text-sm font-semibold text-ink hover:text-bronze"
+                          >
+                            {resource.name}
+                            <ExternalLink size={13} aria-hidden />
+                          </a>
+                          <p className="mt-1 text-sm text-charcoal-light">{resource.description}</p>
+                        </div>
+                      ))
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </Container>
       </section>
