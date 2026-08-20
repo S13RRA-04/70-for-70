@@ -118,7 +118,7 @@ export function MileGrid({
                 </span>
               </p>
             </div>
-            <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7">
+            <div className="mt-3 grid grid-cols-6 gap-1.5 sm:grid-cols-10">
               {segment.miles.map((mile) => (
                 <MileCard key={mile.id} mile={mile} onSelect={setSelectedMileNumber} />
               ))}

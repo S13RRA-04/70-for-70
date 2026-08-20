@@ -7,6 +7,15 @@ import { formatCurrency, mileStatusLabel, percentFunded } from "@/lib/utils";
 import { FEATURED_MILE } from "@/lib/constants";
 import type { MileWithDonations } from "@/types/content";
 
+/** Suggested entry points, not required donation levels — see the note rendered beside them. */
+const SUGGESTED_AMOUNTS = [
+  { value: 22, description: "Join the mission" },
+  { value: 70, description: "One dollar per fundraising mile" },
+  { value: 220, description: "Carry the 22" },
+  { value: 500, description: "Half a mile" },
+  { value: 1000, description: "Fund a full mile" },
+] as const;
+
 export function MileDetailModal({
   mile,
   onClose,
@@ -141,6 +150,21 @@ export function MileDetailModal({
 
             {(mile.status === "available" || mile.status === "partially_funded") && (
               <>
+                <div className="flex flex-wrap gap-1.5">
+                  {SUGGESTED_AMOUNTS.map((amount) => (
+                    <span
+                      key={amount.value}
+                      title={amount.description}
+                      className="rounded-full border border-ink/15 px-2.5 py-1 text-xs font-semibold text-charcoal-light"
+                    >
+                      {formatCurrency(amount.value)}
+                    </span>
+                  ))}
+                </div>
+                <p className="text-xs text-charcoal-light">
+                  Suggested amounts, not required levels — give any amount that works for you on
+                  the beneficiary&apos;s own giving page.
+                </p>
                 <Link
                   href={`/donate?mile=${mile.mile_number}`}
                   className="inline-flex w-full items-center justify-center rounded-sm bg-bronze px-5 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light"

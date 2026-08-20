@@ -1,15 +1,14 @@
-import { cn, formatCurrency, mileStatusLabel, percentFunded } from "@/lib/utils";
+import { cn, mileStatusLabel, percentFunded } from "@/lib/utils";
 import { FEATURED_MILE } from "@/lib/constants";
 import type { MileWithDonations } from "@/types/content";
 
-const STATUS_STYLES = {
-  available: "border-ink/15 bg-off-white text-charcoal-light",
-  requested: "border-charcoal/30 bg-charcoal/5 text-charcoal-light",
-  reserved: "border-charcoal/40 bg-charcoal/10 text-charcoal",
-  partially_funded: "border-bronze/40 bg-sand-light text-bronze",
-  funded: "border-olive bg-olive text-off-white",
-} as const;
-
+/**
+ * Compact tile, not a card — the point is that a visitor can visually scan
+ * all 70 miles at once (see MileGrid). Status is communicated by a
+ * bottom-up fill (like a thermometer) AND by the accessible label, never
+ * by color alone. Detail (dollar amounts, donor, dedication) lives in
+ * MileDetailModal once a mile is opened, not on the tile itself.
+ */
 export function MileCard({
   mile,
   onSelect,
@@ -17,61 +16,39 @@ export function MileCard({
   mile: MileWithDonations;
   onSelect: (mileNumber: number) => void;
 }) {
-  const primarySupporter = mile.donations.find((d) => !d.anonymous);
   const percent = percentFunded(mile.amount_funded, mile.goal_amount);
   const isFeatured = mile.mile_number === FEATURED_MILE.number;
+  const isPending = mile.status === "requested" || mile.status === "reserved";
+  const fillPercent = mile.status === "funded" ? 100 : isPending ? 0 : percent;
 
   return (
     <button
       type="button"
       onClick={() => onSelect(mile.mile_number)}
       data-analytics-event="mile_viewed"
-      className={cn(
-        "flex flex-col rounded-sm border p-4 text-left transition-shadow hover:shadow-md focus-visible:shadow-md",
-        isFeatured ? "border-2 border-bronze" : "",
-        STATUS_STYLES[mile.status],
-      )}
       aria-haspopup="dialog"
-    >
-      {isFeatured && (
-        <span className="mb-1 text-[10px] font-bold uppercase tracking-widest text-bronze">
-          Featured Mile
-        </span>
+      aria-label={`Mile ${mile.mile_number} — ${mileStatusLabel(mile.status)}${isPending ? "" : `, ${Math.round(percent)}% funded`}`}
+      className={cn(
+        "group relative aspect-square overflow-hidden rounded-[3px] border bg-off-white transition-transform hover:z-10 hover:scale-110 focus-visible:z-10 focus-visible:scale-110",
+        isFeatured ? "border-2 border-bronze" : "border-ink/10",
       )}
-      <span className="font-display text-lg font-semibold uppercase tracking-wide">
-        Mile {String(mile.mile_number).padStart(2, "0")}
-      </span>
+    >
+      <div
+        aria-hidden="true"
+        className={cn(
+          "absolute inset-x-0 bottom-0 transition-[height]",
+          mile.status === "funded" ? "bg-olive" : isPending ? "bg-charcoal/30" : "bg-bronze/60",
+        )}
+        style={{ height: `${fillPercent}%` }}
+      />
       <span
         className={cn(
-          "mt-1 text-xs font-semibold uppercase tracking-widest",
-          mile.status === "funded" ? "text-off-white/85" : "text-current",
+          "relative z-[1] flex h-full w-full items-center justify-center font-display text-[10px] font-bold sm:text-xs",
+          fillPercent > 55 ? "text-off-white" : "text-ink",
         )}
       >
-        {mileStatusLabel(mile.status)}
+        {mile.mile_number}
       </span>
-
-      <span className="mt-3 text-sm font-medium">
-        {mile.status === "funded" &&
-          (primarySupporter ? `Sponsored by ${primarySupporter.donor_name}` : "Fully funded")}
-        {(mile.status === "requested" || mile.status === "reserved") &&
-          "Pending sponsorship review"}
-        {(mile.status === "available" || mile.status === "partially_funded") &&
-          `${formatCurrency(mile.amount_funded)} / ${formatCurrency(mile.goal_amount)}`}
-      </span>
-
-      {(mile.status === "available" || mile.status === "partially_funded") && (
-        <>
-          <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-current/10">
-            <div
-              className="h-full rounded-full bg-current opacity-60"
-              style={{ width: `${percent}%` }}
-            />
-          </div>
-          <span className="mt-1 text-xs text-current opacity-70">
-            {Math.round(percent)}% funded
-          </span>
-        </>
-      )}
     </button>
   );
 }
