@@ -9,8 +9,19 @@ export const SITE_NAME = "For The 22";
  * than presented as the entirety of the organization's mission.
  */
 export const ATHLETIC_TEAM_NAME = "For The 22 Athletic Team";
-/** The org's own tagline, from the logo mark. */
-export const ORG_TAGLINE = "Endurance With A Purpose";
+/**
+ * The org's primary positioning statement. Replaces "Endurance With A
+ * Purpose" as the org-level identity — that line is too narrow to define
+ * the parent organization now that it covers resources, advocacy, and
+ * athletics, not just endurance racing. See ATHLETIC_TAGLINE below for
+ * where the old line still belongs.
+ */
+export const ORG_TAGLINE = "For Those Who Serve. For What Comes Next.";
+/** One-sentence expansion of ORG_TAGLINE — the three-pillar mission in a sentence. Matches the homepage hero copy verbatim; import from here instead of re-typing it. */
+export const ORG_SUPPORTING_STATEMENT =
+  "For The 22 connects veterans and first responders with the resources they need, raises awareness of the challenges they face, and brings athletes together to support the nonprofit organizations serving them.";
+/** The org's original tagline, from the logo mark — still fits athletic-specific contexts (e.g. /athletes), just no longer the org's primary identity. */
+export const ATHLETIC_TAGLINE = "Endurance With A Purpose";
 /**
  * The specific fundraising campaign/race effort — distinct from SITE_NAME.
  * Individual campaigns follow a "[Mission] For The 22" naming convention
@@ -54,17 +65,27 @@ export const MOVEMENT_CAMPAIGNS = [
  * Two separate nav sets, one per domain — see README's "Movement/Campaign
  * Domain Split". forthe22.org (org/movement) and tri.forthe22.org
  * (fundraising campaign) each get their own header/footer nav; a visitor
- * never sees campaign nav on the org site or vice versa. Rounds out to
- * Home (logo) / Resources / Athletes / Current Mission / About / Shop /
- * Join — Shop and Current Mission render as the header's two CTA-styled
- * buttons (see MERCH_LINK / CURRENT_MISSION_NAV_LINK) rather than plain
- * nav links, matching the site's existing visual pattern.
+ * never sees campaign nav on the org site or vice versa. Org nav rounds out
+ * to Home (logo) / Resources / Mission / Athletes / Partners / About / Shop
+ * / Get Involved — Shop and Get Involved render as the header's two
+ * CTA-styled buttons (see MERCH_LINK / GET_INVOLVED_LINK) rather than plain
+ * nav links; "Current Mission" is a separate utility strip above the header
+ * (see CampaignUtilityBar), not a nav item competing with the org's own
+ * pages.
+ *
+ * Partners is a real page but a *campaign*-domain route (see
+ * CAMPAIGN_PATH_PREFIXES in middleware.ts, part of the deliberate
+ * Movement/Campaign Domain Split) — its href here is deliberately an
+ * absolute CAMPAIGN_URL link, the same cross-domain pattern the footer's
+ * Sponsor link already uses, rather than a relative path that would get
+ * silently redirected off the org site.
  */
 export const ORG_NAV_LINKS: NavLink[] = [
   { label: "Resources", href: "/resources" },
+  { label: "Mission", href: "/mission" },
   { label: "Athletes", href: "/athletes" },
+  { label: "Partners", href: `${CAMPAIGN_URL}/partners` },
   { label: "About", href: "/about" },
-  { label: "Join", href: "/join" },
 ];
 
 export const CAMPAIGN_NAV_LINKS: NavLink[] = [
@@ -89,6 +110,8 @@ export const CAMPAIGN_HOME_LINK: NavLink = { label: CAMPAIGN_NAME, href: CAMPAIG
 export const CURRENT_MISSION_NAV_LINK: NavLink = { label: "Current Mission", href: CAMPAIGN_URL };
 /** Campaign header → org subdomain, styled as a CTA. */
 export const ORG_HOME_LINK: NavLink = { label: SITE_NAME, href: SITE_URL };
+/** Org header's primary CTA — the umbrella entry point for all "how do I participate" pathways. */
+export const GET_INVOLVED_LINK: NavLink = { label: "Get Involved", href: "/join" };
 
 export const SPONSOR_LINK: NavLink = { label: "Sponsor", href: "/sponsors" };
 export const DONATE_LINK: NavLink = { label: "Donate", href: "/donate" };

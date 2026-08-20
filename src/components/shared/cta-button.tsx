@@ -7,6 +7,14 @@ interface CTAButtonProps {
   variant?: "primary" | "secondary" | "ghost";
   tone?: "dark" | "light";
   size?: "md" | "lg";
+  /**
+   * Primary-variant fill color. Defaults to "bronze" so every existing call
+   * site is unaffected — "black" opts into the rebrand's anchor-black
+   * accent and should only be used by components that have been migrated
+   * to the new foundation (nav, footer, mobile menu). Not meant to be
+   * applied retroactively across the site in one pass.
+   */
+  accent?: "bronze" | "black";
   /** Renders a plain <a> instead of next/link — for cross-domain links (see CAMPAIGN_HOME_LINK) where client-side routing doesn't apply. */
   external?: boolean;
   className?: string;
@@ -23,13 +31,17 @@ export function CTAButton({
   variant = "primary",
   tone = "light",
   size = "md",
+  accent = "bronze",
   external = false,
   className,
 }: CTAButtonProps) {
   const classes = cn(
     "inline-flex items-center gap-1.5 rounded-sm font-semibold uppercase tracking-wide transition-colors",
     SIZE_CLASSES[size],
-    variant === "primary" && "bg-bronze text-off-white hover:bg-bronze-light",
+    variant === "primary" &&
+      (accent === "black"
+        ? "bg-anchor text-off-white hover:bg-anchor-light"
+        : "bg-bronze text-off-white hover:bg-bronze-light"),
     variant === "secondary" &&
       (tone === "dark"
         ? "border border-off-white/40 text-off-white hover:bg-off-white/10"

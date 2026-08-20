@@ -12,6 +12,24 @@
   --color-bronze: #a97a4c;
   --color-bronze-light: #c99a6c;
 
+  /*
+   * Foundation-rebuild tokens (additive). The ink/charcoal/olive/sand/bronze
+   * scale above still powers every page that hasn't been rebuilt yet — do
+   * not remove those. These new tokens are the "black anchor + neutral
+   * gray" system from the rebrand brief; only components that have been
+   * explicitly migrated (global nav/footer/shell) should reference them.
+   * Chromatic accents beyond this scale come from the brand mark's own
+   * service-ring colors (see src/lib/ring-colors.ts), used as identification
+   * signals — chips, borders, dots — never as UI background fills.
+   */
+  --color-anchor: #121212;
+  --color-anchor-light: #2b2b2b;
+  --color-neutral-900: #1a1a1a;
+  --color-neutral-700: #444444;
+  --color-neutral-500: #767676;
+  --color-neutral-300: #b3b3b3;
+  --color-neutral-100: #eeeeee;
+
   --background: var(--color-off-white);
   --foreground: var(--color-ink);
 }
@@ -27,6 +45,14 @@
   --color-off-white: var(--color-off-white);
   --color-bronze: var(--color-bronze);
   --color-bronze-light: var(--color-bronze-light);
+
+  --color-anchor: var(--color-anchor);
+  --color-anchor-light: var(--color-anchor-light);
+  --color-neutral-900: var(--color-neutral-900);
+  --color-neutral-700: var(--color-neutral-700);
+  --color-neutral-500: var(--color-neutral-500);
+  --color-neutral-300: var(--color-neutral-300);
+  --color-neutral-100: var(--color-neutral-100);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);

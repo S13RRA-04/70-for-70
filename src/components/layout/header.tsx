@@ -3,26 +3,28 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 import {
   CAMPAIGN_NAME,
   CAMPAIGN_NAV_LINKS,
-  CURRENT_MISSION_NAV_LINK,
   DONATE_LINK,
+  GET_INVOLVED_LINK,
   MERCH_LINK,
-  ORG_HOME_LINK,
   ORG_NAV_LINKS,
   SITE_NAME,
   SPONSOR_LINK,
 } from "@/lib/constants";
 import type { SiteMode } from "@/lib/site-mode";
 import { cn } from "@/lib/utils";
+import { CTAButton } from "@/components/shared/cta-button";
+import { MobileMenu } from "@/components/layout/mobile-menu";
 
 export function Header({ mode }: { mode: SiteMode }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const isCampaign = mode === "campaign";
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   // Close the mobile menu on navigation. Adjusted during render (rather than
   // in an effect) per https://react.dev/learn/you-might-not-need-an-effect.
@@ -31,14 +33,6 @@ export function Header({ mode }: { mode: SiteMode }) {
     setLastPathname(pathname);
     setOpen(false);
   }
-
-  useEffect(() => {
-    function onKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") setOpen(false);
-    }
-    document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
-  }, []);
 
   const navLinks = isCampaign ? CAMPAIGN_NAV_LINKS : ORG_NAV_LINKS;
 
@@ -99,18 +93,12 @@ export function Header({ mode }: { mode: SiteMode }) {
             </>
           ) : (
             <>
-              <Link
-                href={MERCH_LINK.href}
-                className="rounded-sm border border-ink/20 px-5 py-2 text-sm font-semibold uppercase tracking-wide text-ink transition-colors hover:bg-ink/5"
-              >
+              <CTAButton href={MERCH_LINK.href} variant="secondary" size="md">
                 {MERCH_LINK.label}
-              </Link>
-              <a
-                href={CURRENT_MISSION_NAV_LINK.href}
-                className="rounded-sm bg-bronze px-5 py-2 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light"
-              >
-                {CURRENT_MISSION_NAV_LINK.label}
-              </a>
+              </CTAButton>
+              <CTAButton href={GET_INVOLVED_LINK.href} variant="primary" accent="black" size="md">
+                {GET_INVOLVED_LINK.label}
+              </CTAButton>
             </>
           )}
         </nav>
@@ -132,10 +120,10 @@ export function Header({ mode }: { mode: SiteMode }) {
             </Link>
           )}
           <button
+            ref={menuButtonRef}
             type="button"
             className="inline-flex items-center justify-center rounded-sm p-2 text-ink"
             aria-expanded={open}
-            aria-controls="mobile-nav"
             aria-label={open ? "Close menu" : "Open menu"}
             onClick={() => setOpen((v) => !v)}
           >
@@ -144,81 +132,14 @@ export function Header({ mode }: { mode: SiteMode }) {
         </div>
       </div>
 
-      {open && (
-        <nav id="mobile-nav" aria-label="Mobile" className="border-t border-ink/10 bg-off-white lg:hidden">
-          <ul className="flex flex-col gap-1 px-4 py-4 sm:px-6">
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className={cn(
-                    "block rounded-sm px-3 py-3 text-base font-medium uppercase tracking-wide text-charcoal hover:bg-sand-light",
-                    pathname === link.href && "text-bronze",
-                  )}
-                  aria-current={pathname === link.href ? "page" : undefined}
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-            {isCampaign ? (
-              <>
-                <li className="pt-2">
-                  <Link
-                    href={SPONSOR_LINK.href}
-                    className="block rounded-sm border border-ink/20 px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-ink hover:bg-sand-light"
-                  >
-                    {SPONSOR_LINK.label}
-                  </Link>
-                </li>
-                <li className="pt-2">
-                  <Link
-                    href={DONATE_LINK.href}
-                    className="block rounded-sm bg-bronze px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
-                  >
-                    {DONATE_LINK.label}
-                  </Link>
-                </li>
-                <li className="pt-2">
-                  <a
-                    href={ORG_HOME_LINK.href}
-                    className="block rounded-sm px-3 py-3 text-center text-xs font-semibold uppercase tracking-wide text-charcoal-light hover:text-ink"
-                  >
-                    &larr; {ORG_HOME_LINK.label}
-                  </a>
-                </li>
-              </>
-            ) : (
-              <>
-                <li className="pt-2">
-                  <Link
-                    href={MERCH_LINK.href}
-                    className="block rounded-sm border border-ink/20 px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-ink hover:bg-sand-light"
-                  >
-                    {MERCH_LINK.label}
-                  </Link>
-                </li>
-                <li className="pt-2">
-                  <a
-                    href={CURRENT_MISSION_NAV_LINK.href}
-                    className="block rounded-sm bg-bronze px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
-                  >
-                    {CURRENT_MISSION_NAV_LINK.label}
-                  </a>
-                </li>
-                <li className="mt-3 border-t border-ink/10 pt-3">
-                  <Link
-                    href="/crisis"
-                    className="block rounded-sm px-3 py-3 text-center text-sm font-semibold uppercase tracking-wide text-charcoal-light hover:text-ink"
-                  >
-                    Need Help Now
-                  </Link>
-                </li>
-              </>
-            )}
-          </ul>
-        </nav>
-      )}
+      <MobileMenu
+        open={open}
+        onClose={() => setOpen(false)}
+        navLinks={navLinks}
+        pathname={pathname}
+        isCampaign={isCampaign}
+        triggerRef={menuButtonRef}
+      />
     </header>
   );
 }

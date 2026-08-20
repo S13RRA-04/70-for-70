@@ -6,7 +6,6 @@ import {
   CAMPAIGN_NAV_LINKS,
   CAMPAIGN_URL,
   CONTACT_EMAIL,
-  CURRENT_MISSION_NAV_LINK,
   ORG_HOME_LINK,
   ORG_NAV_LINKS,
   ORG_TAGLINE,
@@ -125,16 +124,18 @@ export function Footer({ mode }: { mode: SiteMode }) {
                   </Link>
                 </li>
                 <li>
+                  <Link href="/mission" className="transition-colors hover:text-off-white">
+                    Mission
+                  </Link>
+                </li>
+                <li>
                   <Link href="/athletes" className="transition-colors hover:text-off-white">
                     Athletes
                   </Link>
                 </li>
                 <li>
-                  <a
-                    href={CURRENT_MISSION_NAV_LINK.href}
-                    className="transition-colors hover:text-off-white"
-                  >
-                    {CURRENT_MISSION_NAV_LINK.label}
+                  <a href={`${CAMPAIGN_URL}/partners`} className="transition-colors hover:text-off-white">
+                    Partners
                   </a>
                 </li>
                 <li>
@@ -152,8 +153,13 @@ export function Footer({ mode }: { mode: SiteMode }) {
               <ul className="mt-4 space-y-2 text-sm text-off-white/70">
                 <li>
                   <Link href="/join" className="transition-colors hover:text-off-white">
-                    Join
+                    Join the Team
                   </Link>
+                </li>
+                <li>
+                  <a href={`${CAMPAIGN_URL}/partners/inquire`} className="transition-colors hover:text-off-white">
+                    Become a Partner
+                  </a>
                 </li>
                 <li>
                   <a href={`${CAMPAIGN_URL}/sponsors`} className="transition-colors hover:text-off-white">
@@ -170,7 +176,7 @@ export function Footer({ mode }: { mode: SiteMode }) {
 
             <div>
               <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
-                Help
+                Support
               </p>
               <ul className="mt-4 space-y-2 text-sm text-off-white/70">
                 <li>
@@ -196,7 +202,7 @@ export function Footer({ mode }: { mode: SiteMode }) {
 
             <div>
               <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
-                Information
+                Media
               </p>
               <ul className="mt-4 space-y-2 text-sm text-off-white/70">
                 <li>

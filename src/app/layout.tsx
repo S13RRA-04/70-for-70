@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Inter, Oswald } from "next/font/google";
-import { SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/constants";
+import { ORG_SUPPORTING_STATEMENT, ORG_TAGLINE, SITE_NAME, SITE_URL } from "@/lib/constants";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { CampaignUtilityBar } from "@/components/layout/campaign-utility-bar";
 import {
   MobileConversionBar,
   MobileConversionBarSpacer,
@@ -24,13 +25,13 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${SITE_NAME} | ${SITE_TAGLINE}`,
+    default: `${SITE_NAME} | ${ORG_TAGLINE}`,
     template: `%s | ${SITE_NAME}`,
   },
-  description: SITE_TAGLINE,
+  description: ORG_SUPPORTING_STATEMENT,
   openGraph: {
-    title: `${SITE_NAME} | ${SITE_TAGLINE}`,
-    description: SITE_TAGLINE,
+    title: `${SITE_NAME} | ${ORG_TAGLINE}`,
+    description: ORG_SUPPORTING_STATEMENT,
     url: SITE_URL,
     siteName: SITE_NAME,
     locale: "en_US",
@@ -38,8 +39,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE_NAME} | ${SITE_TAGLINE}`,
-    description: SITE_TAGLINE,
+    title: `${SITE_NAME} | ${ORG_TAGLINE}`,
+    description: ORG_SUPPORTING_STATEMENT,
   },
   alternates: {
     canonical: "/",
@@ -62,6 +63,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         >
           Skip to content
         </a>
+        <CampaignUtilityBar mode={mode} />
         <Header mode={mode} />
         <main id="main-content" className="flex-1">
           {children}
