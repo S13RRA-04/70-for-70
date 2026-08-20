@@ -1,17 +1,30 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import { US_STATES_GRID } from "@/lib/content/us-states";
+import { ComposableMap, Geographies, Geography } from "react-simple-maps";
+import statesTopology from "us-atlas/states-10m.json";
 
-const MAX_ROW = Math.max(...US_STATES_GRID.map((s) => s.row));
-const MAX_COL = Math.max(...US_STATES_GRID.map((s) => s.col));
+// Territories present in the topojson that this directory doesn't track
+// state-level resources for (no tile in the old grid map had them either).
+const EXCLUDED_TERRITORIES = new Set([
+  "American Samoa",
+  "Guam",
+  "Commonwealth of the Northern Mariana Islands",
+  "Puerto Rico",
+  "United States Virgin Islands",
+]);
+
+const INACTIVE_FILL = "rgba(21, 21, 15, 0.06)";
+const INACTIVE_HOVER_FILL = "rgba(21, 21, 15, 0.1)";
+const ACTIVE_FILL = "rgba(169, 122, 76, 0.25)";
+const ACTIVE_HOVER_FILL = "rgba(169, 122, 76, 0.4)";
+const SELECTED_FILL = "#a97a4c"; // --color-bronze
+const STROKE = "#f6f3ea"; // --color-off-white
 
 /**
- * Schematic tile-grid state picker (see us-states.ts for why this isn't a
- * traced coastline map). Every state is clickable — even ones without a
- * regional resource pass yet still surface nationwide entries, so there's
- * no dead end — but states with real local data (activeStates) render in
- * bronze so it's obvious where the directory currently goes deeper.
+ * Real US geography (react-simple-maps + us-atlas states-10m topojson,
+ * bundled locally rather than fetched from a CDN) rendered with the
+ * Albers USA composite projection, which relocates Alaska and Hawaii as
+ * insets below the continental map the way most US choropleths do.
  */
 export function StateMap({
   activeStates,
@@ -24,39 +37,49 @@ export function StateMap({
   onSelect: (state: string | null) => void;
 }) {
   return (
-    <div
-      role="group"
-      aria-label="Filter resources by state"
-      className="grid gap-1"
-      style={{
-        gridTemplateColumns: `repeat(${MAX_COL + 1}, minmax(0, 1fr))`,
-        gridTemplateRows: `repeat(${MAX_ROW + 1}, minmax(0, 1fr))`,
-      }}
-    >
-      {US_STATES_GRID.map((s) => {
-        const isActive = activeStates.has(s.name);
-        const isSelected = selected === s.name;
-        return (
-          <button
-            key={s.code}
-            type="button"
-            aria-pressed={isSelected}
-            title={isActive ? s.name : `${s.name} — nationwide resources (regional pass coming soon)`}
-            onClick={() => onSelect(isSelected ? null : s.name)}
-            style={{ gridRow: s.row + 1, gridColumn: s.col + 1 }}
-            className={cn(
-              "aspect-square rounded-[3px] text-[9px] font-bold uppercase leading-none transition-colors sm:text-[10px]",
-              isSelected
-                ? "bg-bronze text-off-white"
-                : isActive
-                  ? "bg-bronze/25 text-ink hover:bg-bronze/40"
-                  : "bg-ink/[0.06] text-charcoal-light/60 hover:bg-ink/10",
-            )}
-          >
-            {s.code}
-          </button>
-        );
-      })}
+    <div role="group" aria-label="Filter resources by state">
+      <ComposableMap projection="geoAlbersUsa" width={960} height={520} className="h-auto w-full">
+        <Geographies geography={statesTopology}>
+          {({ geographies }) =>
+            geographies
+              .filter((geo) => !EXCLUDED_TERRITORIES.has(geo.properties.name))
+              .map((geo) => {
+                const name: string = geo.properties.name;
+                const isActive = activeStates.has(name);
+                const isSelected = selected === name;
+
+                const defaultFill = isSelected ? SELECTED_FILL : isActive ? ACTIVE_FILL : INACTIVE_FILL;
+                const hoverFill = isSelected ? SELECTED_FILL : isActive ? ACTIVE_HOVER_FILL : INACTIVE_HOVER_FILL;
+
+                return (
+                  <Geography
+                    key={geo.rsmKey}
+                    geography={geo}
+                    role="button"
+                    aria-pressed={isSelected}
+                    aria-label={
+                      isActive ? name : `${name} — nationwide resources (regional pass coming soon)`
+                    }
+                    onClick={() => onSelect(isSelected ? null : name)}
+                    onKeyDown={(event: React.KeyboardEvent) => {
+                      if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault();
+                        onSelect(isSelected ? null : name);
+                      }
+                    }}
+                    style={{
+                      default: { fill: defaultFill, stroke: STROKE, strokeWidth: 0.75, outline: "none", cursor: "pointer" },
+                      hover: { fill: hoverFill, stroke: STROKE, strokeWidth: 0.75, outline: "none", cursor: "pointer" },
+                      pressed: { fill: SELECTED_FILL, stroke: STROKE, strokeWidth: 0.75, outline: "none", cursor: "pointer" },
+                    }}
+                  >
+                    <title>{isActive ? name : `${name} — nationwide resources (regional pass coming soon)`}</title>
+                  </Geography>
+                );
+              })
+          }
+        </Geographies>
+      </ComposableMap>
     </div>
   );
 }
