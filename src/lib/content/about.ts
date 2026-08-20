@@ -43,7 +43,10 @@ export const ABOUT_CONTENT: AboutContent = {
         "For years, I found ways to keep moving. Sometimes that meant burying myself in work. Sometimes it meant pushing harder physically. Sometimes it meant simply refusing to stop long enough to deal with what was underneath the surface.",
         "I learned how to function. That is not the same thing as learning how to live well.",
       ],
-      image: { src: "/about/desert.jpg", alt: "Cody during his 2011 deployment to Afghanistan" },
+      image: {
+        src: "/about/afghan-1.jpg",
+        alt: "Cody reporting for AFN Afghanistan during his 2011 deployment",
+      },
     },
     {
       id: "my-testimony",
