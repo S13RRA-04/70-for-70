@@ -1473,3 +1473,18 @@ export function getResourcesForFilters(needId: string | null, audience: string |
 export function getCrisisResources(group: "veterans" | "first-responders" | "general"): Resource[] {
   return RESOURCES.filter((resource) => resource.crisisResource && resource.crisisAudience === group);
 }
+
+/**
+ * State-specific entries plus every nationwide entry (no `state` set) —
+ * same "state or nationwide, never neither" rule the interactive directory's
+ * client-side filter uses, so /resources/[state] never dead-ends into an
+ * empty page even for states without a regional pass yet.
+ */
+export function getResourcesForState(stateName: string): {
+  local: Resource[];
+  nationwide: Resource[];
+} {
+  const local = RESOURCES.filter((resource) => resource.state === stateName);
+  const nationwide = RESOURCES.filter((resource) => !resource.state);
+  return { local, nationwide };
+}

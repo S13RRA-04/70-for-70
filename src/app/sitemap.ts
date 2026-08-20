@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getPosts } from "@/lib/data/posts";
+import { US_STATES_GRID } from "@/lib/content/us-states";
 import { CAMPAIGN_URL, SITE_URL, TOTAL_FUNDRAISING_MILES } from "@/lib/constants";
 
 // Kept in sync with the split enforced in src/middleware.ts.
@@ -56,5 +57,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }),
   );
 
-  return [...orgEntries, ...campaignEntries, ...postEntries, ...mileEntries];
+  const stateEntries: MetadataRoute.Sitemap = US_STATES_GRID.map((s) => ({
+    url: `${SITE_URL}/resources/${s.code.toLowerCase()}`,
+    lastModified: new Date(),
+  }));
+
+  return [...orgEntries, ...campaignEntries, ...postEntries, ...mileEntries, ...stateEntries];
 }
