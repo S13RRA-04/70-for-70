@@ -3,7 +3,8 @@ import { getMilesWithDonations } from "@/lib/data/miles";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { MileGrid } from "@/components/miles/mile-grid";
-import { CAMPAIGN_URL } from "@/lib/constants";
+import { MobileActionBar } from "@/components/shared/mobile-action-bar";
+import { CAMPAIGN_URL, DONATE_LINK } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Fund a Mile",
@@ -32,6 +33,12 @@ export default async function FundAMilePage() {
           <MileGrid miles={miles} />
         </Container>
       </section>
+
+      <div className="h-16 sm:hidden" aria-hidden="true" />
+      <MobileActionBar
+        secondary={{ label: "Partners", href: "/partners" }}
+        primary={{ label: DONATE_LINK.label, href: DONATE_LINK.href }}
+      />
     </>
   );
 }

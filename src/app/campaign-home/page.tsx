@@ -15,6 +15,7 @@ import { TrainingSnapshot } from "@/components/training/training-snapshot";
 import { SponsorWall } from "@/components/sponsors/sponsor-wall";
 import { CTASection } from "@/components/shared/cta-section";
 import { CTAButton } from "@/components/shared/cta-button";
+import { MobileActionBar } from "@/components/shared/mobile-action-bar";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { ShareButtons } from "@/components/shared/share-buttons";
@@ -307,6 +308,12 @@ export default async function CampaignHomePage() {
           { label: "Support the Campaign", href: DONATE_LINK.href },
           { label: "Fund a Mile", href: "/fund-a-mile", variant: "secondary" },
         ]}
+      />
+
+      <div className="h-16 sm:hidden" aria-hidden="true" />
+      <MobileActionBar
+        secondary={{ label: "Fund a Mile", href: "/fund-a-mile" }}
+        primary={{ label: DONATE_LINK.label, href: DONATE_LINK.href }}
       />
     </>
   );

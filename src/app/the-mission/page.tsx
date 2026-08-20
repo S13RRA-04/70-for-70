@@ -3,9 +3,16 @@ import Link from "next/link";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
+import { MobileActionBar } from "@/components/shared/mobile-action-bar";
 import { CampaignByTheNumbers } from "@/components/campaign/campaign-by-the-numbers";
 import { MISSION_SECTIONS } from "@/lib/content/mission";
-import { ATHLETIC_TEAM_NAME, CAMPAIGN_URL, MOVEMENT_CAMPAIGNS, SITE_NAME } from "@/lib/constants";
+import {
+  ATHLETIC_TEAM_NAME,
+  CAMPAIGN_URL,
+  DONATE_LINK,
+  MOVEMENT_CAMPAIGNS,
+  SITE_NAME,
+} from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "The Mission",
@@ -104,6 +111,12 @@ export default function MissionPage() {
           { label: "Fund a Mile", href: "/fund-a-mile" },
           { label: "Meet the Partners", href: "/partners", variant: "secondary" },
         ]}
+      />
+
+      <div className="h-16 sm:hidden" aria-hidden="true" />
+      <MobileActionBar
+        secondary={{ label: "Fund a Mile", href: "/fund-a-mile" }}
+        primary={{ label: DONATE_LINK.label, href: DONATE_LINK.href }}
       />
     </>
   );

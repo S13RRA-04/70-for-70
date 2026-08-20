@@ -100,7 +100,7 @@ export function Footer({ mode }: { mode: SiteMode }) {
                 </li>
                 <li>
                   <Link href="/sponsors" className="transition-colors hover:text-off-white">
-                    Become a Sponsor
+                    Sponsor
                   </Link>
                 </li>
                 <li>

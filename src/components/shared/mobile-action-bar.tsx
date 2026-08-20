@@ -5,8 +5,11 @@ interface MobileAction {
 
 /**
  * Sticky bottom action bar, mobile only — used selectively on a handful of
- * pages (Resources, Athletes), not sitewide. Pages that render this should
- * add a small bottom spacer so the fixed bar doesn't overlap page content.
+ * pages (org: Resources, Athletes; campaign: campaign-home, The Mission,
+ * The Race, Fund a Mile — deliberately not /donate itself, where a sticky
+ * "Donate" bar would sit redundantly above the actual donation flow), not
+ * sitewide. Pages that render this should add a small bottom spacer so the
+ * fixed bar doesn't overlap page content.
  */
 export function MobileActionBar({
   primary,

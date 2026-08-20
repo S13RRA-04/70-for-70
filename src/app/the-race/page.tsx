@@ -4,10 +4,26 @@ import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
 import { RaceDashboard } from "@/components/campaign/race-dashboard";
+import { TrainingTimeline } from "@/components/campaign/training-timeline";
+import { MobileActionBar } from "@/components/shared/mobile-action-bar";
 import { getTrainingStats } from "@/lib/training-stats";
 import { getPosts } from "@/lib/data/posts";
 import { formatDateLong } from "@/lib/utils";
-import { CAMPAIGN_URL } from "@/lib/constants";
+import { CAMPAIGN_URL, DONATE_LINK, RACE_INFO } from "@/lib/constants";
+
+function getCurrentTrainingPhaseIndex(): number | undefined {
+  const { trainingStartDate, raceDate } = RACE_INFO;
+  if (!trainingStartDate || !raceDate) return undefined;
+
+  const start = new Date(trainingStartDate).getTime();
+  const end = new Date(raceDate).getTime();
+  const now = Date.now();
+  if (now <= start) return 0;
+  if (now >= end) return 4;
+
+  const fraction = (now - start) / (end - start);
+  return Math.min(4, Math.floor(fraction * 5));
+}
 
 export const metadata: Metadata = {
   title: "The Race",
@@ -52,6 +68,13 @@ export default async function RacePage() {
       <section className="py-16 sm:py-20">
         <Container>
           <RaceDashboard />
+
+          <div className="mt-16">
+            <SectionHeading eyebrow="Training Arc" title="Base to Race" />
+            <div className="mt-6">
+              <TrainingTimeline currentIndex={getCurrentTrainingPhaseIndex()} />
+            </div>
+          </div>
 
           {hasTrainingVolume && (
             <div className="mt-16">
@@ -145,6 +168,12 @@ export default async function RacePage() {
         title="Follow the Training"
         description="Race prep, training milestones, and fundraising updates are posted as the campaign progresses."
         buttons={[{ label: "View Updates", href: "/updates" }]}
+      />
+
+      <div className="h-16 sm:hidden" aria-hidden="true" />
+      <MobileActionBar
+        secondary={{ label: "Fund a Mile", href: "/fund-a-mile" }}
+        primary={{ label: DONATE_LINK.label, href: DONATE_LINK.href }}
       />
     </>
   );
