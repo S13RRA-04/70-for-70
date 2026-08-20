@@ -8,24 +8,33 @@ import { getLatestPosts } from "@/lib/data/posts";
 import { getTrainingSnapshot } from "@/lib/whoop/client";
 import { CampaignProgress } from "@/components/campaign/campaign-progress";
 import { RaceProgress } from "@/components/campaign/race-progress";
-import { MilestoneRail } from "@/components/campaign/milestone-rail";
 import { MileGrid } from "@/components/miles/mile-grid";
 import { PartnerCard } from "@/components/partners/partner-card";
 import { UpdateCard } from "@/components/updates/update-card";
 import { TrainingSnapshot } from "@/components/training/training-snapshot";
 import { SponsorWall } from "@/components/sponsors/sponsor-wall";
 import { CTASection } from "@/components/shared/cta-section";
+import { CTAButton } from "@/components/shared/cta-button";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
-import { MediaPlaceholder } from "@/components/shared/media-placeholder";
 import { ShareButtons } from "@/components/shared/share-buttons";
 import { EmailSignupForm } from "@/components/forms/email-signup-form";
-import { ABOUT_CONTENT } from "@/lib/content/about";
-import { ATHLETIC_TEAM_NAME, CAMPAIGN_NAME, CAMPAIGN_URL, ORG_HOME_LINK, SITE_TAGLINE } from "@/lib/constants";
+import {
+  ATHLETIC_TEAM_NAME,
+  CAMPAIGN_NAME,
+  CAMPAIGN_URL,
+  CURRENT_CAMPAIGN,
+  DONATE_LINK,
+  DOLLARS_PER_MILE,
+  ORG_HOME_LINK,
+  RACE_INFO,
+  RACE_TOTAL_DISTANCE,
+  SITE_TAGLINE,
+  TOTAL_FUNDRAISING_MILES,
+} from "@/lib/constants";
 import { formatCurrency, formatNumber, milesFunded, percentFunded } from "@/lib/utils";
 
-const HERO_SUPPORTING_SENTENCE =
-  "I'm taking on a 70.3-mile triathlon to raise $70,000 for organizations helping veterans find recovery, community, and their next mission.";
+const HERO_SUPPORTING_SENTENCE = `One athlete taking on ${CURRENT_CAMPAIGN.event} to raise awareness and support organizations helping veterans recover, reconnect, and move forward.`;
 
 export const metadata: Metadata = {
   title: `${CAMPAIGN_NAME} | ${SITE_TAGLINE}`,
@@ -37,8 +46,14 @@ export const metadata: Metadata = {
 /**
  * The campaign homepage — rendered at "/" on tri.forthe22.org via a
  * transparent middleware rewrite (see src/middleware.ts). The movement
- * homepage at src/app/page.tsx renders at "/" on forthe22.org
- * instead. Not directly linked/navigated to as "/campaign-home" anywhere.
+ * homepage at src/app/page.tsx renders at "/" on forthe22.org instead.
+ *
+ * Section order follows the fundraising-microsite spec: hero → one
+ * fundraising-progress interface (not duplicated) → campaign explanation
+ * → beneficiaries → fund-a-mile → race/training → sponsors → latest
+ * update(s) → final donate CTA. The founder story is deliberately NOT
+ * reproduced here — it lives on ForThe22.org (see the "Why 70 Miles?"
+ * section's link out) so it has one authoritative home instead of two.
  */
 export default async function CampaignHomePage() {
   const [campaign, miles, partners, sponsors, latestPosts, trainingSnapshot] = await Promise.all([
@@ -46,19 +61,17 @@ export default async function CampaignHomePage() {
     getMilesWithDonations(),
     getPartners(),
     getSponsors(),
-    getLatestPosts(3),
+    getLatestPosts(2),
     getTrainingSnapshot(),
   ]);
 
   const percent = percentFunded(campaign.amount_raised, campaign.fundraising_goal);
   const miles70 = milesFunded(campaign.amount_raised);
-  const remainingMiles = Math.max(70 - miles70, 0);
   const teaserMiles = miles.slice(0, 14);
-  const hasStarted = campaign.amount_raised > 0;
 
   return (
     <>
-      {/* Hero — who, why, what, and the dominant next action */}
+      {/* Hero — Tier 1: brand hierarchy, campaign facts, two CTAs max */}
       <section className="relative overflow-hidden bg-ink text-off-white">
         <div
           className="absolute inset-0 bg-cover bg-center opacity-80"
@@ -72,151 +85,91 @@ export default async function CampaignHomePage() {
             href={ORG_HOME_LINK.href}
             className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light hover:underline"
           >
-            {ATHLETIC_TEAM_NAME}
+            {ATHLETIC_TEAM_NAME} Presents
           </a>
-          <p className="mt-0.5 text-xs font-semibold uppercase tracking-[0.2em] text-off-white/70">
-            Current Campaign
-          </p>
           <h1 className="mt-2 text-balance font-display text-5xl font-bold uppercase leading-[0.95] tracking-tight sm:text-7xl">
             {CAMPAIGN_NAME}
           </h1>
-          <p className="mt-4 max-w-xl text-lg font-medium text-off-white/90 sm:text-xl">
-            {SITE_TAGLINE}
+          <p className="mt-4 font-display text-xl font-semibold uppercase tracking-tight text-off-white/90 sm:text-2xl">
+            {RACE_TOTAL_DISTANCE} Miles. {formatCurrency(campaign.fundraising_goal)}. One Mission.
           </p>
           <p className="mt-4 max-w-xl text-base leading-relaxed text-off-white/75">
             {HERO_SUPPORTING_SENTENCE}
           </p>
 
-          <div className="mt-10 max-w-xl rounded-sm border border-off-white/15 bg-ink/40 p-6 backdrop-blur-sm">
-            {hasStarted ? (
-              <p className="font-display text-3xl font-semibold tabular-nums sm:text-4xl">
-                {formatCurrency(campaign.amount_raised)}{" "}
-                <span className="text-lg font-medium text-off-white/70">
-                  raised of {formatCurrency(campaign.fundraising_goal)}
-                </span>
-              </p>
-            ) : (
-              <p className="font-display text-2xl font-semibold uppercase tracking-wide sm:text-3xl">
-                The Starting Line
-              </p>
+          <dl className="mt-6 flex flex-wrap gap-x-6 gap-y-1 text-sm text-off-white/70">
+            {RACE_INFO.raceLocation && (
+              <div>
+                <dt className="sr-only">Location</dt>
+                <dd>{RACE_INFO.raceLocation}</dd>
+              </div>
             )}
-            <p className="mt-1 text-sm font-semibold uppercase tracking-wide text-bronze-light">
-              {formatNumber(miles70, 1)} of 70 miles funded &middot; {Math.round(percent)}% to goal
-            </p>
-            <div className="mt-3 h-3 w-full overflow-hidden rounded-full bg-off-white/15">
-              <div className="h-full rounded-full bg-bronze" style={{ width: `${percent}%` }} />
+            <div>
+              <dt className="sr-only">Beneficiaries</dt>
+              <dd>{CURRENT_CAMPAIGN.beneficiaries.join(" · ")}</dd>
             </div>
-            <p className="mt-2 text-xs text-off-white/60">
-              {hasStarted
-                ? `Goal: ${formatCurrency(campaign.fundraising_goal)} · ${formatNumber(remainingMiles, 1)} miles remaining`
-                : "$0 raised. 70 miles ahead. Somebody has to fund the first one."}
-            </p>
-          </div>
+          </dl>
 
-          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
+          <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4">
             <Link
-              href="/fund-a-mile"
-              data-analytics-event="fund_mile_click"
+              href={DONATE_LINK.href}
+              data-analytics-event="support_campaign_click"
               className="rounded-sm bg-bronze px-8 py-4 text-base font-semibold uppercase tracking-wide text-off-white shadow-sm transition-colors hover:bg-bronze-light"
             >
-              {hasStarted ? "Fund a Mile" : "Claim the First Mile"}
+              Support the Campaign
             </Link>
-            <a
-              href="#why-im-doing-this"
-              className="rounded-sm border border-off-white/40 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-off-white/10"
-            >
-              Why I&apos;m Doing This
-            </a>
-            <Link
-              href="/sponsors/request"
-              className="text-sm font-semibold uppercase tracking-wide text-off-white/70 underline-offset-4 hover:text-off-white hover:underline"
-            >
-              Request to Sponsor
-            </Link>
-          </div>
-        </Container>
-      </section>
-
-      {/* Progress */}
-      <section className="py-16 sm:py-20">
-        <Container>
-          <SectionHeading
-            eyebrow="Campaign Progress"
-            title="70 Miles. $70,000. One Mission."
-            description="Every $1,000 raised funds one mile of the race. Track fundraising progress against the campaign goal and the 70.3-mile race course itself."
-          />
-
-          <div className="mt-10 grid gap-10 lg:grid-cols-2">
-            <div>
-              <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-                Fundraising Progress
-              </p>
-              <CampaignProgress
-                totalRaised={campaign.amount_raised}
-                goal={campaign.fundraising_goal}
-                showStats={false}
-              />
-            </div>
-            <div>
-              <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-                Race Course Progress
-              </p>
-              <RaceProgress totalRaised={campaign.amount_raised} />
-            </div>
-          </div>
-        </Container>
-      </section>
-
-      {/* Why I'm Doing This — the human face, before any more fundraising mechanics */}
-      <section id="why-im-doing-this" className="scroll-mt-20 border-y border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container className="grid gap-10 lg:grid-cols-[minmax(0,360px)_1fr] lg:items-center">
-          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-sm">
-            <MediaPlaceholder />
-          </div>
-
-          <div>
-            <SectionHeading eyebrow={`Who's Behind ${CAMPAIGN_NAME}`} title="Why I'm Doing This" />
-            <div className="mt-5 space-y-4">
-              {ABOUT_CONTENT.homepageTeaser.map((paragraph, i) => (
-                <p key={i} className="text-base leading-relaxed text-charcoal-light">
-                  {paragraph}
-                </p>
-              ))}
-            </div>
-            <a
-              href={`${ORG_HOME_LINK.href}/about`}
-              className="mt-6 inline-flex rounded-sm bg-ink px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-charcoal"
-            >
-              Read My Story
-            </a>
-          </div>
-        </Container>
-      </section>
-
-      {/* Fund a Mile teaser */}
-      <section className="py-16 sm:py-20">
-        <Container>
-          <SectionHeading
-            eyebrow="Fund a Mile"
-            title="70 Miles. 70 Ways to Help."
-            description="Fund a full mile or contribute toward one alongside other supporters — no single mile requires one donor."
-          />
-          <div className="mt-8">
-            <MileGrid miles={teaserMiles} showFilters={false} />
-          </div>
-          <div className="mt-8">
             <Link
               href="/fund-a-mile"
-              className="inline-flex rounded-sm bg-ink px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-charcoal"
+              className="rounded-sm border border-off-white/40 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-off-white/10"
             >
-              View All 70 Miles
+              Fund a Mile
             </Link>
           </div>
+
+          <a
+            href="#why-70-miles"
+            className="mt-8 inline-flex text-xs font-semibold uppercase tracking-widest text-off-white/60 hover:text-off-white"
+          >
+            Why I&apos;m Racing &rarr;
+          </a>
         </Container>
       </section>
 
-      {/* Partners */}
-      <section className="bg-sand-light py-16 sm:py-20">
+      {/* Fundraising Progress — Tier 1: one strong interface, not several cards */}
+      <section className="bg-off-white py-16 sm:py-20">
+        <Container className="max-w-2xl">
+          <CampaignProgress totalRaised={campaign.amount_raised} goal={campaign.fundraising_goal} />
+        </Container>
+      </section>
+
+      {/* Why 70 Miles? — Tier 3: one concise editorial explanation, no card */}
+      <section id="why-70-miles" className="scroll-mt-20 border-y border-ink/10 bg-sand-light py-16 sm:py-20">
+        <Container className="max-w-2xl">
+          <SectionHeading eyebrow="The Concept" title="Why 70 Miles?" />
+          <div className="mt-5 space-y-4 text-base leading-relaxed text-charcoal-light">
+            <p>
+              {CAMPAIGN_NAME} maps {TOTAL_FUNDRAISING_MILES} fundraising miles onto the{" "}
+              {RACE_TOTAL_DISTANCE}-mile {CURRENT_CAMPAIGN.event} course — one mile funded is{" "}
+              {formatCurrency(DOLLARS_PER_MILE)} raised, until the full {formatCurrency(campaign.fundraising_goal)}{" "}
+              goal is reached.
+            </p>
+            <p>
+              Every dollar goes to {CURRENT_CAMPAIGN.beneficiaries.join(", ")} — nonprofit
+              organizations helping veterans rebuild recovery, community, and purpose after
+              service.
+            </p>
+          </div>
+          <a
+            href={`${ORG_HOME_LINK.href}/about`}
+            className="mt-6 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+          >
+            Read the Full Story on {ORG_HOME_LINK.label} &rarr;
+          </a>
+        </Container>
+      </section>
+
+      {/* Beneficiary Organizations — Tier 2: wide feature panels, not small cards */}
+      <section className="py-16 sm:py-20">
         <Container>
           <SectionHeading
             eyebrow="Who It Supports"
@@ -231,56 +184,73 @@ export default async function CampaignHomePage() {
         </Container>
       </section>
 
-      {/* Latest Training */}
-      {trainingSnapshot && (
-        <section className="py-16 sm:py-20">
-          <Container>
-            <SectionHeading eyebrow="Live" title="Latest Training" />
-            <div className="mt-8">
-              <TrainingSnapshot snapshot={trainingSnapshot} />
-            </div>
-          </Container>
-        </section>
-      )}
-
-      {/* Fundraising Milestones */}
+      {/* Fund a Mile — Tier 2: functional preview */}
       <section className="bg-sand-light py-16 sm:py-20">
         <Container>
-          <SectionHeading eyebrow="How Far We've Come" title="Fundraising Milestones" />
+          <SectionHeading
+            eyebrow="Fund a Mile"
+            title="70 Miles. 70 Ways to Help."
+            description="Fund a full mile or contribute toward one alongside other supporters — no single mile requires one donor."
+          />
           <div className="mt-8">
-            <MilestoneRail totalRaised={campaign.amount_raised} goal={campaign.fundraising_goal} />
+            <MileGrid miles={teaserMiles} showFilters={false} />
+          </div>
+          <div className="mt-8">
+            <CTAButton href="/fund-a-mile">View All 70 Miles</CTAButton>
           </div>
         </Container>
       </section>
 
-      {/* Sponsors */}
+      {/* Race + Training — Tier 2: athletic dashboard split */}
       <section className="py-16 sm:py-20">
+        <Container>
+          <SectionHeading eyebrow="The Race" title="Race &amp; Training Progress" />
+          <div className="mt-10 grid gap-10 lg:grid-cols-2">
+            <div>
+              <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                Course Progress
+              </p>
+              <RaceProgress totalRaised={campaign.amount_raised} />
+            </div>
+            <div>
+              <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                Latest Training
+              </p>
+              {trainingSnapshot ? (
+                <TrainingSnapshot snapshot={trainingSnapshot} />
+              ) : (
+                <p className="text-sm text-charcoal-light">
+                  Training data will appear here once it&apos;s connected.
+                </p>
+              )}
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* Sponsors — Tier 2 */}
+      <section className="bg-sand-light py-16 sm:py-20">
         <Container>
           <SectionHeading
             eyebrow="Backing the Mission"
-            title="Sponsors"
+            title="Campaign Sponsors"
             description={`Organizations and businesses supporting ${CAMPAIGN_NAME} alongside individual donors.`}
           />
           <div className="mt-8">
             <SponsorWall sponsors={sponsors} />
           </div>
           <div className="mt-8">
-            <Link
-              href="/sponsors"
-              className="inline-flex rounded-sm bg-ink px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-charcoal"
-            >
-              Become a Sponsor
-            </Link>
+            <CTAButton href="/sponsors">Become a Sponsor</CTAButton>
           </div>
         </Container>
       </section>
 
-      {/* Latest updates */}
+      {/* Latest Update(s) — Tier 3: one or two, not a full archive grid */}
       {latestPosts.length > 0 && (
         <section className="py-16 sm:py-20">
           <Container>
-            <SectionHeading eyebrow="Follow Along" title="Latest Updates" />
-            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <SectionHeading eyebrow="Follow Along" title="Latest Update" />
+            <div className="mt-8 grid gap-6 sm:grid-cols-2">
               {latestPosts.map((post) => (
                 <UpdateCard key={post.id} post={post} />
               ))}
@@ -297,36 +267,37 @@ export default async function CampaignHomePage() {
         </section>
       )}
 
-      {/* Email signup */}
-      <section className="border-t border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container className="max-w-2xl">
-          <SectionHeading eyebrow="Stay Close" title="Follow the Road to 70.3" />
-          <div className="mt-6">
-            <EmailSignupForm />
+      {/* Follow + Share — secondary utility, kept light-touch ahead of the final CTA */}
+      <section className="border-t border-ink/10 bg-sand-light py-10 sm:py-12">
+        <Container className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+              Follow the Road to {RACE_TOTAL_DISTANCE}
+            </p>
+            <div className="mt-3">
+              <EmailSignupForm />
+            </div>
+          </div>
+          <div>
+            <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+              Share {CAMPAIGN_NAME}
+            </p>
+            <ShareButtons
+              url={CAMPAIGN_URL}
+              title={`I'm helping move ${CAMPAIGN_NAME} one mile closer to ${formatCurrency(campaign.fundraising_goal)} for veterans.`}
+            />
           </div>
         </Container>
       </section>
 
-      {/* Share */}
-      <section className="py-10">
-        <Container className="flex flex-wrap items-center justify-between gap-4">
-          <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-            Share {CAMPAIGN_NAME}
-          </p>
-          <ShareButtons
-            url={CAMPAIGN_URL}
-            title={`I'm helping move ${CAMPAIGN_NAME} one mile closer to $70,000 for veterans.`}
-          />
-        </Container>
-      </section>
-
+      {/* Final Donate CTA — Tier 1 */}
       <CTASection
         eyebrow="Join the Mission"
-        title="Every Mile Counts"
-        description="Fund a mile, support the mission, or bring your company on board as a sponsor."
+        title={`${formatNumber(miles70, 1)} of ${TOTAL_FUNDRAISING_MILES} Miles Funded (${Math.round(percent)}%)`}
+        description="Every mile counts. Support the campaign, fund a mile, or bring your company on board as a sponsor."
         buttons={[
-          { label: "Fund a Mile", href: "/fund-a-mile" },
-          { label: "Become a Sponsor", href: "/sponsors", variant: "secondary" },
+          { label: "Support the Campaign", href: DONATE_LINK.href },
+          { label: "Fund a Mile", href: "/fund-a-mile", variant: "secondary" },
         ]}
       />
     </>

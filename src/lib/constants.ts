@@ -68,9 +68,9 @@ export const ORG_NAV_LINKS: NavLink[] = [
 ];
 
 export const CAMPAIGN_NAV_LINKS: NavLink[] = [
-  { label: "The Mission", href: "/the-mission" },
-  { label: "The Race", href: "/the-race" },
-  { label: "Fund a Mile", href: "/fund-a-mile" },
+  { label: "Campaign", href: "/the-mission" },
+  { label: "Race", href: "/the-race" },
+  { label: "Fundraising", href: "/fund-a-mile" },
   { label: "Partners", href: "/partners" },
   { label: "Updates", href: "/updates" },
 ];

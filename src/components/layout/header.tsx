@@ -116,7 +116,14 @@ export function Header({ mode }: { mode: SiteMode }) {
         </nav>
 
         <div className="flex items-center gap-1 lg:hidden">
-          {!isCampaign && (
+          {isCampaign ? (
+            <Link
+              href={DONATE_LINK.href}
+              className="rounded-sm bg-bronze px-3 py-2 text-sm font-semibold uppercase tracking-wide text-off-white"
+            >
+              {DONATE_LINK.label}
+            </Link>
+          ) : (
             <Link
               href="/resources"
               className="rounded-sm px-3 py-2 text-sm font-semibold uppercase tracking-wide text-ink"
