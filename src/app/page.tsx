@@ -58,26 +58,6 @@ export default function HomePage() {
 
   return (
     <>
-      {/*
-        TEMPORARY — AvantLink affiliate application site-ownership
-        verification (application_id=1640161). Per AvantLink's own
-        instructions this is meant to be removed once verification
-        succeeds — after confirming at
-        https://classic.avantlink.com/affiliate_app_confirm.php?mode=verify-js&application_id=1640161
-        (only works once this is deployed live), delete this script tag.
-
-        Rendered via dangerouslySetInnerHTML, byte-for-byte matching the
-        snippet AvantLink emailed — JSX would HTML-entity-escape the "&" in
-        the src URL to "&amp;", and AvantLink's verifier does a literal
-        string match against the page source rather than parsing the DOM,
-        so the escaped version fails their check.
-      */}
-      <div
-        dangerouslySetInnerHTML={{
-          __html:
-            '<script type="text/javascript" src="http://classic.avantlink.com/affiliate_app_confirm.php?mode=js&authResponse=f4570744e7bc43830fca392edd4d80ec04d58824"></script>',
-        }}
-      />
       <ScrollProgressRail sections={RAIL_SECTIONS} />
 
       {/* Hero — Tier 1: full-bleed photo, oversized type */}
