@@ -85,7 +85,7 @@ export const ABOUT_CONTENT: AboutContent = {
           id: "my-story",
           heading: "My Story",
           body: [
-            "My name is Cody Hitson. I am a husband, father, Navy veteran, law enforcement professional, and endurance athlete. Over the years, I have worn a lot of different uniforms and carried a lot of different responsibilities, but the part of my story that matters most to Tri For The 22 is not what I have done.",
+            "My name is Cody Hitson. I am a husband, father, Navy veteran, and endurance athlete. Over the years, I have worn a lot of different uniforms and carried a lot of different responsibilities, but the part of my story that matters most to Tri For The 22 is not what I have done.",
             "It is what I have survived, what I have learned, and what I believe I am supposed to do with the life I have been given.",
             "I spent seven years on active duty in the United States Navy as a Mass Communication Specialist. In 2011, I deployed to Afghanistan in support of Operation Enduring Freedom as a combat journalist. My job placed me alongside service members operating in an environment where violence, loss, fear, and uncertainty were part of everyday life.",
             "Like a lot of veterans, I came home physically present but carrying things I did not fully understand how to process.",

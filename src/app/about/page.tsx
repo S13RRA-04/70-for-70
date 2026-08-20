@@ -202,9 +202,10 @@ export default function AboutPage() {
               lost in service, and those lost after it.
             </p>
             <p className="text-base leading-relaxed text-charcoal-light">
-              <span className="font-semibold text-ink">The 22</span> is the rough, commonly cited
-              figure for how many veterans and first responders take their own lives each day, on
-              average. It&apos;s the number the entire movement is named for and built against.
+              <span className="font-semibold text-ink">The 22</span> is a symbolic figure
+              historically associated with veteran suicide awareness — not presented as a precise
+              current daily statistic. It&apos;s the number the entire movement is named for and
+              built against.
             </p>
           </div>
         </Container>

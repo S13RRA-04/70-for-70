@@ -9,7 +9,6 @@ import { CurrentCampaignCard } from "@/components/shared/current-campaign-card";
 import { ScrollProgressRail } from "@/components/shared/scroll-progress-rail";
 import { RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import { MissionPanel } from "@/components/home/mission-panel";
-import { AthleteTeamTeaser } from "@/components/home/athlete-team-teaser";
 import { ResourceFinderPreview } from "@/components/home/resource-finder-preview";
 import { ABOUT_CONTENT, findAboutSubsection } from "@/lib/content/about";
 import { SITE_NAME } from "@/lib/constants";
@@ -47,8 +46,8 @@ const MISSIONS = {
 const RAIL_SECTIONS = [
   { id: "missions", label: "Mission" },
   { id: "resources", label: "Resources" },
-  { id: "current-mission", label: "Current Mission" },
-  { id: "why-22", label: "Why 22" },
+  { id: "current-mission", label: "Team" },
+  { id: "why-22", label: "Meaning" },
   { id: "join", label: "Join" },
 ];
 
@@ -151,54 +150,75 @@ export default function HomePage() {
       {/* Need Help Now — Tier 1: compact dark utility strip */}
       <CrisisQuickLink />
 
-      {/* Current Athletic Mission — Tier 2: dashboard split */}
+      {/* Current Mission + The Team — Tier 2: dashboard split, one composition not two */}
       <section id="current-mission" className="scroll-mt-20 bg-off-white py-16 sm:py-24">
-        <Container className="max-w-3xl">
+        <Container>
           <RevealOnScroll>
-            <CurrentCampaignCard />
+            <div className="grid gap-6 lg:grid-cols-5">
+              <div className="lg:col-span-3">
+                <CurrentCampaignCard />
+              </div>
+              <div className="flex flex-col justify-center border border-ink/10 bg-off-white p-8 lg:col-span-2">
+                <p className="text-xs font-semibold uppercase tracking-widest text-bronze">
+                  Mission Three: Compete
+                </p>
+                <h3 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight text-ink">
+                  The Team
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-charcoal-light">
+                  The For The 22 Athletic Team races, rides, rucks, swims, and lifts to raise
+                  awareness and support fundraising for the nonprofit organizations serving
+                  veterans and first responders.
+                </p>
+                <CTAButton href="/athletes" className="mt-6 self-start">
+                  Become an Athlete
+                </CTAButton>
+              </div>
+            </div>
           </RevealOnScroll>
         </Container>
       </section>
 
-      {/* Black — Tier 1: full-black poster moment, no card, no clutter */}
-      <section className="flex min-h-[75vh] flex-col items-center justify-center bg-ink px-4 py-20 text-center text-off-white sm:py-28">
-        <Image src="/logo-white.png" alt="" aria-hidden="true" width={44} height={44} className="opacity-90" />
-        <p className="mt-8 text-balance font-display text-6xl font-bold uppercase leading-none tracking-tight sm:text-8xl">
-          Black.
-        </p>
-        <p className="mt-3 font-display text-xl font-semibold uppercase tracking-tight text-bronze-light sm:text-2xl">
-          Because 22 &ne; 0.
-        </p>
-        <p className="mt-6 max-w-md text-base leading-relaxed text-off-white/70">
-          Black represents mourning. We wear it for the veterans and first responders who are no
-          longer here.
-        </p>
-        <Link
-          href="/about#why-black"
-          className="mt-6 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze-light transition-colors hover:text-bronze"
-        >
-          Why We Wear Black &rarr;
-        </Link>
-      </section>
-
-      {/* Why 22 — Tier 3: editorial, ghosted numeral device */}
+      {/* Why 22 + Black — Tier 1: one dark memorial composition, no cards, no icons, typography-led */}
       {why22 && (
-        <section id="why-22" className="relative scroll-mt-20 overflow-hidden bg-sand-light py-20 sm:py-28">
-          <span
-            aria-hidden="true"
-            className="pointer-events-none absolute -right-10 -top-16 select-none font-display text-[16rem] font-bold leading-none text-ink/[0.05] sm:text-[24rem]"
-          >
-            22
-          </span>
-          <Container className="relative max-w-2xl">
+        <section id="why-22" className="scroll-mt-20 bg-ink py-20 text-off-white sm:py-28">
+          <Container>
             <RevealOnScroll>
-              <SectionHeading eyebrow="Why 22" title={why22.heading} />
-              <div className="mt-5 space-y-4">
-                {why22.body.map((paragraph, i) => (
-                  <p key={i} className="text-base leading-relaxed text-charcoal-light">
-                    {paragraph}
+              <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
+                <div>
+                  <span
+                    aria-hidden="true"
+                    className="font-display text-7xl font-bold leading-none text-bronze-light sm:text-8xl"
+                  >
+                    22
+                  </span>
+                  <div className="mt-6 space-y-4">
+                    {why22.body.map((paragraph, i) => (
+                      <p key={i} className="text-base leading-relaxed text-off-white/75">
+                        {paragraph}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="border-t border-off-white/15 pt-10 lg:border-l lg:border-t-0 lg:pl-16 lg:pt-0">
+                  <p className="text-balance font-display text-5xl font-bold uppercase leading-none tracking-tight sm:text-6xl">
+                    Black.
                   </p>
-                ))}
+                  <p className="mt-2 font-display text-lg font-semibold uppercase tracking-tight text-bronze-light sm:text-xl">
+                    Because 22 &ne; 0.
+                  </p>
+                  <p className="mt-5 max-w-md text-base leading-relaxed text-off-white/75">
+                    Black represents mourning. We wear it for the veterans and first responders
+                    who are no longer here.
+                  </p>
+                  <Link
+                    href="/about#why-black"
+                    className="mt-5 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze-light transition-colors hover:text-bronze"
+                  >
+                    Why We Wear Black &rarr;
+                  </Link>
+                </div>
               </div>
             </RevealOnScroll>
           </Container>
@@ -228,9 +248,6 @@ export default function HomePage() {
           </RevealOnScroll>
         </Container>
       </section>
-
-      {/* The Athletic Team — Tier 2, compact */}
-      <AthleteTeamTeaser />
 
       {/* Join — Tier 1: kinetic oversized typography closer */}
       <section id="join" className="scroll-mt-20 bg-ink py-20 text-off-white sm:py-28">
