@@ -59,6 +59,19 @@ export default function HomePage() {
 
   return (
     <>
+      {/*
+        TEMPORARY — AvantLink affiliate application site-ownership
+        verification (application_id=1640161). Per AvantLink's own
+        instructions this is meant to be removed once verification
+        succeeds — after confirming at
+        https://classic.avantlink.com/affiliate_app_confirm.php?mode=verify-js&application_id=1640161
+        (only works once this is deployed live), delete this script tag.
+      */}
+      <script
+        type="text/javascript"
+        src="https://classic.avantlink.com/affiliate_app_confirm.php?mode=js&authResponse=f4570744e7bc43830fca392edd4d80ec04d58824"
+        async
+      />
       <ScrollProgressRail sections={RAIL_SECTIONS} />
 
       {/* Hero — Tier 1: full-bleed photo, oversized type */}

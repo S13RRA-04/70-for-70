@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { RESOURCES } from "@/lib/content/resources";
 import { ResourceCard } from "@/components/resources/resource-card";
+import { StateMap } from "@/components/resources/state-map";
 import { EmptyState } from "@/components/shared/empty-state";
 import { FilterChip } from "@/components/shared/filter-chip";
 import { SearchField } from "@/components/shared/search-field";
@@ -78,6 +79,15 @@ export function ResourceDirectory() {
   const [needId, setNeedId] = useState<string | null>(() => params.get("need"));
   const [audience, setAudience] = useState<string | null>(() => params.get("audience"));
   const [search, setSearch] = useState(() => params.get("q") ?? "");
+  const [stateFilter, setStateFilter] = useState<string | null>(() => params.get("state"));
+
+  const activeStates = useMemo(() => {
+    const states = new Set<string>();
+    for (const resource of RESOURCES) {
+      if (resource.state) states.add(resource.state);
+    }
+    return states;
+  }, []);
 
   const results = useMemo(() => {
     const query = search.trim().toLowerCase();
@@ -85,6 +95,10 @@ export function ResourceDirectory() {
     return RESOURCES.filter((resource) => {
       const matchesNeed = !needId || resource.needCategoryIds.includes(needId);
       const matchesAudience = !audience || resource.audienceTags.includes(audience);
+      // Nationwide entries (no state set) always count as a match — picking
+      // a state should add local resources on top of nationwide ones, not
+      // hide them.
+      const matchesState = !stateFilter || !resource.state || resource.state === stateFilter;
 
       const needLabels = resource.needCategoryIds.map(
         (id) => NEED_CATEGORIES.find((c) => c.id === id)?.label ?? "",
@@ -99,9 +113,9 @@ export function ResourceDirectory() {
         resource.geographicScope.toLowerCase().includes(query) ||
         (resource.state?.toLowerCase().includes(query) ?? false);
 
-      return matchesNeed && matchesAudience && matchesSearch;
+      return matchesNeed && matchesAudience && matchesState && matchesSearch;
     });
-  }, [needId, audience, search]);
+  }, [needId, audience, stateFilter, search]);
 
   return (
     <div>
@@ -124,8 +138,33 @@ export function ResourceDirectory() {
         <FilterRow label="Who Are You?" options={PRIMARY_AUDIENCE_TAGS} active={audience} onSelect={setAudience} />
       </div>
 
+      <div className="mt-5 rounded-sm border border-ink/10 bg-sand-light p-5 sm:p-6">
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+            Where Are You?
+          </p>
+          {stateFilter && (
+            <button
+              type="button"
+              onClick={() => setStateFilter(null)}
+              className="text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+            >
+              {stateFilter} &middot; Clear
+            </button>
+          )}
+        </div>
+        <p className="mt-1 text-xs text-charcoal-light/80">
+          Bronze states have region-specific resources; every state still shows nationwide
+          programs.
+        </p>
+        <div className="mx-auto mt-4 max-w-xl">
+          <StateMap activeStates={activeStates} selected={stateFilter} onSelect={setStateFilter} />
+        </div>
+      </div>
+
       <p className="mt-5 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
         {results.length} {results.length === 1 ? "resource" : "resources"}
+        {stateFilter && ` in ${stateFilter} + nationwide`}
       </p>
 
       {results.length === 0 ? (

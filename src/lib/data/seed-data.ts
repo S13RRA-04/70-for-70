@@ -75,6 +75,19 @@ export const SEED_PARTNERS: PartnerRow[] = [
     nonprofit_status_verified: false,
     active: true,
   },
+  {
+    id: "seed-partner-vau",
+    name: "Veterans and Athletes United",
+    description:
+      "Veterans and Athletes United uses adaptive sports, outdoor recreation, and community to help wounded, injured, and ill veterans rebuild strength and purpose — the same thing endurance sport has done in my own life. I added VAU to Tri For The 22 because their work reaches veterans who need exactly the kind of mission, movement, and community this campaign is built around.",
+    what_they_do: null, // Awaiting the organization's own approved description — hidden until supplied, not shown as a placeholder.
+    logo_url: "/partners/vau-logo.png",
+    website_url: "https://www.vetsau.org/",
+    donation_url: "https://www.paypal.com/donate/?hosted_button_id=2YL6S962W4QGY",
+    ein: null,
+    nonprofit_status_verified: false,
+    active: true,
+  },
 ];
 
 // No sponsors yet. SponsorWall shows a polished "coming soon" empty state
