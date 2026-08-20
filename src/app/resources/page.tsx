@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
@@ -28,7 +29,9 @@ export default function ResourcesPage() {
 
       <section className="py-16 sm:py-20">
         <Container>
-          <ResourceDirectory />
+          <Suspense fallback={null}>
+            <ResourceDirectory />
+          </Suspense>
         </Container>
       </section>
 

@@ -4,7 +4,7 @@ import { CTAButton } from "@/components/shared/cta-button";
 
 export function AthleteTeamTeaser() {
   return (
-    <section className="py-16 sm:py-20">
+    <section className="bg-sand-light py-16 sm:py-20">
       <Container className="max-w-2xl text-center">
         <SectionHeading
           align="center"

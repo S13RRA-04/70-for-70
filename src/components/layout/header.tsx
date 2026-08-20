@@ -115,16 +115,26 @@ export function Header({ mode }: { mode: SiteMode }) {
           )}
         </nav>
 
-        <button
-          type="button"
-          className="inline-flex items-center justify-center rounded-sm p-2 text-ink lg:hidden"
-          aria-expanded={open}
-          aria-controls="mobile-nav"
-          aria-label={open ? "Close menu" : "Open menu"}
-          onClick={() => setOpen((v) => !v)}
-        >
-          {open ? <X size={26} aria-hidden /> : <Menu size={26} aria-hidden />}
-        </button>
+        <div className="flex items-center gap-1 lg:hidden">
+          {!isCampaign && (
+            <Link
+              href="/resources"
+              className="rounded-sm px-3 py-2 text-sm font-semibold uppercase tracking-wide text-ink"
+            >
+              Resources
+            </Link>
+          )}
+          <button
+            type="button"
+            className="inline-flex items-center justify-center rounded-sm p-2 text-ink"
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+            aria-label={open ? "Close menu" : "Open menu"}
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? <X size={26} aria-hidden /> : <Menu size={26} aria-hidden />}
+          </button>
+        </div>
       </div>
 
       {open && (
@@ -188,6 +198,14 @@ export function Header({ mode }: { mode: SiteMode }) {
                   >
                     {CURRENT_MISSION_NAV_LINK.label}
                   </a>
+                </li>
+                <li className="mt-3 border-t border-ink/10 pt-3">
+                  <Link
+                    href="/crisis"
+                    className="block rounded-sm px-3 py-3 text-center text-sm font-semibold uppercase tracking-wide text-charcoal-light hover:text-ink"
+                  >
+                    Need Help Now
+                  </Link>
                 </li>
               </>
             )}

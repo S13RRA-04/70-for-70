@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { RESOURCES } from "@/lib/content/resources";
 import { ResourceCard } from "@/components/resources/resource-card";
 import { EmptyState } from "@/components/shared/empty-state";
@@ -21,6 +22,9 @@ export const NEED_CATEGORIES: NeedCategory[] = [
   { id: "family-support", label: "Family Support" },
   { id: "purpose-community", label: "Purpose & Community" },
   { id: "career-education", label: "Career & Education" },
+  { id: "financial-assistance", label: "Financial Assistance" },
+  { id: "housing-transportation", label: "Housing & Transportation" },
+  { id: "legal-benefits", label: "Legal & Benefits" },
 ];
 
 /** "Who are you?" — the curated filter-row subset. Cards may show additional audience tags beyond this list. */
@@ -66,9 +70,14 @@ function FilterRow({
 }
 
 export function ResourceDirectory() {
-  const [needId, setNeedId] = useState<string | null>(null);
-  const [audience, setAudience] = useState<string | null>(null);
-  const [search, setSearch] = useState("");
+  // Deep-link support so the homepage finder (see ResourceFinderPreview) can
+  // land here pre-filtered via ?q=&need=&audience= — read once on mount,
+  // not kept in sync afterward (this directory owns its own state from
+  // here on, same as before).
+  const params = useSearchParams();
+  const [needId, setNeedId] = useState<string | null>(() => params.get("need"));
+  const [audience, setAudience] = useState<string | null>(() => params.get("audience"));
+  const [search, setSearch] = useState(() => params.get("q") ?? "");
 
   const results = useMemo(() => {
     const query = search.trim().toLowerCase();
@@ -87,7 +96,8 @@ export function ResourceDirectory() {
         resource.audienceTags.some((tag) => tag.toLowerCase().includes(query)) ||
         needLabels.some((label) => label.toLowerCase().includes(query)) ||
         resource.cost.toLowerCase().includes(query) ||
-        resource.geographicScope.toLowerCase().includes(query);
+        resource.geographicScope.toLowerCase().includes(query) ||
+        (resource.state?.toLowerCase().includes(query) ?? false);
 
       return matchesNeed && matchesAudience && matchesSearch;
     });

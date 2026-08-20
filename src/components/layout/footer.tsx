@@ -27,7 +27,7 @@ export function Footer({ mode }: { mode: SiteMode }) {
   return (
     <footer className="border-t border-off-white/10 bg-ink text-off-white">
       <Container
-        className={`grid gap-10 py-14 sm:grid-cols-2 ${isCampaign ? "lg:grid-cols-4" : "lg:grid-cols-5"}`}
+        className={`grid gap-10 py-14 sm:grid-cols-2 ${isCampaign ? "lg:grid-cols-4" : "lg:grid-cols-3 xl:grid-cols-6"}`}
       >
         <div className={isCampaign ? "sm:col-span-2 lg:col-span-2" : "sm:col-span-2 lg:col-span-1"}>
           <div className="flex items-center gap-2.5">
@@ -116,7 +116,7 @@ export function Footer({ mode }: { mode: SiteMode }) {
           <>
             <div>
               <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
-                Explore
+                Mission
               </p>
               <ul className="mt-4 space-y-2 text-sm text-off-white/70">
                 <li>
@@ -163,6 +163,32 @@ export function Footer({ mode }: { mode: SiteMode }) {
                 <li>
                   <Link href="/merch" className="transition-colors hover:text-off-white">
                     Shop
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
+                Help
+              </p>
+              <ul className="mt-4 space-y-2 text-sm text-off-white/70">
+                <li>
+                  <Link href="/crisis" className="transition-colors hover:text-off-white">
+                    Need Help Now
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/crisis#veterans" className="transition-colors hover:text-off-white">
+                    Veteran Crisis Resources
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/crisis#first-responders"
+                    className="transition-colors hover:text-off-white"
+                  >
+                    First Responder Resources
                   </Link>
                 </li>
               </ul>

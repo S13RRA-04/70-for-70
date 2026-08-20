@@ -144,9 +144,9 @@ export default async function SponsorsPage() {
                 Charitable Donation
               </h3>
               <p className="mt-2 text-sm text-charcoal-light">
-                Money sent directly to Mighty Oaks Foundation, Project Echelon, or another
-                approved nonprofit through that organization&apos;s own authorized donation
-                platform. See the{" "}
+                Money sent directly to Mighty Oaks Foundation, Project Echelon, Veterans and
+                Athletes United, or another approved nonprofit through that organization&apos;s
+                own authorized donation platform. See the{" "}
                 <Link href="/donate" className="text-bronze hover:underline">
                   Donate
                 </Link>{" "}

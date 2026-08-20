@@ -12,10 +12,14 @@
  * Responder Support Network's WCPR is a paid program even though most peer
  * entries here are free).
  *
- * Financial & Housing and Legal & Benefits are deliberately not represented
- * yet — those categories need more aggressive eligibility/geography
- * verification before going live (see project notes), so they're held back
- * as a later expansion rather than published half-vetted.
+ * Financial Assistance, Housing & Transportation, and Legal & Benefits were
+ * held back until a regional research pass could vet state-specific entries
+ * — see the Southeast Regional Resources block below (first pass: AL, TN,
+ * GA, FL, MS, NC, SC, KY). Entries there carry a `state` and a
+ * `verifiedDate`; a handful still have an inline TODO where the source
+ * research flagged something to reconfirm (a specific URL, an active
+ * chapter schedule) before treating it as fully production-checked the
+ * same way the rest of this file's entries are.
  */
 
 export interface Resource {
@@ -29,6 +33,8 @@ export interface Resource {
   /** Short, factual cost framing — never defaults to "Free" without checking. */
   cost: string;
   geographicScope: string;
+  /** Set for state/regional entries to support state-level filtering — omit for national entries. */
+  state?: string;
   /**
    * Marks an entry as eligible for the homepage crisis quick-link and the
    * /crisis page — immediate-response hotlines/peer-support lines, not
@@ -46,7 +52,7 @@ export interface Resource {
   phone?: string;
   text?: string;
   hours?: string;
-  /** ISO date this entry's crisis contact info (phone/text/hours) was last checked. */
+  /** ISO date this entry (URL, cost, eligibility, and crisis contact info if applicable) was last checked against the org's own site. */
   verifiedDate?: string;
 }
 
@@ -742,6 +748,716 @@ export const RESOURCES: Resource[] = [
     audienceTags: ["Veteran", "Active Military", "Military Spouse"],
     cost: "Free",
     geographicScope: "Nationwide",
+  },
+
+  // ---------------------------------------------------------------------
+  // Southeast Regional — Alabama
+  // ---------------------------------------------------------------------
+  {
+    // TODO(verify): Verify active Huntsville schedule before publishing specific sports.
+    name: "Catalyst Sports – Huntsville Chapter",
+    url: "https://moveunitedsport.org/locations/",
+    description:
+      "Community-based adaptive adventure sports through the Catalyst Sports / Move United network.",
+    needCategoryIds: ["sports-fitness"],
+    audienceTags: ["Disabled", "Veteran"],
+    cost: "Varies / often subsidized",
+    geographicScope: "Huntsville / North Alabama",
+    state: "Alabama",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    // TODO(verify): Useful Alabama adaptive-sports option; verify current chapter programming.
+    name: "Catalyst Sports – Birmingham Chapter",
+    url: "https://moveunitedsport.org/locations/",
+    description:
+      "Community-based adaptive adventure sports through the Catalyst Sports / Move United network.",
+    needCategoryIds: ["sports-fitness"],
+    audienceTags: ["Disabled", "Veteran"],
+    cost: "Varies / often subsidized",
+    geographicScope: "Birmingham / Central Alabama",
+    state: "Alabama",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "Alabama First Responder Peer Support",
+    url: "https://www.afrps.com/",
+    description:
+      "Free, confidential peer-to-peer support from trained first responders for job stress, trauma, personal challenges, mental health and substance-use concerns.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Fire", "EMS", "First Responder"],
+    cost: "Free",
+    geographicScope: "Alabama",
+    state: "Alabama",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "Alabama Law Enforcement Alliance for Peer Support (ALLEAPS)",
+    url: "https://alleaps.org/",
+    description:
+      "Peer support, crisis intervention, family support, suicide-prevention resources, substance-use support and critical-incident response.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Law Enforcement", "Dispatch", "First Responder", "Family"],
+    cost: "Free",
+    geographicScope: "Alabama",
+    state: "Alabama",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "NAMI Alabama – Frontline Professionals",
+    url: "https://namialabama.org/your-journey/frontline-professionals/",
+    description:
+      "Frontline Wellness resources, peer-support leader materials and Stronger Together relationship workshop content.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Law Enforcement", "Fire", "EMS", "Healthcare", "Family"],
+    cost: "Free / Varies",
+    geographicScope: "Alabama",
+    state: "Alabama",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "Priority Veteran – United Way of Central Alabama",
+    url: "https://www.uwca.org/need-help/veteran-services/",
+    description:
+      "Housing stabilization, homelessness prevention, benefits connection, job-search help, financial coaching, and health/mental-health connections.",
+    needCategoryIds: ["housing-transportation"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free",
+    geographicScope: "Most of Alabama",
+    state: "Alabama",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "Alabama Veteran",
+    url: "https://alabamaveteran.org/",
+    description:
+      "Resource navigation, employment, financial planning, health-care guidance, events, VSO connections and purpose-focused support.",
+    needCategoryIds: ["purpose-community"],
+    audienceTags: ["Veteran"],
+    cost: "Free / Varies",
+    geographicScope: "Alabama",
+    state: "Alabama",
+    verifiedDate: "2026-08-20",
+  },
+
+  // ---------------------------------------------------------------------
+  // Southeast Regional — Tennessee
+  // ---------------------------------------------------------------------
+  {
+    name: "SPARC – Sports, Arts & Recreation of Chattanooga",
+    url: "https://www.sparctn.org/about-sparc",
+    description:
+      "Adaptive water skiing, snow skiing, cycling, basketball, racing/running, kayaking and tennis.",
+    needCategoryIds: ["sports-fitness"],
+    audienceTags: ["Disabled", "Veteran"],
+    cost: "Varies / subsidized",
+    geographicScope: "Chattanooga / Southeast Tennessee",
+    state: "Tennessee",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "Catalyst Sports – Chattanooga Chapter",
+    url: "https://www.catalystsports.org/chattanooga",
+    description:
+      "Adaptive climbing and adaptive mountain biking in Chattanooga.",
+    needCategoryIds: ["sports-fitness"],
+    audienceTags: ["Disabled"],
+    cost: "Varies",
+    geographicScope: "Chattanooga",
+    state: "Tennessee",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "Tennessee Veterans Services Resource Hub",
+    url: "https://www.tn.gov/veteran.html",
+    description:
+      "Statewide verified services, benefits, mental-health links, State Veterans Services Offices and resource coordination.",
+    needCategoryIds: ["legal-benefits"],
+    audienceTags: ["Veteran", "Active Military", "Family", "Survivor"],
+    cost: "Free",
+    geographicScope: "Tennessee",
+    state: "Tennessee",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "Tennessee Public Safety Network (TNPSN)",
+    url: "https://www.tnpsn.org/",
+    description:
+      "Critical-incident stress services, peer support, post-shooting teams, assessment/referral, relationship and substance-use support, training.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Law Enforcement", "Fire", "EMS", "Corrections", "Dispatch", "First Responder"],
+    cost: "Free / Varies",
+    geographicScope: "Tennessee",
+    state: "Tennessee",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "Serve & Protect",
+    url: "https://www.serveprotect.org/",
+    description:
+      "Peer support, trauma-service referrals, chaplain network and first-responder crisis-resource navigation.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Fire", "EMS", "Dispatch", "Corrections", "Family"],
+    cost: "Free support / Varies by referred care",
+    geographicScope: "Tennessee / National",
+    state: "Tennessee",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "Operation Stand Down Tennessee",
+    url: "https://osdtnwebsite.wixsite.com/osdtn",
+    description:
+      "Crisis relief, housing, transitional housing, employment/career services, connection and community support.",
+    needCategoryIds: ["housing-transportation"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free",
+    geographicScope: "Tennessee",
+    state: "Tennessee",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "Mission United – United Way of Greater Nashville",
+    url: "https://www.unitedwaygreaternashville.org/mission-united/",
+    description:
+      "Free connections to housing, employment, mental health, financial assistance and other resources through a nine-county footprint and 211.",
+    needCategoryIds: ["financial-assistance"],
+    audienceTags: ["Active Military", "Veteran", "Family"],
+    cost: "Free",
+    geographicScope: "Greater Nashville / Middle Tennessee",
+    state: "Tennessee",
+    verifiedDate: "2026-08-20",
+  },
+
+  // ---------------------------------------------------------------------
+  // Southeast Regional — Georgia
+  // ---------------------------------------------------------------------
+  {
+    name: "BlazeSports America – Veteran Programs",
+    url: "https://blazesports.org/veteran/",
+    description:
+      "Free veteran membership for adaptive cycling, rowing, air rifle, bowling, archery, water aerobics and other sports.",
+    needCategoryIds: ["sports-fitness"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free",
+    geographicScope: "Metro Atlanta / Georgia",
+    state: "Georgia",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "Georgia Department of Veterans Service / Unite Georgia",
+    url: "https://veterans.georgia.gov/",
+    description:
+      "Benefits claims help plus coordinated resource navigation for employment, education, transportation, food, mental and behavioral health and more.",
+    needCategoryIds: ["legal-benefits"],
+    audienceTags: ["Veteran", "Family", "Caregiver", "Survivor"],
+    cost: "Free",
+    geographicScope: "Georgia",
+    state: "Georgia",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "Veterans Empowerment Organization",
+    url: "https://www.veohero.org/our-mission",
+    description:
+      "Emergency/supportive housing, mental-health and substance-use clinical care, workforce training, stability support and cycling team.",
+    needCategoryIds: ["housing-transportation", "sports-fitness"],
+    audienceTags: ["Veteran"],
+    cost: "Free / Varies",
+    geographicScope: "Atlanta / Georgia",
+    state: "Georgia",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "VETLANTA",
+    url: "https://vetlanta.org/",
+    description:
+      "Connections across education, employment, housing, business/entrepreneurship and other veteran-support pillars.",
+    needCategoryIds: ["career-education"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "Free",
+    geographicScope: "Metro Atlanta",
+    state: "Georgia",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "Georgia First Responder PTSD Program",
+    url: "https://doas.ga.gov/human-resources-administration/georgia-first-responder-ptsd-program-hb-451/program",
+    description:
+      "State-mandated PTSD benefits including lump-sum and long-term disability benefits for qualifying service-connected diagnoses.",
+    needCategoryIds: ["mental-health", "legal-benefits"],
+    audienceTags: ["Law Enforcement", "Fire", "EMS", "Dispatch", "Corrections", "First Responder"],
+    cost: "Benefit program",
+    geographicScope: "Georgia",
+    state: "Georgia",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "NAMI Georgia – Frontline Professionals",
+    url: "https://namiga.org/frontline-professionals/",
+    description:
+      "Frontline Wellness resources, peer-support leader materials and family relationship support.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Law Enforcement", "Fire", "EMS", "Healthcare", "Family"],
+    cost: "Free / Varies",
+    geographicScope: "Georgia",
+    state: "Georgia",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    // TODO(verify): Verify current service footprint before location-based ranking.
+    name: "Code Blue Support",
+    url: "https://www.codebluesupport.com/",
+    description:
+      "First-responder and family wellbeing support in partnership with behavioral-health providers; community support navigation.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["First Responder", "Family"],
+    cost: "Varies",
+    geographicScope: "Georgia",
+    state: "Georgia",
+    verifiedDate: "2026-08-20",
+  },
+
+  // ---------------------------------------------------------------------
+  // Southeast Regional — Florida
+  // ---------------------------------------------------------------------
+  {
+    name: "Outdoor Valor",
+    url: "https://outdoorvalor.org/",
+    description:
+      "Free veteran-led fishing experiences, PTSD peer-support groups, whole-person wellness/accountability and spouse support.",
+    needCategoryIds: ["outdoor-programs"],
+    audienceTags: ["Veteran", "Military Spouse"],
+    cost: "Free",
+    geographicScope: "Florida",
+    state: "Florida",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "VetCATCH",
+    url: "https://www.vetcatch.org/",
+    description:
+      "Therapeutic fishing and boating adventures including travel, lodging, meals, charters, gear and apparel.",
+    needCategoryIds: ["outdoor-programs"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free for participants",
+    geographicScope: "Florida / Gulf Coast",
+    state: "Florida",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "Vets On Board Network",
+    url: "https://vetsonboardnetwork.org/",
+    description:
+      "Water-based experiences, outdoor education and peer community supporting connection and mental wellbeing.",
+    needCategoryIds: ["outdoor-programs"],
+    audienceTags: ["Veteran"],
+    cost: "Free / Varies",
+    geographicScope: "South Florida",
+    state: "Florida",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "Florida Veterans Coalition",
+    url: "https://floridaveterans.org/",
+    description:
+      "Emergency relief, claims education, dental referrals, employment readiness, financial wellness, food, housing, education and legal-resource connections.",
+    needCategoryIds: ["financial-assistance"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free / Assistance-based",
+    geographicScope: "Florida",
+    state: "Florida",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "Veterans Florida",
+    url: "https://www.veteransflorida.org/",
+    description:
+      "No-cost SkillBridge, career, training and entrepreneurship support focused on Florida opportunity.",
+    needCategoryIds: ["career-education"],
+    audienceTags: ["Active Military", "Veteran", "Guard/Reserve", "Military Spouse"],
+    cost: "Free",
+    geographicScope: "Florida",
+    state: "Florida",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "Florida Veterans Foundation / FDVA Resource Programs",
+    url: "https://floridavets.org/",
+    description:
+      "Veteran support, statewide resource connections, dental-program access and assistance programs.",
+    needCategoryIds: ["financial-assistance"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free / Assistance-based",
+    geographicScope: "Florida",
+    state: "Florida",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "Operation Barnabas",
+    url: "https://operationbarnabas.com/our-impact/",
+    description:
+      "Housing, counseling connections, mentorship, employment support and outdoor/fishing experiences with continued community support.",
+    needCategoryIds: ["mental-health", "outdoor-programs"],
+    audienceTags: ["Veteran", "First Responder"],
+    cost: "Free / Varies",
+    geographicScope: "Northeast Florida",
+    state: "Florida",
+    verifiedDate: "2026-08-20",
+  },
+
+  // ---------------------------------------------------------------------
+  // Southeast Regional — Mississippi
+  // ---------------------------------------------------------------------
+  {
+    name: "Mississippi Veterans Affairs",
+    url: "https://www.msva.ms.gov/",
+    description:
+      "State veterans benefits, service coordination, veterans homes, benefits assistance and statewide support information.",
+    needCategoryIds: ["legal-benefits"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free",
+    geographicScope: "Mississippi",
+    state: "Mississippi",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "Mississippi Veterans Benefits Specialists & County Service Officers",
+    url: "https://www.msva.ms.gov/serviceofficers",
+    description:
+      "State and county-level benefits assistance through named specialists and county service officers.",
+    needCategoryIds: ["legal-benefits"],
+    audienceTags: ["Veteran", "Family", "Survivor"],
+    cost: "Free",
+    geographicScope: "Mississippi counties",
+    state: "Mississippi",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "Mississippi Department of Employment Security – Veterans Services",
+    url: "https://www.mdes.ms.gov/i-need-a-job/veterans-services/",
+    description:
+      "Priority employment services, job search, education/training, employment-rights resources and housing/homeless links.",
+    needCategoryIds: ["career-education"],
+    audienceTags: ["Veteran"],
+    cost: "Free",
+    geographicScope: "Mississippi",
+    state: "Mississippi",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "Veterans OutReach of Mississippi – Resource Directory",
+    url: "https://veteransoutreachms.org/resources/",
+    description:
+      "Mississippi-specific directory covering benefits, career, training, food, housing and other assistance.",
+    needCategoryIds: ["purpose-community"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free",
+    geographicScope: "Mississippi",
+    state: "Mississippi",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "Mississippi DMH – Mental Health First Aid for Public Safety",
+    url: "https://www.dmh.ms.gov/mental-health-first-aid-training-now-available-sign-up-today/",
+    description:
+      "No-cost Mental Health First Aid training tailored to public-safety personnel.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Law Enforcement", "First Responder"],
+    cost: "Free",
+    geographicScope: "Mississippi",
+    state: "Mississippi",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "Mississippi DMH – Peer Support Services",
+    url: "https://www.dmh.ms.gov/service-options/peer-support/",
+    description:
+      "Certified peer-support and peer-run service pathways across the state behavioral-health system.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Family"],
+    cost: "Free / Insurance / Varies",
+    geographicScope: "Mississippi",
+    state: "Mississippi",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "VA Gulf Coast – Recreation & Adaptive Sports Support",
+    url: "https://www.va.gov/gulf-coast-health-care/health-services/",
+    description:
+      "Recreation and creative arts therapy plus support connecting veterans to national VA adaptive sports and arts events.",
+    needCategoryIds: ["sports-fitness"],
+    audienceTags: ["Veteran"],
+    cost: "VA eligibility",
+    geographicScope: "Mississippi Gulf Coast",
+    state: "Mississippi",
+    verifiedDate: "2026-08-20",
+  },
+
+  // ---------------------------------------------------------------------
+  // Southeast Regional — North Carolina
+  // ---------------------------------------------------------------------
+  {
+    name: "North Carolina Adapted Sports",
+    url: "https://moveunitedsport.org/organization/north-carolina-adapted-sports/",
+    description:
+      "Adaptive cycling, mountain biking, wheelchair basketball, climbing and other recreational/competitive opportunities.",
+    needCategoryIds: ["sports-fitness"],
+    audienceTags: ["Disabled"],
+    cost: "Varies / subsidized",
+    geographicScope: "Cary / Raleigh-Durham / North Carolina",
+    state: "North Carolina",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "Honor the Warriors",
+    url: "https://honorthewarriors.org/donate/",
+    description:
+      "Adaptive cycling and outdoor gear plus goal-oriented supported veteran events.",
+    needCategoryIds: ["sports-fitness"],
+    audienceTags: ["Veteran"],
+    cost: "Free / Assistance-based",
+    geographicScope: "North Carolina",
+    state: "North Carolina",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "North Carolina DMVA – Services",
+    url: "https://www.milvets.nc.gov/services",
+    description:
+      "Benefits, transition, employment, housing, education, spouse support and statewide resource navigation.",
+    needCategoryIds: ["legal-benefits"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "Free",
+    geographicScope: "North Carolina",
+    state: "North Carolina",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "Responder Assistance Initiative (RAI)",
+    url: "https://www.ncdps.gov/dps-services/responder-assistance-initiative",
+    description:
+      "Free confidential behavioral health care, peer support, critical-incident services, training, family/couple therapy and statewide navigation.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Law Enforcement", "Fire", "EMS", "Dispatch", "First Responder", "Family"],
+    cost: "Free",
+    geographicScope: "North Carolina",
+    state: "North Carolina",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "North Carolina First Responder Peer Support",
+    url: "https://ncfrps.org/",
+    description:
+      "Confidential peer support, clinician/treatment navigation and 24/7 peer-support access.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Fire", "Law Enforcement", "EMS"],
+    cost: "Free",
+    geographicScope: "North Carolina",
+    state: "North Carolina",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "NCLEAP",
+    url: "https://nc-leap.org/",
+    description:
+      "No-cost peer support, chaplaincy, post-critical-incident seminars, education and pastoral care.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Law Enforcement", "First Responder", "Coworker", "Family"],
+    cost: "Free",
+    geographicScope: "North Carolina",
+    state: "North Carolina",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "First Responders Peer Support Network",
+    url: "https://www.frpsn.org/",
+    description:
+      "Peer support, clinical referrals, crisis intervention, chaplain services, training and possible treatment financial assistance.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["First Responder", "Family"],
+    cost: "Free / Assistance-based",
+    geographicScope: "North Carolina",
+    state: "North Carolina",
+    verifiedDate: "2026-08-20",
+  },
+
+  // ---------------------------------------------------------------------
+  // Southeast Regional — South Carolina
+  // ---------------------------------------------------------------------
+  {
+    name: "South Carolina Veteran Coalition",
+    url: "https://scdva.sc.gov/south-carolina-veteran-coalition",
+    description:
+      "No-wrong-door coordinated platform connecting users with vetted housing, employment, education, mental health, benefits and family support.",
+    needCategoryIds: ["purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "Free",
+    geographicScope: "South Carolina",
+    state: "South Carolina",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "South Carolina Department of Veterans' Affairs",
+    url: "https://scdva.sc.gov/",
+    description:
+      "Benefits/claims, county offices, employment, housing, transition support and peer mentorship.",
+    needCategoryIds: ["legal-benefits"],
+    audienceTags: ["Veteran", "Active Military", "Family", "Survivor"],
+    cost: "Free",
+    geographicScope: "South Carolina",
+    state: "South Carolina",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "Upstate SC AMBUCS",
+    url: "https://www.upstatescambucs.org/",
+    description:
+      "Custom-fitted adaptive AmTryke tricycles for veterans and children with lifelong mobility challenges.",
+    needCategoryIds: ["equipment-grants", "sports-fitness"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Grant / Donor-funded",
+    geographicScope: "Upstate South Carolina",
+    state: "South Carolina",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "First Responder Support Team (FRST)",
+    url: "https://bhdd.sc.gov/index.php/office-mental-health/services/first-responder-support-team-frst",
+    description:
+      "Confidential assessment, referral, short-term counseling, trauma therapy, substance-use treatment, couples and family therapy.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["First Responder", "Family"],
+    cost: "Free / State-supported / Varies",
+    geographicScope: "South Carolina",
+    state: "South Carolina",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "South Carolina Law Enforcement Assistance Program (SCLEAP)",
+    url: "https://www.sled.sc.gov/scleap",
+    description:
+      "Critical incident stress management, chaplaincy, peer support and confidential care/referral.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Law Enforcement", "Coworker", "Family"],
+    cost: "Free",
+    geographicScope: "South Carolina",
+    state: "South Carolina",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "SHIELD Recovery Peer Support",
+    url: "https://sc-rsi.org/shield/",
+    description:
+      "Peer-led trauma-recovery support groups plus chaplaincy, therapy-K9 and critical-incident peer support.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Fire", "EMS", "Law Enforcement"],
+    cost: "Free / Varies",
+    geographicScope: "South Carolina",
+    state: "South Carolina",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    // TODO(verify): Verify current direct website before production publish.
+    name: "Coastal Carolina Adaptive Sports & Recreation",
+    url: "https://www.va.gov/adaptivesports/docs/cbasp_web_spreads.pdf",
+    description:
+      "Adaptive archery, boccia, golf, powerlifting, tennis, track and field, and wheelchair basketball.",
+    needCategoryIds: ["sports-fitness"],
+    audienceTags: ["Disabled", "Veteran"],
+    cost: "Varies",
+    geographicScope: "North Myrtle Beach / Coastal South Carolina",
+    state: "South Carolina",
+    verifiedDate: "2026-08-20",
+  },
+
+  // ---------------------------------------------------------------------
+  // Southeast Regional — Kentucky
+  // ---------------------------------------------------------------------
+  {
+    // TODO(verify): Verify current chapter programming.
+    name: "Catalyst Sports – Louisville Chapter",
+    url: "https://moveunitedsport.org/locations/",
+    description:
+      "Community-based adaptive adventure sports through the Catalyst Sports / Move United network.",
+    needCategoryIds: ["sports-fitness"],
+    audienceTags: ["Disabled"],
+    cost: "Varies",
+    geographicScope: "Louisville",
+    state: "Kentucky",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "Kentucky First Responder Peer Support Team",
+    url: "https://kyfrpst.org/",
+    description:
+      "Confidential peer support from a statewide multidisciplinary first-responder team.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["First Responder"],
+    cost: "Free",
+    geographicScope: "Kentucky",
+    state: "Kentucky",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "Kentucky Community Crisis Response Team (KCCRT)",
+    url: "https://kccrt.ky.gov/PublishingImages/Pages/index/KCCRT%201-Pager.pdf",
+    description:
+      "Peer and mental-health response after critical incidents, traumatic events and disasters; debriefing and psychological first aid.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["First Responder"],
+    cost: "Free / State-supported",
+    geographicScope: "Kentucky",
+    state: "Kentucky",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "Kentucky Veterans Program Trust Fund",
+    url: "https://veterans.ky.gov/veterans-trust-fund/Pages/default.aspx",
+    description:
+      "State trust fund supporting programs and projects benefiting Kentucky veterans.",
+    needCategoryIds: ["financial-assistance"],
+    audienceTags: ["Veteran"],
+    cost: "Grant / Varies",
+    geographicScope: "Kentucky",
+    state: "Kentucky",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "Kentucky 988",
+    url: "https://988.ky.gov/",
+    description:
+      "State 988 suicide, mental-health and substance-use crisis access.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Veteran", "Active Military", "Law Enforcement", "Fire", "EMS", "Dispatch", "Corrections", "Family"],
+    cost: "Free",
+    geographicScope: "Kentucky",
+    state: "Kentucky",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    name: "Kentucky Law Enforcement Peer Support Grant Program",
+    url: "https://www.kentucky.gov/Pages/Activity-stream.aspx?n=AttorneyGeneral&prId=1923",
+    description:
+      "Grant support for agencies creating or strengthening peer-support teams addressing chronic stress and officer mental health.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Law Enforcement"],
+    cost: "Grant",
+    geographicScope: "Kentucky",
+    state: "Kentucky",
+    verifiedDate: "2026-08-20",
+  },
+  {
+    // TODO(verify): Find public registration landing page before production if available.
+    name: "Kentucky Post-Critical Incident Seminar (KYPCIS)",
+    url: "https://apps.legislature.ky.gov/law/kar/titles/503/005/140/",
+    description:
+      "Multi-day seminar with stress/trauma education, coping, resiliency, relationship work, peer groups and clinician sessions.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Law Enforcement", "Dispatch", "Family"],
+    cost: "Free / State-supported",
+    geographicScope: "Kentucky",
+    state: "Kentucky",
+    verifiedDate: "2026-08-20",
   },
 ];
 

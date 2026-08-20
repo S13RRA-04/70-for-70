@@ -288,5 +288,5 @@ export const CURRENT_CAMPAIGN = {
   type: "triathlon",
   event: "IRONMAN 70.3 Chattanooga",
   eventUrl: RACE_INFO.courseInfoUrl,
-  beneficiaries: ["Mighty Oaks Foundation", "Project Echelon"],
+  beneficiaries: ["Mighty Oaks Foundation", "Project Echelon", "Veterans and Athletes United"],
 } as const;
