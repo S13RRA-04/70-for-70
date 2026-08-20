@@ -7,6 +7,7 @@ import { getSponsors } from "@/lib/data/sponsors";
 import { getLatestPosts } from "@/lib/data/posts";
 import { getTrainingSnapshot } from "@/lib/whoop/client";
 import { CampaignProgress } from "@/components/campaign/campaign-progress";
+import { CampaignPhaseBanner } from "@/components/campaign/campaign-phase-banner";
 import { RaceProgress } from "@/components/campaign/race-progress";
 import { MileGrid } from "@/components/miles/mile-grid";
 import { PartnerCard } from "@/components/partners/partner-card";
@@ -34,6 +35,7 @@ import {
   TOTAL_FUNDRAISING_MILES,
 } from "@/lib/constants";
 import { formatCurrency, formatNumber, milesFunded, percentFunded } from "@/lib/utils";
+import { getCampaignPhase } from "@/lib/campaign-phase";
 
 const HERO_SUPPORTING_SENTENCE = `One athlete taking on ${CURRENT_CAMPAIGN.event} to raise awareness and support organizations helping veterans recover, reconnect, and move forward.`;
 
@@ -69,6 +71,7 @@ export default async function CampaignHomePage() {
   const percent = percentFunded(campaign.amount_raised, campaign.fundraising_goal);
   const miles70 = milesFunded(campaign.amount_raised);
   const teaserMiles = miles.slice(0, 14);
+  const phase = getCampaignPhase();
 
   return (
     <>
@@ -139,6 +142,7 @@ export default async function CampaignHomePage() {
       {/* Fundraising Progress — Tier 1: one strong interface, not several cards */}
       <section className="bg-off-white py-16 sm:py-20">
         <Container className="max-w-2xl">
+          <CampaignPhaseBanner phase={phase} />
           <CampaignProgress totalRaised={campaign.amount_raised} goal={campaign.fundraising_goal} />
         </Container>
       </section>

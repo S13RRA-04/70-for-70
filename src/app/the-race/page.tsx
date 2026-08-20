@@ -5,10 +5,12 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
 import { RaceDashboard } from "@/components/campaign/race-dashboard";
 import { TrainingTimeline } from "@/components/campaign/training-timeline";
+import { CampaignPhaseBanner } from "@/components/campaign/campaign-phase-banner";
 import { MobileActionBar } from "@/components/shared/mobile-action-bar";
 import { getTrainingStats } from "@/lib/training-stats";
 import { getPosts } from "@/lib/data/posts";
 import { formatDateLong } from "@/lib/utils";
+import { getCampaignPhase } from "@/lib/campaign-phase";
 import { CAMPAIGN_URL, DONATE_LINK, RACE_INFO } from "@/lib/constants";
 
 function getCurrentTrainingPhaseIndex(): number | undefined {
@@ -34,6 +36,7 @@ export const metadata: Metadata = {
 export default async function RacePage() {
   const [posts, trainingStats] = await Promise.all([getPosts(), getTrainingStats()]);
   const milestonePosts = posts.filter((p) => p.category === "Milestones");
+  const phase = getCampaignPhase();
 
   const hasTrainingVolume =
     trainingStats.swimSessions !== null ||
@@ -67,6 +70,7 @@ export default async function RacePage() {
 
       <section className="py-16 sm:py-20">
         <Container>
+          <CampaignPhaseBanner phase={phase} />
           <RaceDashboard />
 
           <div className="mt-16">
@@ -165,9 +169,17 @@ export default async function RacePage() {
       </section>
 
       <CTASection
-        title="Follow the Training"
-        description="Race prep, training milestones, and fundraising updates are posted as the campaign progresses."
-        buttons={[{ label: "View Updates", href: "/updates" }]}
+        title={phase === "active" ? "Follow the Training" : "Follow Race Day"}
+        description={
+          phase === "active"
+            ? "Race prep, training milestones, and fundraising updates are posted as the campaign progresses."
+            : "Live race-day status and fundraising progress, updated as the race happens."
+        }
+        buttons={[
+          phase === "active"
+            ? { label: "View Updates", href: "/updates" }
+            : { label: "Race Day Live", href: "/live" },
+        ]}
       />
 
       <div className="h-16 sm:hidden" aria-hidden="true" />
