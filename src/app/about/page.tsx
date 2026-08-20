@@ -5,6 +5,7 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
 import { MediaPlaceholder } from "@/components/shared/media-placeholder";
 import { Timeline } from "@/components/shared/timeline";
+import { SectionSubnav } from "@/components/shared/section-subnav";
 import {
   ABOUT_CONTENT,
   INNER_RING_COLORS,
@@ -60,24 +61,7 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      <nav
-        aria-label="About page sections"
-        className="sticky top-16 z-30 border-y border-ink/10 bg-off-white/95 backdrop-blur"
-      >
-        <Container>
-          <div className="flex gap-2 overflow-x-auto py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {SUBNAV.map((item) => (
-              <a
-                key={item.id}
-                href={`#${item.id}`}
-                className="shrink-0 rounded-full border border-ink/15 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wide text-charcoal-light transition-colors hover:border-bronze/40 hover:text-ink"
-              >
-                {item.label}
-              </a>
-            ))}
-          </div>
-        </Container>
-      </nav>
+      <SectionSubnav items={SUBNAV} />
 
       {ABOUT_CONTENT.groups.map((group) => (
         <section
