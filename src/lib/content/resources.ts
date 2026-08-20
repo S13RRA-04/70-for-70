@@ -29,6 +29,25 @@ export interface Resource {
   /** Short, factual cost framing — never defaults to "Free" without checking. */
   cost: string;
   geographicScope: string;
+  /**
+   * Marks an entry as eligible for the homepage crisis quick-link and the
+   * /crisis page — immediate-response hotlines/peer-support lines, not
+   * "mental health" broadly. See CRISIS_AUDIENCE_GROUPS in this file.
+   */
+  crisisResource?: true;
+  /** Which /crisis page section this surfaces under. Required when crisisResource is true. */
+  crisisAudience?: "veterans" | "first-responders" | "general";
+  /**
+   * tel:/sms:-linkable contact info. Only set once a number/shortcode is
+   * confirmed against the organization's own site — same rule the rest of
+   * this file follows for cost/eligibility. Leave unset (falls back to a
+   * "Visit their site" link) rather than publish a guessed crisis number.
+   */
+  phone?: string;
+  text?: string;
+  hours?: string;
+  /** ISO date this entry's crisis contact info (phone/text/hours) was last checked. */
+  verifiedDate?: string;
 }
 
 export const RESOURCES: Resource[] = [
@@ -298,6 +317,20 @@ export const RESOURCES: Resource[] = [
   // Mental Health
   // ---------------------------------------------------------------------
   {
+    name: "988 Suicide & Crisis Lifeline",
+    url: "https://988lifeline.org/",
+    description:
+      "The federally designated national crisis line — free, confidential support for anyone in suicidal or emotional distress, available by call or text at any hour.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Veteran", "Active Military", "Law Enforcement", "Fire", "EMS", "Dispatch", "Corrections", "Family"],
+    cost: "Free",
+    geographicScope: "Nationwide",
+    crisisResource: true,
+    crisisAudience: "general",
+    phone: "988",
+    text: "988",
+  },
+  {
     name: "Veterans Crisis Line",
     url: "https://www.veteranscrisisline.net/",
     description:
@@ -306,6 +339,9 @@ export const RESOURCES: Resource[] = [
     audienceTags: ["Veteran", "Family"],
     cost: "Free",
     geographicScope: "Nationwide",
+    crisisResource: true,
+    crisisAudience: "veterans",
+    phone: "988",
   },
   {
     name: "CopLine",
@@ -316,6 +352,8 @@ export const RESOURCES: Resource[] = [
     audienceTags: ["Law Enforcement", "Family"],
     cost: "Free",
     geographicScope: "Nationwide",
+    crisisResource: true,
+    crisisAudience: "first-responders",
   },
   {
     name: "Responder Health (Safe Call Now)",
@@ -326,6 +364,8 @@ export const RESOURCES: Resource[] = [
     audienceTags: ["Law Enforcement", "Fire", "EMS", "Dispatch", "Corrections", "First Responder", "Family"],
     cost: "Free",
     geographicScope: "Nationwide",
+    crisisResource: true,
+    crisisAudience: "first-responders",
   },
   {
     name: "Boulder Crest Foundation — Warrior PATHH",
@@ -711,4 +751,9 @@ export function getResourcesForFilters(needId: string | null, audience: string |
     const matchesAudience = !audience || resource.audienceTags.includes(audience);
     return matchesNeed && matchesAudience;
   });
+}
+
+/** Entries flagged crisisResource, grouped by /crisis page section. */
+export function getCrisisResources(group: "veterans" | "first-responders" | "general"): Resource[] {
+  return RESOURCES.filter((resource) => resource.crisisResource && resource.crisisAudience === group);
 }

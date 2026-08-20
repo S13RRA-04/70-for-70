@@ -3,11 +3,45 @@ import Image from "next/image";
 import { ChevronDown, Dumbbell, HeartPulse, Package, Users } from "lucide-react";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
-import { ABOUT_CONTENT } from "@/lib/content/about";
-import { CAMPAIGN_HOME_LINK, CAMPAIGN_NAME, ORG_TAGLINE, SITE_NAME } from "@/lib/constants";
+import { CTAButton } from "@/components/shared/cta-button";
+import { CrisisQuickLink } from "@/components/shared/crisis-quick-link";
+import { CurrentCampaignCard } from "@/components/shared/current-campaign-card";
+import { MissionPanel } from "@/components/home/mission-panel";
+import { AthleteTeamTeaser } from "@/components/home/athlete-team-teaser";
+import { ABOUT_CONTENT, findAboutSubsection } from "@/lib/content/about";
+import { SITE_NAME } from "@/lib/constants";
 
-const MISSION_STATEMENT =
-  "For The 22 is a national mission to raise awareness of veteran and first responder suicide, and to get them the help they need. Part of that mission is connecting them to resources — specifically, engagement in endurance sports.";
+const HERO_HEADLINE = "For Those Who Serve. For What Comes Next.";
+const HERO_COPY =
+  "For The 22 connects veterans and first responders with the resources they need, raises awareness of the challenges they face, and brings athletes together to support nonprofit organizations serving those who serve us.";
+
+/** The three missions that organize everything For The 22 does — see MissionPanel. */
+const MISSIONS = [
+  {
+    number: "01" as const,
+    title: "Connect",
+    description:
+      "Connecting veterans and first responders with athletic opportunities, recovery programs, grants, support services, and communities that promote mental, physical, and spiritual wellbeing.",
+    ctaLabel: "Find Resources →",
+    ctaHref: "/resources",
+  },
+  {
+    number: "02" as const,
+    title: "Advocate",
+    description:
+      "Raising awareness of the challenges carried by those who serve and encouraging communities to give veterans and first responders the respect, care, and support they have earned.",
+    ctaLabel: "Why It Matters →",
+    ctaHref: "/advocacy",
+  },
+  {
+    number: "03" as const,
+    title: "Compete",
+    description:
+      "Building an athletic team that uses races and physical challenges to raise awareness and support fundraising efforts for qualified nonprofit organizations serving veterans and first responders.",
+    ctaLabel: "Meet the Team →",
+    ctaHref: "/athletes",
+  },
+];
 
 /** A preview of four of the seven Resources need-categories — see src/components/resources/resource-directory.tsx. */
 const RESOURCE_PREVIEW_TILES = [
@@ -20,11 +54,11 @@ const RESOURCE_PREVIEW_TILES = [
 const MOVE_VERBS = ["Race.", "Ride.", "Ruck.", "Swim.", "Lift.", "Move."];
 
 export default function HomePage() {
-  const why22 = ABOUT_CONTENT.sections.find((s) => s.id === "why-22");
+  const why22 = findAboutSubsection("why-22");
 
   return (
     <>
-      {/* Hero — the movement, not a fundraiser */}
+      {/* Hero */}
       <section className="relative overflow-hidden bg-ink text-off-white">
         <div
           className="absolute inset-0 bg-cover bg-center opacity-80"
@@ -34,45 +68,85 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/20" aria-hidden="true" />
 
         <Container className="relative py-24 sm:py-32">
-          <h1 className="text-balance font-display text-5xl font-bold uppercase leading-[0.95] tracking-tight sm:text-7xl">
-            {SITE_NAME}
-            <sup className="text-[0.3em] font-medium tracking-normal">™</sup>
+          <h1 className="text-balance font-display text-[clamp(2.5rem,8vw,5rem)] font-bold uppercase leading-[0.95] tracking-tight">
+            {HERO_HEADLINE}
           </h1>
-          <p className="mt-3 max-w-xl text-lg font-medium text-off-white/90 sm:text-xl">
-            {ORG_TAGLINE}
-          </p>
-          <p className="mt-5 max-w-xl text-base leading-relaxed text-off-white/75">
-            {MISSION_STATEMENT}
+          <p className="mt-5 max-w-xl text-base leading-relaxed text-off-white/80 sm:text-lg">
+            {HERO_COPY}
           </p>
 
           <div className="mt-10 flex flex-wrap items-center gap-4">
-            <Link
-              href="/resources"
-              className="rounded-sm bg-bronze px-8 py-4 text-base font-semibold uppercase tracking-wide text-off-white shadow-sm transition-colors hover:bg-bronze-light"
-            >
-              Browse Resources
-            </Link>
-            <Link
-              href="/join"
-              className="rounded-sm border border-off-white/40 px-6 py-4 text-base font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-off-white/10"
-            >
-              Join the Movement
-            </Link>
+            <CTAButton href="/resources" size="lg">
+              Find Resources
+            </CTAButton>
+            <CTAButton href="/join" variant="secondary" tone="dark" size="lg">
+              Join the Mission
+            </CTAButton>
           </div>
 
           <a
-            href="#why-22"
+            href="#missions"
             className="mt-12 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-off-white/60 transition-colors hover:text-off-white"
           >
-            Why 22?
+            What Is {SITE_NAME}?
             <ChevronDown size={14} aria-hidden="true" />
           </a>
         </Container>
       </section>
 
+      <CrisisQuickLink />
+
+      {/* Our Three Missions */}
+      <section id="missions" className="scroll-mt-20 py-16 sm:py-20">
+        <Container>
+          <SectionHeading align="center" eyebrow="How It Works" title="Our Three Missions" className="mx-auto" />
+          <div className="mt-10 grid gap-6 sm:grid-cols-3">
+            {MISSIONS.map((mission) => (
+              <MissionPanel key={mission.number} {...mission} />
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* Resource Finder Preview — Mission One */}
+      <section className="border-y border-ink/10 bg-sand-light py-16 sm:py-20">
+        <Container className="max-w-2xl text-center">
+          <SectionHeading
+            align="center"
+            eyebrow="Mission One: Connect"
+            title="Find What You Need"
+            description="Search programs serving veterans, first responders, adaptive athletes, and their families — with an emphasis on athletics and whole-person wellbeing."
+          />
+          <div className="mx-auto mt-8 grid max-w-lg grid-cols-2 gap-3 sm:grid-cols-4">
+            {RESOURCE_PREVIEW_TILES.map(({ icon: Icon, label }) => (
+              <Link
+                key={label}
+                href="/resources"
+                className="group flex flex-col items-center gap-2.5 rounded-sm border border-ink/10 bg-off-white px-3 py-5 transition-colors hover:border-bronze/40"
+              >
+                <Icon size={22} className="text-bronze" aria-hidden="true" />
+                <span className="text-xs font-semibold uppercase tracking-wide text-ink group-hover:text-bronze">
+                  {label}
+                </span>
+              </Link>
+            ))}
+          </div>
+          <CTAButton href="/resources" variant="secondary" className="mt-8">
+            Browse All Resources
+          </CTAButton>
+        </Container>
+      </section>
+
+      {/* Current Athletic Mission — Tri For The 22, nested under the Athletic Team */}
+      <section className="py-16 sm:py-20">
+        <Container className="max-w-2xl">
+          <CurrentCampaignCard />
+        </Container>
+      </section>
+
       {/* Why 22 — huge background numeral as the visual anchor */}
       {why22 && (
-        <section id="why-22" className="relative scroll-mt-20 overflow-hidden py-20 sm:py-28">
+        <section className="relative overflow-hidden py-20 sm:py-28">
           <span
             aria-hidden="true"
             className="pointer-events-none absolute -right-10 -top-16 select-none font-display text-[16rem] font-bold leading-none text-ink/[0.04] sm:text-[24rem]"
@@ -92,67 +166,46 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* The Mission — dark, deliberate contrast against Why 22 */}
+      {/* Why We Wear Black */}
       <section className="bg-ink py-20 text-off-white sm:py-28">
         <Container className="max-w-2xl">
-          <p className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-bronze-light">
-            The Mission
+          <p className="text-balance font-display text-4xl font-bold uppercase leading-none tracking-tight sm:text-6xl">
+            Black.
           </p>
-          <h2 className="text-balance font-display text-3xl font-semibold uppercase tracking-tight sm:text-4xl">
-            Endurance as a Path Forward
-          </h2>
-          <p className="mt-3 max-w-2xl text-base text-off-white/75">
-            Awareness starts the conversation. Getting people moving — with a team, a mission, and
-            people who understand — is what turns awareness into action.
+          <p className="mt-2 font-display text-xl font-semibold uppercase tracking-tight text-bronze-light sm:text-2xl">
+            Because 22 &ne; 0.
           </p>
-          <p className="mt-5 text-base leading-relaxed text-off-white/75">
-            {SITE_NAME} connects veterans and first responders to the programs, communities, and
-            equipment that make endurance sport an on-ramp back to purpose — not a replacement
-            for professional help, but a real part of the path.
+          <p className="mt-6 max-w-xl text-base leading-relaxed text-off-white/75">
+            Black is the foundation of the For The 22 brand because it represents mourning. We
+            wear black for the veterans and first responders we have lost to suicide, trauma,
+            injury, and the invisible battles carried long after the uniform comes off.
           </p>
-        </Container>
-      </section>
-
-      {/* Resources teaser — a preview of the directory, not just a link */}
-      <section className="py-16 sm:py-20">
-        <Container className="max-w-2xl text-center">
-          <SectionHeading
-            align="center"
-            eyebrow="Get Connected"
-            title="Find What You Need"
-            description="Mental health, sports, equipment, family support, career, and more — filter by what you need and who you are."
-          />
-          <div className="mx-auto mt-8 grid max-w-lg grid-cols-2 gap-3 sm:grid-cols-4">
-            {RESOURCE_PREVIEW_TILES.map(({ icon: Icon, label }) => (
-              <Link
-                key={label}
-                href="/resources"
-                className="group flex flex-col items-center gap-2.5 rounded-sm border border-ink/10 bg-off-white px-3 py-5 transition-colors hover:border-bronze/40"
-              >
-                <Icon size={22} className="text-bronze" aria-hidden="true" />
-                <span className="text-xs font-semibold uppercase tracking-wide text-ink group-hover:text-bronze">
-                  {label}
-                </span>
-              </Link>
-            ))}
-          </div>
           <Link
-            href="/resources"
-            className="mt-8 inline-flex rounded-sm bg-ink px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-charcoal"
+            href="/about#why-black"
+            className="mt-6 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze-light transition-colors hover:text-bronze"
           >
-            Browse All Resources
+            Learn the Meaning Behind the Brand &rarr;
           </Link>
         </Container>
       </section>
 
-      {/* My Story teaser */}
+      {/* Athlete Team — Mission Three */}
+      <AthleteTeamTeaser />
+
+      {/* Public Awareness / Story — Mission Two */}
       <section className="border-y border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container className="grid gap-10 lg:grid-cols-[minmax(0,360px)_1fr] lg:items-center">
           <div className="relative aspect-[4/5] w-full overflow-hidden rounded-sm">
-            <Image src="/about/ultra-1.jpg" alt="Cody racing his first 100-kilometer ultramarathon" fill className="object-cover" />
+            <Image
+              src="/about/ultra-1.jpg"
+              alt="Cody racing his first 100-kilometer ultramarathon"
+              fill
+              sizes="(min-width: 1024px) 360px, 100vw"
+              className="object-cover"
+            />
           </div>
           <div>
-            <SectionHeading eyebrow="Who's Behind This" title="My Story" />
+            <SectionHeading eyebrow="Mission Two: Advocate" title="Public Awareness & Story" />
             <div className="mt-5 space-y-4">
               {ABOUT_CONTENT.homepageTeaser.map((paragraph, i) => (
                 <p key={i} className="text-base leading-relaxed text-charcoal-light">
@@ -160,56 +213,17 @@ export default function HomePage() {
                 </p>
               ))}
             </div>
-            <Link
-              href="/about"
-              className="mt-6 inline-flex rounded-sm bg-ink px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-charcoal"
-            >
-              Read My Story
-            </Link>
-          </div>
-        </Container>
-      </section>
-
-      {/* Current campaign — a featured module, not another information block */}
-      <section className="py-16 sm:py-20">
-        <Container className="max-w-2xl">
-          <div className="relative overflow-hidden rounded-sm border border-bronze/30 bg-ink p-8 text-off-white">
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-y-0 left-0 w-1.5 bg-bronze"
-            />
-            <div className="flex items-center gap-4">
-              <Image
-                src="/campaign-logo.png"
-                alt=""
-                aria-hidden="true"
-                width={48}
-                height={48}
-                className="shrink-0"
-              />
-              <p className="text-xs font-semibold uppercase tracking-widest text-bronze-light">
-                Current Mission
-              </p>
+            <div className="mt-6 flex flex-wrap gap-4">
+              <CTAButton href="/about">Read the Story</CTAButton>
+              <CTAButton href="/advocacy" variant="secondary">
+                Why It Matters
+              </CTAButton>
             </div>
-            <p className="mt-3 font-display text-2xl font-semibold uppercase tracking-tight sm:text-3xl">
-              {CAMPAIGN_NAME}
-            </p>
-            <p className="mt-2 max-w-lg text-sm text-off-white/75">
-              A 70.3-mile triathlon paired with a $70,000 fundraising goal, in support of Mighty
-              Oaks Foundation and Project Echelon — the first campaign under the {SITE_NAME}
-              {" "}naming convention.
-            </p>
-            <a
-              href={CAMPAIGN_HOME_LINK.href}
-              className="mt-6 inline-flex rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light"
-            >
-              Visit {CAMPAIGN_HOME_LINK.label}
-            </a>
           </div>
         </Container>
       </section>
 
-      {/* Join — poster-style closer */}
+      {/* Join the Mission — poster-style closer */}
       <section className="bg-ink py-20 text-off-white sm:py-28">
         <Container className="max-w-4xl text-center">
           <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-bronze-light">
@@ -228,18 +242,10 @@ export default function HomePage() {
             the start of the list.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <Link
-              href="/join"
-              className="rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light"
-            >
-              Join the Movement
-            </Link>
-            <Link
-              href="/resources"
-              className="rounded-sm border border-off-white/30 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-off-white/10"
-            >
-              Browse Resources
-            </Link>
+            <CTAButton href="/join">Join the Mission</CTAButton>
+            <CTAButton href="/resources" variant="secondary" tone="dark">
+              Find Resources
+            </CTAButton>
           </div>
         </Container>
       </section>

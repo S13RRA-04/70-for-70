@@ -6,9 +6,9 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import {
-  CAMPAIGN_HOME_LINK,
   CAMPAIGN_NAME,
   CAMPAIGN_NAV_LINKS,
+  CURRENT_MISSION_NAV_LINK,
   DONATE_LINK,
   MERCH_LINK,
   ORG_HOME_LINK,
@@ -106,10 +106,10 @@ export function Header({ mode }: { mode: SiteMode }) {
                 {MERCH_LINK.label}
               </Link>
               <a
-                href={CAMPAIGN_HOME_LINK.href}
+                href={CURRENT_MISSION_NAV_LINK.href}
                 className="rounded-sm bg-bronze px-5 py-2 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light"
               >
-                {CAMPAIGN_HOME_LINK.label}
+                {CURRENT_MISSION_NAV_LINK.label}
               </a>
             </>
           )}
@@ -183,10 +183,10 @@ export function Header({ mode }: { mode: SiteMode }) {
                 </li>
                 <li className="pt-2">
                   <a
-                    href={CAMPAIGN_HOME_LINK.href}
+                    href={CURRENT_MISSION_NAV_LINK.href}
                     className="block rounded-sm bg-bronze px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
                   >
-                    {CAMPAIGN_HOME_LINK.label}
+                    {CURRENT_MISSION_NAV_LINK.label}
                   </a>
                 </li>
               </>

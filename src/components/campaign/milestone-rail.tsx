@@ -49,12 +49,12 @@ export function MilestoneRail({ totalRaised, goal }: { totalRaised: number; goal
             <p
               className={cn(
                 "whitespace-nowrap text-[11px] font-semibold uppercase tracking-wide",
-                percentRaised >= milestone.percent ? "text-bronze" : "text-charcoal-light/60",
+                percentRaised >= milestone.percent ? "text-bronze" : "text-charcoal-light/80",
               )}
             >
               {milestone.label}
             </p>
-            <p className="whitespace-nowrap text-[10px] text-charcoal-light/60">
+            <p className="whitespace-nowrap text-[10px] text-charcoal-light/80">
               {formatCurrency(Math.round((milestone.percent / 100) * goal))}
             </p>
           </div>

@@ -3,11 +3,12 @@ import { getPartners } from "@/lib/data/partners";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { PartnerCard } from "@/components/partners/partner-card";
+import { CAMPAIGN_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Partners",
   description: "The veteran-focused nonprofit organizations supported by Tri For The 22.",
-  alternates: { canonical: "/partners" },
+  alternates: { canonical: `${CAMPAIGN_URL}/partners` },
 };
 
 export default async function PartnersPage() {
@@ -18,6 +19,7 @@ export default async function PartnersPage() {
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container>
           <SectionHeading
+            as="h1"
             eyebrow="Who It Supports"
             title="Beneficiary Organizations"
             description="Tri For The 22 raises funds in support of the following veteran-focused nonprofit organizations."

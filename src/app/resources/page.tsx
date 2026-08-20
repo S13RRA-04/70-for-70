@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
+import { MobileActionBar } from "@/components/shared/mobile-action-bar";
 import { ResourceDirectory } from "@/components/resources/resource-directory";
 import { CONTACT_EMAIL, SITE_NAME } from "@/lib/constants";
 
@@ -17,9 +18,10 @@ export default function ResourcesPage() {
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container>
           <SectionHeading
-            eyebrow="Resources"
-            title="Find What You Need"
-            description={`${SITE_NAME} is building a resource finder for veterans and first responders — mental health, sports, equipment, family support, career, and more. Sport is one entry point, not the only one. Filter by what you need and who you are below.`}
+            as="h1"
+            eyebrow="Mission One: Connect"
+            title="Resources for Those Who Serve"
+            description={`The primary mission of ${SITE_NAME} is simple: help veterans and first responders find the support, opportunities, and communities they need. Athletics is our strongest emphasis, alongside mental health, recovery, equipment, family support, career, and more. Search or filter by what you need and who you are below.`}
           />
         </Container>
       </section>
@@ -39,6 +41,12 @@ export default function ResourcesPage() {
             ? [{ label: "Submit a Resource", href: `mailto:${CONTACT_EMAIL}?subject=Resource%20Submission` }]
             : [{ label: "Contact Us", href: "/contact" }]
         }
+      />
+
+      <div className="h-16 sm:hidden" aria-hidden="true" />
+      <MobileActionBar
+        secondary={{ label: "Search", href: "#resource-search" }}
+        primary={{ label: "Join", href: "/join" }}
       />
     </>
   );

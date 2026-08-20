@@ -17,7 +17,7 @@ export default function PrivacyPage() {
     <>
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container>
-          <SectionHeading eyebrow="Legal" title="Privacy Policy" />
+          <SectionHeading as="h1" eyebrow="Legal" title="Privacy Policy" />
           <p className="mt-3 text-sm text-charcoal-light">
             Last updated {formatDateLong(PRIVACY_LAST_UPDATED)}
           </p>

@@ -36,7 +36,7 @@ export async function generateMetadata(props: PageProps<"/miles/[number]">): Pro
     title,
     description,
     openGraph: { title, description },
-    alternates: { canonical: `/miles/${mile.mile_number}` },
+    alternates: { canonical: `${CAMPAIGN_URL}/miles/${mile.mile_number}` },
   };
 }
 

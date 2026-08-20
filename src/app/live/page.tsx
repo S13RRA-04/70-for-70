@@ -15,11 +15,12 @@ import {
   milesFunded,
   percentFunded,
 } from "@/lib/utils";
+import { CAMPAIGN_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Race Day Live",
   description: "Live race-day status and fundraising progress for Tri For The 22.",
-  alternates: { canonical: "/live" },
+  alternates: { canonical: `${CAMPAIGN_URL}/live` },
 };
 
 const DISCIPLINE_LABEL: Record<"swim" | "bike" | "run" | "finished", string> = {

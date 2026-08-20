@@ -5,13 +5,18 @@ import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { SponsorWall } from "@/components/sponsors/sponsor-wall";
 import { CTASection } from "@/components/shared/cta-section";
-import { CUSTOM_PARTNERSHIP_CATEGORIES, SPONSORSHIP_LEVELS, SPONSOR_VALUE_PROPS } from "@/lib/constants";
+import {
+  CAMPAIGN_URL,
+  CUSTOM_PARTNERSHIP_CATEGORIES,
+  SPONSORSHIP_LEVELS,
+  SPONSOR_VALUE_PROPS,
+} from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Sponsors",
   description: "Sponsorship levels for businesses supporting the Tri For The 22 campaign.",
-  alternates: { canonical: "/sponsors" },
+  alternates: { canonical: `${CAMPAIGN_URL}/sponsors` },
 };
 
 export default async function SponsorsPage() {
@@ -22,6 +27,7 @@ export default async function SponsorsPage() {
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container>
           <SectionHeading
+            as="h1"
             eyebrow="For Businesses"
             title="Become a Sponsor"
             description="Interested in supporting Tri For The 22 as a corporate or in-kind sponsor? Submit a sponsorship request — all proposals are individually reviewed before acceptance."

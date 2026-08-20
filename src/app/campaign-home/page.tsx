@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { getCampaign } from "@/lib/data/campaign";
 import { getMilesWithDonations } from "@/lib/data/miles";
@@ -20,11 +21,18 @@ import { MediaPlaceholder } from "@/components/shared/media-placeholder";
 import { ShareButtons } from "@/components/shared/share-buttons";
 import { EmailSignupForm } from "@/components/forms/email-signup-form";
 import { ABOUT_CONTENT } from "@/lib/content/about";
-import { CAMPAIGN_NAME, CAMPAIGN_URL, ORG_HOME_LINK, SITE_TAGLINE } from "@/lib/constants";
+import { ATHLETIC_TEAM_NAME, CAMPAIGN_NAME, CAMPAIGN_URL, ORG_HOME_LINK, SITE_TAGLINE } from "@/lib/constants";
 import { formatCurrency, formatNumber, milesFunded, percentFunded } from "@/lib/utils";
 
 const HERO_SUPPORTING_SENTENCE =
   "I'm taking on a 70.3-mile triathlon to raise $70,000 for organizations helping veterans find recovery, community, and their next mission.";
+
+export const metadata: Metadata = {
+  title: `${CAMPAIGN_NAME} | ${SITE_TAGLINE}`,
+  description:
+    "Tri For The 22 pairs a 70.3-mile triathlon with a $70,000 fundraising goal in support of veteran-focused nonprofit organizations.",
+  alternates: { canonical: `${CAMPAIGN_URL}/` },
+};
 
 /**
  * The campaign homepage — rendered at "/" on tri.forthe22.org via a
@@ -64,8 +72,11 @@ export default async function CampaignHomePage() {
             href={ORG_HOME_LINK.href}
             className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light hover:underline"
           >
-            A {ORG_HOME_LINK.label} Campaign
+            {ATHLETIC_TEAM_NAME}
           </a>
+          <p className="mt-0.5 text-xs font-semibold uppercase tracking-[0.2em] text-off-white/70">
+            Current Campaign
+          </p>
           <h1 className="mt-2 text-balance font-display text-5xl font-bold uppercase leading-[0.95] tracking-tight sm:text-7xl">
             {CAMPAIGN_NAME}
           </h1>
@@ -140,7 +151,11 @@ export default async function CampaignHomePage() {
               <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
                 Fundraising Progress
               </p>
-              <CampaignProgress totalRaised={campaign.amount_raised} goal={campaign.fundraising_goal} />
+              <CampaignProgress
+                totalRaised={campaign.amount_raised}
+                goal={campaign.fundraising_goal}
+                showStats={false}
+              />
             </div>
             <div>
               <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-charcoal-light">

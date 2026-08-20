@@ -46,7 +46,15 @@ function applyLaunchGate(request: NextRequest, onCampaignHost: boolean): Respons
   // requireAdminUser() already guards every page in there, and the owner
   // needs to manage the site (connect WHOOP, review sponsorships) before
   // a domain goes live, not just after.
-  if (url.pathname.startsWith("/admin") || url.pathname.startsWith("/api/whoop")) {
+  //
+  // /crisis is never gated either — someone looking for immediate crisis
+  // support shouldn't hit a "coming soon" wall if the site is ever taken
+  // back offline for maintenance/relaunch.
+  if (
+    url.pathname.startsWith("/admin") ||
+    url.pathname.startsWith("/api/whoop") ||
+    url.pathname.startsWith("/crisis")
+  ) {
     return null;
   }
 
@@ -99,6 +107,9 @@ function applyLaunchGate(request: NextRequest, onCampaignHost: boolean): Respons
 const ORG_PATH_PREFIXES = [
   "/about",
   "/resources",
+  "/crisis",
+  "/athletes",
+  "/advocacy",
   "/join",
   "/merch",
   "/contact",

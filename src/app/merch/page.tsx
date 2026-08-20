@@ -16,12 +16,13 @@ export default function MerchPage() {
     <section className="py-16 sm:py-20">
       <Container className="max-w-2xl">
         <SectionHeading
+          as="h1"
           eyebrow="Shop — Commercial Merchandise"
           title="Shop Tri For The 22 Gear"
           description="Custom cycling and triathlon apparel for the Tri For The 22 campaign, available through Jakroo's team store platform."
         />
 
-        <div className="mt-6 rounded-sm border border-bronze/40 bg-bronze/10 p-5">
+        <div id="transparency" className="mt-6 scroll-mt-20 rounded-sm border border-bronze/40 bg-bronze/10 p-5">
           <p className="text-sm font-semibold uppercase tracking-wide text-bronze">
             Merchandise purchases are retail transactions, not charitable donations
           </p>

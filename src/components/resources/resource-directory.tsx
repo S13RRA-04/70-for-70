@@ -1,10 +1,11 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { cn } from "@/lib/utils";
 import { RESOURCES } from "@/lib/content/resources";
 import { ResourceCard } from "@/components/resources/resource-card";
 import { EmptyState } from "@/components/shared/empty-state";
+import { FilterChip } from "@/components/shared/filter-chip";
+import { SearchField } from "@/components/shared/search-field";
 
 export interface NeedCategory {
   id: string;
@@ -50,32 +51,14 @@ function FilterRow({
     <div>
       <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">{label}</p>
       <div className="mt-2.5 flex flex-wrap gap-2">
-        <button
-          type="button"
-          onClick={() => onSelect(null)}
-          className={cn(
-            "rounded-full border px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wide transition-colors",
-            active === null
-              ? "border-bronze bg-bronze text-off-white"
-              : "border-ink/15 text-charcoal-light hover:border-ink/30 hover:text-ink",
-          )}
-        >
-          All
-        </button>
+        <FilterChip label="All" active={active === null} onClick={() => onSelect(null)} />
         {options.map((option) => (
-          <button
+          <FilterChip
             key={option}
-            type="button"
+            label={option}
+            active={active === option}
             onClick={() => onSelect(option === active ? null : option)}
-            className={cn(
-              "rounded-full border px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wide transition-colors",
-              active === option
-                ? "border-bronze bg-bronze text-off-white"
-                : "border-ink/15 text-charcoal-light hover:border-ink/30 hover:text-ink",
-            )}
-          >
-            {option}
-          </button>
+          />
         ))}
       </div>
     </div>
@@ -85,17 +68,42 @@ function FilterRow({
 export function ResourceDirectory() {
   const [needId, setNeedId] = useState<string | null>(null);
   const [audience, setAudience] = useState<string | null>(null);
+  const [search, setSearch] = useState("");
 
   const results = useMemo(() => {
+    const query = search.trim().toLowerCase();
+
     return RESOURCES.filter((resource) => {
       const matchesNeed = !needId || resource.needCategoryIds.includes(needId);
       const matchesAudience = !audience || resource.audienceTags.includes(audience);
-      return matchesNeed && matchesAudience;
+
+      const needLabels = resource.needCategoryIds.map(
+        (id) => NEED_CATEGORIES.find((c) => c.id === id)?.label ?? "",
+      );
+      const matchesSearch =
+        !query ||
+        resource.name.toLowerCase().includes(query) ||
+        resource.description.toLowerCase().includes(query) ||
+        resource.audienceTags.some((tag) => tag.toLowerCase().includes(query)) ||
+        needLabels.some((label) => label.toLowerCase().includes(query)) ||
+        resource.cost.toLowerCase().includes(query) ||
+        resource.geographicScope.toLowerCase().includes(query);
+
+      return matchesNeed && matchesAudience && matchesSearch;
     });
-  }, [needId, audience]);
+  }, [needId, audience, search]);
 
   return (
     <div>
+      <SearchField
+        id="resource-search"
+        value={search}
+        onChange={setSearch}
+        label="Search resources"
+        placeholder="Search organizations, services, or needs…"
+        className="mb-5 scroll-mt-20"
+      />
+
       <div className="space-y-5 rounded-sm border border-ink/10 bg-sand-light p-5 sm:p-6">
         <FilterRow
           label="What Do You Need?"
@@ -114,7 +122,7 @@ export function ResourceDirectory() {
         <div className="mt-4">
           <EmptyState
             title="No resources match that combination yet."
-            description="Try clearing one of the filters, or check back as the directory grows."
+            description="Try a different search term or clearing one of the filters."
           />
         </div>
       ) : (

@@ -22,7 +22,7 @@ export async function generateMetadata(props: PageProps<"/updates/[slug]">): Pro
     title: post.title,
     description: post.summary,
     openGraph: { title: post.title, description: post.summary },
-    alternates: { canonical: `/updates/${post.slug}` },
+    alternates: { canonical: `${CAMPAIGN_URL}/updates/${post.slug}` },
   };
 }
 
@@ -51,7 +51,13 @@ export default async function UpdatePostPage(props: PageProps<"/updates/[slug]">
 
         <div className="relative mt-8 aspect-[16/9] w-full overflow-hidden rounded-sm bg-sand-light">
           {post.image_url ? (
-            <Image src={post.image_url} alt="" fill className="object-cover" />
+            <Image
+              src={post.image_url}
+              alt=""
+              fill
+              sizes="(min-width: 768px) 768px, 100vw"
+              className="object-cover"
+            />
           ) : (
             <MediaPlaceholder />
           )}

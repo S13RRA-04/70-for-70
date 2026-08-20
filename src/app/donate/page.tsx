@@ -7,11 +7,12 @@ import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { PartnerCard } from "@/components/partners/partner-card";
 import { CampaignAllocation } from "@/components/campaign/campaign-allocation";
+import { CAMPAIGN_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Donate",
   description: "Support Tri For The 22 through an authorized partner donation platform.",
-  alternates: { canonical: "/donate" },
+  alternates: { canonical: `${CAMPAIGN_URL}/donate` },
 };
 
 export default async function DonatePage(props: PageProps<"/donate">) {
@@ -27,6 +28,7 @@ export default async function DonatePage(props: PageProps<"/donate">) {
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container>
           <SectionHeading
+            as="h1"
             eyebrow="Support the Mission"
             title="Where Would You Like Your Donation to Go?"
             description="For The 22 does not process donations directly. Choose a beneficiary organization below to give through its authorized donation platform."

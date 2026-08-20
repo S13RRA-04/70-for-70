@@ -4,38 +4,27 @@ import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
 import { MediaPlaceholder } from "@/components/shared/media-placeholder";
-import { ABOUT_CONTENT } from "@/lib/content/about";
+import { Timeline } from "@/components/shared/timeline";
+import {
+  ABOUT_CONTENT,
+  INNER_RING_COLORS,
+  OUTER_RING_COLORS,
+  STORY_TIMELINE,
+} from "@/lib/content/about";
 import { CAMPAIGN_URL } from "@/lib/constants";
-
-/**
- * The For The 22 mark carries two rings, a star, and the "22" itself —
- * none of it decorative. The outer ring is every branch of the U.S. Armed
- * Forces; the inner ring is every sector of first-responder service. See
- * "The Brand" section below for the star and the 22.
- */
-const OUTER_RING_COLORS = [
-  { branch: "Navy", color: "Navy Blue", hex: "#002147" },
-  { branch: "Marine Corps", color: "Scarlet", hex: "#C41E3A" },
-  { branch: "Coast Guard", color: "Coast Guard Blue", hex: "#0093AF" },
-  { branch: "Air Force", color: "Air Force Blue", hex: "#00308F" },
-  { branch: "Army", color: "Ranger Green", hex: "#4B5320" },
-  { branch: "Space Force", color: "Black", hex: "#1A1A1A" },
-] as const;
-
-const INNER_RING_COLORS = [
-  { sector: "Law enforcement, police officers, and sheriff deputies", color: "Blue", hex: "#1C4E80" },
-  { sector: "Firefighters and fire rescue departments", color: "Red", hex: "#C8102E" },
-  { sector: "EMS, paramedics, nurses, and doctors", color: "White", hex: "#FFFFFF" },
-  { sector: "911 dispatchers and public safety telecommunicators", color: "Gold / Yellow", hex: "#EAB308" },
-  { sector: "Border patrol and federal security", color: "Green", hex: "#2E7D32" },
-  { sector: "Corrections officers and probation staff", color: "Silver / Grey", hex: "#9CA3AF" },
-] as const;
 
 export const metadata: Metadata = {
   title: "About",
   description: `${ABOUT_CONTENT.name} — ${ABOUT_CONTENT.tagline}`,
   alternates: { canonical: "/about" },
 };
+
+const READING_COLUMN = "max-w-[46rem]";
+
+const SUBNAV = [
+  ...ABOUT_CONTENT.groups.map((group) => ({ id: group.id, label: group.navLabel })),
+  { id: "brand-meaning", label: "Brand Meaning" },
+];
 
 export default function AboutPage() {
   return (
@@ -48,6 +37,7 @@ export default function AboutPage() {
                 src={ABOUT_CONTENT.portraitUrl}
                 alt={ABOUT_CONTENT.name}
                 fill
+                sizes="200px"
                 className="object-cover"
               />
             ) : (
@@ -56,7 +46,7 @@ export default function AboutPage() {
           </div>
 
           <div>
-            <SectionHeading eyebrow="About" title={ABOUT_CONTENT.name} />
+            <SectionHeading as="h1" eyebrow="About" title={ABOUT_CONTENT.name} />
             <p className="mt-3 text-base font-medium text-charcoal-light">
               {ABOUT_CONTENT.tagline}
             </p>
@@ -64,50 +54,97 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      <section className="py-16 sm:py-20">
-        <Container className="max-w-2xl">
-          <div className="space-y-14">
-            {ABOUT_CONTENT.sections.map((section) => (
-              <div key={section.id} id={section.id}>
-                <h2 className="font-display text-2xl font-semibold uppercase tracking-tight text-ink sm:text-3xl">
-                  {section.heading}
-                </h2>
-                {section.image && (
-                  <div className="relative mt-5 aspect-[16/10] w-full overflow-hidden rounded-sm">
-                    <Image
-                      src={section.image.src}
-                      alt={section.image.alt}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                )}
-                <div className="mt-4 space-y-4">
-                  {section.body.map((paragraph, i) => (
-                    <p key={i} className="text-base leading-relaxed text-charcoal-light">
-                      {paragraph}
-                    </p>
-                  ))}
-                </div>
-
-                {section.pullQuote && (
-                  <blockquote className="mt-6 border-l-2 border-bronze py-1 pl-5 text-lg italic leading-relaxed text-ink">
-                    <p>&ldquo;{section.pullQuote.text}&rdquo;</p>
-                    <footer className="mt-2 text-sm font-medium not-italic uppercase tracking-wide text-bronze">
-                      {section.pullQuote.attribution}
-                    </footer>
-                  </blockquote>
-                )}
-              </div>
-            ))}
-          </div>
+      <section className="py-12 sm:py-16">
+        <Container className={READING_COLUMN}>
+          <Timeline entries={[...STORY_TIMELINE]} />
         </Container>
       </section>
 
-      <section id="the-brand" className="border-t border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container className="max-w-2xl">
-          <h2 className="font-display text-2xl font-semibold uppercase tracking-tight text-ink sm:text-3xl">
-            The Brand
+      <nav
+        aria-label="About page sections"
+        className="sticky top-16 z-30 border-y border-ink/10 bg-off-white/95 backdrop-blur"
+      >
+        <Container>
+          <div className="flex gap-2 overflow-x-auto py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {SUBNAV.map((item) => (
+              <a
+                key={item.id}
+                href={`#${item.id}`}
+                className="shrink-0 rounded-full border border-ink/15 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wide text-charcoal-light transition-colors hover:border-bronze/40 hover:text-ink"
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
+        </Container>
+      </nav>
+
+      {ABOUT_CONTENT.groups.map((group) => (
+        <section
+          key={group.id}
+          id={group.id}
+          className="scroll-mt-32 border-b border-ink/10 py-16 sm:py-20"
+        >
+          <Container className={READING_COLUMN}>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze">
+              {group.navLabel}
+            </p>
+            <div className="mt-6 space-y-14">
+              {group.subsections.map((section) => (
+                <div key={section.id}>
+                  <h2 className="font-display text-2xl font-semibold uppercase tracking-tight text-ink sm:text-3xl">
+                    {section.heading}
+                  </h2>
+                  {section.image && (
+                    <div className="relative mt-5 aspect-[16/10] w-full overflow-hidden rounded-sm">
+                      <Image
+                        src={section.image.src}
+                        alt={section.image.alt}
+                        fill
+                        sizes="(min-width: 768px) 46rem, 100vw"
+                        className="object-cover"
+                      />
+                    </div>
+                  )}
+                  <div className="mt-4 space-y-4">
+                    {section.body.map((paragraph, i) => (
+                      <p key={i} className="text-base leading-relaxed text-charcoal-light">
+                        {paragraph}
+                      </p>
+                    ))}
+                  </div>
+
+                  {section.pullQuote && (
+                    <blockquote className="mt-6 border-l-2 border-bronze py-1 pl-5 text-lg italic leading-relaxed text-ink">
+                      <p>&ldquo;{section.pullQuote.text}&rdquo;</p>
+                      <footer className="mt-2 text-sm font-medium not-italic uppercase tracking-wide text-bronze">
+                        {section.pullQuote.attribution}
+                      </footer>
+                    </blockquote>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {group.id === "origin" && (
+              <a
+                href={CAMPAIGN_URL}
+                className="mt-8 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+              >
+                Visit Tri For The 22 &rarr;
+              </a>
+            )}
+          </Container>
+        </section>
+      ))}
+
+      <section id="brand-meaning" className="scroll-mt-32 bg-sand-light py-16 sm:py-20">
+        <Container className={READING_COLUMN}>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze">
+            Brand Meaning
+          </p>
+          <h2 className="mt-2 font-display text-2xl font-semibold uppercase tracking-tight text-ink sm:text-3xl">
+            The Mark
           </h2>
           <p className="mt-4 text-base leading-relaxed text-charcoal-light">
             Nothing in the For The 22 mark is decorative. The outer ring carries a color for
@@ -117,7 +154,11 @@ export default function AboutPage() {
             answers the call.
           </p>
 
-          <h3 className="mt-8 text-sm font-semibold uppercase tracking-wide text-ink">
+          <div className="relative mx-auto mt-10 aspect-square w-full max-w-[220px]">
+            <Image src="/logo.png" alt="The For The 22 mark" fill className="object-contain" sizes="220px" />
+          </div>
+
+          <h3 className="mt-10 text-sm font-semibold uppercase tracking-wide text-ink">
             Outer Ring — Armed Forces
           </h3>
           <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
@@ -164,41 +205,6 @@ export default function AboutPage() {
               <span className="font-semibold text-ink">The 22</span> is the rough, commonly cited
               figure for how many veterans and first responders take their own lives each day, on
               average. It&apos;s the number the entire movement is named for and built against.
-            </p>
-          </div>
-
-          <div className="mt-10 rounded-sm bg-ink p-8 text-off-white sm:p-10">
-            <h3 className="font-display text-xl font-semibold uppercase tracking-wide">
-              Why We Wear Black
-            </h3>
-            <p className="mt-2 font-display text-2xl font-bold uppercase tracking-tight text-bronze-light sm:text-3xl">
-              Black. Because 22 &ne; 0.
-            </p>
-            <div className="mt-5 space-y-4 text-base leading-relaxed text-off-white/80">
-              <p>Black is the foundation of the For The 22 brand because it represents mourning.</p>
-              <p>
-                We wear black for the veterans and first responders we have lost to suicide,
-                trauma, injury, and the invisible battles carried long after the uniform comes
-                off.
-              </p>
-              <p>
-                The black racing uniform is not meant to look tactical. It is meant to be a
-                memorial.
-              </p>
-              <p>
-                Every race, every mile, and every challenge begins against that black background
-                as a reminder that this mission was born from loss.
-              </p>
-              <p>
-                The colors surrounding the For The 22 mark represent the communities still
-                standing together. The black beneath them represents those who are no longer
-                here.
-              </p>
-              <p>For The 22 athletes wear black because we carry their memory with us.</p>
-            </div>
-            <p className="mt-6 text-balance font-display text-lg font-semibold uppercase leading-relaxed tracking-wide text-bronze-light sm:text-xl">
-              We do not race only for ourselves. We race in mourning. We race in remembrance. And
-              we move forward for those who no longer can.
             </p>
           </div>
         </Container>

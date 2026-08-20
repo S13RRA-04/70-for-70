@@ -23,6 +23,7 @@ export default function AthleteAgreementPage() {
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container>
           <SectionHeading
+            as="h1"
             eyebrow="Legal"
             title="For The 22 Athlete Participation & Affiliation Agreement"
           />

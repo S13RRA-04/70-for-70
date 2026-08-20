@@ -6,12 +6,15 @@ export function SectionHeading({
   description,
   align = "left",
   className,
+  as: Heading = "h2",
 }: {
   eyebrow?: string;
   title: string;
   description?: string;
   align?: "left" | "center";
   className?: string;
+  /** Render as the page's real <h1> for the topmost heading on a page — every other instance should stay the default <h2>. */
+  as?: "h1" | "h2";
 }) {
   return (
     <div className={cn(align === "center" && "text-center", className)}>
@@ -20,9 +23,9 @@ export function SectionHeading({
           {eyebrow}
         </p>
       )}
-      <h2 className="text-balance text-3xl font-semibold uppercase tracking-tight text-ink sm:text-4xl">
+      <Heading className="text-balance text-3xl font-semibold uppercase tracking-tight text-ink sm:text-4xl">
         {title}
-      </h2>
+      </Heading>
       {description && (
         <p
           className={cn(

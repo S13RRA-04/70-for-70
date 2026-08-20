@@ -149,6 +149,10 @@ export function JoinInterestForm() {
           rows={4}
           className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze"
         />
+        <p className="mt-1.5 text-xs text-charcoal-light">
+          Please don&apos;t include medical records, Social Security numbers, detailed diagnoses,
+          or other sensitive personal information.
+        </p>
       </div>
 
       {status === "error" && errorMessage && (

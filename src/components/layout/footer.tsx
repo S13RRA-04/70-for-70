@@ -4,7 +4,9 @@ import {
   CAMPAIGN_HOME_LINK,
   CAMPAIGN_NAME,
   CAMPAIGN_NAV_LINKS,
+  CAMPAIGN_URL,
   CONTACT_EMAIL,
+  CURRENT_MISSION_NAV_LINK,
   ORG_HOME_LINK,
   ORG_NAV_LINKS,
   ORG_TAGLINE,
@@ -24,8 +26,10 @@ export function Footer({ mode }: { mode: SiteMode }) {
 
   return (
     <footer className="border-t border-off-white/10 bg-ink text-off-white">
-      <Container className="grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="lg:col-span-2">
+      <Container
+        className={`grid gap-10 py-14 sm:grid-cols-2 ${isCampaign ? "lg:grid-cols-4" : "lg:grid-cols-5"}`}
+      >
+        <div className={isCampaign ? "sm:col-span-2 lg:col-span-2" : "sm:col-span-2 lg:col-span-1"}>
           <div className="flex items-center gap-2.5">
             <Image
               src={isCampaign ? "/campaign-logo.png" : "/logo-white.png"}
@@ -64,31 +68,31 @@ export function Footer({ mode }: { mode: SiteMode }) {
           )}
         </div>
 
-        <div>
-          <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
-            Navigate
-          </p>
-          <ul className="mt-4 space-y-2">
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className="text-sm text-off-white/70 transition-colors hover:text-off-white"
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+        {isCampaign ? (
+          <>
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
+                Navigate
+              </p>
+              <ul className="mt-4 space-y-2">
+                {navLinks.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="text-sm text-off-white/70 transition-colors hover:text-off-white"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-        <div>
-          <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
-            Connect
-          </p>
-          <ul className="mt-4 space-y-2 text-sm text-off-white/70">
-            {isCampaign ? (
-              <>
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
+                Connect
+              </p>
+              <ul className="mt-4 space-y-2 text-sm text-off-white/70">
                 <li>
                   <Link href="/donate" className="transition-colors hover:text-off-white">
                     Donate
@@ -104,35 +108,120 @@ export function Footer({ mode }: { mode: SiteMode }) {
                     Race Day Live
                   </Link>
                 </li>
-              </>
-            ) : (
-              <>
+              </ul>
+              <SocialLinks className="mt-4" />
+            </div>
+          </>
+        ) : (
+          <>
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
+                Explore
+              </p>
+              <ul className="mt-4 space-y-2 text-sm text-off-white/70">
                 <li>
-                  <Link href="/press" className="transition-colors hover:text-off-white">
-                    Press &amp; Media
+                  <Link href="/resources" className="transition-colors hover:text-off-white">
+                    Resources
                   </Link>
+                </li>
+                <li>
+                  <Link href="/athletes" className="transition-colors hover:text-off-white">
+                    Athletes
+                  </Link>
+                </li>
+                <li>
+                  <a
+                    href={CURRENT_MISSION_NAV_LINK.href}
+                    className="transition-colors hover:text-off-white"
+                  >
+                    {CURRENT_MISSION_NAV_LINK.label}
+                  </a>
+                </li>
+                <li>
+                  <Link href="/about" className="transition-colors hover:text-off-white">
+                    About
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
+                Get Involved
+              </p>
+              <ul className="mt-4 space-y-2 text-sm text-off-white/70">
+                <li>
+                  <Link href="/join" className="transition-colors hover:text-off-white">
+                    Join
+                  </Link>
+                </li>
+                <li>
+                  <a href={`${CAMPAIGN_URL}/sponsors`} className="transition-colors hover:text-off-white">
+                    Sponsor
+                  </a>
                 </li>
                 <li>
                   <Link href="/merch" className="transition-colors hover:text-off-white">
                     Shop
                   </Link>
                 </li>
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
+                Information
+              </p>
+              <ul className="mt-4 space-y-2 text-sm text-off-white/70">
+                <li>
+                  <Link href="/press" className="transition-colors hover:text-off-white">
+                    Press &amp; Media
+                  </Link>
+                </li>
                 <li>
                   {CONTACT_EMAIL ? (
                     <a href={`mailto:${CONTACT_EMAIL}`} className="transition-colors hover:text-off-white">
-                      {CONTACT_EMAIL}
+                      Contact
                     </a>
                   ) : (
                     <Link href="/contact" className="transition-colors hover:text-off-white">
-                      Contact Us
+                      Contact
                     </Link>
                   )}
                 </li>
-              </>
-            )}
-          </ul>
-          <SocialLinks className="mt-4" />
-        </div>
+                <li>
+                  <Link href="/merch#transparency" className="transition-colors hover:text-off-white">
+                    Financial Transparency
+                  </Link>
+                </li>
+              </ul>
+              <SocialLinks className="mt-4" />
+            </div>
+
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
+                Legal
+              </p>
+              <ul className="mt-4 space-y-2 text-sm text-off-white/70">
+                <li>
+                  <Link href="/terms" className="transition-colors hover:text-off-white">
+                    Terms
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/privacy" className="transition-colors hover:text-off-white">
+                    Privacy
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/athlete-agreement" className="transition-colors hover:text-off-white">
+                    Athlete Agreement
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </>
+        )}
       </Container>
 
       <div className="border-t border-off-white/10 py-6">

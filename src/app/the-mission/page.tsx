@@ -5,13 +5,13 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
 import { CampaignByTheNumbers } from "@/components/campaign/campaign-by-the-numbers";
 import { MISSION_SECTIONS } from "@/lib/content/mission";
-import { MOVEMENT_CAMPAIGNS, SITE_NAME } from "@/lib/constants";
+import { ATHLETIC_TEAM_NAME, CAMPAIGN_URL, MOVEMENT_CAMPAIGNS, SITE_NAME } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "The Mission",
   description:
     "Why Tri For The 22 exists: 70 miles, $70,000, and a mission to support veteran-focused nonprofit organizations.",
-  alternates: { canonical: "/the-mission" },
+  alternates: { canonical: `${CAMPAIGN_URL}/the-mission` },
 };
 
 export default function MissionPage() {
@@ -19,8 +19,12 @@ export default function MissionPage() {
     <>
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze">
+            {ATHLETIC_TEAM_NAME} &middot; Current Campaign
+          </p>
           <SectionHeading
-            eyebrow="The Mission"
+            as="h1"
+            className="mt-2"
             title="One Mile. One Thousand Dollars. One Mission."
             description="Tri For The 22 pairs a 70.3-mile triathlon with a $70,000 fundraising goal in support of veteran-focused nonprofit organizations."
           />
@@ -49,10 +53,10 @@ export default function MissionPage() {
               >
                 <p
                   className={`text-xs font-semibold uppercase tracking-widest ${
-                    campaign.status === "current" ? "text-bronze" : "text-charcoal-light/70"
+                    campaign.status === "current" ? "text-bronze" : "text-charcoal-light/80"
                   }`}
                 >
-                  {campaign.status === "current" ? "Current" : "Future"}
+                  {campaign.status === "current" ? "Current Campaign" : "Future"}
                 </p>
                 <p className="mt-1 font-display text-base font-semibold uppercase tracking-wide text-ink">
                   {campaign.name}

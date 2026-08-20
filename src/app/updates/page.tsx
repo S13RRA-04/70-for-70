@@ -6,11 +6,12 @@ import { UpdateCard } from "@/components/updates/update-card";
 import { EmptyState } from "@/components/shared/empty-state";
 import { TrainingSnapshot } from "@/components/training/training-snapshot";
 import { getTrainingSnapshot } from "@/lib/whoop/client";
+import { CAMPAIGN_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Updates",
   description: "Training, fundraising, and race prep updates from the Tri For The 22 campaign.",
-  alternates: { canonical: "/updates" },
+  alternates: { canonical: `${CAMPAIGN_URL}/updates` },
 };
 
 export default async function UpdatesPage() {
@@ -21,6 +22,7 @@ export default async function UpdatesPage() {
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container>
           <SectionHeading
+            as="h1"
             eyebrow="Follow Along"
             title="Training &amp; Campaign Updates"
             description="Training progress, fundraising milestones, and race prep — as it happens."

@@ -111,7 +111,7 @@ export function MileGrid({
               />
               <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
                 {segment.label}{" "}
-                <span className="text-charcoal-light/60">
+                <span className="text-charcoal-light/80">
                   ({segment.start === segment.end
                     ? `Mile ${segment.start}`
                     : `Miles ${segment.start}–${segment.end}`})

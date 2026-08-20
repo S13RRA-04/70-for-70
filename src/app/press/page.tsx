@@ -6,7 +6,7 @@ import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { EmptyState } from "@/components/shared/empty-state";
 import { CampaignByTheNumbers } from "@/components/campaign/campaign-by-the-numbers";
-import { CONTACT_EMAIL, SITE_TAGLINE } from "@/lib/constants";
+import { ATHLETIC_TEAM_NAME, CONTACT_EMAIL, SITE_NAME, SITE_TAGLINE } from "@/lib/constants";
 import { ABOUT_CONTENT } from "@/lib/content/about";
 
 export const metadata: Metadata = {
@@ -22,12 +22,25 @@ export default async function PressPage() {
     <>
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container>
-          <SectionHeading eyebrow="Press & Media" title="Media Resources" />
+          <SectionHeading as="h1" eyebrow="Press & Media" title="Media Resources" />
         </Container>
       </section>
 
       <section className="py-16 sm:py-20">
         <Container className="max-w-3xl space-y-14">
+          <div>
+            <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+              Organization Summary
+            </h2>
+            <p className="mt-3 text-base leading-relaxed text-charcoal-light">
+              {SITE_NAME} connects veterans and first responders with resources, advocates for
+              their continued care, and builds an athletic team that competes to support the
+              organizations serving them. Tri For The 22 is the current campaign under the{" "}
+              {ATHLETIC_TEAM_NAME} — the first of what&apos;s intended to be an ongoing series of
+              endurance campaigns, not the entirety of the organization&apos;s mission.
+            </p>
+          </div>
+
           <div>
             <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
               Campaign Summary

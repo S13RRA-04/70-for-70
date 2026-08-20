@@ -18,7 +18,7 @@ export default function TermsPage() {
     <>
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container>
-          <SectionHeading eyebrow="Legal" title="Site Terms" />
+          <SectionHeading as="h1" eyebrow="Legal" title="Site Terms" />
           <p className="mt-3 text-sm text-charcoal-light">
             Last updated {formatDateLong(TERMS_LAST_UPDATED)}
           </p>

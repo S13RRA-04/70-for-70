@@ -154,9 +154,9 @@ the seam that migration would plug into.
 The movement and the campaign now live on **two different domains**, served
 by the **same** Next.js app/Cloudflare Worker — no second deployment:
 
-- **forthe22.org** (org): home (national mission, awareness,
-  resources), My Story, Resources, Join the Movement, Shop/Merch, Press,
-  Contact, Privacy, Terms.
+- **forthe22.org** (org): home (three-mission framework — Connect,
+  Advocate, Compete), Resources, Athletes, Advocacy, About, Shop/Merch,
+  Join, Press, Contact, Privacy, Terms.
 - **tri.forthe22.org** (campaign): home (the fundraiser — hero, progress,
   Fund a Mile), The Mission, The Race, Fund a Mile, Donate, Sponsors,
   Partners (Mighty Oaks/Project Echelon), Live, Updates, Miles, and the

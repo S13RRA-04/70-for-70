@@ -2,6 +2,13 @@ import type { NavLink } from "@/types/content";
 
 /** The organization/site brand — used in the header, footer, legal copy, and site-wide metadata. */
 export const SITE_NAME = "For The 22";
+/**
+ * The Current Campaign Architecture's top tier — "For The 22 Athletic
+ * Team → Current Campaign → Tri For The 22". Used wherever a campaign
+ * (current or future) needs to be framed as belonging to the team rather
+ * than presented as the entirety of the organization's mission.
+ */
+export const ATHLETIC_TEAM_NAME = "For The 22 Athletic Team";
 /** The org's own tagline, from the logo mark. */
 export const ORG_TAGLINE = "Endurance With A Purpose";
 /**
@@ -47,14 +54,17 @@ export const MOVEMENT_CAMPAIGNS = [
  * Two separate nav sets, one per domain — see README's "Movement/Campaign
  * Domain Split". forthe22.org (org/movement) and tri.forthe22.org
  * (fundraising campaign) each get their own header/footer nav; a visitor
- * never sees campaign nav on the org site or vice versa. "About" reads as
- * "My Story" since it's the more emotionally meaningful framing (still
- * the same /about route).
+ * never sees campaign nav on the org site or vice versa. Rounds out to
+ * Home (logo) / Resources / Athletes / Current Mission / About / Shop /
+ * Join — Shop and Current Mission render as the header's two CTA-styled
+ * buttons (see MERCH_LINK / CURRENT_MISSION_NAV_LINK) rather than plain
+ * nav links, matching the site's existing visual pattern.
  */
 export const ORG_NAV_LINKS: NavLink[] = [
-  { label: "My Story", href: "/about" },
   { label: "Resources", href: "/resources" },
-  { label: "Join the Movement", href: "/join" },
+  { label: "Athletes", href: "/athletes" },
+  { label: "About", href: "/about" },
+  { label: "Join", href: "/join" },
 ];
 
 export const CAMPAIGN_NAV_LINKS: NavLink[] = [
@@ -69,6 +79,14 @@ export const CAMPAIGN_NAV_LINKS: NavLink[] = [
 export const MERCH_LINK: NavLink = { label: "Shop", href: "/merch" };
 /** Org header → campaign subdomain, styled as a CTA (not a plain nav link). */
 export const CAMPAIGN_HOME_LINK: NavLink = { label: CAMPAIGN_NAME, href: CAMPAIGN_URL };
+/**
+ * Org header's "Current Mission" nav slot — same destination as
+ * CAMPAIGN_HOME_LINK, but labeled generically so it reads as a nav item
+ * ("Current Mission") rather than restating the campaign name a second
+ * time next to the footer/homepage module, which already say "Tri For
+ * The 22" via CAMPAIGN_HOME_LINK.
+ */
+export const CURRENT_MISSION_NAV_LINK: NavLink = { label: "Current Mission", href: CAMPAIGN_URL };
 /** Campaign header → org subdomain, styled as a CTA. */
 export const ORG_HOME_LINK: NavLink = { label: SITE_NAME, href: SITE_URL };
 

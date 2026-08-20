@@ -15,6 +15,7 @@ export default function ContactPage() {
     <section className="py-16 sm:py-20">
       <Container className="max-w-2xl">
         <SectionHeading
+          as="h1"
           eyebrow="Get in Touch"
           title="Contact"
           description={

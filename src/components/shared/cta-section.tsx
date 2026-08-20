@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { CTAButton } from "@/components/shared/cta-button";
 
-interface CTAButton {
+interface CTASectionButton {
   label: string;
   href: string;
   variant?: "primary" | "secondary";
@@ -17,7 +17,7 @@ export function CTASection({
   eyebrow?: string;
   title: string;
   description?: string;
-  buttons: CTAButton[];
+  buttons: CTASectionButton[];
   tone?: "dark" | "light";
 }) {
   return (
@@ -48,20 +48,14 @@ export function CTASection({
         )}
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
           {buttons.map((button) => (
-            <Link
+            <CTAButton
               key={button.href}
               href={button.href}
-              className={cn(
-                "rounded-sm px-6 py-3 text-sm font-semibold uppercase tracking-wide transition-colors",
-                button.variant === "secondary"
-                  ? tone === "dark"
-                    ? "border border-off-white/30 text-off-white hover:bg-off-white/10"
-                    : "border border-ink/20 text-ink hover:bg-ink/5"
-                  : "bg-bronze text-off-white hover:bg-bronze-light",
-              )}
+              variant={button.variant ?? "primary"}
+              tone={tone}
             >
               {button.label}
-            </Link>
+            </CTAButton>
           ))}
         </div>
       </div>
