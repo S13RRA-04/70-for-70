@@ -3,7 +3,6 @@ import Image from "next/image";
 import { ChevronDown, Dumbbell, HeartPulse, Package, Users } from "lucide-react";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
-import { MediaPlaceholder } from "@/components/shared/media-placeholder";
 import { ABOUT_CONTENT } from "@/lib/content/about";
 import { CAMPAIGN_HOME_LINK, CAMPAIGN_NAME, ORG_TAGLINE, SITE_NAME } from "@/lib/constants";
 
@@ -150,7 +149,7 @@ export default function HomePage() {
       <section className="border-y border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container className="grid gap-10 lg:grid-cols-[minmax(0,360px)_1fr] lg:items-center">
           <div className="relative aspect-[4/5] w-full overflow-hidden rounded-sm">
-            <MediaPlaceholder />
+            <Image src="/about/ultra-1.jpg" alt="Cody racing his first 100-kilometer ultramarathon" fill className="object-cover" />
           </div>
           <div>
             <SectionHeading eyebrow="Who's Behind This" title="My Story" />

@@ -10,6 +10,7 @@ export interface AboutSection {
   heading: string;
   body: string[];
   pullQuote?: { text: string; attribution: string };
+  image?: { src: string; alt: string };
 }
 
 export interface AboutContent {
@@ -24,7 +25,7 @@ export interface AboutContent {
 export const ABOUT_CONTENT: AboutContent = {
   name: "Cody Hitson",
   tagline: "Athlete. Veteran. Husband. Father. Still Moving Forward.",
-  portraitUrl: null,
+  portraitUrl: "/about/hiking.jpg",
   homepageTeaser: [
     "I'm Cody — a Navy veteran, husband, father, and endurance athlete. I spent seven years on active duty as a Mass Communication Specialist, including a 2011 deployment to Afghanistan as a combat journalist. I came home physically present but carrying things I didn't fully understand how to process, and it took years before I found real ways to work through that.",
     "In 2023, a Mighty Oaks Warrior Program retreat became a turning point — it taught me that recovery isn't about becoming who you were before something happened, but someone stronger because of it. Around that same time, endurance sports became one of the ways I learned to keep moving forward: a marathon in 2023, a 100-kilometer ultramarathon in 2024, and now the road to a 70.3-mile triathlon.",
@@ -42,6 +43,7 @@ export const ABOUT_CONTENT: AboutContent = {
         "For years, I found ways to keep moving. Sometimes that meant burying myself in work. Sometimes it meant pushing harder physically. Sometimes it meant simply refusing to stop long enough to deal with what was underneath the surface.",
         "I learned how to function. That is not the same thing as learning how to live well.",
       ],
+      image: { src: "/about/desert.jpg", alt: "Cody during his 2011 deployment to Afghanistan" },
     },
     {
       id: "my-testimony",
@@ -94,6 +96,7 @@ export const ABOUT_CONTENT: AboutContent = {
         "Not punishment.",
         "A way forward.",
       ],
+      image: { src: "/about/jiu-jitsu.jpg", alt: "Cody after a Brazilian Jiu-Jitsu competition" },
     },
     {
       id: "project-echelon",

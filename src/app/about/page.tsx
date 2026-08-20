@@ -72,6 +72,16 @@ export default function AboutPage() {
                 <h2 className="font-display text-2xl font-semibold uppercase tracking-tight text-ink sm:text-3xl">
                   {section.heading}
                 </h2>
+                {section.image && (
+                  <div className="relative mt-5 aspect-[16/10] w-full overflow-hidden rounded-sm">
+                    <Image
+                      src={section.image.src}
+                      alt={section.image.alt}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                )}
                 <div className="mt-4 space-y-4">
                   {section.body.map((paragraph, i) => (
                     <p key={i} className="text-base leading-relaxed text-charcoal-light">
