@@ -33,7 +33,16 @@ export type InquiryInterest =
   | "In-Kind Sponsor"
   | "Community Partner"
   | "Media"
-  | "Other";
+  | "Other"
+  | "Veteran Athlete"
+  | "First Responder Athlete"
+  | "Civilian Supporter"
+  | "Local Chapter/Event Interest"
+  | "Beneficiary Organization"
+  | "Mission Partnership"
+  | "Sponsorship"
+  | "In-Kind Support"
+  | "Community Collaboration";
 
 export type InquiryStatus = "new" | "contacted" | "closed";
 
@@ -151,6 +160,28 @@ export interface PartnerRow {
   active: boolean;
 }
 
+/**
+ * A Mission Partner — an organization that formally collaborates with For
+ * The 22 through programming, referrals, resources, outreach, athlete
+ * support, or mission amplification. Distinct from a PartnerRow
+ * (beneficiary): no donation/EIN/nonprofit-verification fields, since a
+ * mission partner isn't necessarily a charitable fundraising recipient.
+ */
+export interface MissionPartnerRow {
+  id: string;
+  name: string;
+  /** e.g. "Adaptive Sports Partner", "Veteran Resource Partner". */
+  relationship_label: string;
+  description: string;
+  logo_url: string | null;
+  website_url: string | null;
+  /** e.g. "Adaptive Athletics", "Athlete Referrals". */
+  support_type: string | null;
+  geographic_scope: string | null;
+  active: boolean;
+  display_order: number;
+}
+
 export interface EmailSubscriberRow {
   id: string;
   first_name: string;
@@ -165,6 +196,7 @@ export interface InquiryRow {
   organization: string | null;
   email: string;
   phone: string | null;
+  website: string | null;
   interest: InquiryInterest;
   message: string;
   status: InquiryStatus;
@@ -176,6 +208,7 @@ export interface InquiryInsert {
   organization?: string | null;
   email: string;
   phone?: string | null;
+  website?: string | null;
   interest: InquiryInterest;
   message: string;
 }

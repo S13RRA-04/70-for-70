@@ -176,10 +176,18 @@ export default async function CampaignHomePage() {
             title="Beneficiary Organizations"
             description={`${CAMPAIGN_NAME} raises funds in support of veteran-focused nonprofit organizations.`}
           />
-          <div className="mt-8 grid gap-6 sm:grid-cols-2">
+          <div className="mt-8 flex flex-col gap-6">
             {partners.map((partner) => (
               <PartnerCard key={partner.id} partner={partner} />
             ))}
+          </div>
+          <div className="mt-8">
+            <Link
+              href="/partners"
+              className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+            >
+              View All Partners &rarr;
+            </Link>
           </div>
         </Container>
       </section>

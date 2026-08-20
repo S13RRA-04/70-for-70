@@ -1,0 +1,182 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { PARTNER_INQUIRY_INTERESTS } from "@/lib/validation/inquiry";
+
+type Status = "idle" | "submitting" | "success" | "error";
+
+export function PartnerInquiryForm() {
+  const [status, setStatus] = useState<Status>("idle");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const renderedAtRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    renderedAtRef.current = Date.now();
+  }, []);
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setStatus("submitting");
+    setErrorMessage(null);
+
+    const form = e.currentTarget;
+    const data = new FormData(form);
+
+    const payload = {
+      name: String(data.get("name") ?? ""),
+      organization: String(data.get("organization") ?? ""),
+      email: String(data.get("email") ?? ""),
+      website: String(data.get("website") ?? ""),
+      interest: String(data.get("interest") ?? ""),
+      message: String(data.get("message") ?? ""),
+      companyWebsite: String(data.get("companyWebsite") ?? ""),
+      renderedAt: renderedAtRef.current ?? Date.now(),
+    };
+
+    try {
+      const res = await fetch("/api/inquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const json = await res.json();
+
+      if (!res.ok || !json.ok) {
+        setStatus("error");
+        setErrorMessage(json.error ?? "Something went wrong. Please try again.");
+        return;
+      }
+
+      setStatus("success");
+      form.reset();
+    } catch {
+      setStatus("error");
+      setErrorMessage("Something went wrong. Please try again.");
+    }
+  }
+
+  if (status === "success") {
+    return (
+      <div role="status" className="rounded-sm border border-olive/30 bg-olive/10 p-6 text-ink">
+        <p className="font-display text-lg font-semibold uppercase tracking-wide">Thank you</p>
+        <p className="mt-1 text-sm text-charcoal-light">
+          Your inquiry has been received. We&apos;ll follow up soon.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={handleSubmit} noValidate className="space-y-5" aria-busy={status === "submitting"}>
+      {/* Honeypot field — hidden from sighted users, left blank by real people. */}
+      <div className="absolute left-[-9999px]" aria-hidden="true">
+        <label htmlFor="companyWebsite">Leave this field blank</label>
+        <input type="text" id="companyWebsite" name="companyWebsite" tabIndex={-1} autoComplete="off" />
+      </div>
+
+      <div className="grid gap-5 sm:grid-cols-2">
+        <div>
+          <label htmlFor="organization" className="text-sm font-medium text-ink">
+            Organization <span aria-hidden="true">*</span>
+          </label>
+          <input
+            id="organization"
+            name="organization"
+            type="text"
+            required
+            className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="name" className="text-sm font-medium text-ink">
+            Contact Name <span aria-hidden="true">*</span>
+          </label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            required
+            className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="email" className="text-sm font-medium text-ink">
+            Email <span aria-hidden="true">*</span>
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="website" className="text-sm font-medium text-ink">
+            Website <span className="text-charcoal-light">(optional)</span>
+          </label>
+          <input
+            id="website"
+            name="website"
+            type="text"
+            className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze"
+          />
+        </div>
+      </div>
+
+      <div>
+        <label htmlFor="interest" className="text-sm font-medium text-ink">
+          Type of Interest <span aria-hidden="true">*</span>
+        </label>
+        <select
+          id="interest"
+          name="interest"
+          required
+          defaultValue=""
+          className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze"
+        >
+          <option value="" disabled>
+            Select an option
+          </option>
+          {PARTNER_INQUIRY_INTERESTS.map((interest) => (
+            <option key={interest} value={interest}>
+              {interest}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div>
+        <label htmlFor="message" className="text-sm font-medium text-ink">
+          Brief Description <span aria-hidden="true">*</span>
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          required
+          rows={5}
+          placeholder="Tell us about your organization and how you'd like to be involved."
+          className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze"
+        />
+      </div>
+
+      {status === "error" && errorMessage && (
+        <p role="alert" className="text-sm font-medium text-red-700">
+          {errorMessage}
+        </p>
+      )}
+
+      <button
+        type="submit"
+        disabled={status === "submitting"}
+        data-analytics-event="partner_inquiry"
+        className="w-full rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light disabled:opacity-60 sm:w-auto"
+      >
+        {status === "submitting" ? "Sending..." : "Send Inquiry"}
+      </button>
+    </form>
+  );
+}

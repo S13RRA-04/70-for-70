@@ -252,6 +252,31 @@ create table if not exists public.partners (
 create index if not exists partners_active_idx on public.partners (active);
 
 -- ---------------------------------------------------------------------------
+-- mission_partners
+--
+-- Organizations that formally collaborate with For The 22 through
+-- programming, referrals, resources, outreach, athlete support, or mission
+-- amplification — distinct from public.partners (charitable beneficiaries):
+-- no donation/EIN/nonprofit-verification fields, since a mission partner
+-- isn't necessarily a fundraising recipient. See PartnersPage's Mission
+-- Partners section.
+-- ---------------------------------------------------------------------------
+create table if not exists public.mission_partners (
+  id uuid primary key default gen_random_uuid(),
+  name text not null unique,
+  relationship_label text not null,
+  description text not null,
+  logo_url text,
+  website_url text,
+  support_type text,
+  geographic_scope text,
+  active boolean not null default true,
+  display_order integer not null default 0
+);
+
+create index if not exists mission_partners_active_idx on public.mission_partners (active);
+
+-- ---------------------------------------------------------------------------
 -- inquiries
 -- ---------------------------------------------------------------------------
 create table if not exists public.inquiries (
@@ -260,15 +285,19 @@ create table if not exists public.inquiries (
   organization text,
   email text not null,
   phone text,
-  -- Both sponsor inquiries and "Join the Movement" interest (/join) share
-  -- this table for now — see JOIN_INTEREST_TYPES in
+  website text,
+  -- Sponsor inquiries, "Join the Movement" interest (/join), and partner
+  -- inquiries (/partners/inquire) all share this table for now — see
+  -- JOIN_INTEREST_TYPES / PARTNER_INQUIRY_INTERESTS in
   -- src/lib/validation/inquiry.ts.
   interest text not null check (
     interest in (
       'Corporate Sponsor', 'Mile Sponsor', 'In-Kind Sponsor',
       'Community Partner', 'Media', 'Other',
       'Veteran Athlete', 'First Responder Athlete', 'Civilian Supporter',
-      'Local Chapter/Event Interest'
+      'Local Chapter/Event Interest',
+      'Beneficiary Organization', 'Mission Partnership', 'Sponsorship',
+      'In-Kind Support', 'Community Collaboration'
     )
   ),
   message text not null,
@@ -337,6 +366,7 @@ alter table public.donations enable row level security;
 alter table public.sponsors enable row level security;
 alter table public.posts enable row level security;
 alter table public.partners enable row level security;
+alter table public.mission_partners enable row level security;
 alter table public.inquiries enable row level security;
 alter table public.sponsorship_requests enable row level security;
 alter table public.sponsorship_status_history enable row level security;
@@ -370,6 +400,11 @@ create policy "published posts are publicly readable"
 
 create policy "active partners are publicly readable"
   on public.partners for select
+  to anon, authenticated
+  using (active = true);
+
+create policy "active mission partners are publicly readable"
+  on public.mission_partners for select
   to anon, authenticated
   using (active = true);
 

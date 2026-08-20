@@ -36,7 +36,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const { companyWebsite, renderedAt, organization, phone, ...rest } = parsed.data;
+  const { companyWebsite, renderedAt, organization, phone, website, ...rest } = parsed.data;
 
   const isBot =
     Boolean(companyWebsite) || Date.now() - renderedAt < MIN_FILL_TIME_MS;
@@ -57,6 +57,7 @@ export async function POST(request: Request) {
       ...rest,
       organization: organization || null,
       phone: phone || null,
+      website: website || null,
       status: "new",
     });
 

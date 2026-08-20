@@ -13,6 +13,7 @@ import type {
   CampaignRow,
   DonationRow,
   MileRow,
+  MissionPartnerRow,
   PartnerRow,
   PostRow,
   SponsorRow,
@@ -93,6 +94,11 @@ export const SEED_PARTNERS: PartnerRow[] = [
 // No sponsors yet. SponsorWall shows a polished "coming soon" empty state
 // rather than fake/sample sponsor cards — see components/sponsors/sponsor-wall.tsx.
 export const SEED_SPONSORS: SponsorRow[] = [];
+
+// No formal Mission Partner relationships yet. The Partners page shows a
+// polished "coming soon" empty state rather than fake/sample partner cards —
+// see app/partners/page.tsx.
+export const SEED_MISSION_PARTNERS: MissionPartnerRow[] = [];
 
 // No posts yet. The Updates page and homepage teaser show polished empty
 // states rather than placeholder posts — see app/updates/page.tsx and app/page.tsx.

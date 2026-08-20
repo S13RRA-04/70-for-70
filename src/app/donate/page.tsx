@@ -52,7 +52,7 @@ export default async function DonatePage(props: PageProps<"/donate">) {
 
       <section className="py-16 sm:py-20">
         <Container>
-          <div className="grid gap-6 sm:grid-cols-2">
+          <div className="flex flex-col gap-6">
             {partners.map((partner) => (
               <PartnerCard key={partner.id} partner={partner} />
             ))}

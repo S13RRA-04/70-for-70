@@ -17,20 +17,35 @@ export const JOIN_INTEREST_TYPES = [
   "Local Chapter/Event Interest",
 ] as const;
 
+/** Partner inquiry categories — see /partners/inquire. */
+export const PARTNER_INQUIRY_INTERESTS = [
+  "Beneficiary Organization",
+  "Mission Partnership",
+  "Sponsorship",
+  "In-Kind Support",
+  "Community Collaboration",
+] as const;
+
 /**
- * Both sponsorship inquiries (/contact, /sponsors/request) and "Join the
- * Movement" interest (/join) submit through the same `inquiries` table for
- * now — there's no dedicated review workflow for Join submissions yet, and
- * this reuses the existing rate limiting/honeypot/admin-visible pipeline
- * instead of standing up a second one for "just collect interest."
+ * Sponsorship inquiries (/contact, /sponsors/request), "Join the Movement"
+ * interest (/join), and partner inquiries (/partners/inquire) all submit
+ * through the same `inquiries` table for now — there's no dedicated review
+ * workflow for any of these yet, and this reuses the existing rate
+ * limiting/honeypot/admin-visible pipeline instead of standing up separate
+ * ones for "just collect interest."
  */
-export const INQUIRY_INTERESTS = [...SPONSOR_INQUIRY_INTERESTS, ...JOIN_INTEREST_TYPES] as const;
+export const INQUIRY_INTERESTS = [
+  ...SPONSOR_INQUIRY_INTERESTS,
+  ...JOIN_INTEREST_TYPES,
+  ...PARTNER_INQUIRY_INTERESTS,
+] as const;
 
 export const inquirySchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(200),
   organization: z.string().trim().max(200).optional().or(z.literal("")),
   email: z.string().trim().email("Enter a valid email address").max(320),
   phone: z.string().trim().max(40).optional().or(z.literal("")),
+  website: z.string().trim().max(300).optional().or(z.literal("")),
   interest: z.enum(INQUIRY_INTERESTS),
   message: z.string().trim().min(1, "Message is required").max(5000),
   // Honeypot: real users never fill this hidden field.
