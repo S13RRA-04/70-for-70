@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
 import { Inter, Oswald } from "next/font/google";
-import { ORG_SUPPORTING_STATEMENT, ORG_TAGLINE, SITE_NAME, SITE_URL } from "@/lib/constants";
+import {
+  CONTACT_EMAIL,
+  ORG_SUPPORTING_STATEMENT,
+  ORG_TAGLINE,
+  SITE_NAME,
+  SITE_URL,
+  SOCIAL_LINKS,
+} from "@/lib/constants";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { CampaignUtilityBar } from "@/components/layout/campaign-utility-bar";
@@ -47,6 +54,32 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * Describes For The 22 itself, not the current campaign — Tri For The 22
+ * is a campaign under this org, not a separate legal entity, so it isn't
+ * given its own Organization record (and no @type: NonprofitOrganization,
+ * EIN, or taxID here — that status has only ever been confirmed and
+ * asserted for the beneficiary orgs, see PartnerRow's nonprofit_status_verified,
+ * never for For The 22 itself). Shown on every route, both domains — the
+ * organization behind the page doesn't change with the host.
+ */
+const ORGANIZATION_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: SITE_NAME,
+  url: SITE_URL,
+  description: ORG_SUPPORTING_STATEMENT,
+  logo: `${SITE_URL}/logo.png`,
+  ...(SOCIAL_LINKS.length > 0 && { sameAs: SOCIAL_LINKS.map((link) => link.url) }),
+  ...(CONTACT_EMAIL && {
+    contactPoint: {
+      "@type": "ContactPoint",
+      email: CONTACT_EMAIL,
+      contactType: "customer service",
+    },
+  }),
+};
+
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   const mode = await getSiteMode();
 
@@ -57,6 +90,12 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       className={`${oswald.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-off-white text-ink">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(ORGANIZATION_JSON_LD).replace(/</g, "\\u003c"),
+          }}
+        />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-4 focus:rounded focus:bg-ink focus:px-4 focus:py-2 focus:text-off-white"
