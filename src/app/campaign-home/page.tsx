@@ -93,54 +93,61 @@ export default async function CampaignHomePage() {
           />
         </div>
 
-        <Container className="relative py-10 sm:py-14">
-          <a
-            href={ORG_HOME_LINK.href}
-            className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light hover:underline"
-          >
-            {ATHLETIC_TEAM_NAME} Presents
-          </a>
-          <h1 className="sr-only">{CAMPAIGN_NAME}</h1>
-          <p className="mt-4 max-w-xl text-base leading-relaxed text-off-white/75">
-            {HERO_SUPPORTING_SENTENCE}
-          </p>
+        <div className="relative overflow-hidden">
+          <div
+            className="absolute inset-0 bg-cover bg-center opacity-[0.08]"
+            style={{ backgroundImage: "url(/topo-map.png)" }}
+            aria-hidden="true"
+          />
+          <Container className="relative py-10 sm:py-14">
+            <a
+              href={ORG_HOME_LINK.href}
+              className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light hover:underline"
+            >
+              {ATHLETIC_TEAM_NAME} Presents
+            </a>
+            <h1 className="sr-only">{CAMPAIGN_NAME}</h1>
+            <p className="mt-4 max-w-xl text-base leading-relaxed text-off-white/75">
+              {HERO_SUPPORTING_SENTENCE}
+            </p>
 
-          <dl className="mt-6 flex flex-wrap gap-x-6 gap-y-1 text-sm text-off-white/70">
-            {RACE_INFO.raceLocation && (
+            <dl className="mt-6 flex flex-wrap gap-x-6 gap-y-1 text-sm text-off-white/70">
+              {RACE_INFO.raceLocation && (
+                <div>
+                  <dt className="sr-only">Location</dt>
+                  <dd>{RACE_INFO.raceLocation}</dd>
+                </div>
+              )}
               <div>
-                <dt className="sr-only">Location</dt>
-                <dd>{RACE_INFO.raceLocation}</dd>
+                <dt className="sr-only">Beneficiaries</dt>
+                <dd>{CURRENT_CAMPAIGN.beneficiaries.join(" · ")}</dd>
               </div>
-            )}
-            <div>
-              <dt className="sr-only">Beneficiaries</dt>
-              <dd>{CURRENT_CAMPAIGN.beneficiaries.join(" · ")}</dd>
+            </dl>
+
+            <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4">
+              <Link
+                href={DONATE_LINK.href}
+                data-analytics-event="support_campaign_click"
+                className="rounded-sm bg-bronze px-8 py-4 text-base font-semibold uppercase tracking-wide text-off-white shadow-sm transition-colors hover:bg-bronze-light"
+              >
+                Support the Campaign
+              </Link>
+              <Link
+                href="/fund-a-mile"
+                className="rounded-sm border border-off-white/40 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-off-white/10"
+              >
+                Fund a Mile
+              </Link>
             </div>
-          </dl>
 
-          <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4">
-            <Link
-              href={DONATE_LINK.href}
-              data-analytics-event="support_campaign_click"
-              className="rounded-sm bg-bronze px-8 py-4 text-base font-semibold uppercase tracking-wide text-off-white shadow-sm transition-colors hover:bg-bronze-light"
+            <a
+              href="#why-70-miles"
+              className="mt-8 inline-flex text-xs font-semibold uppercase tracking-widest text-off-white/60 hover:text-off-white"
             >
-              Support the Campaign
-            </Link>
-            <Link
-              href="/fund-a-mile"
-              className="rounded-sm border border-off-white/40 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-off-white/10"
-            >
-              Fund a Mile
-            </Link>
-          </div>
-
-          <a
-            href="#why-70-miles"
-            className="mt-8 inline-flex text-xs font-semibold uppercase tracking-widest text-off-white/60 hover:text-off-white"
-          >
-            Why I&apos;m Racing &rarr;
-          </a>
-        </Container>
+              Why I&apos;m Racing &rarr;
+            </a>
+          </Container>
+        </div>
       </section>
 
       {/* Fundraising Progress — Tier 1: one strong interface, not several cards */}

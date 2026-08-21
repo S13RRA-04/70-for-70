@@ -147,8 +147,16 @@ export default async function HomePage() {
       </section>
 
       {/* Current Mission + The Team — Tier 1: full-bleed campaign dashboard — photography, stats, beneficiary marks, and the team in one composition */}
-      <section id="current-mission" className="scroll-mt-20 bg-ink py-20 text-off-white sm:py-28">
-        <Container className="max-w-[1400px]">
+      <section
+        id="current-mission"
+        className="relative scroll-mt-20 overflow-hidden bg-ink py-20 text-off-white sm:py-28"
+      >
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-[0.08]"
+          style={{ backgroundImage: "url(/topo-map.png)" }}
+          aria-hidden="true"
+        />
+        <Container className="relative max-w-[1400px]">
           <RevealOnScroll>
             <div className="grid gap-10 lg:grid-cols-12 lg:gap-10">
               <div className="relative aspect-[4/5] overflow-hidden rounded-sm lg:col-span-5 lg:aspect-auto">

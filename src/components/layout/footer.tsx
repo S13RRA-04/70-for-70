@@ -24,9 +24,14 @@ export function Footer({ mode }: { mode: SiteMode }) {
   const legalBase = isCampaign ? SITE_URL : "";
 
   return (
-    <footer className="border-t border-off-white/10 bg-ink text-off-white">
+    <footer className="relative overflow-hidden border-t border-off-white/10 bg-ink text-off-white">
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-[0.06]"
+        style={{ backgroundImage: "url(/topo-map.png)" }}
+        aria-hidden="true"
+      />
       <Container
-        className={`grid gap-10 py-14 sm:grid-cols-2 ${isCampaign ? "lg:grid-cols-4" : "lg:grid-cols-3 xl:grid-cols-6"}`}
+        className={`relative grid gap-10 py-14 sm:grid-cols-2 ${isCampaign ? "lg:grid-cols-4" : "lg:grid-cols-3 xl:grid-cols-6"}`}
       >
         <div className={isCampaign ? "sm:col-span-2 lg:col-span-2" : "sm:col-span-2 lg:col-span-1"}>
           <div className="flex items-center gap-2.5">
@@ -256,7 +261,7 @@ export function Footer({ mode }: { mode: SiteMode }) {
         )}
       </Container>
 
-      <div className="border-t border-off-white/10 py-6">
+      <div className="relative border-t border-off-white/10 py-6">
         <Container className="flex flex-col gap-3 text-xs text-off-white/50 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
             <p>
