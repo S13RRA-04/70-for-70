@@ -1,15 +1,15 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { JoinInterestForm } from "@/components/forms/join-interest-form";
 import { CAMPAIGN_URL, SITE_NAME } from "@/lib/constants";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Get Involved",
   description: "Find your place in the For The 22 mission — as a veteran or first responder looking for support, an athlete, an organization, a brand, or a volunteer.",
-  alternates: { canonical: "/join" },
-};
+  canonical: "/join",
+});
 
 const PATHWAYS = [
   {

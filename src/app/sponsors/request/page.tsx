@@ -1,15 +1,15 @@
-import type { Metadata } from "next";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { SponsorshipRequestForm } from "@/components/forms/sponsorship-request-form";
 import { CAMPAIGN_URL } from "@/lib/constants";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Request to Sponsor",
   description:
     "Submit a sponsorship request for Tri For The 22. All sponsorship proposals are individually reviewed before acceptance.",
-  alternates: { canonical: `${CAMPAIGN_URL}/sponsors/request` },
-};
+  canonical: `${CAMPAIGN_URL}/sponsors/request`,
+});
 
 export default async function SponsorshipRequestPage(props: PageProps<"/sponsors/request">) {
   const searchParams = await props.searchParams;

@@ -1,16 +1,16 @@
-import type { Metadata } from "next";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTAButton } from "@/components/shared/cta-button";
 import { MissionPanel } from "@/components/home/mission-panel";
 import { THREE_MISSIONS } from "@/lib/content/three-missions";
 import { GET_INVOLVED_LINK, ORG_SUPPORTING_STATEMENT, ORG_TAGLINE } from "@/lib/constants";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Mission",
   description: ORG_SUPPORTING_STATEMENT,
-  alternates: { canonical: "/mission" },
-};
+  canonical: "/mission",
+});
 
 /**
  * Minimal foundation-phase placeholder — just enough for the "Mission" nav

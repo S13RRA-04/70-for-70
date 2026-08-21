@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
@@ -13,13 +12,14 @@ import {
   MOVEMENT_CAMPAIGNS,
   SITE_NAME,
 } from "@/lib/constants";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "The Mission",
   description:
     "Why Tri For The 22 exists: 70 miles, $70,000, and a mission to support veteran-focused nonprofit organizations.",
-  alternates: { canonical: `${CAMPAIGN_URL}/the-mission` },
-};
+  canonical: `${CAMPAIGN_URL}/the-mission`,
+});
 
 export default function MissionPage() {
   return (

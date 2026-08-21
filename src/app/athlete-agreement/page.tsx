@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
@@ -9,13 +8,14 @@ import {
 } from "@/lib/content/athlete-agreement";
 import { CONTACT_EMAIL } from "@/lib/constants";
 import { formatDateLong } from "@/lib/utils";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Athlete Participation & Affiliation Agreement",
   description:
     "The agreement governing athletes who formally affiliate with For The 22 — eligibility, program support, branding, fundraising, and conduct.",
-  alternates: { canonical: "/athlete-agreement" },
-};
+  canonical: "/athlete-agreement",
+});
 
 export default function AthleteAgreementPage() {
   return (

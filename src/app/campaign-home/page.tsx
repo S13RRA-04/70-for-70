@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { getCampaign } from "@/lib/data/campaign";
@@ -37,15 +36,16 @@ import {
 } from "@/lib/constants";
 import { formatCurrency, formatNumber, milesFunded, percentFunded } from "@/lib/utils";
 import { getCampaignPhase } from "@/lib/campaign-phase";
+import { pageMetadata } from "@/lib/metadata";
 
 const HERO_SUPPORTING_SENTENCE = `One athlete taking on ${CURRENT_CAMPAIGN.event} to raise awareness and support organizations helping veterans recover, reconnect, and move forward.`;
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: `${CAMPAIGN_NAME} | ${SITE_TAGLINE}`,
   description:
     "Tri For The 22 pairs a 70.3-mile triathlon with a $70,000 fundraising goal in support of veteran-focused nonprofit organizations.",
-  alternates: { canonical: `${CAMPAIGN_URL}/` },
-};
+  canonical: `${CAMPAIGN_URL}/`,
+});
 
 /**
  * The campaign homepage — rendered at "/" on tri.forthe22.org via a

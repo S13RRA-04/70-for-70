@@ -1,17 +1,17 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { TERMS_LAST_UPDATED, TERMS_SECTIONS } from "@/lib/content/terms";
 import { CONTACT_EMAIL } from "@/lib/constants";
 import { formatDateLong } from "@/lib/utils";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Site Terms",
   description:
     "Terms of use, sponsorship disclosure, charitable giving disclosure, and trademark disclaimer for For The 22.",
-  alternates: { canonical: "/terms" },
-};
+  canonical: "/terms",
+});
 
 export default function TermsPage() {
   return (

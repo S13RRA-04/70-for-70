@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
@@ -6,12 +5,13 @@ import { CTASection } from "@/components/shared/cta-section";
 import { MobileActionBar } from "@/components/shared/mobile-action-bar";
 import { ResourceDirectory } from "@/components/resources/resource-directory";
 import { CONTACT_EMAIL, SITE_NAME } from "@/lib/constants";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Resources",
   description: "A resource finder for veterans and first responders, curated by For The 22.",
-  alternates: { canonical: "/resources" },
-};
+  canonical: "/resources",
+});
 
 export default function ResourcesPage() {
   return (

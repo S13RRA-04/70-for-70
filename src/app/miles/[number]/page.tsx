@@ -13,6 +13,7 @@ import {
   percentFunded,
 } from "@/lib/utils";
 import { CAMPAIGN_URL, FEATURED_MILE, MILE_SEGMENTS, TOTAL_FUNDRAISING_MILES } from "@/lib/constants";
+import { pageMetadata } from "@/lib/metadata";
 
 function segmentFor(mileNumber: number) {
   return MILE_SEGMENTS.find((s) => mileNumber >= s.start && mileNumber <= s.end) ?? null;
@@ -32,12 +33,11 @@ export async function generateMetadata(props: PageProps<"/miles/[number]">): Pro
     ? FEATURED_MILE.description
     : `${formatCurrency(mile.amount_funded)} of ${formatCurrency(mile.goal_amount)} funded toward Mile ${mile.mile_number} of the Tri For The 22 campaign.`;
 
-  return {
+  return pageMetadata({
     title,
     description,
-    openGraph: { title, description },
-    alternates: { canonical: `${CAMPAIGN_URL}/miles/${mile.mile_number}` },
-  };
+    canonical: `${CAMPAIGN_URL}/miles/${mile.mile_number}`,
+  });
 }
 
 export default async function MilePage(props: PageProps<"/miles/[number]">) {

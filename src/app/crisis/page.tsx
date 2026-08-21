@@ -1,15 +1,15 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { Phone, MessageSquare, ExternalLink } from "lucide-react";
 import { Container } from "@/components/shared/container";
 import { getCrisisResources, type Resource } from "@/lib/content/resources";
 import { SITE_NAME } from "@/lib/constants";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Crisis Support",
   description: "Immediate crisis support for veterans and first responders.",
-  alternates: { canonical: "/crisis" },
-};
+  canonical: "/crisis",
+});
 
 const LINK_CLASSES =
   "inline-flex items-center gap-1.5 rounded-sm px-4 py-2.5 text-sm font-semibold uppercase tracking-wide transition-colors";

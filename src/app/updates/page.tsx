@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { getPosts } from "@/lib/data/posts";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
@@ -9,12 +8,13 @@ import { TrainingObjectivesChecklist } from "@/components/training/training-obje
 import { getTrainingSnapshot } from "@/lib/whoop/client";
 import { getTrainingObjectives } from "@/lib/data/training-objectives";
 import { CAMPAIGN_URL } from "@/lib/constants";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Updates",
   description: "Training, fundraising, and race prep updates from the Tri For The 22 campaign.",
-  alternates: { canonical: `${CAMPAIGN_URL}/updates` },
-};
+  canonical: `${CAMPAIGN_URL}/updates`,
+});
 
 export default async function UpdatesPage() {
   const [posts, trainingSnapshot, trainingObjectives] = await Promise.all([

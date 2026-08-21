@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTAButton } from "@/components/shared/cta-button";
@@ -8,12 +7,13 @@ import { CurrentCampaignCard } from "@/components/shared/current-campaign-card";
 import { AthleteCard } from "@/components/athletes/athlete-card";
 import { ATHLETES } from "@/lib/content/athletes";
 import { SITE_NAME } from "@/lib/constants";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Athletes",
   description: "The For The 22 Athletic Team — competing for something bigger than the finish line.",
-  alternates: { canonical: "/athletes" },
-};
+  canonical: "/athletes",
+});
 
 const SUPPORT_TYPES = [
   "Equipment",

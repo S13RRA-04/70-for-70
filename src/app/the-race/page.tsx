@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
@@ -12,6 +11,7 @@ import { getPosts } from "@/lib/data/posts";
 import { formatDateLong } from "@/lib/utils";
 import { getCampaignPhase } from "@/lib/campaign-phase";
 import { CAMPAIGN_URL, DONATE_LINK, RACE_INFO } from "@/lib/constants";
+import { pageMetadata } from "@/lib/metadata";
 
 function getCurrentTrainingPhaseIndex(): number | undefined {
   const { trainingStartDate, raceDate } = RACE_INFO;
@@ -27,11 +27,11 @@ function getCurrentTrainingPhaseIndex(): number | undefined {
   return Math.min(4, Math.floor(fraction * 5));
 }
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "The Race",
   description: "A 70.3-mile triathlon: 1.2-mile swim, 56-mile bike, 13.1-mile run.",
-  alternates: { canonical: `${CAMPAIGN_URL}/the-race` },
-};
+  canonical: `${CAMPAIGN_URL}/the-race`,
+});
 
 export default async function RacePage() {
   const [posts, trainingStats] = await Promise.all([getPosts(), getTrainingStats()]);

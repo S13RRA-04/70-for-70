@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { getPartners } from "@/lib/data/partners";
 import { getMissionPartners } from "@/lib/data/mission-partners";
 import { getSponsors } from "@/lib/data/sponsors";
@@ -11,13 +10,14 @@ import { EmptyState } from "@/components/shared/empty-state";
 import { CTAButton } from "@/components/shared/cta-button";
 import { CTASection } from "@/components/shared/cta-section";
 import { CAMPAIGN_NAME, CAMPAIGN_URL, DONATE_LINK } from "@/lib/constants";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Partners",
   description:
     "The beneficiary organizations, mission partners, and sponsors who stand behind For The 22.",
-  alternates: { canonical: `${CAMPAIGN_URL}/partners` },
-};
+  canonical: `${CAMPAIGN_URL}/partners`,
+});
 
 export default async function PartnersPage() {
   const [partners, missionPartners, sponsors] = await Promise.all([

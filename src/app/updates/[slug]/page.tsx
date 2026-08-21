@@ -7,6 +7,7 @@ import { MediaPlaceholder } from "@/components/shared/media-placeholder";
 import { ShareButtons } from "@/components/shared/share-buttons";
 import { formatDateLong } from "@/lib/utils";
 import { CAMPAIGN_URL } from "@/lib/constants";
+import { pageMetadata } from "@/lib/metadata";
 
 export async function generateStaticParams() {
   const posts = await getPosts();
@@ -18,12 +19,11 @@ export async function generateMetadata(props: PageProps<"/updates/[slug]">): Pro
   const post = await getPostBySlug(slug);
   if (!post) return {};
 
-  return {
+  return pageMetadata({
     title: post.title,
     description: post.summary,
-    openGraph: { title: post.title, description: post.summary },
-    alternates: { canonical: `${CAMPAIGN_URL}/updates/${post.slug}` },
-  };
+    canonical: `${CAMPAIGN_URL}/updates/${post.slug}`,
+  });
 }
 
 export default async function UpdatePostPage(props: PageProps<"/updates/[slug]">) {

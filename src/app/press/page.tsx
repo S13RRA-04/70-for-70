@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { getPartners } from "@/lib/data/partners";
@@ -7,12 +6,13 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { EmptyState } from "@/components/shared/empty-state";
 import { CampaignByTheNumbers } from "@/components/campaign/campaign-by-the-numbers";
 import { ATHLETIC_TEAM_NAME, CONTACT_EMAIL, SITE_NAME, SITE_TAGLINE } from "@/lib/constants";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Press & Media",
   description: "Campaign summary, athlete bio, and media resources for For The 22.",
-  alternates: { canonical: "/press" },
-};
+  canonical: "/press",
+});
 
 export default async function PressPage() {
   const partners = await getPartners();

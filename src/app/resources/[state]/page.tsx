@@ -8,6 +8,7 @@ import { ResourceCard } from "@/components/resources/resource-card";
 import { US_STATES_GRID } from "@/lib/content/us-states";
 import { getResourcesForState } from "@/lib/content/resources";
 import { CONTACT_EMAIL, SITE_NAME, SITE_URL } from "@/lib/constants";
+import { pageMetadata } from "@/lib/metadata";
 
 function getStateBySlug(slug: string) {
   return US_STATES_GRID.find((s) => s.code.toLowerCase() === slug.toLowerCase());
@@ -26,11 +27,11 @@ export async function generateMetadata({
   const state = getStateBySlug(slug);
   if (!state) return {};
 
-  return {
+  return pageMetadata({
     title: `Resources in ${state.name}`,
     description: `Veteran and first responder resources local to ${state.name}, plus nationwide programs available to every state, curated by ${SITE_NAME}.`,
-    alternates: { canonical: `${SITE_URL}/resources/${slug}` },
-  };
+    canonical: `${SITE_URL}/resources/${slug}`,
+  });
 }
 
 export default async function StateResourcesPage({

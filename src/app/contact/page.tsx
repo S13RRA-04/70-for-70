@@ -1,14 +1,14 @@
-import type { Metadata } from "next";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { SponsorInquiryForm } from "@/components/forms/sponsor-inquiry-form";
 import { CAMPAIGN_URL, CONTACT_EMAIL } from "@/lib/constants";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Contact",
   description: "General contact for For The 22 — media, community partnerships, and other questions.",
-  alternates: { canonical: "/contact" },
-};
+  canonical: "/contact",
+});
 
 export default function ContactPage() {
   return (

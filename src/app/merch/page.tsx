@@ -1,15 +1,15 @@
-import type { Metadata } from "next";
 import { ExternalLink } from "lucide-react";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { ProceedsBreakdown } from "@/components/shared/proceeds-breakdown";
 import { CAMPAIGN_URL, MERCH_STORE_URL } from "@/lib/constants";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Shop",
   description: "Shop official Tri For The 22 gear through the Jakroo team store.",
-  alternates: { canonical: "/merch" },
-};
+  canonical: "/merch",
+});
 
 export default function MerchPage() {
   return (

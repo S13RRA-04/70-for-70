@@ -1,16 +1,16 @@
-import type { Metadata } from "next";
 import { getMilesWithDonations } from "@/lib/data/miles";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { MileGrid } from "@/components/miles/mile-grid";
 import { MobileActionBar } from "@/components/shared/mobile-action-bar";
 import { CAMPAIGN_URL, DONATE_LINK } from "@/lib/constants";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Fund a Mile",
   description: "70 numbered miles, $1,000 each. Fund a full mile or contribute alongside other supporters.",
-  alternates: { canonical: `${CAMPAIGN_URL}/fund-a-mile` },
-};
+  canonical: `${CAMPAIGN_URL}/fund-a-mile`,
+});
 
 export default async function FundAMilePage() {
   const miles = await getMilesWithDonations();

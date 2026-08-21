@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { ShieldCheck } from "lucide-react";
 import { getPartners } from "@/lib/data/partners";
 import { getCampaign } from "@/lib/data/campaign";
@@ -8,12 +7,13 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { PartnerCard } from "@/components/partners/partner-card";
 import { CampaignAllocation } from "@/components/campaign/campaign-allocation";
 import { CAMPAIGN_URL } from "@/lib/constants";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Donate",
   description: "Support Tri For The 22 through an authorized partner donation platform.",
-  alternates: { canonical: `${CAMPAIGN_URL}/donate` },
-};
+  canonical: `${CAMPAIGN_URL}/donate`,
+});
 
 export default async function DonatePage(props: PageProps<"/donate">) {
   const searchParams = await props.searchParams;

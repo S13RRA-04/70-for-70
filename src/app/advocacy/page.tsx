@@ -1,16 +1,16 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTAButton } from "@/components/shared/cta-button";
 import { findAboutSubsection } from "@/lib/content/about";
 import { SITE_NAME } from "@/lib/constants";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Advocacy",
   description: "Why veteran and first-responder support matters — the awareness mission behind For The 22.",
-  alternates: { canonical: "/advocacy" },
-};
+  canonical: "/advocacy",
+});
 
 const HOW_TO_HELP = [
   {

@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { getSponsors } from "@/lib/data/sponsors";
 import { Container } from "@/components/shared/container";
@@ -12,12 +11,13 @@ import {
   SPONSOR_VALUE_PROPS,
 } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Sponsors",
   description: "Sponsorship levels for businesses supporting the Tri For The 22 campaign.",
-  alternates: { canonical: `${CAMPAIGN_URL}/sponsors` },
-};
+  canonical: `${CAMPAIGN_URL}/sponsors`,
+});
 
 export default async function SponsorsPage() {
   const sponsors = await getSponsors();

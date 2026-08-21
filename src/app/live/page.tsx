@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { getCampaign } from "@/lib/data/campaign";
 import { getRecentDonations } from "@/lib/data/donations";
 import { getRaceDayStatus } from "@/lib/race-day";
@@ -16,12 +15,13 @@ import {
   percentFunded,
 } from "@/lib/utils";
 import { CAMPAIGN_URL } from "@/lib/constants";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Race Day Live",
   description: "Live race-day status and fundraising progress for Tri For The 22.",
-  alternates: { canonical: `${CAMPAIGN_URL}/live` },
-};
+  canonical: `${CAMPAIGN_URL}/live`,
+});
 
 const DISCIPLINE_LABEL: Record<"swim" | "bike" | "run" | "finished", string> = {
   swim: "swimming",

@@ -1,16 +1,16 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { PRIVACY_LAST_UPDATED, PRIVACY_SECTIONS } from "@/lib/content/privacy";
 import { CONTACT_EMAIL } from "@/lib/constants";
 import { formatDateLong } from "@/lib/utils";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Privacy Policy",
   description: "How the For The 22 website collects, uses, and shares information.",
-  alternates: { canonical: "/privacy" },
-};
+  canonical: "/privacy",
+});
 
 export default function PrivacyPage() {
   return (

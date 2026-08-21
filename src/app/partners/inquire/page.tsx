@@ -1,15 +1,15 @@
-import type { Metadata } from "next";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { PartnerInquiryForm } from "@/components/forms/partner-inquiry-form";
 import { CAMPAIGN_URL } from "@/lib/constants";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Become a Partner",
   description:
     "Propose a beneficiary relationship, mission partnership, sponsorship, or community collaboration with For The 22.",
-  alternates: { canonical: `${CAMPAIGN_URL}/partners/inquire` },
-};
+  canonical: `${CAMPAIGN_URL}/partners/inquire`,
+});
 
 export default function PartnerInquiryPage() {
   return (

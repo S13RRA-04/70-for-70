@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
@@ -14,12 +13,13 @@ import {
   STORY_TIMELINE,
 } from "@/lib/content/about";
 import { CAMPAIGN_URL } from "@/lib/constants";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "About",
   description: `${ABOUT_CONTENT.name} — ${ABOUT_CONTENT.tagline}`,
-  alternates: { canonical: "/about" },
-};
+  canonical: "/about",
+});
 
 const READING_COLUMN = "max-w-[46rem]";
 
