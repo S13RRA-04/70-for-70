@@ -43,6 +43,21 @@
    * always looking correct. Declared here now so a deploy always sets the
    * real value, the same fix already applied once for WHOOP_CLIENT_ID.
    *
+   * NEXT_PUBLIC_SUPABASE_URL/NEXT_PUBLIC_SUPABASE_ANON_KEY hit the same bug
+   * a third time: they were only ever pushed as Worker *secrets* (see
+   * below), set by a step that runs *after* the main "Build and deploy"
+   * step publishes a new Worker version. That new version briefly (or on
+   * any race/failure of the secrets step) has no value for them at all —
+   * isSupabaseConfigured() reads false, and every /admin page — including
+   * sign-in itself — renders "Supabase is not configured for this
+   * environment" until the secrets step catches up. With deploys firing
+   * every few minutes, this repeatedly locked the admin out. Committed
+   * here instead so they're part of the same atomic deploy, no race
+   * possible. Safe to commit: the anon key is designed to be public
+   * (Supabase's authorization boundary is Row Level Security, not keeping
+   * this key secret) — same trust level as WHOOP_CLIENT_ID above, and it's
+   * already shipped in every browser's client-side bundle regardless.
+   *
    * Values that are actually sensitive (SUPABASE_SERVICE_ROLE_KEY,
    * WHOOP_CLIENT_SECRET, PREVIEW_ACCESS_TOKEN, the analytics API token,
    * etc.) do NOT belong here — they're pushed as Worker *secret* bindings
@@ -56,6 +71,8 @@
     "CAMPAIGN_LIVE": "false",
     "WHOOP_CLIENT_ID": "fc3a41a2-08c9-4141-b5bb-35773f4c3509",
     "NEXT_PUBLIC_SITE_URL": "https://forthe22.org",
-    "NEXT_PUBLIC_CAMPAIGN_URL": "https://tri.forthe22.org"
+    "NEXT_PUBLIC_CAMPAIGN_URL": "https://tri.forthe22.org",
+    "NEXT_PUBLIC_SUPABASE_URL": "https://wjwgzphvpulkofvuksko.supabase.co",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indqd2d6cGh2cHVsa29mdnVrc2tvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcwODM4MzIsImV4cCI6MjEwMjY1OTgzMn0.jCX3-IkuI4JMrehYWA0Hx_qkB0kHWmJg1IiqgMQwE2w"
   }
 }
