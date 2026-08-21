@@ -28,7 +28,7 @@ export default function ResourcesPage() {
       </section>
 
       <section className="py-16 sm:py-20">
-        <Container>
+        <Container className="max-w-[1400px]">
           <Suspense fallback={null}>
             <ResourceDirectory />
           </Suspense>
