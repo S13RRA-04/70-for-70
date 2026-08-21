@@ -5,8 +5,11 @@
 -- left null until approved partner URLs are supplied — do not invent them.
 -- Partner `what_they_do` is left null (hidden on the frontend, not shown as
 -- a placeholder) until each organization supplies its own approved
--- description; `description` holds Cody's own, real "why it matters to me"
--- words, so it's safe to display as-is. `logo_url` values are relative
+-- description; `description` is an organizational summary of why each
+-- partner fits the campaign — kept impersonal/third-person on purpose,
+-- since personal/biographical content about Cody lives only on the About
+-- page (see src/lib/content/about.ts), not on partner records. `logo_url`
+-- values are relative
 -- paths served from this app's own public/partners/ directory (the real
 -- organization logos supplied for the campaign) — they resolve against
 -- whatever origin the site is deployed to. For a richer dataset to preview
@@ -26,7 +29,7 @@ insert into public.partners (name, description, what_they_do, logo_url, website_
 values
   (
     'Mighty Oaks Foundation',
-    'In 2023, I attended a Mighty Oaks Warrior Program retreat. It became an important turning point in my life — helping me look at difficult experiences through a lens centered on faith, responsibility, and purpose, and changing how I showed up for my marriage and my family. I know firsthand what their work can mean to a veteran and a family.',
+    'The Mighty Oaks Warrior Program works with veterans through a lens centered on faith, responsibility, and purpose — helping veterans and their families move forward after difficult experiences. That''s why Mighty Oaks is part of Tri For The 22.',
     null,
     '/partners/mighty-oaks-logo.png',
     'https://www.mightyoaksprograms.org/',
@@ -35,7 +38,7 @@ values
   ),
   (
     'Project Echelon',
-    'Project Echelon uses endurance sport, mentorship, structure, and community to help veterans keep moving forward after military service. As I began pursuing triathlon myself, that mission made immediate sense to me — there''s something powerful about putting veterans back into an environment with a mission, a team, and a reason to keep showing up.',
+    'Project Echelon uses endurance sport, mentorship, structure, and community to help veterans keep moving forward after military service — putting veterans back into an environment with a mission, a team, and a reason to keep showing up.',
     null,
     '/partners/project-echelon-logo.png',
     'https://www.projectechelon.org/',

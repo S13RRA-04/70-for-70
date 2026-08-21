@@ -9,7 +9,7 @@ import { ScrollProgressRail } from "@/components/shared/scroll-progress-rail";
 import { RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import { MissionPanel } from "@/components/home/mission-panel";
 import { ResourceFinderPreview } from "@/components/home/resource-finder-preview";
-import { ABOUT_CONTENT, findAboutSubsection } from "@/lib/content/about";
+import { findAboutSubsection } from "@/lib/content/about";
 import { THREE_MISSIONS } from "@/lib/content/three-missions";
 import { OUTER_RING_COLORS } from "@/lib/ring-colors";
 import { getPartners } from "@/lib/data/partners";
@@ -49,7 +49,6 @@ const MOVE_VERBS = ["Race.", "Ride.", "Ruck.", "Swim.", "Lift.", "Move."];
 
 export default async function HomePage() {
   const why22 = findAboutSubsection("why-22");
-  const testimony = findAboutSubsection("my-testimony");
   const partners = await getPartners();
 
   return (
@@ -321,42 +320,6 @@ export default async function HomePage() {
           </Container>
         </section>
       )}
-
-      {/* Why I Started This — Tier 3: editorial photo/text split with pull quote, quieter than the sections above and below it */}
-      <section className="bg-off-white py-16 sm:py-24">
-        <Container className="max-w-[1400px]">
-          <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
-            <RevealOnScroll className="relative aspect-[4/5] w-full overflow-hidden rounded-sm lg:col-span-5">
-              <Image
-                src="/about/ultra-2.jpg"
-                alt="Cody racing his first 100-kilometer ultramarathon"
-                fill
-                sizes="(min-width: 1024px) 40vw, 100vw"
-                className="object-cover"
-              />
-            </RevealOnScroll>
-            <RevealOnScroll className="lg:col-span-7">
-              <SectionHeading eyebrow="Founder Story" title="Why I Started This" />
-              <p className="mt-5 max-w-xl text-base leading-relaxed text-charcoal-light">
-                {ABOUT_CONTENT.homepageStoryExcerpt}
-              </p>
-              {testimony?.pullQuote && (
-                <blockquote className="mt-6 max-w-xl border-l-2 border-bronze pl-5">
-                  <p className="font-display text-lg italic leading-snug text-ink sm:text-xl">
-                    &ldquo;{testimony.pullQuote.text}&rdquo;
-                  </p>
-                  <cite className="mt-2 block text-xs font-semibold uppercase not-italic tracking-widest text-bronze">
-                    {testimony.pullQuote.attribution}
-                  </cite>
-                </blockquote>
-              )}
-              <CTAButton href="/about" className="mt-7">
-                Read the Full Story →
-              </CTAButton>
-            </RevealOnScroll>
-          </div>
-        </Container>
-      </section>
 
       {/* Join — Tier 1: kinetic oversized typography closer */}
       <section id="join" className="scroll-mt-20 bg-ink py-20 text-off-white sm:py-28">

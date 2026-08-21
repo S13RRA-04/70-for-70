@@ -53,7 +53,7 @@ export const SEED_PARTNERS: PartnerRow[] = [
     id: "seed-partner-mighty-oaks",
     name: "Mighty Oaks Foundation",
     description:
-      "In 2023, I attended a Mighty Oaks Warrior Program retreat. It became an important turning point in my life — helping me look at difficult experiences through a lens centered on faith, responsibility, and purpose, and changing how I showed up for my marriage and my family. I know firsthand what their work can mean to a veteran and a family.",
+      "The Mighty Oaks Warrior Program works with veterans through a lens centered on faith, responsibility, and purpose — helping veterans and their families move forward after difficult experiences. That's why Mighty Oaks is part of Tri For The 22.",
     what_they_do: null, // Awaiting the organization's own approved description — hidden until supplied, not shown as a placeholder.
     logo_url: "/partners/mighty-oaks-logo.png",
     website_url: "https://www.mightyoaksprograms.org/",
@@ -67,7 +67,7 @@ export const SEED_PARTNERS: PartnerRow[] = [
     id: "seed-partner-project-echelon",
     name: "Project Echelon",
     description:
-      "Project Echelon uses endurance sport, mentorship, structure, and community to help veterans keep moving forward after military service. As I began pursuing triathlon myself, that mission made immediate sense to me — there's something powerful about putting veterans back into an environment with a mission, a team, and a reason to keep showing up.",
+      "Project Echelon uses endurance sport, mentorship, structure, and community to help veterans keep moving forward after military service — putting veterans back into an environment with a mission, a team, and a reason to keep showing up.",
     what_they_do: null, // Awaiting the organization's own approved description — hidden until supplied, not shown as a placeholder.
     logo_url: "/partners/project-echelon-logo.png",
     website_url: "https://www.projectechelon.org/",
@@ -80,7 +80,7 @@ export const SEED_PARTNERS: PartnerRow[] = [
     id: "seed-partner-vau",
     name: "Veterans and Athletes United",
     description:
-      "Veterans and Athletes United uses adaptive sports, outdoor recreation, and community to help wounded, injured, and ill veterans rebuild strength and purpose — the same thing endurance sport has done in my own life. I added VAU to Tri For The 22 because their work reaches veterans who need exactly the kind of mission, movement, and community this campaign is built around.",
+      "Veterans and Athletes United uses adaptive sports, outdoor recreation, and community to help wounded, injured, and ill veterans rebuild strength and purpose — reaching veterans who need exactly the kind of mission, movement, and community this campaign is built around.",
     what_they_do: null, // Awaiting the organization's own approved description — hidden until supplied, not shown as a placeholder.
     logo_url: "/partners/vau-logo.png",
     website_url: "https://www.vetsau.org/",

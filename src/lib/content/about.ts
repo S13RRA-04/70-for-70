@@ -9,7 +9,13 @@
  * each group can hold one or more SUBSECTIONS so related material (e.g.
  * "My Story" + "My Testimony") reads together without collapsing into a
  * single undifferentiated block. Use findAboutSubsection() for the flat,
- * by-id lookups other pages (home, /advocacy) need.
+ * by-id lookups other pages (home, /advocacy) need for non-personal
+ * content (e.g. "why-22").
+ *
+ * Personal/biographical content — anything about Cody himself — lives only
+ * on this page (/about#founders-story). Other pages that used to reproduce
+ * excerpts of it (the org homepage, Press, the campaign's Mission page)
+ * link here instead of re-narrating any of it.
  */
 
 export interface AboutSubsection {
@@ -31,10 +37,6 @@ export interface AboutContent {
   name: string;
   tagline: string;
   portraitUrl: string | null;
-  /** Condensed 2–3 paragraph version, used on the campaign homepage's "Why I'm Doing This" section. */
-  homepageTeaser: string[];
-  /** Tighter single-paragraph version for the org homepage's brief founder-story section. */
-  homepageStoryExcerpt: string;
   groups: AboutGroup[];
 }
 
@@ -42,14 +44,6 @@ export const ABOUT_CONTENT: AboutContent = {
   name: "Cody Hitson",
   tagline: "Athlete. Veteran. Husband. Father. Still Moving Forward.",
   portraitUrl: "/about/hiking.jpg",
-  homepageTeaser: [
-    "I'm Cody — a Navy veteran, husband, father, and endurance athlete. I spent seven years on active duty as a Mass Communication Specialist, including a 2011 deployment to Afghanistan as a combat journalist. I came home physically present but carrying things I didn't fully understand how to process, and it took years before I found real ways to work through that.",
-    "In 2023, a Mighty Oaks Warrior Program retreat became a turning point — it taught me that recovery isn't about becoming who you were before something happened, but someone stronger because of it. Around that same time, endurance sports became one of the ways I learned to keep moving forward: a marathon in 2023, a 100-kilometer ultramarathon in 2024, and now the road to a 70.3-mile triathlon.",
-    "I've benefited from people and organizations willing to invest in veterans when it mattered most. Now I want to return that investment — one mile, and one story, at a time — so another veteran finds the same kind of turning point I did.",
-  ],
-  /** Tight 3-sentence version for the org homepage specifically — the org homepage keeps the founder story brief (a link out to the full About page) since the site is no longer organized around it; the campaign homepage still uses the fuller homepageTeaser above. */
-  homepageStoryExcerpt:
-    "I'm Cody — a Navy veteran, husband, father, and endurance athlete. After a 2011 combat deployment left me carrying things I didn't know how to process, a 2023 Mighty Oaks retreat became the turning point that taught me recovery means becoming someone stronger, not going back to who I was. I started For The 22 so other veterans and first responders could find that same turning point — one mile, and one resource, at a time.",
   groups: [
     {
       id: "origin",
@@ -234,6 +228,11 @@ export const PHOTO_GALLERY: GalleryPhoto[] = [
     src: "/about/ultra-1.jpg",
     alt: "Cody running an overnight ultramarathon alongside other racers",
     caption: "Racing through the night during an ultramarathon",
+  },
+  {
+    src: "/about/ultra-2.jpg",
+    alt: "Cody racing solo on a wooded trail during an ultramarathon",
+    caption: "On the course during his first 100-kilometer ultramarathon",
   },
   {
     src: "/about/navy.jpg",

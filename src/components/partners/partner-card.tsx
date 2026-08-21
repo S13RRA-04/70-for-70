@@ -58,7 +58,7 @@ export function PartnerCard({ partner }: { partner: PartnerRow }) {
 
         <div className="mt-4">
           <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-            Why It Matters to Me
+            About This Partnership
           </p>
           <p className="mt-1 text-sm text-charcoal-light">{partner.description}</p>
         </div>

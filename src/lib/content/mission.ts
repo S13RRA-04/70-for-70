@@ -1,11 +1,13 @@
 /**
  * Editable narrative copy for the Mission page. Kept as data rather than
  * hard-coded JSX so copy can be revised without touching components.
- * Condensed from Cody's full account on the About page — see
- * src/lib/content/about.ts for the complete story. This page lives on the
- * campaign domain but /about is org-only, so that one link below uses the
- * full SITE_URL rather than a relative path — see README's "Movement/
- * Campaign Domain Split".
+ *
+ * Deliberately organizational, not personal — anything about Cody himself
+ * lives only on /about#founders-story (see src/lib/content/about.ts); this
+ * page links there rather than re-narrating any of it. This page lives on
+ * the campaign domain but /about is org-only, so that link uses the full
+ * SITE_URL rather than a relative path — see README's "Movement/Campaign
+ * Domain Split".
  */
 
 import { SITE_URL } from "@/lib/constants";
@@ -30,17 +32,17 @@ export const MISSION_SECTIONS: MissionSection[] = [
     id: "why-veterans",
     heading: "Why Veterans",
     body: [
-      "I spent seven years on active duty in the United States Navy as a Mass Communication Specialist, including a 2011 deployment to Afghanistan as a combat journalist. Like a lot of veterans, I came home physically present but carrying things I did not fully understand how to process.",
-      "There is another veteran somewhere trying to figure out what comes next, and another family trying to understand why the person who came home feels different from the person who left. I have benefited from people and organizations willing to invest in veterans. Now I want to return that investment.",
+      "There's a veteran or first responder out there right now trying to figure out what comes next — and a family trying to understand why the person who came home feels different from the person who left.",
+      "Every mile of this campaign is aimed at closing that gap: connecting people to the resources, community, and support that make that transition survivable, not just endurable.",
     ],
-    link: { label: "Read the full story", href: `${SITE_URL}/about` },
+    link: { label: "Read the Founder's Story", href: `${SITE_URL}/about#founders-story` },
   },
   {
     id: "why-mighty-oaks",
     heading: "Why Mighty Oaks",
     body: [
-      "In 2023, I attended a Mighty Oaks Warrior Program retreat. It became an important turning point in my life — helping me look at difficult experiences through a lens centered on faith, responsibility, purpose, and relationships, and affecting how I viewed my marriage, my family, and my future.",
-      "I know firsthand what their work can mean to a veteran and a family. That's why Mighty Oaks is part of Tri For The 22.",
+      "The Mighty Oaks Warrior Program works with veterans through a lens centered on faith, responsibility, purpose, and relationships — helping veterans and their families move forward rather than simply trying to return to who they were before.",
+      "That kind of impact on a veteran and a family is why Mighty Oaks is part of Tri For The 22.",
     ],
     link: { label: "Learn more about Mighty Oaks", href: "/partners" },
   },
@@ -48,7 +50,7 @@ export const MISSION_SECTIONS: MissionSection[] = [
     id: "why-project-echelon",
     heading: "Why Project Echelon",
     body: [
-      "Project Echelon uses endurance sport, mentorship, structure, and community to help veterans continue moving forward after military service. As I began pursuing triathlon, that mission immediately made sense to me.",
+      "Project Echelon uses endurance sport, mentorship, structure, and community to help veterans continue moving forward after military service.",
       "There is something powerful about putting veterans back into an environment where there is a mission, a team, accountability, and a reason to keep showing up — you prepare, you suffer together, you hold each other accountable, and you finish what you started.",
     ],
     link: { label: "Learn more about Project Echelon", href: "/partners" },

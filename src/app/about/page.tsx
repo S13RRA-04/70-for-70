@@ -57,7 +57,7 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      <section className="py-12 sm:py-16">
+      <section id="founders-story" className="scroll-mt-32 py-12 sm:py-16">
         <Container className={READING_COLUMN}>
           <Timeline entries={[...STORY_TIMELINE]} />
         </Container>

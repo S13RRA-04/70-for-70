@@ -7,7 +7,6 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { EmptyState } from "@/components/shared/empty-state";
 import { CampaignByTheNumbers } from "@/components/campaign/campaign-by-the-numbers";
 import { ATHLETIC_TEAM_NAME, CONTACT_EMAIL, SITE_NAME, SITE_TAGLINE } from "@/lib/constants";
-import { ABOUT_CONTENT } from "@/lib/content/about";
 
 export const metadata: Metadata = {
   title: "Press & Media",
@@ -59,19 +58,12 @@ export default async function PressPage() {
             <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
               Athlete Bio
             </h2>
-            <div className="mt-3 space-y-3">
-              {ABOUT_CONTENT.homepageTeaser.map((paragraph, i) => (
-                <p key={i} className="text-base leading-relaxed text-charcoal-light">
-                  {paragraph}
-                </p>
-              ))}
-            </div>
-            <p className="mt-3 text-sm text-charcoal-light">
-              Full biography, testimony, and campaign story on the{" "}
-              <Link href="/about" className="text-bronze hover:underline">
-                About page
-              </Link>
-              .
+            <p className="mt-3 text-base leading-relaxed text-charcoal-light">
+              Founder biography, service history, and the story behind the campaign live on the{" "}
+              <Link href="/about#founders-story" className="text-bronze hover:underline">
+                Founder&apos;s Story
+              </Link>{" "}
+              page — that&apos;s the authoritative source; it isn&apos;t reproduced here.
             </p>
           </div>
 
