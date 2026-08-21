@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { createPublicClient } from "@/lib/supabase/public";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { SEED_DONATIONS, SEED_MILES } from "./seed-data";
@@ -56,9 +57,15 @@ export async function getMilesWithDonations(): Promise<MileWithDonations[]> {
   }));
 }
 
-export async function getMileWithDonations(
+/**
+ * Wrapped in React's cache() so a single request only hits Supabase once —
+ * /miles/[number] calls this once via generateMetadata and again in the
+ * page component; without memoization that's two mile queries plus two
+ * donation queries per page view.
+ */
+export const getMileWithDonations = cache(async (
   mileNumber: number,
-): Promise<MileWithDonations | null> {
+): Promise<MileWithDonations | null> => {
   if (!isSupabaseConfigured()) {
     const mile = SEED_MILES.find((m) => m.mile_number === mileNumber);
     if (!mile) return null;
@@ -87,4 +94,4 @@ export async function getMileWithDonations(
   }
 
   return { ...mile, donations: donations ?? [] };
-}
+});

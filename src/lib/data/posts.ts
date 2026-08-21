@@ -1,9 +1,17 @@
+import { cache } from "react";
 import { createPublicClient } from "@/lib/supabase/public";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { SEED_POSTS } from "./seed-data";
 import type { PostRow } from "@/types/database";
 
-export async function getPosts(): Promise<PostRow[]> {
+/**
+ * Wrapped in React's cache() so a single request only hits Supabase once —
+ * without it, /updates/[slug] fetched the full post list twice per request
+ * (once via generateMetadata's getPostBySlug, once via the page component's),
+ * since the Supabase client here doesn't opt into Next's fetch-level
+ * memoization the way a plain fetch() call would.
+ */
+export const getPosts = cache(async (): Promise<PostRow[]> => {
   if (!isSupabaseConfigured()) {
     return [...SEED_POSTS]
       .filter((p) => p.published)
@@ -25,7 +33,7 @@ export async function getPosts(): Promise<PostRow[]> {
   }
 
   return data;
-}
+});
 
 export async function getLatestPosts(count = 3): Promise<PostRow[]> {
   const posts = await getPosts();

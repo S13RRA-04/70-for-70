@@ -14,27 +14,33 @@ import { getWhoopConnection } from "@/lib/whoop/tokens";
 export default async function AdminPage() {
   const user = await requireAdminUser();
 
-  const campaign = await getCampaign();
-  const miles = await getMiles();
-
   const admin = createAdminClient();
-  const { count: pendingInquiries } = await admin
-    .from("inquiries")
-    .select("*", { count: "exact", head: true })
-    .eq("status", "new");
 
-  const { count: openSponsorshipRequests } = await admin
-    .from("sponsorship_requests")
-    .select("*", { count: "exact", head: true })
-    .in("status", ["submitted", "under_review", "additional_information_requested", "ethics_review"]);
+  const [
+    campaign,
+    miles,
+    { count: pendingInquiries },
+    { count: openSponsorshipRequests },
+    whoopConnection,
+    trainingObjectives,
+  ] = await Promise.all([
+    getCampaign(),
+    getMiles(),
+    admin.from("inquiries").select("*", { count: "exact", head: true }).eq("status", "new"),
+    admin
+      .from("sponsorship_requests")
+      .select("*", { count: "exact", head: true })
+      .in("status", ["submitted", "under_review", "additional_information_requested", "ethics_review"]),
+    isWhoopConfigured() ? getWhoopConnection() : Promise.resolve(null),
+    getTrainingObjectives(),
+  ]);
 
   const availableCount = miles.filter((m) => m.status === "available").length;
   const partialCount = miles.filter((m) => m.status === "partially_funded").length;
   const fundedCount = miles.filter((m) => m.status === "funded").length;
 
-  const whoopConnected = isWhoopConfigured() ? Boolean(await getWhoopConnection()) : false;
+  const whoopConnected = Boolean(whoopConnection);
 
-  const trainingObjectives = await getTrainingObjectives();
   const objectivesCompleted = trainingObjectives.filter((o) => o.completed).length;
 
   return (
