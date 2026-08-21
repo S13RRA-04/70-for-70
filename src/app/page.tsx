@@ -59,7 +59,7 @@ export default async function HomePage() {
       <section className="relative overflow-hidden bg-ink text-off-white lg:flex lg:min-h-[88vh] lg:items-end">
         <div
           className="absolute inset-0 bg-cover bg-center opacity-80"
-          style={{ backgroundImage: "url(/about/nashville2.jpg)" }}
+          style={{ backgroundImage: "url(/topo-map.png)" }}
           aria-hidden="true"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/20" aria-hidden="true" />

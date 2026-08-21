@@ -17,6 +17,7 @@ import type {
   PartnerRow,
   PostRow,
   SponsorRow,
+  TrainingObjectiveRow,
 } from "@/types/database";
 
 const now = new Date().toISOString();
@@ -103,3 +104,27 @@ export const SEED_MISSION_PARTNERS: MissionPartnerRow[] = [];
 // No posts yet. The Updates page and homepage teaser show polished empty
 // states rather than placeholder posts — see app/updates/page.tsx and app/page.tsx.
 export const SEED_POSTS: PostRow[] = [];
+
+/**
+ * Starter training-objective checklist for /updates — generic, standard
+ * progression milestones toward a 70.3, not a claim about Cody's actual
+ * training plan or progress (every objective starts uncompleted). Meant to
+ * be edited (added to, removed, checked off) via /admin/training-objectives,
+ * not treated as final content.
+ */
+export const SEED_TRAINING_OBJECTIVES: TrainingObjectiveRow[] = [
+  { id: "seed-swim-1", discipline: "swim", label: "Swim 500 yards continuously", display_order: 0, completed: false, completed_at: null, created_at: now },
+  { id: "seed-swim-2", discipline: "swim", label: "Complete a 1-mile open water swim", display_order: 1, completed: false, completed_at: null, created_at: now },
+  { id: "seed-swim-3", discipline: "swim", label: "Swim the full 1.2-mile race distance", display_order: 2, completed: false, completed_at: null, created_at: now },
+  { id: "seed-swim-4", discipline: "swim", label: "Complete a swim-to-bike brick workout", display_order: 3, completed: false, completed_at: null, created_at: now },
+
+  { id: "seed-bike-1", discipline: "bike", label: "Complete a 25-mile ride", display_order: 0, completed: false, completed_at: null, created_at: now },
+  { id: "seed-bike-2", discipline: "bike", label: "Complete a 40-mile ride", display_order: 1, completed: false, completed_at: null, created_at: now },
+  { id: "seed-bike-3", discipline: "bike", label: "Ride the full 56-mile race distance", display_order: 2, completed: false, completed_at: null, created_at: now },
+  { id: "seed-bike-4", discipline: "bike", label: "Complete a bike-to-run brick workout", display_order: 3, completed: false, completed_at: null, created_at: now },
+
+  { id: "seed-run-1", discipline: "run", label: "Run a 10K", display_order: 0, completed: false, completed_at: null, created_at: now },
+  { id: "seed-run-2", discipline: "run", label: "Run a half marathon (13.1 mi)", display_order: 1, completed: false, completed_at: null, created_at: now },
+  { id: "seed-run-3", discipline: "run", label: "Run a long run off a long bike ride", display_order: 2, completed: false, completed_at: null, created_at: now },
+  { id: "seed-run-4", discipline: "run", label: "Run the full half marathon off the bike leg", display_order: 3, completed: false, completed_at: null, created_at: now },
+];

@@ -3,6 +3,7 @@ import { requireAdminUser } from "@/lib/supabase/require-admin";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCampaign } from "@/lib/data/campaign";
 import { getMiles } from "@/lib/data/miles";
+import { getTrainingObjectives } from "@/lib/data/training-objectives";
 import { Container } from "@/components/shared/container";
 import { StatCard } from "@/components/shared/stat-card";
 import { SignOutButton } from "@/components/admin/sign-out-button";
@@ -32,6 +33,9 @@ export default async function AdminPage() {
   const fundedCount = miles.filter((m) => m.status === "funded").length;
 
   const whoopConnected = isWhoopConfigured() ? Boolean(await getWhoopConnection()) : false;
+
+  const trainingObjectives = await getTrainingObjectives();
+  const objectivesCompleted = trainingObjectives.filter((o) => o.completed).length;
 
   return (
     <Container className="max-w-4xl py-16">
@@ -85,6 +89,23 @@ export default async function AdminPage() {
         </div>
         <Link
           href="/admin/whoop"
+          className="rounded-sm border border-ink/20 px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
+        >
+          Manage
+        </Link>
+      </div>
+
+      <div className="mt-6 flex items-center justify-between rounded-sm border border-ink/10 bg-off-white p-6">
+        <div>
+          <p className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+            Training Objectives
+          </p>
+          <p className="mt-1 text-sm text-charcoal-light">
+            {objectivesCompleted} of {trainingObjectives.length} complete.
+          </p>
+        </div>
+        <Link
+          href="/admin/training-objectives"
           className="rounded-sm border border-ink/20 px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
         >
           Manage

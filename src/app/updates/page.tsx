@@ -5,7 +5,9 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { UpdateCard } from "@/components/updates/update-card";
 import { EmptyState } from "@/components/shared/empty-state";
 import { TrainingSnapshot } from "@/components/training/training-snapshot";
+import { TrainingObjectivesChecklist } from "@/components/training/training-objectives-checklist";
 import { getTrainingSnapshot } from "@/lib/whoop/client";
+import { getTrainingObjectives } from "@/lib/data/training-objectives";
 import { CAMPAIGN_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -15,7 +17,11 @@ export const metadata: Metadata = {
 };
 
 export default async function UpdatesPage() {
-  const [posts, trainingSnapshot] = await Promise.all([getPosts(), getTrainingSnapshot()]);
+  const [posts, trainingSnapshot, trainingObjectives] = await Promise.all([
+    getPosts(),
+    getTrainingSnapshot(),
+    getTrainingObjectives(),
+  ]);
 
   return (
     <>
@@ -36,6 +42,17 @@ export default async function UpdatesPage() {
             <SectionHeading eyebrow="Live" title="Latest Training" />
             <div className="mt-6">
               <TrainingSnapshot snapshot={trainingSnapshot} />
+            </div>
+          </Container>
+        </section>
+      )}
+
+      {trainingObjectives.length > 0 && (
+        <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
+          <Container>
+            <SectionHeading eyebrow="The Road to Chattanooga" title="Training Objectives" />
+            <div className="mt-6">
+              <TrainingObjectivesChecklist objectives={trainingObjectives} />
             </div>
           </Container>
         </section>

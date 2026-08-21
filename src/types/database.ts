@@ -167,6 +167,18 @@ export interface PartnerRow {
  * (beneficiary): no donation/EIN/nonprofit-verification fields, since a
  * mission partner isn't necessarily a charitable fundraising recipient.
  */
+export type TrainingDiscipline = "swim" | "bike" | "run";
+
+export interface TrainingObjectiveRow {
+  id: string;
+  discipline: TrainingDiscipline;
+  label: string;
+  display_order: number;
+  completed: boolean;
+  completed_at: string | null;
+  created_at: string;
+}
+
 export interface MissionPartnerRow {
   id: string;
   name: string;

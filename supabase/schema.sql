@@ -227,6 +227,27 @@ create index if not exists posts_published_idx on public.posts (published, publi
 create index if not exists posts_slug_idx on public.posts (slug);
 
 -- ---------------------------------------------------------------------------
+-- training_objectives
+--
+-- Concrete swim/bike/run milestones the athlete checks off while training
+-- toward the race, shown alongside the WHOOP snapshot on /updates. Managed
+-- entirely via /admin/training-objectives (add/toggle/delete) — see
+-- getTrainingObjectives() and the admin actions for the only write paths.
+-- ---------------------------------------------------------------------------
+create table if not exists public.training_objectives (
+  id uuid primary key default gen_random_uuid(),
+  discipline text not null check (discipline in ('swim', 'bike', 'run')),
+  label text not null,
+  display_order integer not null default 0,
+  completed boolean not null default false,
+  completed_at timestamptz,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists training_objectives_discipline_idx
+  on public.training_objectives (discipline, display_order);
+
+-- ---------------------------------------------------------------------------
 -- partners
 -- ---------------------------------------------------------------------------
 create table if not exists public.partners (
@@ -367,6 +388,7 @@ alter table public.sponsors enable row level security;
 alter table public.posts enable row level security;
 alter table public.partners enable row level security;
 alter table public.mission_partners enable row level security;
+alter table public.training_objectives enable row level security;
 alter table public.inquiries enable row level security;
 alter table public.sponsorship_requests enable row level security;
 alter table public.sponsorship_status_history enable row level security;
@@ -407,6 +429,14 @@ create policy "active mission partners are publicly readable"
   on public.mission_partners for select
   to anon, authenticated
   using (active = true);
+
+create policy "training objectives are publicly readable"
+  on public.training_objectives for select
+  to anon, authenticated
+  using (true);
+-- No insert/update/delete policy on public.training_objectives: only
+-- requireAdminUser() + createAdminClient() (via /admin/training-objectives)
+-- mutates this table.
 
 -- No policies on public.inquiries: default-deny for anon/authenticated.
 -- Only the service-role key (which bypasses RLS) can read or write it.

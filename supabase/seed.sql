@@ -46,3 +46,23 @@ values
     true
   )
 on conflict (name) do nothing;
+
+-- Starter training-objectives checklist — generic 70.3-progression
+-- milestones, not a claim about actual training progress (nothing is
+-- pre-checked). Meant to be edited via /admin/training-objectives.
+insert into public.training_objectives (discipline, label, display_order)
+select * from (values
+  ('swim', 'Swim 500 yards continuously', 0),
+  ('swim', 'Complete a 1-mile open water swim', 1),
+  ('swim', 'Swim the full 1.2-mile race distance', 2),
+  ('swim', 'Complete a swim-to-bike brick workout', 3),
+  ('bike', 'Complete a 25-mile ride', 0),
+  ('bike', 'Complete a 40-mile ride', 1),
+  ('bike', 'Ride the full 56-mile race distance', 2),
+  ('bike', 'Complete a bike-to-run brick workout', 3),
+  ('run', 'Run a 10K', 0),
+  ('run', 'Run a half marathon (13.1 mi)', 1),
+  ('run', 'Run a long run off a long bike ride', 2),
+  ('run', 'Run the full half marathon off the bike leg', 3)
+) as v (discipline, label, display_order)
+where not exists (select 1 from public.training_objectives);
