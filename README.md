@@ -10,7 +10,9 @@ This is **Milestone 1**: a polished, public-facing campaign site with a
 Supabase-backed data model. It does not process donations directly — donate
 buttons route to each beneficiary organization's own donation platform.
 Sponsorships go through a request-and-approval workflow — see
-[Sponsorship Vetting Workflow](#sponsorship-vetting-workflow) below.
+[Sponsorship Vetting Workflow](#sponsorship-vetting-workflow) below — and
+off-site donations are recorded/verified through
+[Donation Tracking Workflow](#donation-tracking-workflow).
 
 ## Tech Stack
 
@@ -482,6 +484,45 @@ administrator" steps (see [`src/lib/notifications.ts`](src/lib/notifications.ts)
 currently logs only) and a public UI for a requester to withdraw their own
 request (an admin can mark one `withdrawn` from the detail page today).
 
+## Donation Tracking Workflow
+
+For The 22 never takes possession of a charitable donation — `/donate`
+routes each visitor to a beneficiary organization's own donation platform,
+and the athlete/campaign owner only learns about a gift after the fact (a
+donor's note, an email, or an export from the partner's platform). The
+`donations` table and `/admin/donations` exist to record and verify those
+off-site gifts, not to process payment.
+
+**Record it**: sign in at `/admin/login`, then open `/admin/donations`
+(also linked from `/admin`, which shows a count of donations awaiting
+verification). "Record a Donation" captures donor name, amount, the
+beneficiary organization, an optional mile to credit, the date, a free-text
+reference note (e.g. a partner platform confirmation number or how the
+donor reported it), anonymity, and optional in-honor-of/in-memory-of
+dedication fields — mirroring the columns on `DonationRow`.
+
+**Verified is the only thing that makes a donation public.** A donation
+starts unverified; nothing about it (including any dedication) appears on
+the site — not `/live`'s "Recent Mission Support", not a mile's funded
+total, not the campaign total — until an admin checks "Verified" after
+confirming the gift actually reached the beneficiary organization. Saving a
+donation (create, edit, verify, unverify, or delete) recomputes
+`campaign.amount_raised` and every mile's `amount_funded`/`status` from the
+full set of verified donations, so those stored totals can never drift from
+what's actually been confirmed. A mile's `requested`/`reserved` status
+(from the sponsorship workflow above) is preserved rather than reset to
+`available` when it has no verified donations yet — only a nonzero verified
+total moves a mile to `partially_funded`/`funded`.
+
+**RLS**: unchanged — `donations` still allows public `select` only where
+`verified = true` (see `schema.sql`); all writes from `/admin/donations` go
+through the service-role client after `requireAdminUser()`, the same
+pattern as the sponsorship and training-objectives admin actions.
+
+Not built yet: a donor-facing self-report form (donors currently use the
+note field on the partner's own donation page, or email the campaign) and
+bulk-import from a partner's donation export.
+
 ## WHOOP Training Snapshot
 
 The Race page shows a live "Latest Training" panel (recovery %, sleep
@@ -899,9 +940,10 @@ neither beneficiary needs that fallback anymore.
    logistics (date/location)
 3. Wire a real email provider for sponsorship acknowledgment/notification
    (`src/lib/notifications.ts`) and consider a requester-facing status link
-4. Build authenticated CRUD for donations, miles (beyond the sponsorship
-   workflow's reserve step), posts, and partner URLs in `/admin`, with
-   role-scoped RLS policies for authenticated writes
+4. Donation CRUD is done (see [Donation Tracking Workflow](#donation-tracking-workflow)).
+   Build authenticated CRUD for miles (beyond the sponsorship workflow's
+   reserve step and donation-driven recompute), posts, and partner URLs in
+   `/admin`, with role-scoped RLS policies for authenticated writes
 5. Wire a real analytics/tag-management provider (e.g. Cloudflare Zaraz) to
    the existing `data-analytics-event` conversion markers — Cloudflare Web
    Analytics itself (see [Analytics](#analytics-cloudflare-web-analytics))
@@ -945,12 +987,11 @@ order:
   Starting Line" / "Claim the First Mile") is done (see `hasStarted` in
   `src/app/page.tsx`). Worth refining further once the first mile is
   actually funded — e.g. referencing that specific mile in the copy.
-- **24 — Recent activity feed**: blocked on real donation data — "Recent
-  Mission Support" (e.g. "Mile 4 received $100," "Acme Corp requested Mile
-  32 sponsorship") needs either verified donations flowing in or admin
-  CRUD to enter them. `/live`'s "Recent Mission Support" section is ready
-  to receive that data (`getRecentDonations()`) but is empty today because
-  there's nothing to show. Never expose private donor info when built.
+- **24 — Recent activity feed**: the admin CRUD to enter/verify donations
+  now exists ([Donation Tracking Workflow](#donation-tracking-workflow));
+  `/live`'s "Recent Mission Support" section (`getRecentDonations()`) is
+  still empty until real, verified donations are actually recorded there.
+  Never expose private donor info when built.
 
 ## Second-Pass Site Improvements (P0–P30)
 

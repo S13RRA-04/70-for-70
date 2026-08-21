@@ -21,6 +21,7 @@ export default async function AdminPage() {
     miles,
     { count: pendingInquiries },
     { count: openSponsorshipRequests },
+    { count: unverifiedDonations },
     whoopConnection,
     trainingObjectives,
   ] = await Promise.all([
@@ -31,6 +32,7 @@ export default async function AdminPage() {
       .from("sponsorship_requests")
       .select("*", { count: "exact", head: true })
       .in("status", ["submitted", "under_review", "additional_information_requested", "ethics_review"]),
+    admin.from("donations").select("*", { count: "exact", head: true }).eq("verified", false),
     isWhoopConfigured() ? getWhoopConnection() : Promise.resolve(null),
     getTrainingObjectives(),
   ]);
@@ -79,6 +81,23 @@ export default async function AdminPage() {
           className="rounded-sm bg-bronze px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
         >
           Open Queue
+        </Link>
+      </div>
+
+      <div className="mt-6 flex items-center justify-between rounded-sm border border-ink/10 bg-off-white p-6">
+        <div>
+          <p className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+            Donations
+          </p>
+          <p className="mt-1 text-sm text-charcoal-light">
+            {unverifiedDonations ?? 0} donation(s) awaiting verification.
+          </p>
+        </div>
+        <Link
+          href="/admin/donations"
+          className="rounded-sm border border-ink/20 px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
+        >
+          Manage
         </Link>
       </div>
 
@@ -138,11 +157,10 @@ export default async function AdminPage() {
       <div className="mt-10 rounded-sm border border-ink/10 bg-sand-light p-6 text-sm text-charcoal-light">
         <p className="font-semibold text-ink">This is mostly a read-only overview.</p>
         <p className="mt-2">
-          Full CRUD management for donations, miles, posts, and partner URLs is planned for a
-          future milestone. Sponsorship requests are the exception — they have a working review
-          queue (see above) because no sponsor may be published without going through it. Until
-          the rest of admin CRUD exists, manage other records directly in Supabase Studio or via
-          SQL — see the README and{" "}
+          Full CRUD management for miles, posts, and partner URLs is planned for a future
+          milestone. Sponsorship requests and donations are the exceptions — see the Sponsorship
+          Review Queue and Donations sections above. Until the rest of admin CRUD exists, manage
+          other records directly in Supabase Studio or via SQL — see the README and{" "}
           <code className="mx-1 rounded bg-ink/5 px-1.5 py-0.5">supabase/schema.sql</code>.
         </p>
       </div>
