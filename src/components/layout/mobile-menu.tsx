@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import {
   CAMPAIGN_NAME,
   CURRENT_MISSION_NAV_LINK,
@@ -74,7 +75,13 @@ export function MobileMenu({ open, onClose, navLinks, pathname, isCampaign, trig
 
   if (!open) return null;
 
-  return (
+  // Portaled to document.body — the trigger button lives inside <header>,
+  // which has backdrop-blur. backdrop-filter establishes a new containing
+  // block for fixed-position descendants (same category as
+  // transform/filter/will-change), so without the portal this drawer's
+  // "fixed inset-0" was sized against the header's own small bounding box
+  // instead of the viewport, rendering as an unusable sliver.
+  return createPortal(
     <div className="fixed inset-0 z-50 lg:hidden">
       <button
         type="button"
@@ -175,6 +182,7 @@ export function MobileMenu({ open, onClose, navLinks, pathname, isCampaign, trig
           )}
         </nav>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
