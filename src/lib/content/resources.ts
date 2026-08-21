@@ -1479,6 +1479,217 @@ export const RESOURCES: Resource[] = [
     state: "Kentucky",
     verifiedDate: "2026-08-20",
   },
+
+  // ---------------------------------------------------------------------
+  // Texas Regional
+  // ---------------------------------------------------------------------
+  {
+    // TODO(verify): tvc.texas.gov blocks automated verification requests; reconfirm page content directly before publishing.
+    name: "Texas Veterans Commission — Military Veteran Peer Network",
+    url: "https://tvc.texas.gov/mental-health/military-veteran-peer-network/",
+    description:
+      "Statewide network of trained veteran and family peers offering camaraderie, mental-health awareness and connection to local, state and federal resources.",
+    needCategoryIds: ["mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free",
+    geographicScope: "Texas",
+    state: "Texas",
+    verifiedDate: "2026-08-21",
+  },
+  {
+    name: "Combined Arms",
+    url: "https://www.combinedarms.us/",
+    description:
+      "Veteran-founded referral platform connecting service members, veterans and military families to 300+ vetted partner organizations for housing, employment, benefits claims and mental-health support.",
+    needCategoryIds: ["career-education", "housing-transportation", "financial-assistance"],
+    audienceTags: ["Veteran", "Family", "Guard/Reserve"],
+    cost: "Free",
+    geographicScope: "Houston / North Texas (statewide via the Texas Veterans Network)",
+    state: "Texas",
+    verifiedDate: "2026-08-21",
+  },
+  {
+    name: "Adaptive Training Foundation",
+    url: "https://www.adaptivetrainingfoundation.org/",
+    description:
+      "Adaptive strength-and-conditioning programs (ReDefine, Hyper Training Camp, AdaptiveX) for veterans and others with limb loss, spinal cord injury or physical/traumatic impairment.",
+    needCategoryIds: ["sports-fitness", "purpose-community"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free to participants",
+    geographicScope: "Carrollton / Dallas–Fort Worth (draws participants nationwide)",
+    state: "Texas",
+    verifiedDate: "2026-08-21",
+  },
+  {
+    name: "Texas Veterans Land Board — Home Loans",
+    url: "https://www.glo.texas.gov/veterans/home-loans",
+    description:
+      "State-backed home loans up to $832,750 with competitive below-market fixed rates and little-to-no down payment for eligible Texas veterans, military members and surviving spouses.",
+    needCategoryIds: ["housing-transportation", "financial-assistance"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Survivor"],
+    cost: "Loan program — not a grant; rates below market, discounted further at 30%+ VA disability rating",
+    geographicScope: "Texas",
+    state: "Texas",
+    eligibility:
+      "Texas resident; active duty, Guard/Reserve with 20+ qualifying years, or veteran with 90+ active-duty days (or earlier discharge for service-connected disability); honorable, general or medical discharge required.",
+    verifiedDate: "2026-08-21",
+  },
+  {
+    // TODO(verify): site does not itemize per-program cost/fee structure; confirm before publishing.
+    name: "Texas Parasport",
+    url: "https://www.texasparasport.org/",
+    description:
+      "Statewide network connecting Texans with physical disabilities, including veterans, to adaptive-sports programs, equipment loans and competitions across the Austin, Dallas–Fort Worth, Houston and San Antonio regions.",
+    needCategoryIds: ["sports-fitness", "equipment-grants"],
+    audienceTags: ["Disabled", "Veteran"],
+    cost: "Varies by member program",
+    geographicScope: "Texas",
+    state: "Texas",
+    verifiedDate: "2026-08-21",
+  },
+  {
+    name: "Texas Statewide Peer Support Network (TDEM)",
+    url: "https://tdem.texas.gov/response/peer-support-network",
+    description:
+      "Confidential, voluntary peer-to-peer support and emotional first aid for volunteer, paid, active and retired Texas first responders — law enforcement, fire, EMS, dispatch and corrections — by phone/text (979-820-7337) or the Lone Star Readiness app.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Law Enforcement", "Fire", "EMS", "Dispatch", "Corrections", "First Responder"],
+    cost: "Free",
+    geographicScope: "Texas",
+    state: "Texas",
+    verifiedDate: "2026-08-21",
+  },
+  {
+    // TODO(verify): tvc.texas.gov blocks automated verification requests; reconfirm page content directly before publishing.
+    name: "Texas Veterans Commission — Fund for Veterans' Assistance",
+    url: "https://tvc.texas.gov/grants/",
+    description:
+      "State grant fund reimbursing nonprofits, local governments and veterans service organizations that deliver direct services — emergency financial assistance, transportation, mental-health counseling, homeless-veteran housing and legal aid — to Texas veterans and families; does not grant directly to individuals.",
+    needCategoryIds: ["financial-assistance"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Grant / Varies (funds service providers, not individuals)",
+    geographicScope: "Texas",
+    state: "Texas",
+    verifiedDate: "2026-08-21",
+  },
+  {
+    // TODO(verify): hhs.texas.gov blocks automated verification requests; reconfirm page content directly before publishing.
+    name: "Texas 988",
+    url: "https://www.hhs.texas.gov/services/mental-health-substance-use/mental-health-crisis-services/988-suicide-crisis-lifeline",
+    description:
+      "State-coordinated 988 suicide, mental-health and substance-use crisis access connecting Texans to local crisis centers and mobile outreach by call, text or chat.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Veteran", "Active Military", "Law Enforcement", "Fire", "EMS", "Dispatch", "Corrections", "Family"],
+    cost: "Free",
+    geographicScope: "Texas",
+    state: "Texas",
+    verifiedDate: "2026-08-21",
+  },
+
+  // ---------------------------------------------------------------------
+  // Virginia Regional
+  // ---------------------------------------------------------------------
+  {
+    // TODO(verify): dvs.virginia.gov blocks automated verification requests; reconfirm page content directly before publishing.
+    name: "Virginia Department of Veterans Services — Benefits & Services",
+    url: "https://www.dvs.virginia.gov/benefits-services",
+    description:
+      "34 regional Veteran Service Representative offices statewide provide free help developing and filing claims for federal and state veterans benefits.",
+    needCategoryIds: ["legal-benefits"],
+    audienceTags: ["Veteran", "Family", "Survivor"],
+    cost: "Free",
+    geographicScope: "Virginia",
+    state: "Virginia",
+    verifiedDate: "2026-08-21",
+  },
+  {
+    name: "Virginia Law Enforcement Assistance Program (VALEAP)",
+    url: "https://valeap.org/",
+    description:
+      "Critical Incident Stress Management, peer support, Post Critical Incident Seminars and EMDR therapy for Virginia law enforcement officers, dispatchers and their families after traumatic or critical incidents; staffed largely by volunteer LE peers and clinicians.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Law Enforcement", "Dispatch", "Family"],
+    cost: "Free to Virginia law enforcement, dispatchers and CISM/peer-team members",
+    geographicScope: "Virginia",
+    state: "Virginia",
+    verifiedDate: "2026-08-21",
+  },
+  {
+    name: "Virginia First Responder Support Services (VFRSS)",
+    url: "https://www.vfrss.org/",
+    description:
+      "Trains police, fire, EMS and dispatch personnel as certified peer supporters covering suicide prevention, PTSD and mental wellness, and connects first responders to a peer within 24 hours of a request.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Law Enforcement", "Fire", "EMS", "Dispatch", "First Responder"],
+    cost:
+      "Peer-support requests are free; 2-day agency peer-support training includes 5 free seats for the hosting department, additional seats $150/person",
+    geographicScope: "Virginia",
+    state: "Virginia",
+    verifiedDate: "2026-08-21",
+  },
+  {
+    // TODO(verify): confirm current Fort Belvoir chapter session schedule before publishing.
+    name: "Team River Runner — Fort Belvoir Chapter",
+    url: "https://www.trrftbelvoir.org/",
+    description:
+      "Adaptive kayaking, whitewater training and paddling sessions for veterans, active-duty service members and their families, built around community and peer connection.",
+    needCategoryIds: ["sports-fitness", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "Family", "Disabled"],
+    cost: "Free",
+    geographicScope: "Fort Belvoir / Northern Virginia",
+    state: "Virginia",
+    verifiedDate: "2026-08-21",
+  },
+  {
+    name: "Virginia Values Veterans (V3) Program",
+    url: "https://dvsv3.com/",
+    description:
+      "State program training and certifying Virginia employers on veteran recruiting, hiring and retention, connecting job-seeking veterans with V3-certified employers; certified small employers can also earn up to $10,000 in hiring grants.",
+    needCategoryIds: ["career-education"],
+    audienceTags: ["Veteran", "Guard/Reserve", "Military Spouse"],
+    cost: "Free",
+    geographicScope: "Virginia",
+    state: "Virginia",
+    verifiedDate: "2026-08-21",
+  },
+  {
+    // TODO(verify): dvs.virginia.gov blocks automated verification requests; reconfirm page content directly before publishing.
+    name: "Virginia Veteran and Family Support (VVFS)",
+    url: "https://www.dvs.virginia.gov/benefits-services/veteran-and-family-support",
+    description:
+      "Statewide peer recovery support, care coordination, couples workshops and family retreats for veterans and families navigating PTSD, TBI, substance use or transition stress; does not provide crisis services.",
+    needCategoryIds: ["mental-health", "family-support"],
+    audienceTags: ["Veteran", "Family", "Caregiver"],
+    cost: "Free",
+    geographicScope: "Virginia",
+    state: "Virginia",
+    verifiedDate: "2026-08-21",
+  },
+  {
+    name: "Virginia Housing — Granting Freedom",
+    url: "https://www.virginiahousing.com/homebuyers/military-grants",
+    description:
+      "Home-accessibility modification grants for Virginia veterans and service members with a service-connected disability from a line-of-duty injury; pairs with VA-guaranteed loans and closing-cost assistance for homebuying.",
+    needCategoryIds: ["housing-transportation", "equipment-grants"],
+    audienceTags: ["Veteran", "Disabled", "Active Military"],
+    cost: "Grant — no repayment; up to $8,000",
+    geographicScope: "Virginia",
+    state: "Virginia",
+    verifiedDate: "2026-08-21",
+  },
+  {
+    // TODO(verify): 988va.org / dbhds.virginia.gov block automated verification requests; reconfirm page content directly before publishing.
+    name: "Virginia 988 Suicide & Crisis Lifeline",
+    url: "https://988va.org/",
+    description:
+      "State-coordinated 988 access connecting Virginians to local crisis centers by call, text or chat; Virginia's 988 line handled an average of over 10,000 contacts per month in 2024.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Veteran", "Active Military", "Law Enforcement", "Fire", "EMS", "Dispatch", "Corrections", "Family"],
+    cost: "Free",
+    geographicScope: "Virginia",
+    state: "Virginia",
+    verifiedDate: "2026-08-21",
+  },
 ];
 
 export function getResourcesForFilters(needId: string | null, audience: string | null): Resource[] {
