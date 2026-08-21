@@ -20,10 +20,12 @@ const ORG_ROUTES = [
   "/press",
 ];
 const CAMPAIGN_ROUTES = [
+  "",
   "/the-mission",
   "/the-race",
   "/fund-a-mile",
   "/partners",
+  "/partners/inquire",
   "/updates",
   "/sponsors",
   "/donate",
