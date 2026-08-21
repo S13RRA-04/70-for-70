@@ -3,10 +3,11 @@ import Image from "next/image";
 import { getPartners } from "@/lib/data/partners";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
-import { EmptyState } from "@/components/shared/empty-state";
 import { CampaignByTheNumbers } from "@/components/campaign/campaign-by-the-numbers";
+import { APPROVED_PHOTOS, MEDIA_COVERAGE, PRESS_RELEASES } from "@/lib/content/press";
 import { ATHLETIC_TEAM_NAME, CONTACT_EMAIL, SITE_NAME, SITE_TAGLINE } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
+import { formatDateLong } from "@/lib/utils";
 
 export const metadata = pageMetadata({
   title: "Press & Media",
@@ -120,17 +121,27 @@ export default async function PressPage() {
             </div>
           </div>
 
-          <div>
-            <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
-              Approved Photos
-            </h2>
-            <div className="mt-3">
-              <EmptyState
-                title="Photography is coming soon."
-                description="Approved campaign and training photos will be available here."
-              />
+          {APPROVED_PHOTOS.length > 0 && (
+            <div>
+              <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+                Approved Photos
+              </h2>
+              <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
+                {APPROVED_PHOTOS.map((photo) => (
+                  <figure key={photo.src} className="overflow-hidden rounded-sm">
+                    <div className="relative aspect-[4/5] w-full bg-sand-light">
+                      <Image src={photo.src} alt={photo.alt} fill className="object-cover" />
+                    </div>
+                    {photo.caption && (
+                      <figcaption className="mt-1.5 text-xs text-charcoal-light">
+                        {photo.caption}
+                      </figcaption>
+                    )}
+                  </figure>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           <div>
             <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
@@ -153,23 +164,45 @@ export default async function PressPage() {
             </ul>
           </div>
 
-          <div>
-            <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
-              Press Releases
-            </h2>
-            <div className="mt-3">
-              <EmptyState title="No press releases published yet." />
+          {PRESS_RELEASES.length > 0 && (
+            <div>
+              <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+                Press Releases
+              </h2>
+              <ul className="mt-3 space-y-2">
+                {PRESS_RELEASES.map((release) => (
+                  <li key={release.url} className="text-base text-charcoal-light">
+                    <a href={release.url} className="text-bronze hover:underline">
+                      {release.title}
+                    </a>
+                    {" — "}
+                    {formatDateLong(release.date)}
+                  </li>
+                ))}
+              </ul>
             </div>
-          </div>
+          )}
 
-          <div>
-            <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
-              Media Coverage
-            </h2>
-            <div className="mt-3">
-              <EmptyState title="No media coverage yet." />
+          {MEDIA_COVERAGE.length > 0 && (
+            <div>
+              <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+                Media Coverage
+              </h2>
+              <ul className="mt-3 space-y-2">
+                {MEDIA_COVERAGE.map((item) => (
+                  <li key={item.url} className="text-base text-charcoal-light">
+                    <span className="font-medium text-ink">{item.outlet}</span>
+                    {" — "}
+                    <a href={item.url} className="text-bronze hover:underline">
+                      {item.title}
+                    </a>
+                    {" — "}
+                    {formatDateLong(item.date)}
+                  </li>
+                ))}
+              </ul>
             </div>
-          </div>
+          )}
 
           <div>
             <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
