@@ -23,7 +23,7 @@ export function CurrentCampaignCard() {
       />
       <div className="grid gap-0 lg:grid-cols-[minmax(0,320px)_1fr]">
         <div className="relative aspect-[16/10] w-full lg:aspect-auto">
-          <Image src="/about/trail.jpg" alt="Training on the road to 70.3" fill sizes="(min-width: 1024px) 320px, 100vw" className="object-cover" />
+          <Image src="/about/gym.jpg" alt="Training on the road to 70.3" fill sizes="(min-width: 1024px) 320px, 100vw" className="object-cover" />
         </div>
 
         <div className="p-8">

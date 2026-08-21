@@ -93,8 +93,8 @@ export const ABOUT_CONTENT: AboutContent = {
             "I learned how to function. That is not the same thing as learning how to live well.",
           ],
           image: {
-            src: "/about/afghan-1.jpg",
-            alt: "Cody reporting for AFN Afghanistan during his 2011 deployment",
+            src: "/about/afghan-2.jpg",
+            alt: "Cody during his 2011 deployment to Afghanistan",
           },
         },
         {
@@ -210,6 +210,51 @@ export const STORY_TIMELINE = [
   { year: "2024", label: "First 100-kilometer ultramarathon" },
   { year: "2026", label: "For The 22 founded" },
   { year: "2027", label: "Tri For The 22 — 70.3-mile triathlon" },
+] as const;
+
+export interface GalleryPhoto {
+  src: string;
+  alt: string;
+  caption: string;
+}
+
+/**
+ * Photo gallery for the About page. Captions here are deliberately
+ * descriptive of what's visible rather than asserting specific dates or
+ * events not already established elsewhere in this file — Cody should
+ * refine these with real context/dates where he has more to say.
+ */
+export const PHOTO_GALLERY: GalleryPhoto[] = [
+  {
+    src: "/about/trail.jpg",
+    alt: "Cody on a trail run, wearing a hydration pack",
+    caption: "On the trail",
+  },
+  {
+    src: "/about/ultra-1.jpg",
+    alt: "Cody running an overnight ultramarathon alongside other racers",
+    caption: "Racing through the night during an ultramarathon",
+  },
+  {
+    src: "/about/navy.jpg",
+    alt: "Cody in Navy uniform aboard a ship",
+    caption: "Aboard ship during active duty in the U.S. Navy",
+  },
+  {
+    src: "/about/navy-green.jpg",
+    alt: "Cody in Navy service uniform",
+    caption: "In uniform during active duty",
+  },
+  {
+    src: "/about/scuba.jpg",
+    alt: "Cody scuba diving",
+    caption: "Scuba diving",
+  },
+  {
+    src: "/about/van.jpg",
+    alt: "Cody geared up inside a vehicle",
+    caption: "Geared up and moving",
+  },
 ] as const;
 
 /**

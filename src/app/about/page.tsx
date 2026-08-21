@@ -10,6 +10,7 @@ import {
   ABOUT_CONTENT,
   INNER_RING_COLORS,
   OUTER_RING_COLORS,
+  PHOTO_GALLERY,
   STORY_TIMELINE,
 } from "@/lib/content/about";
 import { CAMPAIGN_URL } from "@/lib/constants";
@@ -24,6 +25,7 @@ const READING_COLUMN = "max-w-[46rem]";
 
 const SUBNAV = [
   ...ABOUT_CONTENT.groups.map((group) => ({ id: group.id, label: group.navLabel })),
+  { id: "gallery", label: "Gallery" },
   { id: "brand-meaning", label: "Brand Meaning" },
 ];
 
@@ -121,6 +123,33 @@ export default function AboutPage() {
           </Container>
         </section>
       ))}
+
+      <section id="gallery" className="scroll-mt-32 border-b border-ink/10 py-16 sm:py-20">
+        <Container className="max-w-[1400px]">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze">
+            Gallery
+          </p>
+          <h2 className="mt-2 font-display text-2xl font-semibold uppercase tracking-tight text-ink sm:text-3xl">
+            In Photos
+          </h2>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {PHOTO_GALLERY.map((photo) => (
+              <figure key={photo.src} className="group">
+                <div className="relative aspect-[4/5] w-full overflow-hidden rounded-sm bg-charcoal/10">
+                  <Image
+                    src={photo.src}
+                    alt={photo.alt}
+                    fill
+                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <figcaption className="mt-2 text-sm text-charcoal-light">{photo.caption}</figcaption>
+              </figure>
+            ))}
+          </div>
+        </Container>
+      </section>
 
       <section id="brand-meaning" className="scroll-mt-32 bg-sand-light py-16 sm:py-20">
         <Container className={READING_COLUMN}>

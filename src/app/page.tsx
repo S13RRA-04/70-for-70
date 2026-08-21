@@ -60,7 +60,7 @@ export default async function HomePage() {
       <section className="relative overflow-hidden bg-ink text-off-white lg:flex lg:min-h-[88vh] lg:items-end">
         <div
           className="absolute inset-0 bg-cover bg-center opacity-80"
-          style={{ backgroundImage: "url(/hero-placeholder.svg)" }}
+          style={{ backgroundImage: "url(/about/nashville2.jpg)" }}
           aria-hidden="true"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/20" aria-hidden="true" />
@@ -154,7 +154,7 @@ export default async function HomePage() {
             <div className="grid gap-10 lg:grid-cols-12 lg:gap-10">
               <div className="relative aspect-[4/5] overflow-hidden rounded-sm lg:col-span-5 lg:aspect-auto">
                 <Image
-                  src="/about/trail.jpg"
+                  src="/about/gym.jpg"
                   alt="Training on the road to 70.3"
                   fill
                   sizes="(min-width: 1024px) 40vw, 100vw"
@@ -328,7 +328,7 @@ export default async function HomePage() {
           <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
             <RevealOnScroll className="relative aspect-[4/5] w-full overflow-hidden rounded-sm lg:col-span-5">
               <Image
-                src="/about/ultra-1.jpg"
+                src="/about/ultra-2.jpg"
                 alt="Cody racing his first 100-kilometer ultramarathon"
                 fill
                 sizes="(min-width: 1024px) 40vw, 100vw"

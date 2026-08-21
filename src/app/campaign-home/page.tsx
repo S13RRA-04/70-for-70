@@ -79,7 +79,7 @@ export default async function CampaignHomePage() {
       <section className="relative overflow-hidden bg-ink text-off-white">
         <div
           className="absolute inset-0 bg-cover bg-center opacity-80"
-          style={{ backgroundImage: "url(/hero-placeholder.svg)" }}
+          style={{ backgroundImage: "url(/about/nashville.jpg)" }}
           aria-hidden="true"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/20" aria-hidden="true" />
