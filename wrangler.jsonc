@@ -31,10 +31,23 @@
    * redirect URL (see src/app/api/whoop/authorize/route.ts) — and a
    * dashboard-only value for it hit this exact wipe-on-deploy bug once
    * already, silently breaking the live training snapshot.
+   *
+   * NEXT_PUBLIC_SITE_URL/NEXT_PUBLIC_CAMPAIGN_URL hit the identical bug: the
+   * GitHub Actions workflow passes them as build-time shell env vars, but
+   * OpenNext-for-Cloudflare reads NEXT_PUBLIC_* server-side from the Worker's
+   * *runtime* env bindings, not just build-time inlining — so a stale
+   * dashboard-set NEXT_PUBLIC_SITE_URL ("https://www.forthe22.org", a
+   * subdomain with no DNS record) kept silently surviving every deploy,
+   * breaking every server-rendered "back to For The 22" link and
+   * metadataBase-derived URL site-wide despite the workflow's env block
+   * always looking correct. Declared here now so a deploy always sets the
+   * real value, the same fix already applied once for WHOOP_CLIENT_ID.
    */
   "vars": {
     "SITE_LIVE": "true",
     "CAMPAIGN_LIVE": "false",
-    "WHOOP_CLIENT_ID": "fc3a41a2-08c9-4141-b5bb-35773f4c3509"
+    "WHOOP_CLIENT_ID": "fc3a41a2-08c9-4141-b5bb-35773f4c3509",
+    "NEXT_PUBLIC_SITE_URL": "https://forthe22.org",
+    "NEXT_PUBLIC_CAMPAIGN_URL": "https://tri.forthe22.org"
   }
 }
