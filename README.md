@@ -51,6 +51,7 @@ See [`.env.example`](.env.example) for the full list with descriptions:
 | `SUPABASE_SERVICE_ROLE_KEY` | For inquiries + admin | **Server-only.** Never expose to the browser |
 | `NEXT_PUBLIC_SITE_URL` | Recommended | Used for metadata, canonical URLs, sitemap |
 | `WHOOP_CLIENT_ID` / `WHOOP_CLIENT_SECRET` | For the training snapshot | **Server-only.** See [WHOOP Training Snapshot](#whoop-training-snapshot) below |
+| `CLOUDFLARE_WEB_ANALYTICS_SITE_TAG` / `CLOUDFLARE_ACCOUNT_ID` / `CLOUDFLARE_ANALYTICS_API_TOKEN` | For `/admin/analytics` | **Server-only.** No client beacon to configure — Cloudflare auto-installs it zone-wide. See [Analytics](#analytics-cloudflare-web-analytics) below |
 
 ## Deployment (Cloudflare Workers)
 
@@ -106,14 +107,29 @@ from here):**
    this local environment did (`@opennextjs/cloudflare` itself warns it
    isn't fully compatible with Windows — WSL is recommended for local
    `npm run preview`/`deploy` from a Windows machine).
-2. **Environment variables/secrets** (Worker settings → Variables): add
-   `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`,
-   `SUPABASE_SERVICE_ROLE_KEY` (encrypt), `WHOOP_CLIENT_ID`,
-   `WHOOP_CLIENT_SECRET` (encrypt), `NEXT_PUBLIC_SITE_URL` set to
-   `https://forthe22.org`, and `PREVIEW_ACCESS_TOKEN` (encrypt) — see
-   [Pre-Launch Gate](#pre-launch-gate) below. Deliberately **do not** set
-   `SITE_LIVE` yet; leaving it unset keeps the gate active until you're
-   ready to launch.
+2. **Server-only secrets**: set as **repo secrets**
+   (Settings → Secrets and variables → Actions), not in the Cloudflare
+   dashboard. The [deploy workflow](.github/workflows/deploy.yml)'s
+   "Sync Worker secrets" step pushes them to the Worker via
+   `wrangler secret bulk` on every push to `master`, so they're never
+   dashboard-only and can't be silently wiped or drift out of sync — see
+   the comment above that step and the one above `vars` in
+   [`wrangler.jsonc`](wrangler.jsonc) for the incident that motivated this.
+   Add: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` (two
+   repo secrets already used at build time — reused here for the runtime
+   binding too), `SUPABASE_SERVICE_ROLE_KEY`, `WHOOP_CLIENT_SECRET`,
+   `PREVIEW_ACCESS_TOKEN`, `CLOUDFLARE_WEB_ANALYTICS_SITE_TAG`,
+   `CLOUDFLARE_ACCOUNT_ID` (already a repo secret), and
+   `CLOUDFLARE_ANALYTICS_API_TOKEN` — see [Pre-Launch Gate](#pre-launch-gate)
+   and [Analytics](#analytics-cloudflare-web-analytics) below. To add or
+   rotate one: `gh secret set SECRET_NAME` (reads the value from stdin/a
+   prompt), then re-run the deploy workflow (or push) to sync it to the
+   Worker. `WHOOP_CLIENT_ID` and `NEXT_PUBLIC_SITE_URL` are **not** secrets —
+   `SITE_LIVE`/`CAMPAIGN_LIVE` (see [Pre-Launch Gate](#pre-launch-gate)) are
+   already committed in `wrangler.jsonc`'s `vars` block too, so flipping one
+   is a one-line edit + deploy, not a dashboard step.
+   - There's no client-side beacon snippet or token to add anywhere — see
+     Analytics below for why.
 3. **Custom domain**: Worker → Settings → Domains & Routes → Add Custom
    Domain → `forthe22.org` (the zone is already on Cloudflare, so this
    provisions DNS automatically).
@@ -499,6 +515,67 @@ If `WHOOP_CLIENT_ID`/`WHOOP_CLIENT_SECRET` aren't set, or nothing is
 connected yet, the Race page shows a "Live training data is coming soon"
 placeholder instead of erroring.
 
+## Analytics (Cloudflare Web Analytics)
+
+Traffic across every public page (both `forthe22.org` and `tri.forthe22.org`)
+is measured with [Cloudflare Web Analytics](https://www.cloudflare.com/web-analytics/) —
+cookieless, no persistent visitor identifier, no cross-site tracking. It
+reports pageviews, unique visits, referrers, landing pages, and geography.
+There is **no public visitor counter** anywhere on the site; the only place
+these numbers are shown is the admin-only `/admin/analytics` dashboard (see
+[Environment Variables](#environment-variables) for what it needs).
+
+**There is no client-side snippet to add.** Cloudflare's own automatic,
+zone-level install already injects the beacon for every hostname on the
+`forthe22.org` zone — `forthe22.org` and `tri.forthe22.org` alike — as one
+Web Analytics "site." A second, manually-added beacon per domain would just
+double-count every pageview, so this repo doesn't add one; `/admin/analytics`
+instead reads that one site's data back out and splits it by hostname.
+
+**Setup** (all server-only — for the `/admin/analytics` dashboard's live
+numbers; traffic is measured either way, this only affects whether it shows
+up here):
+
+1. Find the site's tag: Cloudflare dashboard → Analytics & Logs → Web
+   Analytics → the `forthe22.org` site (or `GET
+   /accounts/{account_id}/rum/site_info/list`). Set
+   `CLOUDFLARE_WEB_ANALYTICS_SITE_TAG` to its `site_tag`.
+2. Turn on **"Include query string"** in that site's Web Analytics
+   settings — this is what lets `/admin/analytics` recover `utm_*`
+   parameters from tracked paths for the Campaign Traffic table. Without
+   it, UTM-tagged links still work and still count as pageviews, they just
+   can't be broken out by campaign.
+3. Set `CLOUDFLARE_ACCOUNT_ID` (visible in the dashboard URL/sidebar) and
+   `CLOUDFLARE_ANALYTICS_API_TOKEN` — an API token scoped to **Account →
+   Account Analytics → Read**. `CLOUDFLARE_WORKERS_API_TOKEN` (used for
+   deploys) already happens to carry this scope in this project, so it's
+   fine to reuse its value; a separate, narrowly-scoped token is better
+   hygiene but not required.
+
+**How it works**: `/admin/analytics` (`src/app/admin/analytics/page.tsx`)
+reads Web Analytics data via Cloudflare's GraphQL Analytics API
+(`src/lib/analytics/cloudflare.ts`), requesting `requestHost` alongside
+every other dimension and splitting the one site's rows into "org"
+(`forthe22.org`) vs. "campaign" (`tri.forthe22.org`) using the same
+hostname rule as the rest of the app (`isCampaignHost()` in
+`src/lib/site-mode.ts`) — not two separate Cloudflare sites. It also parses
+`utm_source`/`utm_medium`/`utm_campaign` off tracked paths in application
+code, since the GraphQL Analytics API has no native UTM dimension. The
+dashboard documents the UTM conventions to use for partner links, QR
+codes, sponsorship outreach, and social/fundraising links.
+
+**Custom conversion events** (the `data-analytics-event` markers already on
+share buttons, donate/fund-a-mile CTAs, form submissions, etc. — see
+`git grep data-analytics-event`) are a separate concern from page-level
+traffic and are **not** wired up by this integration: Cloudflare Web
+Analytics' beacon only reports pageloads, not arbitrary custom events. That
+remains open — see Remaining TODOs.
+
+If neither beacon token is set, the site renders with no analytics script
+at all (nothing to disclose, nothing to gate on consent). If a beacon token
+is set but the GraphQL API credentials aren't, the site is still tracked —
+only the `/admin/analytics` live view is unavailable, and the page says so.
+
 ## Eliminating Placeholder Content
 
 No production-facing page shows literal `TODO` text, a fake sample sponsor,
@@ -758,8 +835,11 @@ neither beneficiary needs that fallback anymore.
 - **Campaign allocation**: `campaign.allocation_policy` is `null` — no
   policy (even split / donor choice / campaign-defined / separate totals)
   has been decided yet; `CampaignAllocation` stays hidden until it is
-- **Analytics**: `data-analytics-event` markers exist but no provider is
-  wired up yet (see brief's privacy-respecting analytics requirement)
+- **Analytics**: page-level traffic (pageviews, unique visits, referrers,
+  landing pages, geography, UTM campaigns) is wired via Cloudflare Web
+  Analytics — see [Analytics](#analytics-cloudflare-web-analytics). The
+  `data-analytics-event` markers are a separate, still-open concern: Web
+  Analytics' beacon only reports pageloads, not custom events
 - **Full admin CRUD**: `/admin` is read-only by design for this milestone,
   except the sponsorship review queue; see Recommended Next Milestone below
 - **Sponsorship notifications**: acknowledgment/administrator emails are
@@ -822,8 +902,10 @@ neither beneficiary needs that fallback anymore.
 4. Build authenticated CRUD for donations, miles (beyond the sponsorship
    workflow's reserve step), posts, and partner URLs in `/admin`, with
    role-scoped RLS policies for authenticated writes
-5. Wire a privacy-respecting analytics provider to the existing
-   `data-analytics-event` markers
+5. Wire a real analytics/tag-management provider (e.g. Cloudflare Zaraz) to
+   the existing `data-analytics-event` conversion markers — Cloudflare Web
+   Analytics itself (see [Analytics](#analytics-cloudflare-web-analytics))
+   only covers page-level traffic, not custom events
 6. Add real sponsor/partner logos and configure `images.remotePatterns`
 7. Consider a payments/donation-processing integration if the campaign
    decides to accept donations directly instead of routing to partner
@@ -852,11 +934,13 @@ order:
   an Isaiah 61:3 pull quote (see `src/app/about/page.tsx`). Alternating
   image/text sections and a visual timeline are still worth doing once real
   photography exists.
-- **21 — Conversion tracking, remainder**: most event markers exist now
-  (see What's Implemented); still need a real privacy-respecting analytics
-  provider wired to them, a `returning_visitor` signal (needs an actual
-  client-side identifier — not just a data attribute, so deliberately not
-  faked), and eventually an admin conversion dashboard.
+- **21 — Conversion tracking, remainder**: page-level traffic is done (see
+  [Analytics](#analytics-cloudflare-web-analytics)). Most event markers
+  exist now (see What's Implemented); still need a real provider wired to
+  them specifically (Cloudflare Web Analytics doesn't cover custom events),
+  a `returning_visitor` signal (needs an actual client-side identifier —
+  not just a data attribute, so deliberately not faked), and eventually an
+  admin conversion dashboard alongside the traffic one at `/admin/analytics`.
 - **23 — Empty states, refinement**: the homepage's $0 state ("The
   Starting Line" / "Claim the First Mile") is done (see `hasStarted` in
   `src/app/page.tsx`). Worth refining further once the first mile is

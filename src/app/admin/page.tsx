@@ -112,6 +112,23 @@ export default async function AdminPage() {
         </Link>
       </div>
 
+      <div className="mt-6 flex items-center justify-between rounded-sm border border-ink/10 bg-off-white p-6">
+        <div>
+          <p className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+            Analytics
+          </p>
+          <p className="mt-1 text-sm text-charcoal-light">
+            Traffic, referrers, landing pages, and UTM campaign performance.
+          </p>
+        </div>
+        <Link
+          href="/admin/analytics"
+          className="rounded-sm border border-ink/20 px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
+        >
+          View
+        </Link>
+      </div>
+
       <div className="mt-10 rounded-sm border border-ink/10 bg-sand-light p-6 text-sm text-charcoal-light">
         <p className="font-semibold text-ink">This is mostly a read-only overview.</p>
         <p className="mt-2">

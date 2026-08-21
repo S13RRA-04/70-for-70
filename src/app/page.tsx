@@ -153,8 +153,8 @@ export default async function HomePage() {
             <div className="grid gap-10 lg:grid-cols-12 lg:gap-10">
               <div className="relative aspect-[4/5] overflow-hidden rounded-sm lg:col-span-5 lg:aspect-auto">
                 <Image
-                  src="/about/gym.jpg"
-                  alt="Training on the road to 70.3"
+                  src="/about/ultra-2.jpg"
+                  alt="Running the 100k ultra on the road to 70.3"
                   fill
                   sizes="(min-width: 1024px) 40vw, 100vw"
                   className="object-cover"

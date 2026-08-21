@@ -42,6 +42,14 @@
    * metadataBase-derived URL site-wide despite the workflow's env block
    * always looking correct. Declared here now so a deploy always sets the
    * real value, the same fix already applied once for WHOOP_CLIENT_ID.
+   *
+   * Values that are actually sensitive (SUPABASE_SERVICE_ROLE_KEY,
+   * WHOOP_CLIENT_SECRET, PREVIEW_ACCESS_TOKEN, the analytics API token,
+   * etc.) do NOT belong here — they're pushed as Worker *secret* bindings
+   * by the "Sync Worker secrets" step in
+   * .github/workflows/deploy.yml on every deploy, sourced from GitHub
+   * Actions repo secrets, so they get the same "never dashboard-only"
+   * guarantee without committing the values to git.
    */
   "vars": {
     "SITE_LIVE": "true",

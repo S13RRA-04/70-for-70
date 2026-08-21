@@ -13,7 +13,7 @@ export interface PrivacySection {
 }
 
 // Noon UTC avoids the date shifting a day in timezones behind/ahead of UTC.
-export const PRIVACY_LAST_UPDATED = "2026-08-18T12:00:00Z";
+export const PRIVACY_LAST_UPDATED = "2026-08-21T12:00:00Z";
 
 export const PRIVACY_SECTIONS: PrivacySection[] = [
   {
@@ -32,7 +32,7 @@ export const PRIVACY_SECTIONS: PrivacySection[] = [
       "Sponsorship request form (/sponsors/request): contact name, organization name, email, phone, website, industry, proposed sponsorship level, proposed cash/in-kind value, type of support, a description of the proposed support, desired recognition, an optional requested mile number, how you heard about the campaign, and an optional message. See our Sponsorship Vetting Workflow for how this is reviewed.",
       "Administrator accounts: campaign administrators sign in with an email and password to manage the review queue. This is not available to, or used by, site visitors.",
       "Server logs: like most websites, our hosting infrastructure processes IP addresses transiently to serve requests and to rate-limit form submissions against spam and abuse. We do not maintain a database table of visitor IP addresses.",
-      "We do not use advertising or analytics tracking cookies at this time. The only cookies set are a short-lived one used during the WHOOP account-connection flow (admin-only) and a session cookie for administrator sign-in.",
+      "Aggregate traffic analytics: we use Cloudflare Web Analytics to understand overall site traffic — approximate page views, unique visits, referring sites, and general geography (country-level) and device type. It is cookieless and does not use any persistent identifier to track you individually or across other websites; we cannot identify who visited from this data. We do not use advertising cookies. The only cookies this site sets are a short-lived one used during the WHOOP account-connection flow (admin-only) and a session cookie for administrator sign-in.",
     ],
   },
   {
@@ -60,7 +60,8 @@ export const PRIVACY_SECTIONS: PrivacySection[] = [
       "Supabase: our database, authentication, and hosting infrastructure provider. Form submissions and administrator accounts are stored in Supabase.",
       "WHOOP: provides the athlete's training data displayed on the Race page, as described above.",
       "Jakroo: our third-party merchandise/team-store provider. If you buy Tri For The 22 merchandise, your order, sizing, shipping, and payment-card information are collected and processed by Jakroo on its own platform, not this site. We do not collect or store your payment-card information, and we may receive only limited order or transaction information from Jakroo. Jakroo's own privacy policy and terms apply to that purchase.",
-      "We do not currently use an email delivery provider or analytics provider. If we add one, we'll update this policy first.",
+      "Cloudflare: in addition to hosting this site, Cloudflare provides the aggregate, cookieless traffic analytics described above (Cloudflare Web Analytics).",
+      "We do not currently use an email delivery provider. If we add one, we'll update this policy first.",
       "Donate buttons route to each beneficiary nonprofit organization's own, separately operated donation platform — see the disclaimer on our Donate and Partners pages. We don't receive or process your payment information for those donations.",
     ],
   },
