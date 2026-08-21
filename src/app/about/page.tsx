@@ -41,6 +41,7 @@ export default function AboutPage() {
                 alt={ABOUT_CONTENT.name}
                 fill
                 sizes="200px"
+                priority
                 className="object-cover"
               />
             ) : (

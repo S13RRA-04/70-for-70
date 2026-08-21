@@ -53,8 +53,9 @@ export default async function UpdatePostPage(props: PageProps<"/updates/[slug]">
           {post.image_url ? (
             <Image
               src={post.image_url}
-              alt=""
+              alt={post.title}
               fill
+              priority
               sizes="(min-width: 768px) 768px, 100vw"
               className="object-cover"
             />

@@ -14,7 +14,7 @@ export function UpdateCard({ post }: { post: PostRow }) {
         {post.image_url ? (
           <Image
             src={post.image_url}
-            alt=""
+            alt={post.title}
             fill
             className="object-cover"
             sizes="(min-width: 1024px) 33vw, 100vw"
