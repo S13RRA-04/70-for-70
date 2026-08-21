@@ -63,6 +63,11 @@ export const SEED_PARTNERS: PartnerRow[] = [
     ein: null,
     nonprofit_status_verified: false,
     active: true,
+    agreement_status: null,
+    logo_permission: false,
+    relationship_start: null,
+    relationship_end: null,
+    associated_campaigns: null,
   },
   {
     id: "seed-partner-project-echelon",
@@ -76,6 +81,11 @@ export const SEED_PARTNERS: PartnerRow[] = [
     ein: null,
     nonprofit_status_verified: false,
     active: true,
+    agreement_status: null,
+    logo_permission: false,
+    relationship_start: null,
+    relationship_end: null,
+    associated_campaigns: null,
   },
   {
     id: "seed-partner-vau",
@@ -89,6 +99,11 @@ export const SEED_PARTNERS: PartnerRow[] = [
     ein: null,
     nonprofit_status_verified: false,
     active: true,
+    agreement_status: null,
+    logo_permission: false,
+    relationship_start: null,
+    relationship_end: null,
+    associated_campaigns: null,
   },
 ];
 

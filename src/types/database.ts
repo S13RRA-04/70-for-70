@@ -128,6 +128,18 @@ export interface SponsorRow {
   active: boolean;
   display_order: number;
   sponsorship_request_id: string | null;
+  /**
+   * Internal relationship record-keeping — never rendered on the public
+   * site. Free text, not a union, since real-world status ("verbal", "MOU
+   * signed", "expired") varies too informally for a fixed set of values.
+   * Filled in by hand via the Supabase table editor as relationships are
+   * confirmed — never fabricate a value here.
+   */
+  agreement_status: string | null;
+  logo_permission: boolean;
+  relationship_start: string | null;
+  relationship_end: string | null;
+  associated_campaigns: string[] | null;
 }
 
 export interface PostRow {
@@ -158,6 +170,12 @@ export interface PartnerRow {
   ein: string | null;
   nonprofit_status_verified: boolean;
   active: boolean;
+  /** Internal relationship record-keeping — see the matching fields on SponsorRow for the rationale. */
+  agreement_status: string | null;
+  logo_permission: boolean;
+  relationship_start: string | null;
+  relationship_end: string | null;
+  associated_campaigns: string[] | null;
 }
 
 /**
@@ -192,6 +210,12 @@ export interface MissionPartnerRow {
   geographic_scope: string | null;
   active: boolean;
   display_order: number;
+  /** Internal relationship record-keeping — see the matching fields on SponsorRow for the rationale. */
+  agreement_status: string | null;
+  logo_permission: boolean;
+  relationship_start: string | null;
+  relationship_end: string | null;
+  associated_campaigns: string[] | null;
 }
 
 export interface EmailSubscriberRow {

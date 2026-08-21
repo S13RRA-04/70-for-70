@@ -194,11 +194,29 @@ create table if not exists public.sponsors (
   -- Traceability back to the approved request that authorized this sponsor.
   -- Nullable because early/manually-entered sponsors may predate the
   -- sponsorship request workflow.
-  sponsorship_request_id uuid references public.sponsorship_requests (id) on delete set null
+  sponsorship_request_id uuid references public.sponsorship_requests (id) on delete set null,
+  -- Internal relationship record-keeping — never rendered on the public
+  -- site. Free text, not an enum, since real-world agreement status
+  -- ("verbal", "MOU signed", "expired") varies too informally for a fixed
+  -- set of values. Filled in by hand via the Supabase table editor as
+  -- relationships are confirmed, not by application code.
+  agreement_status text,
+  logo_permission boolean not null default false,
+  relationship_start date,
+  relationship_end date,
+  associated_campaigns text[]
 );
 
 create index if not exists sponsors_active_idx on public.sponsors (active);
 create index if not exists sponsors_tier_display_order_idx on public.sponsors (tier, display_order);
+
+-- Re-run-safe for databases where public.sponsors already existed before
+-- these columns were added to the create table statement above.
+alter table public.sponsors add column if not exists agreement_status text;
+alter table public.sponsors add column if not exists logo_permission boolean not null default false;
+alter table public.sponsors add column if not exists relationship_start date;
+alter table public.sponsors add column if not exists relationship_end date;
+alter table public.sponsors add column if not exists associated_campaigns text[];
 create index if not exists sponsors_sponsorship_request_id_idx on public.sponsors (sponsorship_request_id);
 
 -- ---------------------------------------------------------------------------
@@ -267,10 +285,26 @@ create table if not exists public.partners (
   -- hidden on the frontend while null/false. Never fabricate these.
   ein text,
   nonprofit_status_verified boolean not null default false,
-  active boolean not null default true
+  active boolean not null default true,
+  -- Internal relationship record-keeping — never rendered on the public
+  -- site. See the matching columns on public.sponsors for the rationale
+  -- (free text, not an enum; filled in by hand as relationships firm up).
+  agreement_status text,
+  logo_permission boolean not null default false,
+  relationship_start date,
+  relationship_end date,
+  associated_campaigns text[]
 );
 
 create index if not exists partners_active_idx on public.partners (active);
+
+-- Re-run-safe for databases where public.partners already existed before
+-- these columns were added to the create table statement above.
+alter table public.partners add column if not exists agreement_status text;
+alter table public.partners add column if not exists logo_permission boolean not null default false;
+alter table public.partners add column if not exists relationship_start date;
+alter table public.partners add column if not exists relationship_end date;
+alter table public.partners add column if not exists associated_campaigns text[];
 
 -- ---------------------------------------------------------------------------
 -- mission_partners
@@ -292,10 +326,26 @@ create table if not exists public.mission_partners (
   support_type text,
   geographic_scope text,
   active boolean not null default true,
-  display_order integer not null default 0
+  display_order integer not null default 0,
+  -- Internal relationship record-keeping — never rendered on the public
+  -- site. See the matching columns on public.sponsors for the rationale
+  -- (free text, not an enum; filled in by hand as relationships firm up).
+  agreement_status text,
+  logo_permission boolean not null default false,
+  relationship_start date,
+  relationship_end date,
+  associated_campaigns text[]
 );
 
 create index if not exists mission_partners_active_idx on public.mission_partners (active);
+
+-- Re-run-safe for databases where public.mission_partners already existed
+-- before these columns were added to the create table statement above.
+alter table public.mission_partners add column if not exists agreement_status text;
+alter table public.mission_partners add column if not exists logo_permission boolean not null default false;
+alter table public.mission_partners add column if not exists relationship_start date;
+alter table public.mission_partners add column if not exists relationship_end date;
+alter table public.mission_partners add column if not exists associated_campaigns text[];
 
 -- ---------------------------------------------------------------------------
 -- inquiries
