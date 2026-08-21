@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
-import { CAMPAIGN_NAME, SITE_TAGLINE } from "@/lib/constants";
+import { CAMPAIGN_NAME, ORG_TAGLINE, SITE_NAME, SITE_TAGLINE } from "@/lib/constants";
 import { OG_LOGO_DATA_URI } from "@/lib/assets/og-logo";
+import { getSiteMode } from "@/lib/site-mode";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -10,8 +11,20 @@ export const contentType = "image/png";
  * `node:fs` or `fetch` at request time — both are unreliable for bundled
  * `public/` files on Cloudflare Workers (no real on-disk fs, and fetching
  * the app's own origin doesn't work during static build-time generation).
+ *
+ * There's one shared opengraph-image route for the whole app (no
+ * campaign-specific override exists), so it has to brand itself per
+ * request via getSiteMode() — otherwise every forthe22.org link's share
+ * card would show Tri For The 22's campaign branding, which is exactly
+ * the bug this file used to have (hardcoded CAMPAIGN_NAME/SITE_TAGLINE
+ * regardless of which domain the link pointed at).
  */
-export default function OpengraphImage() {
+export default async function OpengraphImage() {
+  const mode = await getSiteMode();
+  const isCampaign = mode === "campaign";
+  const title = isCampaign ? CAMPAIGN_NAME : SITE_NAME;
+  const tagline = isCampaign ? SITE_TAGLINE : ORG_TAGLINE;
+
   return new ImageResponse(
     (
       <div
@@ -40,7 +53,7 @@ export default function OpengraphImage() {
               display: "flex",
             }}
           >
-            {CAMPAIGN_NAME}
+            {title}
           </div>
           <div
             style={{
@@ -50,7 +63,7 @@ export default function OpengraphImage() {
               display: "flex",
             }}
           >
-            {SITE_TAGLINE}
+            {tagline}
           </div>
         </div>
       </div>
