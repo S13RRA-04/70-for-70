@@ -98,7 +98,7 @@ export function JoinInterestForm() {
             name="name"
             type="text"
             required
-            className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze"
+            className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
           />
         </div>
 
@@ -111,7 +111,7 @@ export function JoinInterestForm() {
             name="email"
             type="email"
             required
-            className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze"
+            className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
           />
         </div>
       </div>
@@ -125,7 +125,7 @@ export function JoinInterestForm() {
           name="interest"
           required
           defaultValue=""
-          className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze"
+          className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
         >
           <option value="" disabled>
             Select an option
@@ -147,7 +147,7 @@ export function JoinInterestForm() {
           name="message"
           required
           rows={4}
-          className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze"
+          className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
         />
         <p className="mt-1.5 text-xs text-charcoal-light">
           Please don&apos;t include medical records, Social Security numbers, detailed diagnoses,

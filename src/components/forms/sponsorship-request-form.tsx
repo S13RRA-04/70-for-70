@@ -141,7 +141,7 @@ export function SponsorshipRequestForm({ defaultMileNumber }: { defaultMileNumbe
             id="proposedTier"
             name="proposedTier"
             defaultValue=""
-            className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze"
+            className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
           >
             <option value="">Select a level</option>
             {PROPOSED_TIERS.map((tier) => (
@@ -188,7 +188,7 @@ export function SponsorshipRequestForm({ defaultMileNumber }: { defaultMileNumbe
             name="description"
             required
             rows={4}
-            className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze"
+            className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
           />
         </div>
 
@@ -211,7 +211,7 @@ export function SponsorshipRequestForm({ defaultMileNumber }: { defaultMileNumbe
             id="requestedBenefits"
             name="requestedBenefits"
             rows={3}
-            className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze"
+            className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
           />
         </div>
       </fieldset>
@@ -229,7 +229,7 @@ export function SponsorshipRequestForm({ defaultMileNumber }: { defaultMileNumbe
             id="message"
             name="message"
             rows={4}
-            className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze"
+            className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
           />
         </div>
       </fieldset>
@@ -307,7 +307,7 @@ function Field({
         max={max}
         defaultValue={defaultValue}
         data-analytics-event={analyticsEvent}
-        className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze"
+        className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
       />
       {hint && <p className="mt-1 text-xs text-charcoal-light">{hint}</p>}
     </div>

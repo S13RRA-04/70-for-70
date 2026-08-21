@@ -33,7 +33,7 @@ export function SearchField({ value, onChange, label, placeholder, className, id
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full rounded-sm border border-ink/15 bg-off-white py-3 pl-11 pr-4 text-base text-ink placeholder:text-charcoal-light/80 focus:border-bronze focus:outline-none"
+        className="w-full rounded-sm border border-ink/15 bg-off-white py-3 pl-11 pr-4 text-base text-ink placeholder:text-charcoal-light/80 focus:border-bronze focus:outline-none focus:ring-2 focus:ring-bronze/40"
       />
     </div>
   );

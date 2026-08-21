@@ -80,7 +80,7 @@ export function EmailSignupForm() {
         type="text"
         placeholder="First name"
         required
-        className="w-36 rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze"
+        className="w-36 rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
       />
 
       <label className="sr-only" htmlFor="signup-email">
@@ -92,7 +92,7 @@ export function EmailSignupForm() {
         type="email"
         placeholder="Email address"
         required
-        className="w-52 rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze"
+        className="w-52 rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
       />
 
       <button
