@@ -118,72 +118,76 @@ export function ResourceDirectory() {
   }, [needId, audience, stateFilter, search]);
 
   return (
-    <div className="grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-6">
-      <div className="lg:sticky lg:top-24 lg:col-span-4 lg:space-y-5 xl:col-span-3">
-        <SearchField
-          id="resource-search"
-          value={search}
-          onChange={setSearch}
-          label="Search resources"
-          placeholder="Search organizations, services, or needs…"
-          className="scroll-mt-20"
-        />
-
-        <div className="space-y-5 rounded-sm border border-ink/10 bg-sand-light p-5">
-          <FilterRow
-            label="What Do You Need?"
-            options={NEED_CATEGORIES.map((c) => c.label)}
-            active={needId ? (NEED_CATEGORIES.find((c) => c.id === needId)?.label ?? null) : null}
-            onSelect={(label) => setNeedId(label ? (NEED_CATEGORIES.find((c) => c.label === label)?.id ?? null) : null)}
-          />
-          <FilterRow label="Who Are You?" options={PRIMARY_AUDIENCE_TAGS} active={audience} onSelect={setAudience} />
-        </div>
-
-        <div className="rounded-sm border border-ink/10 bg-sand-light p-5">
-          <div className="flex flex-wrap items-baseline justify-between gap-2">
-            <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-              Where Are You?
-            </p>
-            {stateFilter && (
-              <button
-                type="button"
-                onClick={() => setStateFilter(null)}
-                className="text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
-              >
-                {stateFilter} &middot; Clear
-              </button>
-            )}
-          </div>
-          <p className="mt-1 text-xs text-charcoal-light/80">
-            Bronze states have region-specific resources; every state still shows nationwide
-            programs.
+    <div>
+      {/* Full-width on its own — a real US choropleth needs real room; small
+          Northeast states are unusable squeezed into a sidebar column. */}
+      <div className="rounded-sm border border-ink/10 bg-sand-light p-5 sm:p-6">
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+            Where Are You?
           </p>
-          <div className="mx-auto mt-4 max-w-xl">
-            <StateMap activeStates={activeStates} selected={stateFilter} onSelect={setStateFilter} />
-          </div>
+          {stateFilter && (
+            <button
+              type="button"
+              onClick={() => setStateFilter(null)}
+              className="text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+            >
+              {stateFilter} &middot; Clear
+            </button>
+          )}
+        </div>
+        <p className="mt-1 text-xs text-charcoal-light/80">
+          Bronze states have region-specific resources; every state still shows nationwide
+          programs.
+        </p>
+        <div className="mx-auto mt-4 max-w-3xl">
+          <StateMap activeStates={activeStates} selected={stateFilter} onSelect={setStateFilter} />
         </div>
       </div>
 
-      <div className="lg:col-span-8 xl:col-span-9">
-        <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-          {results.length} {results.length === 1 ? "resource" : "resources"}
-          {stateFilter && ` in ${stateFilter} + nationwide`}
-        </p>
+      <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-6">
+        <div className="lg:sticky lg:top-24 lg:col-span-4 lg:max-h-[calc(100vh-7rem)] lg:space-y-5 lg:overflow-y-auto lg:pr-1 xl:col-span-3">
+          <SearchField
+            id="resource-search"
+            value={search}
+            onChange={setSearch}
+            label="Search resources"
+            placeholder="Search organizations, services, or needs…"
+            className="scroll-mt-20"
+          />
 
-        {results.length === 0 ? (
-          <div className="mt-4">
-            <EmptyState
-              title="No resources match that combination yet."
-              description="Try a different search term or clearing one of the filters."
+          <div className="space-y-5 rounded-sm border border-ink/10 bg-sand-light p-5">
+            <FilterRow
+              label="What Do You Need?"
+              options={NEED_CATEGORIES.map((c) => c.label)}
+              active={needId ? (NEED_CATEGORIES.find((c) => c.id === needId)?.label ?? null) : null}
+              onSelect={(label) => setNeedId(label ? (NEED_CATEGORIES.find((c) => c.label === label)?.id ?? null) : null)}
             />
+            <FilterRow label="Who Are You?" options={PRIMARY_AUDIENCE_TAGS} active={audience} onSelect={setAudience} />
           </div>
-        ) : (
-          <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-            {results.map((resource) => (
-              <ResourceCard key={resource.name} resource={resource} />
-            ))}
-          </div>
-        )}
+        </div>
+
+        <div className="lg:col-span-8 xl:col-span-9">
+          <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+            {results.length} {results.length === 1 ? "resource" : "resources"}
+            {stateFilter && ` in ${stateFilter} + nationwide`}
+          </p>
+
+          {results.length === 0 ? (
+            <div className="mt-4">
+              <EmptyState
+                title="No resources match that combination yet."
+                description="Try a different search term or clearing one of the filters."
+              />
+            </div>
+          ) : (
+            <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+              {results.map((resource) => (
+                <ResourceCard key={resource.name} resource={resource} />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
