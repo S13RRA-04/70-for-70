@@ -54,6 +54,19 @@ export interface Resource {
   hours?: string;
   /** ISO date this entry (URL, cost, eligibility, and crisis contact info if applicable) was last checked against the org's own site. */
   verifiedDate?: string;
+  /**
+   * Who specifically qualifies, when that's more specific than audienceTags
+   * captures (e.g. "Post-9/11 combat-wounded veterans only", "Sworn
+   * law enforcement, active or retired"). Only set when the org's own site
+   * states it — leave unset rather than infer/guess eligibility criteria.
+   */
+  eligibility?: string;
+  /**
+   * When/how the program runs (e.g. "Year-round, rolling admission",
+   * "Seasonal — spring and fall cohorts", "By application, reviewed
+   * quarterly"). Only set when the org's own site states it.
+   */
+  availability?: string;
 }
 
 export const RESOURCES: Resource[] = [
@@ -335,6 +348,7 @@ export const RESOURCES: Resource[] = [
     crisisAudience: "general",
     phone: "988",
     text: "988",
+    availability: "24/7 — call or text",
   },
   {
     name: "Veterans Crisis Line",
@@ -348,6 +362,7 @@ export const RESOURCES: Resource[] = [
     crisisResource: true,
     crisisAudience: "veterans",
     phone: "988",
+    availability: "24/7 — call, chat, or text",
   },
   {
     name: "CopLine",
@@ -360,6 +375,8 @@ export const RESOURCES: Resource[] = [
     geographicScope: "Nationwide",
     crisisResource: true,
     crisisAudience: "first-responders",
+    eligibility: "Active and retired law enforcement and their families only",
+    availability: "24/7",
   },
   {
     name: "Responder Health (Safe Call Now)",
@@ -372,6 +389,7 @@ export const RESOURCES: Resource[] = [
     geographicScope: "Nationwide",
     crisisResource: true,
     crisisAudience: "first-responders",
+    availability: "24/7",
   },
   {
     name: "Boulder Crest Foundation — Warrior PATHH",
@@ -990,6 +1008,7 @@ export const RESOURCES: Resource[] = [
     geographicScope: "Georgia",
     state: "Georgia",
     verifiedDate: "2026-08-20",
+    eligibility: "Requires a qualifying service-connected diagnosis",
   },
   {
     name: "NAMI Georgia – Frontline Professionals",
@@ -1255,6 +1274,7 @@ export const RESOURCES: Resource[] = [
     geographicScope: "North Carolina",
     state: "North Carolina",
     verifiedDate: "2026-08-20",
+    availability: "24/7 peer-support access",
   },
   {
     name: "NCLEAP",

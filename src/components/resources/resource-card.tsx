@@ -51,6 +51,21 @@ export function ResourceCard({ resource }: { resource: Resource }) {
         ))}
       </div>
 
+      {(resource.eligibility || resource.availability) && (
+        <div className="mt-3 space-y-0.5 text-xs text-charcoal-light">
+          {resource.eligibility && (
+            <p>
+              <span className="font-semibold text-ink">Eligibility:</span> {resource.eligibility}
+            </p>
+          )}
+          {resource.availability && (
+            <p>
+              <span className="font-semibold text-ink">Availability:</span> {resource.availability}
+            </p>
+          )}
+        </div>
+      )}
+
       <div className="mt-4 flex items-center justify-between gap-3 border-t border-ink/10 pt-3">
         <div className="text-xs text-charcoal-light">
           <span className="font-semibold text-ink">{resource.cost}</span>
