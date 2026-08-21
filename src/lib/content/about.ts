@@ -23,7 +23,14 @@ export interface AboutSubsection {
   heading: string;
   body: string[];
   pullQuote?: { text: string; attribution: string };
-  image?: { src: string; alt: string };
+  /**
+   * `focus` is a Tailwind object-position class, only needed when the
+   * photo's aspect ratio doesn't match the display container's (this
+   * section renders every image at aspect-[16/10]) — default center
+   * cropping can otherwise cut through a subject's face on a portrait-
+   * oriented source photo. Omit for images where center framing is fine.
+   */
+  image?: { src: string; alt: string; focus?: string };
 }
 
 export interface AboutGroup {
@@ -89,6 +96,11 @@ export const ABOUT_CONTENT: AboutContent = {
           image: {
             src: "/about/afghan-2.jpg",
             alt: "Cody during his 2011 deployment to Afghanistan",
+            // Source photo is a tall 3:4 portrait cropped into a wide 16:10
+            // box — default center cropping pushes the visible window
+            // below the top of his head. object-top lands the crop almost
+            // exactly on his face instead of his chest/uniform.
+            focus: "object-top",
           },
         },
         {

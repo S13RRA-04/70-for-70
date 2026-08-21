@@ -14,6 +14,7 @@ import {
 } from "@/lib/content/about";
 import { CAMPAIGN_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
+import { cn } from "@/lib/utils";
 
 export const metadata = pageMetadata({
   title: "About",
@@ -89,7 +90,7 @@ export default function AboutPage() {
                         alt={section.image.alt}
                         fill
                         sizes="(min-width: 768px) 46rem, 100vw"
-                        className="object-cover"
+                        className={cn("object-cover", section.image.focus)}
                       />
                     </div>
                   )}
