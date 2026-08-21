@@ -9,7 +9,7 @@ import { ScrollProgressRail } from "@/components/shared/scroll-progress-rail";
 import { RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import { MissionPanel } from "@/components/home/mission-panel";
 import { ResourceFinderPreview } from "@/components/home/resource-finder-preview";
-import { findAboutSubsection } from "@/lib/content/about";
+import { ABOUT_CONTENT, findAboutSubsection } from "@/lib/content/about";
 import { THREE_MISSIONS } from "@/lib/content/three-missions";
 import { OUTER_RING_COLORS } from "@/lib/ring-colors";
 import { getPartners } from "@/lib/data/partners";
@@ -37,11 +37,12 @@ const BENEFICIARY_LOGOS = [
 ] as const;
 
 const RAIL_SECTIONS = [
-  { id: "missions", label: "Mission" },
   { id: "resources", label: "Resources" },
+  { id: "missions", label: "Mission" },
   { id: "current-mission", label: "Team" },
   { id: "partners", label: "Partners" },
   { id: "why-22", label: "Meaning" },
+  { id: "story", label: "Story" },
   { id: "join", label: "Join" },
 ];
 
@@ -49,6 +50,7 @@ const MOVE_VERBS = ["Race.", "Ride.", "Ruck.", "Swim.", "Lift.", "Move."];
 
 export default async function HomePage() {
   const why22 = findAboutSubsection("why-22");
+  const theIdea = findAboutSubsection("the-idea");
   const partners = await getPartners();
 
   return (
@@ -103,26 +105,6 @@ export default async function HomePage() {
         </Container>
       </section>
 
-      {/* Our Three Missions — Tier 3: CONNECT reads as a dark landmark panel; ADVOCATE/COMPETE stay light and secondary */}
-      <section id="missions" className="scroll-mt-20 bg-off-white py-16 sm:py-24">
-        <Container className="max-w-[1400px]">
-          <RevealOnScroll>
-            <SectionHeading eyebrow="How It Works" title="Our Three Missions" />
-          </RevealOnScroll>
-          <RevealOnScroll className="mt-10">
-            <div className="grid gap-4 lg:grid-cols-12">
-              <div className="lg:col-span-7">
-                <MissionPanel {...THREE_MISSIONS.connect} featured />
-              </div>
-              <div className="grid gap-4 lg:col-span-5">
-                <MissionPanel {...THREE_MISSIONS.advocate} />
-                <MissionPanel {...THREE_MISSIONS.compete} />
-              </div>
-            </div>
-          </RevealOnScroll>
-        </Container>
-      </section>
-
       {/* Find What You Need — Tier 2: wide functional composition, crisis access integrated as a paired dark panel rather than its own full-width band */}
       <section id="resources" className="scroll-mt-20 bg-sand-light py-16 sm:py-24">
         <Container className="max-w-[1400px]">
@@ -140,6 +122,26 @@ export default async function HomePage() {
               </div>
               <div className="lg:col-span-4">
                 <CrisisQuickLink />
+              </div>
+            </div>
+          </RevealOnScroll>
+        </Container>
+      </section>
+
+      {/* Our Three Missions — Tier 3: CONNECT reads as a dark landmark panel; ADVOCATE/COMPETE stay light and secondary */}
+      <section id="missions" className="scroll-mt-20 bg-off-white py-16 sm:py-24">
+        <Container className="max-w-[1400px]">
+          <RevealOnScroll>
+            <SectionHeading eyebrow="How It Works" title="Our Three Missions" />
+          </RevealOnScroll>
+          <RevealOnScroll className="mt-10">
+            <div className="grid gap-4 lg:grid-cols-12">
+              <div className="lg:col-span-7">
+                <MissionPanel {...THREE_MISSIONS.connect} featured />
+              </div>
+              <div className="grid gap-4 lg:col-span-5">
+                <MissionPanel {...THREE_MISSIONS.advocate} />
+                <MissionPanel {...THREE_MISSIONS.compete} />
               </div>
             </div>
           </RevealOnScroll>
@@ -321,6 +323,43 @@ export default async function HomePage() {
                     className="mt-5 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze-light transition-colors hover:text-bronze"
                   >
                     Why We Wear Black &rarr;
+                  </Link>
+                </div>
+              </div>
+            </RevealOnScroll>
+          </Container>
+        </section>
+      )}
+
+      {/* Why I Started This — Tier 2: shrunk founder teaser, one image/paragraph/pull-quote, pointing to the full story on /about rather than retelling it here */}
+      {theIdea && (
+        <section id="story" className="scroll-mt-20 bg-sand-light py-16 sm:py-24">
+          <Container className="max-w-[1400px]">
+            <RevealOnScroll>
+              <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
+                <div className="relative aspect-[4/5] overflow-hidden rounded-sm lg:col-span-5">
+                  <Image
+                    src={ABOUT_CONTENT.portraitUrl ?? "/about/hiking.jpg"}
+                    alt={ABOUT_CONTENT.name}
+                    fill
+                    sizes="(min-width: 1024px) 40vw, 100vw"
+                    className="object-cover"
+                  />
+                </div>
+                <div className="lg:col-span-7">
+                  <SectionHeading eyebrow="Why I Started This" title="One Mission at a Time" />
+                  <p className="mt-5 max-w-xl text-base leading-relaxed text-charcoal-light">
+                    {theIdea.body[0]}
+                  </p>
+                  <blockquote className="mt-6 max-w-xl border-l-2 border-bronze pl-5 font-display text-xl font-semibold uppercase leading-snug tracking-tight text-ink sm:text-2xl">
+                    There is another veteran somewhere trying to figure out what comes next.
+                    Another who needs a mission. Another who needs a team.
+                  </blockquote>
+                  <Link
+                    href="/about#my-story"
+                    className="mt-6 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze transition-colors hover:text-bronze-light"
+                  >
+                    Read My Story &rarr;
                   </Link>
                 </div>
               </div>
