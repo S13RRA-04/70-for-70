@@ -1,8 +1,10 @@
+import { CURRENT_CAMPAIGN } from "@/lib/constants";
+
 const STATS = [
   { value: "70", label: "Fundraising Miles" },
   { value: "$70K", label: "Goal" },
   { value: "70.3", label: "Race Distance" },
-  { value: "2", label: "Veteran Organizations" },
+  { value: String(CURRENT_CAMPAIGN.beneficiaries.length), label: "Veteran Organizations" },
   { value: "1", label: "Mission" },
 ] as const;
 
