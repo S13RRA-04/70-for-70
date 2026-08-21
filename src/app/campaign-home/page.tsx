@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { getCampaign } from "@/lib/data/campaign";
 import { getMilesWithDonations } from "@/lib/data/miles";
@@ -77,26 +78,29 @@ export default async function CampaignHomePage() {
     <>
       {/* Hero — Tier 1: brand hierarchy, campaign facts, two CTAs max */}
       <section className="relative overflow-hidden bg-ink text-off-white">
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-80"
-          style={{ backgroundImage: "url(/about/nashville.jpg)" }}
-          aria-hidden="true"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/20" aria-hidden="true" />
+        {/* The banner graphic already carries the title, tagline, stats, and
+            mark — shown at its native aspect ratio, not cropped as a cover
+            background, so nothing bakes into an inaccessible image alone
+            without an equivalent below. */}
+        <div className="relative aspect-[3/1] w-full">
+          <Image
+            src="/tri-for-the-22-banner.png"
+            alt={`${CAMPAIGN_NAME} — ${RACE_TOTAL_DISTANCE} Miles. ${formatCurrency(campaign.fundraising_goal)}. One Mission. Chattanooga 2027.`}
+            fill
+            sizes="100vw"
+            priority
+            className="object-cover"
+          />
+        </div>
 
-        <Container className="relative py-24 sm:py-32">
+        <Container className="relative py-10 sm:py-14">
           <a
             href={ORG_HOME_LINK.href}
             className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light hover:underline"
           >
             {ATHLETIC_TEAM_NAME} Presents
           </a>
-          <h1 className="mt-2 text-balance font-display text-5xl font-bold uppercase leading-[0.95] tracking-tight sm:text-7xl">
-            {CAMPAIGN_NAME}
-          </h1>
-          <p className="mt-4 font-display text-xl font-semibold uppercase tracking-tight text-off-white/90 sm:text-2xl">
-            {RACE_TOTAL_DISTANCE} Miles. {formatCurrency(campaign.fundraising_goal)}. One Mission.
-          </p>
+          <h1 className="sr-only">{CAMPAIGN_NAME}</h1>
           <p className="mt-4 max-w-xl text-base leading-relaxed text-off-white/75">
             {HERO_SUPPORTING_SENTENCE}
           </p>
