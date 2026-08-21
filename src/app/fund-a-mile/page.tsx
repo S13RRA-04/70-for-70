@@ -1,5 +1,6 @@
 import { getMilesWithDonations } from "@/lib/data/miles";
 import { Container } from "@/components/shared/container";
+import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { MileGrid } from "@/components/miles/mile-grid";
 import { MobileActionBar } from "@/components/shared/mobile-action-bar";
@@ -17,16 +18,15 @@ export default async function FundAMilePage() {
 
   return (
     <>
-      <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container>
-          <SectionHeading
-            as="h1"
-            eyebrow="Fund a Mile"
-            title="70 Miles. $1,000 Each."
-            description="Every mile of the race maps to $1,000 of the fundraising goal. Fund a mile outright, or contribute toward one alongside other supporters — no single mile requires one donor to cover the full amount."
-          />
-        </Container>
-      </section>
+      <CampaignPageHero>
+        <SectionHeading
+          as="h1"
+          tone="dark"
+          eyebrow="Fund a Mile"
+          title="70 Miles. $1,000 Each."
+          description="Every mile of the race maps to $1,000 of the fundraising goal. Fund a mile outright, or contribute toward one alongside other supporters — no single mile requires one donor to cover the full amount."
+        />
+      </CampaignPageHero>
 
       <section className="py-16 sm:py-20">
         <Container>

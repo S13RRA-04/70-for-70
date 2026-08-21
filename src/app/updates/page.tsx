@@ -1,5 +1,6 @@
 import { getPosts } from "@/lib/data/posts";
 import { Container } from "@/components/shared/container";
+import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { UpdateCard } from "@/components/updates/update-card";
 import { EmptyState } from "@/components/shared/empty-state";
@@ -25,16 +26,15 @@ export default async function UpdatesPage() {
 
   return (
     <>
-      <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container>
-          <SectionHeading
-            as="h1"
-            eyebrow="Follow Along"
-            title="Training &amp; Campaign Updates"
-            description="Training progress, fundraising milestones, and race prep — as it happens."
-          />
-        </Container>
-      </section>
+      <CampaignPageHero>
+        <SectionHeading
+          as="h1"
+          tone="dark"
+          eyebrow="Follow Along"
+          title="Training &amp; Campaign Updates"
+          description="Training progress, fundraising milestones, and race prep — as it happens."
+        />
+      </CampaignPageHero>
 
       {trainingSnapshot && (
         <section className="border-b border-ink/10 py-16 sm:py-20">

@@ -2,6 +2,7 @@ import { getPartners } from "@/lib/data/partners";
 import { getMissionPartners } from "@/lib/data/mission-partners";
 import { getSponsors } from "@/lib/data/sponsors";
 import { Container } from "@/components/shared/container";
+import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { PartnerCard } from "@/components/partners/partner-card";
 import { MissionPartnerCard } from "@/components/partners/mission-partner-card";
@@ -29,25 +30,24 @@ export default async function PartnersPage() {
   return (
     <>
       {/* Hero */}
-      <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container>
-          <SectionHeading
-            as="h1"
-            title="Partners in the Mission"
-            description="For The 22 is strengthened by organizations and companies that believe veterans and first responders deserve access to resources, opportunity, community, and continued support."
-          />
-          <p className="mt-3 max-w-2xl text-base text-charcoal-light/90">
-            These partners help us connect, advocate, compete, and move the mission forward.
-          </p>
+      <CampaignPageHero>
+        <SectionHeading
+          as="h1"
+          tone="dark"
+          title="Partners in the Mission"
+          description="For The 22 is strengthened by organizations and companies that believe veterans and first responders deserve access to resources, opportunity, community, and continued support."
+        />
+        <p className="mt-3 max-w-2xl text-base text-off-white/75">
+          These partners help us connect, advocate, compete, and move the mission forward.
+        </p>
 
-          <div className="mt-8 flex flex-wrap gap-4">
-            <CTAButton href="/partners/inquire">Become a Partner</CTAButton>
-            <CTAButton href={DONATE_LINK.href} variant="secondary">
-              Support the Mission
-            </CTAButton>
-          </div>
-        </Container>
-      </section>
+        <div className="mt-8 flex flex-wrap gap-4">
+          <CTAButton href="/partners/inquire">Become a Partner</CTAButton>
+          <CTAButton href={DONATE_LINK.href} variant="secondary" tone="dark">
+            Support the Mission
+          </CTAButton>
+        </div>
+      </CampaignPageHero>
 
       {/* Beneficiary Organizations */}
       <section className="py-16 sm:py-20">

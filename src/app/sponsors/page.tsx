@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getSponsors } from "@/lib/data/sponsors";
 import { Container } from "@/components/shared/container";
+import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { SponsorWall } from "@/components/sponsors/sponsor-wall";
 import { CTASection } from "@/components/shared/cta-section";
@@ -24,16 +25,15 @@ export default async function SponsorsPage() {
 
   return (
     <>
-      <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container>
-          <SectionHeading
-            as="h1"
-            eyebrow="For Businesses"
-            title="Become a Sponsor"
-            description="Interested in supporting Tri For The 22 as a corporate or in-kind sponsor? Submit a sponsorship request — all proposals are individually reviewed before acceptance."
-          />
-        </Container>
-      </section>
+      <CampaignPageHero>
+        <SectionHeading
+          as="h1"
+          tone="dark"
+          eyebrow="For Businesses"
+          title="Become a Sponsor"
+          description="Interested in supporting Tri For The 22 as a corporate or in-kind sponsor? Submit a sponsorship request — all proposals are individually reviewed before acceptance."
+        />
+      </CampaignPageHero>
 
       <section className="py-16 sm:py-20">
         <Container>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Container } from "@/components/shared/container";
+import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
 import { MobileActionBar } from "@/components/shared/mobile-action-bar";
@@ -24,22 +25,21 @@ export const metadata = pageMetadata({
 export default function MissionPage() {
   return (
     <>
-      <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze">
-            {ATHLETIC_TEAM_NAME} &middot; Current Campaign
-          </p>
-          <SectionHeading
-            as="h1"
-            className="mt-2"
-            title="One Mile. One Thousand Dollars. One Mission."
-            description="Tri For The 22 pairs a 70.3-mile triathlon with a $70,000 fundraising goal in support of veteran-focused nonprofit organizations."
-          />
-          <div className="mt-10">
-            <CampaignByTheNumbers />
-          </div>
-        </Container>
-      </section>
+      <CampaignPageHero>
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">
+          {ATHLETIC_TEAM_NAME} &middot; Current Campaign
+        </p>
+        <SectionHeading
+          as="h1"
+          tone="dark"
+          className="mt-2"
+          title="One Mile. One Thousand Dollars. One Mission."
+          description="Tri For The 22 pairs a 70.3-mile triathlon with a $70,000 fundraising goal in support of veteran-focused nonprofit organizations."
+        />
+        <div className="mt-10">
+          <CampaignByTheNumbers />
+        </div>
+      </CampaignPageHero>
 
       <section className="border-b border-ink/10 py-16 sm:py-20">
         <Container className="max-w-3xl">

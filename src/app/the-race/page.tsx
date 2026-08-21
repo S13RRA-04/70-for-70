@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Container } from "@/components/shared/container";
+import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
 import { RaceDashboard } from "@/components/campaign/race-dashboard";
@@ -48,25 +49,24 @@ export default async function RacePage() {
 
   return (
     <>
-      <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container className="flex flex-col-reverse items-center gap-10 sm:flex-row sm:justify-between">
-          <SectionHeading
-            as="h1"
-            className="flex-1"
-            eyebrow="The Race"
-            title="70.3-Mile Triathlon"
-            description="A swim, bike, and run event completed as the physical anchor of the Tri For The 22 campaign. Targeting IRONMAN 70.3 Chattanooga in May 2027 — exact race date to be confirmed."
-          />
-          <Image
-            src="/campaign-logo.png"
-            alt="Tri For The 22 campaign logo mark"
-            width={160}
-            height={160}
-            className="w-32 shrink-0 sm:w-40"
-            priority
-          />
-        </Container>
-      </section>
+      <CampaignPageHero containerClassName="flex flex-col-reverse items-center gap-10 sm:flex-row sm:justify-between">
+        <SectionHeading
+          as="h1"
+          tone="dark"
+          className="flex-1"
+          eyebrow="The Race"
+          title="70.3-Mile Triathlon"
+          description="A swim, bike, and run event completed as the physical anchor of the Tri For The 22 campaign. Targeting IRONMAN 70.3 Chattanooga in May 2027 — exact race date to be confirmed."
+        />
+        <Image
+          src="/campaign-logo.png"
+          alt="Tri For The 22 campaign logo mark"
+          width={160}
+          height={160}
+          className="w-32 shrink-0 sm:w-40"
+          priority
+        />
+      </CampaignPageHero>
 
       <section className="py-16 sm:py-20">
         <Container>

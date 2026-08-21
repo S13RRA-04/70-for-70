@@ -3,6 +3,7 @@ import { getPartners } from "@/lib/data/partners";
 import { getCampaign } from "@/lib/data/campaign";
 import { getAllocationBreakdown } from "@/lib/data/allocation";
 import { Container } from "@/components/shared/container";
+import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { PartnerCard } from "@/components/partners/partner-card";
 import { CampaignAllocation } from "@/components/campaign/campaign-allocation";
@@ -25,30 +26,29 @@ export default async function DonatePage(props: PageProps<"/donate">) {
 
   return (
     <>
-      <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container>
-          <SectionHeading
-            as="h1"
-            eyebrow="Support the Mission"
-            title="Where Would You Like Your Donation to Go?"
-            description="For The 22 does not process donations directly. Choose a beneficiary organization below to give through its authorized donation platform."
-          />
+      <CampaignPageHero>
+        <SectionHeading
+          as="h1"
+          tone="dark"
+          eyebrow="Support the Mission"
+          title="Where Would You Like Your Donation to Go?"
+          description="For The 22 does not process donations directly. Choose a beneficiary organization below to give through its authorized donation platform."
+        />
 
-          {mileNumber && Number.isFinite(mileNumber) && (
-            <p className="mt-6 inline-block rounded-sm border border-bronze/40 bg-bronze/10 px-4 py-2 text-sm font-medium text-ink">
-              You&apos;re helping fund Mile {mileNumber}. Mention it in your donation note if the
-              platform supports one, so it can be recorded against that mile.
-            </p>
-          )}
-
-          <p className="mt-6 max-w-2xl text-sm text-charcoal-light">
-            After you give, let us know using the note field on the partner&apos;s donation form
-            (or by emailing the campaign) so your gift can be verified and credited toward a
-            specific mile here on the site. Mile totals update once a donation is confirmed with
-            the beneficiary organization — not automatically at the moment of giving.
+        {mileNumber && Number.isFinite(mileNumber) && (
+          <p className="mt-6 inline-block rounded-sm border border-bronze/40 bg-bronze/10 px-4 py-2 text-sm font-medium text-off-white">
+            You&apos;re helping fund Mile {mileNumber}. Mention it in your donation note if the
+            platform supports one, so it can be recorded against that mile.
           </p>
-        </Container>
-      </section>
+        )}
+
+        <p className="mt-6 max-w-2xl text-sm text-off-white/70">
+          After you give, let us know using the note field on the partner&apos;s donation form
+          (or by emailing the campaign) so your gift can be verified and credited toward a
+          specific mile here on the site. Mile totals update once a donation is confirmed with
+          the beneficiary organization — not automatically at the moment of giving.
+        </p>
+      </CampaignPageHero>
 
       <section className="py-16 sm:py-20">
         <Container>
