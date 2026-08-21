@@ -101,8 +101,10 @@ function applyLaunchGate(request: NextRequest, onCampaignHost: boolean): Respons
  * Movement (forthe22.org) vs campaign (tri.forthe22.org) page split —
  * see README's "Movement/Campaign Domain Split". Both domains are served
  * by this same app; this is the only place that decides which pages
- * belong to which. API routes and shared assets are intentionally not
- * listed here — they work identically on either host.
+ * belong to which. API routes, shared assets, and /admin (including
+ * /admin/analytics, which reports on both domains — see
+ * src/lib/analytics/cloudflare.ts) are intentionally not listed here —
+ * they work identically on either host, not just tri.forthe22.org.
  */
 const ORG_PATH_PREFIXES = [
   "/about",
@@ -128,7 +130,6 @@ const CAMPAIGN_PATH_PREFIXES = [
   "/live",
   "/updates",
   "/miles",
-  "/admin",
 ];
 
 function matchesPathPrefix(pathname: string, prefixes: string[]): boolean {
