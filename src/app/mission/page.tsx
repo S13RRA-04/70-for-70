@@ -51,7 +51,7 @@ export default function MissionPage() {
             <CTAButton href="/resources" variant="secondary" tone="dark" size="lg">
               Find Resources
             </CTAButton>
-            <CTAButton href={GET_INVOLVED_LINK.href} variant="primary" accent="black" size="lg">
+            <CTAButton href={GET_INVOLVED_LINK.href} variant="primary" size="lg">
               {GET_INVOLVED_LINK.label}
             </CTAButton>
           </div>

@@ -87,7 +87,7 @@ export default async function HomePage() {
           </p>
 
           <div className="mt-10 flex flex-wrap items-center gap-4">
-            <CTAButton href="/resources" accent="black" size="lg">
+            <CTAButton href="/resources" size="lg">
               Find Resources
             </CTAButton>
             <CTAButton href="/join" variant="secondary" tone="dark" size="lg">
@@ -388,7 +388,7 @@ export default async function HomePage() {
             Move for something bigger than the finish line.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <CTAButton href="/join" accent="black">
+            <CTAButton href="/join">
               Join For The 22
             </CTAButton>
             <CTAButton href="/resources" variant="secondary" tone="dark">
