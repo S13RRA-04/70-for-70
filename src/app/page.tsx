@@ -11,10 +11,13 @@ import { MissionPanel } from "@/components/home/mission-panel";
 import { ResourceFinderPreview } from "@/components/home/resource-finder-preview";
 import { ABOUT_CONTENT, findAboutSubsection } from "@/lib/content/about";
 import { THREE_MISSIONS } from "@/lib/content/three-missions";
+import { OUTER_RING_COLORS } from "@/lib/ring-colors";
+import { getPartners } from "@/lib/data/partners";
 import {
   ATHLETIC_TEAM_NAME,
   CAMPAIGN_HOME_LINK,
   CAMPAIGN_NAME,
+  CAMPAIGN_URL,
   ORG_SUPPORTING_STATEMENT,
   ORG_TAGLINE,
   SITE_NAME,
@@ -37,15 +40,17 @@ const RAIL_SECTIONS = [
   { id: "missions", label: "Mission" },
   { id: "resources", label: "Resources" },
   { id: "current-mission", label: "Team" },
+  { id: "partners", label: "Partners" },
   { id: "why-22", label: "Meaning" },
   { id: "join", label: "Join" },
 ];
 
 const MOVE_VERBS = ["Race.", "Ride.", "Ruck.", "Swim.", "Lift.", "Move."];
 
-export default function HomePage() {
+export default async function HomePage() {
   const why22 = findAboutSubsection("why-22");
   const testimony = findAboutSubsection("my-testimony");
+  const partners = await getPartners();
 
   return (
     <>
@@ -65,7 +70,15 @@ export default function HomePage() {
             {SITE_NAME}
             <sup className="text-[0.6em] font-medium tracking-normal">™</sup>
           </p>
-          <h1 className="mt-3 text-balance font-display text-[clamp(2.5rem,8vw,5.5rem)] font-bold uppercase leading-[0.95] tracking-tight">
+          <div
+            aria-hidden="true"
+            className="mt-4 flex h-1 w-40 overflow-hidden rounded-full"
+          >
+            {OUTER_RING_COLORS.map((ring) => (
+              <span key={ring.branch} className="flex-1" style={{ backgroundColor: ring.hex }} />
+            ))}
+          </div>
+          <h1 className="mt-5 text-balance font-display text-[clamp(2.5rem,8vw,5.5rem)] font-bold uppercase leading-[0.95] tracking-tight">
             {ORG_TAGLINE}
           </h1>
           <p className="mt-5 max-w-xl text-base leading-relaxed text-off-white/80 sm:text-lg">
@@ -73,7 +86,7 @@ export default function HomePage() {
           </p>
 
           <div className="mt-10 flex flex-wrap items-center gap-4">
-            <CTAButton href="/resources" size="lg">
+            <CTAButton href="/resources" accent="black" size="lg">
               Find Resources
             </CTAButton>
             <CTAButton href="/join" variant="secondary" tone="dark" size="lg">
@@ -219,6 +232,50 @@ export default function HomePage() {
         </Container>
       </section>
 
+      {/* Partners in the Mission — Tier 3: confirmed relationships only, not an indiscriminate logo wall */}
+      {partners.length > 0 && (
+        <section id="partners" className="scroll-mt-20 bg-off-white py-16 sm:py-24">
+          <Container className="max-w-[1400px]">
+            <RevealOnScroll>
+              <SectionHeading
+                eyebrow="In This Together"
+                title="Partners in the Mission"
+                description="The nonprofit organizations Tri For The 22 raises funds for — confirmed beneficiary relationships, not a general directory listing."
+              />
+            </RevealOnScroll>
+            <RevealOnScroll className="mt-10">
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {partners.map((partner) => (
+                  <div key={partner.id} className="flex flex-col gap-4 border border-ink/10 bg-sand-light/40 p-6">
+                    {partner.logo_url ? (
+                      <div className="relative h-10 w-32">
+                        <Image
+                          src={partner.logo_url}
+                          alt={`${partner.name} logo`}
+                          fill
+                          sizes="128px"
+                          className="object-contain object-left"
+                        />
+                      </div>
+                    ) : (
+                      <p className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+                        {partner.name}
+                      </p>
+                    )}
+                    <p className="text-sm leading-relaxed text-charcoal-light">{partner.description}</p>
+                  </div>
+                ))}
+              </div>
+            </RevealOnScroll>
+            <RevealOnScroll className="mt-8">
+              <CTAButton href={`${CAMPAIGN_URL}/partners`} external variant="secondary">
+                Meet Our Partners →
+              </CTAButton>
+            </RevealOnScroll>
+          </Container>
+        </section>
+      )}
+
       {/* Why 22 + Black — Tier 1: sparse, poster-like memorial composition, typography-led */}
       {why22 && (
         <section id="why-22" className="scroll-mt-20 bg-ink py-20 text-off-white sm:py-28">
@@ -321,7 +378,9 @@ export default function HomePage() {
             Move for something bigger than the finish line.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <CTAButton href="/join">Join For The 22</CTAButton>
+            <CTAButton href="/join" accent="black">
+              Join For The 22
+            </CTAButton>
             <CTAButton href="/resources" variant="secondary" tone="dark">
               Find Resources
             </CTAButton>
