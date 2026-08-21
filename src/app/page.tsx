@@ -173,9 +173,9 @@ export default async function HomePage() {
                 <p className="text-xs font-semibold uppercase tracking-widest text-bronze-light">
                   {ATHLETIC_TEAM_NAME} &middot; Current Campaign
                 </p>
-                <p className="mt-3 text-balance font-display text-4xl font-bold uppercase leading-none tracking-tight sm:text-5xl">
+                <h2 className="mt-3 text-balance font-display text-4xl font-bold uppercase leading-none tracking-tight sm:text-5xl">
                   {CAMPAIGN_NAME}
-                </p>
+                </h2>
                 <p className="mt-4 max-w-md text-base leading-relaxed text-off-white/75">
                   A 70.3-mile triathlon paired with a $70,000 fundraising goal, in support of
                   Mighty Oaks Foundation, Project Echelon, and Veterans and Athletes United.
