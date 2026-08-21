@@ -31,7 +31,7 @@ export default function MerchPage() {
             target="_blank"
             rel="noopener noreferrer"
             data-analytics-event="merch_store_click"
-            className="mt-8 inline-flex items-center gap-2 rounded-sm bg-anchor px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-anchor-light"
+            className="mt-8 inline-flex items-center gap-2 rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light"
           >
             Shop For The 22
             <ExternalLink size={15} aria-hidden />

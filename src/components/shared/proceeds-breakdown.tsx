@@ -8,10 +8,7 @@ import { MERCH_PROCEEDS_ALLOCATION } from "@/lib/constants";
 export function ProceedsBreakdown() {
   return (
     <div className="rounded-sm border border-ink/10 bg-off-white p-6">
-      <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-        Where Net Merchandise Proceeds Go
-      </p>
-      <div className="mt-5 grid gap-6 sm:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-3">
         {MERCH_PROCEEDS_ALLOCATION.map((row) => (
           <div key={row.label}>
             <p className="font-display text-3xl font-bold text-bronze">{row.percentage}%</p>
