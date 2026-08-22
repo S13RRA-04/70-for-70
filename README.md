@@ -237,10 +237,6 @@ cookie-sharing configuration required.
    `https://tri.forthe22.org/api/whoop/callback`.
 
 **Known imperfections, not fixed this pass:**
-- `robots.txt` and `sitemap.xml` are shared/combined rather than
-  per-domain — the sitemap does correctly list each URL under its right
-  domain (see `sitemap.ts`), but ideally each host would serve its own
-  sitemap file. Low-risk, revisit if it matters for SEO later.
 - `opengraph-image.tsx` and the favicon (`icon.png`/`apple-icon.png`) are
   shared across both domains (always show the "For The 22" org mark) —
   campaign-domain shares don't get campaign-specific OG art. Fine for now

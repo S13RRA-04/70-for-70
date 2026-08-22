@@ -6,8 +6,9 @@ import { Container } from "@/components/shared/container";
 import { MediaPlaceholder } from "@/components/shared/media-placeholder";
 import { ShareButtons } from "@/components/shared/share-buttons";
 import { formatDateLong } from "@/lib/utils";
-import { CAMPAIGN_URL } from "@/lib/constants";
+import { CAMPAIGN_NAME, CAMPAIGN_URL, SITE_NAME, SITE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
+import type { PostRow } from "@/types/database";
 
 export async function generateStaticParams() {
   const posts = await getPosts();
@@ -26,6 +27,28 @@ export async function generateMetadata(props: PageProps<"/updates/[slug]">): Pro
   });
 }
 
+/**
+ * BlogPosting rich-result eligibility for campaign update posts — the only
+ * genuinely article-shaped content on the site (real title, dates, body).
+ * `image` is only included when a real one exists, per the site's "hide,
+ * don't fake" placeholder policy (see MediaPlaceholder usage above).
+ */
+function postJsonLd(post: PostRow) {
+  const url = `${CAMPAIGN_URL}/updates/${post.slug}`;
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.summary,
+    url,
+    mainEntityOfPage: url,
+    ...(post.image_url && { image: post.image_url }),
+    ...(post.published_at && { datePublished: post.published_at }),
+    author: { "@type": "Organization", name: CAMPAIGN_NAME, url: CAMPAIGN_URL },
+    publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+  };
+}
+
 export default async function UpdatePostPage(props: PageProps<"/updates/[slug]">) {
   const { slug } = await props.params;
   const post = await getPostBySlug(slug);
@@ -34,6 +57,12 @@ export default async function UpdatePostPage(props: PageProps<"/updates/[slug]">
 
   return (
     <article className="py-16 sm:py-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(postJsonLd(post)).replace(/</g, "\\u003c"),
+        }}
+      />
       <Container className="max-w-3xl">
         <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-bronze">
           <span>{post.category}</span>

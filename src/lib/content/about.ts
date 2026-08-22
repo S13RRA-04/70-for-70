@@ -4,17 +4,15 @@
  * touching components. `portraitUrl` is unset pending photography — see
  * MediaPlaceholder for how that's handled without a visible TODO label.
  *
- * Content is organized into GROUPS (Origin / My Story / Why Endurance /
- * Why 22 / Why Black / Brand Meaning) matching the About page's subnav —
- * each group can hold one or more SUBSECTIONS so related material (e.g.
- * "My Story" + "My Testimony") reads together without collapsing into a
- * single undifferentiated block. Use findAboutSubsection() for the flat,
- * by-id lookups other pages (home, /advocacy) need for non-personal
- * content (e.g. "why-22").
+ * The About page itself is a hand-composed editorial arc (Service → After →
+ * Turning Point → Movement → For The 22 → The Mark), not a generic loop over
+ * this data — `ABOUT_CHAPTERS` below is only the rail/indicator nav metadata.
+ * Content lives in the flat `SUBSECTIONS` map so `findAboutSubsection()` keeps
+ * working as a stable by-id lookup for other pages (home, /advocacy) that
+ * link to or excerpt specific pieces without reproducing them.
  *
  * Personal/biographical content — anything about Cody himself — lives only
- * on this page (/about#founders-story). Other pages that used to reproduce
- * excerpts of it (the org homepage, Press, the campaign's Mission page)
+ * on this page (/about). Other pages that used to reproduce excerpts of it
  * link here instead of re-narrating any of it.
  */
 
@@ -25,247 +23,161 @@ export interface AboutSubsection {
   pullQuote?: { text: string; attribution: string };
   /**
    * `focus` is a Tailwind object-position class, only needed when the
-   * photo's aspect ratio doesn't match the display container's (this
-   * section renders every image at aspect-[16/10]) — default center
-   * cropping can otherwise cut through a subject's face on a portrait-
-   * oriented source photo. Omit for images where center framing is fine.
+   * photo's aspect ratio doesn't match the display container's — default
+   * center cropping can otherwise cut through a subject's face on a
+   * portrait-oriented source photo. Omit for images where center framing is
+   * fine.
    */
   image?: { src: string; alt: string; focus?: string };
 }
 
-export interface AboutGroup {
-  id: string;
-  /** Shown in the About page's subnav. */
-  navLabel: string;
-  subsections: AboutSubsection[];
-}
+const SUBSECTIONS = {
+  "mighty-oaks": {
+    id: "mighty-oaks",
+    heading: "Mighty Oaks",
+    body: [
+      "In 2023, I attended a Mighty Oaks Warrior Program retreat. It became a turning point — a place that helped me look at faith, responsibility, purpose, and relationships through a different lens, and understand that recovery isn't about becoming who I was before. Sometimes it's about becoming someone stronger because of what happened.",
+      "That's one of the reasons Mighty Oaks is part of Tri For The 22 — I know firsthand what their work can mean to a veteran and a family.",
+    ],
+  },
+  "the-idea": {
+    id: "the-idea",
+    heading: "How This Became For The 22",
+    body: [
+      "My next major goal is completing a 70.3-mile triathlon — 1.2 miles swimming, 56 miles cycling, and 13.1 miles running. But I did not want that race to be only about crossing another finish line. I wanted the miles to mean something. That is where Tri For The 22 began: the first campaign under a larger idea, For The 22 — a movement where athletes use endurance challenges to raise money, awareness, and support for veterans and first responders.",
+      "I have benefited from people and organizations willing to invest in veterans when it mattered most. Now I want to return that investment. There is another veteran somewhere trying to figure out what comes next. Another who needs a mission. Another who needs a team. I cannot solve all of that, but I can swim 1.2 miles, ride 56, run 13.1, tell my story, and ask people to join me.",
+    ],
+  },
+  "my-story": {
+    id: "my-story",
+    heading: "Seven Years in the Navy",
+    body: [
+      "I'm a husband, father, Navy veteran, and endurance athlete. I spent seven years on active duty in the United States Navy as a Mass Communication Specialist.",
+      "In 2011, I deployed to Afghanistan in support of Operation Enduring Freedom as a combat journalist — alongside service members operating in an environment where violence, loss, fear, and uncertainty were part of everyday life.",
+      "Like a lot of veterans, I came home physically present but carrying things I didn't fully understand how to process.",
+    ],
+    image: {
+      src: "/about/afghan-2.jpg",
+      alt: "Cody during his 2011 deployment to Afghanistan",
+      // Source photo is a tall 3:4 portrait cropped into a wide box —
+      // default center cropping pushes the visible window below the top of
+      // his head. object-top lands the crop almost exactly on his face
+      // instead of his chest/uniform.
+      focus: "object-top",
+    },
+  },
+  "after": {
+    id: "after",
+    heading: "What Came After",
+    body: [
+      "I learned how to function. That is not the same thing as learning how to live well.",
+      "For years, I found ways to keep moving without dealing with what was underneath. Sometimes that meant burying myself in work. Sometimes it meant pushing harder physically. Sometimes it meant refusing to stop long enough to feel it.",
+      "Injuries and physical trauma connected to my service caught up with me. In 2016, it led to major back surgery — and to a season with no clear sense of what came next.",
+      "My story includes trauma, mistakes, setbacks, and times I didn't know what the next chapter was supposed to look like.",
+    ],
+  },
+  "my-testimony": {
+    id: "my-testimony",
+    heading: "My Testimony",
+    body: [
+      "My faith became the foundation of how I understand recovery, purpose, and the responsibility that comes with surviving hard things — not pretending the ashes never existed, but paying attention to what can be built from them.",
+      "But it also includes grace. It includes family. It includes people who showed up when they did not have to. And it includes the realization that surviving something creates an opportunity to help someone else through it.",
+    ],
+    pullQuote: {
+      text: "...to give unto them beauty for ashes, the oil of joy for mourning, the garment of praise for the spirit of heaviness...",
+      attribution: "Isaiah 61:3",
+    },
+  },
+  "why-endurance-sports": {
+    id: "why-endurance-sports",
+    heading: "Why Endurance",
+    body: [
+      "You do not have to feel strong to keep moving. You just have to take the next step.",
+      "That is what endurance has become for me. Not an escape. Not punishment. A way forward.",
+    ],
+  },
+  "project-echelon": {
+    id: "project-echelon",
+    heading: "Project Echelon",
+    body: [
+      "Project Echelon uses endurance sport, mentorship, and community to help veterans keep moving after service. Training may look different from military service, but you still prepare, suffer together, hold each other accountable, and finish what you started.",
+    ],
+  },
+  "why-22": {
+    id: "why-22",
+    heading: "Why 22?",
+    body: [
+      "22 has become a widely recognized symbol of veteran suicide awareness. For The 22 uses that number as a reminder of the veterans still fighting — and the responsibility to keep showing up for them.",
+      "That number is symbolic, not presented as a current precise daily statistic. What it represents does not change: there are still veterans out there who need someone to reach them.",
+    ],
+  },
+  "why-black": {
+    id: "why-black",
+    heading: "Why We Wear Black",
+    body: [
+      "Black is mourning. We wear it for the veterans and first responders we've lost to suicide, trauma, and the invisible battles carried long after the uniform comes off.",
+      "We race in remembrance — and we move forward for those who no longer can.",
+    ],
+  },
+} as const satisfies Record<string, AboutSubsection>;
 
 export interface AboutContent {
   name: string;
   tagline: string;
   portraitUrl: string | null;
-  groups: AboutGroup[];
 }
 
 export const ABOUT_CONTENT: AboutContent = {
   name: "Cody Hitson",
   tagline: "Athlete. Veteran. Husband. Father. Still Moving Forward.",
   portraitUrl: "/about/hiking.jpg",
-  groups: [
-    {
-      id: "origin",
-      navLabel: "Origin",
-      subsections: [
-        {
-          id: "mighty-oaks",
-          heading: "Mighty Oaks",
-          body: [
-            "In 2023, I attended a Mighty Oaks Warrior Program retreat. That experience became an important turning point in my life.",
-            "Mighty Oaks gave me more than a place to talk about difficult experiences. It helped me look at those experiences through a different lens — one centered on faith, responsibility, purpose, relationships, and what it means to move forward intentionally.",
-            "The lessons I took home affected the way I viewed myself, my marriage, my family, my service, and my future.",
-            "I left understanding something I had spent years missing: recovery is not simply about becoming the person you were before something happened. Sometimes it is about becoming someone stronger, wiser, more grounded, and more useful because of what happened.",
-            "That is one of the reasons Mighty Oaks is part of Tri For The 22. I know firsthand what their work can mean to a veteran and a family.",
-          ],
-        },
-        {
-          id: "the-idea",
-          heading: "How This Became For The 22",
-          body: [
-            "My next major goal is completing a 70.3-mile triathlon — 1.2 miles swimming, 56 miles cycling, and 13.1 miles running. But I did not want that race to be only about crossing another finish line. I wanted the miles to mean something. That is where Tri For The 22 began: the first campaign under a larger idea, For The 22 — a movement where athletes use endurance challenges to raise money, awareness, and support for veterans and first responders.",
-            "I have benefited from people and organizations willing to invest in veterans when it mattered most. Now I want to return that investment. There is another veteran somewhere trying to figure out what comes next. Another who needs a mission. Another who needs a team. I cannot solve all of that, but I can swim 1.2 miles, ride 56, run 13.1, tell my story, and ask people to join me.",
-            "Full details on the current campaign — the race, the fundraising goal, and how it's tracking — live on the Tri For The 22 site.",
-          ],
-        },
-      ],
-    },
-    {
-      id: "my-story",
-      navLabel: "My Story",
-      subsections: [
-        {
-          id: "my-story",
-          heading: "My Story",
-          body: [
-            "My name is Cody Hitson. I am a husband, father, Navy veteran, and endurance athlete. Over the years, I have worn a lot of different uniforms and carried a lot of different responsibilities, but the part of my story that matters most to Tri For The 22 is not what I have done.",
-            "It is what I have survived, what I have learned, and what I believe I am supposed to do with the life I have been given.",
-            "I spent seven years on active duty in the United States Navy as a Mass Communication Specialist. In 2011, I deployed to Afghanistan in support of Operation Enduring Freedom as a combat journalist. My job placed me alongside service members operating in an environment where violence, loss, fear, and uncertainty were part of everyday life.",
-            "Like a lot of veterans, I came home physically present but carrying things I did not fully understand how to process.",
-            "For years, I found ways to keep moving. Sometimes that meant burying myself in work. Sometimes it meant pushing harder physically. Sometimes it meant simply refusing to stop long enough to deal with what was underneath the surface.",
-            "I learned how to function. That is not the same thing as learning how to live well.",
-          ],
-          image: {
-            src: "/about/afghan-2.jpg",
-            alt: "Cody during his 2011 deployment to Afghanistan",
-            // Source photo is a tall 3:4 portrait cropped into a wide 16:10
-            // box — default center cropping pushes the visible window
-            // below the top of his head. object-top lands the crop almost
-            // exactly on his face instead of his chest/uniform.
-            focus: "object-top",
-          },
-        },
-        {
-          id: "my-testimony",
-          heading: "My Testimony",
-          body: [
-            "My faith has become the foundation of how I understand recovery, purpose, and the responsibility that comes with surviving difficult things.",
-            "For me, that verse is not about pretending the ashes never existed. It is about what God can build from them.",
-            "My story includes trauma, mistakes, setbacks, physical injuries, difficult seasons, and times when I did not know what the next chapter was supposed to look like.",
-            "But it also includes grace. It includes family. It includes people who showed up when they did not have to. It includes a renewed sense of purpose.",
-            "And it includes the realization that surviving something creates an opportunity to help someone else through it.",
-          ],
-          pullQuote: {
-            text: "...to give unto them beauty for ashes, the oil of joy for mourning, the garment of praise for the spirit of heaviness...",
-            attribution: "Isaiah 61:3",
-          },
-        },
-      ],
-    },
-    {
-      id: "why-endurance",
-      navLabel: "Why Endurance",
-      subsections: [
-        {
-          id: "why-endurance-sports",
-          heading: "Why Endurance Sports",
-          body: [
-            "My relationship with endurance sports began in 2014, shortly after I left active duty.",
-            "At first, it was simple: trail runs near my home. I was looking for challenge, structure, and an outlet. Before long, those runs evolved into obstacle course racing, and in 2015 I completed the Spartan Trifecta.",
-            "I also began weightlifting, but injuries and physical trauma connected to my military service increasingly limited my mobility. Eventually, those issues led to major back surgery in 2016.",
-            "That could have been the end of competitive physical pursuits for me. Instead, I adapted.",
-            "From 2016 into 2017, I trained in Brazilian Jiu-Jitsu and eventually competed at the Atlanta Open. In the years that followed, I continued finding different ways to test myself physically, but I also had to become much more deliberate about the challenges I chose. My body had become increasingly prone to injury, and simply pushing harder was no longer a sustainable strategy.",
-            "I had to learn how to keep moving without destroying myself in the process.",
-            "In 2023, endurance sports became a major part of my life again when I completed my first marathon in Nashville. The following year, I pushed farther and completed my first 100-kilometer ultramarathon.",
-            "Those experiences reinforced something I had been learning for years: you do not have to feel strong to keep moving. You just have to take the next step.",
-            "There are moments in endurance events when your body is exhausted, your mind is searching for an exit, and the finish line feels impossibly far away. Life can feel exactly the same way.",
-            "The answer is rarely to solve the entire problem at once.",
-            "Find the next aid station. Reach the next mile marker. Take the next step.",
-            "Then do it again.",
-            "Family challenges pulled me away from consistent training again in 2025, but in 2026 I made the decision to return with a renewed sense of purpose.",
-            "This time, I am not simply training to see how far I can push myself.",
-            "I am training toward a 70.3-mile triathlon in May 2027, with the goal of continuing on to the full-distance IRONMAN level and pursuing opportunities to compete at the highest level I can earn my way into.",
-            "More importantly, I want the training, the races, and every difficult mile along the way to serve something larger than my own finish time.",
-            "That is what endurance has become for me. Not an escape. Not punishment. A way forward.",
-          ],
-          image: { src: "/about/jiu-jitsu.jpg", alt: "Cody after a Brazilian Jiu-Jitsu competition" },
-        },
-        {
-          id: "project-echelon",
-          heading: "Project Echelon",
-          body: [
-            "As I began pursuing triathlon, Project Echelon became another piece of this journey.",
-            "Project Echelon uses endurance sport, mentorship, structure, and community to help veterans continue moving forward after military service. That mission immediately made sense to me.",
-            "There is something powerful about putting veterans back into an environment where there is a mission, a team, accountability, hardship, and a reason to keep showing up.",
-            "Training may look very different from military service, but some of the lessons are remarkably similar. You prepare. You suffer together. You hold each other accountable. And you finish what you started.",
-          ],
-        },
-      ],
-    },
-    {
-      id: "why-22",
-      navLabel: "Why 22",
-      subsections: [
-        {
-          id: "why-22",
-          heading: "Why 22?",
-          body: [
-            "22 has become a widely recognized symbol of veteran suicide awareness. For The 22 uses that number as a reminder of the veterans still fighting — and the responsibility to keep showing up for them.",
-            "That number is symbolic, not presented as a current precise daily statistic. What it represents does not change: there are still veterans out there who need someone to reach them.",
-          ],
-        },
-      ],
-    },
-    {
-      id: "why-black",
-      navLabel: "Why Black",
-      subsections: [
-        {
-          id: "why-black",
-          heading: "Why We Wear Black",
-          body: [
-            "Black is the foundation of the For The 22 brand because it represents mourning.",
-            "We wear black for the veterans and first responders we have lost to suicide, trauma, injury, and the invisible battles carried long after the uniform comes off.",
-            "The black racing uniform is not meant to look tactical. It is meant to be a memorial.",
-            "Every race, every mile, and every challenge begins against that black background as a reminder that this mission was born from loss.",
-            "The colors surrounding the For The 22 mark represent the communities still standing together. The black beneath them represents those who are no longer here.",
-            "For The 22 athletes wear black because we carry their memory with us.",
-            "We do not race only for ourselves. We race in mourning. We race in remembrance. And we move forward for those who no longer can.",
-          ],
-        },
-      ],
-    },
-  ],
 };
 
-/** Flat, by-id lookup across every group — used by the homepage and /advocacy. */
+/** Flat, by-id lookup — used by the homepage and /advocacy for non-personal excerpts (e.g. "why-22", "the-idea"). */
 export function findAboutSubsection(id: string): AboutSubsection | undefined {
-  for (const group of ABOUT_CONTENT.groups) {
-    const found = group.subsections.find((s) => s.id === id);
-    if (found) return found;
-  }
-  return undefined;
+  return (SUBSECTIONS as Record<string, AboutSubsection>)[id];
+}
+
+export interface AboutChapter {
+  id: string;
+  number: string;
+  label: string;
 }
 
 /**
- * The story arc shown as a compact visual timeline near the top of the
- * About page — only accurate, approved dates (see AboutSection above for
- * the full narrative each of these compresses).
+ * The 6 chapters shown in the About page's sticky rail (desktop) / compact
+ * indicator (mobile). Nav metadata only — each chapter's actual content is
+ * hand-composed in the page since every chapter has a distinct layout
+ * (alternating image/text, timeline, full-bleed memorial, annotated mark).
  */
-export const STORY_TIMELINE = [
-  { year: "2011", label: "Afghanistan deployment" },
-  { year: "2023", label: "Mighty Oaks retreat & first marathon" },
-  { year: "2024", label: "First 100-kilometer ultramarathon" },
-  { year: "2026", label: "For The 22 founded" },
-  { year: "2027", label: "Tri For The 22 — 70.3-mile triathlon" },
-] as const;
-
-export interface GalleryPhoto {
-  src: string;
-  alt: string;
-  caption: string;
-}
+export const ABOUT_CHAPTERS: AboutChapter[] = [
+  { id: "service", number: "01", label: "Service" },
+  { id: "after", number: "02", label: "After" },
+  { id: "turning-point", number: "03", label: "Turning Point" },
+  { id: "movement", number: "04", label: "Movement" },
+  { id: "for-the-22", number: "05", label: "For The 22" },
+  { id: "the-mark", number: "06", label: "The Mark" },
+];
 
 /**
- * Photo gallery for the About page. Captions here are deliberately
- * descriptive of what's visible rather than asserting specific dates or
- * events not already established elsewhere in this file — Cody should
- * refine these with real context/dates where he has more to say.
+ * The endurance story shown as a visual timeline in the Movement chapter —
+ * only accurate, approved dates. Thumbnails are optional supporting photos,
+ * not a stand-in for a full gallery.
  */
-export const PHOTO_GALLERY: GalleryPhoto[] = [
+export const MOVEMENT_TIMELINE = [
+  { year: "2015", label: "Spartan Trifecta completed", image: { src: "/about/trail.jpg", alt: "Cody on a trail run" } },
   {
-    src: "/about/trail.jpg",
-    alt: "Cody on a trail run, wearing a hydration pack",
-    caption: "On the trail",
+    year: "2016",
+    label: "Back surgery — adapts, trains in Brazilian Jiu-Jitsu",
+    image: { src: "/about/jiu-jitsu.jpg", alt: "Cody after a Brazilian Jiu-Jitsu competition" },
   },
+  { year: "2023", label: "First marathon, Nashville", image: { src: "/about/nashville.jpg", alt: "Cody at the Nashville marathon" } },
   {
-    src: "/about/ultra-1.jpg",
-    alt: "Cody running an overnight ultramarathon alongside other racers",
-    caption: "Racing through the night during an ultramarathon",
+    year: "2024",
+    label: "First 100-kilometer ultramarathon",
+    image: { src: "/about/ultra-2.jpg", alt: "Cody racing solo on a wooded trail during an ultramarathon" },
   },
-  {
-    src: "/about/ultra-2.jpg",
-    alt: "Cody racing solo on a wooded trail during an ultramarathon",
-    caption: "On the course during his first 100-kilometer ultramarathon",
-  },
-  {
-    src: "/about/navy.jpg",
-    alt: "Cody in Navy uniform aboard a ship",
-    caption: "Aboard ship during active duty in the U.S. Navy",
-  },
-  {
-    src: "/about/navy-green.jpg",
-    alt: "Cody in Navy service uniform",
-    caption: "In uniform during active duty",
-  },
-  {
-    src: "/about/scuba.jpg",
-    alt: "Cody scuba diving",
-    caption: "Scuba diving",
-  },
-  {
-    src: "/about/van.jpg",
-    alt: "Cody geared up inside a vehicle",
-    caption: "Geared up and moving",
-  },
+  { year: "2027", label: "IRONMAN 70.3 Chattanooga (goal)" },
 ] as const;
 
 /**

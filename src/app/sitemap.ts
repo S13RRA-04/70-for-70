@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { getPosts } from "@/lib/data/posts";
 import { US_STATES_GRID } from "@/lib/content/us-states";
 import { CAMPAIGN_URL, SITE_URL, TOTAL_FUNDRAISING_MILES } from "@/lib/constants";
+import { getSiteMode } from "@/lib/site-mode";
 
 // Kept in sync with the split enforced in src/middleware.ts.
 const ORG_ROUTES = [
@@ -33,36 +34,51 @@ const CAMPAIGN_ROUTES = [
   "/live",
 ];
 
+/**
+ * Split per requesting host (via getSiteMode's headers() call) rather than
+ * one combined file listing both domains' URLs — Search Console treats
+ * sitemap entries for a host other than the one serving the sitemap as
+ * invalid, so a single shared sitemap.xml had every campaign-domain URL
+ * effectively ignored when fetched from forthe22.org, and vice versa. See
+ * robots.ts, split the same way so each domain's Sitemap: line points back
+ * at its own file.
+ */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const posts = await getPosts();
+  const mode = await getSiteMode();
+
+  if (mode === "campaign") {
+    const posts = await getPosts();
+
+    const campaignEntries: MetadataRoute.Sitemap = CAMPAIGN_ROUTES.map((path) => ({
+      url: `${CAMPAIGN_URL}${path}`,
+      lastModified: new Date(),
+    }));
+
+    const postEntries: MetadataRoute.Sitemap = posts.map((post) => ({
+      url: `${CAMPAIGN_URL}/updates/${post.slug}`,
+      lastModified: post.published_at ? new Date(post.published_at) : new Date(),
+    }));
+
+    const mileEntries: MetadataRoute.Sitemap = Array.from(
+      { length: TOTAL_FUNDRAISING_MILES },
+      (_, i) => ({
+        url: `${CAMPAIGN_URL}/miles/${i + 1}`,
+        lastModified: new Date(),
+      }),
+    );
+
+    return [...campaignEntries, ...postEntries, ...mileEntries];
+  }
 
   const orgEntries: MetadataRoute.Sitemap = ORG_ROUTES.map((path) => ({
     url: `${SITE_URL}${path}`,
     lastModified: new Date(),
   }));
 
-  const campaignEntries: MetadataRoute.Sitemap = CAMPAIGN_ROUTES.map((path) => ({
-    url: `${CAMPAIGN_URL}${path}`,
-    lastModified: new Date(),
-  }));
-
-  const postEntries: MetadataRoute.Sitemap = posts.map((post) => ({
-    url: `${CAMPAIGN_URL}/updates/${post.slug}`,
-    lastModified: post.published_at ? new Date(post.published_at) : new Date(),
-  }));
-
-  const mileEntries: MetadataRoute.Sitemap = Array.from(
-    { length: TOTAL_FUNDRAISING_MILES },
-    (_, i) => ({
-      url: `${CAMPAIGN_URL}/miles/${i + 1}`,
-      lastModified: new Date(),
-    }),
-  );
-
   const stateEntries: MetadataRoute.Sitemap = US_STATES_GRID.map((s) => ({
     url: `${SITE_URL}/resources/${s.code.toLowerCase()}`,
     lastModified: new Date(),
   }));
 
-  return [...orgEntries, ...campaignEntries, ...postEntries, ...mileEntries, ...stateEntries];
+  return [...orgEntries, ...stateEntries];
 }
