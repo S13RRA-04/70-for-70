@@ -18,6 +18,22 @@ jobs:
 
       - run: npm ci
 
+      # One-time cleanup for a stale Worker *secret* named
+      # NEXT_PUBLIC_SITE_URL (pointing at a broken "https://www.forthe22.org"
+      # with no DNS record) that predates committing this var into
+      # wrangler.jsonc's `vars`. Secrets are a separate binding namespace
+      # from plaintext vars — a `vars` push in "Build and deploy" below
+      # does NOT clear or overwrite an existing secret of the same name, so
+      # this stale secret silently kept shadowing the correct vars value on
+      # every deploy since, corrupting SITE_URL (and every SITE_URL-derived
+      # cross-domain link/canonical) site-wide. `|| true` makes this a safe
+      # no-op on every future run once the stale secret is actually gone.
+      - name: Remove stale NEXT_PUBLIC_SITE_URL secret
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: echo "y" | npx wrangler secret delete NEXT_PUBLIC_SITE_URL --name forthe22 || true
+
       - name: Build and deploy
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
