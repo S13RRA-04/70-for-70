@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { getAdjacentJournalEntries, getJournalEntries, getJournalEntryBySlug } from "@/lib/data/journal";
+import { getAdjacentJournalEntries, getJournalEntryBySlug } from "@/lib/data/journal";
 import { Container } from "@/components/shared/container";
 import { MediaPlaceholder } from "@/components/shared/media-placeholder";
 import { ShareButtons } from "@/components/shared/share-buttons";
@@ -18,11 +18,6 @@ import { parseVideoUrl } from "@/lib/video-url";
 import { CAMPAIGN_NAME, CAMPAIGN_URL, SITE_NAME, SITE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import type { JournalEntryWithMentions } from "@/types/database";
-
-export async function generateStaticParams() {
-  const entries = await getJournalEntries();
-  return entries.map((entry) => ({ slug: entry.slug }));
-}
 
 export async function generateMetadata(props: PageProps<"/journal/[slug]">): Promise<Metadata> {
   const { slug } = await props.params;
