@@ -4,33 +4,34 @@ import { US_STATES_GRID } from "@/lib/content/us-states";
 import { CAMPAIGN_URL, SITE_URL, TOTAL_FUNDRAISING_MILES } from "@/lib/constants";
 import { getSiteMode } from "@/lib/site-mode";
 
-// Kept in sync with the split enforced in src/middleware.ts.
+// Kept in sync with the split enforced in src/middleware.ts. /athletes,
+// /join, and /athlete-agreement are retired (redirect to /mission) —
+// excluded here so search engines follow the redirect to its target rather
+// than indexing the retired URL. /merch stays listed — it's the live
+// Bonfire store page, not retired.
 const ORG_ROUTES = [
   "",
   "/about",
   "/resources",
   "/crisis",
-  "/athletes",
   "/advocacy",
-  "/join",
   "/merch",
   "/contact",
   "/privacy",
   "/terms",
-  "/athlete-agreement",
   "/press",
+  "/how-funds-work",
 ];
+// /partners, /partners/inquire, /sponsors, and /sponsors/request are
+// retired (redirect to /beneficiaries) — excluded for the same reason.
 const CAMPAIGN_ROUTES = [
   "",
   "/the-mission",
   "/the-race",
   "/fund-a-mile",
-  "/partners",
-  "/partners/inquire",
+  "/beneficiaries",
   "/updates",
-  "/sponsors",
   "/donate",
-  "/sponsors/request",
   "/live",
 ];
 

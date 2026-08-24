@@ -1,27 +1,29 @@
 import type { NavLink } from "@/types/content";
 
-/** The organization/site brand — used in the header, footer, legal copy, and site-wide metadata. */
+/** The project's name — used in the header, footer, legal copy, and site-wide metadata. Not an organization name; see PROJECT_POSITIONING. */
 export const SITE_NAME = "For The 22";
 /**
- * The Current Campaign Architecture's top tier — "For The 22 Athletic
- * Team → Current Campaign → Tri For The 22". Used wherever a campaign
- * (current or future) needs to be framed as belonging to the team rather
- * than presented as the entirety of the organization's mission.
- */
-export const ATHLETIC_TEAM_NAME = "For The 22 Athletic Team";
-/**
- * The org's primary positioning statement. Replaces "Endurance With A
- * Purpose" as the org-level identity — that line is too narrow to define
- * the parent organization now that it covers resources, advocacy, and
- * athletics, not just endurance racing. See ATHLETIC_TAGLINE below for
- * where the old line still belongs.
+ * The org's primary positioning statement.
  */
 export const ORG_TAGLINE = "For Those Who Serve. For What Comes Next.";
-/** One-sentence expansion of ORG_TAGLINE — the three-pillar mission in a sentence. Matches the homepage hero copy verbatim; import from here instead of re-typing it. */
+/**
+ * One-sentence expansion of ORG_TAGLINE — matches the homepage hero copy
+ * verbatim; import from here instead of re-typing it. Deliberately frames
+ * For The 22 as Cody Hitson's personal, off-duty project — not an
+ * organization, athletic team, or entity that receives/allocates money —
+ * pending written federal ethics approval for any broader framing. See
+ * PERSONAL_PROJECT_DISCLOSURE for the fuller disclosure shown near
+ * donation flows and in the footer.
+ */
 export const ORG_SUPPORTING_STATEMENT =
-  "For The 22 connects veterans and first responders with the resources they need, raises awareness of the challenges they face, and brings athletes together to support the nonprofit organizations serving them.";
-/** The org's original tagline, from the logo mark — still fits athletic-specific contexts (e.g. /athletes), just no longer the org's primary identity. */
-export const ATHLETIC_TAGLINE = "Endurance With A Purpose";
+  "For The 22 is a personal endurance campaign connecting veterans and first responders with resources and encouraging direct support for the independent nonprofit organizations serving them.";
+/**
+ * Shown prominently on the homepage, donation pages, and in the footer —
+ * required disclosure while broader ethics approval is pending. Do not
+ * remove or soften without written approval covering the change.
+ */
+export const PERSONAL_PROJECT_DISCLOSURE =
+  "This is a personal, off-duty project. It is not sponsored, endorsed, or operated by any employer or government entity. No government title, authority, time, equipment, contacts, or nonpublic information is used.";
 /**
  * The specific fundraising campaign/race effort — distinct from SITE_NAME.
  * Individual campaigns follow a "[Mission] For The 22" naming convention
@@ -49,10 +51,11 @@ export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:30
 export const CAMPAIGN_URL = process.env.NEXT_PUBLIC_CAMPAIGN_URL ?? "http://localhost:3000";
 
 /**
- * Every campaign under the "For The 22" movement, current and future —
+ * Naming ideas Cody may take on personally if Tri For The 22 goes well —
  * powers the "[Mission] For The 22" explainer on /the-mission. Only Tri is
- * real/active; the rest are named future directions, not commitments with
- * dates — labeled "Future" rather than implying a timeline.
+ * real/active; the rest are just a naming convention for possible future
+ * personal challenges, not commitments with dates or a managed program —
+ * labeled "Future" rather than implying a timeline or an institution.
  */
 export const MOVEMENT_CAMPAIGNS = [
   { name: "Tri For The 22", discipline: "Triathlon", status: "current" as const },
@@ -63,41 +66,33 @@ export const MOVEMENT_CAMPAIGNS = [
 
 /**
  * Two separate nav sets, one per domain — see README's "Movement/Campaign
- * Domain Split". forthe22.org (org/movement) and tri.forthe22.org
- * (fundraising campaign) each get their own header/footer nav; a visitor
- * never sees campaign nav on the org site or vice versa. Org nav rounds out
- * to Home (logo) / Resources / Mission / Athletes / Partners / About / Shop
- * / Get Involved — Shop and Get Involved render as the header's two
- * CTA-styled buttons (see MERCH_LINK / GET_INVOLVED_LINK) rather than plain
- * nav links; "Current Mission" is a separate utility strip above the header
- * (see CampaignUtilityBar), not a nav item competing with the org's own
- * pages.
+ * Domain Split". forthe22.org (org) and tri.forthe22.org (fundraising
+ * campaign) each get their own header/footer nav; a visitor never sees
+ * campaign nav on the org site or vice versa. "Current Mission" is a
+ * separate utility strip above the header (see CampaignUtilityBar), not a
+ * nav item competing with the org's own pages.
  *
- * Partners is a real page but a *campaign*-domain route (see
+ * Beneficiaries is a real page but a *campaign*-domain route (see
  * CAMPAIGN_PATH_PREFIXES in middleware.ts, part of the deliberate
  * Movement/Campaign Domain Split) — its href here is deliberately an
- * absolute CAMPAIGN_URL link, the same cross-domain pattern the footer's
- * Sponsor link already uses, rather than a relative path that would get
+ * absolute CAMPAIGN_URL link rather than a relative path that would get
  * silently redirected off the org site.
  */
 export const ORG_NAV_LINKS: NavLink[] = [
   { label: "Resources", href: "/resources" },
   { label: "Mission", href: "/mission" },
-  { label: "Athletes", href: "/athletes" },
-  { label: "Partners", href: `${CAMPAIGN_URL}/partners` },
   { label: "About", href: "/about" },
+  { label: "Beneficiaries", href: `${CAMPAIGN_URL}/beneficiaries` },
 ];
 
 export const CAMPAIGN_NAV_LINKS: NavLink[] = [
   { label: "Campaign", href: "/the-mission" },
   { label: "Race", href: "/the-race" },
   { label: "Fundraising", href: "/fund-a-mile" },
-  { label: "Partners", href: "/partners" },
+  { label: "Beneficiaries", href: "/beneficiaries" },
   { label: "Updates", href: "/updates" },
 ];
 
-/** Org header CTA — required to be visible in the header, not just the footer. */
-export const MERCH_LINK: NavLink = { label: "Shop", href: "/merch" };
 /** Org header → campaign subdomain, styled as a CTA (not a plain nav link). */
 export const CAMPAIGN_HOME_LINK: NavLink = { label: CAMPAIGN_NAME, href: CAMPAIGN_URL };
 /**
@@ -110,11 +105,8 @@ export const CAMPAIGN_HOME_LINK: NavLink = { label: CAMPAIGN_NAME, href: CAMPAIG
 export const CURRENT_MISSION_NAV_LINK: NavLink = { label: "Current Mission", href: CAMPAIGN_URL };
 /** Campaign header → org subdomain, styled as a CTA. */
 export const ORG_HOME_LINK: NavLink = { label: SITE_NAME, href: SITE_URL };
-/** Org header's primary CTA — the umbrella entry point for all "how do I participate" pathways. */
-export const GET_INVOLVED_LINK: NavLink = { label: "Get Involved", href: "/join" };
 
-export const SPONSOR_LINK: NavLink = { label: "Sponsor", href: "/sponsors" };
-export const DONATE_LINK: NavLink = { label: "Donate", href: "/donate" };
+export const DONATE_LINK: NavLink = { label: "Donate Directly", href: "/donate" };
 
 export const FUNDRAISING_GOAL = 70_000;
 export const DOLLARS_PER_MILE = 1_000;
@@ -242,13 +234,9 @@ export const CUSTOM_PARTNERSHIP_CATEGORIES = [
   "Community Events",
 ] as const;
 
-/** TODO: replace with the athlete's real race name/date once confirmed. */
 export const RACE_INFO = {
-  // Race day itself is IRONMAN 70.3 Chattanooga, targeted for May 2027 (see
-  // about.ts). Exact race date/time isn't set here yet — third-party race
-  // calendars disagree on the specific day, so it's left null rather than
-  // guessed; set it once confirmed on the official race page below.
-  raceDate: null as string | null, // e.g. "2027-05-09T07:00:00-04:00" — TODO, confirm against courseInfoUrl
+  // Confirmed: IRONMAN 70.3 Chattanooga, Sunday, May 17, 2026.
+  raceDate: "2026-05-17T07:00:00-04:00" as string | null,
   raceLocation: "Chattanooga, Tennessee" as string | null,
   courseInfoUrl: "https://www.ironman.com/races/im703-chattanooga" as string | null,
   athleteGoalTime: null as string | null, // TODO, e.g. "6:30:00"
@@ -257,33 +245,17 @@ export const RACE_INFO = {
 
 export const CONTACT_EMAIL: string | null = "admin@forthe22.org";
 
-/** Official Jakroo team store — merchandise orders are handled entirely by Jakroo, not this site. */
-export const MERCH_STORE_URL = "https://jakroo.com/store-front?storeId=BkxZTlQ7Pzg";
-
 /**
- * How For The 22 allocates net merchandise proceeds — the amount actually
- * paid to For The 22 by the third-party merchandise provider (Jakroo) after
- * it deducts production, fulfillment, platform, transaction, refund, and
- * related costs. Not a percentage of the customer's retail purchase price.
- * See the Merchandise and Program Proceeds section of the Terms of Use.
+ * Bonfire fundraising store — a third-party print-on-demand platform, not
+ * operated by For The 22. Bonfire pays 100% of net profit from purchases
+ * directly to Mighty Oaks Foundation; For The 22 never processes, collects,
+ * or takes possession of merchandise proceeds. See the Merchandise section
+ * of the Terms of Use and /how-funds-work.
  */
-export const MERCH_PROCEEDS_ALLOCATION = [
-  {
-    percentage: 22,
-    label: "Charitable Giving",
-    body: "Donated to designated independent charitable organizations serving veterans, first responders, and related communities.",
-  },
-  {
-    percentage: 58,
-    label: "Athlete & Program Support",
-    body: "Used to support eligible athletes and For The 22 mission programs — approved equipment, race or event entry fees, coaching, training resources, adaptive equipment, and other mission-aligned expenses. Program availability and eligibility criteria may vary.",
-  },
-  {
-    percentage: 20,
-    label: "Operations, Taxes & Reserve",
-    body: "Retained to cover applicable taxes, insurance, legal/accounting expenses, web and technology expenses, administrative costs, program infrastructure, and reasonable operating reserves.",
-  },
-] as const;
+export const MERCH_STORE_URL = "https://www.bonfire.com/tri-for-the-22-mighty-oaks/";
+
+/** Sole recipient of 100% of net Bonfire store profit — see MERCH_STORE_URL. */
+export const MERCH_BENEFICIARY = "Mighty Oaks Foundation";
 
 /**
  * Social profile links for the footer's "Follow" list. Empty by default —
@@ -311,5 +283,5 @@ export const CURRENT_CAMPAIGN = {
   type: "triathlon",
   event: "IRONMAN 70.3 Chattanooga",
   eventUrl: RACE_INFO.courseInfoUrl,
-  beneficiaries: ["Mighty Oaks Foundation", "Project Echelon", "Veterans and Athletes United"],
+  beneficiaries: ["Mighty Oaks Foundation", "Veterans and Athletes United"],
 } as const;
