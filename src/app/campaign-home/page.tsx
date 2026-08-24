@@ -39,7 +39,10 @@ import { pageMetadata } from "@/lib/metadata";
 const HERO_SUPPORTING_SENTENCE = `One athlete taking on ${CURRENT_CAMPAIGN.event} to raise awareness and support organizations helping veterans recover, reconnect, and move forward.`;
 
 export const metadata = pageMetadata({
-  title: `${CAMPAIGN_NAME} | ${SITE_TAGLINE}`,
+  // Root layout's title template already appends " | {CAMPAIGN_NAME}" on
+  // the campaign host (see generateMetadata in src/app/layout.tsx) — a
+  // title here that repeats CAMPAIGN_NAME renders duplicated twice.
+  title: SITE_TAGLINE,
   description:
     "Tri For The 22 pairs a 70.3-mile triathlon with a $70,000 fundraising goal in support of veteran-focused nonprofit organizations.",
   canonical: `${CAMPAIGN_URL}/`,
