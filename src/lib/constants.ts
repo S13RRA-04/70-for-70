@@ -259,7 +259,7 @@ export const CONTACT_EMAIL: string | null = "admin@forthe22.org";
  * 100% of net profit is paid by Bonfire directly to MERCH_BENEFICIARY;
  * For The 22 never takes possession of merchandise proceeds.
  */
-export const MERCH_STORE_URL = "https://www.bonfire.com/tri-for-the-22-mighty-oaks/";
+export const MERCH_STORE_URL = "https://www.bonfire.com/store/for-the-22/";
 
 /** Sole recipient of net Bonfire store profit — see MERCH_STORE_URL. */
 export const MERCH_BENEFICIARY = "Mighty Oaks Foundation";
