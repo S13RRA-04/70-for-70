@@ -130,6 +130,7 @@ const CAMPAIGN_PATH_PREFIXES = [
   "/live",
   "/journal",
   "/miles",
+  "/campaign-supporters",
 ];
 
 function matchesPathPrefix(pathname: string, prefixes: string[]): boolean {

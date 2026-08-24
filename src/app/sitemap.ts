@@ -31,6 +31,7 @@ const CAMPAIGN_ROUTES = [
   "/fund-a-mile",
   "/beneficiaries",
   "/journal",
+  "/campaign-supporters",
   "/donate",
   "/live",
 ];

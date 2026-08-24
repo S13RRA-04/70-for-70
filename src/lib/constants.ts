@@ -82,6 +82,7 @@ export const CAMPAIGN_NAV_LINKS: NavLink[] = [
   { label: "Fundraising", href: "/fund-a-mile" },
   { label: "Beneficiaries", href: "/beneficiaries" },
   { label: "Journal", href: "/journal" },
+  { label: "Supporters", href: "/campaign-supporters" },
   // /merch is an org-domain-only route (see ORG_PATH_PREFIXES in
   // middleware.ts) — absolute SITE_URL link, same reason ORG_NAV_LINKS'
   // Beneficiaries entry above uses an absolute CAMPAIGN_URL link: avoids
