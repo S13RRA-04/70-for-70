@@ -176,12 +176,6 @@ export default async function MilePage(props: PageProps<"/miles/[number]">) {
                 ? "Help Finish This Mile"
                 : `Be the First to Fund Mile ${mile.mile_number}`}
             </Link>
-            <Link
-              href={`/sponsors/request?mile=${mile.mile_number}`}
-              className="inline-flex items-center justify-center rounded-sm border border-ink/20 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
-            >
-              Request Mile {mile.mile_number} Sponsorship
-            </Link>
           </div>
         )}
 

@@ -204,7 +204,13 @@ create table if not exists public.sponsors (
   logo_permission boolean not null default false,
   relationship_start date,
   relationship_end date,
-  associated_campaigns text[]
+  associated_campaigns text[],
+  -- Compliance gate, distinct from `active` (visibility toggle): a
+  -- sponsor is only ever rendered publicly once this is true. See
+  -- getSponsors() in src/lib/data/sponsors.ts.
+  ethics_cleared boolean not null default false,
+  ethics_cleared_date date,
+  disclosure_text text
 );
 
 create index if not exists sponsors_active_idx on public.sponsors (active);
@@ -217,6 +223,9 @@ alter table public.sponsors add column if not exists logo_permission boolean not
 alter table public.sponsors add column if not exists relationship_start date;
 alter table public.sponsors add column if not exists relationship_end date;
 alter table public.sponsors add column if not exists associated_campaigns text[];
+alter table public.sponsors add column if not exists ethics_cleared boolean not null default false;
+alter table public.sponsors add column if not exists ethics_cleared_date date;
+alter table public.sponsors add column if not exists disclosure_text text;
 create index if not exists sponsors_sponsorship_request_id_idx on public.sponsors (sponsorship_request_id);
 
 -- ---------------------------------------------------------------------------

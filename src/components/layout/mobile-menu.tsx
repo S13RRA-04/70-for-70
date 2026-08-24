@@ -7,10 +7,7 @@ import {
   CAMPAIGN_NAME,
   CURRENT_MISSION_NAV_LINK,
   DONATE_LINK,
-  GET_INVOLVED_LINK,
-  MERCH_LINK,
   ORG_HOME_LINK,
-  SPONSOR_LINK,
 } from "@/lib/constants";
 import type { NavLink } from "@/types/content";
 import { cn } from "@/lib/utils";
@@ -119,14 +116,6 @@ export function MobileMenu({ open, onClose, navLinks, pathname, isCampaign, trig
             <ul className="mt-3 flex flex-col gap-2 border-t border-ink/10 pt-3">
               <li>
                 <Link
-                  href={SPONSOR_LINK.href}
-                  className="block rounded-sm border border-ink/20 px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-ink hover:bg-sand-light"
-                >
-                  {SPONSOR_LINK.label}
-                </Link>
-              </li>
-              <li>
-                <Link
                   href={DONATE_LINK.href}
                   className="block rounded-sm bg-bronze px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
                 >
@@ -146,28 +135,12 @@ export function MobileMenu({ open, onClose, navLinks, pathname, isCampaign, trig
             <>
               <ul className="mt-3 flex flex-col gap-2 border-t border-ink/10 pt-3">
                 <li>
-                  <Link
-                    href={MERCH_LINK.href}
-                    className="block rounded-sm border border-ink/20 px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-ink hover:bg-sand-light"
-                  >
-                    {MERCH_LINK.label}
-                  </Link>
-                </li>
-                <li>
                   <a
                     href={CURRENT_MISSION_NAV_LINK.href}
                     className="block rounded-sm border border-anchor/20 px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-anchor hover:bg-anchor/5"
                   >
                     {CURRENT_MISSION_NAV_LINK.label} &mdash; {CAMPAIGN_NAME}
                   </a>
-                </li>
-                <li>
-                  <Link
-                    href={GET_INVOLVED_LINK.href}
-                    className="block rounded-sm bg-anchor px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-off-white hover:bg-anchor-light"
-                  >
-                    {GET_INVOLVED_LINK.label}
-                  </Link>
                 </li>
               </ul>
               <div className="mt-auto border-t border-ink/10 pt-3">

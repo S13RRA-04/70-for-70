@@ -8,8 +8,7 @@ import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
   title: "Site Terms",
-  description:
-    "Terms of use, sponsorship disclosure, charitable giving disclosure, and trademark disclaimer for For The 22.",
+  description: "Terms of use, charitable giving disclosure, and trademark disclaimer for For The 22.",
   canonical: "/terms",
 });
 
@@ -22,9 +21,8 @@ export default function TermsPage() {
           <p className="mt-3 text-sm text-charcoal-light">
             Last updated {formatDateLong(TERMS_LAST_UPDATED)}
           </p>
-          <p className="mt-4 max-w-2xl rounded-sm border border-bronze/30 bg-bronze/10 px-4 py-3 text-sm text-ink">
-            This page is a working draft describing what the site actually does today, and is
-            pending final review by qualified legal counsel before launch. See also our{" "}
+          <p className="mt-4 max-w-2xl text-sm text-charcoal-light">
+            See also our{" "}
             <Link href="/privacy" className="text-bronze hover:underline">
               Privacy Policy
             </Link>

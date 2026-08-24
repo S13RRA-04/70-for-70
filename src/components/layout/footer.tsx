@@ -9,6 +9,7 @@ import {
   ORG_HOME_LINK,
   ORG_NAV_LINKS,
   ORG_TAGLINE,
+  PERSONAL_PROJECT_DISCLOSURE,
   SITE_NAME,
   SITE_URL,
 } from "@/lib/constants";
@@ -99,12 +100,12 @@ export function Footer({ mode }: { mode: SiteMode }) {
               <ul className="mt-4 space-y-2 text-sm text-off-white/70">
                 <li>
                   <Link href="/donate" className="transition-colors hover:text-off-white">
-                    Donate
+                    Donate Directly
                   </Link>
                 </li>
                 <li>
-                  <Link href="/sponsors" className="transition-colors hover:text-off-white">
-                    Sponsor
+                  <Link href="/how-funds-work" className="transition-colors hover:text-off-white">
+                    How Donations Work
                   </Link>
                 </li>
                 <li>
@@ -134,16 +135,6 @@ export function Footer({ mode }: { mode: SiteMode }) {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/athletes" className="transition-colors hover:text-off-white">
-                    Athletes
-                  </Link>
-                </li>
-                <li>
-                  <a href={`${CAMPAIGN_URL}/partners`} className="transition-colors hover:text-off-white">
-                    Partners
-                  </a>
-                </li>
-                <li>
                   <Link href="/about" className="transition-colors hover:text-off-white">
                     About
                   </Link>
@@ -153,27 +144,32 @@ export function Footer({ mode }: { mode: SiteMode }) {
 
             <div>
               <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
-                Get Involved
+                Campaign
               </p>
               <ul className="mt-4 space-y-2 text-sm text-off-white/70">
                 <li>
-                  <Link href="/join" className="transition-colors hover:text-off-white">
-                    Join the Team
-                  </Link>
-                </li>
-                <li>
-                  <a href={`${CAMPAIGN_URL}/partners/inquire`} className="transition-colors hover:text-off-white">
-                    Become a Partner
+                  <a href={CAMPAIGN_HOME_LINK.href} className="transition-colors hover:text-off-white">
+                    {CAMPAIGN_HOME_LINK.label}
                   </a>
                 </li>
                 <li>
-                  <a href={`${CAMPAIGN_URL}/sponsors`} className="transition-colors hover:text-off-white">
-                    Sponsor
+                  <a href={`${CAMPAIGN_URL}/beneficiaries`} className="transition-colors hover:text-off-white">
+                    Beneficiaries
                   </a>
                 </li>
                 <li>
-                  <Link href="/merch" className="transition-colors hover:text-off-white">
-                    Shop
+                  <a href={`${CAMPAIGN_URL}/updates`} className="transition-colors hover:text-off-white">
+                    Campaign Updates
+                  </a>
+                </li>
+                <li>
+                  <a href={`${CAMPAIGN_URL}/donate`} className="transition-colors hover:text-off-white">
+                    Donate Directly
+                  </a>
+                </li>
+                <li>
+                  <Link href="/how-funds-work" className="transition-colors hover:text-off-white">
+                    How Donations Work
                   </Link>
                 </li>
               </ul>
@@ -226,11 +222,6 @@ export function Footer({ mode }: { mode: SiteMode }) {
                     </Link>
                   )}
                 </li>
-                <li>
-                  <Link href="/merch#transparency" className="transition-colors hover:text-off-white">
-                    Financial Transparency
-                  </Link>
-                </li>
               </ul>
               <SocialLinks className="mt-4" />
             </div>
@@ -250,16 +241,17 @@ export function Footer({ mode }: { mode: SiteMode }) {
                     Privacy
                   </Link>
                 </li>
-                <li>
-                  <Link href="/athlete-agreement" className="transition-colors hover:text-off-white">
-                    Athlete Agreement
-                  </Link>
-                </li>
               </ul>
             </div>
           </>
         )}
       </Container>
+
+      <div className="relative border-t border-off-white/10 py-5">
+        <Container>
+          <p className="max-w-3xl text-xs text-off-white/60">{PERSONAL_PROJECT_DISCLOSURE}</p>
+        </Container>
+      </div>
 
       <div className="relative border-t border-off-white/10 py-6">
         <Container className="flex flex-col gap-3 text-xs text-off-white/50 sm:flex-row sm:items-center sm:justify-between">

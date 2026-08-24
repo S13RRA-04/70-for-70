@@ -14,36 +14,35 @@ import { THREE_MISSIONS } from "@/lib/content/three-missions";
 import { OUTER_RING_COLORS } from "@/lib/ring-colors";
 import { getPartners } from "@/lib/data/partners";
 import {
-  ATHLETIC_TEAM_NAME,
   CAMPAIGN_HOME_LINK,
   CAMPAIGN_NAME,
   CAMPAIGN_URL,
   ORG_SUPPORTING_STATEMENT,
   ORG_TAGLINE,
+  PERSONAL_PROJECT_DISCLOSURE,
   SITE_NAME,
 } from "@/lib/constants";
 
 const CAMPAIGN_STATS = [
   { value: "70.3 MI", label: "Race" },
   { value: "$70K", label: "Goal" },
-  { value: "2027", label: "Chattanooga" },
+  { value: "2026", label: "Chattanooga" },
 ] as const;
 
 /** Real, confirmed beneficiary marks — shown on a light chip so each reads cleanly against the dark dashboard background regardless of the source logo's own color. */
 const BENEFICIARY_LOGOS = [
   { name: "Mighty Oaks Foundation", src: "/partners/mighty-oaks-logo.png" },
-  { name: "Project Echelon", src: "/partners/project-echelon-logo.png" },
   { name: "Veterans and Athletes United", src: "/partners/vau-logo.png" },
 ] as const;
 
 const RAIL_SECTIONS = [
   { id: "resources", label: "Resources" },
   { id: "missions", label: "Mission" },
-  { id: "current-mission", label: "Team" },
-  { id: "partners", label: "Partners" },
+  { id: "current-mission", label: "Campaign" },
+  { id: "beneficiaries", label: "Beneficiaries" },
   { id: "why-22", label: "Meaning" },
   { id: "story", label: "Story" },
-  { id: "join", label: "Join" },
+  { id: "support", label: "Support" },
 ];
 
 const MOVE_VERBS = ["Race.", "Ride.", "Ruck.", "Swim.", "Lift.", "Move."];
@@ -88,10 +87,10 @@ export default async function HomePage() {
 
           <div className="mt-10 flex flex-wrap items-center gap-4">
             <CTAButton href="/resources" size="lg">
-              Find Resources
+              Explore Resources
             </CTAButton>
-            <CTAButton href="/join" variant="secondary" tone="dark" size="lg">
-              Join the Mission
+            <CTAButton href={`${CAMPAIGN_URL}/beneficiaries`} external variant="secondary" tone="dark" size="lg">
+              Support a Beneficiary
             </CTAButton>
           </div>
 
@@ -102,6 +101,10 @@ export default async function HomePage() {
             Need Help Now?
             <ChevronDown size={14} aria-hidden="true" />
           </a>
+
+          <p className="mt-10 max-w-xl text-xs leading-relaxed text-off-white/50">
+            {PERSONAL_PROJECT_DISCLOSURE}
+          </p>
         </Container>
       </section>
 
@@ -171,16 +174,16 @@ export default async function HomePage() {
                 />
               </div>
 
-              <div className="lg:col-span-4">
+              <div className="lg:col-span-7">
                 <p className="text-xs font-semibold uppercase tracking-widest text-bronze-light">
-                  {ATHLETIC_TEAM_NAME} &middot; Current Campaign
+                  {SITE_NAME} &middot; Current Campaign
                 </p>
                 <h2 className="mt-3 text-balance font-display text-4xl font-bold uppercase leading-none tracking-tight sm:text-5xl">
                   {CAMPAIGN_NAME}
                 </h2>
                 <p className="mt-4 max-w-md text-base leading-relaxed text-off-white/75">
                   A 70.3-mile triathlon paired with a $70,000 fundraising goal, in support of
-                  Mighty Oaks Foundation, Project Echelon, and Veterans and Athletes United.
+                  Mighty Oaks Foundation and Veterans and Athletes United.
                 </p>
 
                 <div className="mt-8 grid grid-cols-3 gap-4 border-t border-off-white/15 pt-6 sm:max-w-sm">
@@ -214,41 +217,19 @@ export default async function HomePage() {
                   Follow the Campaign
                 </CTAButton>
               </div>
-
-              <div className="flex flex-col justify-center border-t border-off-white/15 pt-8 lg:col-span-3 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
-                <p className="text-xs font-semibold uppercase tracking-widest text-bronze-light">
-                  Mission Three: Compete
-                </p>
-                <h3 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight">
-                  The Team
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed text-off-white/70">
-                  The For The 22 Athletic Team races, rides, rucks, swims, and lifts to raise
-                  awareness and support fundraising for the nonprofit organizations serving
-                  veterans and first responders.
-                </p>
-                <CTAButton
-                  href="/athletes"
-                  variant="secondary"
-                  tone="dark"
-                  className="mt-6 self-start"
-                >
-                  Become an Athlete
-                </CTAButton>
-              </div>
             </div>
           </RevealOnScroll>
         </Container>
       </section>
 
-      {/* Partners in the Mission — Tier 3: confirmed relationships only, not an indiscriminate logo wall */}
+      {/* Beneficiaries — Tier 3: confirmed relationships only, not an indiscriminate logo wall */}
       {partners.length > 0 && (
-        <section id="partners" className="scroll-mt-20 bg-off-white py-16 sm:py-24">
+        <section id="beneficiaries" className="scroll-mt-20 bg-off-white py-16 sm:py-24">
           <Container className="max-w-[1400px]">
             <RevealOnScroll>
               <SectionHeading
                 eyebrow="In This Together"
-                title="Partners in the Mission"
+                title="Beneficiaries"
                 description="The nonprofit organizations Tri For The 22 raises funds for — confirmed beneficiary relationships, not a general directory listing."
               />
             </RevealOnScroll>
@@ -277,8 +258,8 @@ export default async function HomePage() {
               </div>
             </RevealOnScroll>
             <RevealOnScroll className="mt-8">
-              <CTAButton href={`${CAMPAIGN_URL}/partners`} external variant="secondary">
-                Meet Our Partners →
+              <CTAButton href={`${CAMPAIGN_URL}/beneficiaries`} external variant="secondary">
+                Meet Our Beneficiaries →
               </CTAButton>
             </RevealOnScroll>
           </Container>
@@ -368,8 +349,8 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* Join — Tier 1: kinetic oversized typography closer */}
-      <section id="join" className="scroll-mt-20 bg-ink py-20 text-off-white sm:py-28">
+      {/* Support — Tier 1: kinetic oversized typography closer */}
+      <section id="support" className="scroll-mt-20 bg-ink py-20 text-off-white sm:py-28">
         <Container className="max-w-4xl text-center">
           <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-bronze-light">
             Whatever Moves You
@@ -388,11 +369,11 @@ export default async function HomePage() {
             Move for something bigger than the finish line.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <CTAButton href="/join">
-              Join For The 22
+            <CTAButton href="/resources">
+              Explore Resources
             </CTAButton>
-            <CTAButton href="/resources" variant="secondary" tone="dark">
-              Find Resources
+            <CTAButton href={`${CAMPAIGN_URL}/beneficiaries`} external variant="secondary" tone="dark">
+              Support a Beneficiary
             </CTAButton>
           </div>
         </Container>

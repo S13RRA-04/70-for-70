@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { EmailSignupForm } from "@/components/forms/email-signup-form";
 import {
-  ATHLETIC_TEAM_NAME,
   CAMPAIGN_NAME,
   CONTACT_EMAIL,
   CURRENT_CAMPAIGN,
@@ -46,7 +45,7 @@ export default async function ComingSoonPage(props: PageProps<"/coming-soon">) {
       <section className="flex min-h-[85vh] flex-col items-center justify-center bg-ink px-6 py-20 text-center text-off-white">
         <Image src="/campaign-logo.png" alt="" aria-hidden="true" width={64} height={64} priority />
         <p className="mt-6 text-xs font-semibold uppercase tracking-[0.25em] text-bronze-light">
-          {ATHLETIC_TEAM_NAME} &middot; Current Campaign
+          {SITE_NAME} &middot; Current Campaign
         </p>
         <h1 className="mt-3 text-balance font-display text-4xl font-bold uppercase leading-[0.95] tracking-tight sm:text-6xl">
           {CAMPAIGN_NAME}

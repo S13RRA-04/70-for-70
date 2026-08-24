@@ -3,7 +3,6 @@ import Link from "next/link";
 import { getCampaign } from "@/lib/data/campaign";
 import { getMilesWithDonations } from "@/lib/data/miles";
 import { getPartners } from "@/lib/data/partners";
-import { getSponsors } from "@/lib/data/sponsors";
 import { getLatestPosts } from "@/lib/data/posts";
 import { getTrainingSnapshot } from "@/lib/whoop/client";
 import { CampaignProgress } from "@/components/campaign/campaign-progress";
@@ -13,7 +12,6 @@ import { MileGrid } from "@/components/miles/mile-grid";
 import { PartnerCard } from "@/components/partners/partner-card";
 import { UpdateCard } from "@/components/updates/update-card";
 import { TrainingSnapshot } from "@/components/training/training-snapshot";
-import { SponsorWall } from "@/components/sponsors/sponsor-wall";
 import { CTASection } from "@/components/shared/cta-section";
 import { CTAButton } from "@/components/shared/cta-button";
 import { MobileActionBar } from "@/components/shared/mobile-action-bar";
@@ -22,7 +20,6 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { ShareButtons } from "@/components/shared/share-buttons";
 import { EmailSignupForm } from "@/components/forms/email-signup-form";
 import {
-  ATHLETIC_TEAM_NAME,
   CAMPAIGN_NAME,
   CAMPAIGN_URL,
   CURRENT_CAMPAIGN,
@@ -31,6 +28,7 @@ import {
   ORG_HOME_LINK,
   RACE_INFO,
   RACE_TOTAL_DISTANCE,
+  SITE_NAME,
   SITE_TAGLINE,
   TOTAL_FUNDRAISING_MILES,
 } from "@/lib/constants";
@@ -54,17 +52,16 @@ export const metadata = pageMetadata({
  *
  * Section order follows the fundraising-microsite spec: hero → one
  * fundraising-progress interface (not duplicated) → campaign explanation
- * → beneficiaries → fund-a-mile → race/training → sponsors → latest
- * update(s) → final donate CTA. The founder story is deliberately NOT
+ * → beneficiaries → fund-a-mile → race/training → latest update(s) →
+ * final donate CTA. The founder story is deliberately NOT
  * reproduced here — it lives on ForThe22.org (see the "Why 70 Miles?"
  * section's link out) so it has one authoritative home instead of two.
  */
 export default async function CampaignHomePage() {
-  const [campaign, miles, partners, sponsors, latestPosts, trainingSnapshot] = await Promise.all([
+  const [campaign, miles, partners, latestPosts, trainingSnapshot] = await Promise.all([
     getCampaign(),
     getMilesWithDonations(),
     getPartners(),
-    getSponsors(),
     getLatestPosts(2),
     getTrainingSnapshot(),
   ]);
@@ -85,7 +82,7 @@ export default async function CampaignHomePage() {
         <div className="relative aspect-[3/1] w-full">
           <Image
             src="/tri-for-the-22-banner.png"
-            alt={`${CAMPAIGN_NAME} — ${RACE_TOTAL_DISTANCE} Miles. ${formatCurrency(campaign.fundraising_goal)}. One Mission. Chattanooga 2027.`}
+            alt={`${CAMPAIGN_NAME} — ${RACE_TOTAL_DISTANCE} Miles. ${formatCurrency(campaign.fundraising_goal)}. One Mission. Chattanooga 2026.`}
             fill
             sizes="100vw"
             priority
@@ -104,7 +101,7 @@ export default async function CampaignHomePage() {
               href={ORG_HOME_LINK.href}
               className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light hover:underline"
             >
-              {ATHLETIC_TEAM_NAME} Presents
+              {SITE_NAME} Presents
             </a>
             <h1 className="sr-only">{CAMPAIGN_NAME}</h1>
             <p className="mt-4 max-w-xl text-base leading-relaxed text-off-white/75">
@@ -252,23 +249,6 @@ export default async function CampaignHomePage() {
         </Container>
       </section>
 
-      {/* Sponsors — Tier 2 */}
-      <section className="bg-sand-light py-16 sm:py-20">
-        <Container>
-          <SectionHeading
-            eyebrow="Backing the Mission"
-            title="Campaign Sponsors"
-            description={`Organizations and businesses supporting ${CAMPAIGN_NAME} alongside individual donors.`}
-          />
-          <div className="mt-8">
-            <SponsorWall sponsors={sponsors} />
-          </div>
-          <div className="mt-8">
-            <CTAButton href="/sponsors">Become a Sponsor</CTAButton>
-          </div>
-        </Container>
-      </section>
-
       {/* Latest Update(s) — Tier 3: one or two, not a full archive grid */}
       {latestPosts.length > 0 && (
         <section className="py-16 sm:py-20">
@@ -316,9 +296,9 @@ export default async function CampaignHomePage() {
 
       {/* Final Donate CTA — Tier 1 */}
       <CTASection
-        eyebrow="Join the Mission"
+        eyebrow="Support the Mission"
         title={`${formatNumber(miles70, 1)} of ${TOTAL_FUNDRAISING_MILES} Miles Funded (${Math.round(percent)}%)`}
-        description="Every mile counts. Support the campaign, fund a mile, or bring your company on board as a sponsor."
+        description="Every mile counts. Support the campaign directly or fund a mile."
         buttons={[
           { label: "Support the Campaign", href: DONATE_LINK.href },
           { label: "Fund a Mile", href: "/fund-a-mile", variant: "secondary" },

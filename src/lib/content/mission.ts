@@ -47,15 +47,6 @@ export const MISSION_SECTIONS: MissionSection[] = [
     link: { label: "Learn more about Mighty Oaks", href: "/partners" },
   },
   {
-    id: "why-project-echelon",
-    heading: "Why Project Echelon",
-    body: [
-      "Project Echelon uses endurance sport, mentorship, structure, and community to help veterans continue moving forward after military service.",
-      "There is something powerful about putting veterans back into an environment where there is a mission, a team, accountability, and a reason to keep showing up — you prepare, you suffer together, you hold each other accountable, and you finish what you started.",
-    ],
-    link: { label: "Learn more about Project Echelon", href: "/partners" },
-  },
-  {
     id: "the-goal",
     heading: "The Goal",
     body: [

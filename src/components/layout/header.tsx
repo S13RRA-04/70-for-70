@@ -9,15 +9,11 @@ import {
   CAMPAIGN_NAME,
   CAMPAIGN_NAV_LINKS,
   DONATE_LINK,
-  GET_INVOLVED_LINK,
-  MERCH_LINK,
   ORG_NAV_LINKS,
   SITE_NAME,
-  SPONSOR_LINK,
 } from "@/lib/constants";
 import type { SiteMode } from "@/lib/site-mode";
 import { cn } from "@/lib/utils";
-import { CTAButton } from "@/components/shared/cta-button";
 import { MobileMenu } from "@/components/layout/mobile-menu";
 
 export function Header({ mode }: { mode: SiteMode }) {
@@ -76,30 +72,13 @@ export function Header({ mode }: { mode: SiteMode }) {
             </Link>
           ))}
 
-          {isCampaign ? (
-            <>
-              <Link
-                href={SPONSOR_LINK.href}
-                className="rounded-sm border border-ink/20 px-5 py-2 text-sm font-semibold uppercase tracking-wide text-ink transition-colors hover:bg-ink/5"
-              >
-                {SPONSOR_LINK.label}
-              </Link>
-              <Link
-                href={DONATE_LINK.href}
-                className="rounded-sm bg-bronze px-5 py-2 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light"
-              >
-                {DONATE_LINK.label}
-              </Link>
-            </>
-          ) : (
-            <>
-              <CTAButton href={MERCH_LINK.href} variant="secondary" size="md">
-                {MERCH_LINK.label}
-              </CTAButton>
-              <CTAButton href={GET_INVOLVED_LINK.href} variant="primary" accent="black" size="md">
-                {GET_INVOLVED_LINK.label}
-              </CTAButton>
-            </>
+          {isCampaign && (
+            <Link
+              href={DONATE_LINK.href}
+              className="rounded-sm bg-bronze px-5 py-2 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light"
+            >
+              {DONATE_LINK.label}
+            </Link>
           )}
         </nav>
 

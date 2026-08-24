@@ -1,16 +1,21 @@
+import { CAMPAIGN_URL } from "@/lib/constants";
+
 /**
- * The canonical CONNECT / ADVOCATE / COMPETE copy — the org's three-pillar
- * mission framing. Shared by the homepage's "Our Three Missions" section and
- * the standalone /mission page so the explanation only exists in one place
- * (see the rebrand brief's instruction not to duplicate the same
- * explanation across pages).
+ * The canonical CONNECT / ADVOCATE / ENDURE copy — the three-pillar mission
+ * framing. Shared by the homepage's "Our Three Missions" section and the
+ * standalone /mission page so the explanation only exists in one place.
+ *
+ * The "compete" key name is kept as-is (internal identifier only, never
+ * rendered) even though the pillar now reads "Endure" — this avoids
+ * renaming it across every call site for a change that's purely cosmetic
+ * at the type level.
  */
 export const THREE_MISSIONS = {
   connect: {
     number: "01" as const,
     title: "Connect",
     description:
-      "Connecting veterans and first responders with athletic opportunities, recovery programs, grants, support services, and communities that promote mental, physical, and spiritual wellbeing.",
+      "Helping veterans and first responders find established programs, services, and communities that promote mental, physical, and spiritual wellbeing.",
     ctaLabel: "Find Resources →",
     ctaHref: "/resources",
   },
@@ -23,9 +28,11 @@ export const THREE_MISSIONS = {
   },
   compete: {
     number: "03" as const,
-    title: "Compete",
-    description: "An athletic team that competes to support the nonprofits serving them.",
-    ctaLabel: "Meet the Team →",
-    ctaHref: "/athletes",
+    title: "Endure",
+    description:
+      "Using a personal endurance challenge to encourage direct support for independent nonprofit organizations.",
+    ctaLabel: "Follow the Campaign →",
+    ctaHref: CAMPAIGN_URL,
+    ctaExternal: true,
   },
 };

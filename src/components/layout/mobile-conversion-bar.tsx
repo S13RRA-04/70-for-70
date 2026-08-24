@@ -48,10 +48,10 @@ export function MobileConversionBar({ mode }: { mode: SiteMode }) {
         Fund a Mile
       </Link>
       <Link
-        href="/sponsors"
+        href="/donate"
         className="flex-1 rounded-sm border border-ink/20 bg-off-white px-4 py-3 text-center text-sm font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
       >
-        Sponsor
+        Donate Directly
       </Link>
     </div>
   );

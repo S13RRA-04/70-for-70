@@ -4,7 +4,7 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
 import { MobileActionBar } from "@/components/shared/mobile-action-bar";
 import { ResourceDirectory } from "@/components/resources/resource-directory";
-import { CONTACT_EMAIL, SITE_NAME } from "@/lib/constants";
+import { CAMPAIGN_URL, CONTACT_EMAIL, SITE_NAME } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
@@ -49,7 +49,7 @@ export default function ResourcesPage() {
       <div className="h-16 sm:hidden" aria-hidden="true" />
       <MobileActionBar
         secondary={{ label: "Search", href: "#resource-search" }}
-        primary={{ label: "Join", href: "/join" }}
+        primary={{ label: "Support a Beneficiary", href: `${CAMPAIGN_URL}/beneficiaries` }}
       />
     </>
   );

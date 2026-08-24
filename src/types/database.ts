@@ -140,6 +140,15 @@ export interface SponsorRow {
   relationship_start: string | null;
   relationship_end: string | null;
   associated_campaigns: string[] | null;
+  /**
+   * Only a sponsor with `ethics_cleared: true` may be publicly displayed —
+   * see getSponsors() in src/lib/data/sponsors.ts. Distinct from `active`,
+   * which is just a visibility toggle; this is the compliance gate.
+   */
+  ethics_cleared: boolean;
+  ethics_cleared_date: string | null;
+  /** Required, exact disclosure text shown beside/below the logo once cleared. */
+  disclosure_text: string | null;
 }
 
 export interface PostRow {

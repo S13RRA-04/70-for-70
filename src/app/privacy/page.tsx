@@ -21,10 +21,6 @@ export default function PrivacyPage() {
           <p className="mt-3 text-sm text-charcoal-light">
             Last updated {formatDateLong(PRIVACY_LAST_UPDATED)}
           </p>
-          <p className="mt-4 max-w-2xl rounded-sm border border-bronze/30 bg-bronze/10 px-4 py-3 text-sm text-ink">
-            This policy is a working draft describing what the site actually does today, and is
-            pending final review by qualified legal counsel before launch.
-          </p>
         </Container>
       </section>
 

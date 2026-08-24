@@ -101,7 +101,7 @@ export function EmailSignupForm() {
         data-analytics-event="mailing_list_signup"
         className="rounded-sm bg-bronze px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light disabled:opacity-60"
       >
-        {status === "submitting" ? "Joining..." : "Join the Mission"}
+        {status === "submitting" ? "Submitting..." : "Follow Campaign Updates"}
       </button>
 
       {status === "error" && errorMessage && (

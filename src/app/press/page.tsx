@@ -5,7 +5,7 @@ import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CampaignByTheNumbers } from "@/components/campaign/campaign-by-the-numbers";
 import { APPROVED_PHOTOS, MEDIA_COVERAGE, PRESS_RELEASES } from "@/lib/content/press";
-import { ATHLETIC_TEAM_NAME, CONTACT_EMAIL, SITE_NAME, SITE_TAGLINE } from "@/lib/constants";
+import { CONTACT_EMAIL, SITE_TAGLINE } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { formatDateLong } from "@/lib/utils";
 
@@ -30,14 +30,12 @@ export default async function PressPage() {
         <Container className="max-w-3xl space-y-14">
           <div>
             <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
-              Organization Summary
+              Project Summary
             </h2>
             <p className="mt-3 text-base leading-relaxed text-charcoal-light">
-              {SITE_NAME} connects veterans and first responders with resources, advocates for
-              their continued care, and builds an athletic team that competes to support the
-              organizations serving them. Tri For The 22 is the current campaign under the{" "}
-              {ATHLETIC_TEAM_NAME} — the first of what&apos;s intended to be an ongoing series of
-              endurance campaigns, not the entirety of the organization&apos;s mission.
+              For The 22 is a personal, off-duty project created by Cody Hitson to connect
+              veterans and first responders with established resources and use endurance
+              challenges to encourage direct support for independent nonprofit organizations.
             </p>
           </div>
 
@@ -46,8 +44,9 @@ export default async function PressPage() {
               Campaign Summary
             </h2>
             <p className="mt-3 text-base leading-relaxed text-charcoal-light">
-              Tri For The 22 pairs a 70.3-mile triathlon with a $70,000 fundraising goal — $1,000 per
-              race mile — in support of veteran-focused nonprofit organizations.
+              Tri For The 22 is Cody&apos;s current endurance campaign: training for and
+              completing a 70.3-mile triathlon while encouraging the public to donate directly
+              to the campaign&apos;s confirmed beneficiary organizations.
               {" "}{SITE_TAGLINE}
             </p>
             <div className="mt-6">

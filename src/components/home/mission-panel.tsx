@@ -7,6 +7,8 @@ interface MissionPanelProps {
   description: string;
   ctaLabel: string;
   ctaHref: string;
+  /** For a cross-domain ctaHref (e.g. the campaign subdomain) — see CTAButton's `external`. */
+  ctaExternal?: boolean;
   /** CONNECT is the primary functional mission — gets larger type/padding to read as dominant, not equal-weight with the other two. */
   featured?: boolean;
 }
@@ -17,6 +19,7 @@ export function MissionPanel({
   description,
   ctaLabel,
   ctaHref,
+  ctaExternal = false,
   featured = false,
 }: MissionPanelProps) {
   return (
@@ -58,6 +61,7 @@ export function MissionPanel({
       </p>
       <CTAButton
         href={ctaHref}
+        external={ctaExternal}
         variant="ghost"
         tone={featured ? "dark" : "light"}
         size={featured ? "lg" : "md"}

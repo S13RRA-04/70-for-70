@@ -44,8 +44,8 @@ const SUBSECTIONS = {
     id: "the-idea",
     heading: "How This Became For The 22",
     body: [
-      "My next major goal is completing a 70.3-mile triathlon — 1.2 miles swimming, 56 miles cycling, and 13.1 miles running. But I did not want that race to be only about crossing another finish line. I wanted the miles to mean something. That is where Tri For The 22 began: the first campaign under a larger idea, For The 22 — a movement where athletes use endurance challenges to raise money, awareness, and support for veterans and first responders.",
-      "I have benefited from people and organizations willing to invest in veterans when it mattered most. Now I want to return that investment. There is another veteran somewhere trying to figure out what comes next. Another who needs a mission. Another who needs a team. I cannot solve all of that, but I can swim 1.2 miles, ride 56, run 13.1, tell my story, and ask people to join me.",
+      "My next major goal is completing a 70.3-mile triathlon — 1.2 miles swimming, 56 miles cycling, and 13.1 miles running. Tri For The 22 began as a personal endurance challenge: train for the race, tell the story honestly, connect people with established resources, and encourage direct support for organizations already doing the work.",
+      "I have benefited from people and organizations willing to invest in veterans when it mattered most. Now I want to return that investment. There is another veteran somewhere trying to figure out what comes next — another who needs a mission. I cannot solve all of that, but I can swim 1.2 miles, ride 56, run 13.1, and tell my story.",
     ],
   },
   "my-story": {
@@ -94,13 +94,6 @@ const SUBSECTIONS = {
     body: [
       "You do not have to feel strong to keep moving. You just have to take the next step.",
       "That is what endurance has become for me. Not an escape. Not punishment. A way forward.",
-    ],
-  },
-  "project-echelon": {
-    id: "project-echelon",
-    heading: "Project Echelon",
-    body: [
-      "Project Echelon uses endurance sport, mentorship, and community to help veterans keep moving after service. Training may look different from military service, but you still prepare, suffer together, hold each other accountable, and finish what you started.",
     ],
   },
   "why-22": {
@@ -177,7 +170,7 @@ export const MOVEMENT_TIMELINE = [
     label: "First 100-kilometer ultramarathon",
     image: { src: "/about/ultra-2.jpg", alt: "Cody racing solo on a wooded trail during an ultramarathon" },
   },
-  { year: "2027", label: "IRONMAN 70.3 Chattanooga (goal)" },
+  { year: "2026", label: "IRONMAN 70.3 Chattanooga (goal)" },
 ] as const;
 
 /**

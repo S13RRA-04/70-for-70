@@ -7,7 +7,7 @@ import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { PartnerCard } from "@/components/partners/partner-card";
 import { CampaignAllocation } from "@/components/campaign/campaign-allocation";
-import { CAMPAIGN_URL } from "@/lib/constants";
+import { CAMPAIGN_URL, PERSONAL_PROJECT_DISCLOSURE } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
@@ -48,6 +48,8 @@ export default async function DonatePage(props: PageProps<"/donate">) {
           specific mile here on the site. Mile totals update once a donation is confirmed with
           the beneficiary organization — not automatically at the moment of giving.
         </p>
+
+        <p className="mt-6 max-w-2xl text-sm text-off-white/70">{PERSONAL_PROJECT_DISCLOSURE}</p>
       </CampaignPageHero>
 
       <section className="py-16 sm:py-20">
@@ -91,9 +93,9 @@ export default async function DonatePage(props: PageProps<"/donate">) {
           </div>
 
           <p className="mt-8 max-w-2xl text-sm font-medium text-charcoal-light">
-            For The 22 does not take possession of charitable donations. Donations are directed
-            through each nonprofit organization&apos;s authorized donation platform, and For The
-            22 does not independently process charitable contributions unless explicitly stated.
+            Donations are made directly through each independent nonprofit organization&apos;s
+            authorized donation platform. For The 22 does not receive, process, or take
+            possession of charitable contributions and does not issue tax receipts.
           </p>
 
           {allocationBreakdown && (

@@ -30,7 +30,6 @@ const after = findAboutSubsection("after")!;
 const testimony = findAboutSubsection("my-testimony")!;
 const mightyOaks = findAboutSubsection("mighty-oaks")!;
 const whyEndurance = findAboutSubsection("why-endurance-sports")!;
-const echelon = findAboutSubsection("project-echelon")!;
 const theIdea = findAboutSubsection("the-idea")!;
 const why22 = findAboutSubsection("why-22")!;
 const whyBlack = findAboutSubsection("why-black")!;
@@ -154,12 +153,6 @@ export default function AboutPage() {
             <Timeline entries={[...MOVEMENT_TIMELINE]} />
           </div>
           <p className="mt-8 max-w-lg text-lg leading-relaxed text-ink">{whyEndurance.body[1]}</p>
-          <div className="mt-10 border-t border-ink/10 pt-8">
-            <h3 className="font-display text-lg font-semibold uppercase tracking-tight text-ink">
-              {echelon.heading}
-            </h3>
-            <p className="mt-3 text-base leading-relaxed text-charcoal-light">{echelon.body[0]}</p>
-          </div>
         </Container>
       </section>
 
@@ -178,8 +171,8 @@ export default function AboutPage() {
             ))}
           </div>
           <blockquote className="mt-6 border-l-2 border-bronze py-1 pl-5 text-lg italic leading-relaxed text-ink">
-            There is another veteran somewhere trying to figure out what comes next. Another
-            who needs a mission. Another who needs a team.
+            There is another veteran somewhere trying to figure out what comes next — another
+            who needs a mission.
           </blockquote>
           <a
             href={CAMPAIGN_URL}
@@ -264,8 +257,8 @@ export default function AboutPage() {
       <CTASection
         title="For Those Who Serve. For What Comes Next."
         buttons={[
-          { label: "Find Resources", href: "/resources" },
-          { label: "Get Involved", href: "/join", variant: "secondary" },
+          { label: "Explore Resources", href: "/resources" },
+          { label: "Support a Beneficiary", href: `${CAMPAIGN_URL}/beneficiaries`, variant: "secondary" },
         ]}
       />
     </>

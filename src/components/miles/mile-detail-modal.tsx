@@ -173,20 +173,9 @@ export function MileDetailModal({
                     ? "Help Finish This Mile"
                     : `Be the first to fund Mile ${mile.mile_number}`}
                 </Link>
-                <Link
-                  href={`/sponsors/request?mile=${mile.mile_number}`}
-                  className="inline-flex w-full items-center justify-center rounded-sm border border-ink/20 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-ink transition-colors hover:bg-ink/5"
-                >
-                  Request Mile {mile.mile_number} Sponsorship
-                </Link>
                 <p className="text-xs text-charcoal-light">
-                  &ldquo;Help Fund&rdquo; is a personal charitable donation toward this mile.
-                  &ldquo;Request Sponsorship&rdquo; is a business proposal that&apos;s reviewed
-                  before acceptance — see{" "}
-                  <Link href="/sponsors" className="text-bronze hover:underline">
-                    Sponsors
-                  </Link>{" "}
-                  for the difference.
+                  Donations are made directly through the beneficiary organization&apos;s own
+                  authorized donation platform — see the Donate page for details.
                 </p>
               </>
             )}

@@ -7,7 +7,6 @@ import { MobileActionBar } from "@/components/shared/mobile-action-bar";
 import { CampaignByTheNumbers } from "@/components/campaign/campaign-by-the-numbers";
 import { MISSION_SECTIONS } from "@/lib/content/mission";
 import {
-  ATHLETIC_TEAM_NAME,
   CAMPAIGN_URL,
   DONATE_LINK,
   MOVEMENT_CAMPAIGNS,
@@ -27,7 +26,7 @@ export default function MissionPage() {
     <>
       <CampaignPageHero>
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">
-          {ATHLETIC_TEAM_NAME} &middot; Current Campaign
+          {SITE_NAME} &middot; Current Campaign
         </p>
         <SectionHeading
           as="h1"
@@ -45,8 +44,8 @@ export default function MissionPage() {
         <Container className="max-w-3xl">
           <SectionHeading
             eyebrow="The Bigger Picture"
-            title="About the Movement"
-            description={`${SITE_NAME} exists to turn endurance into action for veterans and first responders. Individual campaigns operate under one naming convention: [Mission] For The 22.`}
+            title="Beyond This Campaign"
+            description={`${SITE_NAME} is Cody's personal way of turning endurance into action for veterans and first responders. If Tri For The 22 goes well, future personal challenges may follow the same "[Mission] For The 22" naming idea — not a managed program, just a naming convention.`}
           />
           <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
             {MOVEMENT_CAMPAIGNS.map((campaign) => (
@@ -106,10 +105,10 @@ export default function MissionPage() {
 
       <CTASection
         title="Help Fund the Mission"
-        description="Fund a mile, support the mission directly, or bring your company on board as a sponsor."
+        description="Fund a mile or support a beneficiary organization directly."
         buttons={[
           { label: "Fund a Mile", href: "/fund-a-mile" },
-          { label: "Meet the Partners", href: "/partners", variant: "secondary" },
+          { label: "Meet the Beneficiaries", href: "/beneficiaries", variant: "secondary" },
         ]}
       />
 

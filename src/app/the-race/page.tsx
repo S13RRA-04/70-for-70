@@ -56,7 +56,7 @@ export default async function RacePage() {
           className="flex-1"
           eyebrow="The Race"
           title="70.3-Mile Triathlon"
-          description="A swim, bike, and run event completed as the physical anchor of the Tri For The 22 campaign. Targeting IRONMAN 70.3 Chattanooga in May 2027 — exact race date to be confirmed."
+          description="A swim, bike, and run event completed as the physical anchor of the Tri For The 22 campaign. IRONMAN 70.3 Chattanooga, Sunday, May 17, 2026."
         />
         <Image
           src="/campaign-logo.png"

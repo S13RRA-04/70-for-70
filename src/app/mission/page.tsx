@@ -3,7 +3,7 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { CTAButton } from "@/components/shared/cta-button";
 import { MissionPanel } from "@/components/home/mission-panel";
 import { THREE_MISSIONS } from "@/lib/content/three-missions";
-import { GET_INVOLVED_LINK, ORG_SUPPORTING_STATEMENT, ORG_TAGLINE } from "@/lib/constants";
+import { CAMPAIGN_URL, ORG_SUPPORTING_STATEMENT, ORG_TAGLINE } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
@@ -45,14 +45,14 @@ export default function MissionPage() {
       <section className="bg-anchor py-16 text-center sm:py-20">
         <Container>
           <p className="mx-auto max-w-xl text-lg text-off-white/80">
-            Whatever moves you — find a resource, join the team, or help carry the mission forward.
+            Whatever moves you — find a resource, or support a beneficiary directly.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <CTAButton href="/resources" variant="secondary" tone="dark" size="lg">
-              Find Resources
+              Explore Resources
             </CTAButton>
-            <CTAButton href={GET_INVOLVED_LINK.href} variant="primary" size="lg">
-              {GET_INVOLVED_LINK.label}
+            <CTAButton href={`${CAMPAIGN_URL}/beneficiaries`} external variant="primary" size="lg">
+              Support a Beneficiary
             </CTAButton>
           </div>
         </Container>

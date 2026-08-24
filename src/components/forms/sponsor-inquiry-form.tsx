@@ -139,7 +139,7 @@ export function SponsorInquiryForm() {
 
       <div>
         <label htmlFor="interest" className="text-sm font-medium text-ink">
-          Sponsorship Interest <span aria-hidden="true">*</span>
+          Topic <span aria-hidden="true">*</span>
         </label>
         <select
           id="interest"

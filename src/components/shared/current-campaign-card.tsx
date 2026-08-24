@@ -1,18 +1,17 @@
 import Image from "next/image";
 import { CTAButton } from "@/components/shared/cta-button";
-import { ATHLETIC_TEAM_NAME, CAMPAIGN_HOME_LINK, CAMPAIGN_NAME } from "@/lib/constants";
+import { CAMPAIGN_HOME_LINK, CAMPAIGN_NAME, SITE_NAME } from "@/lib/constants";
 
 const STATS = [
   { value: "70.3 MI", label: "Race" },
   { value: "$70K", label: "Goal" },
-  { value: "2027", label: "Chattanooga" },
+  { value: "2026", label: "Chattanooga" },
 ] as const;
 
 /**
- * "For The 22 Athletic Team → Current Campaign → Tri For The 22" module —
- * shared between the homepage and /athletes so the campaign hierarchy reads
- * identically everywhere it appears, per the Current Campaign Architecture.
- * Dashboard-style on purpose: photo + stat row + CTA, not just a paragraph.
+ * "For The 22 → Current Campaign → Tri For The 22" module, shown on the
+ * homepage. Dashboard-style on purpose: photo + stat row + CTA, not just a
+ * paragraph.
  */
 export function CurrentCampaignCard() {
   return (
@@ -38,7 +37,7 @@ export function CurrentCampaignCard() {
             />
             <div>
               <p className="text-xs font-semibold uppercase tracking-widest text-bronze-light">
-                {ATHLETIC_TEAM_NAME}
+                {SITE_NAME}
               </p>
               <p className="mt-0.5 text-xs font-semibold uppercase tracking-widest text-off-white/70">
                 Current Campaign
@@ -50,7 +49,7 @@ export function CurrentCampaignCard() {
           </p>
           <p className="mt-2 max-w-lg text-sm text-off-white/75">
             A 70.3-mile triathlon paired with a $70,000 fundraising goal, in support of Mighty
-            Oaks Foundation, Project Echelon, and Veterans and Athletes United.
+            Oaks Foundation and Veterans and Athletes United.
           </p>
 
           <div className="mt-6 grid grid-cols-3 gap-4 border-t border-off-white/15 pt-6 sm:max-w-sm">
