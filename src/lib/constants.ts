@@ -91,6 +91,11 @@ export const CAMPAIGN_NAV_LINKS: NavLink[] = [
   { label: "Fundraising", href: "/fund-a-mile" },
   { label: "Beneficiaries", href: "/beneficiaries" },
   { label: "Journal", href: "/journal" },
+  // /merch is an org-domain-only route (see ORG_PATH_PREFIXES in
+  // middleware.ts) — absolute SITE_URL link, same reason ORG_NAV_LINKS'
+  // Beneficiaries entry above uses an absolute CAMPAIGN_URL link: avoids
+  // the silent cross-domain redirect a relative href would trigger.
+  { label: "Shop", href: `${SITE_URL}/merch` },
 ];
 
 /** Org header → campaign subdomain, styled as a CTA (not a plain nav link). */
