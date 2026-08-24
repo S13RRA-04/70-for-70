@@ -5,22 +5,23 @@ import { CAMPAIGN_URL, SITE_URL, TOTAL_FUNDRAISING_MILES } from "@/lib/constants
 import { getSiteMode } from "@/lib/site-mode";
 
 // Kept in sync with the split enforced in src/middleware.ts. /athletes,
-// /join, and /athlete-agreement are retired (redirect to /mission) —
-// excluded here so search engines follow the redirect to its target rather
-// than indexing the retired URL. /merch stays listed — it's a real,
-// legitimate page (a "Store Paused" notice), just not an active storefront.
+// /join, and /athlete-agreement are retired (permanent redirect to the
+// campaign's /the-mission, see next.config.ts) — excluded here so search
+// engines follow the redirect to its target rather than indexing the
+// retired URL. /merch and /how-funds-work moved to the campaign domain
+// entirely (as /shop and /financial-transparency) — also excluded, with
+// their own permanent redirects.
 const ORG_ROUTES = [
   "",
   "/about",
+  "/mission",
   "/resources",
   "/crisis",
   "/advocacy",
-  "/merch",
   "/contact",
   "/privacy",
   "/terms",
   "/press",
-  "/how-funds-work",
 ];
 // /partners, /partners/inquire, /sponsors, /sponsors/request, and
 // /campaign-supporters are retired (redirect to /beneficiaries) —
@@ -29,11 +30,17 @@ const CAMPAIGN_ROUTES = [
   "",
   "/the-mission",
   "/the-race",
+  "/the-story",
   "/fund-a-mile",
   "/beneficiaries",
   "/journal",
   "/donate",
   "/live",
+  "/shop",
+  "/financial-transparency",
+  "/press",
+  "/terms",
+  "/privacy",
 ];
 
 /**

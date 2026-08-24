@@ -4,7 +4,6 @@ import {
   CAMPAIGN_HOME_LINK,
   CAMPAIGN_NAME,
   CAMPAIGN_NAV_LINKS,
-  CAMPAIGN_URL,
   CONTACT_EMAIL,
   ORG_HOME_LINK,
   ORG_NAV_LINKS,
@@ -61,15 +60,7 @@ export function Footer({ mode }: { mode: SiteMode }) {
               </a>
             </>
           ) : (
-            <>
-              <p className="mt-3 max-w-sm text-sm text-off-white/70">{ORG_TAGLINE}</p>
-              <a
-                href={CAMPAIGN_HOME_LINK.href}
-                className="mt-1 inline-block max-w-sm text-xs font-semibold uppercase tracking-wide text-bronze-light hover:underline"
-              >
-                Current Mission: {CAMPAIGN_HOME_LINK.label} &rarr;
-              </a>
-            </>
+            <p className="mt-3 max-w-sm text-sm text-off-white/70">{ORG_TAGLINE}</p>
           )}
         </div>
 
@@ -104,7 +95,7 @@ export function Footer({ mode }: { mode: SiteMode }) {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/how-funds-work" className="transition-colors hover:text-off-white">
+                  <Link href="/financial-transparency" className="transition-colors hover:text-off-white">
                     How Donations Work
                   </Link>
                 </li>
@@ -144,33 +135,13 @@ export function Footer({ mode }: { mode: SiteMode }) {
 
             <div>
               <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
-                Campaign
+                Campaigns
               </p>
               <ul className="mt-4 space-y-2 text-sm text-off-white/70">
                 <li>
                   <a href={CAMPAIGN_HOME_LINK.href} className="transition-colors hover:text-off-white">
-                    {CAMPAIGN_HOME_LINK.label}
+                    {CAMPAIGN_HOME_LINK.label} <span aria-hidden="true">&#8599;</span>
                   </a>
-                </li>
-                <li>
-                  <a href={`${CAMPAIGN_URL}/beneficiaries`} className="transition-colors hover:text-off-white">
-                    Beneficiaries
-                  </a>
-                </li>
-                <li>
-                  <a href={`${CAMPAIGN_URL}/journal`} className="transition-colors hover:text-off-white">
-                    The Journal
-                  </a>
-                </li>
-                <li>
-                  <a href={`${CAMPAIGN_URL}/donate`} className="transition-colors hover:text-off-white">
-                    Donate Directly
-                  </a>
-                </li>
-                <li>
-                  <Link href="/how-funds-work" className="transition-colors hover:text-off-white">
-                    How Donations Work
-                  </Link>
                 </li>
               </ul>
             </div>
@@ -272,11 +243,13 @@ export function Footer({ mode }: { mode: SiteMode }) {
               Site Terms
             </a>
           </div>
-          <p>
-            Donations are directed through each beneficiary organization&apos;s
-            authorized donation platform. {SITE_NAME} does not independently
-            process charitable contributions unless explicitly stated.
-          </p>
+          {isCampaign && (
+            <p>
+              Donations are directed through each beneficiary organization&apos;s
+              authorized donation platform. {SITE_NAME} does not independently
+              process charitable contributions unless explicitly stated.
+            </p>
+          )}
         </Container>
       </div>
     </footer>

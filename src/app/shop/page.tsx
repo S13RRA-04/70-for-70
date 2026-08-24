@@ -1,11 +1,10 @@
 import { Container } from "@/components/shared/container";
-import { CAMPAIGN_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
   title: "Store Paused",
   description: "The Tri For The 22 merchandise store is not currently available.",
-  canonical: "/merch",
+  canonical: "/shop",
 });
 
 /**
@@ -15,7 +14,7 @@ export const metadata = pageMetadata({
  * resolution of outside-activity/ethics requirements. See
  * src/lib/constants.ts.
  */
-export default function MerchPage() {
+export default function ShopPage() {
   return (
     <section className="border-b border-ink/10 bg-ink py-16 text-off-white sm:py-24">
       <Container className="max-w-2xl">
@@ -34,7 +33,7 @@ export default function MerchPage() {
           independent beneficiary organizations.
         </p>
         <a
-          href={`${CAMPAIGN_URL}/beneficiaries`}
+          href="/beneficiaries"
           className="mt-8 inline-flex items-center gap-2 rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light"
         >
           Support a Beneficiary

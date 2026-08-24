@@ -1,10 +1,10 @@
 /**
- * Press page content that doesn't exist yet — approved photography, press
- * releases, media coverage. Kept as empty arrays (same pattern as
- * ATHLETES in athletes.ts) rather than publishing an EmptyState
- * placeholder card for each one; the Press page only renders a section
- * once it has real entries here. See README's "Eliminating Placeholder
- * Content".
+ * Campaign-domain (tri.forthe22.org) press content — approved photography,
+ * press releases, media coverage for the Tri For The 22 campaign. Kept as
+ * empty arrays (same pattern as ATHLETES in athletes.ts) rather than
+ * publishing an EmptyState placeholder card for each one; the campaign
+ * press page only renders a section once it has real entries here. See
+ * README's "Eliminating Placeholder Content".
  */
 
 export interface ApprovedPhoto {

@@ -153,8 +153,10 @@ The site now distinguishes two levels deliberately:
   naming convention — see `MOVEMENT_CAMPAIGNS` in
   [`constants.ts`](src/lib/constants.ts) (Tri is current; Run, Ride, and
   Ruck For The 22 are named future directions, not commitments with
-  dates). The homepage hero, footer, and `/the-mission`'s "About the
-  Movement" section all surface this hierarchy explicitly.
+  dates). The footer's small "Campaigns" link and `/the-mission`'s "About
+  the Movement" section surface this hierarchy — the parent homepage hero
+  deliberately does not (see the Domain Split section's "Parent-site
+  restructure" below).
 
 `CURRENT_CAMPAIGN` in `constants.ts` is a first code-level step toward
 supporting multiple campaigns without a rewrite — it holds the current
@@ -170,15 +172,26 @@ the seam that migration would plug into.
 ## Movement/Campaign Domain Split
 
 The movement and the campaign now live on **two different domains**, served
-by the **same** Next.js app/Cloudflare Worker — no second deployment:
+by the **same** Next.js app/Cloudflare Worker — no second deployment. As of
+the parent-site restructure (below), the split is not just "which pages
+render where" but a deliberate content firewall: **no 70.3 statistics,
+training content, campaign beneficiaries, fundraising mechanisms,
+merchandise, sponsorship intake, or athlete-affiliation content renders on
+forthe22.org**, full stop.
 
-- **forthe22.org** (org): home (three-mission framework — Connect,
-  Advocate, Compete), Resources, Athletes, Advocacy, About, Shop/Merch,
-  Join, Press, Contact, Privacy, Terms.
+- **forthe22.org** (org): home (a resource-connection mission — hero,
+  resource finder, Areas of Support, Who We Serve, crisis strip, Why
+  22/Black, a short origin note), Resources, Mission, Advocacy, About,
+  Contact, Privacy, Terms, Press, Crisis.
 - **tri.forthe22.org** (campaign): home (the fundraiser — hero, progress,
-  Fund a Mile), The Mission, The Race, Fund a Mile, Donate, Sponsors,
-  Partners (Mighty Oaks/Project Echelon), Live, Updates, Miles, and the
-  entire `/admin` area.
+  Fund a Mile), The Mission, The Race, The Story (the athletic/training
+  narrative — Spartan/BJJ/marathon/100K chronology, IRONMAN 70.3
+  Chattanooga goal — moved off the parent's `/about`), Fund a Mile,
+  Donate, Shop, Financial Transparency, Beneficiaries, Sponsors, Partners,
+  Live, Journal, Miles, and the entire `/admin` area. Also serves its own
+  Press, Terms, and Privacy at the *same public paths* as the parent (see
+  "Shared-path rewrites" below) — Terms/Privacy are addenda that
+  supplement, not replace, the parent's general Terms/Privacy.
 
 **How it's enforced** — three pieces, all reading the request's `Host`
 header:
@@ -188,30 +201,55 @@ header:
    with `tri.`). Shared by middleware (reads `NextRequest` directly) and
    Server Components (reads `next/headers`).
 2. [`src/middleware.ts`](src/middleware.ts)'s `applyDomainSplit()` —
-   redirects a request to the correct domain if it's on the wrong one
-   (e.g. `forthe22.org/donate` → `307` to
-   `tri.forthe22.org/donate`), and transparently rewrites `tri.forthe22.org/`
-   to the real route `/campaign-home` (the URL bar still shows `/`) since
-   "/" needs different content per domain. **API routes are intentionally
-   not gated** — they work identically on either host since it's the same
-   app instance.
+   permanently (`308`) redirects a request to the correct domain if it's
+   on the wrong one for a given path (e.g. `forthe22.org/donate` → `308`
+   to `tri.forthe22.org/donate`), driven by two prefix lists,
+   `ORG_PATH_PREFIXES` and `CAMPAIGN_PATH_PREFIXES`. **API routes are
+   intentionally not gated** — they work identically on either host since
+   it's the same app instance.
 3. [`src/app/layout.tsx`](src/app/layout.tsx) reads the host via
    `getSiteMode()` and passes `mode="org" | "campaign"` down to `Header`,
    `Footer`, and `MobileConversionBar`, which render entirely different
    nav/branding/CTAs per mode (see `ORG_NAV_LINKS` /
-   `CAMPAIGN_NAV_LINKS` in `constants.ts`). **This makes every route
-   dynamically rendered** (`ƒ` instead of `○` in the build output) — the
-   root layout can no longer be statically optimized once it depends on
-   the request's host. Acceptable for a low-traffic campaign site; worth
-   revisiting if traffic ever justifies clawing back static rendering.
+   `CAMPAIGN_NAV_LINKS` in `constants.ts`). The org nav is deliberately
+   minimal (Resources, Mission, Why It Matters, About, Contact, Need Help
+   Now) — no campaign links; the campaign gets exactly one small outbound
+   link, in the footer's "Campaigns" area, never a persistent banner.
+   **This makes every route dynamically rendered** (`ƒ` instead of `○` in
+   the build output) — the root layout can no longer be statically
+   optimized once it depends on the request's host. Acceptable for a
+   low-traffic campaign site; worth revisiting if traffic ever justifies
+   clawing back static rendering.
+
+**Shared-path rewrites**: a few paths exist on *both* hosts with entirely
+different content — same pattern for all of them, `applyDomainSplit()`
+rewrites (not redirects — the URL bar stays the same) the campaign-host
+request to a different real route:
+- `/` → `/campaign-home`
+- `/press` → `/campaign-press`
+- `/terms` → `/campaign-terms`
+- `/privacy` → `/campaign-privacy`
+
+The org host renders the real `/`, `/press`, `/terms`, `/privacy` routes
+untouched. See `CAMPAIGN_PATH_REWRITES` in `src/middleware.ts`.
+
+**Retired routes**: `/athletes`, `/join`, `/athlete-agreement` (org),
+`/merch` (org → campaign `/shop`), and `/how-funds-work` (org → campaign
+`/financial-transparency`) are permanent redirects defined in
+[`next.config.ts`](next.config.ts)'s `redirects()`, not live pages. The
+first three go to the campaign's `/the-mission`, not the org's own
+`/mission` — an earlier version of this redirect pointed athlete-program
+routes back into the org's mission page, which re-created the exact
+movement/campaign confusion this domain split exists to prevent. Athlete
+recruitment/affiliation itself is still closed pending written federal
+ethics approval (unchanged) — only the redirect *target* changed.
 
 **Cross-domain links**: any place org content links to a campaign-only
 path (or vice versa) uses a full absolute URL (`${CAMPAIGN_URL}/donate`),
-not a relative `<Link>` — see `src/app/merch/page.tsx`,
-`src/app/contact/page.tsx`, `src/app/about/page.tsx`, and
-`src/lib/content/mission.ts` for examples. A relative link would still
-technically work (the middleware redirect catches it) but bounces through
-an extra hop.
+not a relative `<Link>` — see `src/app/press/page.tsx`,
+`src/app/about/page.tsx`, and `src/lib/content/mission.ts` for examples. A
+relative link would still technically work (the middleware redirect
+catches it) but bounces through an extra hop.
 
 **`SITE_URL` vs `CAMPAIGN_URL`**: both are in `constants.ts`, read from
 `NEXT_PUBLIC_SITE_URL` / `NEXT_PUBLIC_CAMPAIGN_URL`. `WHOOP_REDIRECT_URI`
@@ -224,30 +262,55 @@ Developer Dashboard must be
 auth cookie only ever needs to work on one host — no cross-subdomain
 cookie-sharing configuration required.
 
+**`metadataBase`**: resolved per-request in `src/app/layout.tsx`'s
+`generateMetadata()` (not a static `metadataBase: new URL(SITE_URL)`) —
+otherwise every campaign page's root-relative canonical (set via
+`pageMetadata()`) resolved against forthe22.org instead of
+tri.forthe22.org.
+
 **Remaining manual steps (Cloudflare dashboard — needs your login):**
 
 1. Add `tri.forthe22.org` as a second custom domain on the same Worker
    (Worker → Settings → Domains & Routes → Add Custom Domain). No new
    deployment needed — it's the same Worker serving both hostnames.
-2. Set `NEXT_PUBLIC_CAMPAIGN_URL=https://tri.forthe22.org` alongside the
-   existing `NEXT_PUBLIC_SITE_URL=https://forthe22.org` in the
-   Worker's environment variables.
-3. Update the WHOOP redirect URL in the
+   `NEXT_PUBLIC_CAMPAIGN_URL` is already committed in `wrangler.jsonc`'s
+   `vars` and in `.github/workflows/deploy.yml`'s build env — that part
+   is done, nothing to set by hand.
+2. Update the WHOOP redirect URL in the
    [WHOOP Developer Dashboard](https://developer.whoop.com) to
    `https://tri.forthe22.org/api/whoop/callback`.
+3. Once step 1 is done, flip `CAMPAIGN_LIVE` from `"false"` to `"true"` in
+   `wrangler.jsonc`'s `vars` (next deploy) — until then, tri.forthe22.org
+   correctly keeps showing `/coming-soon` even after the domain is
+   attached, per the pre-launch gate.
+4. Run a full desktop/mobile visual QA and link crawl on both live domains
+   before/after deploy — not achievable from a local dev environment.
+
+Deployment itself is automatic: `.github/workflows/deploy.yml` deploys to
+Cloudflare on every push to `master`, using `CLOUDFLARE_API_TOKEN`/
+`CLOUDFLARE_ACCOUNT_ID` GitHub Actions secrets not present in a local dev
+shell — a local `wrangler whoami` will correctly show "not logged in."
+Merging this restructure to `master` is itself a production deploy of
+forthe22.org — treat that push as the actual go-live moment, not an
+incidental git operation.
 
 **Known imperfections, not fixed this pass:**
-- `opengraph-image.tsx` and the favicon (`icon.png`/`apple-icon.png`) are
-  shared across both domains (always show the "For The 22" org mark) —
-  campaign-domain shares don't get campaign-specific OG art. Fine for now
-  since the org mark is the parent brand either way.
-- `/contact`'s form (`SponsorInquiryForm`) still offers sponsor-specific
-  interest categories ("Corporate Sponsor", etc.) even though it's now
-  org-only and the real sponsorship-vetting flow lives at
-  `tri.forthe22.org/sponsors/request`. Not restructured this pass — worth
-  simplifying `/contact`'s categories to general/media/community only.
+- `/campaign-press`, `/campaign-terms`, `/campaign-privacy`,
+  `/financial-transparency`, and `/shop` are new pages built ahead of the
+  Cloudflare custom-domain step above — they're code-complete but only
+  reachable in production once `tri.forthe22.org` is actually routed to
+  this Worker.
+- The campaign's Terms/Privacy addenda content (WHOOP, merch, sponsorship,
+  race risk, trademark disclaimer — see `src/lib/content/campaign-terms.ts`
+  / `campaign-privacy.ts`) is, like the parent's, pending review by
+  qualified legal counsel before being treated as final.
 
 ## New Pages (Movement Brief)
+
+_Historical snapshot from an earlier milestone — `/join` described below has
+since been retired (see "Retired routes" under Movement/Campaign Domain
+Split above); kept here for context on the `inquiries` table's history, not
+as current behavior._
 
 - **`/resources`** — six categories (Veteran Athletes, First Responders,
   Adaptive Sports, Recovery & Wellness, Equipment & Grants, Community),

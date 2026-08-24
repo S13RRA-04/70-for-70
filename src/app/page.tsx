@@ -7,50 +7,61 @@ import { CTAButton } from "@/components/shared/cta-button";
 import { CrisisQuickLink } from "@/components/shared/crisis-quick-link";
 import { ScrollProgressRail } from "@/components/shared/scroll-progress-rail";
 import { RevealOnScroll } from "@/components/shared/reveal-on-scroll";
-import { MissionPanel } from "@/components/home/mission-panel";
 import { ResourceFinderPreview } from "@/components/home/resource-finder-preview";
 import { ABOUT_CONTENT, findAboutSubsection } from "@/lib/content/about";
-import { THREE_MISSIONS } from "@/lib/content/three-missions";
 import { OUTER_RING_COLORS } from "@/lib/ring-colors";
-import { getPartners } from "@/lib/data/partners";
 import {
-  CAMPAIGN_HOME_LINK,
-  CAMPAIGN_NAME,
-  CAMPAIGN_URL,
   ORG_SUPPORTING_STATEMENT,
   ORG_TAGLINE,
   PERSONAL_PROJECT_DISCLOSURE,
   SITE_NAME,
 } from "@/lib/constants";
 
-const CAMPAIGN_STATS = [
-  { value: "70.3 MI", label: "Race" },
-  { value: "$70K", label: "Goal" },
-  { value: "2027", label: "Chattanooga" },
+/** The four areas of support the resource directory covers — physical health includes sports/fitness programs, but that's one entry among equals, not the site's emphasis. */
+const AREAS_OF_SUPPORT = [
+  {
+    title: "Mental Health",
+    description:
+      "Counseling, therapy access, and peer support for PTSD, anxiety, depression, and the invisible weight of service.",
+  },
+  {
+    title: "Physical Health",
+    description:
+      "Adaptive fitness, recovery, medical support, and athletic programs — including sports and fitness resources built for veterans and first responders.",
+  },
+  {
+    title: "Emotional Wellness",
+    description:
+      "Family support, relationship resources, and community connection for those adjusting to life after service.",
+  },
+  {
+    title: "Spiritual Health & Purpose",
+    description:
+      "Faith-based support, purpose-finding programs, and communities that help people rebuild direction.",
+  },
 ] as const;
 
-/** Real, confirmed beneficiary marks — shown on a light chip so each reads cleanly against the dark dashboard background regardless of the source logo's own color. */
-const BENEFICIARY_LOGOS = [
-  { name: "Mighty Oaks Foundation", src: "/partners/mighty-oaks-logo.png" },
-  { name: "Veterans and Athletes United", src: "/partners/vau-logo.png" },
+const WHO_WE_SERVE = [
+  "Veterans",
+  "Law Enforcement",
+  "Fire",
+  "EMS",
+  "Dispatch",
+  "Corrections",
+  "Families & Caregivers",
 ] as const;
 
 const RAIL_SECTIONS = [
   { id: "resources", label: "Resources" },
-  { id: "missions", label: "Mission" },
-  { id: "current-mission", label: "Campaign" },
-  { id: "beneficiaries", label: "Beneficiaries" },
+  { id: "support-areas", label: "Support" },
+  { id: "who-we-serve", label: "Who We Serve" },
   { id: "why-22", label: "Meaning" },
   { id: "story", label: "Story" },
-  { id: "support", label: "Support" },
 ];
 
-const MOVE_VERBS = ["Race.", "Ride.", "Ruck.", "Swim.", "Lift.", "Move."];
-
-export default async function HomePage() {
+export default function HomePage() {
   const why22 = findAboutSubsection("why-22");
   const theIdea = findAboutSubsection("the-idea");
-  const partners = await getPartners();
 
   return (
     <>
@@ -87,10 +98,10 @@ export default async function HomePage() {
 
           <div className="mt-10 flex flex-wrap items-center gap-4">
             <CTAButton href="/resources" size="lg">
-              Explore Resources
+              Find Resources
             </CTAButton>
-            <CTAButton href={`${CAMPAIGN_URL}/beneficiaries`} external variant="secondary" tone="dark" size="lg">
-              Support a Beneficiary
+            <CTAButton href="/crisis" variant="secondary" tone="dark" size="lg">
+              Get Help Now
             </CTAButton>
           </div>
 
@@ -113,7 +124,7 @@ export default async function HomePage() {
         <Container className="max-w-[1400px]">
           <RevealOnScroll>
             <SectionHeading
-              eyebrow="Mission One: Connect"
+              eyebrow="Our Core Mission"
               title="Find What You Need"
               description="Search programs serving veterans, first responders, and their families — filter by what you need and who you are."
             />
@@ -131,140 +142,47 @@ export default async function HomePage() {
         </Container>
       </section>
 
-      {/* Our Three Missions — Tier 3: CONNECT reads as a dark landmark panel; ADVOCATE/COMPETE stay light and secondary */}
-      <section id="missions" className="scroll-mt-20 bg-off-white py-16 sm:py-24">
+      {/* Areas of Support — the four pillars of the core mission, equal weight, no sport-specific emphasis */}
+      <section id="support-areas" className="scroll-mt-20 bg-off-white py-16 sm:py-24">
         <Container className="max-w-[1400px]">
           <RevealOnScroll>
-            <SectionHeading eyebrow="How It Works" title="Our Three Missions" />
+            <SectionHeading eyebrow="How We Help" title="Areas of Support" />
           </RevealOnScroll>
           <RevealOnScroll className="mt-10">
-            <div className="grid gap-4 lg:grid-cols-12">
-              <div className="lg:col-span-7">
-                <MissionPanel {...THREE_MISSIONS.connect} featured />
-              </div>
-              <div className="grid gap-4 lg:col-span-5">
-                <MissionPanel {...THREE_MISSIONS.advocate} />
-                <MissionPanel {...THREE_MISSIONS.compete} />
-              </div>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {AREAS_OF_SUPPORT.map((area) => (
+                <div key={area.title} className="flex flex-col border border-ink/10 bg-sand-light/40 p-6">
+                  <h3 className="font-display text-lg font-bold uppercase tracking-tight text-ink">
+                    {area.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-charcoal-light">{area.description}</p>
+                </div>
+              ))}
             </div>
           </RevealOnScroll>
         </Container>
       </section>
 
-      {/* Current Mission + The Team — Tier 1: full-bleed campaign dashboard — photography, stats, beneficiary marks, and the team in one composition */}
-      <section
-        id="current-mission"
-        className="relative scroll-mt-20 overflow-hidden bg-ink py-20 text-off-white sm:py-28"
-      >
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-[0.08]"
-          style={{ backgroundImage: "url(/topo-map.png)" }}
-          aria-hidden="true"
-        />
-        <Container className="relative max-w-[1400px]">
+      {/* Who the Directory Serves */}
+      <section id="who-we-serve" className="scroll-mt-20 bg-sand-light py-16 sm:py-24">
+        <Container className="max-w-[1400px]">
           <RevealOnScroll>
-            <div className="grid gap-10 lg:grid-cols-12 lg:gap-10">
-              <div className="relative aspect-[4/5] overflow-hidden rounded-sm lg:col-span-5 lg:aspect-auto">
-                <Image
-                  src="/about/ultra-2.jpg"
-                  alt="Running the 100k ultra on the road to 70.3"
-                  fill
-                  sizes="(min-width: 1024px) 40vw, 100vw"
-                  className="object-cover"
-                />
-              </div>
-
-              <div className="lg:col-span-7">
-                <p className="text-xs font-semibold uppercase tracking-widest text-bronze-light">
-                  {SITE_NAME} &middot; Current Campaign
-                </p>
-                <h2 className="mt-3 text-balance font-display text-4xl font-bold uppercase leading-none tracking-tight sm:text-5xl">
-                  {CAMPAIGN_NAME}
-                </h2>
-                <p className="mt-4 max-w-md text-base leading-relaxed text-off-white/75">
-                  A 70.3-mile triathlon paired with a $70,000 fundraising goal, in support of
-                  Mighty Oaks Foundation and Veterans and Athletes United.
-                </p>
-
-                <div className="mt-8 grid grid-cols-3 gap-4 border-t border-off-white/15 pt-6 sm:max-w-sm">
-                  {CAMPAIGN_STATS.map((stat) => (
-                    <div key={stat.label}>
-                      <p className="font-display text-2xl font-bold tabular-nums text-bronze-light sm:text-3xl">
-                        {stat.value}
-                      </p>
-                      <p className="mt-0.5 text-[11px] font-semibold uppercase tracking-widest text-off-white/60">
-                        {stat.label}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="mt-8 flex flex-wrap items-center gap-4">
-                  {BENEFICIARY_LOGOS.map((logo) => (
-                    <div key={logo.name} className="rounded-sm bg-off-white/95 px-3 py-2">
-                      <Image
-                        src={logo.src}
-                        alt={logo.name}
-                        width={112}
-                        height={40}
-                        className="h-6 w-auto object-contain sm:h-7"
-                      />
-                    </div>
-                  ))}
-                </div>
-
-                <CTAButton href={CAMPAIGN_HOME_LINK.href} external className="mt-9">
-                  Follow the Campaign
-                </CTAButton>
-              </div>
-            </div>
+            <SectionHeading eyebrow="Built For" title="Who the Directory Serves" />
+          </RevealOnScroll>
+          <RevealOnScroll className="mt-10">
+            <ul className="flex flex-wrap gap-3">
+              {WHO_WE_SERVE.map((group) => (
+                <li
+                  key={group}
+                  className="border border-ink/10 bg-off-white px-5 py-3 text-sm font-semibold uppercase tracking-wide text-ink"
+                >
+                  {group}
+                </li>
+              ))}
+            </ul>
           </RevealOnScroll>
         </Container>
       </section>
-
-      {/* Beneficiaries — Tier 3: confirmed relationships only, not an indiscriminate logo wall */}
-      {partners.length > 0 && (
-        <section id="beneficiaries" className="scroll-mt-20 bg-off-white py-16 sm:py-24">
-          <Container className="max-w-[1400px]">
-            <RevealOnScroll>
-              <SectionHeading
-                eyebrow="In This Together"
-                title="Beneficiaries"
-                description="The nonprofit organizations Tri For The 22 raises funds for — confirmed beneficiary relationships, not a general directory listing."
-              />
-            </RevealOnScroll>
-            <RevealOnScroll className="mt-10">
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {partners.map((partner) => (
-                  <div key={partner.id} className="flex flex-col gap-4 border border-ink/10 bg-sand-light/40 p-6">
-                    {partner.logo_url ? (
-                      <div className="relative h-10 w-32">
-                        <Image
-                          src={partner.logo_url}
-                          alt={`${partner.name} logo`}
-                          fill
-                          sizes="128px"
-                          className="object-contain object-left"
-                        />
-                      </div>
-                    ) : (
-                      <p className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
-                        {partner.name}
-                      </p>
-                    )}
-                    <p className="text-sm leading-relaxed text-charcoal-light">{partner.description}</p>
-                  </div>
-                ))}
-              </div>
-            </RevealOnScroll>
-            <RevealOnScroll className="mt-8">
-              <CTAButton href={`${CAMPAIGN_URL}/beneficiaries`} external variant="secondary">
-                Meet Our Beneficiaries →
-              </CTAButton>
-            </RevealOnScroll>
-          </Container>
-        </section>
-      )}
 
       {/* Why 22 + Black — Tier 1: sparse, poster-like memorial composition, typography-led */}
       {why22 && (
@@ -328,7 +246,7 @@ export default async function HomePage() {
                   />
                 </div>
                 <div className="lg:col-span-7">
-                  <SectionHeading eyebrow="Why I Started This" title="One Mission at a Time" />
+                  <SectionHeading eyebrow="Why I Started This" title="Finding the Right Support" />
                   <p className="mt-5 max-w-xl text-base leading-relaxed text-charcoal-light">
                     {theIdea.body[0]}
                   </p>
@@ -349,31 +267,18 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* Support — Tier 1: kinetic oversized typography closer */}
-      <section id="support" className="scroll-mt-20 bg-ink py-20 text-off-white sm:py-28">
-        <Container className="max-w-4xl text-center">
-          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-bronze-light">
-            Whatever Moves You
+      {/* Final CTA — Tier 1: closing call to action, resource-finding stays the point to the last line */}
+      <section id="find-resources" className="scroll-mt-20 bg-ink py-20 text-off-white sm:py-28">
+        <Container className="max-w-3xl text-center">
+          <p className="text-balance font-display text-[clamp(2rem,6vw,3.5rem)] font-bold uppercase leading-[0.95] tracking-tight">
+            Where Can We Help You Find Support?
           </p>
-          <p className="text-balance font-display font-bold uppercase leading-[0.85] tracking-tight">
-            {MOVE_VERBS.map((verb) => (
-              <span
-                key={verb}
-                className="block text-[clamp(3rem,12vw,7rem)]"
-              >
-                {verb}
-              </span>
-            ))}
-          </p>
-          <p className="mx-auto mt-8 max-w-xl text-base text-off-white/75">
-            Move for something bigger than the finish line.
+          <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-off-white/75">
+            Search the directory, or reach out directly if you&apos;re not sure where to start.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <CTAButton href="/resources">
-              Explore Resources
-            </CTAButton>
-            <CTAButton href={`${CAMPAIGN_URL}/beneficiaries`} external variant="secondary" tone="dark">
-              Support a Beneficiary
+            <CTAButton href="/resources" size="lg">
+              Find Resources
             </CTAButton>
           </div>
         </Container>

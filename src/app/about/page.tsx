@@ -1,19 +1,15 @@
 import Image from "next/image";
-import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import { Container } from "@/components/shared/container";
 import { CTASection } from "@/components/shared/cta-section";
-import { Timeline } from "@/components/shared/timeline";
 import { ChapterRail } from "@/components/about/chapter-rail";
 import { ImageTextRow } from "@/components/about/image-text-row";
 import { MarkDiagram } from "@/components/about/mark-diagram";
 import {
   ABOUT_CHAPTERS,
   ABOUT_CONTENT,
-  MOVEMENT_TIMELINE,
   findAboutSubsection,
 } from "@/lib/content/about";
-import { THREE_MISSIONS } from "@/lib/content/three-missions";
 import { CAMPAIGN_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
@@ -29,7 +25,6 @@ const myStory = findAboutSubsection("my-story")!;
 const after = findAboutSubsection("after")!;
 const testimony = findAboutSubsection("my-testimony")!;
 const mightyOaks = findAboutSubsection("mighty-oaks")!;
-const whyEndurance = findAboutSubsection("why-endurance-sports")!;
 const theIdea = findAboutSubsection("the-idea")!;
 const why22 = findAboutSubsection("why-22")!;
 const whyBlack = findAboutSubsection("why-black")!;
@@ -60,9 +55,9 @@ export default function AboutPage() {
             </p>
             <p className="mt-8 max-w-xl text-lg leading-relaxed text-charcoal-light">
               For The 22 grew out of a Navy deployment to Afghanistan, the years of struggle
-              that followed, a recovery that started with faith and community, and an
-              athlete&apos;s answer: keep moving. This is the story of how one veteran&apos;s
-              fight to find a way forward became a mission to help others find theirs.
+              that followed, and a recovery that started with faith and community. This is the
+              story of how one veteran&apos;s fight to find a way forward became a mission to
+              help others find theirs.
             </p>
           </div>
         </Container>
@@ -144,22 +139,10 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      {/* 5. Movement */}
-      <section id="movement" className="scroll-mt-28 border-b border-ink/10 py-16 sm:py-24">
-        <Container className={READING_COLUMN}>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze">04 — Movement</p>
-          <p className="mt-4 max-w-lg text-lg leading-relaxed text-ink">{whyEndurance.body[0]}</p>
-          <div className="mt-10">
-            <Timeline entries={[...MOVEMENT_TIMELINE]} />
-          </div>
-          <p className="mt-8 max-w-lg text-lg leading-relaxed text-ink">{whyEndurance.body[1]}</p>
-        </Container>
-      </section>
-
-      {/* 6. For The 22 */}
+      {/* 4. For The 22 */}
       <section id="for-the-22" className="scroll-mt-28 pt-16 sm:pt-24">
         <Container className={READING_COLUMN}>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze">05 — For The 22</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze">04 — For The 22</p>
           <h2 className="mt-2 font-display text-2xl font-semibold uppercase tracking-tight text-ink sm:text-3xl">
             {theIdea.heading}
           </h2>
@@ -175,31 +158,11 @@ export default function AboutPage() {
             who needs a mission.
           </blockquote>
           <a
-            href={CAMPAIGN_URL}
+            href={`${CAMPAIGN_URL}/the-story`}
             className="mt-6 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
           >
-            Visit Tri For The 22 &rarr;
+            Read the full athletic story at Tri For The 22 &rarr;
           </a>
-        </Container>
-
-        <Container className="mt-14 max-w-[1400px] sm:mt-20">
-          <div className="grid gap-8 sm:grid-cols-3">
-            {Object.values(THREE_MISSIONS).map((mission) => (
-              <div key={mission.title}>
-                <span className="font-display text-3xl font-bold text-bronze/40">{mission.number}</span>
-                <h3 className="mt-2 font-display text-xl font-semibold uppercase tracking-tight text-ink">
-                  {mission.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-charcoal-light">{mission.description}</p>
-                <Link
-                  href={mission.ctaHref}
-                  className="mt-3 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
-                >
-                  {mission.ctaLabel}
-                </Link>
-              </div>
-            ))}
-          </div>
         </Container>
 
         <Container className="mt-14 max-w-[1400px] sm:mt-20">
@@ -243,7 +206,7 @@ export default function AboutPage() {
       {/* 7. The Mark */}
       <section id="the-mark" className="scroll-mt-28 border-b border-ink/10 py-16 sm:py-24">
         <Container className="max-w-[1400px]">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze">06 — The Mark</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze">05 — The Mark</p>
           <h2 className="mt-2 font-display text-2xl font-semibold uppercase tracking-tight text-ink sm:text-3xl">
             Nothing in the mark is decorative.
           </h2>
@@ -253,12 +216,12 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      {/* 8. Closing statement */}
+      {/* 6. Closing statement */}
       <CTASection
         title="For Those Who Serve. For What Comes Next."
         buttons={[
           { label: "Explore Resources", href: "/resources" },
-          { label: "Support a Beneficiary", href: `${CAMPAIGN_URL}/beneficiaries`, variant: "secondary" },
+          { label: "Need Help Now", href: "/crisis", variant: "secondary" },
         ]}
       />
     </>

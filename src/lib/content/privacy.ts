@@ -1,7 +1,9 @@
 /**
- * Privacy policy copy. Written to accurately describe what this codebase
- * actually does (see the linked source for each claim) rather than generic
- * boilerplate.
+ * Parent-site (forthe22.org) privacy policy — covers this website only: the
+ * resource directory, the general contact form, resource submissions, and
+ * basic site analytics. Campaign-specific data practices (WHOOP training
+ * data, donation routing, merchandise, sponsorship intake) live on the
+ * campaign domain — see src/lib/content/campaign-privacy.ts.
  */
 
 export interface PrivacySection {
@@ -18,7 +20,7 @@ export const PRIVACY_SECTIONS: PrivacySection[] = [
     id: "overview",
     heading: "Overview",
     body: [
-      "This policy explains what information the For The 22 website collects, how it's used, and who it's shared with. It covers this website only — not Mighty Oaks Foundation, Veterans and Athletes United, or any other organization's own website or donation platform, each of which has its own privacy policy.",
+      "This policy explains what information the For The 22 website collects, how it's used, and who it's shared with. It covers this website only — not any third-party resource, organization, or program listed in the directory, each of which has its own privacy policy.",
       "For The 22 does not process donations or payments directly, and does not sell personal information.",
     ],
   },
@@ -27,18 +29,10 @@ export const PRIVACY_SECTIONS: PrivacySection[] = [
     heading: "Information We Collect",
     body: [
       "General contact form (/contact): name, organization, email, phone (optional), the topic you select, and your message.",
-      "Campaign-update mailing list (email signup): first name and email address.",
-      "Administrator accounts: campaign administrators sign in with an email and password to manage the site. This is not available to, or used by, site visitors.",
+      "Resource submissions: the resource details and contact information you provide when submitting a resource for review.",
+      "Administrator accounts: site administrators sign in with an email and password to manage the site. This is not available to, or used by, site visitors.",
       "Server logs: like most websites, our hosting infrastructure processes IP addresses transiently to serve requests and to rate-limit form submissions against spam and abuse. We do not maintain a database table of visitor IP addresses.",
-      "Aggregate traffic analytics: we use Cloudflare Web Analytics to understand overall site traffic — approximate page views, unique visits, referring sites, and general geography (country-level) and device type. It is cookieless and does not use any persistent identifier to track you individually or across other websites; we cannot identify who visited from this data. We do not use advertising cookies. The only cookies this site sets are a short-lived one used during the WHOOP account-connection flow (admin-only) and a session cookie for administrator sign-in.",
-    ],
-  },
-  {
-    id: "training-data",
-    heading: "Training Data (WHOOP)",
-    body: [
-      "The 'Latest Training' snapshot on the Race page — recovery, sleep performance, day strain, and recent workouts — is the athlete's own data, pulled from his personal WHOOP account, which he has connected to this site himself. It is not collected from site visitors, and visitors cannot connect their own WHOOP accounts through this site.",
-      "This data is displayed publicly as part of telling the campaign's story. The underlying account credentials (OAuth tokens) are stored server-side only and are never exposed to the browser.",
+      "Aggregate traffic analytics: we use Cloudflare Web Analytics to understand overall site traffic — approximate page views, unique visits, referring sites, and general geography (country-level) and device type. It is cookieless and does not use any persistent identifier to track you individually or across other websites; we cannot identify who visited from this data. We do not use advertising cookies. The only cookie this site sets is a session cookie for administrator sign-in.",
     ],
   },
   {
@@ -46,8 +40,7 @@ export const PRIVACY_SECTIONS: PrivacySection[] = [
     heading: "How We Use Information",
     body: [
       "To respond to general inquiries.",
-      "To send campaign updates to mailing list subscribers.",
-      "To administer the campaign — for example, tracking fundraising progress and mile status.",
+      "To review and, where appropriate, publish submitted resources.",
       "To protect the site and its forms from spam and abuse.",
     ],
   },
@@ -56,11 +49,8 @@ export const PRIVACY_SECTIONS: PrivacySection[] = [
     heading: "Third-Party Services",
     body: [
       "Supabase: our database, authentication, and hosting infrastructure provider. Form submissions and administrator accounts are stored in Supabase.",
-      "WHOOP: provides the athlete's training data displayed on the Race page, as described above.",
-      "Bonfire: our merchandise/team-store provider. Merchandise sales are not currently active — see How Donations Work. If merchandise sales resume, Bonfire would process orders, sizing, shipping, and payment on its own platform, not this site, and this policy would be updated first.",
       "Cloudflare: in addition to hosting this site, Cloudflare provides the aggregate, cookieless traffic analytics described above (Cloudflare Web Analytics).",
       "We do not currently use an email delivery provider. If we add one, we'll update this policy first.",
-      "Donation links route to each beneficiary nonprofit organization's own, separately operated donation platform — see the disclaimer on our Donate and Beneficiaries pages. We don't receive or process your payment information for those donations.",
     ],
   },
   {

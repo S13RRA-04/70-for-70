@@ -40,7 +40,7 @@ export default function AdvocacyPage() {
         <Container className="max-w-2xl">
           <SectionHeading
             as="h1"
-            eyebrow="Mission Two: Advocate"
+            eyebrow="Why It Matters"
             title="Why It Matters"
             description="Raising awareness of the challenges carried by those who serve, and asking the public to give them the respect, care, and support they've earned."
           />
@@ -152,8 +152,8 @@ export default function AdvocacyPage() {
             Turn Awareness Into Action
           </p>
           <p className="mx-auto mt-3 max-w-xl text-base text-off-white/75">
-            The most direct way to act on this mission is to help someone find support, or to
-            become part of the team that carries it forward.
+            Help someone find the right support, share a trusted resource, or learn where to
+            send someone when they need help.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <CTAButton href="/resources">Find Resources</CTAButton>

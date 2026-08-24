@@ -9,7 +9,8 @@
  * review by qualified legal counsel before an athlete is required to accept
  * a production version of it.
  *
- * Athlete onboarding isn't open yet (see /join) — there is no athlete
+ * Athlete onboarding isn't open yet (the old /join route now permanently
+ * redirects to the campaign's /the-mission, see next.config.ts) — there is no athlete
  * database record, acceptance flow, or admin tracking to accept this
  * agreement against. When that program is built, the acceptance UI must:
  *   - Require an affirmative, non-pre-checked checkbox (not a bundled

@@ -37,15 +37,15 @@ const SUBSECTIONS = {
     heading: "Mighty Oaks",
     body: [
       "In 2023, I attended a Mighty Oaks Warrior Program retreat. It became a turning point — a place that helped me look at faith, responsibility, purpose, and relationships through a different lens, and understand that recovery isn't about becoming who I was before. Sometimes it's about becoming someone stronger because of what happened.",
-      "That's one of the reasons Mighty Oaks is part of Tri For The 22 — I know firsthand what their work can mean to a veteran and a family.",
+      "That experience showed me how difficult it can be to find the right help at the right time—and why connecting people with established resources matters.",
     ],
   },
   "the-idea": {
     id: "the-idea",
     heading: "How This Became For The 22",
     body: [
-      "My next major goal is completing a 70.3-mile triathlon — 1.2 miles swimming, 56 miles cycling, and 13.1 miles running. Tri For The 22 began as a personal endurance challenge: train for the race, tell the story honestly, connect people with established resources, and encourage direct support for organizations already doing the work.",
-      "I have benefited from people and organizations willing to invest in veterans when it mattered most. Now I want to return that investment. There is another veteran somewhere trying to figure out what comes next — another who needs a mission. I cannot solve all of that, but I can swim 1.2 miles, ride 56, run 13.1, and tell my story.",
+      "I have benefited from people and organizations willing to invest in veterans when it mattered most. Now I want to return that investment. There is another veteran somewhere trying to figure out what comes next — another who needs a mission.",
+      "I can't solve that for everyone. But I can build a place that makes it easier to find the right support: a directory of established programs, services, and communities, put together by someone who knows firsthand how hard that search can be.",
     ],
   },
   "my-story": {
@@ -88,14 +88,6 @@ const SUBSECTIONS = {
       attribution: "Isaiah 61:3",
     },
   },
-  "why-endurance-sports": {
-    id: "why-endurance-sports",
-    heading: "Why Endurance",
-    body: [
-      "You do not have to feel strong to keep moving. You just have to take the next step.",
-      "That is what endurance has become for me. Not an escape. Not punishment. A way forward.",
-    ],
-  },
   "why-22": {
     id: "why-22",
     heading: "Why 22?",
@@ -109,7 +101,7 @@ const SUBSECTIONS = {
     heading: "Why We Wear Black",
     body: [
       "Black is mourning. We wear it for the veterans and first responders we've lost to suicide, trauma, and the invisible battles carried long after the uniform comes off.",
-      "We race in remembrance — and we move forward for those who no longer can.",
+      "We remember those we have lost—and keep showing up for those who are still here.",
     ],
   },
 } as const satisfies Record<string, AboutSubsection>;
@@ -122,7 +114,7 @@ export interface AboutContent {
 
 export const ABOUT_CONTENT: AboutContent = {
   name: "Cody Hitson",
-  tagline: "Athlete. Veteran. Husband. Father. Still Moving Forward.",
+  tagline: "Veteran. Husband. Father. Still Moving Forward.",
   portraitUrl: "/about/hiking.jpg",
 };
 
@@ -138,40 +130,20 @@ export interface AboutChapter {
 }
 
 /**
- * The 6 chapters shown in the About page's sticky rail (desktop) / compact
+ * The 5 chapters shown in the About page's sticky rail (desktop) / compact
  * indicator (mobile). Nav metadata only — each chapter's actual content is
  * hand-composed in the page since every chapter has a distinct layout
- * (alternating image/text, timeline, full-bleed memorial, annotated mark).
+ * (alternating image/text, full-bleed memorial, annotated mark). The
+ * endurance/training chronology ("Movement") lives on the campaign
+ * subdomain's Story page, not here — see src/lib/content/the-story.ts.
  */
 export const ABOUT_CHAPTERS: AboutChapter[] = [
   { id: "service", number: "01", label: "Service" },
   { id: "after", number: "02", label: "After" },
   { id: "turning-point", number: "03", label: "Turning Point" },
-  { id: "movement", number: "04", label: "Movement" },
-  { id: "for-the-22", number: "05", label: "For The 22" },
-  { id: "the-mark", number: "06", label: "The Mark" },
+  { id: "for-the-22", number: "04", label: "For The 22" },
+  { id: "the-mark", number: "05", label: "The Mark" },
 ];
-
-/**
- * The endurance story shown as a visual timeline in the Movement chapter —
- * only accurate, approved dates. Thumbnails are optional supporting photos,
- * not a stand-in for a full gallery.
- */
-export const MOVEMENT_TIMELINE = [
-  { year: "2015", label: "Spartan Trifecta completed", image: { src: "/about/trail.jpg", alt: "Cody on a trail run" } },
-  {
-    year: "2016",
-    label: "Back surgery — adapts, trains in Brazilian Jiu-Jitsu",
-    image: { src: "/about/jiu-jitsu.jpg", alt: "Cody after a Brazilian Jiu-Jitsu competition" },
-  },
-  { year: "2023", label: "First marathon, Nashville", image: { src: "/about/nashville.jpg", alt: "Cody at the Nashville marathon" } },
-  {
-    year: "2024",
-    label: "First 100-kilometer ultramarathon",
-    image: { src: "/about/ultra-2.jpg", alt: "Cody racing solo on a wooded trail during an ultramarathon" },
-  },
-  { year: "2027", label: "IRONMAN 70.3 Chattanooga (goal)" },
-] as const;
 
 /**
  * Re-exported from src/lib/ring-colors.ts, which is the canonical source now

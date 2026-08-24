@@ -4,7 +4,7 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
 import { MobileActionBar } from "@/components/shared/mobile-action-bar";
 import { ResourceDirectory } from "@/components/resources/resource-directory";
-import { CAMPAIGN_URL, CONTACT_EMAIL, SITE_NAME } from "@/lib/constants";
+import { CONTACT_EMAIL, SITE_NAME } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
@@ -20,9 +20,9 @@ export default function ResourcesPage() {
         <Container>
           <SectionHeading
             as="h1"
-            eyebrow="Mission One: Connect"
+            eyebrow="Our Core Mission"
             title="Resources for Those Who Serve"
-            description={`The primary mission of ${SITE_NAME} is simple: help veterans and first responders find the support, opportunities, and communities they need. Athletics is our strongest emphasis, alongside mental health, recovery, equipment, family support, career, and more. Search or filter by what you need and who you are below.`}
+            description={`The primary mission of ${SITE_NAME} is simple: help veterans and first responders find the support, opportunities, and communities they need — across mental, physical, emotional, spiritual, family, career, financial, legal, and community support. Search or filter by what you need and who you are below.`}
           />
         </Container>
       </section>
@@ -49,7 +49,7 @@ export default function ResourcesPage() {
       <div className="h-16 sm:hidden" aria-hidden="true" />
       <MobileActionBar
         secondary={{ label: "Search", href: "#resource-search" }}
-        primary={{ label: "Support a Beneficiary", href: `${CAMPAIGN_URL}/beneficiaries` }}
+        primary={{ label: "Submit a Resource", href: CONTACT_EMAIL ? `mailto:${CONTACT_EMAIL}?subject=Resource%20Submission` : "/contact" }}
       />
     </>
   );

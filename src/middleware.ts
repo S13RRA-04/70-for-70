@@ -53,7 +53,11 @@ function applyLaunchGate(request: NextRequest, onCampaignHost: boolean): Respons
   if (
     url.pathname.startsWith("/admin") ||
     url.pathname.startsWith("/api/whoop") ||
-    url.pathname.startsWith("/crisis")
+    url.pathname.startsWith("/crisis") ||
+    url.pathname === "/sitemap.xml" ||
+    url.pathname === "/robots.txt" ||
+    url.pathname === "/manifest.json" ||
+    url.pathname === "/manifest.webmanifest"
   ) {
     return null;
   }
@@ -110,19 +114,14 @@ const ORG_PATH_PREFIXES = [
   "/about",
   "/resources",
   "/crisis",
-  "/athletes",
   "/advocacy",
-  "/join",
-  "/merch",
   "/contact",
-  "/privacy",
-  "/terms",
-  "/athlete-agreement",
-  "/press",
+  "/mission",
 ];
 const CAMPAIGN_PATH_PREFIXES = [
   "/the-mission",
   "/the-race",
+  "/the-story",
   "/fund-a-mile",
   "/donate",
   "/sponsors",
@@ -131,7 +130,22 @@ const CAMPAIGN_PATH_PREFIXES = [
   "/journal",
   "/miles",
   "/campaign-supporters",
+  "/beneficiaries",
+  "/financial-transparency",
+  "/shop",
 ];
+
+/**
+ * Paths that exist on BOTH hosts but need different content per domain —
+ * rewritten (URL bar unchanged) rather than redirected, same pattern as
+ * "/" → "/campaign-home" below. The org versions render normally at these
+ * exact paths; the campaign host transparently gets its own page instead.
+ */
+const CAMPAIGN_PATH_REWRITES: Record<string, string> = {
+  "/press": "/campaign-press",
+  "/terms": "/campaign-terms",
+  "/privacy": "/campaign-privacy",
+};
 
 function matchesPathPrefix(pathname: string, prefixes: string[]): boolean {
   return prefixes.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
@@ -152,12 +166,18 @@ function applyDomainSplit(request: NextRequest, onCampaignHost: boolean): Respon
     return onCampaignHost ? NextResponse.rewrite(new URL("/campaign-home", url)) : null;
   }
 
+  if (onCampaignHost && url.pathname in CAMPAIGN_PATH_REWRITES) {
+    return NextResponse.rewrite(new URL(CAMPAIGN_PATH_REWRITES[url.pathname], url));
+  }
+
+  // Permanent (308) redirects — a visitor on the wrong domain for a given
+  // page should be sent to the correct one for good, not just this visit.
   if (onCampaignHost && matchesPathPrefix(url.pathname, ORG_PATH_PREFIXES)) {
-    return NextResponse.redirect(`${SITE_URL}${url.pathname}${url.search}`);
+    return NextResponse.redirect(`${SITE_URL}${url.pathname}${url.search}`, 308);
   }
 
   if (!onCampaignHost && matchesPathPrefix(url.pathname, CAMPAIGN_PATH_PREFIXES)) {
-    return NextResponse.redirect(`${CAMPAIGN_URL}${url.pathname}${url.search}`);
+    return NextResponse.redirect(`${CAMPAIGN_URL}${url.pathname}${url.search}`, 308);
   }
 
   return null;

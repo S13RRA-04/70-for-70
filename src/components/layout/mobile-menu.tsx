@@ -4,8 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import {
-  CAMPAIGN_NAME,
-  CURRENT_MISSION_NAV_LINK,
+  CAMPAIGN_HOME_LINK,
   DONATE_LINK,
   ORG_HOME_LINK,
 } from "@/lib/constants";
@@ -132,26 +131,20 @@ export function MobileMenu({ open, onClose, navLinks, pathname, isCampaign, trig
               </li>
             </ul>
           ) : (
-            <>
-              <ul className="mt-3 flex flex-col gap-2 border-t border-ink/10 pt-3">
-                <li>
-                  <a
-                    href={CURRENT_MISSION_NAV_LINK.href}
-                    className="block rounded-sm border border-anchor/20 px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-anchor hover:bg-anchor/5"
-                  >
-                    {CURRENT_MISSION_NAV_LINK.label} &mdash; {CAMPAIGN_NAME}
-                  </a>
-                </li>
-              </ul>
-              <div className="mt-auto border-t border-ink/10 pt-3">
-                <Link
-                  href="/crisis"
-                  className="block rounded-sm px-3 py-3 text-center text-sm font-semibold uppercase tracking-wide text-charcoal-light hover:text-ink"
-                >
-                  Need Help Now
-                </Link>
-              </div>
-            </>
+            <div className="mt-auto border-t border-ink/10 pt-3">
+              <Link
+                href="/crisis"
+                className="block rounded-sm bg-anchor px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-off-white hover:bg-anchor-light"
+              >
+                Need Help Now
+              </Link>
+              <a
+                href={CAMPAIGN_HOME_LINK.href}
+                className="mt-2 block rounded-sm px-3 py-3 text-center text-xs font-semibold uppercase tracking-wide text-charcoal-light hover:text-ink"
+              >
+                {CAMPAIGN_HOME_LINK.label} <span aria-hidden="true">&#8599;</span>
+              </a>
+            </div>
           )}
         </nav>
       </div>

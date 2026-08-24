@@ -7,16 +7,14 @@ export const SITE_NAME = "For The 22";
  */
 export const ORG_TAGLINE = "For Those Who Serve. For What Comes Next.";
 /**
- * One-sentence expansion of ORG_TAGLINE — matches the homepage hero copy
- * verbatim; import from here instead of re-typing it. Deliberately frames
- * For The 22 as Cody Hitson's personal, volunteer-led project — not an
- * organization, athletic team, or entity that receives/allocates money —
- * pending SecD/OAE approval for any broader framing (an athletic team,
- * recruiting/managing affiliated athletes, administering multiple
- * campaigns, or a broader athlete-support program).
+ * The org's one-sentence core mission statement — the non-negotiable
+ * definition of what For The 22 is, used verbatim in the homepage hero,
+ * /mission, and press copy. Deliberately contains no campaign-specific
+ * language (Tri For The 22, fundraising, race goals, beneficiaries) —
+ * that content lives on the campaign subdomain, never here.
  */
 export const ORG_SUPPORTING_STATEMENT =
-  "For The 22 is Cody Hitson's personal, volunteer-led endurance project connecting veterans and first responders with established resources and encouraging direct support for independent nonprofit organizations serving them.";
+  "For The 22 connects veterans and first responders with trusted programs, services, and communities that support their mental, physical, emotional, and spiritual health.";
 /**
  * Shown prominently on the homepage, donation pages, and in the footer —
  * required disclosure while ethics approval is pending. Do not remove or
@@ -68,21 +66,18 @@ export const MOVEMENT_CAMPAIGNS = [
  * Two separate nav sets, one per domain — see README's "Movement/Campaign
  * Domain Split". forthe22.org (org) and tri.forthe22.org (fundraising
  * campaign) each get their own header/footer nav; a visitor never sees
- * campaign nav on the org site or vice versa. "Current Mission" is a
- * separate utility strip above the header (see CampaignUtilityBar), not a
- * nav item competing with the org's own pages.
- *
- * Beneficiaries is a real page but a *campaign*-domain route (see
- * CAMPAIGN_PATH_PREFIXES in middleware.ts, part of the deliberate
- * Movement/Campaign Domain Split) — its href here is deliberately an
- * absolute CAMPAIGN_URL link rather than a relative path that would get
- * silently redirected off the org site.
+ * campaign nav on the org site or vice versa. The org nav deliberately
+ * contains no campaign links (no Beneficiaries, no Donate) — the campaign
+ * gets exactly one small outbound link, in the footer's "Campaigns" area
+ * (see CAMPAIGN_HOME_LINK), not a nav item or persistent banner.
  */
 export const ORG_NAV_LINKS: NavLink[] = [
   { label: "Resources", href: "/resources" },
   { label: "Mission", href: "/mission" },
+  { label: "Why It Matters", href: "/advocacy" },
   { label: "About", href: "/about" },
-  { label: "Beneficiaries", href: `${CAMPAIGN_URL}/beneficiaries` },
+  { label: "Contact", href: "/contact" },
+  { label: "Need Help Now", href: "/crisis" },
 ];
 
 export const CAMPAIGN_NAV_LINKS: NavLink[] = [
@@ -93,16 +88,13 @@ export const CAMPAIGN_NAV_LINKS: NavLink[] = [
   { label: "Journal", href: "/journal" },
 ];
 
-/** Org header → campaign subdomain, styled as a CTA (not a plain nav link). */
-export const CAMPAIGN_HOME_LINK: NavLink = { label: CAMPAIGN_NAME, href: CAMPAIGN_URL };
 /**
- * Org header's "Current Mission" nav slot — same destination as
- * CAMPAIGN_HOME_LINK, but labeled generically so it reads as a nav item
- * ("Current Mission") rather than restating the campaign name a second
- * time next to the footer/homepage module, which already say "Tri For
- * The 22" via CAMPAIGN_HOME_LINK.
+ * The org's single outbound link to the campaign — lives only in the
+ * footer's small "Campaigns" area and the mobile menu, never in primary
+ * nav and never as a persistent banner (see README's Movement/Campaign
+ * Domain Split — the campaign must not dominate parent-site navigation).
  */
-export const CURRENT_MISSION_NAV_LINK: NavLink = { label: "Current Mission", href: CAMPAIGN_URL };
+export const CAMPAIGN_HOME_LINK: NavLink = { label: CAMPAIGN_NAME, href: CAMPAIGN_URL };
 /** Campaign header → org subdomain, styled as a CTA. */
 export const ORG_HOME_LINK: NavLink = { label: SITE_NAME, href: SITE_URL };
 
@@ -251,10 +243,12 @@ export const CONTACT_EMAIL: string | null = "admin@forthe22.org";
 
 /**
  * Bonfire fundraising store config — preserved but NOT currently exposed or
- * promoted anywhere on the site (see /merch, "Store Paused"). Merchandise
- * stays paused pending resolution of outside-activity/ethics requirements.
- * Do not link to this URL or reference MERCH_BENEFICIARY on any public
- * page until the store is explicitly re-enabled.
+ * promoted anywhere on the site (see the campaign's /shop, "Store Paused").
+ * Merchandise stays paused pending resolution of outside-activity/ethics
+ * requirements. Do not link to this URL on any public page until the store
+ * is explicitly re-enabled (MERCH_BENEFICIARY is disclosed on the
+ * campaign's /financial-transparency page regardless, since that's a
+ * factual disclosure about where merch profit would go, not a promotion).
  */
 export const MERCH_STORE_URL = "https://www.bonfire.com/tri-for-the-22-mighty-oaks/";
 

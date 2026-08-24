@@ -4,12 +4,12 @@ import { MERCH_BENEFICIARY } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
-  title: "How Donations Work",
+  title: "Financial Transparency",
   description: "How donation links on this site work, and what For The 22 does and doesn't do with charitable giving.",
-  canonical: "/how-funds-work",
+  canonical: "/financial-transparency",
 });
 
-export default function HowFundsWorkPage() {
+export default function FinancialTransparencyPage() {
   return (
     <section className="py-16 sm:py-20">
       <Container className="max-w-2xl">
