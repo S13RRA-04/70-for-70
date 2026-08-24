@@ -50,13 +50,24 @@ export const CAMPAIGN_URL = process.env.NEXT_PUBLIC_CAMPAIGN_URL ?? "http://loca
 
 /**
  * Naming ideas Cody may take on personally if Tri For The 22 goes well —
- * powers the "[Mission] For The 22" explainer on /the-mission. Only Tri is
- * real/active; the rest are just a naming convention for possible future
- * personal challenges, not commitments with dates or a managed program —
- * labeled "Future" rather than implying a timeline or an institution.
+ * powers the "[Mission] For The 22" explainer on /the-mission and the org
+ * site's /campaigns landing page. Only Tri is real/active; the rest are
+ * just a naming convention for possible future personal challenges, not
+ * commitments with dates or a managed program — labeled "Future" rather
+ * than implying a timeline or an institution. `description`/`url` are only
+ * set for active campaigns — /campaigns deliberately renders future
+ * entries without invented copy or a link (see README's "Eliminating
+ * Placeholder Content").
  */
 export const MOVEMENT_CAMPAIGNS = [
-  { name: "Tri For The 22", discipline: "Triathlon", status: "current" as const },
+  {
+    name: "Tri For The 22",
+    discipline: "Triathlon",
+    status: "current" as const,
+    description:
+      "A 70.3-mile triathlon paired with a $70,000 fundraising goal, in support of confirmed veteran-focused nonprofit beneficiaries.",
+    url: CAMPAIGN_URL,
+  },
   { name: "Run For The 22", discipline: "Running", status: "future" as const },
   { name: "Ride For The 22", discipline: "Cycling", status: "future" as const },
   { name: "Ruck For The 22", discipline: "Rucking", status: "future" as const },
@@ -66,16 +77,17 @@ export const MOVEMENT_CAMPAIGNS = [
  * Two separate nav sets, one per domain — see README's "Movement/Campaign
  * Domain Split". forthe22.org (org) and tri.forthe22.org (fundraising
  * campaign) each get their own header/footer nav; a visitor never sees
- * campaign nav on the org site or vice versa. The org nav deliberately
- * contains no campaign links (no Beneficiaries, no Donate) — the campaign
- * gets exactly one small outbound link, in the footer's "Campaigns" area
- * (see CAMPAIGN_HOME_LINK), not a nav item or persistent banner.
+ * campaign nav on the org site or vice versa. The org nav's one campaign
+ * touchpoint is "Campaigns" — an org-owned editorial page (/campaigns)
+ * listing what For The 22 is currently engaged in and linking out to
+ * tri.forthe22.org, not a fundraising CTA or persistent banner itself.
  */
 export const ORG_NAV_LINKS: NavLink[] = [
   { label: "Resources", href: "/resources" },
   { label: "Mission", href: "/mission" },
   { label: "Why It Matters", href: "/advocacy" },
   { label: "About", href: "/about" },
+  { label: "Campaigns", href: "/campaigns" },
   { label: "Contact", href: "/contact" },
   { label: "Need Help Now", href: "/crisis" },
 ];
@@ -84,6 +96,7 @@ export const CAMPAIGN_NAV_LINKS: NavLink[] = [
   { label: "Campaign", href: "/the-mission" },
   { label: "Race", href: "/the-race" },
   { label: "Fundraising", href: "/fund-a-mile" },
+  { label: "Shop", href: "/shop" },
   { label: "Beneficiaries", href: "/beneficiaries" },
   { label: "Journal", href: "/journal" },
 ];
@@ -242,17 +255,13 @@ export const RACE_INFO = {
 export const CONTACT_EMAIL: string | null = "admin@forthe22.org";
 
 /**
- * Bonfire fundraising store config — preserved but NOT currently exposed or
- * promoted anywhere on the site (see the campaign's /shop, "Store Paused").
- * Merchandise stays paused pending resolution of outside-activity/ethics
- * requirements. Do not link to this URL on any public page until the store
- * is explicitly re-enabled (MERCH_BENEFICIARY is disclosed on the
- * campaign's /financial-transparency page regardless, since that's a
- * factual disclosure about where merch profit would go, not a promotion).
+ * Bonfire fundraising store — live, linked from the campaign's /shop.
+ * 100% of net profit is paid by Bonfire directly to MERCH_BENEFICIARY;
+ * For The 22 never takes possession of merchandise proceeds.
  */
 export const MERCH_STORE_URL = "https://www.bonfire.com/tri-for-the-22-mighty-oaks/";
 
-/** Intended sole recipient of net Bonfire store profit once/if the store reopens — see MERCH_STORE_URL. */
+/** Sole recipient of net Bonfire store profit — see MERCH_STORE_URL. */
 export const MERCH_BENEFICIARY = "Mighty Oaks Foundation";
 
 /**

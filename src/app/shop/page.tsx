@@ -1,19 +1,13 @@
 import { Container } from "@/components/shared/container";
+import { CAMPAIGN_NAME, MERCH_BENEFICIARY, MERCH_STORE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
-  title: "Store Paused",
-  description: "The Tri For The 22 merchandise store is not currently available.",
+  title: "Shop",
+  description: `${CAMPAIGN_NAME} merchandise — 100% of net profit goes directly to ${MERCH_BENEFICIARY}.`,
   canonical: "/shop",
 });
 
-/**
- * The store itself (MERCH_STORE_URL, MERCH_BENEFICIARY in constants.ts,
- * and the underlying Bonfire integration) is preserved, not deleted —
- * only the public link and this page's content are disabled, pending
- * resolution of outside-activity/ethics requirements. See
- * src/lib/constants.ts.
- */
 export default function ShopPage() {
   return (
     <section className="border-b border-ink/10 bg-ink py-16 text-off-white sm:py-24">
@@ -22,21 +16,23 @@ export default function ShopPage() {
           Store
         </p>
         <h1 className="mt-3 text-balance font-display text-4xl font-bold uppercase leading-[0.95] tracking-tight sm:text-5xl">
-          Merchandise Store Paused
+          {CAMPAIGN_NAME} Shop
         </h1>
         <p className="mt-5 max-w-lg text-base leading-relaxed text-off-white/80">
-          Merchandise is not currently available. For The 22 does not receive merchandise
-          proceeds at this time.
+          Merchandise is sold through Bonfire, an independent third-party store. 100% of net
+          profit from every sale is paid by Bonfire directly to {MERCH_BENEFICIARY}.
         </p>
         <p className="mt-3 max-w-lg text-base leading-relaxed text-off-white/80">
-          If you would like to support the mission, please donate directly to one of the
-          independent beneficiary organizations.
+          For The 22 does not take possession of merchandise proceeds; Bonfire handles all
+          orders, sizing, shipping, and payment on its own platform.
         </p>
         <a
-          href="/beneficiaries"
+          href={MERCH_STORE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
           className="mt-8 inline-flex items-center gap-2 rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light"
         >
-          Support a Beneficiary
+          Shop on Bonfire <span aria-hidden="true">&#8599;</span>
         </a>
       </Container>
     </section>

@@ -68,7 +68,7 @@
    */
   "vars": {
     "SITE_LIVE": "true",
-    "CAMPAIGN_LIVE": "false",
+    "CAMPAIGN_LIVE": "true",
     "WHOOP_CLIENT_ID": "fc3a41a2-08c9-4141-b5bb-35773f4c3509",
     "NEXT_PUBLIC_SITE_URL": "https://forthe22.org",
     "NEXT_PUBLIC_CAMPAIGN_URL": "https://tri.forthe22.org",

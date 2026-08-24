@@ -26,7 +26,7 @@ export const CAMPAIGN_TERMS_SECTIONS: TermsSection[] = [
     id: "merchandise",
     heading: "Merchandise",
     body: [
-      "Merchandise is not currently available, and For The 22 does not receive merchandise proceeds at this time. See Financial Transparency for more.",
+      "Merchandise is sold through Bonfire, an independent third-party store, linked from the Shop page. Bonfire handles all orders, sizing, shipping, and payment on its own platform — For The 22 does not take possession of merchandise proceeds. See Financial Transparency for more.",
     ],
   },
   {

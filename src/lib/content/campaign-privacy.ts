@@ -43,7 +43,7 @@ export const CAMPAIGN_PRIVACY_SECTIONS: PrivacySection[] = [
     heading: "Campaign Third-Party Services",
     body: [
       "WHOOP: provides the athlete's training data displayed on the Race page, as described above.",
-      "Bonfire: our merchandise/team-store provider. Merchandise sales are not currently active — see Financial Transparency. If merchandise sales resume, Bonfire would process orders, sizing, shipping, and payment on its own platform, not this site, and this notice would be updated first.",
+      "Bonfire: our merchandise/team-store provider, linked from the Shop page. Bonfire processes orders, sizing, shipping, and payment on its own platform, not this site — see Financial Transparency.",
       "Donation links route to each beneficiary nonprofit organization's own, separately operated donation platform — see the disclaimer on our Donate and Beneficiaries pages. We don't receive or process your payment information for those donations.",
     ],
   },

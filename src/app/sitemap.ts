@@ -18,6 +18,7 @@ const ORG_ROUTES = [
   "/resources",
   "/crisis",
   "/advocacy",
+  "/campaigns",
   "/contact",
   "/privacy",
   "/terms",
