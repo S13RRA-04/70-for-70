@@ -35,9 +35,7 @@ export const TERMS_SECTIONS: TermsSection[] = [
     id: "merchandise",
     heading: "Merchandise",
     body: [
-      "The For The 22 store is operated independently by Bonfire, a third-party print-on-demand platform. Production, fulfillment, payment processing, and order support are all handled on Bonfire's platform — For The 22 does not process, collect, or take possession of merchandise proceeds.",
-      "100% of net profit from store purchases is paid by Bonfire directly to Mighty Oaks Foundation.",
-      "Merchandise purchases are retail transactions, not tax-deductible charitable contributions, and For The 22 does not issue donation receipts for them.",
+      "Merchandise is not currently available, and For The 22 does not receive merchandise proceeds at this time. See How Donations Work for more.",
     ],
   },
   {

@@ -84,7 +84,7 @@ export default async function CampaignHomePage() {
         <div className="relative aspect-[3/1] w-full">
           <Image
             src="/tri-for-the-22-banner.png"
-            alt={`${CAMPAIGN_NAME} — ${RACE_TOTAL_DISTANCE} Miles. ${formatCurrency(campaign.fundraising_goal)}. One Mission. Chattanooga 2026.`}
+            alt={`${CAMPAIGN_NAME} — ${RACE_TOTAL_DISTANCE} Miles. ${formatCurrency(campaign.fundraising_goal)}. One Mission. Chattanooga 2027.`}
             fill
             sizes="100vw"
             priority

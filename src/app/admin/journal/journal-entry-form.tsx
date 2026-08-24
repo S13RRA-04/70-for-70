@@ -10,7 +10,6 @@ const CATEGORIES: JournalEntryRow["primary_category"][] = [
   "Training",
   "Fundraising",
   "Mighty Oaks",
-  "Project Echelon",
   "Sponsors",
   "Race Prep",
   "Milestones",

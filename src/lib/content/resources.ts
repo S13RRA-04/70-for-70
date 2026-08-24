@@ -183,16 +183,6 @@ export const RESOURCES: Resource[] = [
     cost: "Paid",
     geographicScope: "Nationwide / event-based",
   },
-  {
-    name: "Project Echelon",
-    url: "https://www.projectechelon.org/",
-    description:
-      "Cycling mentorship and community for veterans — coaching, gear, and a team environment aimed at reducing the barriers to getting into the sport.",
-    needCategoryIds: ["sports-fitness", "purpose-community"],
-    audienceTags: ["Veteran"],
-    cost: "Free / sponsored / grants vary",
-    geographicScope: "Nationwide / cycling community",
-  },
 
   // ---------------------------------------------------------------------
   // Adaptive (folded into Sports & Fitness as a need, Disabled as audience)

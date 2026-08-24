@@ -14,7 +14,6 @@ const CTA_BY_CATEGORY: Record<JournalPrimaryCategory, { label: string; href: str
   Milestones: { label: "Support the Mission", href: "/donate" },
   Sponsors: { label: "Meet Our Partners", href: "/beneficiaries" },
   "Mighty Oaks": { label: "Meet Our Partners", href: "/beneficiaries" },
-  "Project Echelon": { label: "Meet Our Partners", href: "/beneficiaries" },
 };
 
 export function JournalCta({ category }: { category: JournalPrimaryCategory }) {

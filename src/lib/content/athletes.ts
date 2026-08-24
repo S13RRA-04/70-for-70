@@ -19,7 +19,7 @@ export interface AthleteProfile {
   /** e.g. "Navy Veteran", "Law Enforcement", "Fire / EMS". */
   serviceCategory: string;
   sport: string;
-  /** Goal or target event, e.g. "IRONMAN 70.3 Chattanooga, May 2026". */
+  /** Goal or target event, e.g. "IRONMAN 70.3 Chattanooga, 2027". */
   goal: string;
   /** Short, approved bio — public-facing, not the athlete's full story. */
   bio: string;

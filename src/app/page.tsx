@@ -19,13 +19,14 @@ import {
   CAMPAIGN_URL,
   ORG_SUPPORTING_STATEMENT,
   ORG_TAGLINE,
+  PERSONAL_PROJECT_DISCLOSURE,
   SITE_NAME,
 } from "@/lib/constants";
 
 const CAMPAIGN_STATS = [
   { value: "70.3 MI", label: "Race" },
   { value: "$70K", label: "Goal" },
-  { value: "2026", label: "Chattanooga" },
+  { value: "2027", label: "Chattanooga" },
 ] as const;
 
 /** Real, confirmed beneficiary marks — shown on a light chip so each reads cleanly against the dark dashboard background regardless of the source logo's own color. */
@@ -100,6 +101,10 @@ export default async function HomePage() {
             Need Help Now?
             <ChevronDown size={14} aria-hidden="true" />
           </a>
+
+          <p className="mt-10 max-w-xl text-xs leading-relaxed text-off-white/50">
+            {PERSONAL_PROJECT_DISCLOSURE}
+          </p>
         </Container>
       </section>
 

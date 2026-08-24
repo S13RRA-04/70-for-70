@@ -5,7 +5,7 @@ import { CAMPAIGN_HOME_LINK, CAMPAIGN_NAME, SITE_NAME } from "@/lib/constants";
 const STATS = [
   { value: "70.3 MI", label: "Race" },
   { value: "$70K", label: "Goal" },
-  { value: "2026", label: "Chattanooga" },
+  { value: "2027", label: "Chattanooga" },
 ] as const;
 
 /**

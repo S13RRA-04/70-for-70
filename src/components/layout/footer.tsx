@@ -9,6 +9,7 @@ import {
   ORG_HOME_LINK,
   ORG_NAV_LINKS,
   ORG_TAGLINE,
+  PERSONAL_PROJECT_DISCLOSURE,
   SITE_NAME,
   SITE_URL,
 } from "@/lib/constants";
@@ -245,6 +246,12 @@ export function Footer({ mode }: { mode: SiteMode }) {
           </>
         )}
       </Container>
+
+      <div className="relative border-t border-off-white/10 py-5">
+        <Container>
+          <p className="max-w-3xl text-xs text-off-white/60">{PERSONAL_PROJECT_DISCLOSURE}</p>
+        </Container>
+      </div>
 
       <div className="relative border-t border-off-white/10 py-6">
         <Container className="flex flex-col gap-3 text-xs text-off-white/50 sm:flex-row sm:items-center sm:justify-between">

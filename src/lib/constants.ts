@@ -9,12 +9,21 @@ export const ORG_TAGLINE = "For Those Who Serve. For What Comes Next.";
 /**
  * One-sentence expansion of ORG_TAGLINE — matches the homepage hero copy
  * verbatim; import from here instead of re-typing it. Deliberately frames
- * For The 22 as Cody Hitson's personal, off-duty project — not an
+ * For The 22 as Cody Hitson's personal, volunteer-led project — not an
  * organization, athletic team, or entity that receives/allocates money —
- * pending written federal ethics approval for any broader framing.
+ * pending SecD/OAE approval for any broader framing (an athletic team,
+ * recruiting/managing affiliated athletes, administering multiple
+ * campaigns, or a broader athlete-support program).
  */
 export const ORG_SUPPORTING_STATEMENT =
-  "For The 22 is a personal endurance campaign connecting veterans and first responders with resources and encouraging direct support for the independent nonprofit organizations serving them.";
+  "For The 22 is Cody Hitson's personal, volunteer-led endurance project connecting veterans and first responders with established resources and encouraging direct support for independent nonprofit organizations serving them.";
+/**
+ * Shown prominently on the homepage, donation pages, and in the footer —
+ * required disclosure while ethics approval is pending. Do not remove or
+ * soften without written approval covering the change.
+ */
+export const PERSONAL_PROJECT_DISCLOSURE =
+  "This is a personal, off-duty project. It is not sponsored, endorsed, or operated by any employer or government entity. No government title, authority, time, equipment, contacts, or nonpublic information is used.";
 /**
  * The specific fundraising campaign/race effort — distinct from SITE_NAME.
  * Individual campaigns follow a "[Mission] For The 22" naming convention
@@ -82,12 +91,6 @@ export const CAMPAIGN_NAV_LINKS: NavLink[] = [
   { label: "Fundraising", href: "/fund-a-mile" },
   { label: "Beneficiaries", href: "/beneficiaries" },
   { label: "Journal", href: "/journal" },
-  { label: "Supporters", href: "/campaign-supporters" },
-  // /merch is an org-domain-only route (see ORG_PATH_PREFIXES in
-  // middleware.ts) — absolute SITE_URL link, same reason ORG_NAV_LINKS'
-  // Beneficiaries entry above uses an absolute CAMPAIGN_URL link: avoids
-  // the silent cross-domain redirect a relative href would trigger.
-  { label: "Shop", href: `${SITE_URL}/merch` },
 ];
 
 /** Org header → campaign subdomain, styled as a CTA (not a plain nav link). */
@@ -232,8 +235,12 @@ export const CUSTOM_PARTNERSHIP_CATEGORIES = [
 ] as const;
 
 export const RACE_INFO = {
-  // Confirmed: IRONMAN 70.3 Chattanooga, Sunday, May 17, 2026.
-  raceDate: "2026-05-17T07:00:00-04:00" as string | null,
+  // Target: IRONMAN 70.3 Chattanooga, 2027 (May 2026 was the prior year's
+  // event, not this campaign's race). IRONMAN hasn't published the 2027
+  // date yet — leave raceDate null (a deliberate no-op, see
+  // campaign-phase.ts) rather than guessing a day; set it once confirmed.
+  raceDate: null as string | null,
+  raceYear: "2027" as string | null,
   raceLocation: "Chattanooga, Tennessee" as string | null,
   courseInfoUrl: "https://www.ironman.com/races/im703-chattanooga" as string | null,
   athleteGoalTime: null as string | null, // TODO, e.g. "6:30:00"
@@ -243,15 +250,15 @@ export const RACE_INFO = {
 export const CONTACT_EMAIL: string | null = "admin@forthe22.org";
 
 /**
- * Bonfire fundraising store — a third-party print-on-demand platform, not
- * operated by For The 22. Bonfire pays 100% of net profit from purchases
- * directly to Mighty Oaks Foundation; For The 22 never processes, collects,
- * or takes possession of merchandise proceeds. See the Merchandise section
- * of the Terms of Use and /how-funds-work.
+ * Bonfire fundraising store config — preserved but NOT currently exposed or
+ * promoted anywhere on the site (see /merch, "Store Paused"). Merchandise
+ * stays paused pending resolution of outside-activity/ethics requirements.
+ * Do not link to this URL or reference MERCH_BENEFICIARY on any public
+ * page until the store is explicitly re-enabled.
  */
 export const MERCH_STORE_URL = "https://www.bonfire.com/tri-for-the-22-mighty-oaks/";
 
-/** Sole recipient of 100% of net Bonfire store profit — see MERCH_STORE_URL. */
+/** Intended sole recipient of net Bonfire store profit once/if the store reopens — see MERCH_STORE_URL. */
 export const MERCH_BENEFICIARY = "Mighty Oaks Foundation";
 
 /**

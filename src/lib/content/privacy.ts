@@ -57,7 +57,7 @@ export const PRIVACY_SECTIONS: PrivacySection[] = [
     body: [
       "Supabase: our database, authentication, and hosting infrastructure provider. Form submissions and administrator accounts are stored in Supabase.",
       "WHOOP: provides the athlete's training data displayed on the Race page, as described above.",
-      "Bonfire: our merchandise store provider. If you buy For The 22 merchandise, your order, sizing, shipping, and payment-card information are collected and processed by Bonfire on its own platform, not this site. We do not collect or store your payment-card information, and we don't receive order or transaction information from Bonfire beyond what's needed to confirm net profit paid to Mighty Oaks Foundation. Bonfire's own privacy policy and terms apply to that purchase.",
+      "Bonfire: our merchandise/team-store provider. Merchandise sales are not currently active — see How Donations Work. If merchandise sales resume, Bonfire would process orders, sizing, shipping, and payment on its own platform, not this site, and this policy would be updated first.",
       "Cloudflare: in addition to hosting this site, Cloudflare provides the aggregate, cookieless traffic analytics described above (Cloudflare Web Analytics).",
       "We do not currently use an email delivery provider. If we add one, we'll update this policy first.",
       "Donation links route to each beneficiary nonprofit organization's own, separately operated donation platform — see the disclaimer on our Donate and Beneficiaries pages. We don't receive or process your payment information for those donations.",

@@ -7,8 +7,8 @@ import { getSiteMode } from "@/lib/site-mode";
 // Kept in sync with the split enforced in src/middleware.ts. /athletes,
 // /join, and /athlete-agreement are retired (redirect to /mission) —
 // excluded here so search engines follow the redirect to its target rather
-// than indexing the retired URL. /merch stays listed — it's the live
-// Bonfire store page, not retired.
+// than indexing the retired URL. /merch stays listed — it's a real,
+// legitimate page (a "Store Paused" notice), just not an active storefront.
 const ORG_ROUTES = [
   "",
   "/about",
@@ -22,8 +22,9 @@ const ORG_ROUTES = [
   "/press",
   "/how-funds-work",
 ];
-// /partners, /partners/inquire, /sponsors, and /sponsors/request are
-// retired (redirect to /beneficiaries) — excluded for the same reason.
+// /partners, /partners/inquire, /sponsors, /sponsors/request, and
+// /campaign-supporters are retired (redirect to /beneficiaries) —
+// excluded for the same reason.
 const CAMPAIGN_ROUTES = [
   "",
   "/the-mission",
@@ -31,7 +32,6 @@ const CAMPAIGN_ROUTES = [
   "/fund-a-mile",
   "/beneficiaries",
   "/journal",
-  "/campaign-supporters",
   "/donate",
   "/live",
 ];

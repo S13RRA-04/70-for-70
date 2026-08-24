@@ -22,7 +22,6 @@ export type PostCategory =
   | "Training"
   | "Fundraising"
   | "Mighty Oaks"
-  | "Project Echelon"
   | "Sponsors"
   | "Race Prep"
   | "Milestones";

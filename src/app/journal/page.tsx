@@ -24,7 +24,6 @@ const VALID_CATEGORIES: JournalPrimaryCategory[] = [
   "Training",
   "Fundraising",
   "Mighty Oaks",
-  "Project Echelon",
   "Sponsors",
   "Race Prep",
   "Milestones",

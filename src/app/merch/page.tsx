@@ -1,14 +1,20 @@
-import { ExternalLink } from "lucide-react";
 import { Container } from "@/components/shared/container";
-import { CAMPAIGN_URL, MERCH_BENEFICIARY, MERCH_STORE_URL } from "@/lib/constants";
+import { CAMPAIGN_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
-  title: "Shop",
-  description: `Shop the For The 22 store on Bonfire — 100% of profit goes directly to ${MERCH_BENEFICIARY}.`,
+  title: "Store Paused",
+  description: "The Tri For The 22 merchandise store is not currently available.",
   canonical: "/merch",
 });
 
+/**
+ * The store itself (MERCH_STORE_URL, MERCH_BENEFICIARY in constants.ts,
+ * and the underlying Bonfire integration) is preserved, not deleted —
+ * only the public link and this page's content are disabled, pending
+ * resolution of outside-activity/ethics requirements. See
+ * src/lib/constants.ts.
+ */
 export default function MerchPage() {
   return (
     <section className="border-b border-ink/10 bg-ink py-16 text-off-white sm:py-24">
@@ -17,43 +23,22 @@ export default function MerchPage() {
           Store
         </p>
         <h1 className="mt-3 text-balance font-display text-4xl font-bold uppercase leading-[0.95] tracking-tight sm:text-5xl">
-          Shop
+          Merchandise Store Paused
         </h1>
         <p className="mt-5 max-w-lg text-base leading-relaxed text-off-white/80">
-          Custom apparel, available through Bonfire&apos;s print-on-demand store. 100% of net
-          profit from every purchase goes directly to {MERCH_BENEFICIARY}.
+          Merchandise is not currently available. For The 22 does not receive merchandise
+          proceeds at this time.
+        </p>
+        <p className="mt-3 max-w-lg text-base leading-relaxed text-off-white/80">
+          If you would like to support the mission, please donate directly to one of the
+          independent beneficiary organizations.
         </p>
         <a
-          href={MERCH_STORE_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-analytics-event="merch_store_click"
+          href={`${CAMPAIGN_URL}/beneficiaries`}
           className="mt-8 inline-flex items-center gap-2 rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light"
         >
-          Shop on Bonfire
-          <ExternalLink size={15} aria-hidden />
+          Support a Beneficiary
         </a>
-
-        <div className="mt-10 max-w-lg space-y-3 border-t border-off-white/15 pt-8 text-sm leading-relaxed text-off-white/70">
-          <p>
-            The store is operated independently by Bonfire, a third-party print-on-demand
-            platform — production, fulfillment, payment processing, and order support are all
-            handled on Bonfire&apos;s platform, not this site. For The 22 does not process,
-            collect, or take possession of merchandise proceeds.
-          </p>
-          <p>
-            Merchandise purchases are retail transactions, not tax-deductible charitable
-            contributions, and For The 22 does not issue donation receipts for them. Looking to
-            make a tax-deductible gift instead?{" "}
-            <a
-              href={`${CAMPAIGN_URL}/beneficiaries`}
-              className="font-semibold text-bronze-light hover:underline"
-            >
-              Donate directly
-            </a>{" "}
-            to a beneficiary organization.
-          </p>
-        </div>
       </Container>
     </section>
   );
