@@ -11,19 +11,10 @@ export const ORG_TAGLINE = "For Those Who Serve. For What Comes Next.";
  * verbatim; import from here instead of re-typing it. Deliberately frames
  * For The 22 as Cody Hitson's personal, off-duty project — not an
  * organization, athletic team, or entity that receives/allocates money —
- * pending written federal ethics approval for any broader framing. See
- * PERSONAL_PROJECT_DISCLOSURE for the fuller disclosure shown near
- * donation flows and in the footer.
+ * pending written federal ethics approval for any broader framing.
  */
 export const ORG_SUPPORTING_STATEMENT =
   "For The 22 is a personal endurance campaign connecting veterans and first responders with resources and encouraging direct support for the independent nonprofit organizations serving them.";
-/**
- * Shown prominently on the homepage, donation pages, and in the footer —
- * required disclosure while broader ethics approval is pending. Do not
- * remove or soften without written approval covering the change.
- */
-export const PERSONAL_PROJECT_DISCLOSURE =
-  "This is a personal, off-duty project. It is not sponsored, endorsed, or operated by any employer or government entity. No government title, authority, time, equipment, contacts, or nonpublic information is used.";
 /**
  * The specific fundraising campaign/race effort — distinct from SITE_NAME.
  * Individual campaigns follow a "[Mission] For The 22" naming convention

@@ -19,7 +19,6 @@ import {
   CAMPAIGN_URL,
   ORG_SUPPORTING_STATEMENT,
   ORG_TAGLINE,
-  PERSONAL_PROJECT_DISCLOSURE,
   SITE_NAME,
 } from "@/lib/constants";
 
@@ -101,10 +100,6 @@ export default async function HomePage() {
             Need Help Now?
             <ChevronDown size={14} aria-hidden="true" />
           </a>
-
-          <p className="mt-10 max-w-xl text-xs leading-relaxed text-off-white/50">
-            {PERSONAL_PROJECT_DISCLOSURE}
-          </p>
         </Container>
       </section>
 
