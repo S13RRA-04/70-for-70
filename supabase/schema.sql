@@ -3,6 +3,20 @@
 -- Run this against a Supabase project (SQL Editor, `supabase db query`, or a
 -- migration generated from this file) before running seed.sql. Idempotent:
 -- safe to re-run against an already-provisioned database.
+--
+-- Manual step (not expressible as SQL DDL): create a public Storage bucket
+-- named "journal-media" (Studio > Storage, or `supabase storage create
+-- journal-media --public`), then run the storage policy below so uploaded
+-- Journal images are publicly readable:
+--
+--   create policy "journal media is publicly readable"
+--     on storage.objects for select
+--     to anon, authenticated
+--     using (bucket_id = 'journal-media');
+--
+-- No insert/update/delete storage policy — uploads go through the
+-- service-role key via uploadJournalImageAction, same trust model as every
+-- table write in this file.
 
 create extension if not exists "pgcrypto";
 
@@ -230,6 +244,12 @@ create index if not exists sponsors_sponsorship_request_id_idx on public.sponsor
 
 -- ---------------------------------------------------------------------------
 -- posts
+--
+-- Superseded by public.journal_entries below (the "Journal" feature). Left
+-- in place, untouched, rather than dropped — SEED_POSTS has always been
+-- empty so there is no real data at risk, but destructive drops aren't this
+-- file's convention. Safe to manually drop once confirmed no environment has
+-- real rows here.
 -- ---------------------------------------------------------------------------
 create table if not exists public.posts (
   id uuid primary key default gen_random_uuid(),
@@ -252,6 +272,106 @@ create table if not exists public.posts (
 
 create index if not exists posts_published_idx on public.posts (published, published_at desc);
 create index if not exists posts_slug_idx on public.posts (slug);
+
+-- ---------------------------------------------------------------------------
+-- journal_entries
+--
+-- The campaign Journal: articles, training logs, vlogs, photo posts, and
+-- milestones. Supports a draft/scheduled/published workflow (see the RLS
+-- policy below, which self-publishes a scheduled entry once scheduled_for
+-- has passed — no cron/background job required). Written entirely through
+-- /admin/journal via the service-role key, same trust model as every other
+-- table in this file.
+-- ---------------------------------------------------------------------------
+create table if not exists public.journal_entries (
+  id uuid primary key default gen_random_uuid(),
+
+  post_type text not null check (post_type in ('article', 'vlog', 'photo', 'milestone')),
+  primary_category text not null check (
+    primary_category in (
+      'Training', 'Fundraising', 'Mighty Oaks', 'Project Echelon',
+      'Sponsors', 'Race Prep', 'Milestones'
+    )
+  ),
+  tags text[] not null default '{}',
+
+  title text not null,
+  slug text not null unique,
+  summary text not null,
+  -- Markdown source, rendered via react-markdown on the public post page and
+  -- in the admin editor's preview pane.
+  body text not null,
+
+  status text not null default 'draft' check (status in ('draft', 'scheduled', 'published')),
+  -- Set once, the first time status becomes 'published'. Never overwritten
+  -- by later edits — see saveJournalEntryAction in src/app/admin/journal/actions.ts.
+  published_at timestamptz,
+  scheduled_for timestamptz,
+  featured boolean not null default false,
+
+  image_url text,
+  -- [{ url, alt }, ...]. Null/omitted when there are no gallery images —
+  -- never an empty array. See the "hide, don't fake" convention used
+  -- throughout this file for optional media.
+  gallery jsonb,
+
+  video_url text,
+  video_provider text check (video_provider is null or video_provider in ('youtube', 'vimeo')),
+
+  -- Training log structured metrics (dedicated typed columns, not a jsonb
+  -- bag, since this is a fixed known field set). Only populated fields are
+  -- ever rendered — see training-metrics-panel.tsx.
+  training_discipline text check (
+    training_discipline is null or training_discipline in ('swim', 'bike', 'run', 'brick', 'strength', 'rest')
+  ),
+  training_distance numeric(6, 2),
+  training_duration_minutes integer,
+  training_pace text,
+  training_elevation_ft integer,
+  training_swim_pace text,
+  training_bike_power_watts integer,
+  training_avg_hr integer,
+  training_rpe integer check (training_rpe is null or training_rpe between 1 and 10),
+  training_phase text,
+
+  -- Big-number layout for post_type = 'milestone'.
+  milestone_kind text check (milestone_kind is null or milestone_kind in ('fundraising', 'training')),
+  milestone_value text,
+
+  -- Configurable per-post material-connection disclosure. Null = no
+  -- disclosure shown. Rendered prominently near the top of the post, never
+  -- buried in legal boilerplate.
+  sponsor_disclosure text,
+
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists journal_entries_status_idx on public.journal_entries (status, published_at desc);
+create unique index if not exists journal_entries_slug_idx on public.journal_entries (slug);
+create index if not exists journal_entries_category_idx on public.journal_entries (primary_category);
+
+-- ---------------------------------------------------------------------------
+-- journal_entry_partner_mentions / journal_entry_beneficiary_mentions
+--
+-- Opt-in mentions of public.partners rows from a journal entry (spec:
+-- "Supported by [Partner]" / "This campaign supports: [Beneficiary]").
+-- Two small join tables rather than one with a type column, or a uuid[]
+-- column on journal_entries: real referential integrity (a removed partner
+-- cleanly cascades off any mention instead of leaving a dangling id), and
+-- the two footer treatments are queried independently.
+-- ---------------------------------------------------------------------------
+create table if not exists public.journal_entry_partner_mentions (
+  journal_entry_id uuid not null references public.journal_entries (id) on delete cascade,
+  partner_id uuid not null references public.partners (id) on delete cascade,
+  primary key (journal_entry_id, partner_id)
+);
+
+create table if not exists public.journal_entry_beneficiary_mentions (
+  journal_entry_id uuid not null references public.journal_entries (id) on delete cascade,
+  partner_id uuid not null references public.partners (id) on delete cascade,
+  primary key (journal_entry_id, partner_id)
+);
 
 -- ---------------------------------------------------------------------------
 -- training_objectives
@@ -445,6 +565,9 @@ alter table public.miles enable row level security;
 alter table public.donations enable row level security;
 alter table public.sponsors enable row level security;
 alter table public.posts enable row level security;
+alter table public.journal_entries enable row level security;
+alter table public.journal_entry_partner_mentions enable row level security;
+alter table public.journal_entry_beneficiary_mentions enable row level security;
 alter table public.partners enable row level security;
 alter table public.mission_partners enable row level security;
 alter table public.training_objectives enable row level security;
@@ -478,6 +601,33 @@ create policy "published posts are publicly readable"
   on public.posts for select
   to anon, authenticated
   using (published = true);
+
+-- A scheduled entry self-publishes the moment anyone reads past its
+-- scheduled_for time — no cron/background job needed to flip the status.
+create policy "published journal entries are publicly readable"
+  on public.journal_entries for select
+  to anon, authenticated
+  using (status = 'published' or (status = 'scheduled' and scheduled_for <= now()));
+
+create policy "journal entry partner mentions are publicly readable"
+  on public.journal_entry_partner_mentions for select
+  to anon, authenticated
+  using (
+    exists (
+      select 1 from public.journal_entries je
+      where je.id = journal_entry_id and je.status = 'published'
+    )
+  );
+
+create policy "journal entry beneficiary mentions are publicly readable"
+  on public.journal_entry_beneficiary_mentions for select
+  to anon, authenticated
+  using (
+    exists (
+      select 1 from public.journal_entries je
+      where je.id = journal_entry_id and je.status = 'published'
+    )
+  );
 
 create policy "active partners are publicly readable"
   on public.partners for select

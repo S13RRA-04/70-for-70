@@ -128,7 +128,7 @@ const CAMPAIGN_PATH_PREFIXES = [
   "/sponsors",
   "/partners",
   "/live",
-  "/updates",
+  "/journal",
   "/miles",
 ];
 

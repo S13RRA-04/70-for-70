@@ -16,16 +16,19 @@ export function pageMetadata({
   title,
   description,
   canonical,
+  image,
 }: {
   title: string;
   description: string;
   canonical: string;
+  /** Absolute or root-relative social share image — only set when a real one exists (e.g. a journal entry's hero image). */
+  image?: string;
 }): Metadata {
   return {
     title,
     description,
-    openGraph: { title, description },
-    twitter: { title, description },
+    openGraph: { title, description, ...(image && { images: [{ url: image }] }) },
+    twitter: { title, description, ...(image && { images: [image] }) },
     alternates: { canonical },
   };
 }

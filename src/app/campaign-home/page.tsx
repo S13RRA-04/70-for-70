@@ -3,14 +3,14 @@ import Link from "next/link";
 import { getCampaign } from "@/lib/data/campaign";
 import { getMilesWithDonations } from "@/lib/data/miles";
 import { getPartners } from "@/lib/data/partners";
-import { getLatestPosts } from "@/lib/data/posts";
+import { getFeaturedJournalEntry, getLatestJournalEntries } from "@/lib/data/journal";
 import { getTrainingSnapshot } from "@/lib/whoop/client";
 import { CampaignProgress } from "@/components/campaign/campaign-progress";
 import { CampaignPhaseBanner } from "@/components/campaign/campaign-phase-banner";
 import { RaceProgress } from "@/components/campaign/race-progress";
 import { MileGrid } from "@/components/miles/mile-grid";
 import { PartnerCard } from "@/components/partners/partner-card";
-import { UpdateCard } from "@/components/updates/update-card";
+import { JournalCard } from "@/components/journal/journal-card";
 import { TrainingSnapshot } from "@/components/training/training-snapshot";
 import { CTASection } from "@/components/shared/cta-section";
 import { CTAButton } from "@/components/shared/cta-button";
@@ -58,13 +58,15 @@ export const metadata = pageMetadata({
  * section's link out) so it has one authoritative home instead of two.
  */
 export default async function CampaignHomePage() {
-  const [campaign, miles, partners, latestPosts, trainingSnapshot] = await Promise.all([
+  const [campaign, miles, partners, featuredEntry, recentEntries, trainingSnapshot] = await Promise.all([
     getCampaign(),
     getMilesWithDonations(),
     getPartners(),
-    getLatestPosts(2),
+    getFeaturedJournalEntry(),
+    getLatestJournalEntries(3),
     getTrainingSnapshot(),
   ]);
+  const recentJournalEntries = recentEntries.filter((e) => e.id !== featuredEntry?.id).slice(0, 2);
 
   const percent = percentFunded(campaign.amount_raised, campaign.fundraising_goal);
   const miles70 = milesFunded(campaign.amount_raised);
@@ -249,22 +251,29 @@ export default async function CampaignHomePage() {
         </Container>
       </section>
 
-      {/* Latest Update(s) — Tier 3: one or two, not a full archive grid */}
-      {latestPosts.length > 0 && (
+      {/* Latest From the Road — Tier 3: one featured + two recent, not a full archive grid */}
+      {(featuredEntry || recentJournalEntries.length > 0) && (
         <section className="py-16 sm:py-20">
           <Container>
-            <SectionHeading eyebrow="Follow Along" title="Latest Update" />
-            <div className="mt-8 grid gap-6 sm:grid-cols-2">
-              {latestPosts.map((post) => (
-                <UpdateCard key={post.id} post={post} />
-              ))}
+            <SectionHeading eyebrow="Follow Along" title="Latest From the Road" />
+            <div className="mt-8 grid gap-6 lg:grid-cols-3">
+              {featuredEntry && (
+                <div className="lg:col-span-2">
+                  <JournalCard entry={featuredEntry} featured />
+                </div>
+              )}
+              <div className="grid gap-6 sm:grid-cols-2 lg:col-span-1 lg:grid-cols-1">
+                {recentJournalEntries.map((entry) => (
+                  <JournalCard key={entry.id} entry={entry} />
+                ))}
+              </div>
             </div>
             <div className="mt-8">
               <Link
-                href="/updates"
+                href="/journal"
                 className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
               >
-                View All Updates &rarr;
+                View the Journal &rarr;
               </Link>
             </div>
           </Container>

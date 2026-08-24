@@ -158,8 +158,8 @@ export function Footer({ mode }: { mode: SiteMode }) {
                   </a>
                 </li>
                 <li>
-                  <a href={`${CAMPAIGN_URL}/updates`} className="transition-colors hover:text-off-white">
-                    Campaign Updates
+                  <a href={`${CAMPAIGN_URL}/journal`} className="transition-colors hover:text-off-white">
+                    The Journal
                   </a>
                 </li>
                 <li>

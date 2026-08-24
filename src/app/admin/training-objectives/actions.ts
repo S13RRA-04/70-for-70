@@ -31,7 +31,7 @@ export async function saveObjectivesAction(formData: FormData) {
   }
 
   revalidatePath(PAGE_PATH);
-  revalidatePath("/updates");
+  revalidatePath("/journal");
   redirect(PAGE_PATH);
 }
 
@@ -57,7 +57,7 @@ export async function addObjectiveAction(formData: FormData) {
   await admin.from("training_objectives").insert({ discipline, label, display_order: nextOrder });
 
   revalidatePath(PAGE_PATH);
-  revalidatePath("/updates");
+  revalidatePath("/journal");
   redirect(PAGE_PATH);
 }
 
@@ -70,6 +70,6 @@ export async function deleteObjectiveAction(formData: FormData) {
   await admin.from("training_objectives").delete().eq("id", id);
 
   revalidatePath(PAGE_PATH);
-  revalidatePath("/updates");
+  revalidatePath("/journal");
   redirect(PAGE_PATH);
 }

@@ -90,7 +90,7 @@ export const CAMPAIGN_NAV_LINKS: NavLink[] = [
   { label: "Race", href: "/the-race" },
   { label: "Fundraising", href: "/fund-a-mile" },
   { label: "Beneficiaries", href: "/beneficiaries" },
-  { label: "Updates", href: "/updates" },
+  { label: "Journal", href: "/journal" },
 ];
 
 /** Org header → campaign subdomain, styled as a CTA (not a plain nav link). */

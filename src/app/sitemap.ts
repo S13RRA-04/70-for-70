@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getPosts } from "@/lib/data/posts";
+import { getJournalEntries } from "@/lib/data/journal";
 import { US_STATES_GRID } from "@/lib/content/us-states";
 import { CAMPAIGN_URL, SITE_URL, TOTAL_FUNDRAISING_MILES } from "@/lib/constants";
 import { getSiteMode } from "@/lib/site-mode";
@@ -30,7 +30,7 @@ const CAMPAIGN_ROUTES = [
   "/the-race",
   "/fund-a-mile",
   "/beneficiaries",
-  "/updates",
+  "/journal",
   "/donate",
   "/live",
 ];
@@ -48,16 +48,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const mode = await getSiteMode();
 
   if (mode === "campaign") {
-    const posts = await getPosts();
+    const entries = await getJournalEntries();
 
     const campaignEntries: MetadataRoute.Sitemap = CAMPAIGN_ROUTES.map((path) => ({
       url: `${CAMPAIGN_URL}${path}`,
       lastModified: new Date(),
     }));
 
-    const postEntries: MetadataRoute.Sitemap = posts.map((post) => ({
-      url: `${CAMPAIGN_URL}/updates/${post.slug}`,
-      lastModified: post.published_at ? new Date(post.published_at) : new Date(),
+    const journalEntries: MetadataRoute.Sitemap = entries.map((entry) => ({
+      url: `${CAMPAIGN_URL}/journal/${entry.slug}`,
+      lastModified: entry.published_at ? new Date(entry.published_at) : new Date(),
     }));
 
     const mileEntries: MetadataRoute.Sitemap = Array.from(
@@ -68,7 +68,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       }),
     );
 
-    return [...campaignEntries, ...postEntries, ...mileEntries];
+    return [...campaignEntries, ...journalEntries, ...mileEntries];
   }
 
   const orgEntries: MetadataRoute.Sitemap = ORG_ROUTES.map((path) => ({

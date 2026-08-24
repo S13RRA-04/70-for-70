@@ -12,6 +12,7 @@
 import type {
   CampaignRow,
   DonationRow,
+  JournalEntryRow,
   MileRow,
   MissionPartnerRow,
   PartnerRow,
@@ -116,12 +117,17 @@ export const SEED_SPONSORS: SponsorRow[] = [];
 // see app/partners/page.tsx.
 export const SEED_MISSION_PARTNERS: MissionPartnerRow[] = [];
 
-// No posts yet. The Updates page and homepage teaser show polished empty
-// states rather than placeholder posts — see app/updates/page.tsx and app/page.tsx.
+// No posts yet. Superseded by SEED_JOURNAL_ENTRIES below (see
+// supabase/schema.sql's note on public.posts) — kept in place, unused.
 export const SEED_POSTS: PostRow[] = [];
 
+// No journal entries yet. The Journal landing page and homepage teaser show
+// polished empty states rather than placeholder entries — see
+// app/journal/page.tsx and app/campaign-home/page.tsx.
+export const SEED_JOURNAL_ENTRIES: JournalEntryRow[] = [];
+
 /**
- * Starter training-objective checklist for /updates — generic, standard
+ * Starter training-objective checklist for /journal — generic, standard
  * progression milestones toward a 70.3, not a claim about Cody's actual
  * training plan or progress (every objective starts uncompleted). Meant to
  * be edited (added to, removed, checked off) via /admin/training-objectives,

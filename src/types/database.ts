@@ -165,6 +165,77 @@ export interface PostRow {
   training_metrics: Record<string, string | number> | null;
 }
 
+/**
+ * The campaign Journal — supersedes PostRow/public.posts above (left in
+ * place but unused; see supabase/schema.sql). Mirrors public.journal_entries.
+ */
+export type JournalPostType = "article" | "vlog" | "photo" | "milestone";
+
+export type JournalPrimaryCategory = PostCategory;
+
+export type JournalStatus = "draft" | "scheduled" | "published";
+
+export type JournalTrainingDiscipline =
+  | "swim"
+  | "bike"
+  | "run"
+  | "brick"
+  | "strength"
+  | "rest";
+
+export type VideoProvider = "youtube" | "vimeo";
+
+export type MilestoneKind = "fundraising" | "training";
+
+export interface JournalGalleryImage {
+  url: string;
+  alt: string;
+}
+
+export interface JournalEntryRow {
+  id: string;
+  post_type: JournalPostType;
+  primary_category: JournalPrimaryCategory;
+  tags: string[];
+  title: string;
+  slug: string;
+  summary: string;
+  /** Markdown source — see components/journal/journal-markdown.tsx. */
+  body: string;
+  status: JournalStatus;
+  /** Set once, the first time status becomes "published". Never overwritten by later edits. */
+  published_at: string | null;
+  scheduled_for: string | null;
+  featured: boolean;
+  image_url: string | null;
+  /** Null/omitted when there are no gallery images — never an empty array. */
+  gallery: JournalGalleryImage[] | null;
+  video_url: string | null;
+  video_provider: VideoProvider | null;
+  training_discipline: JournalTrainingDiscipline | null;
+  training_distance: number | null;
+  training_duration_minutes: number | null;
+  training_pace: string | null;
+  training_elevation_ft: number | null;
+  training_swim_pace: string | null;
+  training_bike_power_watts: number | null;
+  training_avg_hr: number | null;
+  training_rpe: number | null;
+  training_phase: string | null;
+  milestone_kind: MilestoneKind | null;
+  milestone_value: string | null;
+  /** Configurable per-post disclosure. Null = no disclosure shown. */
+  sponsor_disclosure: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+/** Joined shape returned by getJournalEntryBySlug() — mentions resolved to full PartnerRows, not raw join rows. */
+export interface JournalEntryWithMentions extends JournalEntryRow {
+  partnerMentions: PartnerRow[];
+  beneficiaryMentions: PartnerRow[];
+}
+
 export interface PartnerRow {
   id: string;
   name: string;

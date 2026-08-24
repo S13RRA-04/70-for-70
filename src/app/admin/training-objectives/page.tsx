@@ -41,8 +41,8 @@ export default async function TrainingObjectivesAdminPage() {
       </h1>
       <p className="mt-1 text-sm text-charcoal-light">
         Check off objectives as you hit them — this powers the public checklist on{" "}
-        <Link href="/updates" className="text-bronze hover:underline">
-          Updates
+        <Link href="/journal" className="text-bronze hover:underline">
+          the Journal
         </Link>
         .
       </p>

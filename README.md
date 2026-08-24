@@ -87,7 +87,7 @@ unused — remove it once Cloudflare is confirmed working).
   everything RLS grants to `anon` regardless of session). All of
   `src/lib/data/*.ts` now use this instead of the cookie-bound
   `supabase/server.ts` client, which broke static generation for
-  `/updates/[slug]` (`generateStaticParams` runs at build time, outside
+  `/journal/[slug]` (`generateStaticParams` runs at build time, outside
   request context, so `cookies()` isn't available there). The cookie-bound
   client is now reserved for genuinely session-dependent code (the admin
   area).
@@ -388,7 +388,7 @@ src/
                              and a real milestone timeline)
     partners/ sponsors/     Beneficiary orgs, sponsorship levels, and the
                              sponsorship request form (sponsors/request/)
-    updates/[slug]/         Campaign journal / training updates
+    journal/[slug]/         Campaign journal — articles, training logs, vlogs, milestones
     donate/ contact/        Donation routing and general contact form
     live/                   Provider-neutral race-day status page
     press/                  Press/media kit
@@ -936,10 +936,11 @@ neither beneficiary needs that fallback anymore.
    logistics (date/location)
 3. Wire a real email provider for sponsorship acknowledgment/notification
    (`src/lib/notifications.ts`) and consider a requester-facing status link
-4. Donation CRUD is done (see [Donation Tracking Workflow](#donation-tracking-workflow)).
-   Build authenticated CRUD for miles (beyond the sponsorship workflow's
-   reserve step and donation-driven recompute), posts, and partner URLs in
-   `/admin`, with role-scoped RLS policies for authenticated writes
+4. Donation CRUD and Journal CRUD (`/admin/journal`) are done — see
+   [Donation Tracking Workflow](#donation-tracking-workflow). Build
+   authenticated CRUD for miles (beyond the sponsorship workflow's reserve
+   step and donation-driven recompute) and partner URLs in `/admin`, with
+   role-scoped RLS policies for authenticated writes
 5. Wire a real analytics/tag-management provider (e.g. Cloudflare Zaraz) to
    the existing `data-analytics-event` conversion markers — Cloudflare Web
    Analytics itself (see [Analytics](#analytics-cloudflare-web-analytics))

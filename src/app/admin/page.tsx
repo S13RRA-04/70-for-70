@@ -24,6 +24,8 @@ export default async function AdminPage() {
     { count: unverifiedDonations },
     whoopConnection,
     trainingObjectives,
+    { count: publishedJournalEntries },
+    { count: draftJournalEntries },
   ] = await Promise.all([
     getCampaign(),
     getMiles(),
@@ -35,6 +37,8 @@ export default async function AdminPage() {
     admin.from("donations").select("*", { count: "exact", head: true }).eq("verified", false),
     isWhoopConfigured() ? getWhoopConnection() : Promise.resolve(null),
     getTrainingObjectives(),
+    admin.from("journal_entries").select("*", { count: "exact", head: true }).eq("status", "published"),
+    admin.from("journal_entries").select("*", { count: "exact", head: true }).eq("status", "draft"),
   ]);
 
   const availableCount = miles.filter((m) => m.status === "available").length;
@@ -122,6 +126,21 @@ export default async function AdminPage() {
 
       <div className="mt-6 flex items-center justify-between rounded-sm border border-ink/10 bg-off-white p-6">
         <div>
+          <p className="font-display text-lg font-semibold uppercase tracking-wide text-ink">Journal</p>
+          <p className="mt-1 text-sm text-charcoal-light">
+            {publishedJournalEntries ?? 0} published, {draftJournalEntries ?? 0} draft(s).
+          </p>
+        </div>
+        <Link
+          href="/admin/journal"
+          className="rounded-sm border border-ink/20 px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
+        >
+          Manage
+        </Link>
+      </div>
+
+      <div className="mt-6 flex items-center justify-between rounded-sm border border-ink/10 bg-off-white p-6">
+        <div>
           <p className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
             Training Objectives
           </p>
@@ -157,11 +176,11 @@ export default async function AdminPage() {
       <div className="mt-10 rounded-sm border border-ink/10 bg-sand-light p-6 text-sm text-charcoal-light">
         <p className="font-semibold text-ink">This is mostly a read-only overview.</p>
         <p className="mt-2">
-          Full CRUD management for miles, posts, and partner URLs is planned for a future
-          milestone. Sponsorship requests and donations are the exceptions — see the Sponsorship
-          Review Queue and Donations sections above. Until the rest of admin CRUD exists, manage
-          other records directly in Supabase Studio or via SQL — see the README and{" "}
-          <code className="mx-1 rounded bg-ink/5 px-1.5 py-0.5">supabase/schema.sql</code>.
+          Full CRUD management for miles and partner URLs is planned for a future milestone.
+          Sponsorship requests, donations, and the Journal are the exceptions — see the
+          Sponsorship Review Queue, Donations, and Journal sections above. Until the rest of admin
+          CRUD exists, manage other records directly in Supabase Studio or via SQL — see the
+          README and <code className="mx-1 rounded bg-ink/5 px-1.5 py-0.5">supabase/schema.sql</code>.
         </p>
       </div>
     </Container>

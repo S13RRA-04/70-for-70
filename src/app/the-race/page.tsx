@@ -8,7 +8,7 @@ import { TrainingTimeline } from "@/components/campaign/training-timeline";
 import { CampaignPhaseBanner } from "@/components/campaign/campaign-phase-banner";
 import { MobileActionBar } from "@/components/shared/mobile-action-bar";
 import { getTrainingStats } from "@/lib/training-stats";
-import { getPosts } from "@/lib/data/posts";
+import { getJournalEntries } from "@/lib/data/journal";
 import { formatDateLong } from "@/lib/utils";
 import { getCampaignPhase } from "@/lib/campaign-phase";
 import { CAMPAIGN_URL, DONATE_LINK, RACE_INFO } from "@/lib/constants";
@@ -35,8 +35,8 @@ export const metadata = pageMetadata({
 });
 
 export default async function RacePage() {
-  const [posts, trainingStats] = await Promise.all([getPosts(), getTrainingStats()]);
-  const milestonePosts = posts.filter((p) => p.category === "Milestones");
+  const [entries, trainingStats] = await Promise.all([getJournalEntries(), getTrainingStats()]);
+  const milestoneEntries = entries.filter((e) => e.primary_category === "Milestones");
   const phase = getCampaignPhase();
 
   const hasTrainingVolume =
@@ -138,27 +138,27 @@ export default async function RacePage() {
             </div>
           )}
 
-          {milestonePosts.length > 0 && (
+          {milestoneEntries.length > 0 && (
             <div className="mt-16 max-w-xl rounded-sm border border-ink/10 bg-off-white p-8">
               <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
                 Training Milestones
               </h2>
               <div className="mt-4">
                 <ul className="space-y-3">
-                  {milestonePosts.map((post) => (
-                    <li key={post.id} className="border-t border-ink/10 pt-3 first:border-0 first:pt-0">
+                  {milestoneEntries.map((entry) => (
+                    <li key={entry.id} className="border-t border-ink/10 pt-3 first:border-0 first:pt-0">
                       <a
-                        href={`/updates/${post.slug}`}
+                        href={`/journal/${entry.slug}`}
                         className="text-sm font-medium text-ink hover:text-bronze"
                       >
-                        {post.title}
+                        {entry.title}
                       </a>
-                      {post.published_at && (
+                      {entry.published_at && (
                         <p className="text-xs text-charcoal-light">
-                          {formatDateLong(post.published_at)}
+                          {formatDateLong(entry.published_at)}
                         </p>
                       )}
-                      <p className="mt-1 text-sm text-charcoal-light">{post.summary}</p>
+                      <p className="mt-1 text-sm text-charcoal-light">{entry.summary}</p>
                     </li>
                   ))}
                 </ul>
@@ -177,7 +177,7 @@ export default async function RacePage() {
         }
         buttons={[
           phase === "active"
-            ? { label: "View Updates", href: "/updates" }
+            ? { label: "View the Journal", href: "/journal" }
             : { label: "Race Day Live", href: "/live" },
         ]}
       />

@@ -9,7 +9,7 @@ export async function disconnectWhoopAction() {
   await requireAdminUser();
   await disconnectWhoop();
   revalidatePath("/admin/whoop");
-  revalidatePath("/updates");
+  revalidatePath("/journal");
   revalidatePath("/campaign-home");
   redirect("/admin/whoop");
 }
