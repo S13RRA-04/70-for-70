@@ -34,8 +34,10 @@ export function PartnerLogo({
   return (
     <div
       className={cn(
-        "flex items-center justify-center rounded-sm border p-4",
-        isDark ? "border-off-white/15 bg-ink" : "border-ink/10 bg-off-white",
+        "flex items-center justify-center rounded-sm border p-5",
+        isDark
+          ? "border-off-white/15 bg-ink shadow-sm"
+          : "border-ink/10 bg-white shadow-sm",
         className,
       )}
     >
@@ -43,8 +45,8 @@ export function PartnerLogo({
         <Image
           src={src}
           alt={`${name} logo`}
-          width={192}
-          height={80}
+          width={240}
+          height={100}
           className="h-full w-auto max-w-full object-contain"
         />
       ) : (

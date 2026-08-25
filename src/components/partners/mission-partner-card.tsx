@@ -12,7 +12,7 @@ export function MissionPartnerCard({ partner }: { partner: MissionPartnerRow }) 
         logoLightUrl={partner.logo_light_url}
         logoDarkUrl={partner.logo_dark_url}
         background={partner.logo_background}
-        className="h-16 w-fit"
+        className="h-24 w-full"
       />
 
       <h3 className="mt-4 font-display text-xl font-semibold uppercase tracking-wide text-ink">
