@@ -7,7 +7,7 @@ import { CTAButton } from "@/components/shared/cta-button";
 import { CrisisQuickLink } from "@/components/shared/crisis-quick-link";
 import { ScrollProgressRail } from "@/components/shared/scroll-progress-rail";
 import { RevealOnScroll } from "@/components/shared/reveal-on-scroll";
-import { ResourceFinderPreview } from "@/components/home/resource-finder-preview";
+import { ResourceCategoryGrid } from "@/components/home/resource-category-grid";
 import { ABOUT_CONTENT, findAboutSubsection } from "@/lib/content/about";
 import { OUTER_RING_COLORS } from "@/lib/ring-colors";
 import {
@@ -119,22 +119,34 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* Find What You Need — Tier 2: wide functional composition, crisis access integrated as a paired dark panel rather than its own full-width band */}
+      {/* Find the Support You Need — Tier 2: gateway into the resource directory, crisis access integrated as a paired dark panel rather than its own full-width band */}
       <section id="resources" className="scroll-mt-20 bg-sand-light py-16 sm:py-24">
         <Container className="max-w-[1400px]">
           <RevealOnScroll>
             <SectionHeading
               eyebrow="Our Core Mission"
-              title="Find What You Need"
-              description="Search programs serving veterans, first responders, and their families — filter by what you need and who you are."
+              title="Find the Support You Need"
+              description="Resources for veterans, first responders, and their families. Start with what you need, and we'll help you find the right programs."
             />
           </RevealOnScroll>
           <RevealOnScroll className="mt-10">
-            <div className="grid gap-6 lg:grid-cols-12 lg:gap-6">
-              <div className="border border-ink/10 bg-off-white p-8 sm:p-10 lg:col-span-8">
-                <ResourceFinderPreview />
+            <div className="grid gap-8 lg:grid-cols-12 lg:gap-8">
+              <div className="lg:col-span-8 xl:col-span-9">
+                <ResourceCategoryGrid />
+
+                <p className="mt-8 max-w-xl text-sm leading-relaxed text-charcoal-light">
+                  Not sure where to start? Browse all available resources or search by service type.
+                </p>
+                <div className="mt-4 flex flex-wrap items-center gap-4">
+                  <CTAButton href="/resources" size="lg">
+                    Find Resources
+                  </CTAButton>
+                  <CTAButton href="/resources" variant="ghost">
+                    Browse All Resources &rarr;
+                  </CTAButton>
+                </div>
               </div>
-              <div className="lg:col-span-4">
+              <div className="lg:col-span-4 xl:col-span-3">
                 <CrisisQuickLink />
               </div>
             </div>

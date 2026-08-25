@@ -71,12 +71,17 @@ function FilterRow({
 }
 
 export function ResourceDirectory() {
-  // Deep-link support so the homepage finder (see ResourceFinderPreview) can
+  // Deep-link support so the homepage gateway (see ResourceCategoryGrid) can
   // land here pre-filtered via ?q=&need=&audience= — read once on mount,
   // not kept in sync afterward (this directory owns its own state from
-  // here on, same as before).
+  // here on, same as before). `need` may be a comma-separated list of ids
+  // since a few gateway cards span more than one taxonomy category; a
+  // single id (the only form older links use) still works unchanged.
   const params = useSearchParams();
-  const [needId, setNeedId] = useState<string | null>(() => params.get("need"));
+  const [needIds, setNeedIds] = useState<string[]>(() => {
+    const raw = params.get("need");
+    return raw ? raw.split(",").filter(Boolean) : [];
+  });
   const [audience, setAudience] = useState<string | null>(() => params.get("audience"));
   const [search, setSearch] = useState(() => params.get("q") ?? "");
   const [stateFilter, setStateFilter] = useState<string | null>(() => params.get("state"));
@@ -93,7 +98,8 @@ export function ResourceDirectory() {
     const query = search.trim().toLowerCase();
 
     return RESOURCES.filter((resource) => {
-      const matchesNeed = !needId || resource.needCategoryIds.includes(needId);
+      const matchesNeed =
+        needIds.length === 0 || resource.needCategoryIds.some((id) => needIds.includes(id));
       const matchesAudience = !audience || resource.audienceTags.includes(audience);
       // Nationwide entries (no state set) always count as a match — picking
       // a state should add local resources on top of nationwide ones, not
@@ -115,7 +121,7 @@ export function ResourceDirectory() {
 
       return matchesNeed && matchesAudience && matchesState && matchesSearch;
     });
-  }, [needId, audience, stateFilter, search]);
+  }, [needIds, audience, stateFilter, search]);
 
   return (
     <div>
@@ -160,8 +166,14 @@ export function ResourceDirectory() {
             <FilterRow
               label="What Do You Need?"
               options={NEED_CATEGORIES.map((c) => c.label)}
-              active={needId ? (NEED_CATEGORIES.find((c) => c.id === needId)?.label ?? null) : null}
-              onSelect={(label) => setNeedId(label ? (NEED_CATEGORIES.find((c) => c.label === label)?.id ?? null) : null)}
+              active={
+                needIds.length === 1
+                  ? (NEED_CATEGORIES.find((c) => c.id === needIds[0])?.label ?? null)
+                  : null
+              }
+              onSelect={(label) =>
+                setNeedIds(label ? [NEED_CATEGORIES.find((c) => c.label === label)?.id ?? ""].filter(Boolean) : [])
+              }
             />
             <FilterRow label="Who Are You?" options={PRIMARY_AUDIENCE_TAGS} active={audience} onSelect={setAudience} />
           </div>
