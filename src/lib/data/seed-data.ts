@@ -64,6 +64,7 @@ export const SEED_PARTNERS: PartnerRow[] = [
     website_url: "https://www.mightyoaksprograms.org/",
     donation_url:
       "https://my.onecause.com/fundraiser/organizations/90be7c03-c221-49a6-ba58-5993b28179c3/fundraisers/fundraiser:25d33d01-f349-491f-ab63-f283ebab0a33/personalfundraisers/personalfund:93a8c5a5-7777-4ca2-bcb6-6333dc8a1cf8",
+    requires_donation_note: false,
     ein: "45-3159170",
     nonprofit_status_verified: true,
     active: true,
@@ -85,6 +86,7 @@ export const SEED_PARTNERS: PartnerRow[] = [
     logo_background: null,
     website_url: "https://www.projectechelon.org/",
     donation_url: null,
+    requires_donation_note: false,
     ein: null,
     nonprofit_status_verified: false,
     active: false, // Temporarily paused as a fundraising beneficiary pending their approval.
@@ -106,6 +108,7 @@ export const SEED_PARTNERS: PartnerRow[] = [
     logo_background: null,
     website_url: "https://www.vetsau.org/",
     donation_url: "https://www.paypal.com/donate/?hosted_button_id=2YL6S962W4QGY",
+    requires_donation_note: true,
     ein: "46-1844248",
     nonprofit_status_verified: true,
     active: true,

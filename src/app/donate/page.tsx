@@ -7,7 +7,6 @@ import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { PartnerCard } from "@/components/partners/partner-card";
 import { CampaignAllocation } from "@/components/campaign/campaign-allocation";
-import { MileTrackingNote } from "@/components/shared/mile-tracking-note";
 import { CAMPAIGN_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
@@ -35,19 +34,17 @@ export default async function DonatePage(props: PageProps<"/donate">) {
           title="Choose a Beneficiary"
           description="Your gift will be processed on that organization's authorized donation platform."
         />
-
-        {hasMile && (
-          <div className="mt-6 max-w-xl">
-            <MileTrackingNote mileNumber={mileNumber} />
-          </div>
-        )}
       </CampaignPageHero>
 
       <section className="py-16 sm:py-20">
         <Container>
           <div className="flex flex-col gap-6">
             {partners.map((partner) => (
-              <PartnerCard key={partner.id} partner={partner} />
+              <PartnerCard
+                key={partner.id}
+                partner={partner}
+                mileNumber={hasMile ? mileNumber! : undefined}
+              />
             ))}
           </div>
         </Container>
@@ -85,16 +82,28 @@ export default async function DonatePage(props: PageProps<"/donate">) {
                       through its own, separately operated donation platform
                       {partner.donation_url ? "." : " (link coming once approved)."}
                     </p>
+                    {partner.donation_url && partner.requires_donation_note && (
+                      <p className="mt-1 text-sm text-charcoal-light">
+                        Add the tracking note shown on their card so we can verify and credit
+                        your gift — their platform has no way to attribute it to this campaign
+                        on its own.
+                      </p>
+                    )}
+                    {partner.donation_url && !partner.requires_donation_note && (
+                      <p className="mt-1 text-sm text-charcoal-light">
+                        This link goes to a fundraiser page dedicated to this campaign, so your
+                        gift is already attributed — no tracking note needed.
+                      </p>
+                    )}
                   </div>
                 ))}
               </div>
 
               <p className="max-w-2xl text-sm text-charcoal-light">
-                After you give, let us know using the note field on the partner&apos;s donation
-                form (or by emailing the campaign) so your gift can be verified and credited
-                toward a specific mile here on the site. Mile totals update once a donation is
-                confirmed with the beneficiary organization — not automatically at the moment of
-                giving.
+                Once we can confirm your gift with the beneficiary organization, it&apos;s
+                credited toward a specific mile here on the site — not automatically at the
+                moment of giving. If you&apos;d rather not use a partner&apos;s note field, you
+                can also let us know by emailing the campaign.
               </p>
 
               <p className="max-w-2xl text-sm font-medium text-charcoal-light">

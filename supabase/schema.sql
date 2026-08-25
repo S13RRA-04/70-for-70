@@ -75,6 +75,11 @@ create table if not exists public.donations (
   id uuid primary key default gen_random_uuid(),
   mile_id uuid references public.miles (id) on delete set null,
   donor_name text not null,
+  -- Optional — used only to sum a donor's cumulative verified giving across
+  -- multiple gifts for tier recognition (see src/lib/donor-tiers.ts). Never
+  -- displayed publicly; independent of `anonymous`, which controls public
+  -- name display.
+  donor_email text,
   amount numeric(10, 2) not null check (amount > 0),
   organization_benefited text,
   anonymous boolean not null default false,
@@ -427,6 +432,12 @@ create table if not exists public.partners (
   logo_background text check (logo_background is null or logo_background in ('light', 'dark')),
   website_url text,
   donation_url text,
+  -- True when this partner's donation platform has no way to attribute a
+  -- gift to this campaign on its own (e.g. a generic PayPal button) — the
+  -- donor must add the campaign code by hand. False for partners like
+  -- Mighty Oaks whose donation_url is already a dedicated, campaign-scoped
+  -- fundraiser page. See DonationTrackingNote.
+  requires_donation_note boolean not null default false,
   -- Trust signals — only ever populated once independently verified, and
   -- hidden on the frontend while null/false. Never fabricate these.
   ein text,

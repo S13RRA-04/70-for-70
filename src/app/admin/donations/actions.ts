@@ -21,6 +21,7 @@ const DEDICATION_TYPES: DedicationType[] = ["in_honor_of", "in_memory_of"];
 /** Fields shared by create/update, parsed from FormData and validated. */
 function parseDonationFields(formData: FormData) {
   const donorName = String(formData.get("donor_name") ?? "").trim();
+  const donorEmail = String(formData.get("donor_email") ?? "").trim() || null;
   const amount = Number(formData.get("amount"));
   const dateRaw = String(formData.get("date") ?? "");
   const organizationBenefited = String(formData.get("organization_benefited") ?? "").trim() || null;
@@ -52,6 +53,7 @@ function parseDonationFields(formData: FormData) {
     ok: true as const,
     fields: {
       donor_name: donorName,
+      donor_email: donorEmail,
       amount,
       organization_benefited: organizationBenefited,
       anonymous,

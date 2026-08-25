@@ -33,6 +33,14 @@ export const CAMPAIGN_NAME = "Tri For The 22";
 export const SITE_TAGLINE = "70 miles. $70,000. One mission for veterans.";
 
 /**
+ * Fixed note donors add to a gift on a beneficiary platform that has no
+ * way to attribute the gift to this campaign on its own (e.g. a generic
+ * PayPal button) — see DonationTrackingNote and PartnerRow.requires_donation_note.
+ * Cross-referenced against the beneficiary's own records on a schedule.
+ */
+export const DONATION_TRACKING_CODE = "TRIFORTHE22";
+
+/**
  * The org root — forthe22.org in production. Movement/mission pages
  * (home, My Story, Resources, Join, Merch, Press, legal) live here.
  */

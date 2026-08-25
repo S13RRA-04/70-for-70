@@ -164,6 +164,12 @@ export default async function LivePage() {
                     <div>
                       <p className="font-medium text-ink">
                         {donation.anonymous ? "Anonymous" : donation.donor_name}
+                        {donation.mile_number !== null && (
+                          <span className="font-normal text-charcoal-light">
+                            {" "}
+                            · Mile {donation.mile_number}
+                          </span>
+                        )}
                       </p>
                       <p className="text-xs text-charcoal-light">{formatDateLong(donation.date)}</p>
                     </div>

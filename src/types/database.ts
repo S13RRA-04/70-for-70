@@ -101,6 +101,8 @@ export interface DonationRow {
   id: string;
   mile_id: string | null;
   donor_name: string;
+  /** Optional — sums a donor's cumulative verified giving for tier recognition. See src/lib/donor-tiers.ts. */
+  donor_email: string | null;
   amount: number;
   organization_benefited: string | null;
   anonymous: boolean;
@@ -114,6 +116,11 @@ export interface DonationRow {
   external_reference: string | null;
   verified: boolean;
   created_at: string;
+}
+
+/** Joined shape returned by getRecentDonations() — see src/lib/data/donations.ts. */
+export interface DonationWithMile extends DonationRow {
+  mile_number: number | null;
 }
 
 export interface SponsorRow {
@@ -253,6 +260,12 @@ export interface PartnerRow {
   logo_background: LogoBackground | null;
   website_url: string | null;
   donation_url: string | null;
+  /**
+   * True when this partner's donation platform has no way to attribute a
+   * gift to this campaign on its own (e.g. a generic PayPal button) — the
+   * donor must add the campaign code by hand. See DonationTrackingNote.
+   */
+  requires_donation_note: boolean;
   /** Trust signals — only set once independently verified; hidden until then. */
   ein: string | null;
   nonprofit_status_verified: boolean;

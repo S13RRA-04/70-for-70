@@ -3,6 +3,7 @@ import { requireAdminUser } from "@/lib/supabase/require-admin";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getPartners } from "@/lib/data/partners";
 import { getMiles } from "@/lib/data/miles";
+import { getDonorTiers } from "@/lib/donor-tiers";
 import { Container } from "@/components/shared/container";
 import { cn, formatCurrency, formatDateLong } from "@/lib/utils";
 import { DonationFields } from "@/components/admin/donation-fields";
@@ -28,11 +29,12 @@ export default async function DonationsAdminPage(props: PageProps<"/admin/donati
   if (activeFilter === "unverified") donationsQuery = donationsQuery.eq("verified", false);
   if (activeFilter === "verified") donationsQuery = donationsQuery.eq("verified", true);
 
-  const [partners, miles, donationsResult, mileLookup] = await Promise.all([
+  const [partners, miles, donationsResult, mileLookup, donorTiers] = await Promise.all([
     getPartners(),
     getMiles(),
     donationsQuery,
     admin.from("miles").select("id, mile_number"),
+    getDonorTiers(admin),
   ]);
 
   const donations = (donationsResult.data ?? []) as DonationRow[];
@@ -112,6 +114,7 @@ export default async function DonationsAdminPage(props: PageProps<"/admin/donati
           <tbody>
             {donations.map((donation) => {
               const mileNumber = donation.mile_id ? mileNumberById.get(donation.mile_id) : null;
+              const tier = donation.donor_email ? donorTiers.get(donation.donor_email)?.tier : null;
               return (
                 <tr key={donation.id} className="border-b border-ink/5 last:border-0 hover:bg-sand-light/50">
                   <td className="px-4 py-3">
@@ -123,6 +126,14 @@ export default async function DonationsAdminPage(props: PageProps<"/admin/donati
                     </Link>
                     {donation.anonymous && (
                       <span className="ml-2 text-xs text-charcoal-light">(anonymous)</span>
+                    )}
+                    {tier && (
+                      <span
+                        title="Based on cumulative verified giving under this donor's email — internal only, never shown publicly."
+                        className="ml-2 rounded-full border border-bronze/30 bg-bronze/10 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-bronze"
+                      >
+                        {tier}
+                      </span>
                     )}
                   </td>
                   <td className="px-4 py-3 text-charcoal-light">{formatCurrency(donation.amount, { cents: true })}</td>

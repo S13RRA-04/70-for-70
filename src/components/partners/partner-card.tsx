@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ExternalLink, ShieldCheck } from "lucide-react";
 import { ExternalDonateButton } from "@/components/shared/external-donate-button";
+import { DonationTrackingNote } from "@/components/shared/donation-tracking-note";
 import { PartnerLogo } from "@/components/shared/partner-logo";
 import type { PartnerRow } from "@/types/database";
 
@@ -10,7 +11,13 @@ import type { PartnerRow } from "@/types/database";
  * gets room to be read, not just recognized. Logo/mark block sits beside
  * the copy on sm+ screens and stacks above it on mobile.
  */
-export function PartnerCard({ partner }: { partner: PartnerRow }) {
+export function PartnerCard({
+  partner,
+  mileNumber,
+}: {
+  partner: PartnerRow;
+  mileNumber?: number;
+}) {
   const hasLinks = Boolean(partner.website_url || partner.donation_url);
 
   return (
@@ -77,10 +84,15 @@ export function PartnerCard({ partner }: { partner: PartnerRow }) {
               <ExternalDonateButton
                 href={partner.donation_url}
                 orgName={partner.name}
+                mileNumber={mileNumber}
                 label={`Support ${partner.name} Directly →`}
               />
             )}
           </div>
+        )}
+
+        {partner.donation_url && partner.requires_donation_note && (
+          <DonationTrackingNote partnerName={partner.name} mileNumber={mileNumber} />
         )}
       </div>
     </div>

@@ -7,6 +7,7 @@ const DEDICATION_TYPES: { value: DedicationType; label: string }[] = [
 
 export interface DonationFieldDefaults {
   donor_name?: string;
+  donor_email?: string | null;
   amount?: number;
   organization_benefited?: string | null;
   mile_number?: number | null;
@@ -40,13 +41,23 @@ export function DonationFields({
 
   return (
     <div className="space-y-4">
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="grid gap-3 sm:grid-cols-3">
         <Field label="Donor Name" htmlFor="donor_name">
           <input
             id="donor_name"
             name="donor_name"
             defaultValue={defaults.donor_name ?? ""}
             required
+            className="mt-1 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2 text-sm text-ink"
+          />
+        </Field>
+
+        <Field label="Donor Email (optional — for cumulative tier credit)" htmlFor="donor_email">
+          <input
+            id="donor_email"
+            name="donor_email"
+            type="email"
+            defaultValue={defaults.donor_email ?? ""}
             className="mt-1 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2 text-sm text-ink"
           />
         </Field>

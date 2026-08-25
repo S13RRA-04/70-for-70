@@ -54,6 +54,7 @@ export default async function DonationDetailPage(props: PageProps<"/admin/donati
           miles={miles}
           defaults={{
             donor_name: d.donor_name,
+            donor_email: d.donor_email,
             amount: d.amount,
             organization_benefited: d.organization_benefited,
             mile_number: mileNumber,
