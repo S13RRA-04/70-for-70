@@ -95,7 +95,14 @@ async function syncMentions(
   }
 }
 
-export async function saveJournalEntryAction(formData: FormData) {
+export interface SaveJournalEntryState {
+  error: string | null;
+}
+
+export async function saveJournalEntryAction(
+  _prevState: SaveJournalEntryState,
+  formData: FormData,
+): Promise<SaveJournalEntryState> {
   await requireAdminUser();
   const admin = createAdminClient();
 
@@ -111,8 +118,10 @@ export async function saveJournalEntryAction(formData: FormData) {
 
   // A title/stats/image alone isn't a journal entry — see AGENTS.md's
   // Journal spec. Draft freely; publishing or scheduling requires a body.
+  // Returned as form state (not thrown) so it renders as an inline message
+  // instead of crashing to Next's generic error boundary.
   if (status !== "draft" && str(formData, "body").trim().length === 0) {
-    throw new Error("Add a body before publishing or scheduling this entry — save it as a draft instead.");
+    return { error: "Add a body before publishing or scheduling this entry — save it as a draft instead." };
   }
 
   // Preserve the original publish date on edits — only stamp it the first

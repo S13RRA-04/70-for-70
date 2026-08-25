@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState, useState } from "react";
 import { JournalMarkdown } from "@/components/journal/journal-markdown";
 import { JournalImageUpload } from "./journal-image-upload";
 import { saveJournalEntryAction } from "./actions";
@@ -51,6 +51,7 @@ export function JournalEntryForm({
   const [isScheduling, setIsScheduling] = useState(entry?.status === "scheduled");
   // datetime-local inputs need "YYYY-MM-DDTHH:mm", not a full ISO timestamp.
   const scheduledForDefault = entry?.scheduled_for ? entry.scheduled_for.slice(0, 16) : "";
+  const [state, formAction] = useActionState(saveJournalEntryAction, { error: null });
 
   function handleTitleBlur(e: React.FocusEvent<HTMLInputElement>) {
     if (slugTouched) return;
@@ -63,7 +64,7 @@ export function JournalEntryForm({
   }
 
   return (
-    <form action={saveJournalEntryAction} className="mt-8 space-y-8">
+    <form action={formAction} className="mt-8 space-y-8">
       {entry && <input type="hidden" name="id" value={entry.id} />}
 
       <div className="rounded-sm border border-ink/10 bg-off-white p-6">
@@ -434,6 +435,11 @@ export function JournalEntryForm({
 
       <div className="rounded-sm border border-ink/10 bg-sand-light p-6">
         <h2 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">Publish</h2>
+        {state.error && (
+          <p className="mt-3 rounded-sm border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800">
+            {state.error}
+          </p>
+        )}
         <div className="mt-4 flex items-center gap-2">
           <input
             id="schedule-toggle"
