@@ -1,7 +1,8 @@
 import Link from "next/link";
+import { ShieldAlert, HeartHandshake, Eye, MessageCircle, LifeBuoy, RefreshCw } from "lucide-react";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
-import { CTAButton } from "@/components/shared/cta-button";
+import { CTASection } from "@/components/shared/cta-section";
 import { findAboutSubsection } from "@/lib/content/about";
 import { SITE_NAME } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
@@ -12,20 +13,42 @@ export const metadata = pageMetadata({
   canonical: "/advocacy",
 });
 
+const THE_REALITY = [
+  {
+    icon: ShieldAlert,
+    title: "Service Doesn't End at Discharge",
+    body: [
+      "Veterans, law-enforcement officers, firefighters, EMS personnel, dispatchers, and other frontline professionals routinely serve their communities and country under extraordinary physical and psychological demands. Many place their health and their lives at risk in service to others.",
+      "That service doesn't simply end when the deployment, the shift, or the career does. Leaving a role built around mission, unit, and purpose is its own kind of transition — one that can leave people carrying real weight without the structure that once helped them carry it.",
+    ],
+  },
+  {
+    icon: HeartHandshake,
+    title: "What They Carry",
+    body: [
+      "The effects of service aren't always visible. Physical injury, chronic pain, and the strain of years spent operating under pressure can persist long after the uniform comes off. So can the harder-to-see costs — reintegration, identity, and the mental and emotional load of what the job asked of them.",
+    ],
+  },
+] as const;
+
 const HOW_TO_HELP = [
   {
+    icon: Eye,
     title: "Learn the Signs",
     body: "Isolation, sudden changes in mood or habits, giving away possessions, or talking about being a burden are all worth taking seriously — in a veteran, a first responder, or anyone else.",
   },
   {
+    icon: MessageCircle,
     title: "Check In, Directly",
     body: "A direct, specific question — not \"how are you,\" but \"how are you really doing since you got back / since that call\" — tells someone their answer actually matters.",
   },
   {
+    icon: LifeBuoy,
     title: "Point Toward Real Support",
     body: "You don't have to be the solution. Knowing where to send someone — a resource, a crisis line, a peer support program — is often the most useful thing you can offer.",
   },
   {
+    icon: RefreshCw,
     title: "Stay Past the Headline",
     body: "Public attention on veteran and first-responder wellbeing tends to spike around anniversaries and news cycles. The need doesn't. Staying engaged year-round is its own form of advocacy.",
   },
@@ -36,6 +59,7 @@ export default function AdvocacyPage() {
 
   return (
     <>
+      {/* Hero */}
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container className="max-w-2xl">
           <SectionHeading
@@ -47,122 +71,102 @@ export default function AdvocacyPage() {
         </Container>
       </section>
 
+      {/* The Reality — two-column icon-led narrative, not stacked full-width text */}
       <section className="py-16 sm:py-20">
-        <Container className="max-w-2xl">
-          <h2 className="font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
-            Service Doesn&apos;t End at Discharge
-          </h2>
-          <div className="mt-5 space-y-4 text-base leading-relaxed text-charcoal-light">
-            <p>
-              Veterans, law-enforcement officers, firefighters, EMS personnel, dispatchers, and
-              other frontline professionals routinely serve their communities and country under
-              extraordinary physical and psychological demands. Many place their health and
-              their lives at risk in service to others.
-            </p>
-            <p>
-              That service doesn&apos;t simply end when the deployment, the shift, or the career
-              does. Leaving a role built around mission, unit, and purpose is its own kind of
-              transition — one that can leave people carrying real weight without the structure
-              that once helped them carry it.
-            </p>
+        <Container className="max-w-[1400px]">
+          <SectionHeading eyebrow="The Reality" title="What They Carry" />
+          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            {THE_REALITY.map((item) => (
+              <div key={item.title} className="border border-ink/10 bg-sand-light/40 p-8">
+                <item.icon className="h-6 w-6 text-bronze" aria-hidden="true" />
+                <h3 className="mt-4 font-display text-xl font-bold uppercase tracking-tight text-ink">
+                  {item.title}
+                </h3>
+                <div className="mt-3 space-y-3 text-base leading-relaxed text-charcoal-light">
+                  {item.body.map((paragraph, i) => (
+                    <p key={i}>{paragraph}</p>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
-        </Container>
-      </section>
-
-      <section className="border-t border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container className="max-w-2xl">
-          <h2 className="font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
-            What They Carry
-          </h2>
-          <div className="mt-5 space-y-4 text-base leading-relaxed text-charcoal-light">
-            <p>
-              The effects of service aren&apos;t always visible. Physical injury, chronic pain,
-              and the strain of years spent operating under pressure can persist long after the
-              uniform comes off. So can the harder-to-see costs — reintegration, identity, and
-              the mental and emotional load of what the job asked of them.
-            </p>
-            <p>
-              None of that stays contained to one person. Spouses, kids, and coworkers absorb
-              part of it too, which is part of why {SITE_NAME}&apos;s resource directory
-              includes family and caregiver support alongside programs built for veterans and
-              first responders directly.
-            </p>
-          </div>
+          <p className="mt-6 text-sm leading-relaxed text-charcoal-light">
+            None of that stays contained to one person. Spouses, kids, and coworkers absorb part of
+            it too, which is part of why {SITE_NAME}&apos;s resource directory includes family and
+            caregiver support alongside programs built for veterans and first responders directly.
+          </p>
         </Container>
       </section>
 
       {why22 && (
-        <section className="py-16 sm:py-20">
-          <Container className="max-w-2xl">
-            <h2 className="font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
-              {why22.heading}
-            </h2>
-            <div className="mt-5 space-y-4 text-base leading-relaxed text-charcoal-light">
-              {why22.body.map((paragraph, i) => (
-                <p key={i}>{paragraph}</p>
-              ))}
-            </div>
+        <section className="border-t border-ink/10 bg-sand-light py-16 sm:py-20">
+          <Container className="max-w-6xl">
+            <div className="grid gap-8 lg:grid-cols-[1.3fr_1fr] lg:items-start">
+              <div>
+                <SectionHeading eyebrow="The Symbol" title={why22.heading} />
+                <div className="mt-5 space-y-4 text-base leading-relaxed text-charcoal-light">
+                  {why22.body.map((paragraph, i) => (
+                    <p key={i}>{paragraph}</p>
+                  ))}
+                </div>
+              </div>
 
-            <div className="mt-8 rounded-sm border border-bronze/30 bg-sand-light p-6">
-              <p className="text-sm font-semibold uppercase tracking-widest text-bronze">
-                Need Help Now?
-              </p>
-              <p className="mt-2 text-sm leading-relaxed text-charcoal-light">
-                If you or someone you know is in crisis, immediate support is available.{" "}
-                {SITE_NAME} is not a crisis-response service — the organizations listed connect
-                you with people equipped to help.
-              </p>
-              <Link
-                href="/crisis"
-                className="mt-4 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
-              >
-                Get Crisis Support &rarr;
-              </Link>
+              <div className="border border-bronze/30 bg-off-white p-6">
+                <div className="flex items-center gap-3">
+                  <LifeBuoy className="h-6 w-6 shrink-0 text-bronze" aria-hidden="true" />
+                  <p className="text-sm font-semibold uppercase tracking-widest text-bronze">
+                    Need Help Now?
+                  </p>
+                </div>
+                <p className="mt-3 text-sm leading-relaxed text-charcoal-light">
+                  If you or someone you know is in crisis, immediate support is available.{" "}
+                  {SITE_NAME} is not a crisis-response service — the organizations listed connect
+                  you with people equipped to help.
+                </p>
+                <Link
+                  href="/crisis"
+                  className="mt-4 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+                >
+                  Get Crisis Support &rarr;
+                </Link>
+              </div>
             </div>
           </Container>
         </section>
       )}
 
-      <section className="border-t border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container className="max-w-2xl">
-          <h2 className="font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
-            A Public Responsibility
-          </h2>
-          <p className="mt-5 text-base leading-relaxed text-charcoal-light">
-            Service deserves continued respect, care, and support — not just while it&apos;s
-            happening, but long after. Advocacy doesn&apos;t require a uniform, a badge, or a
-            donation. It&apos;s a handful of things anyone can actually do.
-          </p>
-          <div className="mt-8 grid gap-6 sm:grid-cols-2">
+      {/* A Public Responsibility — four-up icon-card grid instead of a two-column list */}
+      <section className="border-t border-ink/10 bg-ink py-16 text-off-white sm:py-20">
+        <Container className="max-w-[1400px]">
+          <SectionHeading
+            tone="dark"
+            eyebrow="A Public Responsibility"
+            title="A Handful of Things Anyone Can Do"
+            description="Service deserves continued respect, care, and support — not just while it's happening, but long after. Advocacy doesn't require a uniform, a badge, or a donation."
+          />
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {HOW_TO_HELP.map((item) => (
-              <div key={item.title}>
-                <p className="font-display text-sm font-semibold uppercase tracking-wide text-ink">
+              <div key={item.title} className="border border-off-white/15 p-6">
+                <item.icon className="h-6 w-6 text-bronze-light" aria-hidden="true" />
+                <h3 className="mt-4 font-display text-sm font-bold uppercase tracking-wide text-off-white">
                   {item.title}
-                </p>
-                <p className="mt-1.5 text-sm leading-relaxed text-charcoal-light">{item.body}</p>
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-off-white/70">{item.body}</p>
               </div>
             ))}
           </div>
         </Container>
       </section>
 
-      <section className="bg-ink py-16 text-off-white sm:py-20">
-        <Container className="max-w-2xl text-center">
-          <p className="text-balance font-display text-2xl font-semibold uppercase tracking-tight sm:text-3xl">
-            Turn Awareness Into Action
-          </p>
-          <p className="mx-auto mt-3 max-w-xl text-base text-off-white/75">
-            Help someone find the right support, share a trusted resource, or learn where to
-            send someone when they need help.
-          </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <CTAButton href="/resources">Find Resources</CTAButton>
-            <CTAButton href="/about" variant="secondary" tone="dark">
-              Read the Story
-            </CTAButton>
-          </div>
-        </Container>
-      </section>
+      <CTASection
+        title="Turn Awareness Into Action"
+        description="Help someone find the right support, share a trusted resource, or learn where to send someone when they need help."
+        tone="light"
+        buttons={[
+          { label: "Find Resources", href: "/resources" },
+          { label: "Read the Story", href: "/about", variant: "secondary" },
+        ]}
+      />
     </>
   );
 }
