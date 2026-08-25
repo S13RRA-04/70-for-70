@@ -30,6 +30,17 @@
   --color-neutral-300: #b3b3b3;
   --color-neutral-100: #eeeeee;
 
+  /*
+   * National Suicide Prevention Month (September) identification accents —
+   * sampled from public/spm-ribbon.png so the CSS matches the actual
+   * artwork. Used the same way as OUTER_RING_COLORS/INNER_RING_COLORS in
+   * ring-colors.ts: chips, borders, dots — never a background fill — and
+   * only while isSuicidePreventionMonth() is true. See AwarenessBanner.
+   */
+  --color-awareness-teal: #24bec9;
+  --color-awareness-purple: #562d89;
+  --color-awareness-navy: #2b2d70;
+
   --background: var(--color-off-white);
   --foreground: var(--color-ink);
 }
@@ -53,6 +64,10 @@
   --color-neutral-500: var(--color-neutral-500);
   --color-neutral-300: var(--color-neutral-300);
   --color-neutral-100: var(--color-neutral-100);
+
+  --color-awareness-teal: var(--color-awareness-teal);
+  --color-awareness-purple: var(--color-awareness-purple);
+  --color-awareness-navy: var(--color-awareness-navy);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);

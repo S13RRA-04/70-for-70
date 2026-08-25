@@ -17,7 +17,7 @@ import type { SiteMode } from "@/lib/site-mode";
 import { cn } from "@/lib/utils";
 import { MobileMenu } from "@/components/layout/mobile-menu";
 
-export function Header({ mode }: { mode: SiteMode }) {
+export function Header({ mode, awarenessMonth = false }: { mode: SiteMode; awarenessMonth?: boolean }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const isCampaign = mode === "campaign";
@@ -79,6 +79,16 @@ export function Header({ mode }: { mode: SiteMode }) {
                 aria-current={pathname === link.href ? "page" : undefined}
               >
                 {link.label}
+                {awarenessMonth && link.href === "/crisis" && (
+                  <span
+                    aria-hidden="true"
+                    className="ml-1.5 inline-block h-1.5 w-1.5 rounded-full align-middle"
+                    style={{
+                      background:
+                        "linear-gradient(135deg, var(--color-awareness-teal), var(--color-awareness-purple))",
+                    }}
+                  />
+                )}
               </Link>
             ))}
           </nav>

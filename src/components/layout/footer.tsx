@@ -15,13 +15,27 @@ import { SocialLinks } from "@/components/shared/social-links";
 import type { SiteMode } from "@/lib/site-mode";
 import { isRaceDayModeEnabled } from "@/lib/race-day-mode";
 
-export function Footer({ mode }: { mode: SiteMode }) {
+export function Footer({ mode, awarenessMonth = false }: { mode: SiteMode; awarenessMonth?: boolean }) {
   const isCampaign = mode === "campaign";
   // Legal pages live on the org domain only — link there directly instead
   // of relying on the campaign-host redirect for every click.
   const legalBase = isCampaign ? SITE_URL : "";
 
   const raceDayLive = isRaceDayModeEnabled();
+
+  // Small teal/purple identification dot for National Suicide Prevention
+  // Month (September) — see isSuicidePreventionMonth. Same convention as
+  // ring-colors.ts: a chromatic accent used only as an identification
+  // signal, never a background fill.
+  const awarenessDot = awarenessMonth ? (
+    <span
+      aria-hidden="true"
+      className="ml-1.5 inline-block h-1.5 w-1.5 rounded-full align-middle"
+      style={{
+        background: "linear-gradient(135deg, var(--color-awareness-teal), var(--color-awareness-purple))",
+      }}
+    />
+  ) : null;
 
   return (
     <footer className="relative overflow-hidden border-t border-off-white/10 bg-ink text-off-white">
@@ -199,6 +213,7 @@ export function Footer({ mode }: { mode: SiteMode }) {
                 <li>
                   <Link href="/crisis" className="transition-colors hover:text-off-white">
                     Need Help Now
+                    {awarenessDot}
                   </Link>
                 </li>
                 <li>

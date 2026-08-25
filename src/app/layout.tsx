@@ -13,11 +13,13 @@ import {
 } from "@/lib/constants";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { AwarenessBanner } from "@/components/layout/awareness-banner";
 import {
   MobileConversionBar,
   MobileConversionBarSpacer,
 } from "@/components/layout/mobile-conversion-bar";
 import { getSiteMode } from "@/lib/site-mode";
+import { isSuicidePreventionMonth } from "@/lib/awareness-month";
 import "./globals.css";
 
 const oswald = Oswald({
@@ -100,6 +102,7 @@ const ORGANIZATION_JSON_LD = {
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   const mode = await getSiteMode();
+  const awarenessMonth = isSuicidePreventionMonth();
 
   return (
     <html
@@ -120,11 +123,12 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         >
           Skip to content
         </a>
-        <Header mode={mode} />
+        <AwarenessBanner />
+        <Header mode={mode} awarenessMonth={awarenessMonth} />
         <main id="main-content" className="flex-1">
           {children}
         </main>
-        <Footer mode={mode} />
+        <Footer mode={mode} awarenessMonth={awarenessMonth} />
         <MobileConversionBarSpacer mode={mode} />
         <MobileConversionBar mode={mode} />
       </body>
