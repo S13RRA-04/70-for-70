@@ -44,25 +44,26 @@ export const PRIMARY_AUDIENCE_TAGS = [
 function FilterRow({
   label,
   options,
-  active,
+  activeValues,
   onSelect,
 }: {
   label: string;
   options: readonly string[];
-  active: string | null;
+  /** Every option currently applied — usually 0 or 1, but a gateway card can land here with several at once. */
+  activeValues: readonly string[];
   onSelect: (value: string | null) => void;
 }) {
   return (
     <div>
       <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">{label}</p>
       <div className="mt-2.5 flex flex-wrap gap-2">
-        <FilterChip label="All" active={active === null} onClick={() => onSelect(null)} />
+        <FilterChip label="All" active={activeValues.length === 0} onClick={() => onSelect(null)} />
         {options.map((option) => (
           <FilterChip
             key={option}
             label={option}
-            active={active === option}
-            onClick={() => onSelect(option === active ? null : option)}
+            active={activeValues.includes(option)}
+            onClick={() => onSelect(activeValues.length === 1 && activeValues.includes(option) ? null : option)}
           />
         ))}
       </div>
@@ -72,11 +73,10 @@ function FilterRow({
 
 export function ResourceDirectory() {
   // Deep-link support so the homepage gateway (see ResourceCategoryGrid) can
-  // land here pre-filtered via ?q=&need=&audience= — read once on mount,
-  // not kept in sync afterward (this directory owns its own state from
-  // here on, same as before). `need` may be a comma-separated list of ids
-  // since a few gateway cards span more than one taxonomy category; a
-  // single id (the only form older links use) still works unchanged.
+  // land here pre-filtered via ?q=&need=&audience=. `need` may be a
+  // comma-separated list of ids since a few gateway cards span more than
+  // one taxonomy category; a single id (the only form older links use)
+  // still works unchanged.
   const params = useSearchParams();
   const [needIds, setNeedIds] = useState<string[]>(() => {
     const raw = params.get("need");
@@ -85,6 +85,26 @@ export function ResourceDirectory() {
   const [audience, setAudience] = useState<string | null>(() => params.get("audience"));
   const [search, setSearch] = useState(() => params.get("q") ?? "");
   const [stateFilter, setStateFilter] = useState<string | null>(() => params.get("state"));
+
+  // The lazy initializers above cover the normal case (a fresh page load,
+  // filtered from the first server-rendered paint). This covers the one
+  // they can't: Next's client router reusing this already-mounted page
+  // instance when navigating from one gateway card to another, where only
+  // the query string changes and the initializers never re-run. Comparing
+  // during render (React's documented way to adjust state when a prop
+  // changes, rather than an Effect) lets us reset synchronously, before
+  // the stale-filter results ever paint. In-page filter-chip clicks don't
+  // touch the URL, so paramsKey stays put and they aren't overwritten.
+  const paramsKey = params.toString();
+  const [lastParamsKey, setLastParamsKey] = useState(paramsKey);
+  if (paramsKey !== lastParamsKey) {
+    setLastParamsKey(paramsKey);
+    const raw = params.get("need");
+    setNeedIds(raw ? raw.split(",").filter(Boolean) : []);
+    setAudience(params.get("audience"));
+    setSearch(params.get("q") ?? "");
+    setStateFilter(params.get("state"));
+  }
 
   const activeStates = useMemo(() => {
     const states = new Set<string>();
@@ -166,16 +186,17 @@ export function ResourceDirectory() {
             <FilterRow
               label="What Do You Need?"
               options={NEED_CATEGORIES.map((c) => c.label)}
-              active={
-                needIds.length === 1
-                  ? (NEED_CATEGORIES.find((c) => c.id === needIds[0])?.label ?? null)
-                  : null
-              }
+              activeValues={needIds.map((id) => NEED_CATEGORIES.find((c) => c.id === id)?.label ?? "")}
               onSelect={(label) =>
                 setNeedIds(label ? [NEED_CATEGORIES.find((c) => c.label === label)?.id ?? ""].filter(Boolean) : [])
               }
             />
-            <FilterRow label="Who Are You?" options={PRIMARY_AUDIENCE_TAGS} active={audience} onSelect={setAudience} />
+            <FilterRow
+              label="Who Are You?"
+              options={PRIMARY_AUDIENCE_TAGS}
+              activeValues={audience ? [audience] : []}
+              onSelect={setAudience}
+            />
           </div>
         </div>
 
