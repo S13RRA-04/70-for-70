@@ -8,8 +8,9 @@ import { Menu, X } from "lucide-react";
 import {
   CAMPAIGN_NAME,
   CAMPAIGN_NAV_LINKS,
-  DONATE_LINK,
+  FUND_A_MILE_LINK,
   ORG_NAV_LINKS,
+  PARENT_INITIATIVE_LINK,
   SITE_NAME,
 } from "@/lib/constants";
 import type { SiteMode } from "@/lib/site-mode";
@@ -57,40 +58,43 @@ export function Header({ mode }: { mode: SiteMode }) {
           </span>
         </Link>
 
-        <nav aria-label="Primary" className="hidden items-center gap-7 lg:flex">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={cn(
-                "text-sm font-medium uppercase tracking-wide text-charcoal transition-colors hover:text-bronze",
-                pathname === link.href && "text-bronze",
-              )}
-              aria-current={pathname === link.href ? "page" : undefined}
+        <div className="hidden items-center gap-7 lg:flex">
+          {isCampaign && (
+            <a
+              href={PARENT_INITIATIVE_LINK.href}
+              className="text-xs font-semibold uppercase tracking-widest text-charcoal-light transition-colors hover:text-ink"
             >
-              {link.label}
-            </Link>
-          ))}
+              {PARENT_INITIATIVE_LINK.label} <span aria-hidden="true">&#8599;</span>
+            </a>
+          )}
+          <nav aria-label="Primary" className="flex items-center gap-7">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={cn(
+                  "border-b-2 border-transparent pb-0.5 text-sm font-medium uppercase tracking-wide text-charcoal transition-colors hover:text-bronze",
+                  pathname === link.href && "border-bronze text-bronze",
+                )}
+                aria-current={pathname === link.href ? "page" : undefined}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
 
           {isCampaign && (
             <Link
-              href={DONATE_LINK.href}
+              href={FUND_A_MILE_LINK.href}
               className="rounded-sm bg-bronze px-5 py-2 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light"
             >
-              {DONATE_LINK.label}
+              {FUND_A_MILE_LINK.label}
             </Link>
           )}
-        </nav>
+        </div>
 
         <div className="flex items-center gap-1 lg:hidden">
-          {isCampaign ? (
-            <Link
-              href={DONATE_LINK.href}
-              className="rounded-sm bg-bronze px-3 py-2 text-sm font-semibold uppercase tracking-wide text-off-white"
-            >
-              {DONATE_LINK.label}
-            </Link>
-          ) : (
+          {!isCampaign && (
             <Link
               href="/resources"
               className="rounded-sm px-3 py-2 text-sm font-semibold uppercase tracking-wide text-ink"

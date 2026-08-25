@@ -45,7 +45,7 @@ export function PartnerMentionsFooter({
               {partner.name}
             </span>
           ))}{" "}
-          — <Link href="/beneficiaries" className="text-bronze hover:underline">Learn more &rarr;</Link>
+          — <Link href="/partners#beneficiaries" className="text-bronze hover:underline">Learn more &rarr;</Link>
         </p>
       )}
     </div>

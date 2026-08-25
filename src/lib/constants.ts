@@ -92,14 +92,18 @@ export const ORG_NAV_LINKS: NavLink[] = [
   { label: "Need Help Now", href: "/crisis" },
 ];
 
+/**
+ * 5 links + the header's separate Fund a Mile CTA button (see
+ * FUND_A_MILE_LINK) — Beneficiaries/Supporters/Fundraising were folded into
+ * Partners/Fund a Mile respectively so the header stays at 5 + 1 per
+ * AGENTS.md's Information Architecture section.
+ */
 export const CAMPAIGN_NAV_LINKS: NavLink[] = [
   { label: "Campaign", href: "/the-mission" },
   { label: "Race", href: "/the-race" },
-  { label: "Fundraising", href: "/fund-a-mile" },
-  { label: "Shop", href: "/shop" },
-  { label: "Beneficiaries", href: "/beneficiaries" },
-  { label: "Supporters", href: "/campaign-supporters" },
   { label: "Journal", href: "/journal" },
+  { label: "Partners", href: "/partners" },
+  { label: "Shop", href: "/shop" },
 ];
 
 /**
@@ -113,6 +117,10 @@ export const CAMPAIGN_HOME_LINK: NavLink = { label: CAMPAIGN_NAME, href: CAMPAIG
 export const ORG_HOME_LINK: NavLink = { label: SITE_NAME, href: SITE_URL };
 
 export const DONATE_LINK: NavLink = { label: "Donate Directly", href: "/donate" };
+/** The header's primary campaign CTA — replaces Donate as the solid button; Donate stays secondary. */
+export const FUND_A_MILE_LINK: NavLink = { label: "Fund a Mile", href: "/fund-a-mile" };
+/** Distinct parent-site text link in the campaign header (the logo/title still link to the campaign home). */
+export const PARENT_INITIATIVE_LINK: NavLink = { label: "A For The 22 campaign", href: SITE_URL };
 
 export const FUNDRAISING_GOAL = 70_000;
 export const DOLLARS_PER_MILE = 1_000;
@@ -241,14 +249,14 @@ export const CUSTOM_PARTNERSHIP_CATEGORIES = [
 ] as const;
 
 export const RACE_INFO = {
-  // Target: IRONMAN 70.3 Chattanooga, 2027 (May 2026 was the prior year's
-  // event, not this campaign's race). IRONMAN hasn't published the 2027
-  // date yet — leave raceDate null (a deliberate no-op, see
-  // campaign-phase.ts) rather than guessing a day; set it once confirmed.
-  raceDate: null as string | null,
+  // IRONMAN 70.3 Chattanooga, confirmed for May 16, 2027. 07:00 ET is the
+  // typical 70.3 Chattanooga rolling-start time — adjust once IRONMAN
+  // publishes the official athlete guide with a confirmed start time.
+  raceDate: "2027-05-16T07:00:00-04:00" as string | null,
   raceYear: "2027" as string | null,
   raceLocation: "Chattanooga, Tennessee" as string | null,
   courseInfoUrl: "https://www.ironman.com/races/im703-chattanooga" as string | null,
+  registrationUrl: "https://www.ironman.com/races/im703-chattanooga/register" as string | null,
   athleteGoalTime: null as string | null, // TODO, e.g. "6:30:00"
   trainingStartDate: null as string | null, // e.g. "2026-03-01T00:00:00-05:00" — TODO, used to compute weeks completed/remaining
 };

@@ -3,15 +3,9 @@ import { Container } from "@/components/shared/container";
 import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
-import { MobileActionBar } from "@/components/shared/mobile-action-bar";
 import { CampaignByTheNumbers } from "@/components/campaign/campaign-by-the-numbers";
 import { MISSION_SECTIONS } from "@/lib/content/mission";
-import {
-  CAMPAIGN_URL,
-  DONATE_LINK,
-  MOVEMENT_CAMPAIGNS,
-  SITE_NAME,
-} from "@/lib/constants";
+import { CAMPAIGN_URL, SITE_NAME, SITE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
@@ -43,34 +37,16 @@ export default function MissionPage() {
       <section className="border-b border-ink/10 py-16 sm:py-20">
         <Container className="max-w-3xl">
           <SectionHeading
-            eyebrow="The Bigger Picture"
-            title="Beyond This Campaign"
-            description={`${SITE_NAME} is Cody's personal way of turning endurance into action for veterans and first responders. If Tri For The 22 goes well, future personal challenges may follow the same "[Mission] For The 22" naming idea — not a managed program, just a naming convention.`}
+            eyebrow="The Parent Initiative"
+            title="A For The 22 Campaign"
+            description={`Tri For The 22 is an athletic fundraising campaign of ${SITE_NAME}, an initiative connecting veterans and first responders with resources supporting mental, physical, emotional and spiritual health.`}
           />
-          <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
-            {MOVEMENT_CAMPAIGNS.map((campaign) => (
-              <div
-                key={campaign.name}
-                className={`rounded-sm border p-4 text-center ${
-                  campaign.status === "current"
-                    ? "border-bronze/40 bg-bronze/10"
-                    : "border-ink/10 bg-off-white"
-                }`}
-              >
-                <p
-                  className={`text-xs font-semibold uppercase tracking-widest ${
-                    campaign.status === "current" ? "text-bronze" : "text-charcoal-light/80"
-                  }`}
-                >
-                  {campaign.status === "current" ? "Current Campaign" : "Future"}
-                </p>
-                <p className="mt-1 font-display text-base font-semibold uppercase tracking-wide text-ink">
-                  {campaign.name}
-                </p>
-                <p className="mt-0.5 text-xs text-charcoal-light">{campaign.discipline}</p>
-              </div>
-            ))}
-          </div>
+          <a
+            href={SITE_URL}
+            className="mt-5 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+          >
+            Visit {SITE_NAME} &rarr;
+          </a>
         </Container>
       </section>
 
@@ -108,14 +84,8 @@ export default function MissionPage() {
         description="Fund a mile or support a beneficiary organization directly."
         buttons={[
           { label: "Fund a Mile", href: "/fund-a-mile" },
-          { label: "Meet the Beneficiaries", href: "/beneficiaries", variant: "secondary" },
+          { label: "Meet the Beneficiaries", href: "/partners#beneficiaries", variant: "secondary" },
         ]}
-      />
-
-      <div className="h-16 sm:hidden" aria-hidden="true" />
-      <MobileActionBar
-        secondary={{ label: "Fund a Mile", href: "/fund-a-mile" }}
-        primary={{ label: DONATE_LINK.label, href: DONATE_LINK.href }}
       />
     </>
   );

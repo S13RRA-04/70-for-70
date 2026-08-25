@@ -24,16 +24,16 @@ const ORG_ROUTES = [
   "/terms",
   "/press",
 ];
-// /partners, /partners/inquire, /sponsors, and /sponsors/request are
-// retired (redirect to /beneficiaries) — excluded for the same reason.
+// /beneficiaries, /campaign-supporters, /partners/inquire, /sponsors, and
+// /sponsors/request are retired (redirect into /partners) — excluded for
+// the same reason.
 const CAMPAIGN_ROUTES = [
   "",
   "/the-mission",
   "/the-race",
   "/the-story",
   "/fund-a-mile",
-  "/beneficiaries",
-  "/campaign-supporters",
+  "/partners",
   "/journal",
   "/donate",
   "/live",

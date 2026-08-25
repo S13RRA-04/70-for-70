@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { MILE_SEGMENTS } from "@/lib/constants";
 import { MileCard } from "./mile-card";
 import { MileDetailModal } from "./mile-detail-modal";
+import { MileStatusLegend } from "./mile-status-legend";
 import type { MileStatus } from "@/types/database";
 import type { MileWithDonations } from "@/types/content";
 
@@ -23,12 +24,12 @@ const SEGMENT_ICON: Record<(typeof MILE_SEGMENTS)[number]["key"], typeof Waves> 
 
 type FilterValue = "all" | MileStatus;
 
+/** Mirrors the public status taxonomy in mileStatusLabel() — "requested" filters alongside "reserved" under one Reserved pill, not its own. */
 const FILTERS: { value: FilterValue; label: string }[] = [
   { value: "all", label: "All" },
   { value: "available", label: "Available" },
-  { value: "partially_funded", label: "Partially Funded" },
+  { value: "partially_funded", label: "In Progress" },
   { value: "funded", label: "Funded" },
-  { value: "requested", label: "Requested" },
   { value: "reserved", label: "Reserved" },
 ];
 
@@ -42,10 +43,13 @@ export function MileGrid({
   const [filter, setFilter] = useState<FilterValue>("all");
   const [selectedMileNumber, setSelectedMileNumber] = useState<number | null>(null);
 
-  const filteredMiles = useMemo(
-    () => (filter === "all" ? miles : miles.filter((m) => m.status === filter)),
-    [miles, filter],
-  );
+  const filteredMiles = useMemo(() => {
+    if (filter === "all") return miles;
+    // "reserved" filter covers both "reserved" and "requested" rows — see
+    // the FILTERS comment above and mileStatusLabel().
+    if (filter === "reserved") return miles.filter((m) => m.status === "reserved" || m.status === "requested");
+    return miles.filter((m) => m.status === filter);
+  }, [miles, filter]);
 
   const selectedMile = miles.find((m) => m.mile_number === selectedMileNumber) ?? null;
 
@@ -60,10 +64,12 @@ export function MileGrid({
     <div>
       {showFilters && (
         <>
+          <MileStatusLegend />
+
           <div
             role="group"
             aria-label="Filter miles by status"
-            className="flex flex-wrap gap-2"
+            className="mt-4 flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible"
           >
             {FILTERS.map((f) => (
               <button
@@ -72,7 +78,7 @@ export function MileGrid({
                 onClick={() => setFilter(f.value)}
                 aria-pressed={filter === f.value}
                 className={cn(
-                  "rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-wide transition-colors",
+                  "shrink-0 rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-wide transition-colors",
                   filter === f.value
                     ? "border-ink bg-ink text-off-white"
                     : "border-ink/20 text-charcoal hover:border-ink/40",
@@ -118,7 +124,7 @@ export function MileGrid({
                 </span>
               </p>
             </div>
-            <div className="mt-3 grid grid-cols-6 gap-1.5 sm:grid-cols-10">
+            <div className="mt-3 grid grid-cols-5 gap-1.5 sm:grid-cols-10">
               {segment.miles.map((mile) => (
                 <MileCard key={mile.id} mile={mile} onSelect={setSelectedMileNumber} />
               ))}

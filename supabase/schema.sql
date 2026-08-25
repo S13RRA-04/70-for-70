@@ -408,6 +408,12 @@ create table if not exists public.partners (
   -- placeholder. See PartnerCard.
   what_they_do text,
   logo_url text,
+  -- Light/dark logo variants + a background hint, so a logo doesn't
+  -- disappear against whatever section background it lands on. See
+  -- PartnerLogo. logo_background: null (default light card) or 'dark'.
+  logo_light_url text,
+  logo_dark_url text,
+  logo_background text check (logo_background is null or logo_background in ('light', 'dark')),
   website_url text,
   donation_url text,
   -- Trust signals — only ever populated once independently verified, and
@@ -434,6 +440,10 @@ alter table public.partners add column if not exists logo_permission boolean not
 alter table public.partners add column if not exists relationship_start date;
 alter table public.partners add column if not exists relationship_end date;
 alter table public.partners add column if not exists associated_campaigns text[];
+alter table public.partners add column if not exists logo_light_url text;
+alter table public.partners add column if not exists logo_dark_url text;
+alter table public.partners add column if not exists logo_background text
+  check (logo_background is null or logo_background in ('light', 'dark'));
 
 -- ---------------------------------------------------------------------------
 -- mission_partners
@@ -451,6 +461,9 @@ create table if not exists public.mission_partners (
   relationship_label text not null,
   description text not null,
   logo_url text,
+  logo_light_url text,
+  logo_dark_url text,
+  logo_background text check (logo_background is null or logo_background in ('light', 'dark')),
   website_url text,
   support_type text,
   geographic_scope text,
@@ -475,6 +488,10 @@ alter table public.mission_partners add column if not exists logo_permission boo
 alter table public.mission_partners add column if not exists relationship_start date;
 alter table public.mission_partners add column if not exists relationship_end date;
 alter table public.mission_partners add column if not exists associated_campaigns text[];
+alter table public.mission_partners add column if not exists logo_light_url text;
+alter table public.mission_partners add column if not exists logo_dark_url text;
+alter table public.mission_partners add column if not exists logo_background text
+  check (logo_background is null or logo_background in ('light', 'dark'));
 
 -- ---------------------------------------------------------------------------
 -- inquiries

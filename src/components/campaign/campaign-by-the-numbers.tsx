@@ -1,20 +1,15 @@
 import { CURRENT_CAMPAIGN } from "@/lib/constants";
 
+/** 3 meaningful values, per AGENTS.md's Campaign Page spec — not a 5-stat row diluted with restatements of the same facts. */
 const STATS = [
-  { value: "70", label: "Fundraising Miles" },
+  { value: "70.3", label: "Race Miles" },
   { value: "$70K", label: "Goal" },
-  { value: "70.3", label: "Race Distance" },
-  { value: String(CURRENT_CAMPAIGN.beneficiaries.length), label: "Veteran Organizations" },
-  { value: "1", label: "Mission" },
+  { value: String(CURRENT_CAMPAIGN.beneficiaries.length), label: "Beneficiaries" },
 ] as const;
 
-/**
- * Reusable stat row. Extend `STATS` later with donors/sponsors/training
- * hours/days remaining once that data exists — see README Priority 14.
- */
 export function CampaignByTheNumbers() {
   return (
-    <dl className="grid grid-cols-2 gap-4 sm:grid-cols-5">
+    <dl className="grid grid-cols-3 gap-4">
       {STATS.map((stat) => (
         <div key={stat.label} className="rounded-sm border border-ink/10 bg-off-white p-5 text-center">
           <dt className="sr-only">{stat.label}</dt>

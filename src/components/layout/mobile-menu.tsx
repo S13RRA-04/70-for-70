@@ -6,10 +6,20 @@ import { createPortal } from "react-dom";
 import {
   CAMPAIGN_HOME_LINK,
   DONATE_LINK,
+  FUND_A_MILE_LINK,
   ORG_HOME_LINK,
 } from "@/lib/constants";
 import type { NavLink } from "@/types/content";
 import { cn } from "@/lib/utils";
+
+/** Campaign mobile menu groups — see AGENTS.md's "Mobile navigation" section. Explore omits Shop (grouped under Support instead). */
+const CAMPAIGN_EXPLORE_LINKS: NavLink[] = [
+  { label: "Campaign", href: "/the-mission" },
+  { label: "Race", href: "/the-race" },
+  { label: "Journal", href: "/journal" },
+  { label: "Partners", href: "/partners" },
+];
+const CAMPAIGN_SUPPORT_LINKS: NavLink[] = [FUND_A_MILE_LINK, DONATE_LINK, { label: "Shop", href: "/shop" }];
 
 interface MobileMenuProps {
   open: boolean;
@@ -94,61 +104,93 @@ export function MobileMenu({ open, onClose, navLinks, pathname, isCampaign, trig
         className="absolute inset-y-0 right-0 flex w-full max-w-sm flex-col overflow-y-auto bg-off-white shadow-xl"
       >
         <nav aria-label="Mobile" className="flex flex-1 flex-col px-4 py-4 sm:px-6">
-          <ul className="flex flex-col gap-1">
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className={cn(
-                    "block rounded-sm px-3 py-3 text-base font-medium uppercase tracking-wide text-charcoal hover:bg-sand-light",
-                    pathname === link.href && "text-bronze",
-                  )}
-                  aria-current={pathname === link.href ? "page" : undefined}
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-
           {isCampaign ? (
-            <ul className="mt-3 flex flex-col gap-2 border-t border-ink/10 pt-3">
-              <li>
-                <Link
-                  href={DONATE_LINK.href}
-                  className="block rounded-sm bg-bronze px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
-                >
-                  {DONATE_LINK.label}
-                </Link>
-              </li>
-              <li>
+            <>
+              <MobileNavGroup label="Explore" links={CAMPAIGN_EXPLORE_LINKS} pathname={pathname} />
+              <MobileNavGroup label="Support" links={CAMPAIGN_SUPPORT_LINKS} pathname={pathname} className="mt-5 border-t border-ink/10 pt-5" />
+              <div className="mt-5 border-t border-ink/10 pt-5">
+                <p className="px-3 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                  Parent Initiative
+                </p>
                 <a
                   href={ORG_HOME_LINK.href}
-                  className="block rounded-sm px-3 py-3 text-center text-xs font-semibold uppercase tracking-wide text-charcoal-light hover:text-ink"
+                  className="mt-2 block rounded-sm px-3 py-3 text-base font-medium uppercase tracking-wide text-charcoal hover:bg-sand-light"
                 >
-                  &larr; {ORG_HOME_LINK.label}
+                  {ORG_HOME_LINK.label} <span aria-hidden="true">&#8599;</span>
                 </a>
-              </li>
-            </ul>
+              </div>
+            </>
           ) : (
-            <div className="mt-auto border-t border-ink/10 pt-3">
-              <Link
-                href="/crisis"
-                className="block rounded-sm bg-anchor px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-off-white hover:bg-anchor-light"
-              >
-                Need Help Now
-              </Link>
-              <a
-                href={CAMPAIGN_HOME_LINK.href}
-                className="mt-2 block rounded-sm px-3 py-3 text-center text-xs font-semibold uppercase tracking-wide text-charcoal-light hover:text-ink"
-              >
-                {CAMPAIGN_HOME_LINK.label} <span aria-hidden="true">&#8599;</span>
-              </a>
-            </div>
+            <>
+              <ul className="flex flex-col gap-1">
+                {navLinks.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className={cn(
+                        "block rounded-sm px-3 py-3 text-base font-medium uppercase tracking-wide text-charcoal hover:bg-sand-light",
+                        pathname === link.href && "text-bronze",
+                      )}
+                      aria-current={pathname === link.href ? "page" : undefined}
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-auto border-t border-ink/10 pt-3">
+                <Link
+                  href="/crisis"
+                  className="block rounded-sm bg-anchor px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-off-white hover:bg-anchor-light"
+                >
+                  Need Help Now
+                </Link>
+                <a
+                  href={CAMPAIGN_HOME_LINK.href}
+                  className="mt-2 block rounded-sm px-3 py-3 text-center text-xs font-semibold uppercase tracking-wide text-charcoal-light hover:text-ink"
+                >
+                  {CAMPAIGN_HOME_LINK.label} <span aria-hidden="true">&#8599;</span>
+                </a>
+              </div>
+            </>
           )}
         </nav>
       </div>
     </div>,
     document.body,
+  );
+}
+
+function MobileNavGroup({
+  label,
+  links,
+  pathname,
+  className,
+}: {
+  label: string;
+  links: NavLink[];
+  pathname: string;
+  className?: string;
+}) {
+  return (
+    <div className={className}>
+      <p className="px-3 text-xs font-semibold uppercase tracking-widest text-charcoal-light">{label}</p>
+      <ul className="mt-2 flex flex-col gap-1">
+        {links.map((link) => (
+          <li key={link.href}>
+            <Link
+              href={link.href}
+              className={cn(
+                "block rounded-sm px-3 py-3 text-base font-medium uppercase tracking-wide text-charcoal hover:bg-sand-light",
+                pathname === link.href && "text-bronze",
+              )}
+              aria-current={pathname === link.href ? "page" : undefined}
+            >
+              {link.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

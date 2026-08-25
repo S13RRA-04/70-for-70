@@ -235,6 +235,9 @@ export interface JournalEntryWithMentions extends JournalEntryRow {
   beneficiaryMentions: PartnerRow[];
 }
 
+/** Which container a logo renders in — see PartnerLogo. 'dark' pairs with logo_light_url. */
+export type LogoBackground = "light" | "dark";
+
 export interface PartnerRow {
   id: string;
   name: string;
@@ -243,6 +246,11 @@ export interface PartnerRow {
   /** "What They Do" — the org's own approved description. Hidden until set. */
   what_they_do: string | null;
   logo_url: string | null;
+  /** Variant for a light-background card — falls back to logo_url. */
+  logo_light_url: string | null;
+  /** Variant for a dark-background card — falls back to logo_url. */
+  logo_dark_url: string | null;
+  logo_background: LogoBackground | null;
   website_url: string | null;
   donation_url: string | null;
   /** Trust signals — only set once independently verified; hidden until then. */
@@ -283,6 +291,11 @@ export interface MissionPartnerRow {
   relationship_label: string;
   description: string;
   logo_url: string | null;
+  /** Variant for a light-background card — falls back to logo_url. */
+  logo_light_url: string | null;
+  /** Variant for a dark-background card — falls back to logo_url. */
+  logo_dark_url: string | null;
+  logo_background: LogoBackground | null;
   website_url: string | null;
   /** e.g. "Adaptive Athletics", "Athlete Referrals". */
   support_type: string | null;

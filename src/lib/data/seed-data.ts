@@ -58,6 +58,9 @@ export const SEED_PARTNERS: PartnerRow[] = [
       "The Mighty Oaks Warrior Program works with veterans through a lens centered on faith, responsibility, and purpose — helping veterans and their families move forward after difficult experiences. That's why Mighty Oaks is part of Tri For The 22.",
     what_they_do: null, // Awaiting the organization's own approved description — hidden until supplied, not shown as a placeholder.
     logo_url: "/partners/mighty-oaks-logo.png",
+    logo_light_url: null,
+    logo_dark_url: null,
+    logo_background: null,
     website_url: "https://www.mightyoaksprograms.org/",
     donation_url:
       "https://my.onecause.com/fundraiser/organizations/90be7c03-c221-49a6-ba58-5993b28179c3/fundraisers/fundraiser:25d33d01-f349-491f-ab63-f283ebab0a33/personalfundraisers/personalfund:93a8c5a5-7777-4ca2-bcb6-6333dc8a1cf8",
@@ -77,6 +80,9 @@ export const SEED_PARTNERS: PartnerRow[] = [
       "Project Echelon uses endurance sport, mentorship, structure, and community to help veterans keep moving forward after military service — putting veterans back into an environment with a mission, a team, and a reason to keep showing up.",
     what_they_do: null, // Awaiting the organization's own approved description — hidden until supplied, not shown as a placeholder.
     logo_url: "/partners/project-echelon-logo.png",
+    logo_light_url: null,
+    logo_dark_url: null,
+    logo_background: null,
     website_url: "https://www.projectechelon.org/",
     donation_url: null,
     ein: null,
@@ -95,6 +101,9 @@ export const SEED_PARTNERS: PartnerRow[] = [
       "Veterans and Athletes United uses adaptive sports, outdoor recreation, and community to help wounded, injured, and ill veterans rebuild strength and purpose — reaching veterans who need exactly the kind of mission, movement, and community this campaign is built around.",
     what_they_do: null, // Awaiting the organization's own approved description — hidden until supplied, not shown as a placeholder.
     logo_url: "/partners/vau-logo.png",
+    logo_light_url: "/partners/vau-logo-white.png",
+    logo_dark_url: "/partners/vau-logo.png",
+    logo_background: null,
     website_url: "https://www.vetsau.org/",
     donation_url: "https://www.paypal.com/donate/?hosted_button_id=2YL6S962W4QGY",
     ein: "46-1844248",

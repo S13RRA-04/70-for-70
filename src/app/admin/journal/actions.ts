@@ -109,6 +109,12 @@ export async function saveJournalEntryAction(formData: FormData) {
 
   const status = intent === "draft" ? "draft" : intent === "schedule" ? "scheduled" : "published";
 
+  // A title/stats/image alone isn't a journal entry — see AGENTS.md's
+  // Journal spec. Draft freely; publishing or scheduling requires a body.
+  if (status !== "draft" && str(formData, "body").trim().length === 0) {
+    throw new Error("Add a body before publishing or scheduling this entry — save it as a draft instead.");
+  }
+
   // Preserve the original publish date on edits — only stamp it the first
   // time an entry becomes published. See supabase/schema.sql's comment on
   // journal_entries.published_at.

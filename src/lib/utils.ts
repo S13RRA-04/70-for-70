@@ -49,16 +49,22 @@ export function weeksBetween(fromIso: string, toIso: string): number {
   return Math.max(Math.floor(ms / (1000 * 60 * 60 * 24 * 7)), 0);
 }
 
+/**
+ * Public status taxonomy is Available / In Progress / Funded / Reserved —
+ * "Requested" has no supporter-facing meaning distinct from "Reserved" (both
+ * mean a sponsorship proposal is under review, not yet confirmed), so it
+ * stays internal and folds into "Reserved" here. See MileStatusLegend.
+ */
 export function mileStatusLabel(status: MileStatus) {
   switch (status) {
     case "available":
       return "Available";
     case "requested":
-      return "Sponsorship Pending";
+      return "Reserved";
     case "reserved":
-      return "Sponsorship Pending";
+      return "Reserved";
     case "partially_funded":
-      return "Partially Funded";
+      return "In Progress";
     case "funded":
       return "Funded";
   }

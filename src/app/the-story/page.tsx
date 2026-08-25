@@ -94,7 +94,7 @@ export default function TheStoryPage() {
         description="Fund a mile or support a beneficiary organization directly."
         buttons={[
           { label: "Fund a Mile", href: "/fund-a-mile" },
-          { label: "Meet the Beneficiaries", href: "/beneficiaries", variant: "secondary" },
+          { label: "Meet the Beneficiaries", href: "/partners#beneficiaries", variant: "secondary" },
         ]}
       />
     </>

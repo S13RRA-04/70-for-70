@@ -4,17 +4,14 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { FilterChip } from "@/components/shared/filter-chip";
 import type { JournalPrimaryCategory } from "@/types/database";
 
-const CATEGORIES: JournalPrimaryCategory[] = [
-  "Training",
-  "Fundraising",
-  "Mighty Oaks",
-  "Sponsors",
-  "Race Prep",
-  "Milestones",
-];
-
-/** Category pills for /journal, driven by a `?category=` query param — no free-text search (out of scope until post volume justifies it). */
-export function JournalFilterRow() {
+/**
+ * Category pills for /journal, driven by a `?category=` query param — no
+ * free-text search (out of scope until post volume justifies it). The
+ * caller passes only categories that actually have published entries (see
+ * /journal, which also hides this component entirely below a minimum post
+ * count) rather than hard-coding the full category list here.
+ */
+export function JournalFilterRow({ categories }: { categories: JournalPrimaryCategory[] }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const active = searchParams.get("category") ?? "All";
@@ -31,7 +28,7 @@ export function JournalFilterRow() {
   return (
     <div className="flex flex-wrap gap-2">
       <FilterChip label="All" active={active === "All"} onClick={() => setCategory("All")} />
-      {CATEGORIES.map((category) => (
+      {categories.map((category) => (
         <FilterChip key={category} label={category} active={active === category} onClick={() => setCategory(category)} />
       ))}
     </div>

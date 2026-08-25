@@ -3,10 +3,8 @@ import Image from "next/image";
 import {
   CAMPAIGN_HOME_LINK,
   CAMPAIGN_NAME,
-  CAMPAIGN_NAV_LINKS,
   CONTACT_EMAIL,
   ORG_HOME_LINK,
-  ORG_NAV_LINKS,
   ORG_TAGLINE,
   PERSONAL_PROJECT_DISCLOSURE,
   SITE_NAME,
@@ -15,13 +13,15 @@ import {
 import { Container } from "@/components/shared/container";
 import { SocialLinks } from "@/components/shared/social-links";
 import type { SiteMode } from "@/lib/site-mode";
+import { isRaceDayModeEnabled } from "@/lib/race-day-mode";
 
 export function Footer({ mode }: { mode: SiteMode }) {
   const isCampaign = mode === "campaign";
-  const navLinks = isCampaign ? CAMPAIGN_NAV_LINKS : ORG_NAV_LINKS;
   // Legal pages live on the org domain only — link there directly instead
   // of relying on the campaign-host redirect for every click.
   const legalBase = isCampaign ? SITE_URL : "";
+
+  const raceDayLive = isRaceDayModeEnabled();
 
   return (
     <footer className="relative overflow-hidden border-t border-off-white/10 bg-ink text-off-white">
@@ -31,7 +31,7 @@ export function Footer({ mode }: { mode: SiteMode }) {
         aria-hidden="true"
       />
       <Container
-        className={`relative grid gap-10 py-14 sm:grid-cols-2 ${isCampaign ? "lg:grid-cols-4" : "lg:grid-cols-3 xl:grid-cols-6"}`}
+        className={`relative grid gap-10 py-14 sm:grid-cols-2 ${isCampaign ? "lg:grid-cols-6" : "lg:grid-cols-3 xl:grid-cols-6"}`}
       >
         <div className={isCampaign ? "sm:col-span-2 lg:col-span-2" : "sm:col-span-2 lg:col-span-1"}>
           <div className="flex items-center gap-2.5">
@@ -48,64 +48,109 @@ export function Footer({ mode }: { mode: SiteMode }) {
             </p>
           </div>
           {isCampaign ? (
-            <>
-              <p className="mt-3 max-w-sm text-sm text-off-white/70">
-                The current campaign under {SITE_NAME}.
-              </p>
-              <a
-                href={ORG_HOME_LINK.href}
-                className="mt-1 inline-block max-w-sm text-xs font-semibold uppercase tracking-wide text-bronze-light hover:underline"
-              >
-                &larr; {ORG_HOME_LINK.label}
-              </a>
-            </>
+            <p className="mt-3 max-w-sm text-sm text-off-white/70">
+              The current campaign under {SITE_NAME}.
+            </p>
           ) : (
             <p className="mt-3 max-w-sm text-sm text-off-white/70">{ORG_TAGLINE}</p>
           )}
+          {isCampaign && <SocialLinks className="mt-4" />}
         </div>
 
         {isCampaign ? (
           <>
             <div>
               <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
-                Navigate
+                Campaign
               </p>
-              <ul className="mt-4 space-y-2">
-                {navLinks.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="text-sm text-off-white/70 transition-colors hover:text-off-white"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
+              <ul className="mt-4 space-y-2 text-sm text-off-white/70">
+                <li>
+                  <Link href="/the-mission" className="transition-colors hover:text-off-white">
+                    Campaign
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/the-race" className="transition-colors hover:text-off-white">
+                    Race
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/journal" className="transition-colors hover:text-off-white">
+                    Journal
+                  </Link>
+                </li>
               </ul>
             </div>
 
             <div>
               <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
-                Connect
+                Support
               </p>
               <ul className="mt-4 space-y-2 text-sm text-off-white/70">
+                <li>
+                  <Link href="/fund-a-mile" className="transition-colors hover:text-off-white">
+                    Fund a Mile
+                  </Link>
+                </li>
                 <li>
                   <Link href="/donate" className="transition-colors hover:text-off-white">
                     Donate Directly
                   </Link>
                 </li>
                 <li>
-                  <Link href="/financial-transparency" className="transition-colors hover:text-off-white">
-                    How Donations Work
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/live" className="transition-colors hover:text-off-white">
-                    Race Day Live
+                  <Link href="/shop" className="transition-colors hover:text-off-white">
+                    Shop
                   </Link>
                 </li>
               </ul>
-              <SocialLinks className="mt-4" />
+            </div>
+
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
+                Organization
+              </p>
+              <ul className="mt-4 space-y-2 text-sm text-off-white/70">
+                <li>
+                  <Link href="/partners" className="transition-colors hover:text-off-white">
+                    Partners
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/financial-transparency" className="transition-colors hover:text-off-white">
+                    Financial Transparency
+                  </Link>
+                </li>
+                <li>
+                  <a href={`${legalBase}/privacy`} className="transition-colors hover:text-off-white">
+                    Privacy
+                  </a>
+                </li>
+                <li>
+                  <a href={`${legalBase}/terms`} className="transition-colors hover:text-off-white">
+                    Terms
+                  </a>
+                </li>
+                {raceDayLive && (
+                  <li>
+                    <Link href="/live" className="transition-colors hover:text-off-white">
+                      Race Day Live
+                    </Link>
+                  </li>
+                )}
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
+                Parent Initiative
+              </p>
+              <ul className="mt-4 space-y-2 text-sm text-off-white/70">
+                <li>
+                  <a href={ORG_HOME_LINK.href} className="transition-colors hover:text-off-white">
+                    {ORG_HOME_LINK.label} <span aria-hidden="true">&#8599;</span>
+                  </a>
+                </li>
+              </ul>
             </div>
           </>
         ) : (
@@ -220,7 +265,20 @@ export function Footer({ mode }: { mode: SiteMode }) {
 
       <div className="relative border-t border-off-white/10 py-5">
         <Container>
-          <p className="max-w-3xl text-xs text-off-white/60">{PERSONAL_PROJECT_DISCLOSURE}</p>
+          {isCampaign ? (
+            <p className="max-w-3xl text-xs text-off-white/60">
+              Personal, off-duty project. No employer or government affiliation.{" "}
+              <a
+                href="/campaign-terms#trademarks-and-endorsement"
+                className="underline-offset-2 hover:text-off-white/80 hover:underline"
+              >
+                Full legal disclosure
+              </a>
+              .
+            </p>
+          ) : (
+            <p className="max-w-3xl text-xs text-off-white/60">{PERSONAL_PROJECT_DISCLOSURE}</p>
+          )}
         </Container>
       </div>
 

@@ -44,7 +44,7 @@ export const MOVEMENT_TIMELINE = [
     label: "First 100-kilometer ultramarathon",
     image: { src: "/about/ultra-2.jpg", alt: "Cody racing solo on a wooded trail during an ultramarathon" },
   },
-  { year: "2027", label: "IRONMAN 70.3 Chattanooga (goal)" },
+  { year: "2027", label: "IRONMAN 70.3 Chattanooga — May 16, Chattanooga, TN" },
 ] as const;
 
 export const BENEFICIARY_EXPLANATION =

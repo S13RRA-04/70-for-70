@@ -48,7 +48,7 @@ export function MileDetailModal({
         if (e.target === dialogRef.current) onClose();
       }}
       aria-labelledby="mile-detail-heading"
-      className="w-[min(32rem,calc(100vw-2rem))] rounded-sm border border-ink/10 bg-off-white p-0 text-ink shadow-xl backdrop:bg-ink/60"
+      className="fixed inset-x-0 bottom-0 top-auto m-0 max-h-[85vh] w-full max-w-none overflow-y-auto rounded-t-lg border-t border-ink/10 bg-off-white p-0 text-ink shadow-xl backdrop:bg-ink/60 sm:inset-0 sm:m-auto sm:max-h-[calc(100vh-4rem)] sm:w-[min(32rem,calc(100vw-2rem))] sm:max-w-[32rem] sm:rounded-sm sm:border"
     >
       {mile && (
         <div className="p-6">

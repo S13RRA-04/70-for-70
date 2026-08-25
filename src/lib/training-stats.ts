@@ -1,5 +1,41 @@
 import { weeksBetween } from "@/lib/utils";
 import { RACE_INFO } from "@/lib/constants";
+import type { TrainingDiscipline } from "@/types/database";
+import type { WhoopWorkoutSummary } from "@/types/whoop";
+
+/**
+ * Classifies a WHOOP sport_name (e.g. "swimming", "cycling", "running",
+ * "yard-work", "walking") into a race discipline, or null for anything
+ * that isn't swim/bike/run — used to keep low-signal activities (dog
+ * walks, yard work, generic "Other" sessions) out of curated race-focused
+ * summaries (homepage "Road to Chattanooga", /the-race's recent activity)
+ * without hiding them from the full WHOOP dashboard, which still shows
+ * every workout unfiltered.
+ */
+export function classifyTrainingDiscipline(sportName: string): TrainingDiscipline | null {
+  const s = sportName.toLowerCase();
+  if (s.includes("swim")) return "swim";
+  if (s.includes("cycl") || s.includes("bik")) return "bike";
+  if (s.includes("run")) return "run";
+  return null;
+}
+
+/** Most recent swim/bike/run workout per discipline, newest first within each — everything else (walks, yard work, etc.) excluded. */
+export function getRecentDisciplineWorkouts(
+  workouts: WhoopWorkoutSummary[],
+): { discipline: TrainingDiscipline; workout: WhoopWorkoutSummary }[] {
+  const seen = new Set<TrainingDiscipline>();
+  const result: { discipline: TrainingDiscipline; workout: WhoopWorkoutSummary }[] = [];
+
+  for (const workout of workouts) {
+    const discipline = classifyTrainingDiscipline(workout.sportName);
+    if (!discipline || seen.has(discipline)) continue;
+    seen.add(discipline);
+    result.push({ discipline, workout });
+  }
+
+  return result;
+}
 
 /**
  * Provider-neutral training volume for the Race page's "The Work" section

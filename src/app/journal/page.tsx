@@ -6,13 +6,15 @@ import { JournalCard } from "@/components/journal/journal-card";
 import { JournalFilterRow } from "@/components/journal/journal-filter-row";
 import { EmptyState } from "@/components/shared/empty-state";
 import { EmailSignupForm } from "@/components/forms/email-signup-form";
-import { TrainingSnapshot } from "@/components/training/training-snapshot";
-import { TrainingObjectivesChecklist } from "@/components/training/training-objectives-checklist";
 import { getTrainingSnapshot } from "@/lib/whoop/client";
-import { getTrainingObjectives } from "@/lib/data/training-objectives";
+import { getRecentDisciplineWorkouts } from "@/lib/training-stats";
+import { formatDateLong } from "@/lib/utils";
 import { CAMPAIGN_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import type { JournalPrimaryCategory } from "@/types/database";
+
+/** Filtering only earns its keep once there's enough volume to actually sort through — see AGENTS.md's Journal spec. */
+const MIN_ENTRIES_FOR_FILTERS = 6;
 
 export const metadata = pageMetadata({
   title: "The Journal",
@@ -37,17 +39,21 @@ export default async function JournalPage(props: PageProps<"/journal">) {
       ? (categoryParam as JournalPrimaryCategory)
       : "All";
 
-  const [allEntries, trainingSnapshot, trainingObjectives] = await Promise.all([
-    getJournalEntries(),
-    getTrainingSnapshot(),
-    getTrainingObjectives(),
-  ]);
+  const [allEntries, trainingSnapshot] = await Promise.all([getJournalEntries(), getTrainingSnapshot()]);
+  const recentDisciplineWorkouts = trainingSnapshot ? getRecentDisciplineWorkouts(trainingSnapshot.recentWorkouts) : [];
 
   const entries =
     activeCategory === "All" ? allEntries : await getJournalEntriesByCategory(activeCategory);
 
   const featured = activeCategory === "All" ? (entries.find((e) => e.featured) ?? entries[0] ?? null) : null;
   const rest = featured ? entries.filter((e) => e.id !== featured.id) : entries;
+
+  // Only categories that actually have published entries — an empty
+  // filter pill that returns nothing is worse than not showing it.
+  const categoriesWithEntries = VALID_CATEGORIES.filter((category) =>
+    allEntries.some((e) => e.primary_category === category),
+  );
+  const showFilters = allEntries.length >= MIN_ENTRIES_FOR_FILTERS && categoriesWithEntries.length > 1;
 
   return (
     <>
@@ -61,34 +67,12 @@ export default async function JournalPage(props: PageProps<"/journal">) {
         />
       </CampaignPageHero>
 
-      {trainingSnapshot && (
-        <section className="border-b border-ink/10 py-16 sm:py-20">
-          <Container>
-            <SectionHeading eyebrow="Live" title="Latest Training" />
-            <div className="mt-6">
-              <TrainingSnapshot snapshot={trainingSnapshot} />
-            </div>
-          </Container>
-        </section>
-      )}
-
-      {trainingObjectives.length > 0 && (
-        <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
-          <Container>
-            <SectionHeading eyebrow="The Road to Chattanooga" title="Training Objectives" />
-            <div className="mt-6">
-              <TrainingObjectivesChecklist objectives={trainingObjectives} />
-            </div>
-          </Container>
-        </section>
-      )}
-
       <section className="py-16 sm:py-20">
         <Container>
-          <JournalFilterRow />
+          {showFilters && <JournalFilterRow categories={categoriesWithEntries} />}
 
           {entries.length === 0 ? (
-            <div className="mt-8">
+            <div className={showFilters ? "mt-8" : undefined}>
               <EmptyState
                 title="Journal entries are on the way."
                 description="Entries will start appearing here as training and fundraising milestones happen."
@@ -98,7 +82,7 @@ export default async function JournalPage(props: PageProps<"/journal">) {
           ) : (
             <>
               {featured && (
-                <div className="mt-8">
+                <div className={showFilters ? "mt-8" : undefined}>
                   <JournalCard entry={featured} featured />
                 </div>
               )}
@@ -121,6 +105,33 @@ export default async function JournalPage(props: PageProps<"/journal">) {
           </div>
         </Container>
       </section>
+
+      {recentDisciplineWorkouts.length > 0 && (
+        <section className="border-t border-ink/10 bg-sand-light py-16 sm:py-20">
+          <Container>
+            <SectionHeading eyebrow="Snapshot" title="Latest Training" />
+            <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
+              The full training dashboard lives on{" "}
+              <a href="/the-race" className="text-bronze hover:underline">
+                The Race
+              </a>
+              .
+            </p>
+            <div className="mt-6 grid gap-3 sm:grid-cols-3">
+              {recentDisciplineWorkouts.map(({ discipline, workout }) => (
+                <div key={workout.id} className="rounded-sm border border-ink/10 bg-off-white p-4">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-bronze">
+                    {discipline === "swim" && "Swim"}
+                    {discipline === "bike" && "Bike"}
+                    {discipline === "run" && "Run"}
+                  </p>
+                  <p className="mt-1 text-sm text-charcoal-light">{formatDateLong(workout.start)}</p>
+                </div>
+              ))}
+            </div>
+          </Container>
+        </section>
+      )}
     </>
   );
 }

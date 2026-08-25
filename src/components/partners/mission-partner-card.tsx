@@ -1,24 +1,19 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
+import { PartnerLogo } from "@/components/shared/partner-logo";
 import type { MissionPartnerRow } from "@/types/database";
 
 export function MissionPartnerCard({ partner }: { partner: MissionPartnerRow }) {
   return (
     <div className="flex flex-col rounded-sm border border-ink/10 bg-off-white p-6">
-      {partner.logo_url ? (
-        <Image
-          src={partner.logo_url}
-          alt={`${partner.name} logo`}
-          width={160}
-          height={64}
-          className="h-12 w-auto object-contain"
-        />
-      ) : (
-        <div className="flex h-12 items-center text-sm font-semibold uppercase tracking-wide text-ink">
-          {partner.name}
-        </div>
-      )}
+      <PartnerLogo
+        name={partner.name}
+        logoUrl={partner.logo_url}
+        logoLightUrl={partner.logo_light_url}
+        logoDarkUrl={partner.logo_dark_url}
+        background={partner.logo_background}
+        className="h-16 w-fit"
+      />
 
       <h3 className="mt-4 font-display text-xl font-semibold uppercase tracking-wide text-ink">
         {partner.name}

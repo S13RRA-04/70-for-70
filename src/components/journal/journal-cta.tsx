@@ -1,19 +1,15 @@
 import Link from "next/link";
+import { DONATE_LINK } from "@/lib/constants";
 import type { JournalPrimaryCategory } from "@/types/database";
 
-/**
- * Context-aware end-of-post CTA, keyed by primary_category — not the same
- * link on every entry. /partners and /sponsors both just redirect to
- * /beneficiaries (see src/app/partners/page.tsx), so partner/sponsor
- * mentions link there directly rather than through the redirect.
- */
+/** Context-aware end-of-post CTA, keyed by primary_category — not the same link on every entry. */
 const CTA_BY_CATEGORY: Record<JournalPrimaryCategory, { label: string; href: string }> = {
   Training: { label: "Follow the Road to Chattanooga", href: "/journal" },
   "Race Prep": { label: "Follow the Road to Chattanooga", href: "/journal" },
-  Fundraising: { label: "Support the Mission", href: "/donate" },
-  Milestones: { label: "Support the Mission", href: "/donate" },
-  Sponsors: { label: "Meet Our Partners", href: "/beneficiaries" },
-  "Mighty Oaks": { label: "Meet Our Partners", href: "/beneficiaries" },
+  Fundraising: { label: DONATE_LINK.label, href: DONATE_LINK.href },
+  Milestones: { label: DONATE_LINK.label, href: DONATE_LINK.href },
+  Sponsors: { label: "Meet Our Partners", href: "/partners#beneficiaries" },
+  "Mighty Oaks": { label: "Meet Our Partners", href: "/partners#beneficiaries" },
 };
 
 export function JournalCta({ category }: { category: JournalPrimaryCategory }) {

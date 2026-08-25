@@ -7,6 +7,7 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { EmptyState } from "@/components/shared/empty-state";
 import { CTASection } from "@/components/shared/cta-section";
 import { TrainingSnapshot } from "@/components/training/training-snapshot";
+import { Countdown } from "@/components/shared/countdown";
 import {
   formatCurrency,
   formatDateLong,
@@ -14,8 +15,9 @@ import {
   milesFunded,
   percentFunded,
 } from "@/lib/utils";
-import { CAMPAIGN_URL } from "@/lib/constants";
+import { CAMPAIGN_URL, DONATE_LINK, RACE_INFO } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
+import { isRaceDayModeEnabled } from "@/lib/race-day-mode";
 
 export const metadata = pageMetadata({
   title: "Race Day Live",
@@ -30,7 +32,39 @@ const DISCIPLINE_LABEL: Record<"swim" | "bike" | "run" | "finished", string> = {
   finished: "finished",
 };
 
+/** Shown until RACE_DAY_MODE is turned on — see isRaceDayModeEnabled(). No live dashboard, map, or splits before then; just the confirmed date and a countdown back to /the-race. */
+function RaceDayNotActivated() {
+  return (
+    <section className="border-b border-ink/10 bg-ink py-16 text-off-white sm:py-24">
+      <Container className="max-w-xl">
+        <p className="text-sm font-semibold uppercase tracking-[0.3em] text-bronze-light">Race Day</p>
+        <h1 className="mt-4 text-balance font-display text-4xl font-bold uppercase tracking-tight sm:text-5xl">
+          Race Day Live Isn&apos;t Active Yet
+        </h1>
+        <p className="mt-3 text-base text-off-white/75">
+          Live race-day tracking turns on during race week. Until then, here&apos;s the countdown.
+        </p>
+        {RACE_INFO.raceDate && (
+          <div className="mt-8">
+            <Countdown targetIso={RACE_INFO.raceDate} />
+          </div>
+        )}
+        <a
+          href="/the-race"
+          className="mt-8 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze-light hover:underline"
+        >
+          &larr; Back to The Race
+        </a>
+      </Container>
+    </section>
+  );
+}
+
 export default async function LivePage() {
+  if (!isRaceDayModeEnabled()) {
+    return <RaceDayNotActivated />;
+  }
+
   const [campaign, status, recentDonations, trainingSnapshot] = await Promise.all([
     getCampaign(),
     getRaceDayStatus(),
@@ -152,7 +186,7 @@ export default async function LivePage() {
       <CTASection
         title="Help Get Tri For The 22 Across the Finish Line"
         description="Every mile funded on race day is a mile that mattered beyond the course."
-        buttons={[{ label: "Donate", href: "/donate" }]}
+        buttons={[{ label: DONATE_LINK.label, href: DONATE_LINK.href }]}
       />
     </>
   );

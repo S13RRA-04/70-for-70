@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { ExternalLink } from "lucide-react";
 import { Container } from "@/components/shared/container";
 import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
@@ -6,13 +7,17 @@ import { CTASection } from "@/components/shared/cta-section";
 import { RaceDashboard } from "@/components/campaign/race-dashboard";
 import { TrainingTimeline } from "@/components/campaign/training-timeline";
 import { CampaignPhaseBanner } from "@/components/campaign/campaign-phase-banner";
-import { MobileActionBar } from "@/components/shared/mobile-action-bar";
-import { getTrainingStats } from "@/lib/training-stats";
+import { TrainingSnapshot } from "@/components/training/training-snapshot";
+import { TrainingObjectivesChecklist } from "@/components/training/training-objectives-checklist";
+import { getTrainingStats, getRecentDisciplineWorkouts } from "@/lib/training-stats";
 import { getJournalEntries } from "@/lib/data/journal";
+import { getTrainingObjectives } from "@/lib/data/training-objectives";
+import { getTrainingSnapshot } from "@/lib/whoop/client";
 import { formatDateLong } from "@/lib/utils";
 import { getCampaignPhase } from "@/lib/campaign-phase";
-import { CAMPAIGN_URL, DONATE_LINK, RACE_INFO } from "@/lib/constants";
+import { CAMPAIGN_URL, RACE_INFO } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
+import { isRaceDayModeEnabled } from "@/lib/race-day-mode";
 
 function getCurrentTrainingPhaseIndex(): number | undefined {
   const { trainingStartDate, raceDate } = RACE_INFO;
@@ -35,9 +40,21 @@ export const metadata = pageMetadata({
 });
 
 export default async function RacePage() {
-  const [entries, trainingStats] = await Promise.all([getJournalEntries(), getTrainingStats()]);
-  const milestoneEntries = entries.filter((e) => e.primary_category === "Milestones");
+  const [entries, trainingStats, trainingObjectives, trainingSnapshot] = await Promise.all([
+    getJournalEntries(),
+    getTrainingStats(),
+    getTrainingObjectives(),
+    getTrainingSnapshot(),
+  ]);
+  // "Next three verified milestones" — the 3 most recent published
+  // milestone entries (getJournalEntries() already sorts newest-first), not
+  // fabricated upcoming goals.
+  const milestoneEntries = entries
+    .filter((e) => e.primary_category === "Milestones")
+    .slice(0, 3);
+  const recentDisciplineWorkouts = trainingSnapshot ? getRecentDisciplineWorkouts(trainingSnapshot.recentWorkouts) : [];
   const phase = getCampaignPhase();
+  const showRaceDayLive = phase !== "active" && isRaceDayModeEnabled();
 
   const hasTrainingVolume =
     trainingStats.swimSessions !== null ||
@@ -50,14 +67,26 @@ export default async function RacePage() {
   return (
     <>
       <CampaignPageHero containerClassName="flex flex-col-reverse items-center gap-10 sm:flex-row sm:justify-between">
-        <SectionHeading
-          as="h1"
-          tone="dark"
-          className="flex-1"
-          eyebrow="The Race"
-          title="70.3-Mile Triathlon"
-          description="A swim, bike, and run event completed as the physical anchor of the Tri For The 22 campaign. Targeting IRONMAN 70.3 Chattanooga in 2027 — exact race date to be confirmed once IRONMAN publishes it."
-        />
+        <div className="flex-1">
+          <SectionHeading
+            as="h1"
+            tone="dark"
+            eyebrow="The Race"
+            title="70.3-Mile Triathlon"
+            description="A swim, bike, and run event completed as the physical anchor of the Tri For The 22 campaign. IRONMAN 70.3 Chattanooga — May 16, 2027, in Chattanooga, Tennessee."
+          />
+          {RACE_INFO.registrationUrl && (
+            <a
+              href={RACE_INFO.registrationUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 inline-flex items-center gap-1.5 rounded-sm bg-bronze px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light"
+            >
+              Register for the Race
+              <ExternalLink size={14} aria-hidden />
+            </a>
+          )}
+        </div>
         <Image
           src="/campaign-logo.png"
           alt="Tri For The 22 campaign logo mark"
@@ -77,6 +106,46 @@ export default async function RacePage() {
             <SectionHeading eyebrow="Training Arc" title="Base to Race" />
             <div className="mt-6">
               <TrainingTimeline currentIndex={getCurrentTrainingPhaseIndex()} />
+            </div>
+          </div>
+
+          <div className="mt-16">
+            <SectionHeading eyebrow="Live" title="Latest Training" />
+            <div className="mt-6">
+              <TrainingSnapshot snapshot={trainingSnapshot} />
+            </div>
+          </div>
+
+          {recentDisciplineWorkouts.length > 0 && (
+            <div className="mt-16">
+              <SectionHeading eyebrow="By Discipline" title="Recent Swim, Bike &amp; Run" />
+              <div className="mt-6 grid gap-3 sm:grid-cols-3">
+                {recentDisciplineWorkouts.map(({ discipline, workout }) => (
+                  <div key={workout.id} className="rounded-sm border border-ink/10 bg-off-white p-4">
+                    <p className="text-xs font-semibold uppercase tracking-widest text-bronze">
+                      {discipline === "swim" && "Swim"}
+                      {discipline === "bike" && "Bike"}
+                      {discipline === "run" && "Run"}
+                    </p>
+                    <p className="mt-1 text-sm text-charcoal-light">{formatDateLong(workout.start)}</p>
+                    {workout.strain !== null && (
+                      <p className="mt-1 text-sm font-medium text-ink">Strain {workout.strain.toFixed(1)}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="mt-16">
+            <SectionHeading eyebrow="The Road to Chattanooga" title="Training Objectives" />
+            <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
+              Milestones specific to this campaign&apos;s build toward 70.3 — not a record of
+              lifetime athletic accomplishments. Nothing here is marked complete until it&apos;s
+              actually done.
+            </p>
+            <div className="mt-6">
+              <TrainingObjectivesChecklist objectives={trainingObjectives} />
             </div>
           </div>
 
@@ -169,23 +238,17 @@ export default async function RacePage() {
       </section>
 
       <CTASection
-        title={phase === "active" ? "Follow the Training" : "Follow Race Day"}
+        title={showRaceDayLive ? "Follow Race Day" : "Follow the Training"}
         description={
-          phase === "active"
-            ? "Race prep, training milestones, and fundraising updates are posted as the campaign progresses."
-            : "Live race-day status and fundraising progress, updated as the race happens."
+          showRaceDayLive
+            ? "Live race-day status and fundraising progress, updated as the race happens."
+            : "Race prep, training milestones, and fundraising updates are posted as the campaign progresses."
         }
         buttons={[
-          phase === "active"
-            ? { label: "View the Journal", href: "/journal" }
-            : { label: "Race Day Live", href: "/live" },
+          showRaceDayLive
+            ? { label: "Race Day Live", href: "/live" }
+            : { label: "View the Journal", href: "/journal" },
         ]}
-      />
-
-      <div className="h-16 sm:hidden" aria-hidden="true" />
-      <MobileActionBar
-        secondary={{ label: "Fund a Mile", href: "/fund-a-mile" }}
-        primary={{ label: DONATE_LINK.label, href: DONATE_LINK.href }}
       />
     </>
   );

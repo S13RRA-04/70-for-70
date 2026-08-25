@@ -17,7 +17,12 @@ import { formatDateLong } from "@/lib/utils";
 import { parseVideoUrl } from "@/lib/video-url";
 import { CAMPAIGN_NAME, CAMPAIGN_URL, SITE_NAME, SITE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
-import type { JournalEntryWithMentions } from "@/types/database";
+import type { JournalEntryWithMentions, JournalTrainingDiscipline, TrainingDiscipline } from "@/types/database";
+
+/** MediaPlaceholder only knows the 3 race disciplines — brick/strength/rest fall back to the generic mark. */
+function raceDiscipline(discipline: JournalTrainingDiscipline | null): TrainingDiscipline | null {
+  return discipline === "swim" || discipline === "bike" || discipline === "run" ? discipline : null;
+}
 
 export async function generateMetadata(props: PageProps<"/journal/[slug]">): Promise<Metadata> {
   const { slug } = await props.params;
@@ -128,7 +133,7 @@ export default async function JournalEntryPage(props: PageProps<"/journal/[slug]
                 className="object-cover"
               />
             ) : (
-              <MediaPlaceholder />
+              <MediaPlaceholder discipline={raceDiscipline(entry.training_discipline)} />
             )}
           </div>
         )}

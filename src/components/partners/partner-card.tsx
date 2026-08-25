@@ -1,7 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ExternalLink, ShieldCheck } from "lucide-react";
 import { ExternalDonateButton } from "@/components/shared/external-donate-button";
+import { PartnerLogo } from "@/components/shared/partner-logo";
 import type { PartnerRow } from "@/types/database";
 
 /**
@@ -15,20 +15,15 @@ export function PartnerCard({ partner }: { partner: PartnerRow }) {
 
   return (
     <div className="flex flex-col gap-6 rounded-sm border border-ink/10 bg-off-white p-6 sm:flex-row sm:p-8">
-      <div className="flex shrink-0 items-start sm:w-48">
-        {partner.logo_url ? (
-          <Image
-            src={partner.logo_url}
-            alt={`${partner.name} logo`}
-            width={192}
-            height={80}
-            className="h-16 w-auto max-w-full object-contain"
-          />
-        ) : (
-          <div className="flex h-16 items-center text-sm font-semibold uppercase tracking-wide text-ink">
-            {partner.name}
-          </div>
-        )}
+      <div className="shrink-0 sm:w-48">
+        <PartnerLogo
+          name={partner.name}
+          logoUrl={partner.logo_url}
+          logoLightUrl={partner.logo_light_url}
+          logoDarkUrl={partner.logo_dark_url}
+          background={partner.logo_background}
+          className="h-20"
+        />
       </div>
 
       <div className="flex flex-1 flex-col">
