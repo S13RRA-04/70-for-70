@@ -98,6 +98,7 @@ export const CAMPAIGN_NAV_LINKS: NavLink[] = [
   { label: "Fundraising", href: "/fund-a-mile" },
   { label: "Shop", href: "/shop" },
   { label: "Beneficiaries", href: "/beneficiaries" },
+  { label: "Supporters", href: "/campaign-supporters" },
   { label: "Journal", href: "/journal" },
 ];
 
