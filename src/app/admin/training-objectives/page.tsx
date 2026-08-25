@@ -1,34 +1,61 @@
 import Link from "next/link";
 import { requireAdminUser } from "@/lib/supabase/require-admin";
 import { Container } from "@/components/shared/container";
-import { getTrainingObjectives, groupByDiscipline } from "@/lib/data/training-objectives";
-import { DISCIPLINE_LABELS } from "@/components/training/training-objectives-checklist";
-import type { TrainingDiscipline, TrainingObjectiveRow } from "@/types/database";
+import { getTrainingObjectives, groupByCategory } from "@/lib/data/training-objectives";
+import { CATEGORY_LABELS } from "@/components/training/training-objectives-checklist";
+import type { TrainingObjectiveCategory, TrainingObjectiveRow, TrainingObjectiveStatus } from "@/types/database";
 import { saveObjectivesAction, addObjectiveAction, deleteObjectiveAction } from "./actions";
 
-const DISCIPLINES: TrainingDiscipline[] = ["swim", "bike", "run"];
+const CATEGORIES: TrainingObjectiveCategory[] = [
+  "swim",
+  "bike",
+  "run",
+  "brick",
+  "vo2max",
+  "strength",
+  "race_readiness",
+];
 
-function ObjectiveCheckbox({ objective }: { objective: TrainingObjectiveRow }) {
+const STATUS_OPTIONS: { value: TrainingObjectiveStatus; label: string }[] = [
+  { value: "not_started", label: "Not started" },
+  { value: "in_progress", label: "In progress" },
+  { value: "done", label: "Done" },
+  { value: "goal", label: "Goal (race day)" },
+];
+
+function ObjectiveRow({ objective }: { objective: TrainingObjectiveRow }) {
   return (
-    <label className="flex items-center gap-2 text-sm text-ink">
+    <div className="flex flex-wrap items-center gap-2 border-t border-ink/10 py-2 first:border-t-0 first:pt-0">
+      <span className="min-w-0 flex-1 text-sm text-ink">{objective.label}</span>
+      <select
+        name={`status-${objective.id}`}
+        defaultValue={objective.status}
+        className="rounded-sm border border-ink/20 bg-off-white px-2 py-1.5 text-xs text-ink"
+      >
+        {STATUS_OPTIONS.map((opt) => (
+          <option key={opt.value} value={opt.value}>
+            {opt.label}
+          </option>
+        ))}
+      </select>
       <input
-        type="checkbox"
-        name={objective.id}
-        defaultChecked={objective.completed}
-        className="h-4 w-4 accent-bronze"
+        name={`tag-${objective.id}`}
+        type="text"
+        defaultValue={objective.tag ?? ""}
+        placeholder="Tag (optional)"
+        className="w-36 rounded-sm border border-ink/20 bg-off-white px-2 py-1.5 text-xs text-ink"
       />
-      {objective.label}
-    </label>
+    </div>
   );
 }
 
 export default async function TrainingObjectivesAdminPage() {
   await requireAdminUser();
   const objectives = await getTrainingObjectives();
-  const grouped = groupByDiscipline(objectives);
+  const grouped = groupByCategory(objectives);
 
   return (
-    <Container className="max-w-3xl py-16">
+    <Container className="max-w-4xl py-16">
       <Link
         href="/admin"
         className="text-sm font-semibold uppercase tracking-wide text-charcoal-light hover:text-ink"
@@ -40,26 +67,26 @@ export default async function TrainingObjectivesAdminPage() {
         Training Objectives
       </h1>
       <p className="mt-1 text-sm text-charcoal-light">
-        Check off objectives as you hit them — this powers the public checklist on{" "}
-        <Link href="/journal" className="text-bronze hover:underline">
-          the Journal
+        Update status and tags as benchmarks are hit — this powers the public ladder on{" "}
+        <Link href="/the-race" className="text-bronze hover:underline">
+          The Race
         </Link>
         .
       </p>
 
       <form action={saveObjectivesAction} className="mt-8 rounded-sm border border-ink/10 bg-off-white p-6">
-        <div className="grid gap-8 sm:grid-cols-3">
-          {DISCIPLINES.map((discipline) => (
-            <div key={discipline}>
+        <div className="grid gap-8 sm:grid-cols-2">
+          {CATEGORIES.map((category) => (
+            <div key={category}>
               <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-                {DISCIPLINE_LABELS[discipline]}
+                {CATEGORY_LABELS[category]}
               </p>
-              <div className="mt-3 space-y-2.5">
-                {grouped[discipline].length === 0 ? (
+              <div className="mt-2">
+                {grouped[category].length === 0 ? (
                   <p className="text-xs text-charcoal-light/70">No objectives yet.</p>
                 ) : (
-                  grouped[discipline].map((objective) => (
-                    <ObjectiveCheckbox key={objective.id} objective={objective} />
+                  grouped[category].map((objective) => (
+                    <ObjectiveRow key={objective.id} objective={objective} />
                   ))
                 )}
               </div>
@@ -81,18 +108,18 @@ export default async function TrainingObjectivesAdminPage() {
         </h2>
         <form action={addObjectiveAction} className="mt-4 flex flex-wrap items-end gap-3">
           <div>
-            <label htmlFor="discipline" className="text-xs font-medium text-ink">
-              Discipline
+            <label htmlFor="category" className="text-xs font-medium text-ink">
+              Category
             </label>
             <select
-              id="discipline"
-              name="discipline"
+              id="category"
+              name="category"
               defaultValue="swim"
               className="mt-1.5 block rounded-sm border border-ink/20 bg-off-white px-3 py-2 text-sm text-ink"
             >
-              {DISCIPLINES.map((discipline) => (
-                <option key={discipline} value={discipline}>
-                  {DISCIPLINE_LABELS[discipline]}
+              {CATEGORIES.map((category) => (
+                <option key={category} value={category}>
+                  {CATEGORY_LABELS[category]}
                 </option>
               ))}
             </select>
@@ -107,6 +134,18 @@ export default async function TrainingObjectivesAdminPage() {
               type="text"
               required
               className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2 text-sm text-ink"
+            />
+          </div>
+          <div>
+            <label htmlFor="tag" className="text-xs font-medium text-ink">
+              Tag (optional)
+            </label>
+            <input
+              id="tag"
+              name="tag"
+              type="text"
+              placeholder="Race distance"
+              className="mt-1.5 w-36 rounded-sm border border-ink/20 bg-off-white px-3 py-2 text-sm text-ink"
             />
           </div>
           <button
@@ -131,7 +170,7 @@ export default async function TrainingObjectivesAdminPage() {
               >
                 <span className="text-charcoal-light">
                   <span className="mr-2 text-xs font-semibold uppercase tracking-widest text-charcoal-light/70">
-                    {DISCIPLINE_LABELS[objective.discipline]}
+                    {CATEGORY_LABELS[objective.category]}
                   </span>
                   {objective.label}
                 </span>

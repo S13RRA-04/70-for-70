@@ -47,7 +47,7 @@ export default async function AdminPage() {
 
   const whoopConnected = Boolean(whoopConnection);
 
-  const objectivesCompleted = trainingObjectives.filter((o) => o.completed).length;
+  const objectivesCompleted = trainingObjectives.filter((o) => o.status === "done" || o.status === "goal").length;
 
   return (
     <Container className="max-w-4xl py-16">

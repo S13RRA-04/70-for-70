@@ -376,23 +376,34 @@ create table if not exists public.journal_entry_beneficiary_mentions (
 -- ---------------------------------------------------------------------------
 -- training_objectives
 --
--- Concrete swim/bike/run milestones the athlete checks off while training
--- toward the race, shown alongside the WHOOP snapshot on /updates. Managed
+-- The full benchmark ladder the athlete climbs while training toward the
+-- race — not just swim/bike/run, but brick workouts, VO2 max readings,
+-- hybrid strength, and overall race readiness, shown on /the-race. Managed
 -- entirely via /admin/training-objectives (add/toggle/delete) — see
 -- getTrainingObjectives() and the admin actions for the only write paths.
 -- ---------------------------------------------------------------------------
 create table if not exists public.training_objectives (
   id uuid primary key default gen_random_uuid(),
-  discipline text not null check (discipline in ('swim', 'bike', 'run')),
+  category text not null check (
+    category in ('swim', 'bike', 'run', 'brick', 'vo2max', 'strength', 'race_readiness')
+  ),
   label text not null,
   display_order integer not null default 0,
-  completed boolean not null default false,
+  -- 'in_progress' is a real third state (a rung can be actively being
+  -- worked, not just done/not-done); 'goal' marks the single terminal
+  -- race-day entry under race_readiness, rendered distinctly from a
+  -- checklist item.
+  status text not null default 'not_started'
+    check (status in ('not_started', 'in_progress', 'done', 'goal')),
+  -- Optional badge shown beside the rung — "Race distance", "Stretch",
+  -- "Current baseline", "Podium-track", "Two weeks ago", etc.
+  tag text,
   completed_at timestamptz,
   created_at timestamptz not null default now()
 );
 
-create index if not exists training_objectives_discipline_idx
-  on public.training_objectives (discipline, display_order);
+create index if not exists training_objectives_category_idx
+  on public.training_objectives (category, display_order);
 
 -- ---------------------------------------------------------------------------
 -- partners

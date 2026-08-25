@@ -274,12 +274,36 @@ export interface PartnerRow {
  */
 export type TrainingDiscipline = "swim" | "bike" | "run";
 
+/**
+ * The full benchmark-ladder categories on /the-race — broader than
+ * TrainingDiscipline (swim/bike/run), which is reserved for classifying an
+ * individual workout (see classifyTrainingDiscipline, MediaPlaceholder).
+ */
+export type TrainingObjectiveCategory =
+  | "swim"
+  | "bike"
+  | "run"
+  | "brick"
+  | "vo2max"
+  | "strength"
+  | "race_readiness";
+
+/**
+ * 'in_progress' is a real third state — a rung can be actively being
+ * worked, not just done/not-done. 'goal' marks the single terminal
+ * race-day entry (under race_readiness), rendered distinctly from an
+ * ordinary checklist item.
+ */
+export type TrainingObjectiveStatus = "not_started" | "in_progress" | "done" | "goal";
+
 export interface TrainingObjectiveRow {
   id: string;
-  discipline: TrainingDiscipline;
+  category: TrainingObjectiveCategory;
   label: string;
   display_order: number;
-  completed: boolean;
+  status: TrainingObjectiveStatus;
+  /** Optional badge — "Race distance", "Stretch", "Current baseline", "Podium-track", etc. */
+  tag: string | null;
   completed_at: string | null;
   created_at: string;
 }
