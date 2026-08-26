@@ -4,6 +4,7 @@ import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
 import { CampaignByTheNumbers } from "@/components/campaign/campaign-by-the-numbers";
+import { FocusScrollSection } from "@/components/shared/focus-scroll-section";
 import { MISSION_SECTIONS } from "@/lib/content/mission";
 import { CAMPAIGN_URL, SITE_NAME, SITE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
@@ -36,17 +37,19 @@ export default function MissionPage() {
 
       <section className="border-b border-ink/10 py-16 sm:py-20">
         <Container className="max-w-3xl">
-          <SectionHeading
-            eyebrow="The Parent Initiative"
-            title="A For The 22 Campaign"
-            description={`Tri For The 22 is an athletic fundraising campaign of ${SITE_NAME}, an initiative connecting veterans and first responders with resources supporting mental, physical, emotional and spiritual health.`}
-          />
-          <a
-            href={SITE_URL}
-            className="mt-5 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
-          >
-            Visit {SITE_NAME} &rarr;
-          </a>
+          <FocusScrollSection>
+            <SectionHeading
+              eyebrow="The Parent Initiative"
+              title="A For The 22 Campaign"
+              description={`Tri For The 22 is an athletic fundraising campaign of ${SITE_NAME}, an initiative connecting veterans and first responders with resources supporting mental, physical, emotional and spiritual health.`}
+            />
+            <a
+              href={SITE_URL}
+              className="mt-5 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+            >
+              Visit {SITE_NAME} &rarr;
+            </a>
+          </FocusScrollSection>
         </Container>
       </section>
 
@@ -54,26 +57,28 @@ export default function MissionPage() {
         <Container className="max-w-3xl">
           <div className="space-y-14">
             {MISSION_SECTIONS.map((section) => (
-              <div key={section.id} id={section.id}>
-                <h2 className="font-display text-2xl font-semibold uppercase tracking-tight text-ink sm:text-3xl">
-                  {section.heading}
-                </h2>
-                <div className="mt-4 space-y-4">
-                  {section.body.map((paragraph, i) => (
-                    <p key={i} className="text-base leading-relaxed text-charcoal-light">
-                      {paragraph}
-                    </p>
-                  ))}
+              <FocusScrollSection key={section.id}>
+                <div id={section.id}>
+                  <h2 className="font-display text-2xl font-semibold uppercase tracking-tight text-ink sm:text-3xl">
+                    {section.heading}
+                  </h2>
+                  <div className="mt-4 space-y-4">
+                    {section.body.map((paragraph, i) => (
+                      <p key={i} className="text-base leading-relaxed text-charcoal-light">
+                        {paragraph}
+                      </p>
+                    ))}
+                  </div>
+                  {section.link && (
+                    <Link
+                      href={section.link.href}
+                      className="mt-3 inline-block text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+                    >
+                      {section.link.label} &rarr;
+                    </Link>
+                  )}
                 </div>
-                {section.link && (
-                  <Link
-                    href={section.link.href}
-                    className="mt-3 inline-block text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
-                  >
-                    {section.link.label} &rarr;
-                  </Link>
-                )}
-              </div>
+              </FocusScrollSection>
             ))}
           </div>
         </Container>
