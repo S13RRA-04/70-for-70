@@ -23,25 +23,6 @@ export function MissionPartnerCard({ partner }: { partner: MissionPartnerRow }) 
         {partner.relationship_label}
       </p>
 
-      <p className="mt-3 text-sm text-charcoal-light">{partner.description}</p>
-
-      {(partner.support_type || partner.geographic_scope) && (
-        <dl className="mt-4 space-y-1 text-xs text-charcoal-light">
-          {partner.support_type && (
-            <div className="flex gap-1.5">
-              <dt className="font-semibold uppercase tracking-wide">Support:</dt>
-              <dd>{partner.support_type}</dd>
-            </div>
-          )}
-          {partner.geographic_scope && (
-            <div className="flex gap-1.5">
-              <dt className="font-semibold uppercase tracking-wide">Area:</dt>
-              <dd>{partner.geographic_scope}</dd>
-            </div>
-          )}
-        </dl>
-      )}
-
       {partner.website_url && (
         <Link
           href={partner.website_url}
