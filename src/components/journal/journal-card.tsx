@@ -14,6 +14,7 @@ interface JournalCardProps {
 
 export function JournalCard({ entry, featured = false, className }: JournalCardProps) {
   const isMilestone = entry.post_type === "milestone";
+  const hasPhoto = Boolean(entry.image_url);
 
   return (
     <Link
@@ -30,7 +31,10 @@ export function JournalCard({ entry, featured = false, className }: JournalCardP
           alt={entry.title}
           fill
           priority={featured}
-          className="object-cover"
+          // The placeholder is a round crest, not a wide photo — object-cover
+          // crops its top/bottom off to fill the 16:9 frame. Only a real
+          // photo (which is actually shot at this aspect ratio) should crop.
+          className={hasPhoto ? "object-cover" : "object-contain p-6"}
           sizes={featured ? "(min-width: 640px) 50vw, 100vw" : "(min-width: 1024px) 33vw, 100vw"}
         />
 

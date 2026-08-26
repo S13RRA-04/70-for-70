@@ -80,6 +80,7 @@ export default async function JournalEntryPage(props: PageProps<"/journal/[slug]
   if (!entry) notFound();
 
   const video = entry.video_url ? parseVideoUrl(entry.video_url) : null;
+  const hasPhoto = Boolean(entry.image_url);
 
   return (
     <article className="py-16 sm:py-20">
@@ -127,7 +128,10 @@ export default async function JournalEntryPage(props: PageProps<"/journal/[slug]
               fill
               priority
               sizes="(min-width: 768px) 768px, 100vw"
-              className="object-cover"
+              // The placeholder is a round crest, not a wide photo —
+              // object-cover crops its top/bottom off to fill the 16:9
+              // frame. Only a real photo should crop.
+              className={hasPhoto ? "object-cover" : "object-contain p-10"}
             />
           </div>
         )}

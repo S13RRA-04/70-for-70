@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Play } from "lucide-react";
 import { MediaPlaceholder } from "@/components/shared/media-placeholder";
 import { getVideoEmbedUrl, getVideoThumbnailUrl } from "@/lib/video-url";
+import { JOURNAL_PLACEHOLDER_IMAGE } from "@/lib/constants";
 import type { VideoProvider } from "@/types/database";
 
 interface JournalVideoEmbedProps {
@@ -47,7 +48,16 @@ export function JournalVideoEmbed({ provider, videoId, title, fallbackImageUrl }
       aria-label={`Play video: ${title}`}
     >
       {thumbnailUrl ? (
-        <Image src={thumbnailUrl} alt="" fill className="object-cover" sizes="(min-width: 768px) 768px, 100vw" />
+        <Image
+          src={thumbnailUrl}
+          alt=""
+          fill
+          // The placeholder is a round crest, not a video-sized thumbnail —
+          // object-cover crops it to fill the frame. Only a real thumbnail
+          // (YouTube/Vimeo, or the entry's own photo) should crop.
+          className={thumbnailUrl === JOURNAL_PLACEHOLDER_IMAGE ? "object-contain p-10" : "object-cover"}
+          sizes="(min-width: 768px) 768px, 100vw"
+        />
       ) : (
         <MediaPlaceholder />
       )}
