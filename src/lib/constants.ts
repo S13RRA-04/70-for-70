@@ -57,6 +57,16 @@ export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:30
 export const CAMPAIGN_URL = process.env.NEXT_PUBLIC_CAMPAIGN_URL ?? "http://localhost:3000";
 
 /**
+ * On-brand fallback photo for a journal entry with no image_url — used
+ * anywhere a post's image would otherwise be shown (card, detail hero,
+ * social share/JSON-LD image), so text-only entries still get a real,
+ * on-brand image instead of MediaPlaceholder's abstract mark. Root-relative;
+ * build an absolute URL (prefix with CAMPAIGN_URL) for contexts like
+ * JSON-LD that aren't resolved through Next's metadataBase.
+ */
+export const JOURNAL_PLACEHOLDER_IMAGE = "/journal/placeholder.png";
+
+/**
  * Naming ideas Cody may take on personally if Tri For The 22 goes well —
  * powers the "[Mission] For The 22" explainer on /the-mission and the org
  * site's /campaigns landing page. Only Tri is real/active; the rest are

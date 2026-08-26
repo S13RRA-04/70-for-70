@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { getAdjacentJournalEntries, getJournalEntryBySlug } from "@/lib/data/journal";
 import { Container } from "@/components/shared/container";
-import { MediaPlaceholder } from "@/components/shared/media-placeholder";
 import { ShareButtons } from "@/components/shared/share-buttons";
 import { JournalMarkdown } from "@/components/journal/journal-markdown";
 import { JournalVideoEmbed } from "@/components/journal/journal-video-embed";
@@ -15,14 +14,9 @@ import { PartnerMentionsFooter } from "@/components/journal/partner-mentions-foo
 import { JournalCta } from "@/components/journal/journal-cta";
 import { formatDateLong } from "@/lib/utils";
 import { parseVideoUrl } from "@/lib/video-url";
-import { CAMPAIGN_NAME, CAMPAIGN_URL, SITE_NAME, SITE_URL } from "@/lib/constants";
+import { CAMPAIGN_NAME, CAMPAIGN_URL, JOURNAL_PLACEHOLDER_IMAGE, SITE_NAME, SITE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
-import type { JournalEntryWithMentions, JournalTrainingDiscipline, TrainingDiscipline } from "@/types/database";
-
-/** MediaPlaceholder only knows the 3 race disciplines — brick/strength/rest fall back to the generic mark. */
-function raceDiscipline(discipline: JournalTrainingDiscipline | null): TrainingDiscipline | null {
-  return discipline === "swim" || discipline === "bike" || discipline === "run" ? discipline : null;
-}
+import type { JournalEntryWithMentions } from "@/types/database";
 
 export async function generateMetadata(props: PageProps<"/journal/[slug]">): Promise<Metadata> {
   const { slug } = await props.params;
@@ -33,18 +27,22 @@ export async function generateMetadata(props: PageProps<"/journal/[slug]">): Pro
     title: entry.title,
     description: entry.summary,
     canonical: `${CAMPAIGN_URL}/journal/${entry.slug}`,
-    image: entry.image_url ?? undefined,
+    image: entry.image_url ?? JOURNAL_PLACEHOLDER_IMAGE,
   });
 }
 
 /**
  * BlogPosting for written/photo/milestone entries; VideoObject for vlogs
  * with a real video attached. Fields are only included when they actually
- * exist — never fabricate an upload date or duration. See MediaPlaceholder
- * usage below for the same "hide, don't fake" rule applied to imagery.
+ * exist — never fabricate an upload date or duration. image/thumbnailUrl
+ * always resolve to something real: the entry's own photo, or the on-brand
+ * JOURNAL_PLACEHOLDER_IMAGE — never omitted, so a shared link always shows
+ * an image. JSON-LD isn't resolved through Next's metadataBase, so this
+ * needs a fully-qualified URL, unlike generateMetadata's image above.
  */
 function entryJsonLd(entry: JournalEntryWithMentions) {
   const url = `${CAMPAIGN_URL}/journal/${entry.slug}`;
+  const imageUrl = entry.image_url ?? `${CAMPAIGN_URL}${JOURNAL_PLACEHOLDER_IMAGE}`;
   const base = {
     "@context": "https://schema.org",
     url,
@@ -60,7 +58,7 @@ function entryJsonLd(entry: JournalEntryWithMentions) {
       "@type": "VideoObject",
       name: entry.title,
       description: entry.summary,
-      ...(entry.image_url && { thumbnailUrl: entry.image_url }),
+      thumbnailUrl: imageUrl,
       contentUrl: entry.video_url,
       ...(entry.published_at && { uploadDate: entry.published_at }),
     };
@@ -71,7 +69,7 @@ function entryJsonLd(entry: JournalEntryWithMentions) {
     "@type": "BlogPosting",
     headline: entry.title,
     description: entry.summary,
-    ...(entry.image_url && { image: entry.image_url }),
+    image: imageUrl,
   };
 }
 
@@ -118,23 +116,19 @@ export default async function JournalEntryPage(props: PageProps<"/journal/[slug]
               provider={video.provider}
               videoId={video.id}
               title={entry.title}
-              fallbackImageUrl={entry.image_url}
+              fallbackImageUrl={entry.image_url ?? JOURNAL_PLACEHOLDER_IMAGE}
             />
           </div>
         ) : (
           <div className="relative mt-8 aspect-[16/9] w-full overflow-hidden rounded-sm bg-sand-light">
-            {entry.image_url ? (
-              <Image
-                src={entry.image_url}
-                alt={entry.title}
-                fill
-                priority
-                sizes="(min-width: 768px) 768px, 100vw"
-                className="object-cover"
-              />
-            ) : (
-              <MediaPlaceholder discipline={raceDiscipline(entry.training_discipline)} />
-            )}
+            <Image
+              src={entry.image_url ?? JOURNAL_PLACEHOLDER_IMAGE}
+              alt={entry.title}
+              fill
+              priority
+              sizes="(min-width: 768px) 768px, 100vw"
+              className="object-cover"
+            />
           </div>
         )}
 

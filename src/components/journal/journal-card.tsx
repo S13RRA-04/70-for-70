@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Play } from "lucide-react";
 import { cn, formatDateLong } from "@/lib/utils";
-import { MediaPlaceholder } from "@/components/shared/media-placeholder";
+import { JOURNAL_PLACEHOLDER_IMAGE } from "@/lib/constants";
 import type { JournalEntryRow } from "@/types/database";
 
 interface JournalCardProps {
@@ -25,18 +25,14 @@ export function JournalCard({ entry, featured = false, className }: JournalCardP
       )}
     >
       <div className={cn("relative aspect-[16/9] w-full shrink-0 bg-sand-light", featured && "sm:w-1/2")}>
-        {entry.image_url ? (
-          <Image
-            src={entry.image_url}
-            alt={entry.title}
-            fill
-            priority={featured}
-            className="object-cover"
-            sizes={featured ? "(min-width: 640px) 50vw, 100vw" : "(min-width: 1024px) 33vw, 100vw"}
-          />
-        ) : (
-          <MediaPlaceholder />
-        )}
+        <Image
+          src={entry.image_url ?? JOURNAL_PLACEHOLDER_IMAGE}
+          alt={entry.title}
+          fill
+          priority={featured}
+          className="object-cover"
+          sizes={featured ? "(min-width: 640px) 50vw, 100vw" : "(min-width: 1024px) 33vw, 100vw"}
+        />
 
         {entry.post_type === "vlog" && (
           <div className="absolute inset-0 flex items-center justify-center bg-ink/20">
