@@ -100,7 +100,7 @@ export const SEED_PARTNERS: PartnerRow[] = [
     id: "seed-partner-vau",
     name: "Veterans and Athletes United",
     description:
-      "Veterans and Athletes United uses adaptive sports, outdoor recreation, and community to help wounded, injured, and ill veterans rebuild strength and purpose — reaching veterans who need exactly the kind of mission, movement, and community this campaign is built around.",
+      "Veterans and Athletes United uses adaptive sports, outdoor recreation, and community to help wounded, injured, and ill veterans rebuild strength and purpose — reaching veterans who need exactly the kind of mission, movement, and community this campaign is built around. That's why Veterans and Athletes United is part of Tri For The 22.",
     what_they_do: null, // Awaiting the organization's own approved description — hidden until supplied, not shown as a placeholder.
     logo_url: "/partners/vau-logo.png",
     logo_light_url: "/partners/vau-logo-white.png",
