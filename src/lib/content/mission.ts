@@ -47,6 +47,15 @@ export const MISSION_SECTIONS: MissionSection[] = [
     link: { label: "Learn more about Mighty Oaks", href: "/partners" },
   },
   {
+    id: "why-veterans-and-athletes-united",
+    heading: "Why Veterans and Athletes United",
+    body: [
+      "Veterans and Athletes United uses adaptive sports, outdoor recreation, and community to help wounded, injured, and ill veterans rebuild strength and purpose.",
+      "That kind of impact — reaching veterans who need exactly the mission, movement, and community this campaign is built around — is why Veterans and Athletes United is part of Tri For The 22.",
+    ],
+    link: { label: "Learn more about Veterans and Athletes United", href: "/partners" },
+  },
+  {
     id: "the-goal",
     heading: "The Goal",
     body: [
