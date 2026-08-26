@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getJournalEntries } from "@/lib/data/journal";
+import { getBikeBuildLastUpdated } from "@/lib/content/building-the-bike";
 import { US_STATES_GRID } from "@/lib/content/us-states";
 import { CAMPAIGN_URL, SITE_URL, TOTAL_FUNDRAISING_MILES } from "@/lib/constants";
 import { getSiteMode } from "@/lib/site-mode";
@@ -69,6 +70,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: entry.published_at ? new Date(entry.published_at) : new Date(),
     }));
 
+    // Static content-module route, not a journal_entries row — see
+    // src/app/journal/building-the-bike/page.tsx's doc comment. Its
+    // lastModified tracks the newest BIKE_BUILD_TIMELINE entry rather than
+    // the CAMPAIGN_ROUTES blanket "now" below.
+    const bikeBuildEntry: MetadataRoute.Sitemap = [
+      {
+        url: `${CAMPAIGN_URL}/journal/building-the-bike`,
+        lastModified: new Date(getBikeBuildLastUpdated()),
+      },
+    ];
+
     const mileEntries: MetadataRoute.Sitemap = Array.from(
       { length: TOTAL_FUNDRAISING_MILES },
       (_, i) => ({
@@ -77,7 +89,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       }),
     );
 
-    return [...campaignEntries, ...journalEntries, ...mileEntries];
+    return [...campaignEntries, ...journalEntries, ...bikeBuildEntry, ...mileEntries];
   }
 
   const orgEntries: MetadataRoute.Sitemap = ORG_ROUTES.map((path) => ({

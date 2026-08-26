@@ -9,6 +9,8 @@ import { TrainingTimeline } from "@/components/campaign/training-timeline";
 import { CampaignPhaseBanner } from "@/components/campaign/campaign-phase-banner";
 import { TrainingSnapshot } from "@/components/training/training-snapshot";
 import { TrainingObjectivesChecklist } from "@/components/training/training-objectives-checklist";
+import { BikeBuildTeaser } from "@/components/journal/bike-build/bike-build-teaser";
+import { getBikeBuildTeaser } from "@/lib/content/building-the-bike";
 import { getTrainingStats, getRecentDisciplineWorkouts } from "@/lib/training-stats";
 import { getJournalEntries } from "@/lib/data/journal";
 import { getTrainingObjectives } from "@/lib/data/training-objectives";
@@ -106,6 +108,17 @@ export default async function RacePage() {
             <SectionHeading eyebrow="Training Arc" title="Base to Race" />
             <div className="mt-6">
               <TrainingTimeline currentIndex={getCurrentTrainingPhaseIndex()} />
+            </div>
+          </div>
+
+          <div className="mt-16">
+            <SectionHeading eyebrow="On the Bike" title="Building the Bike" />
+            <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
+              Cycling is the newest discipline here, and it started without a bike at all. The full story of
+              getting one — and getting it race-ready — lives in its own ongoing Journal series.
+            </p>
+            <div className="mt-6">
+              <BikeBuildTeaser teaser={getBikeBuildTeaser()} className="max-w-2xl" />
             </div>
           </div>
 

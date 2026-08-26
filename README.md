@@ -452,6 +452,9 @@ src/
     partners/ sponsors/     Beneficiary orgs, sponsorship levels, and the
                              sponsorship request form (sponsors/request/)
     journal/[slug]/         Campaign journal — articles, training logs, vlogs, milestones
+    journal/building-the-bike/  Static "living" bike-build feature — see
+                             "Bike Build Journal Content" below; not a
+                             journal_entries row
     donate/ contact/        Donation routing and general contact form
     live/                   Provider-neutral race-day status page
     press/                  Press/media kit
@@ -490,6 +493,110 @@ src/
   types/                     Hand-authored DB row types + shared UI types
 supabase/                   schema.sql, seed.sql, seed-demo.sql
 ```
+
+## Bike Build Journal Content
+
+`/journal/building-the-bike` ("Building the Bike: The Long Road to the
+Starting Line") is a living, story-driven record of turning a donated frame
+into a race-ready bicycle. It's a static page, not a Supabase
+`journal_entries` row — its content lives entirely in
+[`src/lib/content/building-the-bike.ts`](src/lib/content/building-the-bike.ts),
+following the same plain-structured-data pattern as `the-story.ts` and
+`mission.ts`. **Adding a new update is a content-file change — you should
+never need to edit
+[`page.tsx`](src/app/journal/building-the-bike/page.tsx) or any of the
+`src/components/journal/bike-build/*` components to publish one.**
+
+The page automatically derives, from that one file:
+
+- The hero's "Last updated" date (`getBikeBuildLastUpdated()`)
+- The "Latest Bike-Build Update" teasers on the Journal index and The Race
+  page (`getBikeBuildTeaser()`)
+- Each timeline entry's shareable anchor (`/journal/building-the-bike#<id>`)
+- The sitemap's `lastModified` for this route (see `src/app/sitemap.ts`)
+- The page's `dateModified` structured-data field
+
+### Adding a timeline entry
+
+Append one object to the end of `BIKE_BUILD_TIMELINE` (the array renders
+oldest-first — the **last** item is treated as "the latest update," so new
+entries always go at the end, not the beginning):
+
+```ts
+{
+  id: "brifters-arrived",                 // becomes the #anchor — never change an id after publishing
+  date: "2026-09-10",                     // ISO date, drives <time> and "last updated"
+  displayDate: "September 10, 2026",      // human-facing — can be a range or approximate month
+  title: "The Brifters Arrived",
+  summary: "A matched Shimano 105 pair showed up from Redemptive Cycles.",
+  status: "Brifters in hand",
+  body: [
+    "One paragraph per array entry — this is the narrative text.",
+    "Add as many paragraphs as the update needs.",
+  ],
+  // All of the below are optional — omit any that don't apply:
+  photos: [
+    {
+      src: "/journal/building-the-bike/brifters-arrived.jpg", // add the file under public/journal/building-the-bike/
+      alt: "Descriptive alt text for screen readers.",
+      caption: "What the photo shows, and whether any measurement in it is confirmed or approximate.",
+      width: 2000,
+      height: 1500,
+    },
+  ],
+  technicalDetails: {
+    heading: "Brifter Spec",
+    items: [{ label: "Model", value: "Shimano 105 ST-R7000" }],
+  },
+  contributors: ["Redemptive Cycles"],  // names only — add the full acknowledgment in CONFIRMED_CONTRIBUTORS too
+  relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+},
+```
+
+Before adding a photo, strip EXIF metadata (location data especially) and
+re-encode at a reasonable web size — e.g. with the `sharp` dependency
+already in this project:
+
+```js
+require("sharp")("original.jpg").rotate().resize({ width: 2000 }).jpeg({ quality: 82 }).toFile("public/journal/building-the-bike/new-photo.jpg");
+```
+
+If a caption states a measurement or fact, be explicit about whether it's
+confirmed or approximate — set `isEstimate: true` on the photo, or say so
+directly in the caption/technicalDetails `note`. Never imply the bike is
+assembled, fitted, or race-ready before `BIKE_BUILD_STATUS_SUMMARY` says so.
+
+### Updating a component's status
+
+Edit its row in `BIKE_BUILD_COMPONENT_STATUS` — e.g., once brifters arrive:
+
+```diff
+   {
+     component: "Brifters",
+-    status: "needed",
+-    statusLabel: "Needed",
+-    notes: "Matched mechanical rim-brake Shimano road 2×11 pair.",
++    status: "confirmed",
++    statusLabel: "In Hand",
++    notes: "Shimano 105 ST-R7000 pair, sourced through Redemptive Cycles.",
+   },
+```
+
+`status` is the canonical value (`confirmed` / `available` / `offered` /
+`under_review` / `needed` / `pending` / `complete` — see
+`src/types/bike-build.ts`) that drives the badge's color and icon;
+`statusLabel` is the exact text shown, which can be more specific than the
+canonical value. Update `BIKE_BUILD_STATUS_SUMMARY` the same way if the
+change affects one of its top-level rows (fit, assembly, first ride, etc.).
+
+### Adding or confirming a contributor
+
+Text-only for now — no logos without explicit permission (see the type's
+doc comment in `src/types/bike-build.ts` for how a `logoUrl`/`logoAlt` pair
+could be added later without a redesign). Add a name to
+`BIKE_BUILD_CONVERSATIONS_IN_PROGRESS` while support is still being
+discussed; move it to `BIKE_BUILD_CONFIRMED_CONTRIBUTORS` only once it's
+actually confirmed.
 
 ## Sponsorship Vetting Workflow
 
