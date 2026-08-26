@@ -2,6 +2,7 @@ import { cache } from "react";
 import { createPublicClient } from "@/lib/supabase/public";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { SEED_DONATIONS, SEED_MILES } from "./seed-data";
+import { PUBLIC_DONATION_COLUMNS } from "./donation-columns";
 import type { MileRow } from "@/types/database";
 import type { MileWithDonations } from "@/types/content";
 
@@ -36,7 +37,7 @@ export async function getMilesWithDonations(): Promise<MileWithDonations[]> {
   const [{ data: miles, error: milesError }, { data: donations, error: donationsError }] =
     await Promise.all([
       supabase.from("miles").select("*").order("mile_number", { ascending: true }),
-      supabase.from("donations").select("*").eq("verified", true),
+      supabase.from("donations").select(PUBLIC_DONATION_COLUMNS).eq("verified", true),
     ]);
 
   if (milesError || !miles) {
@@ -84,7 +85,7 @@ export const getMileWithDonations = cache(async (
 
   const { data: donations, error: donationsError } = await supabase
     .from("donations")
-    .select("*")
+    .select(PUBLIC_DONATION_COLUMNS)
     .eq("mile_id", mile.id)
     .eq("verified", true)
     .order("date", { ascending: false });

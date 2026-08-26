@@ -1,6 +1,7 @@
 import { createPublicClient } from "@/lib/supabase/public";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { SEED_DONATIONS } from "./seed-data";
+import { PUBLIC_DONATION_COLUMNS } from "./donation-columns";
 import type { DonationWithMile } from "@/types/database";
 
 export async function getRecentDonations(limit = 5): Promise<DonationWithMile[]> {
@@ -14,7 +15,7 @@ export async function getRecentDonations(limit = 5): Promise<DonationWithMile[]>
   const supabase = createPublicClient();
   const { data, error } = await supabase
     .from("donations")
-    .select("*, miles(mile_number)")
+    .select(`${PUBLIC_DONATION_COLUMNS}, miles(mile_number)`)
     .eq("verified", true)
     .order("date", { ascending: false })
     .limit(limit);
@@ -26,6 +27,6 @@ export async function getRecentDonations(limit = 5): Promise<DonationWithMile[]>
 
   return data.map(({ miles, ...donation }) => ({
     ...donation,
-    mile_number: (miles as { mile_number: number } | null)?.mile_number ?? null,
+    mile_number: (miles as unknown as { mile_number: number } | null)?.mile_number ?? null,
   }));
 }

@@ -631,6 +631,19 @@ create policy "verified donations are publicly readable"
   to anon, authenticated
   using (verified = true);
 
+-- RLS above is row-level only — it doesn't stop anon/authenticated from
+-- selecting every column of a row it can see. donor_email is collected only
+-- for admin-side cumulative-giving tier lookups (src/lib/donor-tiers.ts) and
+-- must never be readable by the anon key, which is a public, client-exposed
+-- credential. Explicit column grants close that off at the database level,
+-- independent of what any application query asks for.
+revoke select on public.donations from anon, authenticated;
+grant select (
+  id, mile_id, donor_name, amount, organization_benefited, anonymous,
+  dedication_type, dedication_name, dedication_message, dedication_branch,
+  dedication_public, date, external_reference, verified, created_at
+) on public.donations to anon, authenticated;
+
 create policy "active sponsors are publicly readable"
   on public.sponsors for select
   to anon, authenticated

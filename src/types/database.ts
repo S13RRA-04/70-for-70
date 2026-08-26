@@ -118,8 +118,17 @@ export interface DonationRow {
   created_at: string;
 }
 
+/**
+ * DonationRow minus donor_email — the shape actually returned by every
+ * public/anon-key donation query (src/lib/data/donations.ts,
+ * src/lib/data/miles.ts), which explicitly excludes donor_email so it's
+ * never fetched into a public page's data, let alone rendered. See
+ * src/lib/data/donation-columns.ts.
+ */
+export type PublicDonationRow = Omit<DonationRow, "donor_email">;
+
 /** Joined shape returned by getRecentDonations() — see src/lib/data/donations.ts. */
-export interface DonationWithMile extends DonationRow {
+export interface DonationWithMile extends PublicDonationRow {
   mile_number: number | null;
 }
 
