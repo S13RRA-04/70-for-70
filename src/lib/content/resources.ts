@@ -2391,6 +2391,827 @@ export const RESOURCES: Resource[] = [
     state: "Colorado",
     verifiedDate: "2026-08-27",
   },
+
+  // ---------------------------------------------------------------------
+  // New Mexico Regional
+  // ---------------------------------------------------------------------
+  {
+    name: "Adaptive Sports Program New Mexico",
+    url: "https://www.adaptivesportsprogram.org/",
+    description:
+      "Statewide adaptive recreation nonprofit offering skiing, snowboarding, paddling, rafting, climbing, archery and other activities for people with disabilities; veteran-specific programs run periodically, including a Disabled Veterans' Winter Sports Camp offered free to participating veterans.",
+    needCategoryIds: ["sports-fitness", "outdoor-programs", "equipment-grants"],
+    audienceTags: ["Veteran", "Disabled", "Family"],
+    cost: "Free for veterans at designated veteran events (e.g. the Winter Sports Camp); other general programs may carry fees or scholarships depending on the session",
+    geographicScope: "Statewide",
+    state: "New Mexico",
+    verifiedDate: "2026-08-27",
+    eligibility: "Veteran-specific events open to veterans with disabilities; some sessions reserved for disabled veterans only.",
+  },
+  {
+    name: "Strongpoint Theinert Ranch",
+    url: "https://www.strongpointtheinert.org/",
+    description:
+      "350+ acre veterans retreat adjoining the Cibola National Forest near Magdalena, NM, offering weeklong therapeutic retreats — hiking, team-building, licensed clinical social work support — for veterans, service members, and Gold Star families.",
+    needCategoryIds: ["mental-health", "outdoor-programs", "family-support", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "Gold Star", "Family"],
+    cost: "Free — retreat costs, including round-trip travel, meals, and equipment, are covered by the organization",
+    geographicScope: "Magdalena, NM / national reach",
+    state: "New Mexico",
+    verifiedDate: "2026-08-27",
+    eligibility: "Veterans (separate cohorts for male/female veterans and unit groups) and Gold Star families; some programs are unit-specific.",
+  },
+  {
+    name: "New Mexico Department of Veterans Services — Field Services",
+    url: "https://www.nmdvs.org/field-services/",
+    description:
+      "Accredited Veteran Service Officers at 16 field offices statewide help veterans and eligible dependents file VA claims, obtain federal and state benefits, and connect with housing, medical, and behavioral-health referrals.",
+    needCategoryIds: ["legal-benefits"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free",
+    geographicScope: "Statewide",
+    state: "New Mexico",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "New Mexico State Veterans Benefits",
+    url: "https://www.dvs.nm.gov/benefits/",
+    description:
+      "State benefit program covering veteran property-tax exemptions, Vietnam/Wartime educational scholarships, free or reduced-fee hunting and fishing licenses, specialty license plates, and free state-park and museum access.",
+    needCategoryIds: ["legal-benefits", "financial-assistance", "career-education", "outdoor-programs"],
+    audienceTags: ["Veteran", "Disabled", "Family"],
+    cost:
+      "Free/no-cost benefits; specifics vary — e.g. a $10 reduced-fee hunting/fishing license for disabled veterans, a free lifetime license and full property-tax exemption for 100% disabled veterans, and a $10,000 standard exemption for others",
+    geographicScope: "Statewide",
+    state: "New Mexico",
+    verifiedDate: "2026-08-27",
+    eligibility:
+      "Varies by benefit — property-tax exemption requires 90+ days consecutive active duty and honorable discharge; full exemption and free hunting/fishing license require a 100% VA service-connected disability rating; Wartime Scholarship requires service after August 1990; New Mexico residency required for most benefits.",
+  },
+
+  // ---------------------------------------------------------------------
+  // Arizona Regional
+  // ---------------------------------------------------------------------
+  {
+    // TODO(verify): source notes described a broader active-military/first-responder/family reach, but the org's VORTEX program page names only veterans as eligible — this entry is scoped to VORTEX specifically.
+    name: "EmpoweRanch — VORTEX",
+    url: "https://empoweranch.org/vortex",
+    description:
+      "Phoenix ranch-based nonprofit whose VORTEX program uses horsemanship, outdoor recreation, and peer connection in an 8-week group therapeutic model for veterans experiencing depression, anxiety, PTSD, or TBI.",
+    needCategoryIds: ["mental-health", "outdoor-programs", "purpose-community"],
+    audienceTags: ["Veteran"],
+    cost: "Free for qualifying veterans, sponsored through the Arizona Elk Society's Heroes Rising Outdoors program",
+    geographicScope: "Phoenix",
+    state: "Arizona",
+    verifiedDate: "2026-08-27",
+    eligibility: "Veterans; participants become AES HRO members upon qualifying for VORTEX sponsorship; full 8-session attendance commitment expected.",
+  },
+  {
+    // TODO(verify): grant coverage amount (full vs. partial equipment cost) not confirmed on the org's own site.
+    name: "Hoppers for Heroes",
+    url: "https://hoppersforheroes.org/",
+    description:
+      "Nonprofit providing grants and community partnerships to place TerrainHopper all-terrain mobility vehicles with veterans, first responders, and people with disabilities, plus placements at Arizona state parks for public adaptive-recreation access.",
+    needCategoryIds: ["equipment-grants", "outdoor-programs", "sports-fitness"],
+    audienceTags: ["Veteran", "First Responder", "Disabled"],
+    cost: "Grant-supported",
+    geographicScope: "Arizona",
+    state: "Arizona",
+    verifiedDate: "2026-08-27",
+    eligibility: "Veterans, first responders, and individuals with mobility challenges; apply via email describing mobility needs.",
+  },
+  {
+    // TODO(verify): the Arizona chapter page doesn't state cost explicitly, though a sponsored/no-cost-to-participant model is consistent with the org's broader materials.
+    name: "Homeward for Heroes — Arizona",
+    url: "https://homewardforheroes.org/arizona-chapter-1649",
+    description:
+      "Arizona chapter of a national nonprofit taking veterans, first responders, and their loved ones on 3-7 night off-road and overlanding treks through remote Arizona backcountry, designed to reduce isolation and support post-traumatic growth.",
+    needCategoryIds: ["outdoor-programs", "mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "First Responder", "Family"],
+    cost: "Free / sponsored",
+    geographicScope: "Arizona",
+    state: "Arizona",
+    verifiedDate: "2026-08-27",
+    eligibility: "Must qualify as a veteran or first responder; for the Couples Trek, only one member of a couple needs to qualify.",
+  },
+  {
+    name: "Arizona Department of Veterans' Services",
+    url: "https://dvs.az.gov/",
+    description:
+      "State veterans agency operating 19 Veterans Benefits Offices statewide, connecting Arizona veterans and military families with federal and state benefits claims assistance, four State Veteran Homes, a state veterans' cemetery, and the Military Family Relief Fund for unforeseen financial hardship.",
+    needCategoryIds: ["legal-benefits", "financial-assistance", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "Free — Veteran Benefits Counselor services are free; the Military Family Relief Fund is a grant/assistance fund, not a fee-for-service program",
+    geographicScope: "Statewide",
+    state: "Arizona",
+    verifiedDate: "2026-08-27",
+    eligibility:
+      "Veterans, service members, and their families; Military Family Relief Fund open to pre- and post-9/11 veterans facing hardship caused by military service; State Veteran Homes require honorable discharge (or veteran's spouse) and documented need for skilled nursing care.",
+  },
+
+  // ---------------------------------------------------------------------
+  // Utah Regional
+  // ---------------------------------------------------------------------
+  {
+    name: "Continue Mission",
+    url: "https://www.continuemission.org/",
+    description:
+      "Utah nonprofit offering veterans, service members, and their family/support members year-round recreation — skiing, snowshoeing, cycling, mountain biking, paddleboarding, hiking, pickleball, and multi-day adventures — combined with mental-health and suicide-prevention programming.",
+    needCategoryIds: ["sports-fitness", "outdoor-programs", "mental-health", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "Free — events are held at no cost to registered veterans or their family/support members",
+    geographicScope: "Statewide",
+    state: "Utah",
+    verifiedDate: "2026-08-27",
+    eligibility: "Participants must be registered veterans/service members or their invited family/support members.",
+  },
+  {
+    name: "American Heroes Project",
+    url: "https://americanheroesproject.org/",
+    description:
+      "Utah nonprofit using boating and outdoor recreational therapy — fishing, boating, camping — to reduce the effects of PTSD, TBI, and veteran suicide among disabled combat veterans and their families, including a Gold Star family program.",
+    needCategoryIds: ["outdoor-programs", "mental-health", "family-support"],
+    audienceTags: ["Veteran", "Disabled", "Family"],
+    cost: "Free — no individual who boards the organization's boats or uses its facilities is ever charged",
+    geographicScope: "Utah",
+    state: "Utah",
+    verifiedDate: "2026-08-27",
+    eligibility: "Disabled combat veterans.",
+  },
+  {
+    // TODO(verify): cost is not stated anywhere on the org's own site; likely donor/sponsor-funded given 501(c)(3) status with no paid staff, but not confirmed in writing.
+    name: "Operation Pay It Forward",
+    url: "https://opif4ourvets.org/",
+    description:
+      "Utah nonprofit that reintroduces veterans dealing with combat-related injuries and mental-health challenges to outdoor recreation and camaraderie, then encourages participants to become \"Ambassadors\" who bring other veterans into the mission.",
+    needCategoryIds: ["outdoor-programs", "mental-health", "purpose-community"],
+    audienceTags: ["Veteran"],
+    cost: "Free / sponsored",
+    geographicScope: "Utah",
+    state: "Utah",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "Utah Department of Veterans & Military Affairs",
+    url: "https://veterans.utah.gov/",
+    description:
+      "Utah state agency providing free accredited VA claims and appeals assistance, connecting veterans with health care, education, employment, legal assistance, housing, recreation, and state benefits, including the Utah Veteran First-Time Homebuyer Grant.",
+    needCategoryIds: ["legal-benefits", "housing-transportation", "career-education", "financial-assistance"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family"],
+    cost: "Free for claims, applications, and appeals assistance",
+    geographicScope: "Statewide",
+    state: "Utah",
+    verifiedDate: "2026-08-27",
+    eligibility:
+      "First-Time Homebuyer Grant: $2,500 for eligible first-time homebuyers who are recently separated veterans (within the last 5 years) or currently serving Active Duty/Reserve/Guard members living in Utah.",
+  },
+
+  // ---------------------------------------------------------------------
+  // Wyoming Regional
+  // ---------------------------------------------------------------------
+  {
+    // TODO(verify): cost is not stated explicitly on the org's own site; a Sponsors page implies sponsor funding but doesn't confirm cost to participants.
+    name: "Operation Veterans First",
+    url: "https://operationveteransfirst.com/",
+    description:
+      "Wyoming nonprofit based in Gillette specializing in outdoor excursions for disabled veterans of any era, including hunting, fishing, shooting sports, and camping.",
+    needCategoryIds: ["outdoor-programs", "sports-fitness", "purpose-community"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free / sponsored",
+    geographicScope: "Gillette, WY / regional",
+    state: "Wyoming",
+    verifiedDate: "2026-08-27",
+    eligibility: "Disabled veterans, any era or campaign.",
+  },
+  {
+    // NOTE: the state's "Benefits Guide" and "Outreach" program are the same office described two other ways, not distinct services — consolidated into one entry rather than publishing near-duplicates.
+    name: "Wyoming Veterans Commission",
+    url: "https://www.wyomilitary.wyo.gov/resources/veteran/veterans-commission/",
+    description:
+      "Wyoming state commission, under the Wyoming Military Department, providing free VA claims filing and disability-rating-review assistance through Veteran Service Officers statewide, plus a benefits guide and outreach focused on improving access to services for veterans, families, survivors, and caregivers.",
+    needCategoryIds: ["legal-benefits", "purpose-community"],
+    audienceTags: ["Veteran", "Family", "Survivor", "Caregiver"],
+    cost: "Free",
+    geographicScope: "Statewide",
+    state: "Wyoming",
+    verifiedDate: "2026-08-27",
+  },
+
+  // ---------------------------------------------------------------------
+  // Montana Regional
+  // ---------------------------------------------------------------------
+  {
+    name: "DREAM Adaptive Recreation",
+    url: "https://www.dreamadaptive.org/",
+    description:
+      "Year-round adaptive recreation nonprofit based in Whitefish offering skiing, cycling, mountain biking, paddlesports, fishing, and water sports using adaptive equipment and trained volunteers, with dedicated military and veteran programming.",
+    needCategoryIds: ["sports-fitness", "outdoor-programs", "equipment-grants"],
+    audienceTags: ["Veteran", "Disabled", "Family"],
+    cost: "Free for active-duty military and veterans with a disability via the DREAM Scholarship, which covers course and equipment costs for select sessions",
+    geographicScope: "Northwest Montana (Whitefish / Flathead Valley)",
+    state: "Montana",
+    verifiedDate: "2026-08-27",
+    eligibility: "Veterans/active duty must have a qualifying disability for scholarship-covered slots.",
+  },
+  {
+    name: "Evoke Changes Outdoors",
+    url: "https://www.evokechangesoutdoors.org/",
+    description:
+      "Kalispell-based nonprofit pairing hunting/fishing trips with a 12-week program for veterans and first responders, aimed at building coping skills and improving daily functioning.",
+    needCategoryIds: ["mental-health", "outdoor-programs"],
+    audienceTags: ["Veteran", "First Responder"],
+    cost: "Lodging and food are covered by the organization; participants are responsible for their own travel and hunting/fishing licenses",
+    geographicScope: "Kalispell, MT / Northwest Montana",
+    state: "Montana",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    // TODO(verify): eligibility corrected from source notes — the org's own site states it serves combat-wounded AND non-wounded veterans, not "combat-wounded only."
+    name: "Big Hearts Under the Big Sky",
+    url: "https://bigheartsmt.org/",
+    description:
+      "Montana Outfitters & Guides Education Institute program providing fully outfitted outdoor adventures, at no cost to the family, for active-duty and honorably discharged veterans, first responders, and children with life-threatening illnesses.",
+    needCategoryIds: ["outdoor-programs", "family-support"],
+    audienceTags: ["Veteran", "Gold Star", "Family", "First Responder"],
+    cost: "Free — cost to the family is, and always has been, $0",
+    geographicScope: "Montana",
+    state: "Montana",
+    verifiedDate: "2026-08-27",
+    eligibility:
+      "Active duty or honorably discharged veterans (combat-wounded and non-wounded), first responders, and children with a life-threatening illness; Gold Star families eligible through the nomination process.",
+  },
+  {
+    // TODO(verify): cost to participants is not stated on the org's own site; secondary press suggests some workshops are free, but this is unconfirmed on the org's own pages.
+    name: "Montana Grit Outdoors",
+    url: "https://www.montanagritoutdoors.com/",
+    description:
+      "Philipsburg-based nonprofit created by and for women veterans and first responders, combining a six-month emotional-recovery coaching program with a culminating guided hunting trip; also serves Gold Star families and survivors of first responders.",
+    needCategoryIds: ["outdoor-programs", "purpose-community"],
+    audienceTags: ["Veteran", "First Responder", "Family"],
+    cost: "Sponsored",
+    geographicScope: "Philipsburg, MT / statewide",
+    state: "Montana",
+    verifiedDate: "2026-08-27",
+    eligibility: "Serves female veterans and first responders specifically.",
+  },
+  {
+    name: "Homeward for Heroes — Montana",
+    url: "https://homewardforheroes.org/montana",
+    description:
+      "Bozeman-based chapter of the national Homeward for Heroes organization, providing peer-led off-road and camping treks through Montana's wilderness — ghost towns, hot springs, backroads — to build post-traumatic growth, community, and healing.",
+    needCategoryIds: ["outdoor-programs", "mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "First Responder", "Military Spouse"],
+    cost: "Free — explicitly \"No cost to veterans\"",
+    geographicScope: "Bozeman, MT / statewide",
+    state: "Montana",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "Montana Veterans Affairs Division",
+    url: "https://veterans.mt.gov",
+    description:
+      "Montana state agency, under the Department of Military Affairs, helping veterans and their families navigate federal and state benefits and employment resources through a statewide network of 9 veteran service offices.",
+    needCategoryIds: ["legal-benefits", "career-education"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "Free",
+    geographicScope: "Statewide",
+    state: "Montana",
+    verifiedDate: "2026-08-27",
+  },
+
+  // ---------------------------------------------------------------------
+  // Idaho Regional
+  // ---------------------------------------------------------------------
+  {
+    // TODO(verify): a secondary directory (findhelp.org) confirms "free" and travel reimbursement, but this wasn't found explicitly stated on the org's own Programs/Veterans pages during verification.
+    name: "Higher Ground",
+    url: "https://highergroundusa.org/",
+    description:
+      "Ketchum-based adaptive-sports nonprofit with a dedicated Veteran Day Program and a 7-day Military Program addressing visible and invisible disabilities — PTSD, TBI, MST, polytrauma — through recreational therapy, fly fishing, skiing, climbing, and peer connection.",
+    needCategoryIds: ["sports-fitness", "outdoor-programs", "mental-health"],
+    audienceTags: ["Veteran", "First Responder", "Disabled"],
+    cost: "Free / subsidized",
+    geographicScope: "Ketchum / Sun Valley, ID",
+    state: "Idaho",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "Team River Runner — Boise",
+    url: "https://www.teamriverrunnerboise.org/",
+    description:
+      "Boise chapter of the national Team River Runner nonprofit, operated with Cascade Raft and Kayak, providing veterans, service members with disabilities, first responders, and families a progression from pool sessions to whitewater kayaking and rafting for health and healing.",
+    needCategoryIds: ["sports-fitness", "outdoor-programs", "mental-health", "family-support"],
+    audienceTags: ["Veteran", "First Responder", "Family", "Disabled"],
+    cost: "Free — events are offered free of charge, with boats, safety gear, instruction, transportation, food, and lodging provided through donor support",
+    geographicScope: "Boise, ID",
+    state: "Idaho",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    // TODO(verify): Mission43's own programs (advising, education, engagement) are confirmed free; the Idaho Outdoor Fieldhouse facility's general day-use/membership pricing is not stated on its own site.
+    name: "Idaho Outdoor Fieldhouse / Mission43",
+    url: "https://mission43.org/",
+    description:
+      "Mission43, headquartered at the Idaho Outdoor Fieldhouse in Boise, is free to join and offers veterans and military spouses employment advising, education scholarships, and community engagement, alongside adaptive-athlete programming through Challenged Athletes Foundation-Idaho.",
+    needCategoryIds: ["sports-fitness", "career-education", "purpose-community"],
+    audienceTags: ["Veteran", "Military Spouse", "Disabled"],
+    cost: "Free to join Mission43; advising, education, and engagement programs are provided at no cost",
+    geographicScope: "Statewide (Mission43); facility in Boise",
+    state: "Idaho",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "Idaho Division of Veterans Services",
+    url: "https://veterans.idaho.gov/",
+    description:
+      "Idaho state agency providing benefits advocacy, education support, employment services, homeless-veteran assistance, women-veteran programs, financial relief grants, veterans homes, and cemetery services statewide.",
+    needCategoryIds: ["legal-benefits", "career-education"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free for veteran-facing services",
+    geographicScope: "Statewide",
+    state: "Idaho",
+    verifiedDate: "2026-08-27",
+  },
+
+  // ---------------------------------------------------------------------
+  // Nevada Regional
+  // ---------------------------------------------------------------------
+  {
+    name: "Nevada PVA (Paralyzed Veterans of America — Nevada Chapter)",
+    url: "https://nevadapva.org/",
+    description:
+      "Nevada chapter of Paralyzed Veterans of America offering adaptive sports — wheelchair basketball, quad rugby, bowling, shooting sports — recreation therapy, and support attending the National Veterans Wheelchair Games.",
+    needCategoryIds: ["sports-fitness", "outdoor-programs", "mental-health"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free — membership is free",
+    geographicScope: "Statewide",
+    state: "Nevada",
+    verifiedDate: "2026-08-27",
+    eligibility: "U.S. military veterans with a spinal cord injury, dysfunction, or disease (e.g. MS, ALS); caregivers and family also served.",
+  },
+  {
+    // TODO(verify): org's site describes low overhead but doesn't explicitly state participation is free for recipients.
+    name: "Buck Bedard Outdoor Foundation",
+    url: "https://buckbedardoutdoorfoundation.org/",
+    description:
+      "Las Vegas-based nonprofit founded by Lt. Gen. E.R. \"Buck\" Bedard (USMC Ret.) introducing veterans, first responders, and Nevada youth to hunting, fishing, hiking, camping, and archery.",
+    needCategoryIds: ["outdoor-programs", "purpose-community"],
+    audienceTags: ["Veteran", "First Responder"],
+    cost: "Free / sponsored",
+    geographicScope: "Nevada",
+    state: "Nevada",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    // TODO(verify): org's site states programs are privately funded but doesn't explicitly confirm no cost to participants.
+    name: "Brave Waters",
+    url: "https://www.bravewaters.org/",
+    description:
+      "Northern Nevada nonprofit running outdoor retreats — historically at Hobart Reservoir in the Spooner Backcountry — for wounded veterans and their caregivers, in partnership with the Reno Vet Center and Nevada Department of Wildlife.",
+    needCategoryIds: ["outdoor-programs", "mental-health", "family-support"],
+    audienceTags: ["Veteran", "Caregiver"],
+    cost: "Sponsored",
+    geographicScope: "Northern Nevada",
+    state: "Nevada",
+    verifiedDate: "2026-08-27",
+    eligibility: "Wounded veterans receiving care, plus their caregivers.",
+  },
+  {
+    name: "Nevada Peer Support Network",
+    url: "https://nvpsn.org/",
+    description:
+      "Reno-based network of trained peer supporters providing confidential 24/7 peer support and connections to vetted mental-health resources for veterans, first responders, military personnel, healthcare workers, and their families across Nevada.",
+    needCategoryIds: ["mental-health", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "First Responder", "Family", "Healthcare"],
+    cost: "Free — every service is delivered at no cost to the individuals and agencies served",
+    geographicScope: "Statewide (17 Nevada counties)",
+    state: "Nevada",
+    verifiedDate: "2026-08-27",
+    phone: "775-464-1797",
+  },
+  {
+    name: "Nevada Veterans Fund",
+    url: "https://www.nevadaveteransfund.org/",
+    description:
+      "Las Vegas-based nonprofit providing direct emergency assistance to Nevada veterans — food delivery, utility and appliance grants, homelessness outreach, and VA-claims support via accredited VSOs — through its Operation Direct Support initiative.",
+    needCategoryIds: ["financial-assistance", "housing-transportation", "legal-benefits"],
+    audienceTags: ["Veteran"],
+    cost: "Free — VSO claims assistance and direct aid are provided at no cost",
+    geographicScope: "Nevada (primarily Southern Nevada / Las Vegas)",
+    state: "Nevada",
+    verifiedDate: "2026-08-27",
+    eligibility: "Focus on homeless, low-income, and underserved veterans, including those with disabilities or transportation barriers.",
+  },
+  {
+    name: "Nevada Department of Veterans Services",
+    url: "https://veterans.nv.gov/",
+    description:
+      "Nevada's state veterans agency, providing accredited VA claims assistance plus employment, housing, financial, legal, transportation, education, and suicide-prevention services statewide through Veterans Service Officers.",
+    needCategoryIds: ["legal-benefits", "financial-assistance", "housing-transportation", "career-education"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free — VSO claims assistance is provided at no cost",
+    geographicScope: "Statewide",
+    state: "Nevada",
+    verifiedDate: "2026-08-27",
+  },
+
+  // ---------------------------------------------------------------------
+  // California Regional
+  // ---------------------------------------------------------------------
+  {
+    // TODO(verify): third-party sources describe VSA programs as free, but the org's own site doesn't explicitly state cost.
+    name: "Veterans Sportsman Alliance — California Chapter",
+    url: "https://www.veteranssportsmanalliance.org/california-chapter",
+    description:
+      "California chapter of a multi-state nonprofit running hunting, fishing, kayaking, hiking, and golf outings for injured and disabled veterans, including amputees.",
+    needCategoryIds: ["outdoor-programs", "sports-fitness"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free / varies",
+    geographicScope: "California",
+    state: "California",
+    verifiedDate: "2026-08-27",
+    eligibility: "Veterans with significant physical injuries or disabilities, including double/triple amputees.",
+  },
+  {
+    name: "Our Heroes' Dreams",
+    url: "https://www.ourheroesdreams.org/",
+    description:
+      "Hanford, CA-based nonprofit running a four-phase program — retreat, follow-up support, family retreat, and life-mission planning — with fishing, hunting, skiing, scuba, and adaptive sports for veterans, peace officers, first responders, and Gold Star families.",
+    needCategoryIds: ["outdoor-programs", "mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "Law Enforcement", "First Responder", "Gold Star"],
+    cost: "Free — no charge for any programs or services",
+    geographicScope: "California (headquartered); retreats and partnerships operate nationwide",
+    state: "California",
+    verifiedDate: "2026-08-27",
+    eligibility:
+      "Open to all veterans regardless of discharge type, rank, or length of service; first responders, correctional officers, and contractors also qualify. Must be drug-free for 14 days prior to attendance.",
+  },
+  {
+    name: "High Fives Foundation",
+    url: "https://highfivesfoundation.org/",
+    description:
+      "Truckee, CA-based foundation providing Empowerment Fund grants — for adaptive sports equipment, rehab, and camps — to people with life-changing injuries, including a Military to the Mountains program that has supported 290+ veteran and first-responder experiences.",
+    needCategoryIds: ["sports-fitness", "equipment-grants", "outdoor-programs"],
+    audienceTags: ["Veteran", "First Responder", "Disabled"],
+    cost: "Free to apply for and receive Empowerment Fund grants",
+    geographicScope: "Truckee, CA / national (has funded athletes from 47 states/territories and Canada)",
+    state: "California",
+    verifiedDate: "2026-08-27",
+    eligibility:
+      "Must have a qualifying life-changing injury (spinal cord injury, TBI, amputation, or other mobility-limiting injury); service-connected veterans may apply for adaptive sports equipment funding within five designated pillar sports.",
+  },
+  {
+    // TODO(verify): direct WebFetch of calvet.ca.gov failed repeatedly during verification; corroborated via search results referencing the org's own published pages — recommend a follow-up direct check.
+    name: "CalVet",
+    url: "https://www.calvet.ca.gov/",
+    description:
+      "California's state veterans agency, helping nearly 1.6 million veterans and families access state and federal benefits — VA claims assistance, education, employment, health care, and home loans — and operating the Veterans Homes of California.",
+    needCategoryIds: ["legal-benefits", "housing-transportation", "career-education"],
+    audienceTags: ["Veteran", "Family"],
+    cost:
+      "Free for core VA claims assistance and counseling through District Office Veteran Service Officers; other programs (e.g. the CalVet Home Loan, Veterans Homes long-term care) carry standard program-specific costs",
+    geographicScope: "Statewide",
+    state: "California",
+    verifiedDate: "2026-08-27",
+  },
+
+  // ---------------------------------------------------------------------
+  // Oregon Regional
+  // ---------------------------------------------------------------------
+  {
+    // TODO(verify): org-wide pricing is mixed (some single-day summer programs free, winter lessons $80-100 with scholarships available); the veteran-specific camp page itself doesn't state a price.
+    name: "Oregon Adaptive Sports — Service to Summit",
+    url: "https://oregonadaptivesports.org/sport/heroes/",
+    description:
+      "Bend, Oregon-based adaptive-sports nonprofit offering veterans with disabilities adaptive skiing, snowboarding, mountain biking, and gravel cycling camps, plus recurring instruction and community-building events.",
+    needCategoryIds: ["sports-fitness", "outdoor-programs", "mental-health"],
+    audienceTags: ["Veteran", "Disabled", "Active Military"],
+    cost: "Free / subsidized",
+    geographicScope: "Central Oregon (statewide draw)",
+    state: "Oregon",
+    verifiedDate: "2026-08-27",
+    eligibility:
+      "Open to any veteran with a disability or diagnosis requiring adaptive sports equipment or specialized instruction; priority given to those facing the greatest access barriers and first-time participants.",
+  },
+  {
+    // TODO(verify): cost not stated explicitly on the org's own site.
+    name: "Forward Assist Oregon",
+    url: "https://www.forwardassistnw.org/",
+    description:
+      "Wilsonville, Oregon nonprofit founded by combat-injured veterans, addressing individual needs one-on-one, coordinating outdoor and relationship-building events, and helping veterans and first responders navigate the VA and other agencies.",
+    needCategoryIds: ["purpose-community", "outdoor-programs", "legal-benefits", "family-support"],
+    audienceTags: ["Veteran", "First Responder", "Family"],
+    cost: "Free / sponsored",
+    geographicScope: "Oregon",
+    state: "Oregon",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "Oregon Veteran Recreation Benefits",
+    url: "https://www.oregon.gov/odva/benefits/pages/recreation.aspx",
+    description:
+      "Oregon provides service-connected disabled veterans (25%+ rating) a free combined hunting, fishing, and shellfish license, plus a Special Access Pass for free year-round camping and day-use at 26 Oregon State Parks.",
+    needCategoryIds: ["outdoor-programs", "financial-assistance"],
+    audienceTags: ["Veteran", "Disabled", "Active Military"],
+    cost: "Free",
+    geographicScope: "Statewide",
+    state: "Oregon",
+    verifiedDate: "2026-08-27",
+    eligibility:
+      "Federal VA-rated service-connected disability of 25% or more; Oregon resident for at least 6 months prior to application; Special Access Pass valid 4 years.",
+  },
+  {
+    name: "Oregon Department of Veterans' Affairs",
+    url: "https://www.oregon.gov/odva/pages/default.aspx",
+    description:
+      "Oregon's state agency connecting veterans and families to state and federal benefits — including claims assistance, the ORVET Home Loan Program, Oregon Veterans' Homes, employment and education resources, and the Veterans Crisis Line.",
+    needCategoryIds: ["legal-benefits", "financial-assistance", "career-education", "housing-transportation"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free for claims assistance and the Veterans Crisis Line; other benefit programs (e.g. home loans, veterans' homes) carry their own program-specific terms",
+    geographicScope: "Statewide",
+    state: "Oregon",
+    verifiedDate: "2026-08-27",
+  },
+
+  // ---------------------------------------------------------------------
+  // Washington Regional
+  // ---------------------------------------------------------------------
+  {
+    name: "Outdoors For Our Heroes",
+    url: "https://outdoorsforourheroes.org/",
+    description:
+      "All-volunteer Washington nonprofit providing service-connected disabled veterans, active-duty members, and first responders burden-free hunting and fishing trips plus rod-building classes, aimed at suicide prevention and community connection.",
+    needCategoryIds: ["outdoor-programs", "mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "Disabled", "Active Military", "First Responder"],
+    cost: "Free — described as burden-free adventures; donation and volunteer funded",
+    geographicScope: "Washington",
+    state: "Washington",
+    verifiedDate: "2026-08-27",
+    eligibility: "Service-connected disabled veterans, active-duty personnel, and first responders.",
+  },
+  {
+    // TODO(verify): main site blocked direct verification (403); cost inferred from charter-boat coverage of free trips, not confirmed on the org's own site.
+    name: "Mission Outdoors",
+    url: "https://missionoutdoors.org/",
+    description:
+      "Bonney Lake, Washington nonprofit using hunting, fishing, and outdoor events — including the annual Washington Tuna Classic in Westport — to provide emotional support, connection, and hope to combat veterans, active military, and first responders.",
+    needCategoryIds: ["outdoor-programs", "mental-health"],
+    audienceTags: ["Veteran", "Active Military", "First Responder"],
+    cost: "Free / sponsored",
+    geographicScope: "Washington",
+    state: "Washington",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    // NOTE: this benefit reaches veterans indirectly, through a qualifying organization — a veteran cannot apply for the pass directly.
+    name: "Everyone Outdoors Program",
+    url: "https://discoverpass.wa.gov/about-pass/free-ways-visit/everyone-outdoors-program",
+    description:
+      "Washington State Parks, WDFW, and DNR jointly provide free annual Discover Passes to Washington-based nonprofit and veteran organizations — not individual veterans directly — so those organizations can give their constituents direct outdoor access.",
+    needCategoryIds: ["outdoor-programs", "financial-assistance"],
+    audienceTags: ["Veteran"],
+    cost: "Free (the pass, to qualifying organizations)",
+    geographicScope: "Washington",
+    state: "Washington",
+    verifiedDate: "2026-08-27",
+    eligibility:
+      "Applicant must be an organization, not an individual, based in and serving Washington residents; passes reviewed monthly, first-come-first-served; cannot be used for auctions or other fundraising purposes.",
+  },
+  {
+    name: "Washington Department of Veterans Affairs",
+    url: "https://dva.wa.gov/",
+    description:
+      "Washington's state agency providing claims assistance, PTSD/TBI/suicide-prevention counseling, four State Veterans Homes, the Washington State Veterans Cemetery, and statewide benefit navigation for veterans, service members, and families.",
+    needCategoryIds: ["legal-benefits", "mental-health", "family-support"],
+    audienceTags: ["Veteran", "Family"],
+    cost:
+      "Varies by service — claims assistance and counseling are free; a $300 interment fee applies for eligible family members at the state veterans cemetery; the four State Veterans Homes bill based on ability to pay",
+    geographicScope: "Statewide",
+    state: "Washington",
+    verifiedDate: "2026-08-27",
+  },
+
+  // ---------------------------------------------------------------------
+  // Alaska Regional
+  // ---------------------------------------------------------------------
+  {
+    // NOTE: org describes itself as Kenai Peninsula/local, not statewide — scoped accordingly.
+    name: "SOLVE Alaska",
+    url: "https://www.solvealaska.org/",
+    description:
+      "Kenai Peninsula-based nonprofit providing Alaska veterans no-cost groceries, temporary housing help, heating fuel, emergency home and vehicle repairs, financial assistance, limited transportation, spouse support, and wilderness activities including fishing, hunting, skiing, camping, and snowmachine trips.",
+    needCategoryIds: ["financial-assistance", "housing-transportation", "outdoor-programs", "family-support"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free — all at no cost to veterans served",
+    geographicScope: "Kenai Peninsula / regional",
+    state: "Alaska",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "The Fallen Outdoors — Team Alaska",
+    url: "https://thefallenoutdoors.org/alaska",
+    description:
+      "Alaska chapter of a national veteran-suicide-prevention nonprofit connecting veterans, active-duty service members, and Gold Star family members through locally guided hunting, fishing, and wheelchair-accessible outdoor trips.",
+    needCategoryIds: ["outdoor-programs", "mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "Gold Star", "Family"],
+    cost: "Free — outdoor opportunities are provided at no cost to veterans",
+    geographicScope: "Statewide",
+    state: "Alaska",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "SCI Alaska Wounded Warriors Outdoors",
+    url: "https://aksafariclub.org/sci-alaska-chapter-warriors/",
+    description:
+      "Safari Club International's Alaska chapter sponsors a Purple Heart-only moose and deer hunting program (Warriors on Safari) that fully covers transportation, licenses, and processing, plus separate saltwater halibut trips and Family Fun Days open more broadly to military, law enforcement, fire, and other first responders.",
+    needCategoryIds: ["outdoor-programs"],
+    audienceTags: ["Veteran", "Disabled", "First Responder"],
+    cost: "Free — fully sponsored by SCI Alaska and volunteer/donor organizations",
+    geographicScope: "Statewide",
+    state: "Alaska",
+    verifiedDate: "2026-08-27",
+    eligibility:
+      "Flagship moose/deer hunts require Purple Heart recipient status and certified 100% service-connected disability; halibut trips and Family Fun Days are open more broadly to military, law enforcement, fire, and other first responders.",
+  },
+  {
+    name: "Alaska Disabled Veteran Hunting/Fishing/Trapping Benefit",
+    url: "https://www.adfg.alaska.gov/index.cfm?adfg=license.veterans",
+    description:
+      "Alaska Department of Fish and Game program offering a complimentary, non-expiring hunting, sport fishing, and trapping identification card to Alaska resident veterans certified 50% or more disabled, also exempting holders from the king salmon and waterfowl conservation stamps.",
+    needCategoryIds: ["outdoor-programs", "financial-assistance"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free",
+    geographicScope: "Statewide",
+    state: "Alaska",
+    verifiedDate: "2026-08-27",
+    eligibility:
+      "Must meet Alaska residency requirements and be certified 50%+ disabled (VA Benefit Summary Letter or equivalent documentation required); card becomes void if residency lapses.",
+  },
+  {
+    name: "Alaska Office of Veterans Affairs",
+    url: "https://veterans.alaska.gov/",
+    description:
+      "State office, part of the Alaska Department of Military and Veterans Affairs, providing free statewide Veteran Service Officer assistance with benefit counseling, claims filing, and paperwork for veterans, dependents, and survivors.",
+    needCategoryIds: ["legal-benefits", "career-education"],
+    audienceTags: ["Veteran", "Family", "Survivor"],
+    cost: "Free",
+    geographicScope: "Statewide",
+    state: "Alaska",
+    verifiedDate: "2026-08-27",
+    eligibility: "Most benefits require discharge under other-than-dishonorable conditions.",
+  },
+
+  // ---------------------------------------------------------------------
+  // Hawaii Regional
+  // ---------------------------------------------------------------------
+  {
+    name: "AMVETS Hawaii Service Foundation",
+    url: "https://amvetshawaii.org/amvets-hawaii-service-foundation/",
+    description:
+      "Hawaii-based nonprofit providing adaptive sports, wellness programming (PTSD/TBI, creative arts therapy), agricultural and beekeeping therapy, scuba certification, and career/employment assistance for veterans, active-duty members, and military families across Hawaii, American Samoa, and the Pacific.",
+    needCategoryIds: ["mental-health", "sports-fitness", "career-education", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "Family", "Gold Star"],
+    cost: "Free",
+    geographicScope: "Statewide / Pacific region",
+    state: "Hawaii",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "Big Tire Bootcamp (AMVETS Hawaii Human Performance Center)",
+    url: "https://bigtirebootcamp.com/",
+    description:
+      "Outdoor adaptive and group-fitness program at AMVETS Hawaii's Human Performance Center in Ewa Beach, Oahu; veterans and active-duty personnel train free, while adaptive athletes, first responders, families, and the general public can join through paid membership.",
+    needCategoryIds: ["sports-fitness", "mental-health", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "First Responder", "Disabled", "Family"],
+    cost: "Free for veterans and active duty; general public pays $59/month individual or $99/month family, with a free 7-day trial",
+    geographicScope: "Ewa Beach, Oahu",
+    state: "Hawaii",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    // NOTE: "Hawaii OVS Island Outreach" from source notes is the same office, not a distinct program — its island-coverage detail is folded into this entry's description rather than published separately.
+    name: "Hawaii Office of Veterans' Services",
+    url: "https://dod.hawaii.gov/ovs/",
+    description:
+      "State office (Hawaii Department of Defense) providing free VA disability claims and appeals assistance, employment support, Military Funeral Honors, and state veteran cemetery/home liaison services, with counselors stationed on Kauai, Oahu, Maui, and Hawaii Island, plus monthly Molokai and quarterly Lanai outreach visits.",
+    needCategoryIds: ["legal-benefits", "career-education", "family-support", "purpose-community"],
+    audienceTags: ["Veteran", "Family", "Survivor"],
+    cost: "Free",
+    geographicScope: "Statewide",
+    state: "Hawaii",
+    verifiedDate: "2026-08-27",
+  },
+
+  // ---------------------------------------------------------------------
+  // New York Regional
+  // ---------------------------------------------------------------------
+  {
+    name: "Heroes on the Hudson — New York",
+    url: "https://hudsonsailing.org/veterans-programs/",
+    description:
+      "Annual adaptive maritime sports clinic hosted by Hudson River Community Sailing in partnership with VA New York Harbor Healthcare, serving injured veterans from the New York/New Jersey region through sailing, kayaking, and recreation-based rehabilitation.",
+    needCategoryIds: ["sports-fitness", "outdoor-programs", "mental-health"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free for eligible veterans",
+    geographicScope: "New York / New Jersey region",
+    state: "New York",
+    verifiedDate: "2026-08-27",
+    eligibility:
+      "Open to veterans eligible for VA medical care with a qualifying condition (e.g. orthopedic amputation, TBI, burn injury, mental-health condition, visual impairment, or other injury).",
+  },
+  {
+    // TODO(verify): direct site fetch was blocked (403); content sourced via cached/search-indexed copies of the org's own materials — recommend a manual check.
+    name: "Adaptive Sports Foundation",
+    url: "https://www.adaptivesportsfoundation.org/military-programs/",
+    description:
+      "Windham, NY-based adaptive-sports nonprofit whose Warriors in Motion program serves injured service members with adaptive skiing, cycling, paddling, and wellness instruction, and partners with regional veteran adaptive-sports events including Heroes on the Hudson.",
+    needCategoryIds: ["sports-fitness", "outdoor-programs"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free — equipment, meals, and lodging are provided at no cost to veterans",
+    geographicScope: "Windham, NY / statewide",
+    state: "New York",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "True North Foundation",
+    url: "https://www.truenorth4heroes.com/",
+    description:
+      "New York City-based grant-making foundation that funds and promotes veteran-serving nonprofits — including Merging Vets & Players, the Marine Corps Scholarship Foundation, Dog Tag Inc., and the Stay In Step Foundation — across education, adaptive sports, employment transition, and rehabilitation; it does not deliver services directly.",
+    needCategoryIds: ["career-education", "sports-fitness", "mental-health"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "N/A — grant-making foundation; services are delivered by its partner organizations, each with their own cost and eligibility terms",
+    geographicScope: "New York (headquartered); partner organizations operate more broadly",
+    state: "New York",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "New York State Department of Veterans' Services",
+    url: "https://veterans.ny.gov/",
+    description:
+      "New York State's cabinet-level veterans agency; veteran-staffed Benefits Advisors provide free claims assistance and mobile outreach, plus housing grants, family resources, and suicide-prevention and PTSD support.",
+    needCategoryIds: ["legal-benefits", "housing-transportation", "family-support", "mental-health"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free for claims assistance and benefits advising",
+    geographicScope: "Statewide",
+    state: "New York",
+    verifiedDate: "2026-08-27",
+  },
+
+  // ---------------------------------------------------------------------
+  // New Jersey Regional
+  // ---------------------------------------------------------------------
+  {
+    // TODO(verify): exact per-event cost isn't itemized; org states experiences are "provided at little to no cost."
+    name: "American Warrior Outdoors",
+    url: "https://americanwarrioroutdoors.org/",
+    description:
+      "Galloway, NJ-headquartered, veteran-led nonprofit connecting veterans and active-duty service members through fishing, hunting, and outdoor experiences aimed at camaraderie, mental clarity, and renewed purpose; also serves NY, PA, MA, DE, and MD.",
+    needCategoryIds: ["outdoor-programs", "mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military"],
+    cost: "Little to no cost to participants",
+    geographicScope: "New Jersey / regional (NY, PA, MA, DE, MD)",
+    state: "New Jersey",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "Operation Beachhead",
+    url: "https://www.opbeachhead.org/",
+    description:
+      "Jersey Shore nonprofit founded in 2011 by wounded Vietnam veteran Michael Ricci, offering year-round adaptive sports — surfing, paddleboarding, and kayaking in summer, sled hockey, skiing, and ice skating in winter — for veterans, active-duty troops, and people with disabilities.",
+    needCategoryIds: ["sports-fitness", "outdoor-programs"],
+    audienceTags: ["Veteran", "Active Military", "Disabled"],
+    cost: "Free — provides free services and opportunities to participants",
+    geographicScope: "Jersey Shore / statewide",
+    state: "New Jersey",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "Heroes on the Hudson — New Jersey",
+    url: "https://hudsonsailing.org/veterans-programs/",
+    description:
+      "Annual adaptive maritime sports clinic hosted by Hudson River Community Sailing in partnership with VA New York Harbor Healthcare, serving injured veterans from the New York/New Jersey region through sailing, kayaking, and recreation-based rehabilitation.",
+    needCategoryIds: ["sports-fitness", "outdoor-programs", "mental-health"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free for eligible veterans",
+    geographicScope: "New York / New Jersey region",
+    state: "New Jersey",
+    verifiedDate: "2026-08-27",
+    eligibility:
+      "Open to veterans eligible for VA medical care with a qualifying condition (e.g. orthopedic amputation, TBI, burn injury, mental-health condition, visual impairment, or other injury).",
+  },
+  {
+    // TODO(verify): PTSD/readjustment-counseling and diversion-program claims from source notes weren't independently confirmed on the fetched page — reconfirm against program-specific subpages before treating as fully checked.
+    name: "New Jersey Department of Veterans Affairs",
+    url: "https://www.nj.gov/dva/",
+    description:
+      "New Jersey's state veterans agency, operating Veteran Service Offices in all 21 counties plus three Veterans Homes, providing benefits assistance, housing support, suicide-prevention and peer-support resources, and statewide resource navigation via Unite NJ Veterans.",
+    needCategoryIds: ["legal-benefits", "housing-transportation", "mental-health"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free",
+    geographicScope: "Statewide",
+    state: "New Jersey",
+    verifiedDate: "2026-08-27",
+  },
 ];
 
 export function getResourcesForFilters(needId: string | null, audience: string | null): Resource[] {

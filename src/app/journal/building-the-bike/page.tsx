@@ -245,7 +245,7 @@ export default function BuildingTheBikePage() {
       <CTASection
         eyebrow="Keep It Moving"
         title="Help Carry This Forward"
-        description="The mission this bike is being built for needs support of its own — and this build still needs a matched pair of Shimano-compatible, mechanical rim-brake brifters before it can carry anyone anywhere."
+        description="The mission this bike is being built for still needs support of its own. The Stradalli build has now secured its Shimano 105 2×11 brifters, and the focus is shifting toward final fit, remaining consumables, aerobar compatibility, assembly, and testing."
         buttons={[
           { label: "Support the Mission", href: "/donate" },
           { label: "Can You Help Complete the Build?", href: "/contact", variant: "secondary" },

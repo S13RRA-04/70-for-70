@@ -55,9 +55,9 @@ export const BIKE_BUILD_STATUS_SUMMARY: BikeBuildStatusSummaryItem[] = [
   },
   {
     label: "Major Component Gap",
-    status: "needed",
-    statusLabel: "Needed",
-    detail: "A matched pair of Shimano-compatible, mechanical rim-brake brifters for a 2×11 road drivetrain.",
+    status: "confirmed",
+    statusLabel: "Resolved",
+    detail: "Shimano 105 ST-R7000 mechanical 2×11 brifters purchased August 26, 2026.",
   },
   {
     label: "Aerobar Compatibility",
@@ -106,14 +106,14 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
   },
   {
     component: "Bottom Bracket",
-    status: "offered",
-    statusLabel: "Support Offered",
-    notes: "68 mm threaded; Praxis-compatible solution.",
+    status: "confirmed",
+    statusLabel: "Support Provided",
+    notes: "68 mm threaded; Praxis M30 bottom bracket.",
   },
   {
     component: "Crankset",
-    status: "offered",
-    statusLabel: "Support Offered",
+    status: "confirmed",
+    statusLabel: "Support Provided",
     notes: "170 mm Praxis crankset.",
   },
   {
@@ -136,9 +136,9 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
   },
   {
     component: "Brifters",
-    status: "needed",
-    statusLabel: "Needed",
-    notes: "Matched mechanical rim-brake Shimano road 2×11 pair.",
+    status: "confirmed",
+    statusLabel: "Purchased",
+    notes: "Shimano 105 ST-R7000 mechanical rim-brake 2×11 pair; purchased August 26, 2026.",
   },
   {
     component: "Aerobars",
@@ -181,7 +181,7 @@ export const BIKE_BUILD_CONFIRMED_CONTRIBUTORS: BikeBuildContributor[] = [
   {
     name: "Praxis",
     role: "Bottom bracket & crankset",
-    note: "Offered a compatible bottom bracket and 170 mm crankset in the selected 50/34 chainring configuration.",
+    note: "Provided a compatible bottom bracket and 170 mm crankset in the selected 50/34 chainring configuration.",
   },
   {
     name: "Bicycle Cove",
@@ -199,8 +199,8 @@ export const BIKE_BUILD_CONVERSATIONS_IN_PROGRESS: BikeBuildContributor[] = [
   },
   {
     name: "Redemptive Cycles",
-    role: "Used brifters (request pending)",
-    note: "A request for a compatible used pair was submitted August 26, 2026; awaiting a response.",
+    role: "Used brifters request concluded",
+    note: "A request for a compatible used pair was submitted August 26, 2026. A suitable Shimano 105 ST-R7000 pair was subsequently sourced and purchased elsewhere, closing the immediate brifter requirement.",
   },
 ];
 
@@ -212,7 +212,7 @@ export const BIKE_BUILD_CONVERSATIONS_IN_PROGRESS: BikeBuildContributor[] = [
  * Move an item out of this list once a real photo exists for it.
  */
 export const BIKE_BUILD_PHOTO_ROADMAP: { label: string; description: string }[] = [
-  { label: "Components as They Arrive", description: "Brifters, aerobars, and the rest of the drivetrain as they're sourced." },
+  { label: "Components as They Arrive", description: "Aerobars and the rest of the drivetrain as they're sourced." },
   { label: "The Mechanic's Inspection", description: "Bruce evaluating the frame and components in person." },
   { label: "Assembly Progress", description: "The build coming together, piece by piece." },
   { label: "First Completed Bike", description: "Only once it's actually assembled — not before." },
@@ -460,14 +460,50 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
     displayDate: "August 26, 2026",
     title: "Where the Build Stands",
     summary:
-      "A donated frame, a bottom bracket and crankset, a wheelset, a pledged tune-up, and a still-open search for brifters and aerobar compatibility.",
+      "A donated frame, a bottom bracket and crankset, a wheelset, a pledged tune-up, and now a purchased pair of brifters — aerobar compatibility remains under review.",
     status: "Build in progress",
-    featured: true,
     body: [
-      "The project now has the beginnings of a real bicycle: a donated 2012 Stradalli carbon frame, a confirmed 68 mm threaded bottom-bracket standard, a compatible Praxis bottom bracket and 170 mm crankset offered, selected 50/34 chainrings, an 11-speed wheel and cassette available through MBC, most remaining components available, possible aerobar support being evaluated by Redshift, pre-race tune-up labor pledged by Bicycle Cove, and an active search for compatible 2×11 mechanical rim-brake brifters.",
-      "Important questions remain: Can the frame be fitted comfortably and safely? What exact components will survive the final compatibility check? Can suitable brifters be sourced? Will the proposed cockpit accept the Redshift aerobars? What will the completed bike look like? How will it handle its first outdoor ride? Can it ultimately carry me through 56 miles at IRONMAN 70.3 Chattanooga?",
-      "The bike is not assembled, fitted, tested, or race-ready. Not yet.",
-      "But progress rarely arrives fully assembled. Sometimes it appears as a bare frame, a box of parts, a few people willing to help, and the decision to keep moving.",
+      "The project now has the beginnings of a real bicycle: a donated 2012 Stradalli carbon frame, a confirmed 68 mm threaded bottom-bracket standard, a Praxis M30 bottom bracket and 170 mm crankset in the selected 50/34 configuration, an 11-speed wheel and 11–32 cassette available through MBC, most remaining components available, and now a purchased pair of Shimano 105 ST-R7000 2×11 mechanical brifters.",
+      "Possible aerobar support is still being evaluated by Redshift Sports, Bicycle Cove has pledged pre-race tune-up labor, and Bruce is continuing to evaluate the frame and final build configuration.",
+      "Important questions remain: Can the frame be fitted comfortably and safely? What exact components will survive the final compatibility check? Does the build still require a new 11-speed chain or additional cable and housing supplies? Will the proposed cockpit accept the Redshift aerobars? What will the completed bike feel like on its first outdoor ride?",
+      "The bike is not assembled, fitted, tested, or race-ready.",
+      "Not yet.",
+      "But one of the largest remaining pieces is no longer a question mark.",
+    ],
+  },
+  {
+    id: "brifters-purchased",
+    date: "2026-08-27",
+    displayDate: "August 26, 2026",
+    title: "The Controls Are Covered",
+    summary:
+      "A matched pair of Shimano 105 ST-R7000 mechanical brifters has been purchased, closing the build's largest remaining drivetrain gap.",
+    status: "Brifters purchased",
+    featured: true,
+    contributors: ["Bruce"],
+    photos: [
+      {
+        src: "/journal/building-the-bike/brifters-shimano-105.png",
+        alt: "A matched pair of Shimano 105 ST-R7000 mechanical road shift/brake levers.",
+        caption: "The Shimano 105 ST-R7000 brifters, purchased August 26, 2026 — the build's primary cockpit controls, now secured.",
+        width: 1254,
+        height: 1285,
+      },
+    ],
+    technicalDetails: {
+      heading: "Brifters Purchased",
+      items: [
+        { label: "Model", value: "Shimano 105 ST-R7000, mechanical 2×11" },
+        { label: "Price", value: "$138.99 for the pair" },
+      ],
+    },
+    body: [
+      "The largest remaining drivetrain gap is officially closed.",
+      "After confirming compatibility with Bruce, I purchased a matched pair of Shimano 105 ST-R7000 mechanical 2×11 shift/brake levers for the Stradalli build.",
+      "The ST-R7000 levers match the planned Shimano-compatible 11-speed drivetrain, double chainring, and mechanical rim-brake configuration. They will control the front and rear shifting while also serving as the bike's primary brake levers.",
+      "The pair was purchased for $138.99, considerably less than many current retail listings for the same component.",
+      "This means the build now has its primary cockpit controls secured. The remaining details are increasingly becoming matters of final inventory, fit, assembly, cabling, chain selection, and aerobar compatibility rather than major component sourcing.",
+      "For a bike that began as a bare carbon frame, that is a substantial step forward.",
     ],
   },
 ];
