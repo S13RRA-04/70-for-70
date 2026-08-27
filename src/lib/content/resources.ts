@@ -1787,6 +1787,18 @@ export const RESOURCES: Resource[] = [
     state: "Arkansas",
     verifiedDate: "2026-08-27",
   },
+  {
+    name: "Warriors Retreat Foundation",
+    url: "https://www.warriorsretreat.org/",
+    description:
+      "Permanent affordable-housing community for veterans in Harrison, Arkansas, offering one-bedroom units with wraparound support services and an onsite small-engine-repair shop for workforce and purpose-building opportunities.",
+    needCategoryIds: ["housing-transportation"],
+    audienceTags: ["Veteran"],
+    cost: "$738/month (includes utilities), plus $37/month for WiFi",
+    geographicScope: "Harrison, AR / Northwest Arkansas",
+    state: "Arkansas",
+    verifiedDate: "2026-08-27",
+  },
 
   // ---------------------------------------------------------------------
   // Louisiana Regional
@@ -1840,6 +1852,18 @@ export const RESOURCES: Resource[] = [
     state: "Louisiana",
     verifiedDate: "2026-08-27",
   },
+  {
+    name: "Outdoor Wish Foundation (Swollfest)",
+    url: "https://www.swollfest.com/outdoor-wish-foundation",
+    description:
+      "Grants fully-funded, once-in-a-lifetime hunting or fishing trips to armed-forces veterans and people with disabilities, funded through the annual Swollfest fishing rodeo in Grand Isle, LA; recipients are selected directly by the foundation with no application process.",
+    needCategoryIds: ["outdoor-programs"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free — the foundation covers 100% of trip costs",
+    geographicScope: "South Louisiana",
+    state: "Louisiana",
+    verifiedDate: "2026-08-27",
+  },
 
   // ---------------------------------------------------------------------
   // Oklahoma Regional
@@ -1888,6 +1912,18 @@ export const RESOURCES: Resource[] = [
     url: "https://okvalor.ok.gov/",
     description:
       "State-run locator tool from the Oklahoma Department of Veterans Affairs helping veterans, service members, and their families find nearby mental-health, housing, employment, financial, transportation, legal, education, food, and health resources by location.",
+    needCategoryIds: ["purpose-community", "legal-benefits"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free",
+    geographicScope: "Statewide",
+    state: "Oklahoma",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "Oklahoma Veterans Resources",
+    url: "https://okveteransresources.com/",
+    description:
+      "Free, community-maintained directory of 145+ Oklahoma veteran resources, with every listing manually reviewed, covering benefits/VSOs, tribal veteran programs, health and counseling, housing and homeless services, employment, education, legal/justice assistance, and family and community support.",
     needCategoryIds: ["purpose-community", "legal-benefits"],
     audienceTags: ["Veteran", "Family"],
     cost: "Free",
@@ -1948,6 +1984,20 @@ export const RESOURCES: Resource[] = [
     state: "Missouri",
     verifiedDate: "2026-08-27",
   },
+  {
+    // TODO(verify): street address/phone sourced from a search-result snippet, not confirmed directly on the live-fetched site.
+    name: "Warrior's Hoof Haven",
+    url: "https://www.warriorshoofhaven.org/",
+    description:
+      "Uses structured interactions with horses, plus farming, gardening, and outdoor activities like fishing, hunting, and kayaking, to support the healing and mental wellness of combat veterans; family members participate through their veteran's membership.",
+    needCategoryIds: ["mental-health", "outdoor-programs"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "No participation fee stated; donation-supported",
+    geographicScope: "Missouri",
+    state: "Missouri",
+    verifiedDate: "2026-08-27",
+    eligibility: "Membership is built for combat veterans; family members participate through their veteran's membership.",
+  },
 
   // ---------------------------------------------------------------------
   // West Virginia Regional
@@ -2000,6 +2050,345 @@ export const RESOURCES: Resource[] = [
     cost: "Free",
     geographicScope: "Statewide (14 offices + 1 claims office)",
     state: "West Virginia",
+    verifiedDate: "2026-08-27",
+  },
+
+  // ---------------------------------------------------------------------
+  // Michigan Regional
+  // ---------------------------------------------------------------------
+  {
+    // TODO(verify): miofo.org doesn't explicitly state cost; program is donor/sponsor-funded and widely described as free, but not confirmed in the org's own words.
+    name: "Michigan Operation Freedom Outdoors",
+    url: "https://miofo.org/",
+    description:
+      "Partnership with the Michigan DNR centered on Sharonville State Game Area and Camp Liberty, connecting wounded veterans and people with health challenges to accessible hunting and outdoor recreation as part of recovery and peer support.",
+    needCategoryIds: ["outdoor-programs", "sports-fitness", "mental-health"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free / sponsored",
+    geographicScope: "Michigan (Sharonville State Game Area / Camp Liberty)",
+    state: "Michigan",
+    verifiedDate: "2026-08-27",
+    eligibility: "Wounded veterans and individuals with health challenges or disabilities.",
+  },
+  {
+    name: "Croton Sportsmen for Youth and Disabled Veterans",
+    url: "https://csydv.org/",
+    description:
+      "All-volunteer Michigan nonprofit serving the Croton River area since 2010, offering disabled veterans no-cost fishing, shooting sports, and archery while developing accessible facilities for participants with mobility limitations.",
+    needCategoryIds: ["outdoor-programs", "sports-fitness"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free — no participation fees; 100% volunteer-run and donor-funded",
+    geographicScope: "Croton, MI",
+    state: "Michigan",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "Michigan Outdoor Wishmakers",
+    url: "https://www.mioutdoorwishmakers.com/",
+    description:
+      "Michigan nonprofit providing no-cost hunting and fishing adventures — including a dedicated veterans' whitetail hunt — for veterans and others living with a life-threatening illness or limiting disability, using specialized equipment and accessible lodges and charters.",
+    needCategoryIds: ["outdoor-programs", "equipment-grants", "family-support"],
+    audienceTags: ["Veteran", "Disabled", "Family"],
+    cost: "Free — adventures come at no cost to participants or their families",
+    geographicScope: "Michigan (statewide)",
+    state: "Michigan",
+    verifiedDate: "2026-08-27",
+    eligibility: "Participants must have a life-threatening illness or life-limiting disability; nominated via the organization's website.",
+  },
+  {
+    // TODO(verify): mvaa.michigan.gov blocks automated verification requests; details corroborated via MI DNR license pages and MVAA search snippets — reconfirm directly before publishing.
+    name: "Michigan Veterans Affairs Agency — Recreation Benefits",
+    url: "https://www.michigan.gov/mvaa/quality-of-life/quality-of-life/recreation-a",
+    description:
+      "State portal covering free hunting and fishing licenses and free state-park (Recreation Passport) access for qualifying disabled veterans, plus links to programs like Michigan Operation Freedom Outdoors.",
+    needCategoryIds: ["outdoor-programs", "financial-assistance"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free for veterans who meet eligibility criteria",
+    geographicScope: "Statewide",
+    state: "Michigan",
+    verifiedDate: "2026-08-27",
+    eligibility:
+      "Free hunting/fishing license: Michigan resident veteran rated 100% permanently and totally disabled (for a disability other than blindness) or individually unemployable by VA. Free Recreation Passport: Medal of Honor recipients, 100% permanently and totally disabled veterans, and ex-POWs.",
+  },
+
+  // ---------------------------------------------------------------------
+  // Wisconsin Regional
+  // ---------------------------------------------------------------------
+  {
+    name: "Wisconsin Hero Outdoors",
+    url: "https://wiherooutdoors.org/",
+    description:
+      "All-volunteer Wisconsin nonprofit connecting veterans, first responders, and their families to hunting, fishing, golf, scuba, and equestrian activities, coordinating with VA medical facilities to support recreational therapy and suicide-prevention goals.",
+    needCategoryIds: ["outdoor-programs", "mental-health", "family-support"],
+    audienceTags: ["Veteran", "First Responder", "Family"],
+    cost: "Free — all activities are free to participants",
+    geographicScope: "Statewide",
+    state: "Wisconsin",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "Wounded Warriors United of Wisconsin",
+    url: "https://woundedwarriorsunitedwi.org/",
+    description:
+      "Wisconsin nonprofit providing no-cost, cross-country hunting and fishing trips plus free stays for veterans and their families at Country Haven Farm, a retreat in Gleason, WI.",
+    needCategoryIds: ["outdoor-programs", "family-support"],
+    audienceTags: ["Veteran"],
+    cost: "Free — trips and farm stays are at no charge to the veteran",
+    geographicScope: "Statewide",
+    state: "Wisconsin",
+    verifiedDate: "2026-08-27",
+    eligibility: "Wisconsin veterans; farm retreat open to any Wisconsin veteran with family or another veteran.",
+  },
+  {
+    // TODO(verify): a separate, similarly named org ("Valor & Honor Outdoors") also exists — confirmed via EIN 85-4206365 that honorandvaloroutdoors.com (Green Bay / NE Wisconsin) is the correct match for this entry; don't conflate the two.
+    name: "Honor and Valor Outdoors",
+    url: "https://honorandvaloroutdoors.com/",
+    description:
+      "Green Bay-based nonprofit offering free guided walleye, ice, and waterfowl/upland hunting and fishing trips to veterans and current service members, ranging from one-on-one outings to larger camaraderie events.",
+    needCategoryIds: ["outdoor-programs", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "Free — free guided hunting and fishing trips",
+    geographicScope: "Northeast Wisconsin",
+    state: "Wisconsin",
+    verifiedDate: "2026-08-27",
+    eligibility: "Honorably discharged or currently serving; may bring one family member or friend.",
+  },
+  {
+    name: "Wisconsin Department of Veterans Affairs — Benefits",
+    url: "https://dva.wi.gov/benefits/",
+    description:
+      "State benefits portal covering education (WI GI Bill, retraining grants), employment, financial and subsistence grants, recreation (hunting/fishing licenses, park passes), licensing, and veteran-owned business support.",
+    needCategoryIds: ["legal-benefits", "career-education", "financial-assistance"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free resource — the portal is free to use; specific benefits vary by program",
+    geographicScope: "Statewide",
+    state: "Wisconsin",
+    verifiedDate: "2026-08-27",
+    eligibility:
+      "Example: the one-time free hunting/fishing license requires honorable discharge within the past 365 days and service during a qualifying war period.",
+  },
+
+  // ---------------------------------------------------------------------
+  // Minnesota Regional
+  // ---------------------------------------------------------------------
+  {
+    name: "Minnesota Veterans Outdoors",
+    url: "https://www.mnvetsoutdoors.org/",
+    description:
+      "Minnesota nonprofit offering disabled veterans a turkey hunt, a \"Trolling 4 Troops\" fishing event, and a deer hunt at Camp Ripley, built around outdoor recreational therapy, camaraderie, and connection with fellow veterans.",
+    needCategoryIds: ["outdoor-programs", "mental-health"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free — meals and lodging are provided at no cost to hunt participants",
+    geographicScope: "Statewide",
+    state: "Minnesota",
+    verifiedDate: "2026-08-27",
+    eligibility: "Minnesota-resident disabled veterans; hunt slots awarded by lottery application.",
+  },
+  {
+    // TODO(verify): davmn.org doesn't state cost explicitly for this program; no "free" language found on the org's own program page.
+    name: "DAV of Minnesota Outdoors Program",
+    url: "https://davmn.org/our-programs/veterans-outdoors/",
+    description:
+      "DAV of Minnesota's veteran recreational-therapy program offers fishing, hunting, hiking, and other outdoor events statewide, run through local American Legion, DAV, MOPH, and VFW chapters, aimed at building strength, endurance, confidence, and camaraderie.",
+    needCategoryIds: ["outdoor-programs", "sports-fitness", "mental-health"],
+    audienceTags: ["Veteran"],
+    cost: "Free / sponsored",
+    geographicScope: "Statewide",
+    state: "Minnesota",
+    verifiedDate: "2026-08-27",
+    eligibility: "Open to veterans of all backgrounds, ages, and genders.",
+  },
+  {
+    name: "Hometown Hero Outdoors",
+    url: "https://hometownherooutdoors.org/",
+    description:
+      "National nonprofit headquartered in Stillwater, MN, offering peer-led hunting, fishing, and outdoor trips for veterans, active-duty military, law enforcement, firefighters, and EMS professionals to build community and support mental wellness.",
+    needCategoryIds: ["outdoor-programs", "mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "Law Enforcement", "Fire", "EMS", "First Responder"],
+    cost: "Free / sponsored — offered without cost to participants",
+    geographicScope: "National (headquartered in Stillwater, MN)",
+    state: "Minnesota",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "Minnesota Department of Veterans Affairs / LinkVet",
+    url: "https://mn.gov/mdva/contacts/linkvet.jsp",
+    description:
+      "State agency and one-stop veteran service line (LinkVet) providing free accredited benefits counseling, claims assistance, emergency financial aid, homelessness prevention, education, and family services through MDVA and County/Tribal Veteran Service Officers.",
+    needCategoryIds: ["legal-benefits", "financial-assistance", "housing-transportation", "family-support"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free — all services are provided free of charge",
+    geographicScope: "Statewide",
+    state: "Minnesota",
+    verifiedDate: "2026-08-27",
+    phone: "888-546-5838",
+  },
+
+  // ---------------------------------------------------------------------
+  // North Dakota Regional
+  // ---------------------------------------------------------------------
+  {
+    name: "On the Water, Inc.",
+    url: "https://www.otwnd.org/",
+    description:
+      "Minot, ND-based nonprofit serving 100+ veterans annually through free summer fishing events at Lake Sakakawea plus seasonal Veterans Cabin access, with boats, equipment, and meals provided.",
+    needCategoryIds: ["outdoor-programs", "mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free — all programs, including use of the Veterans Cabin, are provided at zero cost",
+    geographicScope: "Lake Sakakawea / North Dakota",
+    state: "North Dakota",
+    verifiedDate: "2026-08-27",
+    eligibility: "Combat veterans (served in overseas conflicts) or veterans with a service-connected disability.",
+  },
+  {
+    name: "North Dakota County & Tribal Veteran Service Officers",
+    url: "https://www.veterans.nd.gov/about/find-a-service-officer",
+    description:
+      "Accredited County (all 53 ND counties) and Tribal (Fort Berthold, Lake Traverse, Spirit Lake, Standing Rock, Turtle Mountain) Veteran Service Officers provide free local assistance with health care, disability compensation, pension, long-term care, and burial benefits.",
+    needCategoryIds: ["legal-benefits"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free — all services are provided free of charge to veterans and their dependents",
+    geographicScope: "Statewide",
+    state: "North Dakota",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "North Dakota Department of Veterans Affairs",
+    url: "https://www.veterans.nd.gov/",
+    description:
+      "State veterans agency provides free claims assistance and benefit navigation alongside the Veterans Aid Loan, the Hardship Assistance Grant, transportation to VA medical facilities, and education/employment resources.",
+    needCategoryIds: ["legal-benefits", "financial-assistance", "housing-transportation", "career-education"],
+    audienceTags: ["Veteran", "Family"],
+    cost:
+      "Claims assistance, VSO help, and the Hardship Assistance Grant are free; the Veterans Aid Loan (up to $8,000) carries 8% interest and is not a free program",
+    geographicScope: "Statewide",
+    state: "North Dakota",
+    verifiedDate: "2026-08-27",
+    eligibility:
+      "Veterans Aid Loan: ND veterans, current/former Guard/Reserve members, and unmarried surviving spouses. Hardship Grant: ND residency, veteran status, documented financial need, income/asset limits.",
+  },
+  {
+    name: "North Dakota Veterans Benefits Eligibility Portal",
+    url: "https://www.veterans.nd.gov/benefits-and-services/what-am-i-eligible",
+    description:
+      "State resource explaining VA disability compensation eligibility criteria and connecting veterans with free accredited state, county, tribal, and national representatives for claims help.",
+    needCategoryIds: ["legal-benefits"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free — a Veteran Service Officer can assist at no cost",
+    geographicScope: "Statewide",
+    state: "North Dakota",
+    verifiedDate: "2026-08-27",
+  },
+
+  // ---------------------------------------------------------------------
+  // South Dakota Regional
+  // ---------------------------------------------------------------------
+  {
+    // TODO(verify): hero-haven.org doesn't explicitly state cost; press coverage describes trips as free but this isn't confirmed on the org's own site.
+    name: "Hero Haven",
+    url: "https://www.hero-haven.org/",
+    description:
+      "South Dakota-based nonprofit organizing outdoor adventures — hunting, fly fishing, ATV rides, and custom trips — for veterans, active-duty military, law enforcement, firefighters, EMS, and other first responders.",
+    needCategoryIds: ["outdoor-programs", "mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "Law Enforcement", "Fire", "EMS", "First Responder"],
+    cost: "Free / sponsored",
+    geographicScope: "South Dakota / regional (multi-state trips)",
+    state: "South Dakota",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    // TODO(verify): warriorsnevergiveup.org doesn't explicitly state cost or what expenses are covered; a local news article described one specific event as free.
+    name: "Warriors Never Give Up",
+    url: "https://www.warriorsnevergiveup.org/",
+    description:
+      "Sioux Falls-based nonprofit offering hunting and fishing trips — pheasant, goose, and coyote hunts, plus fishing tournaments — for previously deployed or service-connected disabled veterans.",
+    needCategoryIds: ["outdoor-programs", "mental-health"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free / sponsored",
+    geographicScope: "Eastern South Dakota / regional",
+    state: "South Dakota",
+    verifiedDate: "2026-08-27",
+    eligibility: "Previously deployed or service-connected disabled veterans.",
+  },
+  {
+    name: "Wings of Valor Lodge",
+    url: "https://www.wingsofvalorlodge.org/",
+    description:
+      "Fully wheelchair-accessible hunting lodge near Parker, SD, offering pheasant and deer hunts at no cost, with a historical focus on wounded and disabled veterans; has hosted 500+ veterans from across the country since 2006.",
+    needCategoryIds: ["outdoor-programs", "family-support", "purpose-community"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free — veterans can visit, hunt, and experience the lodge at no cost to themselves",
+    geographicScope: "Parker, SD / national reach",
+    state: "South Dakota",
+    verifiedDate: "2026-08-27",
+    eligibility: "Open to all veterans; facility is fully wheelchair-accessible with a historical focus on wounded/disabled veterans.",
+  },
+  {
+    name: "South Dakota Department of Veterans Affairs — County & Tribal VSOs",
+    url: "https://vetaffairs.sd.gov/veteransserviceofficers/what%20is%20a%20vso.aspx",
+    description:
+      "State-mandated network of County and Tribal Veteran Service Officers, present in every South Dakota county and on some reservations, helping veterans and dependents apply for federal and state veterans benefits.",
+    needCategoryIds: ["legal-benefits"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free",
+    geographicScope: "Statewide",
+    state: "South Dakota",
+    verifiedDate: "2026-08-27",
+    eligibility: "Veterans, and dependents including widows, dependent children, and dependent parents of veterans who died in military service.",
+  },
+
+  // ---------------------------------------------------------------------
+  // Colorado Regional
+  // ---------------------------------------------------------------------
+  {
+    name: "Challenge Aspen Military Opportunities (CAMO)",
+    url: "https://challengeaspen.org/programs/veteran-programs/",
+    description:
+      "Adaptive recreation program in Aspen/Snowmass for veterans and active-duty members with service-connected disabilities, offering cost-free application-based Rocky Mountain Retreats and low-cost drop-in Western Slope Socials with adaptive winter and summer sports instruction.",
+    needCategoryIds: ["sports-fitness", "outdoor-programs", "mental-health"],
+    audienceTags: ["Veteran", "Disabled", "Active Military"],
+    cost: "Free (application-based Rocky Mountain Retreats) or low-cost (drop-in Western Slope Socials)",
+    geographicScope: "Aspen/Snowmass, extending to Colorado's Western Slope",
+    state: "Colorado",
+    verifiedDate: "2026-08-27",
+    eligibility:
+      "Veterans with a VA disability rating (low-cost drop-in programs); veterans and active-duty members with service-connected disabilities (multi-day retreats).",
+  },
+  {
+    name: "Colorado Discover Ability",
+    url: "https://cdagj.org/",
+    description:
+      "Grand Junction-based adaptive recreation nonprofit offering year-round skiing, snowboarding, cycling, kayaking, paddleboarding, hiking, and horseback riding for people with disabilities, including veteran programming and custom group opportunities for veteran organizations.",
+    needCategoryIds: ["sports-fitness", "outdoor-programs", "equipment-grants"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Program fees apply; financial assistance and state disability waivers (CES/SLS) may be available",
+    geographicScope: "Western Colorado",
+    state: "Colorado",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "Bodhi Battalion",
+    url: "https://bodhibattalion.org/",
+    description:
+      "Broomfield, Colorado nonprofit pairing veterans and first responders facing PTSD, isolation, or suicide risk with mental-health services and trained service dogs, combining therapeutic practice with hands-on service-dog training.",
+    needCategoryIds: ["mental-health", "purpose-community", "family-support"],
+    audienceTags: ["Veteran", "First Responder"],
+    cost: "$50 one-time application fee for the service-dog program; Bodhi Battalion covers the dog's first year of food and veterinary care",
+    geographicScope: "Statewide",
+    state: "Colorado",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    // TODO(verify): vets.colorado.gov blocks automated verification requests; cost/scope corroborated via secondary county-government sources — reconfirm directly before publishing.
+    name: "Colorado County Veterans Service Offices",
+    url: "https://vets.colorado.gov/county-veterans-service-offices",
+    description:
+      "Statewide network of 64 County Veterans Service Offices providing free, accredited assistance to Colorado veterans and their family members with VA claims, benefit applications, and appeals.",
+    needCategoryIds: ["legal-benefits"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free",
+    geographicScope: "Statewide",
+    state: "Colorado",
     verifiedDate: "2026-08-27",
   },
 ];
