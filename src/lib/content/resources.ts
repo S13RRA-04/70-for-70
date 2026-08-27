@@ -3212,6 +3212,455 @@ export const RESOURCES: Resource[] = [
     state: "New Jersey",
     verifiedDate: "2026-08-27",
   },
+
+  // ---------------------------------------------------------------------
+  // Connecticut Regional
+  // ---------------------------------------------------------------------
+  {
+    name: "Open Doors Outdoors",
+    url: "https://www.opendoorsoutdoors.org/",
+    description:
+      "Connecticut nonprofit providing guided hikes, UTV excursions, snowshoeing, and kayaking for veterans and their families throughout New England, using nature and peer connection to support healing and reconnection.",
+    needCategoryIds: ["outdoor-programs", "mental-health", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "Free to participants — donations cover 100% of program expenses",
+    geographicScope: "Connecticut / New England",
+    state: "Connecticut",
+    verifiedDate: "2026-08-27",
+    eligibility: "Veteran Hiking Program is veteran-specific; the Family Hiking Program is open to non-veterans too.",
+  },
+  {
+    // TODO(verify): general (non-veteran) program pricing isn't disclosed on-site.
+    name: "Summit Adaptive Sports — Veteran Program",
+    url: "https://www.summitadaptive.org/",
+    description:
+      "New Hartford, CT-based adaptive sports nonprofit offering veterans and service members with permanent disabilities free adaptive skiing, snowboarding, kayaking, hiking, mountain biking, and disc golf, via the Move United VA Adaptive Sports Grant Program.",
+    needCategoryIds: ["sports-fitness", "outdoor-programs"],
+    audienceTags: ["Veteran", "Disabled", "Active Military"],
+    cost: "Free for veterans and service members with permanent disabilities",
+    geographicScope: "Northwestern Connecticut",
+    state: "Connecticut",
+    verifiedDate: "2026-08-27",
+    eligibility: "Requires a permanent disability (veterans and active-duty service members).",
+  },
+  {
+    // TODO(verify): cost not stated on the org's own site; contact required.
+    name: "LOF Adaptive Skiers — Wounded Veteran Programs",
+    url: "https://www.lofadaptiveskiers.org/",
+    description:
+      "Lake Zoar (Southbury, CT)-based adaptive water-sports organization — the first in the country to develop adaptive water sports for veterans — offering waterskiing, wakeboarding, and Wounded Warrior events, including a dedicated Women Warriors program for female veterans.",
+    needCategoryIds: ["sports-fitness", "outdoor-programs"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Sponsored",
+    geographicScope: "Lake Zoar, CT / regional",
+    state: "Connecticut",
+    verifiedDate: "2026-08-27",
+    eligibility: "Wounded Warrior event open to all veterans regardless of disability type; Women Warriors program serves female veterans specifically.",
+  },
+  {
+    // TODO(verify): cost for residential/nursing/cemetery services isn't disclosed on-site (likely eligibility- and means-based).
+    name: "Connecticut Department of Veterans Affairs",
+    url: "https://portal.ct.gov/dva",
+    description:
+      "Statewide Connecticut agency providing benefits advocacy, residential and skilled nursing care, cemetery and memorial services, a free veteran bus-pass program, and referrals for legal assistance and suicide-prevention resources.",
+    needCategoryIds: ["legal-benefits", "housing-transportation", "career-education"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free bus-pass program; benefits advocacy provided at no cost",
+    geographicScope: "Statewide",
+    state: "Connecticut",
+    verifiedDate: "2026-08-27",
+    eligibility: "Advocacy services available to veterans, eligible spouses, and dependents; nursing/residential care limited to eligible wartime veterans.",
+  },
+
+  // ---------------------------------------------------------------------
+  // Rhode Island Regional
+  // ---------------------------------------------------------------------
+  {
+    // TODO(verify): no fee/pricing information stated anywhere on the org's site.
+    name: "SAIL TO WIN",
+    url: "https://www.sailtowin.org/",
+    description:
+      "Newport, RI-based nonprofit using adaptive competitive sailing, training, and regatta competition to empower wounded veterans and injured first responders with visible and invisible disabilities.",
+    needCategoryIds: ["sports-fitness", "outdoor-programs", "equipment-grants"],
+    audienceTags: ["Veteran", "Disabled", "First Responder"],
+    cost: "Sponsored",
+    geographicScope: "Newport, RI / regional",
+    state: "Rhode Island",
+    verifiedDate: "2026-08-27",
+    eligibility: "Serves wounded veterans and injured first responders with disabilities, explicitly including non-visible injuries.",
+  },
+  {
+    // TODO(verify): cost not stated on-site; contact required.
+    name: "Outdoors With Veterans",
+    url: "https://outdoorswithveterans.com/",
+    description:
+      "Exeter, RI-based nonprofit providing veterans fishing, hunting, canoeing, and other outdoor activities across Rhode Island, Massachusetts, Connecticut, Maine, New Hampshire, and beyond, building veteran community.",
+    needCategoryIds: ["outdoor-programs", "purpose-community"],
+    audienceTags: ["Veteran"],
+    cost: "Sponsored",
+    geographicScope: "Rhode Island / New England",
+    state: "Rhode Island",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "SMGA New England — Rhode Island",
+    url: "https://www.smganewengland.org/",
+    description:
+      "Regional chapter of the Salute Military Golf Association serving all six New England states, providing post-9/11 combat-wounded veterans free golf clinics, group lessons, custom-fitted clubs, and recurring outings.",
+    needCategoryIds: ["sports-fitness", "mental-health", "equipment-grants"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free for approved Members (Warrior Golf Clinics, lessons, clubs); group golf-course memberships available for a cart-fee-only rate",
+    geographicScope: "New England region (all six states)",
+    state: "Rhode Island",
+    verifiedDate: "2026-08-27",
+    eligibility:
+      "Post-9/11 combat-wounded veterans only for full Member benefits, with documentation required; a separate, narrower Participant tier exists for service-connected but non-combat injuries.",
+  },
+  {
+    // TODO(verify): home/cemetery-specific costs aren't detailed on the general RIVETS page.
+    name: "Rhode Island Office of Veterans Services — RIVETS",
+    url: "https://vets.ri.gov/",
+    description:
+      "Statewide Rhode Island veterans agency providing benefits counseling, discharge-paperwork assistance, and case management through its Veterans Resource Center, plus the RI Veterans Home and Memorial Cemetery, focused on reducing veteran homelessness, poverty, and unemployment.",
+    needCategoryIds: ["legal-benefits", "housing-transportation", "financial-assistance"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family"],
+    cost: "Free",
+    geographicScope: "Statewide",
+    state: "Rhode Island",
+    verifiedDate: "2026-08-27",
+  },
+
+  // ---------------------------------------------------------------------
+  // Massachusetts Regional
+  // ---------------------------------------------------------------------
+  {
+    name: "VA Boston Adaptive Sports",
+    url: "https://www.va.gov/boston-health-care/programs/adaptive-sports-therapy/",
+    description:
+      "VA Boston Healthcare System program offering enrolled veterans kayaking, cycling, surfing, rowing, fishing, sailing, golf, archery, skiing, snowboarding, and wheelchair sports, plus annual weeklong winter and summer sports clinics.",
+    needCategoryIds: ["sports-fitness", "outdoor-programs"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free for enrolled VA patients",
+    geographicScope: "VA Boston catchment area / New England-wide clinics",
+    state: "Massachusetts",
+    verifiedDate: "2026-08-27",
+    eligibility: "Must be enrolled in VA Healthcare, medically stable/cleared, and obtain an Adaptive Sports/Recreation consult from a primary care physician.",
+  },
+  {
+    name: "Massachusetts Universal Access Program",
+    url: "https://www.mass.gov/orgs/universal-access-program",
+    description:
+      "Massachusetts DCR program providing adaptive and accessible recreation — kayaking, cycling, rowing, golf, skiing, skating — at state parks statewide, in partnership with All Out Adventures, Easterseals Massachusetts, Holyoke Rows, and Waypoint Adventure; a general disability-access program rather than veteran-specific, though veterans are among those it serves.",
+    needCategoryIds: ["sports-fitness", "outdoor-programs"],
+    audienceTags: ["Disabled", "Veteran"],
+    cost: "Free or low-cost — free specialized adaptive equipment and free or low-cost accessible recreation programs June-August at 29 DCR properties; some programs may carry a fee",
+    geographicScope: "Statewide",
+    state: "Massachusetts",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "SMGA New England — Massachusetts",
+    url: "https://www.smganewengland.org/",
+    description:
+      "Massachusetts-headquartered chapter of the Salute Military Golf Association using golf as physical and mental rehabilitation for post-9/11 combat-wounded veterans, offering free formal instruction, custom-fitted clubs, and recurring outings.",
+    needCategoryIds: ["sports-fitness", "mental-health", "equipment-grants"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free for approved Members (Warrior Golf Clinics, lessons, clubs); group golf-course memberships available for a cart-fee-only rate",
+    geographicScope: "New England region (all six states, hub in MA)",
+    state: "Massachusetts",
+    verifiedDate: "2026-08-27",
+    eligibility: "Post-9/11 combat-wounded veterans only for full Member benefits, with documentation required.",
+  },
+  {
+    // TODO(verify): exact current dollar cap for the Chapter 115 benefit wasn't independently confirmed directly on mass.gov (fetch blocked); corroborated via secondary legal-aid sources.
+    name: "Massachusetts Executive Office of Veterans Services / Chapter 115",
+    url: "https://www.mass.gov/info-details/chapter-115-benefitssafety-net-program",
+    description:
+      "Massachusetts General Laws Chapter 115 is a means-tested state and municipal safety-net program, administered through a mandatory Veterans Service Officer in every Massachusetts city and town, providing eligible veterans and dependents financial assistance for food, shelter, clothing, fuel, and medical care.",
+    needCategoryIds: ["legal-benefits", "financial-assistance"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free to apply and receive VSO assistance; the benefit itself is a means-tested cash/in-kind assistance payment",
+    geographicScope: "Statewide",
+    state: "Massachusetts",
+    verifiedDate: "2026-08-27",
+    eligibility: "Must be a veteran or dependent of a veteran, demonstrate financial need, and reside in Massachusetts.",
+  },
+
+  // ---------------------------------------------------------------------
+  // Vermont Regional
+  // ---------------------------------------------------------------------
+  {
+    name: "Vermont Adaptive — Veteran Ventures",
+    url: "https://www.vermontadaptive.org/veterans/",
+    description:
+      "Year-round adaptive sports for veterans and their families — skiing, snowboarding, cycling, kayaking, climbing, sailing, and more — with equipment, lessons, and lift tickets provided free.",
+    needCategoryIds: ["sports-fitness", "outdoor-programs", "equipment-grants"],
+    audienceTags: ["Veteran", "Disabled", "Family"],
+    cost: "Free — equipment, lessons, and tickets are free",
+    geographicScope: "Vermont",
+    state: "Vermont",
+    verifiedDate: "2026-08-27",
+    eligibility: "Injured service members, veterans with disabilities (including PTSD/TBI), and their families; advance reservation required.",
+  },
+  {
+    // NOTE: "Heroes on the River — Vermont Events" from source notes was not added — the org is Virginia-based, and its own FAQ describes Vermont programming as still in early planning, not an established offering.
+    name: "New England Adventures — Vermont",
+    url: "https://www.newenglandadventures.org/",
+    description:
+      "All-expense-paid outdoor therapeutic activities — hunting, fishing, whitewater rafting, skiing — for New England veterans, active service members, and their immediate families, aimed at reducing isolation and suicide risk.",
+    needCategoryIds: ["outdoor-programs", "mental-health", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "Free / all-expense-paid — approximately 95% of donations go directly to funding events",
+    geographicScope: "New England region (multi-state)",
+    state: "Vermont",
+    verifiedDate: "2026-08-27",
+    eligibility: "Honorably discharged veterans, current active service members, and their immediate family members.",
+  },
+  {
+    // TODO(verify): free VSO assistance inferred from standard practice; not stated explicitly on the org's site.
+    name: "Vermont Office of Veterans Affairs",
+    url: "https://veterans.vermont.gov/",
+    description:
+      "State agency that administers Vermont's veteran programs and helps veterans and families access earned state and federal benefits.",
+    needCategoryIds: ["legal-benefits"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free",
+    geographicScope: "Statewide",
+    state: "Vermont",
+    verifiedDate: "2026-08-27",
+  },
+
+  // ---------------------------------------------------------------------
+  // New Hampshire Regional
+  // ---------------------------------------------------------------------
+  {
+    // TODO(verify): no pricing stated for hikes, Wilderness First Aid courses, or gear assistance.
+    name: "Veterans On The 48",
+    url: "https://www.veteransonthe48.org/",
+    description:
+      "Nonprofit organizing group hikes for veterans across New Hampshire's 48 four-thousand-foot peaks; also funds Wilderness First Aid courses and helps veterans obtain hiking gear.",
+    needCategoryIds: ["outdoor-programs", "sports-fitness", "equipment-grants"],
+    audienceTags: ["Veteran", "Active Military"],
+    cost: "Sponsored",
+    geographicScope: "New Hampshire (White Mountains)",
+    state: "New Hampshire",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "Camp Resilience",
+    url: "https://www.camp-resilience.org/",
+    description:
+      "3-4 day retreats in New Hampshire's Lakes Region combining outdoor experiential activities with peer-to-peer counseling and life-skills workshops to support physical, mental, social, and emotional wellness.",
+    needCategoryIds: ["mental-health", "outdoor-programs", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "First Responder", "Family"],
+    cost: "Free — costs for all participants are covered by grants and donations; transportation to/from the retreat is the participant's own responsibility",
+    geographicScope: "New Hampshire (Lakes Region)",
+    state: "New Hampshire",
+    verifiedDate: "2026-08-27",
+    eligibility: "Military service members, veterans, first responders, and their families/spouses/caregivers.",
+  },
+  {
+    // TODO(verify): a "no cost to veterans" claim for the winter sports clinic appeared only in a secondary source, not confirmed directly on nehsa.org; general-public sessions carry a fee.
+    name: "New England Healing Sports Association (NEHSA)",
+    url: "https://nehsa.org/",
+    description:
+      "Mount Sunapee-based adaptive sports nonprofit hosting an annual disabled-veterans winter sports clinic alongside general adaptive skiing, snowboarding, kayaking, and paddleboarding programs open to the wider disabled community.",
+    needCategoryIds: ["sports-fitness", "outdoor-programs"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free / varies",
+    geographicScope: "Mount Sunapee, NH / regional",
+    state: "New Hampshire",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    // TODO(verify): "affordable" housing has no published rent/fee figures; some recreation/therapeutic facilities are still in development, not yet operational.
+    name: "Easterseals NH Military & Veterans Campus",
+    url: "https://eastersealsnh.org/programs/military-veterans-campus/",
+    description:
+      "15-acre Franklin, NH campus combining affordable veteran housing, care coordination, career and peer-support resources, and a growing recreation and therapeutic-services hub for veterans, military members, first responders, and families.",
+    needCategoryIds: ["housing-transportation", "mental-health", "career-education", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "First Responder", "Family"],
+    cost: "Affordable housing; exact rent/fee structure not published",
+    geographicScope: "Franklin, NH / statewide draw",
+    state: "New Hampshire",
+    verifiedDate: "2026-08-27",
+    eligibility: "Residency is by waitlist application.",
+  },
+
+  // ---------------------------------------------------------------------
+  // Maine Regional
+  // ---------------------------------------------------------------------
+  {
+    name: "Maine Adaptive — Veterans No Boundaries",
+    url: "https://maineadaptive.org/veterans-no-boundaries/",
+    description:
+      "Free four-day summer and winter camps offering adaptive sports, custom equipment, and instruction for disabled veterans, active-duty members, and their families or caregivers.",
+    needCategoryIds: ["sports-fitness", "outdoor-programs", "equipment-grants", "family-support"],
+    audienceTags: ["Veteran", "Disabled", "Active Military", "Family", "Caregiver"],
+    cost: "Free — activities, lodging, and meals are free, though a $125 refundable deposit is required upon acceptance; travel to Maine is the participant's own responsibility",
+    geographicScope: "Maine (statewide program, regional draw)",
+    state: "Maine",
+    verifiedDate: "2026-08-27",
+    eligibility: "Disabled veterans, active-duty service members, and their immediate families/caregivers.",
+  },
+  {
+    // TODO(verify): home-repair/accessibility-modification services weren't independently confirmed as a distinct listed program on the org's site during this pass; heating fuel and vehicle donation are solidly confirmed.
+    name: "Maine Veterans Project",
+    url: "https://maineveteransproject.org/programs-services/",
+    description:
+      "Direct-assistance nonprofit providing Maine veterans with heating fuel and vehicle donations, alongside indoor and outdoor recreation programs — jiu-jitsu, fitness, yoga, hunting, fishing, hiking — to rebuild camaraderie.",
+    needCategoryIds: ["mental-health", "outdoor-programs", "financial-assistance", "housing-transportation"],
+    audienceTags: ["Veteran"],
+    cost: "Free to eligible veterans; heating-fuel assistance requires an account with partner RH Foster Energy",
+    geographicScope: "Maine (statewide)",
+    state: "Maine",
+    verifiedDate: "2026-08-27",
+    eligibility: "Any veteran in need of assistance with a valid DD214 or ID card; heating-fuel assistance additionally requires demonstrated financial need.",
+  },
+  {
+    // NOTE: not confirmed to be Maine-founded — business-registry sources place the org's registered address in Massachusetts; described here as a regional New England program.
+    name: "New England Adventures — Maine",
+    url: "https://www.newenglandadventures.org/",
+    description:
+      "All-expense-paid outdoor therapeutic adventures — hunting, fishing, whitewater rafting, skiing — for New England veterans, service members, and their families, aimed at improving mental and physical well-being.",
+    needCategoryIds: ["outdoor-programs", "mental-health", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "Free / all-expense-paid",
+    geographicScope: "New England region (multi-state)",
+    state: "Maine",
+    verifiedDate: "2026-08-27",
+    eligibility: "Honorably discharged veterans, current active service members, and their immediate family members.",
+  },
+  {
+    name: "Maine Bureau of Veterans' Services",
+    url: "https://www.maine.gov/veterans/",
+    description:
+      "State agency offering free VSO benefits counseling, emergency financial assistance, employment support via Maine CareerCenters, and recreation benefits including a free lifetime state-park and museum pass and free lifetime hunting and fishing licenses for qualifying disabled veterans.",
+    needCategoryIds: ["legal-benefits", "financial-assistance", "career-education", "outdoor-programs"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free",
+    geographicScope: "Statewide",
+    state: "Maine",
+    verifiedDate: "2026-08-27",
+    eligibility:
+      "Free lifetime hunting/fishing licenses require a 50% or greater VA service-connected disability rating; the Veterans' Emergency Financial Assistance Program requires meeting specific residency and service criteria.",
+  },
+
+  // ---------------------------------------------------------------------
+  // Maryland Regional
+  // ---------------------------------------------------------------------
+  {
+    name: "NPLB Outdoors",
+    url: "https://www.nplboutdoors.org/",
+    description:
+      "Mount Airy, Maryland-based nonprofit (Operation No Persons Left Behind Outdoors) providing wounded, injured, and ill combat veterans and their families free outdoor experiences — hunting, fishing, golf, hiking, aviation, motorsports, scuba, shooting, and family/couples events.",
+    needCategoryIds: ["outdoor-programs", "sports-fitness", "family-support"],
+    audienceTags: ["Veteran", "Disabled", "Family"],
+    cost: "Free — no strings attached and no expectation of repayment",
+    geographicScope: "Maryland (headquartered); events run nationally",
+    state: "Maryland",
+    verifiedDate: "2026-08-27",
+    eligibility:
+      "Wounded, injured, and ill combat veterans with a service-connected disability, any era, all branches; some events restricted to higher disability ratings or Purple Heart recipients only.",
+  },
+  {
+    // TODO(verify): "free" is described in secondary sources but wasn't confirmable via direct page fetch (pages returned nav-only content).
+    name: "Move United Warfighters",
+    url: "https://moveunitedsport.org/get-involved/warfighters/",
+    description:
+      "Rockville, Maryland-headquartered national adaptive-sports nonprofit providing programming for service members and veterans with permanent physical disabilities, connecting participants to a nationwide network of 150+ community chapters.",
+    needCategoryIds: ["sports-fitness", "equipment-grants"],
+    audienceTags: ["Veteran", "Active Military", "Disabled"],
+    cost: "Free / sponsored",
+    geographicScope: "National (HQ in Rockville, MD)",
+    state: "Maryland",
+    verifiedDate: "2026-08-27",
+    eligibility: "Service members and veterans with a permanent physical disability.",
+  },
+  {
+    // NOTE: "Maryland Veterans Services Specialist Program" from source notes is this same office's internal agency-liaison network, listed on this same benefits page — not a distinct program; folded in here rather than published as a separate entry.
+    name: "Maryland Department of Veterans & Military Families",
+    url: "https://veterans.maryland.gov/benefits-services",
+    description:
+      "Maryland state agency providing veterans, service members, and families assistance with VA and state benefits — health care, education, burial, housing, recreation, tax exemptions, motor-vehicle benefits, financial support, and claims filing via VA-accredited Benefits Services Specialists, including a network of liaisons across state government agencies.",
+    needCategoryIds: ["legal-benefits", "housing-transportation", "career-education", "financial-assistance"],
+    audienceTags: ["Veteran", "Family", "Survivor"],
+    cost: "Free — claims and benefits assistance from VA-accredited specialists is provided at no cost",
+    geographicScope: "Statewide",
+    state: "Maryland",
+    verifiedDate: "2026-08-27",
+  },
+
+  // ---------------------------------------------------------------------
+  // Delaware Regional
+  // ---------------------------------------------------------------------
+  {
+    // TODO(verify): cost not stated anywhere on the org's own site.
+    name: "Warrior Community Connect",
+    url: "https://warriorcommunityconnect.com/",
+    description:
+      "Delmar, Delaware-based all-volunteer nonprofit providing wounded, ill, or injured veterans and their families peer-centered health and wellness programming, including beekeeping, equine therapy, fly fishing, couples support, and pickleball.",
+    needCategoryIds: ["mental-health", "family-support", "purpose-community"],
+    audienceTags: ["Veteran", "Disabled", "Family"],
+    cost: "Sponsored",
+    geographicScope: "Delmar, DE / local",
+    state: "Delaware",
+    verifiedDate: "2026-08-27",
+    eligibility: "Wounded, ill, or injured veterans and their families.",
+  },
+  {
+    // TODO(verify): the specific "attendant, respite and recreation funding" dollar breakdown beyond the $1,000/year recreation grant wasn't independently itemized on the org's site.
+    name: "Colonial PVA — Grants & Adaptive Sports",
+    url: "https://www.colonialpva.org/",
+    description:
+      "Newark, Delaware-based chapter of Paralyzed Veterans of America serving veterans with spinal cord injury or disease, MS, or ALS across Delaware, Maryland, New Jersey, the Philadelphia area, and DC; provides up to $1,000 in annual adaptive-sports and recreation grants plus a Delaware-specific accessibility grant program.",
+    needCategoryIds: ["equipment-grants", "sports-fitness", "family-support"],
+    audienceTags: ["Veteran", "Disabled", "Caregiver"],
+    cost: "Free — membership and programs are free",
+    geographicScope: "Delaware / Mid-Atlantic region (DE, MD, NJ, Philadelphia area, DC)",
+    state: "Delaware",
+    verifiedDate: "2026-08-27",
+    eligibility:
+      "Veterans separated under conditions other than dishonorable with a spinal cord injury or disorder (service-connected or not); veterans with ALS or MS automatically qualify. Requires DD214, proof of citizenship, and medical evidence of SCI/D.",
+  },
+  {
+    name: "Delaware Veterans Trust Fund",
+    url: "https://vets.delaware.gov/veterans-trust-fund/",
+    description:
+      "State-administered emergency financial assistance fund for Delaware veterans facing verified financial hardship, covering rent or mortgage, utilities, medical bills, childcare, and vehicle expenses; grants are paid directly to vendors or creditors, not to the applicant.",
+    needCategoryIds: ["financial-assistance", "housing-transportation"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free to apply; approval is not guaranteed and depends on donation availability",
+    geographicScope: "Statewide",
+    state: "Delaware",
+    verifiedDate: "2026-08-27",
+    eligibility: "Delaware resident with an Honorable or General (Under Honorable Conditions) discharge; documented emergency financial need.",
+  },
+  {
+    // TODO(verify): a referral network — cost varies by the individual provider a veteran is referred to; the org's own site doesn't state a blanket cost.
+    name: "Delaware Joining Forces",
+    url: "https://vets.delaware.gov/djf/",
+    description:
+      "Statewide collaborative network of Delaware state agencies and community and nonprofit providers connecting military members, veterans, and families with financial and legal aid, employment, housing, education, and behavioral-health services.",
+    needCategoryIds: ["mental-health", "housing-transportation", "career-education", "legal-benefits"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "Referral network — cost varies by the individual provider a veteran is referred to",
+    geographicScope: "Statewide",
+    state: "Delaware",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "Delaware Office of Veterans Services",
+    url: "https://vets.delaware.gov/",
+    description:
+      "Delaware Department of State agency providing VA-accredited Veteran Service Officers who help veterans, dependents, and survivors file federal and state benefit claims — compensation, pension, health care, education, employment, housing, transportation, and burial — at no charge.",
+    needCategoryIds: ["legal-benefits"],
+    audienceTags: ["Veteran", "Family", "Survivor"],
+    cost: "Free — you never pay a VSO to prepare or file your claim",
+    geographicScope: "Statewide",
+    state: "Delaware",
+    verifiedDate: "2026-08-27",
+  },
 ];
 
 export function getResourcesForFilters(needId: string | null, audience: string | null): Resource[] {
