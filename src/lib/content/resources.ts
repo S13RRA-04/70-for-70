@@ -3661,6 +3661,282 @@ export const RESOURCES: Resource[] = [
     state: "Delaware",
     verifiedDate: "2026-08-27",
   },
+
+  // ---------------------------------------------------------------------
+  // Nebraska Regional
+  // ---------------------------------------------------------------------
+  {
+    // TODO(verify): cost not stated on the org's own site.
+    name: "Miles for Heroes",
+    url: "https://www.milesforheroes.com/",
+    description:
+      "Northeast Nebraska-based nonprofit founded by two Marine veterans in 2013 that raises support and awareness for veterans battling PTSD through outdoor activities — hunting and fishing trips, multi-day walks and relays — and events like Freedom Fest.",
+    needCategoryIds: ["mental-health", "outdoor-programs", "purpose-community"],
+    audienceTags: ["Veteran"],
+    cost: "Sponsored",
+    geographicScope: "Nebraska",
+    state: "Nebraska",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    // TODO(verify): cost not stated; participation appears to go through a "Warrior Application" process.
+    name: "Combat Warriors Nebraska",
+    url: "https://combatwarriorsne.org/",
+    description:
+      "Nebraska chapter of Combat Warriors Inc., connecting combat veterans and active military through hunting, fishing, and outdoor adventures; the parent organization also provides emergency financial aid to veterans and families and support to Gold Star families and widows.",
+    needCategoryIds: ["outdoor-programs", "purpose-community", "financial-assistance"],
+    audienceTags: ["Veteran", "Active Military"],
+    cost: "Sponsored",
+    geographicScope: "Nebraska",
+    state: "Nebraska",
+    verifiedDate: "2026-08-27",
+    eligibility: "Combat veterans and active military; requires a Warrior Application.",
+  },
+  {
+    name: "Nebraska Department of Veterans' Affairs — Benefits & Services",
+    url: "https://veterans.nebraska.gov/benefits-and-services-overview",
+    description:
+      "Nebraska's state veterans agency benefits hub, covering education, employment, emergency financial assistance (Nebraska Veterans' Aid), health, housing, and legal advocacy, delivered through County Veterans Service Officers and the State Service Office.",
+    needCategoryIds: ["career-education", "financial-assistance", "housing-transportation", "legal-benefits", "mental-health"],
+    audienceTags: ["Veteran", "Military Spouse", "Family", "Active Military", "Guard/Reserve"],
+    cost: "Free — State Service Office assistance is provided at no cost",
+    geographicScope: "Statewide",
+    state: "Nebraska",
+    verifiedDate: "2026-08-27",
+    eligibility: "Varies by benefit; broadly veterans, spouses, dependents, active duty, and Guard/Reserve, determined per-benefit by a County Veterans Service Officer.",
+  },
+  {
+    name: "Nebraska Game & Parks — Veteran and Military Permits",
+    url: "https://outdoornebraska.gov/permits/veterans-and-military-permits/",
+    description:
+      "Nebraska Game and Parks Commission program issuing discounted or free park entry, hunting, and fishing permits to veterans, disabled veterans, and active or deployed military — including a free Disabled Veterans' Lifetime Annual Park Entry Permit.",
+    needCategoryIds: ["outdoor-programs", "equipment-grants"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Disabled"],
+    cost:
+      "Free for the Disabled Veterans' Lifetime Annual Park Entry Permit (50%+ service-connected disability, or 100% non-service-connected disability with VA pension); $5 for active-duty park entry and deployed-military hunt/fish/fur permits; $5 for the Veteran's Annual Small Game Hunt/Fish/Fur Harvest Permit for residents age 64+",
+    geographicScope: "Statewide",
+    state: "Nebraska",
+    verifiedDate: "2026-08-27",
+    eligibility: "Nebraska legal residency required for most permits; specific criteria vary per permit.",
+  },
+
+  // ---------------------------------------------------------------------
+  // Iowa Regional
+  // ---------------------------------------------------------------------
+  {
+    // TODO(verify): cost not stated on the org's own site.
+    name: "Iowa Veterans Outdoor Experience",
+    url: "https://www.iowaveteransoutdoorexperience.com/",
+    description:
+      "Solon, Iowa nonprofit providing hunting and fishing trips, VA-trained peer support groups, and PTSD/suicide-awareness programming for veterans and their loved ones.",
+    needCategoryIds: ["mental-health", "outdoor-programs", "purpose-community", "family-support"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Sponsored",
+    geographicScope: "Solon, IA / regional",
+    state: "Iowa",
+    verifiedDate: "2026-08-27",
+    eligibility: "Open to any veteran.",
+  },
+  {
+    name: "Adaptive Sports Iowa",
+    url: "https://www.adaptivesportsiowa.org/",
+    description:
+      "Program of the Iowa Sports Foundation providing adaptive and recreational sports — wheelchair basketball, sled hockey, cycling, air rifle — statewide for people with physical or visual disabilities, including a National Veteran Airgun Program specifically for veterans.",
+    needCategoryIds: ["sports-fitness", "equipment-grants", "purpose-community"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free — no programming or equipment fees",
+    geographicScope: "Statewide",
+    state: "Iowa",
+    verifiedDate: "2026-08-27",
+    eligibility: "Individuals with physical or visual disabilities, open to all skill levels; the Airgun program serves veterans and non-veterans with disabilities.",
+  },
+  {
+    // NOTE: "Iowa Department of Veterans Affairs — County & State Service Offices" and "Iowa Veterans Benefits & Programs" from source notes are both dva.iowa.gov sub-pages of the same office — consolidated into one entry rather than published as two.
+    name: "Iowa Department of Veterans Affairs",
+    url: "https://dva.iowa.gov/benefits",
+    description:
+      "Iowa's state veterans agency, providing a statewide directory of County Veterans Service Offices in all 99 counties plus a benefits catalog covering the Iowa Veterans Home, Iowa Veterans Cemetery, Iowa Veterans Trust Fund, Injured Veterans Grant, homeownership assistance, and federal benefits navigation.",
+    needCategoryIds: ["career-education", "financial-assistance", "housing-transportation", "legal-benefits"],
+    audienceTags: ["Veteran", "Family", "Military Spouse"],
+    cost:
+      "Free for County Veterans Service Office assistance; individual benefit programs vary — e.g. Iowa Veterans Cemetery burial is free for veterans ($300 for spouses), lifetime hunting/fishing license is $7, and the Injured Veterans Grant provides up to $10,000",
+    geographicScope: "Statewide (with county-level offices)",
+    state: "Iowa",
+    verifiedDate: "2026-08-27",
+    eligibility: "Generally requires honorable discharge; varies per specific program.",
+  },
+
+  // ---------------------------------------------------------------------
+  // Illinois Regional
+  // ---------------------------------------------------------------------
+  {
+    name: "Heroes on the Water — Chicago Chapter",
+    url: "https://heroesonthewater.org/chapters/chicago/",
+    description:
+      "Local chapter of the national Heroes on the Water nonprofit providing no-cost therapeutic kayak-fishing outings and social events for veterans, active-duty military, first responders, and their families in the Chicago area.",
+    needCategoryIds: ["mental-health", "outdoor-programs", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family", "First Responder"],
+    cost: "Free — all equipment provided at no cost",
+    geographicScope: "Chicago metro / Cook, Will, DuPage counties",
+    state: "Illinois",
+    verifiedDate: "2026-08-27",
+    eligibility: "Must be active-duty military, veteran, law enforcement officer, first responder, or an immediate family member of one; no prior experience required.",
+  },
+  {
+    // TODO(verify): cost not stated on the org's own site.
+    name: "The Giving Ground Foundation",
+    url: "https://www.thegivinggroundfoundation.com/",
+    description:
+      "Illinois nonprofit running guided, therapeutic hunting experiences — flagship Upland Hero Hunt, an annual November pheasant hunt in Roberts, IL — for disabled and able-bodied veterans to build camaraderie and support mental health.",
+    needCategoryIds: ["mental-health", "outdoor-programs", "purpose-community"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Sponsored",
+    geographicScope: "Illinois",
+    state: "Illinois",
+    verifiedDate: "2026-08-27",
+    eligibility: "US military veterans, disabled and able-bodied.",
+  },
+  {
+    name: "Illinois Armed Forces Legal Aid Network (IL-AFLAN)",
+    url: "https://ilaflan.org/",
+    description:
+      "Statewide network of legal aid organizations and law school clinics providing free civil legal services — discharge upgrades, VA benefits appeals, family law, housing, consumer issues — to Illinois veterans, service members, and their dependents via a toll-free hotline.",
+    needCategoryIds: ["legal-benefits"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Military Spouse", "Family"],
+    cost: "Free",
+    geographicScope: "Statewide",
+    state: "Illinois",
+    verifiedDate: "2026-08-27",
+    eligibility: "Veterans, active duty, National Guard, reservists, spouses, and dependents; household income at or below 80% of Chicago Area Median Income; no dishonorable discharge.",
+  },
+  {
+    name: "Illinois Department of Veterans Affairs — Veteran Service Officers",
+    url: "https://veterans.illinois.gov/serviceoffices.html",
+    description:
+      "Free benefits counseling and claims-filing assistance from federally accredited Veteran Service Officers staffing IDVA's full-time and itinerant offices statewide, covering compensation, pensions, health care, education, employment, and burial benefits.",
+    needCategoryIds: ["legal-benefits", "career-education", "financial-assistance", "housing-transportation"],
+    audienceTags: ["Veteran", "Family", "Survivor"],
+    cost: "Free",
+    geographicScope: "Statewide",
+    state: "Illinois",
+    verifiedDate: "2026-08-27",
+  },
+
+  // ---------------------------------------------------------------------
+  // Indiana Regional
+  // ---------------------------------------------------------------------
+  {
+    // TODO(verify): direct site verification was blocked in research (DNS failure); details sourced from cached content of the org's own pages — recommend a manual spot-check.
+    name: "Heroes New Hope Foundation",
+    url: "https://www.heroesnewhope.org/",
+    description:
+      "Sullivan, Indiana nonprofit providing all-inclusive, no-cost outdoor ecotherapy experiences — an annual spring turkey hunt, summer fishing trip, fall deer hunt, and disabled-youth turkey hunt — for disabled veterans, plus children of fallen or injured veterans and children with physical or emotional conditions.",
+    needCategoryIds: ["mental-health", "outdoor-programs", "family-support", "purpose-community"],
+    audienceTags: ["Veteran", "Disabled", "Family", "Gold Star", "Survivor"],
+    cost: "Free — transportation, lodging, service-animal support, food, and equipment are all provided at no cost",
+    geographicScope: "Indiana (recruits participants nationally)",
+    state: "Indiana",
+    verifiedDate: "2026-08-27",
+    eligibility: "Disabled veterans; also extends to children of fallen or injured veterans and children with physical or emotional conditions.",
+  },
+  {
+    // TODO(verify): cost and full geographic reach not stated on the org's own site.
+    name: "Disabled Veterans Outdoor Wildlife Experience (DVOWED)",
+    url: "https://www.dvowed.com/",
+    description:
+      "Huntington, Indiana nonprofit offering chartered fishing expeditions and seasonal guided hunting events for disabled veterans.",
+    needCategoryIds: ["mental-health", "outdoor-programs", "purpose-community"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Sponsored",
+    geographicScope: "Huntington, IN",
+    state: "Indiana",
+    verifiedDate: "2026-08-27",
+    eligibility: "Disabled veteran status.",
+  },
+  {
+    name: "Indiana County Veteran Service Officers",
+    url: "https://www.in.gov/dva/home/cvso-locate/",
+    description:
+      "Network of 92 county-level offices, each staffed by a state-accredited County Veteran Service Officer, providing free help filing VA claims and appeals for disability compensation, pensions, DIC, health care, education, and burial benefits.",
+    needCategoryIds: ["legal-benefits", "career-education", "financial-assistance", "housing-transportation"],
+    audienceTags: ["Veteran", "Family", "Survivor"],
+    cost: "Free",
+    geographicScope: "Statewide (county-level offices)",
+    state: "Indiana",
+    verifiedDate: "2026-08-27",
+    eligibility: "Indiana veterans, retired service members, and their families.",
+  },
+  {
+    name: "Indiana Military Family Relief Fund",
+    url: "https://www.in.gov/dva/divisions/military-family-relief-fund/",
+    description:
+      "State fund, financed by license-plate sales and administered by the Indiana Department of Veterans Affairs, providing emergency financial assistance — up to $2,500 — for food, housing, utilities, medical bills, and transportation to qualifying military families facing hardship.",
+    needCategoryIds: ["financial-assistance", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family"],
+    cost: "Free to applicants — a grant/relief program, not a paid service",
+    geographicScope: "Statewide",
+    state: "Indiana",
+    verifiedDate: "2026-08-27",
+    eligibility: "Indiana resident with at least 12 months of qualifying military service including active duty; eligible discharge; household income at or below 2x federal poverty guidelines; documented financial hardship.",
+  },
+
+  // ---------------------------------------------------------------------
+  // Ohio Regional
+  // ---------------------------------------------------------------------
+  {
+    // NOTE: this org, Veterans Outdoor Adventures Ohio, and Disabled Veterans Outdoors have deliberately similar names but were independently verified as three genuinely distinct 501(c)(3)s (different EINs, addresses, and founders), not a rebrand/duplicate — kept as three separate entries.
+    // TODO(verify): cost not formally stated; events are described as "all-expenses paid" without a stated cost policy.
+    name: "Ohio Veterans Outdoors",
+    url: "https://www.ohvetsoutdoors.org/",
+    description:
+      "Nonprofit founded in 2016 by retired Air Force pilot Brian Luce that runs a dozen-plus annual all-expenses-paid hunting, fishing, and camping events for veterans to support stress relief, healing, and community building.",
+    needCategoryIds: ["outdoor-programs", "mental-health", "purpose-community"],
+    audienceTags: ["Veteran"],
+    cost: "Free / sponsored",
+    geographicScope: "Statewide",
+    state: "Ohio",
+    verifiedDate: "2026-08-27",
+    eligibility: "Veterans of the U.S. Armed Forces.",
+  },
+  {
+    // TODO(verify): cost not stated on the org's own site.
+    name: "Veterans Outdoor Adventures Ohio",
+    url: "https://voaohio.com/",
+    description:
+      "Nonprofit founded by Curt Baumann in Zoar, OH, that builds custom, accessibility-outfitted hunting blinds — heat, carpet, ramps or stairs as needed — and provides hunting, fishing, and archery outings specifically for disabled veterans.",
+    needCategoryIds: ["outdoor-programs", "equipment-grants", "mental-health"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Sponsored",
+    geographicScope: "Northeast and Southeast Ohio",
+    state: "Ohio",
+    verifiedDate: "2026-08-27",
+    eligibility: "Disabled veterans, particularly former hunters/outdoorsmen now limited by disability.",
+  },
+  {
+    name: "Disabled Veterans Outdoors",
+    url: "https://disabledveteransoutdoors.org/",
+    description:
+      "All-volunteer nonprofit founded in 2015 hosting free outdoor recreational events — hunting, fishing, camping — across Ohio counties for disabled veterans, including covering food and lodging for overnight events.",
+    needCategoryIds: ["outdoor-programs", "mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free — no cost to participants",
+    geographicScope: "Ohio (based in Southeastern Ohio; hosts events statewide and occasionally out of state)",
+    state: "Ohio",
+    verifiedDate: "2026-08-27",
+    eligibility: "Any honorably discharged veteran who is now disabled for any reason.",
+  },
+  {
+    name: "Ohio County Veterans Service Offices",
+    url: "https://dvs.ohio.gov/",
+    description:
+      "Statutory network of 88 locally staffed county offices — one per county — where trained Service Officers help veterans and their families apply for federal, state, and local benefits, including compensation, pensions, home loans, health care, and headstones/markers.",
+    needCategoryIds: ["legal-benefits", "financial-assistance", "career-education"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free",
+    geographicScope: "Statewide",
+    state: "Ohio",
+    verifiedDate: "2026-08-27",
+  },
 ];
 
 export function getResourcesForFilters(needId: string | null, audience: string | null): Resource[] {
