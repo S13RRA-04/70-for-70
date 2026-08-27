@@ -3937,6 +3937,90 @@ export const RESOURCES: Resource[] = [
     state: "Ohio",
     verifiedDate: "2026-08-27",
   },
+
+  // ---------------------------------------------------------------------
+  // Pennsylvania Regional
+  // ---------------------------------------------------------------------
+  {
+    // TODO(verify): cost not explicitly stated on the org's own site (suggested donation tiers found, but no clear participant-cost statement). Also note: pennsylvaniaoutdoorveterans.org does not resolve — use paoutdoorveterans.org.
+    name: "Pennsylvania Outdoor Veterans",
+    url: "https://paoutdoorveterans.org/",
+    description:
+      "Lehighton, PA nonprofit founded in 2015 by combat veteran Ryan Bowman, providing guided fishing, hunting, camping, hiking, and skills-workshop programs aimed at reducing veteran suicide and supporting veterans' physical, mental, and emotional well-being.",
+    needCategoryIds: ["outdoor-programs", "mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "First Responder", "Family"],
+    cost: "Sponsored",
+    geographicScope: "Statewide",
+    state: "Pennsylvania",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "Patriots Cove",
+    url: "https://patriotscove.org/",
+    description:
+      "Noxen, PA nonprofit founded by veteran Jeff Swire offering free, fully ADA-accessible fishing, hunting, and retreat experiences — including a wheelchair-accessible trout stream, adaptive hunting equipment, and track chairs — for wounded veterans, first responders, and their caregivers.",
+    needCategoryIds: ["outdoor-programs", "mental-health", "family-support"],
+    audienceTags: ["Veteran", "First Responder", "Caregiver", "Family", "Disabled"],
+    cost: "Free — including lodging, meals, and equipment",
+    geographicScope: "Noxen, PA / regional (PA, KY, NC, SC)",
+    state: "Pennsylvania",
+    verifiedDate: "2026-08-27",
+    eligibility: "Wounded/combat veterans (all branches/eras), first responders (fire, police, EMS), military families, and caregivers of veterans/first responders.",
+  },
+  {
+    // TODO(verify): cost not explicitly stated on the org's own site; donation-funded operations imply no charge to guests but this isn't confirmed in writing.
+    name: "Camp Freedom",
+    url: "https://campfreedompa.org/",
+    description:
+      "Carbondale, PA nonprofit offering hunting, fishing, shooting sports, hiking, and biking on a 2,350-acre property for disabled veterans and first responders, their families, and Gold Star/Gold Shield families, using outdoor activity in place of clinical settings to promote healing.",
+    needCategoryIds: ["outdoor-programs", "mental-health", "family-support"],
+    audienceTags: ["Veteran", "First Responder", "Disabled", "Family", "Gold Star"],
+    cost: "Sponsored",
+    geographicScope: "Carbondale, PA / national (guests from 40+ states)",
+    state: "Pennsylvania",
+    verifiedDate: "2026-08-27",
+    eligibility: "Disabled veterans, first responders, their family members, Gold Star Families, and Gold Shield Families.",
+  },
+  {
+    // NOTE: this is the grant-making fund, distinct from Veterans Temporary Assistance below (the direct-aid program it finances) — kept as two entries rather than one combined row since they serve different practical functions.
+    name: "Pennsylvania Veterans' Trust Fund",
+    url: "https://www.pa.gov/agencies/dmva/pennsylvania-veterans/pa-vetconnect/state-veterans-programs/financial-assistance/veterans-trust-fund",
+    description:
+      "Pennsylvania Department of Military and Veterans Affairs grant fund that provides funding to veteran-service organizations statewide, ultimately assisting PA veterans and families with housing, financial help, food, training, and recovery services.",
+    needCategoryIds: ["financial-assistance"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free to eligible partner organizations applying for grants; not a direct-to-individual service",
+    geographicScope: "Statewide",
+    state: "Pennsylvania",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "Veterans Temporary Assistance",
+    url: "https://www.pa.gov/agencies/dmva/pennsylvania-veterans/pa-vetconnect/state-veterans-programs/financial-assistance/benefits--veterans-temporary-assistance",
+    description:
+      "Pennsylvania DMVA program, funded by the Veterans' Trust Fund, providing up to $1,600 in temporary direct financial assistance per 12-month period to eligible PA veterans or their survivors for shelter, food, fuel, and clothing during hardship.",
+    needCategoryIds: ["financial-assistance", "housing-transportation"],
+    audienceTags: ["Veteran", "Family", "Survivor"],
+    cost: "Free to apply; grants up to $1,600",
+    geographicScope: "Statewide",
+    state: "Pennsylvania",
+    verifiedDate: "2026-08-27",
+    eligibility:
+      "Honorable service (DD-214) or service-connected disability; PA resident with no legal residence elsewhere; facing temporary financial hardship not adequately covered by other assistance; eligible survivors of deceased veterans may also apply.",
+  },
+  {
+    // NOTE: distinct organization from the existing "Mission Outdoors" entry (Bonney Lake, WA) — different EIN, domain, and address; a program of Heroes Never Alone Inc. Disambiguated name used to avoid colliding with the WA entry in the site's name-keyed UI.
+    name: "Mission Outdoors — Pennsylvania",
+    url: "https://www.heroesneveralone.org/Mission_Outdoors",
+    description:
+      "Program of Heroes Never Alone Inc. providing free guided hunting, fishing, hiking, camping, and shooting-sports outings for veterans in Westmoreland and Indiana Counties, PA, including access to the only publicly available Action Trac-Chair in Pennsylvania for disabled veterans.",
+    needCategoryIds: ["outdoor-programs", "mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free — no cost to the veteran",
+    geographicScope: "Westmoreland & Indiana Counties, PA",
+    state: "Pennsylvania",
+    verifiedDate: "2026-08-27",
+  },
 ];
 
 export function getResourcesForFilters(needId: string | null, audience: string | null): Resource[] {
