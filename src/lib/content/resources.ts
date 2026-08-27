@@ -1680,6 +1680,328 @@ export const RESOURCES: Resource[] = [
     state: "Virginia",
     verifiedDate: "2026-08-21",
   },
+
+  // ---------------------------------------------------------------------
+  // Kansas Regional
+  // ---------------------------------------------------------------------
+  {
+    name: "War Horses for Veterans",
+    url: "https://warhorsesforveterans.org/",
+    description:
+      "Fully funded, donor-backed equine programs (3-5 day sessions) pairing combat veterans, active-duty/veteran special operations personnel, and first responders with performance horses to build leadership, communication and resilience skills.",
+    needCategoryIds: ["mental-health", "outdoor-programs", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "First Responder"],
+    cost: "Free — travel, lodging, meals and program costs are fully covered for participants",
+    geographicScope: "Stilwell, KS / national reach",
+    state: "Kansas",
+    verifiedDate: "2026-08-27",
+    eligibility: "Combat veterans, active-duty/veteran SOF personnel, and first responders.",
+  },
+  {
+    name: "Outside the Wire Veterans Foundation",
+    url: "https://www.outsidethewire.org/",
+    description:
+      "Southeast Kansas (Pittsburg, KS) veteran-led nonprofit providing hands-on VA disability and pension claims assistance, peer support, suicide-prevention training, and hiking, fishing, camping and reunification retreats.",
+    needCategoryIds: ["legal-benefits", "outdoor-programs", "purpose-community"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free — accredited VA claims assistance is free by federal law; no fees stated for peer-support or outdoor programming",
+    geographicScope: "Southeast Kansas",
+    state: "Kansas",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    // TODO(verify): KDADS's own page returned a 403 to automated verification; the mirror (Kansas Prevention Collaborative) doesn't state cost explicitly either. Reasonable to infer free as a state referral network, but reconfirm before treating as fully checked.
+    name: "LiveConnected KS (KDADS Veterans Services)",
+    url: "https://www.kdads.ks.gov/services-programs/behavioral-health/veterans-services",
+    description:
+      "State-run behavioral-health and suicide-prevention resource network connecting Kansas service members, veterans, National Guard/Reserve, and families to treatment and peer support statewide, regardless of county.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "Free",
+    geographicScope: "Statewide",
+    state: "Kansas",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "Kansas Office of Veterans Services",
+    url: "https://www.kovs.ks.gov/veteran-services",
+    description:
+      "Accredited Veteran Service Representatives, available in-person, by video, or by phone, help Kansas veterans and families file claims and navigate state and federal disability, education, medical, burial, and other earned benefits.",
+    needCategoryIds: ["legal-benefits"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free — all services are provided at no charge by trained, accredited VSRs",
+    geographicScope: "Statewide",
+    state: "Kansas",
+    verifiedDate: "2026-08-27",
+  },
+
+  // ---------------------------------------------------------------------
+  // Arkansas Regional
+  // ---------------------------------------------------------------------
+  {
+    name: "Arkansas Freedom Fund",
+    url: "https://www.arkansasfreedomfund.org/",
+    description:
+      "Arkansas nonprofit restoring veterans' physical and mental wellness through free cycling, hunting, fishing, hiking, martial arts, golf, and kayaking programs, including adaptive equipment for wounded and disabled veterans.",
+    needCategoryIds: ["sports-fitness", "outdoor-programs"],
+    audienceTags: ["Veteran", "Active Military", "Disabled", "Family"],
+    cost: "Free — all programs are provided free of charge to members",
+    geographicScope: "Arkansas (statewide)",
+    state: "Arkansas",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "Warhorse Legacy Foundation",
+    url: "https://warhorselegacy.org/",
+    description:
+      "Northwest Arkansas nonprofit operating a 140-acre ranch near Winslow offering equine-assisted activities, outdoor recreation, peer mentorship, networking, and wellness treatments for veterans and their families.",
+    needCategoryIds: ["outdoor-programs", "mental-health", "family-support"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free — programs and wellness treatments are provided at no cost to veterans and their families",
+    geographicScope: "Northwest Arkansas",
+    state: "Arkansas",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "We Are The 22",
+    url: "https://wearethe22.org/",
+    description:
+      "Arkansas-based, all-volunteer veteran suicide-intervention nonprofit whose trained veteran responder teams deploy in person 24/7 to veterans in suicidal crisis, provide peer support, and connect them with continuing care.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Veteran"],
+    cost: "Free",
+    geographicScope: "Arkansas (statewide)",
+    state: "Arkansas",
+    verifiedDate: "2026-08-27",
+    phone: "855-932-7384",
+  },
+  {
+    name: "Home Base Arkansas",
+    url: "https://homebasearkansas.com/",
+    description:
+      "Arkansas Department of Veterans Affairs initiative helping veterans and transitioning service members relocate to and settle in Arkansas through a jobs database, plus benefits, education, housing, and relocation resources.",
+    needCategoryIds: ["career-education", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "Free",
+    geographicScope: "Arkansas (statewide)",
+    state: "Arkansas",
+    verifiedDate: "2026-08-27",
+  },
+
+  // ---------------------------------------------------------------------
+  // Louisiana Regional
+  // ---------------------------------------------------------------------
+  {
+    name: "The Boot",
+    url: "https://theboot.la",
+    description:
+      "Louisiana state-funded nonprofit helping transitioning service members and military families build post-service lives in Louisiana through one-on-one career counseling, employer connections, all-expense-paid community visits, and case management.",
+    needCategoryIds: ["career-education", "purpose-community", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "Free",
+    geographicScope: "Statewide",
+    state: "Louisiana",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "Louisiana Hunters for Heroes",
+    url: "https://lahuntersforheroes.com/",
+    description:
+      "West Monroe-based Louisiana chapter of Hunters for Heroes providing cost-free hunting, fishing, and outdoor experiences for veterans, active military, law enforcement, fire, and other first responders, with transportation, lodging, meals, and gear provided.",
+    needCategoryIds: ["outdoor-programs", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "Law Enforcement", "Fire", "First Responder"],
+    cost: "Free — events are cost-free to participants, funded entirely by donations",
+    geographicScope: "Louisiana",
+    state: "Louisiana",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "Heroes on the Water — Lafayette Louisiana",
+    url: "https://heroesonthewater.org/chapters/lafayette-louisiana/",
+    description:
+      "Volunteer-led chapter providing no-cost, therapeutic kayak-fishing events for veterans, active-duty military, first responders, and their families in the Acadiana region, with kayaks, fishing gear, and safety equipment provided; no prior experience necessary.",
+    needCategoryIds: ["outdoor-programs", "mental-health"],
+    audienceTags: ["Veteran", "Active Military", "First Responder", "Family"],
+    cost: "Free",
+    geographicScope: "Acadiana region (Lafayette, LA area)",
+    state: "Louisiana",
+    verifiedDate: "2026-08-27",
+    eligibility: "Active-duty military, veteran, law enforcement officer, first responder, or family member.",
+  },
+  {
+    name: "Louisiana Department of Veterans Affairs",
+    url: "https://vetaffairs.la.gov/",
+    description:
+      "Louisiana's state veterans agency, operating 80+ locations statewide including parish service officers, provides assistance with state and federal benefits, education, employment, financial assistance, veterans homes, and burial honors.",
+    needCategoryIds: ["legal-benefits", "financial-assistance", "career-education"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free",
+    geographicScope: "Statewide",
+    state: "Louisiana",
+    verifiedDate: "2026-08-27",
+  },
+
+  // ---------------------------------------------------------------------
+  // Oklahoma Regional
+  // ---------------------------------------------------------------------
+  {
+    name: "Operation Freedom Outdoors",
+    url: "https://ofoveterans.com/",
+    description:
+      "Oklahoma nonprofit providing no- and low-cost hunting, fishing, and camping trips for veterans and first responders, pre-funded through sponsorships so participants pay little to nothing, built around camaraderie and reconnection.",
+    needCategoryIds: ["outdoor-programs", "purpose-community"],
+    audienceTags: ["Veteran", "First Responder"],
+    cost: "Free / sponsored — trips are no- and low-cost, pre-paid through donations",
+    geographicScope: "Oklahoma",
+    state: "Oklahoma",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    // TODO(verify): okvetunited.org blocked automated verification (403); content corroborated via search-indexed snippets and their /ssvf/ program page only — spot-check directly before publishing.
+    name: "Oklahoma Veterans United",
+    url: "https://okvetunited.org/",
+    description:
+      "Tulsa-based nonprofit (formerly Community Service Council) running housing assistance for Oklahoma veterans through the Supportive Services for Veteran Families program, a suicide-prevention grant program, and veteran employment initiatives.",
+    needCategoryIds: ["housing-transportation", "mental-health", "career-education"],
+    audienceTags: ["Veteran"],
+    cost: "Free",
+    geographicScope: "56 of 77 Oklahoma counties (SSVF housing program)",
+    state: "Oklahoma",
+    verifiedDate: "2026-08-27",
+    eligibility: "SSVF housing program: low-income veterans and families who are homeless or facing eviction (Housing First model).",
+  },
+  {
+    name: "Volunteers of America Oklahoma — Veterans Employment Services",
+    url: "https://www.voaok.org/services/veteran-employment-services/",
+    description:
+      "VOA Oklahoma program helping homeless or at-risk veterans translate military skills into civilian employment through mentoring, resume help, job matching, vocational training, transportation assistance, and clothing/tools, plus referrals to housing and behavioral-health services.",
+    needCategoryIds: ["career-education"],
+    audienceTags: ["Veteran"],
+    cost: "Free — DOL-sponsored (Homeless Veteran Reintegration Program grant)",
+    geographicScope: "Oklahoma City and Tulsa metro areas, plus 13 surrounding counties",
+    state: "Oklahoma",
+    verifiedDate: "2026-08-27",
+    eligibility: "Veterans must be homeless or at risk of homelessness and actively participating in job search activities; DD-214 preferred but not required.",
+  },
+  {
+    name: "OKVALOR — Oklahoma Veterans Assistance Locator",
+    url: "https://okvalor.ok.gov/",
+    description:
+      "State-run locator tool from the Oklahoma Department of Veterans Affairs helping veterans, service members, and their families find nearby mental-health, housing, employment, financial, transportation, legal, education, food, and health resources by location.",
+    needCategoryIds: ["purpose-community", "legal-benefits"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free",
+    geographicScope: "Statewide",
+    state: "Oklahoma",
+    verifiedDate: "2026-08-27",
+  },
+
+  // ---------------------------------------------------------------------
+  // Missouri Regional
+  // ---------------------------------------------------------------------
+  {
+    // TODO(verify): org's own site doesn't explicitly state cost; a third-party source (usvetconnect.com) says events are free, but reconfirm on movetsoutdoors.org before treating as fully checked.
+    name: "MO Vets Outdoors",
+    url: "https://movetsoutdoors.org/",
+    description:
+      "Statewide veteran outdoor community operating across six Missouri regions, using roughly 60-75 annual events — archery, fishing, hunting, golf, off-roading — to reduce isolation and support veteran mental health and suicide prevention.",
+    needCategoryIds: ["outdoor-programs", "mental-health", "purpose-community"],
+    audienceTags: ["Veteran"],
+    cost: "Free / sponsored",
+    geographicScope: "Statewide",
+    state: "Missouri",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "Camp Valor Outdoors",
+    url: "https://www.campvaloroutdoors.org/",
+    description:
+      "Kingsville, Missouri-based nonprofit providing wounded, ill, and injured veterans free adaptive hunting, fishing, shooting sports, archery, and ATV recreation, plus lodging, meals, and equipment, now operating across 14 states.",
+    needCategoryIds: ["outdoor-programs", "sports-fitness"],
+    audienceTags: ["Veteran", "Disabled", "Family"],
+    cost: "Free — events are provided free for ill, injured, and wounded veterans",
+    geographicScope: "Kingsville, MO / regional (14 states)",
+    state: "Missouri",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "Charlie 22 Outdoors",
+    url: "https://charlie22outdoors.com/",
+    description:
+      "Webb City, Missouri-based veteran suicide-prevention organization providing free outdoor activities — hunting, fishing, archery, target shooting — and fellowship for veterans, with travel, lodging, meals, and licensing costs covered.",
+    needCategoryIds: ["outdoor-programs", "mental-health"],
+    audienceTags: ["Veteran"],
+    cost: "Free — all expenses including travel, lodging, meals, tags, and licenses are covered",
+    geographicScope: "Statewide",
+    state: "Missouri",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "Missouri Veterans Commission — Veterans Service Program",
+    url: "https://mvc.dps.mo.gov/service/",
+    description:
+      "Accredited Veterans Service Officers, with offices in nearly every county, help Missouri veterans and survivors navigate disability compensation, pension, health care, education, vocational rehabilitation, burial benefits, and VA home loans.",
+    needCategoryIds: ["legal-benefits"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free",
+    geographicScope: "Statewide",
+    state: "Missouri",
+    verifiedDate: "2026-08-27",
+  },
+
+  // ---------------------------------------------------------------------
+  // West Virginia Regional
+  // ---------------------------------------------------------------------
+  {
+    // TODO(verify): the org's URL is ambiguous between patriots4.org (reads as a commercial resort/store page) and patriotsfour.org (veteran-mission framing) — same EIN, unclear which is current/canonical. The "354-acre" figure and a "combat wounded only" eligibility qualifier are each stated by only one secondary source — reconfirm both before publishing.
+    name: "Patriots 4",
+    url: "https://patriotsfour.org/",
+    description:
+      "Tucker County, West Virginia retreat with frontage on the Cheat River and access to the Monongahela National Forest, providing wounded veterans and their families no-cost outdoor recreation regardless of injury type.",
+    needCategoryIds: ["outdoor-programs", "family-support"],
+    audienceTags: ["Veteran", "Disabled", "Family"],
+    cost: "Free",
+    geographicScope: "St. George, WV (Tucker County)",
+    state: "West Virginia",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    // TODO(verify): org's own site doesn't explicitly state "free to participants" — only that donations fund the program. Reconfirm before treating as fully checked.
+    name: "Potomac Highlands Wounded Warrior Outreach",
+    url: "https://www.phwwo.com/",
+    description:
+      "Buckhannon, West Virginia nonprofit organizing outdoor sporting events — hunting, fishing, golfing, whitewater rafting, rock climbing — for wounded veterans of all wound types, visible and invisible, to support healing and community.",
+    needCategoryIds: ["outdoor-programs", "mental-health"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free / sponsored",
+    geographicScope: "Potomac Highlands region",
+    state: "West Virginia",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "RAFT — Resource Availability Family Tapestry",
+    url: "https://veterans.wv.gov/Pages/Suicide-Prevention.aspx",
+    description:
+      "West Virginia Department of Veterans Assistance suicide-prevention initiative taking a comprehensive prevention, intervention, and postvention approach for service members, veterans, and families, connecting them with mental-health providers and community resources statewide.",
+    needCategoryIds: ["mental-health", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "Free",
+    geographicScope: "Statewide",
+    state: "West Virginia",
+    verifiedDate: "2026-08-27",
+  },
+  {
+    name: "West Virginia Department of Veterans Assistance — Benefits Offices",
+    url: "https://veterans.wv.gov/facilities/Pages/BenefitsOffices.aspx",
+    description:
+      "Fourteen state benefits offices plus a claims office in Huntington provide Veteran Service Officers who help veterans and families access health care, disability compensation, pension, education, housing, burial benefits, employment assistance, and appeals.",
+    needCategoryIds: ["legal-benefits"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free",
+    geographicScope: "Statewide (14 offices + 1 claims office)",
+    state: "West Virginia",
+    verifiedDate: "2026-08-27",
+  },
 ];
 
 export function getResourcesForFilters(needId: string | null, audience: string | null): Resource[] {
