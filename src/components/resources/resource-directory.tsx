@@ -41,6 +41,14 @@ export const PRIMARY_AUDIENCE_TAGS = [
   "Disabled",
 ] as const;
 
+/** "Nationwide" vs "State-Specific" — independent of which state is selected on the map. */
+type ResourceScope = "all" | "national" | "state";
+const SCOPE_LABELS = { national: "Nationwide", state: "State-Specific" } as const;
+
+function toResourceScope(raw: string | null): ResourceScope {
+  return raw === "national" || raw === "state" ? raw : "all";
+}
+
 function FilterRow({
   label,
   options,
@@ -85,6 +93,7 @@ export function ResourceDirectory() {
   const [audience, setAudience] = useState<string | null>(() => params.get("audience"));
   const [search, setSearch] = useState(() => params.get("q") ?? "");
   const [stateFilter, setStateFilter] = useState<string | null>(() => params.get("state"));
+  const [scope, setScope] = useState<ResourceScope>(() => toResourceScope(params.get("scope")));
 
   // The lazy initializers above cover the normal case (a fresh page load,
   // filtered from the first server-rendered paint). This covers the one
@@ -104,6 +113,7 @@ export function ResourceDirectory() {
     setAudience(params.get("audience"));
     setSearch(params.get("q") ?? "");
     setStateFilter(params.get("state"));
+    setScope(toResourceScope(params.get("scope")));
   }
 
   const activeStates = useMemo(() => {
@@ -125,6 +135,7 @@ export function ResourceDirectory() {
       // a state should add local resources on top of nationwide ones, not
       // hide them.
       const matchesState = !stateFilter || !resource.state || resource.state === stateFilter;
+      const matchesScope = scope === "all" || (scope === "national" ? !resource.state : Boolean(resource.state));
 
       const needLabels = resource.needCategoryIds.map(
         (id) => NEED_CATEGORIES.find((c) => c.id === id)?.label ?? "",
@@ -139,9 +150,9 @@ export function ResourceDirectory() {
         resource.geographicScope.toLowerCase().includes(query) ||
         (resource.state?.toLowerCase().includes(query) ?? false);
 
-      return matchesNeed && matchesAudience && matchesState && matchesSearch;
+      return matchesNeed && matchesAudience && matchesState && matchesScope && matchesSearch;
     });
-  }, [needIds, audience, stateFilter, search]);
+  }, [needIds, audience, stateFilter, scope, search]);
 
   return (
     <div>
@@ -197,13 +208,22 @@ export function ResourceDirectory() {
               activeValues={audience ? [audience] : []}
               onSelect={setAudience}
             />
+            <FilterRow
+              label="Coverage"
+              options={[SCOPE_LABELS.national, SCOPE_LABELS.state]}
+              activeValues={scope === "all" ? [] : [SCOPE_LABELS[scope]]}
+              onSelect={(label) =>
+                setScope(label === SCOPE_LABELS.national ? "national" : label === SCOPE_LABELS.state ? "state" : "all")
+              }
+            />
           </div>
         </div>
 
         <div className="lg:col-span-8 xl:col-span-9">
           <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
             {results.length} {results.length === 1 ? "resource" : "resources"}
-            {stateFilter && ` in ${stateFilter} + nationwide`}
+            {stateFilter && (scope === "state" ? ` in ${stateFilter} only` : ` in ${stateFilter} + nationwide`)}
+            {!stateFilter && scope !== "all" && ` · ${SCOPE_LABELS[scope]} only`}
           </p>
 
           {results.length === 0 ? (

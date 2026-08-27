@@ -1,4 +1,4 @@
-import { Brain, Activity, Users, Compass, Scale, Ban } from "lucide-react";
+import { Ambulance, Ban, Brain, Activity, Compass, Flame, HeartHandshake, Lock, Radio, Scale, Shield, Star, Users } from "lucide-react";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
@@ -12,13 +12,13 @@ export const metadata = pageMetadata({
 });
 
 const WHO_WE_SERVE = [
-  "Veterans",
-  "Law Enforcement",
-  "Fire",
-  "EMS",
-  "Dispatch",
-  "Corrections",
-  "Families & Caregivers",
+  { label: "Veterans", icon: Star },
+  { label: "Law Enforcement", icon: Shield },
+  { label: "Fire", icon: Flame },
+  { label: "EMS", icon: Ambulance },
+  { label: "Dispatch", icon: Radio },
+  { label: "Corrections", icon: Lock },
+  { label: "Families & Caregivers", icon: HeartHandshake },
 ] as const;
 
 const RESOURCE_AREAS = [
@@ -95,13 +95,14 @@ export default function MissionPage() {
       <section className="bg-off-white py-16 sm:py-20">
         <Container className="max-w-[1400px]">
           <SectionHeading eyebrow="Built For" title="Who We Serve" />
-          <ul className="mt-8 flex flex-wrap gap-3">
-            {WHO_WE_SERVE.map((group) => (
+          <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7">
+            {WHO_WE_SERVE.map(({ label, icon: Icon }) => (
               <li
-                key={group}
-                className="border border-ink/10 bg-sand-light/60 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-ink"
+                key={label}
+                className="flex flex-col items-center gap-2.5 border border-ink/10 bg-sand-light/60 px-4 py-6 text-center"
               >
-                {group}
+                <Icon size={24} strokeWidth={1.5} className="text-bronze" aria-hidden="true" />
+                <span className="text-sm font-semibold uppercase tracking-wide text-ink">{label}</span>
               </li>
             ))}
           </ul>

@@ -176,13 +176,20 @@ by the **same** Next.js app/Cloudflare Worker — no second deployment. As of
 the parent-site restructure (below), the split is not just "which pages
 render where" but a deliberate content firewall: **no 70.3 statistics,
 training content, campaign beneficiaries, fundraising mechanisms,
-merchandise, sponsorship intake, or athlete-affiliation content renders on
-forthe22.org**, full stop.
+campaign merchandise, sponsorship intake, or athlete-affiliation content
+renders on forthe22.org**, full stop. The one exception is `/store` — an
+org-only interstitial page (`ORG_PATH_PREFIXES`, mirroring the campaign's
+own `/shop`) that discloses `ORG_SHOP_ALLOCATION` before linking out to
+`ORG_SHOP_URL`, the org's own non-fundraising Fourthwall store
+(for-the-22-ohp-shop.fourthwall.com, both in `constants.ts`). It isn't part
+of the fundraising campaign and isn't gated by this split, unlike the
+campaign's separate `/shop` below (a different store, different
+allocation, different beneficiary).
 
 - **forthe22.org** (org): home (a resource-connection mission — hero,
   resource finder, Areas of Support, Who We Serve, crisis strip, Why
   22/Black, a short origin note), Resources, Mission, Advocacy, About,
-  Contact, Privacy, Terms, Press, Crisis.
+  Contact, Privacy, Terms, Press, Crisis, Store (see above).
 - **tri.forthe22.org** (campaign): home (the fundraiser — hero, progress,
   Fund a Mile), The Mission, The Race, The Story (the athletic/training
   narrative — Spartan/BJJ/marathon/100K chronology, IRONMAN 70.3
@@ -212,8 +219,9 @@ header:
    `Footer`, and `MobileConversionBar`, which render entirely different
    nav/branding/CTAs per mode (see `ORG_NAV_LINKS` /
    `CAMPAIGN_NAV_LINKS` in `constants.ts`). The org nav is deliberately
-   minimal (Resources, Mission, Why It Matters, About, Contact, Need Help
-   Now) — no campaign links; the campaign gets exactly one small outbound
+   minimal (Resources, Mission, Why It Matters, About, Campaigns, Shop,
+   Contact, Need Help Now) — no campaign links; Shop links to /store, the
+   one non-campaign exception (see above). The campaign gets exactly one small outbound
    link, in the footer's "Campaigns" area, never a persistent banner.
    **This makes every route dynamically rendered** (`ƒ` instead of `○` in
    the build output) — the root layout can no longer be statically

@@ -95,10 +95,16 @@ export const MOVEMENT_CAMPAIGNS = [
  * Two separate nav sets, one per domain — see README's "Movement/Campaign
  * Domain Split". forthe22.org (org) and tri.forthe22.org (fundraising
  * campaign) each get their own header/footer nav; a visitor never sees
- * campaign nav on the org site or vice versa. The org nav's one campaign
- * touchpoint is "Campaigns" — an org-owned editorial page (/campaigns)
+ * campaign nav on the org site or vice versa. The org nav's other-domain
+ * touchpoints are "Campaigns" — an org-owned editorial page (/campaigns)
  * listing what For The 22 is currently engaged in and linking out to
- * tri.forthe22.org, not a fundraising CTA or persistent banner itself.
+ * tri.forthe22.org — and "Shop", which links to /store, an org-only
+ * interstitial page (mirroring the campaign's own /shop) that discloses how
+ * proceeds are allocated before sending visitors out to the org's own
+ * non-fundraising Fourthwall store (see ORG_SHOP_URL). Unlike the
+ * campaign's /shop (fundraising merch tied to Tri For The 22, lives on
+ * tri.forthe22.org only), this store isn't part of a fundraising mechanism
+ * and isn't gated by the domain split's merchandise firewall.
  */
 export const ORG_NAV_LINKS: NavLink[] = [
   { label: "Resources", href: "/resources" },
@@ -106,9 +112,49 @@ export const ORG_NAV_LINKS: NavLink[] = [
   { label: "Why It Matters", href: "/advocacy" },
   { label: "About", href: "/about" },
   { label: "Campaigns", href: "/campaigns" },
+  { label: "Shop", href: "/store" },
   { label: "Contact", href: "/contact" },
   { label: "Need Help Now", href: "/crisis" },
 ];
+
+/**
+ * The org's own merchandise store — a separate, non-fundraising Fourthwall
+ * shop (distinct from MERCH_STORE_URL, the campaign's Bonfire store, which
+ * pays 100% of net profit to a single named beneficiary). Linked from
+ * /store, not directly from the header, so the allocation split below is
+ * always disclosed first.
+ */
+export const ORG_SHOP_URL = "https://for-the-22-ohp-shop.fourthwall.com/";
+
+/**
+ * How proceeds from ORG_SHOP_URL are allocated, displayed on /store.
+ * Percentages must sum to 100 — enforced by a dev-time assertion below
+ * rather than trusted silently, since this is a public financial claim.
+ */
+export const ORG_SHOP_ALLOCATION = [
+  {
+    percent: 22,
+    label: "Charitable Organizations",
+    description: "Returned directly to charitable organizations.",
+  },
+  {
+    percent: 58,
+    label: "For The 22 Campaign Efforts",
+    description: "Equipment, training, and other costs of running For The 22's campaigns.",
+  },
+  {
+    percent: 20,
+    label: "Reserve",
+    description: "Held in reserve for tax obligations and other holdings.",
+  },
+] as const;
+
+if (process.env.NODE_ENV !== "production") {
+  const total = ORG_SHOP_ALLOCATION.reduce((sum, row) => sum + row.percent, 0);
+  if (total !== 100) {
+    throw new Error(`ORG_SHOP_ALLOCATION percentages must sum to 100, got ${total}`);
+  }
+}
 
 /**
  * 5 links + the header's separate Fund a Mile CTA button (see

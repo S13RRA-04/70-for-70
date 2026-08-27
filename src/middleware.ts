@@ -118,6 +118,7 @@ const ORG_PATH_PREFIXES = [
   "/contact",
   "/mission",
   "/campaigns",
+  "/store",
 ];
 const CAMPAIGN_PATH_PREFIXES = [
   "/the-mission",

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronDown } from "lucide-react";
+import { Ambulance, ChevronDown, Flame, HeartHandshake, Lock, Radio, Shield, Star } from "lucide-react";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTAButton } from "@/components/shared/cta-button";
@@ -42,13 +42,13 @@ const AREAS_OF_SUPPORT = [
 ] as const;
 
 const WHO_WE_SERVE = [
-  "Veterans",
-  "Law Enforcement",
-  "Fire",
-  "EMS",
-  "Dispatch",
-  "Corrections",
-  "Families & Caregivers",
+  { label: "Veterans", icon: Star },
+  { label: "Law Enforcement", icon: Shield },
+  { label: "Fire", icon: Flame },
+  { label: "EMS", icon: Ambulance },
+  { label: "Dispatch", icon: Radio },
+  { label: "Corrections", icon: Lock },
+  { label: "Families & Caregivers", icon: HeartHandshake },
 ] as const;
 
 const RAIL_SECTIONS = [
@@ -182,13 +182,14 @@ export default function HomePage() {
             <SectionHeading eyebrow="Built For" title="Who the Directory Serves" />
           </RevealOnScroll>
           <RevealOnScroll className="mt-10">
-            <ul className="flex flex-wrap gap-3">
-              {WHO_WE_SERVE.map((group) => (
+            <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7">
+              {WHO_WE_SERVE.map(({ label, icon: Icon }) => (
                 <li
-                  key={group}
-                  className="border border-ink/10 bg-off-white px-5 py-3 text-sm font-semibold uppercase tracking-wide text-ink"
+                  key={label}
+                  className="flex flex-col items-center gap-2.5 border border-ink/10 bg-off-white px-4 py-6 text-center"
                 >
-                  {group}
+                  <Icon size={24} strokeWidth={1.5} className="text-bronze" aria-hidden="true" />
+                  <span className="text-sm font-semibold uppercase tracking-wide text-ink">{label}</span>
                 </li>
               ))}
             </ul>
