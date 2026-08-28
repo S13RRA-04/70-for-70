@@ -463,6 +463,9 @@ src/
     journal/building-the-bike/  Static "living" bike-build feature — see
                              "Bike Build Journal Content" below; not a
                              journal_entries row
+    journal/gear-journey/  Static "living" gear/sponsorship-cost feature —
+                             see "Gear Journey Content" below; not a
+                             journal_entries row
     donate/ contact/        Donation routing and general contact form
     live/                   Provider-neutral race-day status page
     press/                  Press/media kit
@@ -605,6 +608,61 @@ could be added later without a redesign). Add a name to
 `BIKE_BUILD_CONVERSATIONS_IN_PROGRESS` while support is still being
 discussed; move it to `BIKE_BUILD_CONFIRMED_CONTRIBUTORS` only once it's
 actually confirmed.
+
+## Gear Journey Content
+
+`/journal/gear-journey` ("The Gear Journey: The Cost of Getting to the
+Starting Line") is the same kind of living, story-driven page as Building
+the Bike above — a static route, not a `journal_entries` row — but scoped
+to the broader cost/logistics story of getting a brand-new triathlete
+equipped (wetsuit, helmet, tri suit, sponsorship asks, donated gear,
+expensive lessons) rather than the bike specifically. The bike still gets
+its own deep-dive at `/journal/building-the-bike`; this page's "Building
+the Bike" section links out to it instead of duplicating it.
+
+Content lives in
+[`src/lib/content/gear-journey.ts`](src/lib/content/gear-journey.ts) and
+has two parts:
+
+- `GEAR_JOURNEY_OPENING_POST` — the long-form essay, written once. An array
+  of sections (`{ heading?, paragraphs }`); the first section omits
+  `heading` for the lead-in block before the first subheading. **This is
+  not meant to be added to again** — it's the origin story, not a running
+  log.
+- `GEAR_JOURNEY_TIMELINE` — shorter updates added over time (a component
+  arrives, a sponsor says yes, something expensive doesn't fit), reusing
+  the exact same `BikeBuildTimelineEntry` shape and `<BuildTimeline>`
+  component as the bike-build page. **Adding an update is a content-file
+  change — you should never need to edit
+  [`page.tsx`](src/app/journal/gear-journey/page.tsx) or
+  `<BuildTimeline>` to publish one.**
+
+### Adding a timeline entry
+
+Same recipe as a Bike Build timeline entry above — append one object to the
+end of `GEAR_JOURNEY_TIMELINE` (oldest-first; the last item is "the latest
+update"):
+
+```ts
+{
+  id: "wetsuit-arrives",              // becomes the #anchor — never change an id after publishing
+  date: "2026-09-15",                 // ISO date, drives <time> and "last updated"
+  displayDate: "September 15, 2026",  // human-facing — can be a range or approximate month
+  title: "The Wetsuit Problem, Solved",
+  summary: "A sponsor stepped in to cover a properly sized triathlon wetsuit.",
+  status: "Wetsuit secured",
+  body: [
+    "One paragraph per array entry — this is the narrative text.",
+  ],
+  // photos, technicalDetails, contributors, relatedLinks — all optional, same shape as Bike Build entries.
+},
+```
+
+The page automatically derives the hero's "Last updated" date, the Journal
+index's pinned card and "Latest Gear-Journey Update" teaser text, each
+entry's shareable anchor, and the sitemap's `lastModified` from this one
+file — same pattern as Bike Build, see `getGearJourneyLastUpdated()` and
+`getGearJourneyTeaser()`.
 
 ## Sponsorship Vetting Workflow
 
@@ -863,32 +921,34 @@ wordmark (the org), and a colored ring badge with a "TRI FOR THE 22"
 wordmark (the campaign). No horizontal lockup exists for either, so
 nothing invents one.
 
-The org mark has two versions — dark numerals for light backgrounds,
-white numerals for dark backgrounds. The Tri campaign mark is a single
-opaque badge (the ring + wordmark sit on their own white circular plate,
-not a transparent cutout), so it reads correctly on any background —
-light or dark — without needing separate light/dark versions. The
-campaign wordmark alone (no ring) does need paired versions for contrast,
-and both are supplied: black text for light backgrounds, white text for
-dark.
+Both marks now follow the same light/dark pairing convention — the org
+mark has dark numerals for light backgrounds and white numerals for dark
+backgrounds; the Tri campaign mark (ring + wordmark) has black text for
+light backgrounds and white text for dark, both as transparent cutouts
+(no background plate) so they drop cleanly onto whatever's behind them.
+The campaign wordmark alone (no ring) is paired the same way.
 
 - Source files (full resolution, not publicly served — kept for
   regenerating assets later): [`brand/forthe22-logo-source.png`](brand/forthe22-logo-source.png),
   [`brand/forthe22-logo-white-source.png`](brand/forthe22-logo-white-source.png),
-  [`brand/tri-logo-source.png`](brand/tri-logo-source.png) (the opaque
-  badge), [`brand/tri-logo-transparent-source.png`](brand/tri-logo-transparent-source.png)
-  (ring + wordmark with no background plate — kept for future compositing,
-  not currently used on-site), [`brand/tri-wordmark-black-source.png`](brand/tri-wordmark-black-source.png)
+  [`brand/tri-logo-source.png`](brand/tri-logo-source.png) /
+  [`brand/tri-logo-white-source.png`](brand/tri-logo-white-source.png)
+  (the transparent light/dark pair), [`brand/tri-logo-plated-source.png`](brand/tri-logo-plated-source.png)
+  (an earlier opaque badge-on-a-white-plate variant — reads on any
+  background by carrying its own plate instead of being transparent;
+  kept for future use, not currently on-site), [`brand/tri-wordmark-black-source.png`](brand/tri-wordmark-black-source.png)
   and [`brand/tri-wordmark-white-source.png`](brand/tri-wordmark-white-source.png).
   Earlier "70 for 70" / "70 for 22" sources are kept alongside them for
   history.
 - [`public/logo.png`](public/logo.png) / [`public/logo-white.png`](public/logo-white.png) —
   1024×1024 optimized **For The 22** org marks used for on-site display
   (header/footer) and the `/press` downloads
-- [`public/campaign-logo.png`](public/campaign-logo.png) — the **Tri For
-  The 22** campaign badge (colored ring + wordmark on a white plate), used
-  in the campaign header/footer, the `/the-race` hero, `/coming-soon`, and
-  offered as a download on `/campaign-press`
+- [`public/campaign-logo.png`](public/campaign-logo.png) /
+  [`public/campaign-logo-white.png`](public/campaign-logo-white.png) — the
+  **Tri For The 22** campaign mark (colored ring + wordmark, transparent),
+  light- and dark-background versions. Used in the campaign header (light)
+  and footer (dark), the `/the-race` hero (dark) and `/coming-soon`
+  (dark), and both offered as downloads on `/campaign-press`
 - [`public/campaign-wordmark-black.png`](public/campaign-wordmark-black.png) /
   [`public/campaign-wordmark-white.png`](public/campaign-wordmark-white.png) —
   the campaign wordmark alone (no ring), light- and dark-background

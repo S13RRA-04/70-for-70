@@ -90,7 +90,7 @@ export default async function RacePage() {
           )}
         </div>
         <Image
-          src="/campaign-logo.png"
+          src="/campaign-logo-white.png"
           alt="Tri For The 22 campaign logo mark"
           width={160}
           height={160}

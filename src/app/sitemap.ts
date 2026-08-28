@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getJournalEntries } from "@/lib/data/journal";
 import { getBikeBuildLastUpdated } from "@/lib/content/building-the-bike";
+import { getGearJourneyLastUpdated } from "@/lib/content/gear-journey";
 import { US_STATES_GRID } from "@/lib/content/us-states";
 import { CAMPAIGN_URL, SITE_URL, TOTAL_FUNDRAISING_MILES } from "@/lib/constants";
 import { getSiteMode } from "@/lib/site-mode";
@@ -81,6 +82,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       },
     ];
 
+    // Same reasoning as bikeBuildEntry above — see
+    // src/app/journal/gear-journey/page.tsx's doc comment.
+    const gearJourneyEntry: MetadataRoute.Sitemap = [
+      {
+        url: `${CAMPAIGN_URL}/journal/gear-journey`,
+        lastModified: new Date(getGearJourneyLastUpdated()),
+      },
+    ];
+
     const mileEntries: MetadataRoute.Sitemap = Array.from(
       { length: TOTAL_FUNDRAISING_MILES },
       (_, i) => ({
@@ -89,7 +99,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       }),
     );
 
-    return [...campaignEntries, ...journalEntries, ...bikeBuildEntry, ...mileEntries];
+    return [...campaignEntries, ...journalEntries, ...bikeBuildEntry, ...gearJourneyEntry, ...mileEntries];
   }
 
   const orgEntries: MetadataRoute.Sitemap = ORG_ROUTES.map((path) => ({

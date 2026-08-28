@@ -43,7 +43,7 @@ export default async function ComingSoonPage(props: PageProps<"/coming-soon">) {
   if (isCampaignScope) {
     return (
       <section className="flex min-h-[85vh] flex-col items-center justify-center bg-ink px-6 py-20 text-center text-off-white">
-        <Image src="/campaign-logo.png" alt="" aria-hidden="true" width={64} height={64} priority />
+        <Image src="/campaign-logo-white.png" alt="" aria-hidden="true" width={64} height={64} priority />
         <p className="mt-6 text-xs font-semibold uppercase tracking-[0.25em] text-bronze-light">
           {SITE_NAME} &middot; Current Campaign
         </p>

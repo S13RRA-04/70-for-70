@@ -5,9 +5,11 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { JournalCard } from "@/components/journal/journal-card";
 import { JournalFilterRow } from "@/components/journal/journal-filter-row";
 import { BikeBuildIndexCard } from "@/components/journal/bike-build/bike-build-index-card";
+import { GearJourneyIndexCard } from "@/components/journal/gear-journey/gear-journey-index-card";
 import { EmptyState } from "@/components/shared/empty-state";
 import { EmailSignupForm } from "@/components/forms/email-signup-form";
 import { getBikeBuildLastUpdated } from "@/lib/content/building-the-bike";
+import { getGearJourneyLastUpdated } from "@/lib/content/gear-journey";
 import { getTrainingSnapshot } from "@/lib/whoop/client";
 import { getRecentDisciplineWorkouts } from "@/lib/training-stats";
 import { formatDateLong } from "@/lib/utils";
@@ -70,8 +72,9 @@ export default async function JournalPage(props: PageProps<"/journal">) {
       </CampaignPageHero>
 
       <section className="border-b border-ink/10 py-10">
-        <Container>
+        <Container className="space-y-4">
           <BikeBuildIndexCard lastUpdated={getBikeBuildLastUpdated()} />
+          <GearJourneyIndexCard lastUpdated={getGearJourneyLastUpdated()} />
         </Container>
       </section>
 

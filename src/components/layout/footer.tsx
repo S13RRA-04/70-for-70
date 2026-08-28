@@ -50,7 +50,7 @@ export function Footer({ mode, awarenessMonth = false }: { mode: SiteMode; aware
         <div className={isCampaign ? "sm:col-span-2 lg:col-span-2" : "sm:col-span-2 lg:col-span-1"}>
           <div className="flex items-center gap-2.5">
             <Image
-              src={isCampaign ? "/campaign-logo.png" : "/logo-white.png"}
+              src={isCampaign ? "/campaign-logo-white.png" : "/logo-white.png"}
               alt=""
               aria-hidden="true"
               width={32}

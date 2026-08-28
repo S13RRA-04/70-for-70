@@ -64,9 +64,8 @@ export default async function CampaignPressPage() {
               Logo Downloads
             </h2>
             <p className="mt-1 text-sm text-charcoal-light">
-              The {CAMPAIGN_NAME} campaign mark works on any background. A horizontal lockup
-              hasn&apos;t been produced yet, but a standalone wordmark is available below in both
-              light- and dark-background versions.
+              The compact icon/mark is available below, shown on both light and dark backgrounds.
+              A horizontal lockup hasn&apos;t been produced yet.
             </p>
             <div className="mt-3 flex flex-wrap gap-4">
               <div className="inline-flex flex-col items-start gap-3 rounded-sm border border-ink/10 bg-off-white p-6">
@@ -81,7 +80,22 @@ export default async function CampaignPressPage() {
                   download
                   className="inline-flex rounded-sm border border-ink/20 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
                 >
-                  Download (Campaign Mark)
+                  Download (Light Background)
+                </a>
+              </div>
+              <div className="inline-flex flex-col items-start gap-3 rounded-sm border border-ink/10 bg-ink p-6">
+                <Image
+                  src="/campaign-logo-white.png"
+                  alt={`${CAMPAIGN_NAME} campaign logo mark`}
+                  width={140}
+                  height={140}
+                />
+                <a
+                  href="/campaign-logo-white.png"
+                  download
+                  className="inline-flex rounded-sm border border-off-white/30 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-off-white hover:bg-off-white/10"
+                >
+                  Download (Dark Background)
                 </a>
               </div>
             </div>
