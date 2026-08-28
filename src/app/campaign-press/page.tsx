@@ -64,8 +64,9 @@ export default async function CampaignPressPage() {
               Logo Downloads
             </h2>
             <p className="mt-1 text-sm text-charcoal-light">
-              The {CAMPAIGN_NAME} campaign mark, light background only. A horizontal lockup
-              hasn&apos;t been produced yet.
+              The {CAMPAIGN_NAME} campaign mark works on any background. A horizontal lockup
+              hasn&apos;t been produced yet, but a standalone wordmark is available below in both
+              light- and dark-background versions.
             </p>
             <div className="mt-3 flex flex-wrap gap-4">
               <div className="inline-flex flex-col items-start gap-3 rounded-sm border border-ink/10 bg-off-white p-6">
@@ -81,6 +82,48 @@ export default async function CampaignPressPage() {
                   className="inline-flex rounded-sm border border-ink/20 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
                 >
                   Download (Campaign Mark)
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+              Wordmark Downloads
+            </h2>
+            <p className="mt-1 text-sm text-charcoal-light">
+              The {CAMPAIGN_NAME} wordmark alone, without the ring icon, shown on both light and
+              dark backgrounds.
+            </p>
+            <div className="mt-3 flex flex-wrap gap-4">
+              <div className="inline-flex flex-col items-start gap-3 rounded-sm border border-ink/10 bg-off-white p-6">
+                <Image
+                  src="/campaign-wordmark-black.png"
+                  alt={`${CAMPAIGN_NAME} wordmark`}
+                  width={140}
+                  height={157}
+                />
+                <a
+                  href="/campaign-wordmark-black.png"
+                  download
+                  className="inline-flex rounded-sm border border-ink/20 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
+                >
+                  Download (Light Background)
+                </a>
+              </div>
+              <div className="inline-flex flex-col items-start gap-3 rounded-sm border border-ink/10 bg-ink p-6">
+                <Image
+                  src="/campaign-wordmark-white.png"
+                  alt={`${CAMPAIGN_NAME} wordmark`}
+                  width={140}
+                  height={154}
+                />
+                <a
+                  href="/campaign-wordmark-white.png"
+                  download
+                  className="inline-flex rounded-sm border border-off-white/30 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-off-white hover:bg-off-white/10"
+                >
+                  Download (Dark Background)
                 </a>
               </div>
             </div>

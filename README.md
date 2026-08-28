@@ -859,27 +859,40 @@ new brand. Update it in `constants.ts` once a new address exists.
 ## Campaign Logo
 
 Two brand marks are in place — a colored ring around a bold "For The 22"
-wordmark (the org), and a swim/bike/run icon with a "TRI" wordmark (the
-campaign). No horizontal lockup exists for either, so nothing invents one.
+wordmark (the org), and a colored ring badge with a "TRI FOR THE 22"
+wordmark (the campaign). No horizontal lockup exists for either, so
+nothing invents one.
 
 The org mark has two versions — dark numerals for light backgrounds,
-white numerals for dark backgrounds. The Tri campaign mark only has one
-(dark-text, light-background) version supplied, so it's placed only where
-a light background is available (`/the-race` hero, `/press` downloads) —
-not in dark-background contexts like the OG image or footer, where its
-dark "TRI" text would be unreadable.
+white numerals for dark backgrounds. The Tri campaign mark is a single
+opaque badge (the ring + wordmark sit on their own white circular plate,
+not a transparent cutout), so it reads correctly on any background —
+light or dark — without needing separate light/dark versions. The
+campaign wordmark alone (no ring) does need paired versions for contrast,
+and both are supplied: black text for light backgrounds, white text for
+dark.
 
 - Source files (full resolution, not publicly served — kept for
   regenerating assets later): [`brand/forthe22-logo-source.png`](brand/forthe22-logo-source.png),
   [`brand/forthe22-logo-white-source.png`](brand/forthe22-logo-white-source.png),
-  [`brand/tri-logo-source.png`](brand/tri-logo-source.png). Earlier
-  "70 for 70" / "70 for 22" sources are kept alongside them for history.
+  [`brand/tri-logo-source.png`](brand/tri-logo-source.png) (the opaque
+  badge), [`brand/tri-logo-transparent-source.png`](brand/tri-logo-transparent-source.png)
+  (ring + wordmark with no background plate — kept for future compositing,
+  not currently used on-site), [`brand/tri-wordmark-black-source.png`](brand/tri-wordmark-black-source.png)
+  and [`brand/tri-wordmark-white-source.png`](brand/tri-wordmark-white-source.png).
+  Earlier "70 for 70" / "70 for 22" sources are kept alongside them for
+  history.
 - [`public/logo.png`](public/logo.png) / [`public/logo-white.png`](public/logo-white.png) —
   1024×1024 optimized **For The 22** org marks used for on-site display
   (header/footer) and the `/press` downloads
-- [`public/campaign-logo.png`](public/campaign-logo.png) — the **Tri**
-  campaign mark (swim/bike/run icon + "TRI" wordmark), used on the
-  `/the-race` hero and offered as a download on `/press`
+- [`public/campaign-logo.png`](public/campaign-logo.png) — the **Tri For
+  The 22** campaign badge (colored ring + wordmark on a white plate), used
+  in the campaign header/footer, the `/the-race` hero, `/coming-soon`, and
+  offered as a download on `/campaign-press`
+- [`public/campaign-wordmark-black.png`](public/campaign-wordmark-black.png) /
+  [`public/campaign-wordmark-white.png`](public/campaign-wordmark-white.png) —
+  the campaign wordmark alone (no ring), light- and dark-background
+  versions, offered as downloads on `/campaign-press`
 - `src/app/icon.png` (32×32) and `src/app/apple-icon.png` (180×180,
   flattened onto the off-white brand background since Apple's convention
   doesn't respect transparency) — both regenerated from the **For The 22**
