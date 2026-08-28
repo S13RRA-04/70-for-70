@@ -15,15 +15,18 @@ import { cn } from "@/lib/utils";
 export function DonationTrackingNote({
   partnerName,
   mileNumber,
+  trackingCode = DONATION_TRACKING_CODE,
 }: {
   partnerName: string;
   mileNumber?: number;
+  /** Defaults to Tri's code — pass RUCK_DONATION_TRACKING_CODE (or another campaign's) so a beneficiary shared across campaigns reconciles gifts to the right one. */
+  trackingCode?: string;
 }) {
   const [copied, setCopied] = useState(false);
   const note =
     mileNumber !== undefined
-      ? `${DONATION_TRACKING_CODE} · Mile ${String(mileNumber).padStart(2, "0")}`
-      : DONATION_TRACKING_CODE;
+      ? `${trackingCode} · Mile ${String(mileNumber).padStart(2, "0")}`
+      : trackingCode;
 
   async function handleCopy() {
     try {

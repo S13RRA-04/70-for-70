@@ -5,28 +5,31 @@ import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import {
   CAMPAIGN_HOME_LINK,
+  CAMPAIGNS,
   DONATE_LINK,
   FUND_A_MILE_LINK,
   ORG_HOME_LINK,
 } from "@/lib/constants";
+import type { CampaignSlug } from "@/lib/site-mode";
 import type { NavLink } from "@/types/content";
 import { cn } from "@/lib/utils";
 
-/** Campaign mobile menu groups — see AGENTS.md's "Mobile navigation" section. Explore omits Shop (grouped under Support instead). */
-const CAMPAIGN_EXPLORE_LINKS: NavLink[] = [
+/** Tri's mobile menu groups — see AGENTS.md's "Mobile navigation" section. Explore omits Shop (grouped under Support instead). */
+const TRI_EXPLORE_LINKS: NavLink[] = [
   { label: "Campaign", href: "/the-mission" },
   { label: "Race", href: "/the-race" },
   { label: "Journal", href: "/journal" },
   { label: "Partners", href: "/partners" },
 ];
-const CAMPAIGN_SUPPORT_LINKS: NavLink[] = [FUND_A_MILE_LINK, DONATE_LINK, { label: "Shop", href: "/shop" }];
+const TRI_SUPPORT_LINKS: NavLink[] = [FUND_A_MILE_LINK, DONATE_LINK, { label: "Shop", href: "/shop" }];
 
 interface MobileMenuProps {
   open: boolean;
   onClose: () => void;
   navLinks: NavLink[];
   pathname: string;
-  isCampaign: boolean;
+  /** Which campaign's menu to show — omit/null for the org menu. */
+  campaignSlug?: CampaignSlug | null;
   /** The hamburger button that opens this menu — focus returns there on close. */
   triggerRef: React.RefObject<HTMLButtonElement | null>;
 }
@@ -36,8 +39,9 @@ interface MobileMenuProps {
  * reads as a distinct layer above the page, with proper dialog semantics —
  * focus trap, Escape-to-close, and focus return to the trigger button.
  */
-export function MobileMenu({ open, onClose, navLinks, pathname, isCampaign, triggerRef }: MobileMenuProps) {
+export function MobileMenu({ open, onClose, navLinks, pathname, campaignSlug, triggerRef }: MobileMenuProps) {
   const panelRef = useRef<HTMLDivElement>(null);
+  const campaign = campaignSlug ? CAMPAIGNS[campaignSlug] : null;
 
   useEffect(() => {
     if (!open) return;
@@ -104,21 +108,26 @@ export function MobileMenu({ open, onClose, navLinks, pathname, isCampaign, trig
         className="absolute inset-y-0 right-0 flex w-full max-w-sm flex-col overflow-y-auto bg-off-white shadow-xl"
       >
         <nav aria-label="Mobile" className="flex flex-1 flex-col px-4 py-4 sm:px-6">
-          {isCampaign ? (
+          {campaignSlug === "tri" ? (
             <>
-              <MobileNavGroup label="Explore" links={CAMPAIGN_EXPLORE_LINKS} pathname={pathname} />
-              <MobileNavGroup label="Support" links={CAMPAIGN_SUPPORT_LINKS} pathname={pathname} className="mt-5 border-t border-ink/10 pt-5" />
+              <MobileNavGroup label="Explore" links={TRI_EXPLORE_LINKS} pathname={pathname} />
+              <MobileNavGroup label="Support" links={TRI_SUPPORT_LINKS} pathname={pathname} className="mt-5 border-t border-ink/10 pt-5" />
+              <ParentInitiativeGroup />
+            </>
+          ) : campaignSlug === "ruck" && campaign ? (
+            <>
+              <MobileNavGroup label="Explore" links={campaign.navLinks} pathname={pathname} />
               <div className="mt-5 border-t border-ink/10 pt-5">
-                <p className="px-3 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-                  Parent Initiative
-                </p>
                 <a
-                  href={ORG_HOME_LINK.href}
-                  className="mt-2 block rounded-sm px-3 py-3 text-base font-medium uppercase tracking-wide text-charcoal hover:bg-sand-light"
+                  href={campaign.primaryCta.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block rounded-sm bg-bronze px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
                 >
-                  {ORG_HOME_LINK.label} <span aria-hidden="true">&#8599;</span>
+                  {campaign.primaryCta.label} <span aria-hidden="true">&#8599;</span>
                 </a>
               </div>
+              <ParentInitiativeGroup />
             </>
           ) : (
             <>
@@ -158,6 +167,22 @@ export function MobileMenu({ open, onClose, navLinks, pathname, isCampaign, trig
       </div>
     </div>,
     document.body,
+  );
+}
+
+function ParentInitiativeGroup() {
+  return (
+    <div className="mt-5 border-t border-ink/10 pt-5">
+      <p className="px-3 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+        Parent Initiative
+      </p>
+      <a
+        href={ORG_HOME_LINK.href}
+        className="mt-2 block rounded-sm px-3 py-3 text-base font-medium uppercase tracking-wide text-charcoal hover:bg-sand-light"
+      >
+        {ORG_HOME_LINK.label} <span aria-hidden="true">&#8599;</span>
+      </a>
+    </div>
   );
 }
 

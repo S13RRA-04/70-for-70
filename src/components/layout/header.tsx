@@ -5,22 +5,25 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
-import {
-  CAMPAIGN_NAME,
-  CAMPAIGN_NAV_LINKS,
-  FUND_A_MILE_LINK,
-  ORG_NAV_LINKS,
-  PARENT_INITIATIVE_LINK,
-  SITE_NAME,
-} from "@/lib/constants";
-import type { SiteMode } from "@/lib/site-mode";
+import { CAMPAIGNS, ORG_NAV_LINKS, PARENT_INITIATIVE_LINK, SITE_NAME } from "@/lib/constants";
+import type { CampaignSlug, SiteMode } from "@/lib/site-mode";
 import { cn } from "@/lib/utils";
 import { MobileMenu } from "@/components/layout/mobile-menu";
 
-export function Header({ mode, awarenessMonth = false }: { mode: SiteMode; awarenessMonth?: boolean }) {
+export function Header({
+  mode,
+  campaignSlug,
+  awarenessMonth = false,
+}: {
+  mode: SiteMode;
+  /** Which campaign's branding to show — required whenever mode is "campaign", see src/lib/constants.ts's CAMPAIGNS. */
+  campaignSlug?: CampaignSlug | null;
+  awarenessMonth?: boolean;
+}) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const isCampaign = mode === "campaign";
+  const campaign = campaignSlug ? CAMPAIGNS[campaignSlug] : null;
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   // Close the mobile menu on navigation. Adjusted during render (rather than
@@ -31,14 +34,14 @@ export function Header({ mode, awarenessMonth = false }: { mode: SiteMode; aware
     setOpen(false);
   }
 
-  const navLinks = isCampaign ? CAMPAIGN_NAV_LINKS : ORG_NAV_LINKS;
+  const navLinks = campaign ? campaign.navLinks : ORG_NAV_LINKS;
 
   return (
     <header className="sticky top-0 z-40 border-b border-ink/10 bg-off-white/95 backdrop-blur supports-[backdrop-filter]:bg-off-white/80">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2.5">
           <Image
-            src={isCampaign ? "/campaign-logo.png" : "/logo.png"}
+            src={campaign ? campaign.logoLight : "/logo.png"}
             alt=""
             aria-hidden="true"
             width={36}
@@ -46,20 +49,20 @@ export function Header({ mode, awarenessMonth = false }: { mode: SiteMode; aware
             priority
           />
           <span className="flex flex-col leading-none">
-            {isCampaign && (
+            {campaign && (
               <span className="text-[10px] font-semibold uppercase tracking-widest text-charcoal-light">
                 {SITE_NAME}
               </span>
             )}
             <span className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
-              {isCampaign ? CAMPAIGN_NAME : SITE_NAME}
+              {campaign ? campaign.name : SITE_NAME}
               {!isCampaign && <sup className="text-[0.5em] font-medium tracking-normal">™</sup>}
             </span>
           </span>
         </Link>
 
         <div className="hidden items-center gap-7 lg:flex">
-          {isCampaign && (
+          {campaign && (
             <a
               href={PARENT_INITIATIVE_LINK.href}
               className="text-xs font-semibold uppercase tracking-widest text-charcoal-light transition-colors hover:text-ink"
@@ -93,13 +96,14 @@ export function Header({ mode, awarenessMonth = false }: { mode: SiteMode; aware
             ))}
           </nav>
 
-          {isCampaign && (
-            <Link
-              href={FUND_A_MILE_LINK.href}
+          {campaign && (
+            <a
+              href={campaign.primaryCta.href}
+              {...(campaign.primaryCta.external && { target: "_blank", rel: "noopener noreferrer" })}
               className="rounded-sm bg-bronze px-5 py-2 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light"
             >
-              {FUND_A_MILE_LINK.label}
-            </Link>
+              {campaign.primaryCta.label}
+            </a>
           )}
         </div>
 
@@ -130,7 +134,7 @@ export function Header({ mode, awarenessMonth = false }: { mode: SiteMode; aware
         onClose={() => setOpen(false)}
         navLinks={navLinks}
         pathname={pathname}
-        isCampaign={isCampaign}
+        campaignSlug={campaignSlug}
         triggerRef={menuButtonRef}
       />
     </header>

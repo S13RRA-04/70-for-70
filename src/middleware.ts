@@ -2,7 +2,7 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { updateSupabaseSession } from "@/lib/supabase/proxy-session";
 import { getPreviewToken, isCampaignLive, isOrgLive, PREVIEW_COOKIE_NAME } from "@/lib/launch-gate";
-import { isCampaignHost } from "@/lib/site-mode";
+import { getCampaignSlug, type CampaignSlug } from "@/lib/site-mode";
 import { CAMPAIGN_URL, SITE_URL } from "@/lib/constants";
 
 const PREVIEW_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 180; // 180 days
@@ -18,7 +18,8 @@ const PREVIEW_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 180; // 180 days
  * middleware support — see https://github.com/cloudflare/workers-sdk/issues/13755
  */
 export function middleware(request: NextRequest) {
-  const onCampaignHost = isCampaignHost(request.headers.get("host"));
+  const campaignSlug = getCampaignSlug(request.headers.get("host"));
+  const onCampaignHost = campaignSlug !== null;
   const live = onCampaignHost ? isCampaignLive() : isOrgLive();
 
   if (!live) {
@@ -26,7 +27,7 @@ export function middleware(request: NextRequest) {
     if (gateResponse) return gateResponse;
   }
 
-  const splitResponse = applyDomainSplit(request, onCampaignHost);
+  const splitResponse = applyDomainSplit(request, onCampaignHost, campaignSlug);
   if (splitResponse) return splitResponse;
 
   return updateSupabaseSession(request);
@@ -102,13 +103,15 @@ function applyLaunchGate(request: NextRequest, onCampaignHost: boolean): Respons
 }
 
 /**
- * Movement (forthe22.org) vs campaign (tri.forthe22.org) page split —
- * see README's "Movement/Campaign Domain Split". Both domains are served
- * by this same app; this is the only place that decides which pages
- * belong to which. API routes, shared assets, and /admin (including
- * /admin/analytics, which reports on both domains — see
- * src/lib/analytics/cloudflare.ts) are intentionally not listed here —
- * they work identically on either host, not just tri.forthe22.org.
+ * Movement (forthe22.org) vs campaign page split — see README's
+ * "Movement/Campaign Domain Split". These two prefix lists are Tri's own
+ * campaign routes specifically (Ruck has none of its own — see
+ * applyRuckSingleHomeGuard below); all hosts are served by this same app,
+ * and this is the only place that decides which pages belong to which. API
+ * routes, shared assets, and /admin (including /admin/analytics, which
+ * reports on every domain — see src/lib/analytics/cloudflare.ts) are
+ * intentionally not listed here — they work identically on every host, not
+ * just tri.forthe22.org.
  */
 const ORG_PATH_PREFIXES = [
   "/about",
@@ -153,19 +156,63 @@ function matchesPathPrefix(pathname: string, prefixes: string[]): boolean {
   return prefixes.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
 }
 
+/** Maps each campaign to the real route "/" transparently rewrites to. */
+const CAMPAIGN_HOME_ROUTES: Record<CampaignSlug, string> = {
+  tri: "/campaign-home",
+  ruck: "/ruck-home",
+};
+
+/**
+ * Paths that work identically regardless of which host is serving them —
+ * never redirected/collapsed by the Ruck single-page guard below.
+ */
+const SHARED_PATH_PREFIXES = [
+  "/admin",
+  "/api",
+  "/crisis",
+  "/coming-soon",
+  "/sitemap.xml",
+  "/robots.txt",
+  "/manifest.json",
+  "/manifest.webmanifest",
+];
+
+/**
+ * Ruck For The 22 is deliberately a single page (see RUCK_CAMPAIGN_URL's
+ * doc comment in src/lib/constants.ts) — unlike Tri, it has no set of real
+ * campaign routes of its own. Without this, ruck.forthe22.org/the-race (a
+ * real route that exists for Tri) would render Tri's page content under
+ * Ruck's header/footer branding. Collapse anything else on that host back
+ * to "/" instead.
+ */
+function applyRuckSingleHomeGuard(request: NextRequest, campaignSlug: CampaignSlug | null): Response | null {
+  if (campaignSlug !== "ruck") return null;
+  const { pathname } = request.nextUrl;
+  if (pathname === "/" || matchesPathPrefix(pathname, SHARED_PATH_PREFIXES)) return null;
+  return NextResponse.redirect(new URL("/", request.nextUrl), 308);
+}
+
 /**
  * Returns a response if this request needs to be rewritten/redirected to
  * stay on the correct side of the movement/campaign split, or null if it
  * should render normally as-is.
  */
-function applyDomainSplit(request: NextRequest, onCampaignHost: boolean): Response | null {
+function applyDomainSplit(
+  request: NextRequest,
+  onCampaignHost: boolean,
+  campaignSlug: CampaignSlug | null,
+): Response | null {
   const url = request.nextUrl;
 
-  // "/" is the one path that exists on both hosts with different content.
-  // The campaign home lives at the real route /campaign-home and is
-  // rewritten in transparently — the URL bar still shows "/".
+  const ruckGuardResponse = applyRuckSingleHomeGuard(request, campaignSlug);
+  if (ruckGuardResponse) return ruckGuardResponse;
+
+  // "/" is the one path that exists on every host with different content.
+  // Each campaign's home lives at its own real route (see
+  // CAMPAIGN_HOME_ROUTES) and is rewritten in transparently — the URL bar
+  // still shows "/".
   if (url.pathname === "/") {
-    return onCampaignHost ? NextResponse.rewrite(new URL("/campaign-home", url)) : null;
+    return campaignSlug ? NextResponse.rewrite(new URL(CAMPAIGN_HOME_ROUTES[campaignSlug], url)) : null;
   }
 
   if (onCampaignHost && url.pathname in CAMPAIGN_PATH_REWRITES) {

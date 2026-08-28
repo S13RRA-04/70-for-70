@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   CAMPAIGN_HOME_LINK,
-  CAMPAIGN_NAME,
+  CAMPAIGNS,
   CONTACT_EMAIL,
   ORG_HOME_LINK,
   ORG_TAGLINE,
@@ -12,11 +12,20 @@ import {
 } from "@/lib/constants";
 import { Container } from "@/components/shared/container";
 import { SocialLinks } from "@/components/shared/social-links";
-import type { SiteMode } from "@/lib/site-mode";
+import type { CampaignSlug, SiteMode } from "@/lib/site-mode";
 import { isRaceDayModeEnabled } from "@/lib/race-day-mode";
 
-export function Footer({ mode, awarenessMonth = false }: { mode: SiteMode; awarenessMonth?: boolean }) {
+export function Footer({
+  mode,
+  campaignSlug,
+  awarenessMonth = false,
+}: {
+  mode: SiteMode;
+  campaignSlug?: CampaignSlug | null;
+  awarenessMonth?: boolean;
+}) {
   const isCampaign = mode === "campaign";
+  const campaign = campaignSlug ? CAMPAIGNS[campaignSlug] : null;
   // Legal pages live on the org domain only — link there directly instead
   // of relying on the campaign-host redirect for every click.
   const legalBase = isCampaign ? SITE_URL : "";
@@ -45,33 +54,33 @@ export function Footer({ mode, awarenessMonth = false }: { mode: SiteMode; aware
         aria-hidden="true"
       />
       <Container
-        className={`relative grid gap-10 py-14 sm:grid-cols-2 ${isCampaign ? "lg:grid-cols-6" : "lg:grid-cols-3 xl:grid-cols-6"}`}
+        className={`relative grid gap-10 py-14 sm:grid-cols-2 ${
+          campaignSlug === "tri" ? "lg:grid-cols-6" : campaignSlug === "ruck" ? "lg:grid-cols-4" : "lg:grid-cols-3 xl:grid-cols-6"
+        }`}
       >
         <div className={isCampaign ? "sm:col-span-2 lg:col-span-2" : "sm:col-span-2 lg:col-span-1"}>
           <div className="flex items-center gap-2.5">
             <Image
-              src={isCampaign ? "/campaign-logo-white.png" : "/logo-white.png"}
+              src={campaign ? campaign.logoDark : "/logo-white.png"}
               alt=""
               aria-hidden="true"
               width={32}
               height={32}
             />
             <p className="font-display text-xl font-semibold uppercase tracking-wide">
-              {isCampaign ? CAMPAIGN_NAME : SITE_NAME}
+              {campaign ? campaign.name : SITE_NAME}
               {!isCampaign && <sup className="text-[0.5em] font-medium tracking-normal">™</sup>}
             </p>
           </div>
-          {isCampaign ? (
-            <p className="mt-3 max-w-sm text-sm text-off-white/70">
-              The current campaign under {SITE_NAME}.
-            </p>
+          {campaign ? (
+            <p className="mt-3 max-w-sm text-sm text-off-white/70">A {SITE_NAME} campaign.</p>
           ) : (
             <p className="mt-3 max-w-sm text-sm text-off-white/70">{ORG_TAGLINE}</p>
           )}
-          {isCampaign && <SocialLinks className="mt-4" />}
+          {campaign && <SocialLinks className="mt-4" />}
         </div>
 
-        {isCampaign ? (
+        {campaignSlug === "tri" ? (
           <>
             <div>
               <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
@@ -167,6 +176,61 @@ export function Footer({ mode, awarenessMonth = false }: { mode: SiteMode; aware
               </ul>
             </div>
           </>
+        ) : campaignSlug === "ruck" && campaign ? (
+          <>
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
+                Event
+              </p>
+              <ul className="mt-4 space-y-2 text-sm text-off-white/70">
+                {campaign.navLinks.map((link) => (
+                  <li key={link.href}>
+                    <a href={link.href} className="transition-colors hover:text-off-white">
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+                <li>
+                  <a
+                    href={campaign.primaryCta.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="transition-colors hover:text-off-white"
+                  >
+                    {campaign.primaryCta.label} <span aria-hidden="true">&#8599;</span>
+                  </a>
+                </li>
+                <li>
+                  <Link href="/#beneficiaries" className="transition-colors hover:text-off-white">
+                    Donate
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
+                Organization
+              </p>
+              <ul className="mt-4 space-y-2 text-sm text-off-white/70">
+                <li>
+                  <a href={`${legalBase}/privacy`} className="transition-colors hover:text-off-white">
+                    Privacy
+                  </a>
+                </li>
+                <li>
+                  <a href={`${legalBase}/terms`} className="transition-colors hover:text-off-white">
+                    Terms
+                  </a>
+                </li>
+                <li>
+                  <a href={ORG_HOME_LINK.href} className="transition-colors hover:text-off-white">
+                    {ORG_HOME_LINK.label} <span aria-hidden="true">&#8599;</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </>
         ) : (
           <>
             <div>
@@ -200,6 +264,11 @@ export function Footer({ mode, awarenessMonth = false }: { mode: SiteMode; aware
                 <li>
                   <a href={CAMPAIGN_HOME_LINK.href} className="transition-colors hover:text-off-white">
                     {CAMPAIGN_HOME_LINK.label} <span aria-hidden="true">&#8599;</span>
+                  </a>
+                </li>
+                <li>
+                  <a href={CAMPAIGNS.ruck.url} className="transition-colors hover:text-off-white">
+                    {CAMPAIGNS.ruck.name} <span aria-hidden="true">&#8599;</span>
                   </a>
                 </li>
               </ul>
@@ -280,7 +349,7 @@ export function Footer({ mode, awarenessMonth = false }: { mode: SiteMode; aware
 
       <div className="relative border-t border-off-white/10 py-5">
         <Container>
-          {isCampaign ? (
+          {campaignSlug === "tri" ? (
             <p className="max-w-3xl text-xs text-off-white/60">
               Personal, off-duty project. No employer or government affiliation.{" "}
               <a

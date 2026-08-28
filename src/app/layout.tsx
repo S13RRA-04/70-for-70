@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
 import { Inter, Oswald } from "next/font/google";
 import {
-  CAMPAIGN_NAME,
-  CAMPAIGN_URL,
+  CAMPAIGNS,
   CONTACT_EMAIL,
   ORG_SUPPORTING_STATEMENT,
   ORG_TAGLINE,
   SITE_NAME,
-  SITE_TAGLINE,
   SITE_URL,
   SOCIAL_LINKS,
 } from "@/lib/constants";
@@ -18,7 +16,7 @@ import {
   MobileConversionBar,
   MobileConversionBarSpacer,
 } from "@/components/layout/mobile-conversion-bar";
-import { getSiteMode } from "@/lib/site-mode";
+import { getSiteMode, getActiveCampaignSlug } from "@/lib/site-mode";
 import { isSuicidePreventionMonth } from "@/lib/awareness-month";
 import "./globals.css";
 
@@ -41,12 +39,12 @@ const inter = Inter({
  * README's "Movement/Campaign Domain Split".
  */
 export async function generateMetadata(): Promise<Metadata> {
-  const mode = await getSiteMode();
-  const isCampaign = mode === "campaign";
-  const baseUrl = isCampaign ? CAMPAIGN_URL : SITE_URL;
-  const name = isCampaign ? CAMPAIGN_NAME : SITE_NAME;
-  const tagline = isCampaign ? SITE_TAGLINE : ORG_TAGLINE;
-  const description = isCampaign ? `${CAMPAIGN_NAME} — ${SITE_TAGLINE}` : ORG_SUPPORTING_STATEMENT;
+  const campaignSlug = await getActiveCampaignSlug();
+  const campaign = campaignSlug ? CAMPAIGNS[campaignSlug] : null;
+  const baseUrl = campaign?.url ?? SITE_URL;
+  const name = campaign?.name ?? SITE_NAME;
+  const tagline = campaign?.tagline ?? ORG_TAGLINE;
+  const description = campaign?.description ?? ORG_SUPPORTING_STATEMENT;
 
   return {
     metadataBase: new URL(baseUrl),
@@ -102,6 +100,7 @@ const ORGANIZATION_JSON_LD = {
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   const mode = await getSiteMode();
+  const campaignSlug = await getActiveCampaignSlug();
   const awarenessMonth = isSuicidePreventionMonth();
 
   return (
@@ -124,13 +123,13 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           Skip to content
         </a>
         <AwarenessBanner />
-        <Header mode={mode} awarenessMonth={awarenessMonth} />
+        <Header mode={mode} campaignSlug={campaignSlug} awarenessMonth={awarenessMonth} />
         <main id="main-content" className="flex-1">
           {children}
         </main>
-        <Footer mode={mode} awarenessMonth={awarenessMonth} />
-        <MobileConversionBarSpacer mode={mode} />
-        <MobileConversionBar mode={mode} />
+        <Footer mode={mode} campaignSlug={campaignSlug} awarenessMonth={awarenessMonth} />
+        <MobileConversionBarSpacer mode={mode} campaignSlug={campaignSlug} />
+        <MobileConversionBar mode={mode} campaignSlug={campaignSlug} />
       </body>
     </html>
   );

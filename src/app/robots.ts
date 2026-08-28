@@ -1,16 +1,16 @@
 import type { MetadataRoute } from "next";
-import { CAMPAIGN_URL, SITE_URL } from "@/lib/constants";
-import { getSiteMode } from "@/lib/site-mode";
+import { CAMPAIGNS, SITE_URL } from "@/lib/constants";
+import { getActiveCampaignSlug } from "@/lib/site-mode";
 
 /**
- * Reads the request host (via getSiteMode's headers() call) so each domain
- * points crawlers at its own sitemap.xml instead of forthe22.org/robots.txt
- * and tri.forthe22.org/robots.txt both advertising the org sitemap — see
- * sitemap.ts, which is split the same way for the same reason.
+ * Reads the request host (via getActiveCampaignSlug's headers() call) so
+ * each domain points crawlers at its own sitemap.xml instead of every host
+ * advertising the org (or a sibling campaign's) sitemap — see sitemap.ts,
+ * which is split the same way for the same reason.
  */
 export default async function robots(): Promise<MetadataRoute.Robots> {
-  const mode = await getSiteMode();
-  const baseUrl = mode === "campaign" ? CAMPAIGN_URL : SITE_URL;
+  const campaignSlug = await getActiveCampaignSlug();
+  const baseUrl = campaignSlug ? CAMPAIGNS[campaignSlug].url : SITE_URL;
 
   return {
     rules: [

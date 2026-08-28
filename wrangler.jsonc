@@ -42,6 +42,8 @@
    * metadataBase-derived URL site-wide despite the workflow's env block
    * always looking correct. Declared here now so a deploy always sets the
    * real value, the same fix already applied once for WHOOP_CLIENT_ID.
+   * NEXT_PUBLIC_RUCK_URL (Ruck For The 22's root, ruck.forthe22.org) is
+   * declared here for the same reason from day one.
    *
    * NEXT_PUBLIC_SUPABASE_URL/NEXT_PUBLIC_SUPABASE_ANON_KEY hit the same bug
    * a third time: they were only ever pushed as Worker *secrets* (see
@@ -72,6 +74,7 @@
     "WHOOP_CLIENT_ID": "fc3a41a2-08c9-4141-b5bb-35773f4c3509",
     "NEXT_PUBLIC_SITE_URL": "https://forthe22.org",
     "NEXT_PUBLIC_CAMPAIGN_URL": "https://tri.forthe22.org",
+    "NEXT_PUBLIC_RUCK_URL": "https://ruck.forthe22.org",
     "NEXT_PUBLIC_SUPABASE_URL": "https://wjwgzphvpulkofvuksko.supabase.co",
     "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indqd2d6cGh2cHVsa29mdnVrc2tvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcwODM4MzIsImV4cCI6MjEwMjY1OTgzMn0.jCX3-IkuI4JMrehYWA0Hx_qkB0kHWmJg1IiqgMQwE2w"
   }

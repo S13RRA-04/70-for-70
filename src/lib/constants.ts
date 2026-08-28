@@ -1,4 +1,5 @@
 import type { NavLink } from "@/types/content";
+import type { CampaignSlug } from "@/lib/site-mode";
 
 /** The project's name — used in the header, footer, legal copy, and site-wide metadata. Not an organization name; see PROJECT_POSITIONING. */
 export const SITE_NAME = "For The 22";
@@ -39,6 +40,8 @@ export const SITE_TAGLINE = "70 miles. $70,000. One mission for veterans.";
  * Cross-referenced against the beneficiary's own records on a schedule.
  */
 export const DONATION_TRACKING_CODE = "TRIFORTHE22";
+/** Same idea as DONATION_TRACKING_CODE, scoped to Ruck For The 22 — a shared beneficiary (e.g. VAU) needs a different note per campaign so gifts reconcile to the right one. */
+export const RUCK_DONATION_TRACKING_CODE = "RUCKFORTHE22";
 
 /**
  * The org root — forthe22.org in production. Movement/mission pages
@@ -55,6 +58,18 @@ export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:30
  * dev origin as SITE_URL — there's no real second host in local dev.
  */
 export const CAMPAIGN_URL = process.env.NEXT_PUBLIC_CAMPAIGN_URL ?? "http://localhost:3000";
+
+/**
+ * The second campaign, Ruck For The 22 — ruck.forthe22.org in production.
+ * Unlike Tri (a full personal-athlete site: mission, race, fund-a-mile,
+ * journal, admin), this is deliberately a single-page event microsite (see
+ * src/app/ruck-home/page.tsx) — no training tracker, no per-mile
+ * fundraising mechanism, no dedicated Supabase schema. Defaults to the same
+ * local dev origin as SITE_URL/CAMPAIGN_URL — there's no real third host in
+ * local dev.
+ */
+export const RUCK_CAMPAIGN_URL = process.env.NEXT_PUBLIC_RUCK_URL ?? "http://localhost:3000";
+export const RUCK_CAMPAIGN_NAME = "Ruck For The 22";
 
 /**
  * On-brand fallback photo for a journal entry with no image_url — used
@@ -86,9 +101,16 @@ export const MOVEMENT_CAMPAIGNS = [
       "A 70.3-mile triathlon paired with a $70,000 fundraising goal, in support of confirmed veteran-focused nonprofit beneficiaries.",
     url: CAMPAIGN_URL,
   },
+  {
+    name: RUCK_CAMPAIGN_NAME,
+    discipline: "Rucking",
+    status: "current" as const,
+    description:
+      "A community rucking event in Huntsville, Alabama — ruck the full 22 miles or walk any distance with family and friends to raise awareness, in support of confirmed veteran-focused nonprofit beneficiaries.",
+    url: RUCK_CAMPAIGN_URL,
+  },
   { name: "Run For The 22", discipline: "Running", status: "future" as const },
   { name: "Ride For The 22", discipline: "Cycling", status: "future" as const },
-  { name: "Ruck For The 22", discipline: "Rucking", status: "future" as const },
 ] as const;
 
 /**
@@ -365,3 +387,132 @@ export const CURRENT_CAMPAIGN = {
   eventUrl: RACE_INFO.courseInfoUrl,
   beneficiaries: ["Mighty Oaks Foundation", "Veterans and Athletes United"],
 } as const;
+
+/**
+ * Everything specific to the RuckUp22 Huntsville event — the one real page
+ * at /ruck-home reads entirely from this object. Deliberately a single
+ * flexible community event, not a race: participants can ruck the full 22
+ * miles, walk any distance, or do it at another location/date entirely —
+ * see the description fields below, which are the actual event terms, not
+ * a simplification of them.
+ *
+ * Important organizational distinction: RuckUp22 Huntsville itself is
+ * organized by RuckUp 22, Inc. (see RUCK_EVENT_ORGANIZER below), a
+ * separate 501(c)(3) — not by For The 22. Cody is registering to
+ * participate in person, and "Ruck For The 22" is his own participation
+ * and parallel fundraising effort alongside it, the same relationship
+ * Tri For The 22 has to IRONMAN 70.3 Chattanooga (an event For The 22
+ * doesn't organize either). Event registration/ticket proceeds go to
+ * RUCK_EVENT_BENEFICIARIES, chosen by RuckUp 22, Inc. — separate from
+ * `beneficiaries` below, Cody's own usual campaign causes.
+ */
+export const RUCK_EVENT_INFO = {
+  name: "RuckUp22 Huntsville",
+  year: "2026",
+  // 08:00 local (Central) on October 24, 2026.
+  eventDate: "2026-10-24T08:00:00-05:00" as string | null,
+  eventDateDisplay: "October 24, 2026 · 0800",
+  location: "Aldridge Creek Greenway, Huntsville, Alabama",
+  locationDetail:
+    "Huntsville-area participants are encouraged to use the Aldridge Creek Greenway, starting anywhere from Ditto Landing to Bailey Cove Road. The path is open to the public and accessible at multiple points.",
+  formatNote:
+    "Attempt to ruck the full 22 miles, or walk any distance with family and friends to raise awareness for the RuckUp22 cause. Other hiking/walking locations in your local area, and dates of your choosing, are also welcome.",
+  personalNote:
+    "Cody is registering to ruck the full 22 miles in person in Huntsville — join him there, or ruck/walk your own distance wherever you are.",
+  ticketUrl:
+    "https://www.eventbee.com/v/2026-ruckup22-huntsville/event?eid=218120732#/tickets",
+  /** Cody's own usual campaign beneficiaries (same two as Tri For The 22's CURRENT_CAMPAIGN.beneficiaries) — see partners.ts for the shared record. Distinct from RUCK_EVENT_BENEFICIARIES below. */
+  beneficiaries: ["Mighty Oaks Foundation", "Veterans and Athletes United"],
+} as const;
+
+/** RuckUp22 Huntsville's own organizing entity — see RUCK_EVENT_INFO's doc comment for why this is distinct from For The 22. */
+export const RUCK_EVENT_ORGANIZER = {
+  name: "RuckUp 22, Inc.",
+  ein: "88-3844658",
+} as const;
+
+/**
+ * Who RuckUp22 Huntsville's own registration/ticket proceeds support —
+ * chosen by RuckUp 22, Inc., not by Cody or For The 22 (see
+ * RUCK_EVENT_INFO's doc comment). Plain data, not a `partners` row: these
+ * aren't Tri For The 22 beneficiaries, and that shared table's
+ * `description` field hard-codes "part of Tri For The 22" copy that
+ * wouldn't apply here. EIN/501(c)(3)/donate-page details confirmed
+ * directly from each organization's own website.
+ */
+export const RUCK_EVENT_BENEFICIARIES = [
+  {
+    name: "The Battle Buddy Foundation",
+    description:
+      "Provides highly trained psychiatric and mobility service dogs, at no cost, to veterans of all eras living with PTSD, traumatic brain injury, and physical limitations.",
+    websiteUrl: "https://www.tbbf.org",
+    donationUrl: "https://www.tbbf.org/donate-now/",
+    ein: "46-2069571",
+  },
+  {
+    name: "Tunnel to Towers Foundation",
+    description:
+      "Provides mortgage-free homes to Gold Star and fallen first responder families with young children, and builds specially adapted smart homes for catastrophically injured veterans and first responders.",
+    websiteUrl: "https://www.t2t.org",
+    donationUrl: "https://dogood.t2t.org/give/320847/#!/donation/checkout",
+    ein: "02-0554654",
+  },
+] as const;
+
+/**
+ * Ruck's in-page section nav — anchors on the single /ruck-home page, not
+ * separate routes (see RUCK_CAMPAIGN_URL's doc comment).
+ */
+export const RUCK_NAV_LINKS: NavLink[] = [
+  { label: "The Event", href: "/#event" },
+  { label: "Beneficiaries", href: "/#beneficiaries" },
+];
+
+export const RUCK_REGISTER_LINK: NavLink = { label: "Register", href: RUCK_EVENT_INFO.ticketUrl };
+
+/**
+ * Per-campaign header/footer branding, keyed by the CampaignSlug that
+ * src/lib/site-mode.ts derives from the request host. Header/Footer/
+ * MobileMenu read from here instead of hard-coding Tri's constants, so a
+ * visitor on ruck.forthe22.org sees Ruck's own name/logo/nav, not Tri's.
+ * Ruck only has a dark-background mark so far (white text, transparent —
+ * see brand/ruck-logo-white-source.png) — logoLight falls back to the real
+ * org mark (logo.png) until a light-background/black-text version exists,
+ * rather than showing white-on-white in the header.
+ */
+export const CAMPAIGNS: Record<
+  CampaignSlug,
+  {
+    name: string;
+    url: string;
+    /** Short, used in the app shell's <title> template and OG/Twitter cards. */
+    tagline: string;
+    /** One sentence, used as the app shell's default meta description. */
+    description: string;
+    navLinks: NavLink[];
+    logoLight: string;
+    logoDark: string;
+    primaryCta: NavLink & { external?: boolean };
+  }
+> = {
+  tri: {
+    name: CAMPAIGN_NAME,
+    url: CAMPAIGN_URL,
+    tagline: SITE_TAGLINE,
+    description: `${CAMPAIGN_NAME} — ${SITE_TAGLINE}`,
+    navLinks: CAMPAIGN_NAV_LINKS,
+    logoLight: "/campaign-logo.png",
+    logoDark: "/campaign-logo-white.png",
+    primaryCta: FUND_A_MILE_LINK,
+  },
+  ruck: {
+    name: RUCK_CAMPAIGN_NAME,
+    url: RUCK_CAMPAIGN_URL,
+    tagline: `${RUCK_EVENT_INFO.eventDateDisplay} · Huntsville, Alabama`,
+    description: `${RUCK_CAMPAIGN_NAME} — a community rucking event in Huntsville, Alabama, raising awareness and funds for veteran-focused nonprofit organizations.`,
+    navLinks: RUCK_NAV_LINKS,
+    logoLight: "/logo.png",
+    logoDark: "/ruck-logo-white.png",
+    primaryCta: { ...RUCK_REGISTER_LINK, external: true },
+  },
+};

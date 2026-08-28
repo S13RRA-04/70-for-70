@@ -148,31 +148,45 @@ The site now distinguishes two levels deliberately:
 
 - **The movement — "For The 22"** (`SITE_NAME`): the parent organization.
   Header, footer, legal copy, site-wide metadata.
-- **The campaign — "Tri For The 22"** (`CAMPAIGN_NAME`): the current
-  fundraising effort. Individual campaigns follow a "[Mission] For The 22"
-  naming convention — see `MOVEMENT_CAMPAIGNS` in
-  [`constants.ts`](src/lib/constants.ts) (Tri is current; Run, Ride, and
-  Ruck For The 22 are named future directions, not commitments with
+- **The campaigns — "Tri For The 22" and "Ruck For The 22"**
+  (`CAMPAIGN_NAME` / `RUCK_CAMPAIGN_NAME`): two current fundraising
+  efforts, each on its own subdomain. Individual campaigns follow a
+  "[Mission] For The 22" naming convention — see `MOVEMENT_CAMPAIGNS` in
+  [`constants.ts`](src/lib/constants.ts) (Tri and Ruck are current; Run
+  and Ride For The 22 are named future directions, not commitments with
   dates). The footer's small "Campaigns" link and `/the-mission`'s "About
   the Movement" section surface this hierarchy — the parent homepage hero
   deliberately does not (see the Domain Split section's "Parent-site
   restructure" below).
 
+  The two current campaigns are deliberately different sizes. **Tri For
+  The 22** is a full personal-athlete site — mission/story pages, a
+  per-mile fundraising mechanism, a Journal, `/admin` CRUD, its own
+  Supabase-backed content. **Ruck For The 22** is a single-page event
+  microsite (see "Ruck For The 22 — a single-page campaign" below) — no
+  training tracker, no per-mile mechanism, no dedicated schema, content
+  lives entirely in `RUCK_EVENT_INFO`/`CAMPAIGNS.ruck` in `constants.ts`.
+  Not every future campaign needs Tri's full depth; match the build to
+  what the actual event needs.
+
 `CURRENT_CAMPAIGN` in `constants.ts` is a first code-level step toward
-supporting multiple campaigns without a rewrite — it holds the current
-campaign as a data object (`name`, `goal`, `type`, `event`,
-`beneficiaries`) rather than values hard-coded into page markup. **This
-does not yet restructure the Supabase schema** — `public.campaign` is
-still a single row. That's a real migration (campaign table keyed by
-slug, a join table for per-campaign beneficiaries, RLS updates
-throughout) worth doing deliberately once a second campaign is actually
-being built, not speculatively right before launch. `CURRENT_CAMPAIGN` is
-the seam that migration would plug into.
+supporting multiple campaigns without a rewrite — it holds Tri's campaign
+as a data object (`name`, `goal`, `type`, `event`, `beneficiaries`) rather
+than values hard-coded into page markup. **This does not yet restructure
+the Supabase schema** — `public.campaign` is still single-row and
+Tri-only; Ruck doesn't use it at all (it has no fundraising totals to
+track). That fuller migration (a `campaign` table keyed by slug, a join
+table for per-campaign beneficiaries, RLS updates throughout) is still
+worth doing deliberately if a future campaign needs Tri's level of depth
+— Ruck's arrival didn't force it, because it was scoped small enough not
+to need it. `CURRENT_CAMPAIGN`/`CAMPAIGNS` are the seam that migration
+would plug into.
 
 ## Movement/Campaign Domain Split
 
-The movement and the campaign now live on **two different domains**, served
-by the **same** Next.js app/Cloudflare Worker — no second deployment. As of
+The movement and its campaigns now live on **three different domains**,
+served by the **same** Next.js app/Cloudflare Worker — no second
+deployment. As of
 the parent-site restructure (below), the split is not just "which pages
 render where" but a deliberate content firewall: **no 70.3 statistics,
 training content, campaign beneficiaries, fundraising mechanisms,
@@ -199,35 +213,99 @@ allocation, different beneficiary).
   Press, Terms, and Privacy at the *same public paths* as the parent (see
   "Shared-path rewrites" below) — Terms/Privacy are addenda that
   supplement, not replace, the parent's general Terms/Privacy.
+- **ruck.forthe22.org** (campaign): a single page — see "Ruck For The 22 —
+  a single-page campaign" below.
 
 **How it's enforced** — three pieces, all reading the request's `Host`
 header:
 
-1. [`src/lib/site-mode.ts`](src/lib/site-mode.ts) — `isCampaignHost()` is
-   the single source of truth for "which domain is this" (hostname starts
-   with `tri.`). Shared by middleware (reads `NextRequest` directly) and
-   Server Components (reads `next/headers`).
+1. [`src/lib/site-mode.ts`](src/lib/site-mode.ts) — `getCampaignSlug()` is
+   the single source of truth for "which campaign, if any, is this"
+   (hostname matched against `CAMPAIGN_HOSTS`, currently `tri.`/`ruck.`);
+   `isCampaignHost()` (still used where callers only need "org vs. some
+   campaign," not which one) is just `getCampaignSlug() !== null`. Shared
+   by middleware (reads `NextRequest` directly) and Server Components
+   (`getActiveCampaignSlug()`, reads `next/headers`). Adding a fourth
+   campaign is a two-step change: add its slug/hostname to
+   `CAMPAIGN_HOSTS`, then its branding to `CAMPAIGNS` in `constants.ts`.
 2. [`src/middleware.ts`](src/middleware.ts)'s `applyDomainSplit()` —
    permanently (`308`) redirects a request to the correct domain if it's
    on the wrong one for a given path (e.g. `forthe22.org/donate` → `308`
    to `tri.forthe22.org/donate`), driven by two prefix lists,
-   `ORG_PATH_PREFIXES` and `CAMPAIGN_PATH_PREFIXES`. **API routes are
-   intentionally not gated** — they work identically on either host since
-   it's the same app instance.
+   `ORG_PATH_PREFIXES` and `CAMPAIGN_PATH_PREFIXES` — both are Tri's own
+   routes specifically; Ruck has none of its own (see below). **API
+   routes are intentionally not gated** — they work identically on every
+   host since it's the same app instance.
 3. [`src/app/layout.tsx`](src/app/layout.tsx) reads the host via
-   `getSiteMode()` and passes `mode="org" | "campaign"` down to `Header`,
-   `Footer`, and `MobileConversionBar`, which render entirely different
-   nav/branding/CTAs per mode (see `ORG_NAV_LINKS` /
-   `CAMPAIGN_NAV_LINKS` in `constants.ts`). The org nav is deliberately
-   minimal (Resources, Mission, Why It Matters, About, Campaigns, Shop,
-   Contact, Need Help Now) — no campaign links; Shop links to /store, the
-   one non-campaign exception (see above). The campaign gets exactly one small outbound
-   link, in the footer's "Campaigns" area, never a persistent banner.
+   `getSiteMode()`/`getActiveCampaignSlug()` and passes both
+   `mode="org" | "campaign"` and `campaignSlug` down to `Header`,
+   `Footer`, and `MobileConversionBar`, which read a campaign's
+   name/logo/nav/primary-CTA from `CAMPAIGNS[campaignSlug]` (in
+   `constants.ts`) instead of hard-coding Tri's constants — so a visitor
+   on ruck.forthe22.org sees Ruck's own branding, not Tri's. The org nav
+   is deliberately minimal (Resources, Mission, Why It Matters, About,
+   Campaigns, Shop, Contact, Need Help Now) — no campaign links; Shop
+   links to /store, the one non-campaign exception (see above). Each
+   campaign gets exactly one small outbound link back to the org, in the
+   footer's "Campaigns" area, never a persistent banner.
    **This makes every route dynamically rendered** (`ƒ` instead of `○` in
    the build output) — the root layout can no longer be statically
    optimized once it depends on the request's host. Acceptable for a
    low-traffic campaign site; worth revisiting if traffic ever justifies
    clawing back static rendering.
+
+### Ruck For The 22 — a single-page campaign
+
+Unlike Tri, Ruck has no set of real campaign routes of its own — the
+entire site is one page (`/ruck-home`, rewritten in from `/` on that host,
+same pattern as `/campaign-home` for Tri). `applyRuckSingleHomeGuard()` in
+`src/middleware.ts` enforces this: any path on `ruck.forthe22.org` other
+than `/` (and a short allowlist — `/admin`, `/api`, `/crisis`,
+`/coming-soon`, and the usual SEO/manifest files) redirects (`308`) back
+to `/`. Without this, `ruck.forthe22.org/the-race` (a real route that
+exists for Tri) would render Tri's page content under Ruck's own
+header/footer branding — confusing and, if crawled, bad for SEO. `/crisis`
+still correctly falls through to the existing org-domain redirect (crisis
+resources live only on the org site, for every campaign) rather than
+being collapsed to the Ruck home page.
+
+All of Ruck's content — event details, the ticket link, beneficiaries —
+lives in `RUCK_EVENT_INFO`, `RUCK_EVENT_ORGANIZER`,
+`RUCK_EVENT_BENEFICIARIES`, and `CAMPAIGNS.ruck` in
+[`constants.ts`](src/lib/constants.ts), read by
+[`src/app/ruck-home/page.tsx`](src/app/ruck-home/page.tsx) (which shares
+a local `BeneficiaryCard` component between the two beneficiary groups
+below rather than reusing `PartnerCard` — that component's copy is
+written assuming Tri, each partner's `description` field literally says
+"That's why [org] is part of Tri For The 22").
+
+**Two distinct sets of beneficiaries, shown separately, because they're
+genuinely different things:**
+
+- **RuckUp22 Huntsville's own beneficiaries** (The Battle Buddy
+  Foundation, Tunnel to Towers Foundation) — plain data in
+  `RUCK_EVENT_BENEFICIARIES`, not `partners` rows, since they aren't Tri
+  beneficiaries and don't belong in that shared, Tri-flavored table.
+  Registration/ticket proceeds for the actual event go to these two,
+  chosen by **RuckUp 22, Inc.** (`RUCK_EVENT_ORGANIZER`) — a separate
+  501(c)(3) (EIN 88-3844658) that organizes RuckUp22 Huntsville itself.
+  **This event is not organized by For The 22** — Cody is registering to
+  participate in person, and Ruck For The 22 is his own participation and
+  parallel fundraising effort alongside it, the same relationship Tri For
+  The 22 has to IRONMAN 70.3 Chattanooga (an event For The 22 doesn't
+  organize either). EIN/501(c)(3)/donate-page details for both
+  organizations were confirmed directly from their own websites
+  (tbbf.org, t2t.org), not guessed.
+- **Cody's own usual campaign beneficiaries** (Mighty Oaks Foundation,
+  Veterans and Athletes United) — the same two `partners` rows Tri uses,
+  filtered by name. A shared beneficiary whose donation platform can't
+  self-attribute a gift (see `requires_donation_note`) gets a
+  Ruck-specific tracking note (`RUCK_DONATION_TRACKING_CODE`, distinct
+  from Tri's `DONATION_TRACKING_CODE`) via `DonationTrackingNote`'s
+  `trackingCode` prop — otherwise a Ruck-driven gift would reconcile as a
+  Tri donation. RuckUp22's own beneficiaries never get a tracking note —
+  neither Cody nor RuckUp 22, Inc. has any arrangement with them to watch
+  for or credit one.
 
 **Shared-path rewrites**: a few paths exist on *both* hosts with entirely
 different content — same pattern for all of them, `applyDomainSplit()`
@@ -259,12 +337,13 @@ not a relative `<Link>` — see `src/app/press/page.tsx`,
 relative link would still technically work (the middleware redirect
 catches it) but bounces through an extra hop.
 
-**`SITE_URL` vs `CAMPAIGN_URL`**: both are in `constants.ts`, read from
-`NEXT_PUBLIC_SITE_URL` / `NEXT_PUBLIC_CAMPAIGN_URL`. `WHOOP_REDIRECT_URI`
-now derives from `CAMPAIGN_URL` (not `SITE_URL`) since `/admin/whoop`
-lives on the campaign domain — the callback URL registered in the WHOOP
-Developer Dashboard must be
-`https://tri.forthe22.org/api/whoop/callback`.
+**`SITE_URL` vs `CAMPAIGN_URL` vs `RUCK_CAMPAIGN_URL`**: all three are in
+`constants.ts`, read from `NEXT_PUBLIC_SITE_URL` /
+`NEXT_PUBLIC_CAMPAIGN_URL` / `NEXT_PUBLIC_RUCK_URL`. `WHOOP_REDIRECT_URI`
+derives from `CAMPAIGN_URL` (not `SITE_URL`) since `/admin/whoop` lives on
+the Tri campaign domain — the callback URL registered in the WHOOP
+Developer Dashboard must be `https://tri.forthe22.org/api/whoop/callback`.
+Ruck has no `/admin`, so this doesn't apply to it.
 
 **Admin auth**: `/admin/*` is campaign-only by design, so the Supabase
 auth cookie only ever needs to work on one host — no cross-subdomain
@@ -293,6 +372,13 @@ tri.forthe22.org.
    attached, per the pre-launch gate.
 4. Run a full desktop/mobile visual QA and link crawl on both live domains
    before/after deploy — not achievable from a local dev environment.
+5. Add `ruck.forthe22.org` as a third custom domain on the same Worker,
+   same as step 1 — `NEXT_PUBLIC_RUCK_URL` is already committed in
+   `wrangler.jsonc`'s `vars` and in `.github/workflows/deploy.yml`'s build
+   env. `CAMPAIGN_LIVE` already gates every campaign host (Tri and Ruck
+   share one flag — see `isCampaignHost()`), so no separate launch-gate
+   flip is needed for Ruck specifically; it goes live the moment the
+   domain is attached.
 
 Deployment itself is automatic: `.github/workflows/deploy.yml` deploys to
 Cloudflare on every push to `master`, using `CLOUDFLARE_API_TOKEN`/
@@ -916,17 +1002,21 @@ new brand. Update it in `constants.ts` once a new address exists.
 
 ## Campaign Logo
 
-Two brand marks are in place — a colored ring around a bold "For The 22"
-wordmark (the org), and a colored ring badge with a "TRI FOR THE 22"
-wordmark (the campaign). No horizontal lockup exists for either, so
-nothing invents one.
+Three brand marks are in place — a colored ring around a bold "For The
+22" wordmark (the org), a colored ring badge with a "TRI FOR THE 22"
+wordmark (the Tri campaign), and the same idea for "RUCK FOR THE 22" (the
+Ruck campaign, still missing its light-background half — see below). No
+horizontal lockup exists for any of them, so nothing invents one.
 
-Both marks now follow the same light/dark pairing convention — the org
-mark has dark numerals for light backgrounds and white numerals for dark
-backgrounds; the Tri campaign mark (ring + wordmark) has black text for
-light backgrounds and white text for dark, both as transparent cutouts
-(no background plate) so they drop cleanly onto whatever's behind them.
-The campaign wordmark alone (no ring) is paired the same way.
+The org and Tri marks follow the same light/dark pairing convention — dark
+numerals/text for light backgrounds, white for dark backgrounds, both as
+transparent cutouts (no background plate) so they drop cleanly onto
+whatever's behind them. Tri's wordmark alone (no ring) is paired the same
+way. **Ruck's mark only has its dark-background (white text) half so
+far** — `CAMPAIGNS.ruck.logoLight` in `constants.ts` falls back to the
+real org mark (`/logo.png`) for the header's light background rather than
+showing white-on-white; swap it for a real light-background Ruck mark
+once one exists, the same way Tri's was completed.
 
 - Source files (full resolution, not publicly served — kept for
   regenerating assets later): [`brand/forthe22-logo-source.png`](brand/forthe22-logo-source.png),
@@ -938,8 +1028,11 @@ The campaign wordmark alone (no ring) is paired the same way.
   background by carrying its own plate instead of being transparent;
   kept for future use, not currently on-site), [`brand/tri-wordmark-black-source.png`](brand/tri-wordmark-black-source.png)
   and [`brand/tri-wordmark-white-source.png`](brand/tri-wordmark-white-source.png).
-  Earlier "70 for 70" / "70 for 22" sources are kept alongside them for
-  history.
+  [`brand/ruck-logo-white-source.png`](brand/ruck-logo-white-source.png)
+  and [`brand/ruck-wordmark-white-source.png`](brand/ruck-wordmark-white-source.png)
+  are Ruck's dark-background mark and wordmark — no light-background pair
+  yet. Earlier "70 for 70" / "70 for 22" sources are kept alongside them
+  for history.
 - [`public/logo.png`](public/logo.png) / [`public/logo-white.png`](public/logo-white.png) —
   1024×1024 optimized **For The 22** org marks used for on-site display
   (header/footer) and the `/press` downloads
@@ -953,6 +1046,12 @@ The campaign wordmark alone (no ring) is paired the same way.
   [`public/campaign-wordmark-white.png`](public/campaign-wordmark-white.png) —
   the campaign wordmark alone (no ring), light- and dark-background
   versions, offered as downloads on `/campaign-press`
+- [`public/ruck-logo-white.png`](public/ruck-logo-white.png) — the **Ruck
+  For The 22** mark (colored ring + wordmark, transparent, white text),
+  used in the Ruck footer (dark) only, since no light-background version
+  exists yet (see above). `public/ruck-wordmark-white.png` (wordmark
+  alone) is optimized and available but not currently wired into any
+  page.
 - `src/app/icon.png` (32×32) and `src/app/apple-icon.png` (180×180,
   flattened onto the off-white brand background since Apple's convention
   doesn't respect transparency) — both regenerated from the **For The 22**

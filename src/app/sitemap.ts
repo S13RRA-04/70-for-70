@@ -3,8 +3,8 @@ import { getJournalEntries } from "@/lib/data/journal";
 import { getBikeBuildLastUpdated } from "@/lib/content/building-the-bike";
 import { getGearJourneyLastUpdated } from "@/lib/content/gear-journey";
 import { US_STATES_GRID } from "@/lib/content/us-states";
-import { CAMPAIGN_URL, SITE_URL, TOTAL_FUNDRAISING_MILES } from "@/lib/constants";
-import { getSiteMode } from "@/lib/site-mode";
+import { CAMPAIGN_URL, CAMPAIGNS, SITE_URL, TOTAL_FUNDRAISING_MILES } from "@/lib/constants";
+import { getActiveCampaignSlug } from "@/lib/site-mode";
 
 // Kept in sync with the split enforced in src/middleware.ts. /athletes,
 // /join, and /athlete-agreement are retired (permanent redirect to the
@@ -56,9 +56,15 @@ const CAMPAIGN_ROUTES = [
  * at its own file.
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const mode = await getSiteMode();
+  const campaignSlug = await getActiveCampaignSlug();
 
-  if (mode === "campaign") {
+  // Ruck For The 22 is a single page (see src/app/ruck-home/page.tsx's doc
+  // comment) — nothing to enumerate beyond its own root.
+  if (campaignSlug === "ruck") {
+    return [{ url: `${CAMPAIGNS.ruck.url}/`, lastModified: new Date() }];
+  }
+
+  if (campaignSlug === "tri") {
     const entries = await getJournalEntries();
 
     const campaignEntries: MetadataRoute.Sitemap = CAMPAIGN_ROUTES.map((path) => ({

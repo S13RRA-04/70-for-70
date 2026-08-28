@@ -60,7 +60,7 @@ export default function CampaignsPage() {
             <SectionHeading
               eyebrow="Naming Convention"
               title="Possible Future Campaigns"
-              description={`If ${current[0]?.name ?? "the current campaign"} goes well, future personal challenges may follow the same "[Mission] For The 22" naming idea — not a managed program or a commitment with dates, just a naming convention.`}
+              description={`If ${current.map((c) => c.name).join(" or ") || "the current campaigns"} go well, future personal challenges may follow the same "[Mission] For The 22" naming idea — not a managed program or a commitment with dates, just a naming convention.`}
             />
             <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3">
               {future.map((campaign) => (
