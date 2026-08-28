@@ -506,6 +506,30 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "For a bike that began as a bare carbon frame, that is a substantial step forward.",
     ],
   },
+  {
+    id: "a-neighbor-lends-a-bike",
+    date: "2026-08-28",
+    displayDate: "August 28, 2026",
+    title: "A Neighbor Lends a Hand — and a Bike",
+    summary:
+      "The Stradalli still isn't rideable, so a neighbor loaned a bike to train on in the meantime.",
+    status: "Training bike secured (loaner)",
+    photos: [
+      {
+        src: "/journal/building-the-bike/loaner-bike-blue-trail.jpg",
+        alt: "A red Trek hybrid bike parked on a paved trail beside a \"Blue Trail 4 Miles\" sign.",
+        caption: "The loaner — a red Trek — out on the trail. Not the race bike. Just something to actually pedal in the meantime.",
+        width: 1512,
+        height: 2016,
+      },
+    ],
+    body: [
+      "The Stradalli build still isn't rideable — no confirmed fit, no finished cockpit, no assembly. None of that stops training from needing to start.",
+      "A neighbor solved the immediate problem by loaning me a bike: a red Trek, already built and already rideable, good for exactly as long as it takes to either finish the Stradalli or find one of my own.",
+      "This bike isn't part of the build. It doesn't get a line on the component board below, and it isn't the bike going to Chattanooga. It's a bridge — a way to put in real outdoor miles while the actual race bike is still a list of unresolved questions.",
+      "Sometimes the fastest way to keep moving forward is somebody else's spare bike and a trail sign pointing the way.",
+    ],
+  },
 ];
 
 export function getLatestBikeBuildEntry(): BikeBuildTimelineEntry {
