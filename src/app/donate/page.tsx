@@ -7,7 +7,7 @@ import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { PartnerCard } from "@/components/partners/partner-card";
 import { CampaignAllocation } from "@/components/campaign/campaign-allocation";
-import { CAMPAIGN_URL, SITE_NAME_QUOTED } from "@/lib/constants";
+import { CAMPAIGN_NAME, CAMPAIGN_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
@@ -99,7 +99,7 @@ export default async function DonatePage() {
 
               <p className="max-w-2xl text-sm font-medium text-charcoal-light">
                 Donations are made directly through each independent nonprofit organization&apos;s
-                authorized donation platform. {SITE_NAME_QUOTED} does not receive, process, or take
+                authorized donation platform. {CAMPAIGN_NAME} does not receive, process, or take
                 possession of charitable contributions and does not issue tax receipts.
               </p>
 

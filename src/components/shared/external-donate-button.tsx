@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { SITE_NAME_QUOTED } from "@/lib/constants";
 
 /** Ignore an immediate refocus (e.g. an accidental click-away) — only prompt after a real trip out. */
 const MIN_AWAY_MS = 5_000;
@@ -11,8 +10,9 @@ const MIN_AWAY_MS = 5_000;
 /**
  * Donate CTA that confirms the outbound trip before leaving the site — see
  * README's Priority 9 trust-signal notes. Never navigates directly; always
- * shows "You're leaving For The 22..." first, so it's clear For The 22 isn't
- * processing the donation itself.
+ * shows "You're leaving this site..." first, so it's clear this site isn't
+ * processing the donation itself. Deliberately generic ("this site" rather
+ * than a named brand) since this button is shared across campaign hosts.
  *
  * Also watches for the tab regaining focus after that trip out and offers a
  * one-time, skippable self-report prompt ("did you complete your gift, and
@@ -134,11 +134,11 @@ export function ExternalDonateButton({
             id="donate-confirm-heading"
             className="font-display text-lg font-semibold uppercase tracking-wide"
           >
-            Leaving {SITE_NAME_QUOTED}
+            Leaving This Site
           </h3>
           <p className="mt-3 text-sm text-charcoal-light">
-            You&apos;re leaving {SITE_NAME_QUOTED} to donate securely through {orgName}&apos;s authorized
-            platform. {SITE_NAME_QUOTED} does not process or take possession of this donation.
+            You&apos;re leaving this site to donate securely through {orgName}&apos;s authorized
+            platform. This site does not process or take possession of this donation.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <a

@@ -92,8 +92,9 @@ const SUBSECTIONS = {
     id: "why-22",
     heading: "Why 22?",
     body: [
-      "22 has become a widely recognized symbol of veteran suicide awareness. For The 22 uses that number as a reminder of the veterans still fighting — and the responsibility to keep showing up for them.",
-      "That number is symbolic, not presented as a current precise daily statistic. What it represents does not change: there are still veterans out there who need someone to reach them.",
+      "22 has become a widely recognized symbol of veteran suicide awareness. It's historically significant, but it isn't the current national number — the VA's most recent data (2023) puts the daily average at 17.5 Veterans lost to suicide.",
+      "For The 22 also serves law enforcement, fire, EMS, dispatch, and corrections. Reporting there is far less complete, but the best available estimates suggest a law-enforcement officer is lost to suicide roughly every 2 to 3 days.",
+      "Behind every one of those numbers is a family, a team, a unit, and a community left behind — and that's what keeps this work in front of us.",
     ],
   },
   "why-black": {

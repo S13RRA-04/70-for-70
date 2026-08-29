@@ -224,11 +224,12 @@ export default async function RuckHomePage() {
         <Container className="max-w-2xl">
           <SectionHeading eyebrow="The Cause" title="Why 22?" />
           <p className="mt-5 text-base leading-relaxed text-charcoal-light">
-            22 has become a widely recognized symbol of veteran suicide awareness — not a precise,
-            universal, or current statistic, but a reminder of the people still fighting and the
-            responsibility to keep showing up for them. RuckUp22 turns that awareness into a
-            physical act: rucking, walking, or hiking with the weight of that number in mind,
-            alongside family, friends, and community.
+            22 has become a widely recognized symbol of veteran suicide awareness. It&apos;s historically
+            significant, but it isn&apos;t the current national number — the VA&apos;s most recent data (2023)
+            puts the daily average at 17.5 Veterans lost to suicide, and law enforcement, fire, EMS,
+            dispatch, and corrections face a version of the same crisis with far less complete
+            reporting. RuckUp22 turns that awareness into a physical act: rucking, walking, or hiking
+            with those numbers in mind, alongside family, friends, and community.
           </p>
         </Container>
       </section>

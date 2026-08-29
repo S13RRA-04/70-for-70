@@ -6,7 +6,7 @@ import { CTASection } from "@/components/shared/cta-section";
 import { CampaignByTheNumbers } from "@/components/campaign/campaign-by-the-numbers";
 import { FocusScrollSection } from "@/components/shared/focus-scroll-section";
 import { MISSION_SECTIONS } from "@/lib/content/mission";
-import { CAMPAIGN_URL, DONATE_LINK, SITE_NAME_QUOTED, SITE_URL } from "@/lib/constants";
+import { CAMPAIGN_URL, DONATE_LINK } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
@@ -21,7 +21,7 @@ export default function MissionPage() {
     <>
       <CampaignPageHero>
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">
-          {SITE_NAME_QUOTED} &middot; Current Campaign
+          Current Campaign
         </p>
         <SectionHeading
           as="h1"
@@ -34,24 +34,6 @@ export default function MissionPage() {
           <CampaignByTheNumbers />
         </div>
       </CampaignPageHero>
-
-      <section className="border-b border-ink/10 py-16 sm:py-20">
-        <Container className="max-w-3xl">
-          <FocusScrollSection>
-            <SectionHeading
-              eyebrow="The Parent Initiative"
-              title={`A ${SITE_NAME_QUOTED} Campaign`}
-              description={`Tri For The 22 is an athletic fundraising campaign of ${SITE_NAME_QUOTED}, an initiative connecting veterans and first responders with resources supporting mental, physical, emotional and spiritual health.`}
-            />
-            <a
-              href={SITE_URL}
-              className="mt-5 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
-            >
-              Visit {SITE_NAME_QUOTED} &rarr;
-            </a>
-          </FocusScrollSection>
-        </Container>
-      </section>
 
       <section className="py-16 sm:py-20">
         <Container className="max-w-3xl">

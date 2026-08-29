@@ -1,10 +1,22 @@
 import { ExternalLink } from "lucide-react";
+import { getCampaign } from "@/lib/data/campaign";
 import { Container } from "@/components/shared/container";
 import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTAButton } from "@/components/shared/cta-button";
 import { GetInvolvedForm } from "@/components/forms/get-involved-form";
-import { CAMPAIGN_NAME, CAMPAIGN_URL, CHATTANOOGAN_HOTEL_BLOCK_URL, GET_INVOLVED_ROLES, RACE_INFO } from "@/lib/constants";
+import { CampaignProgress } from "@/components/campaign/campaign-progress";
+import { ShareButtons } from "@/components/shared/share-buttons";
+import { EmailSignupForm } from "@/components/forms/email-signup-form";
+import {
+  CAMPAIGN_NAME,
+  CAMPAIGN_URL,
+  CHATTANOOGAN_HOTEL_BLOCK_URL,
+  DONATE_LINK,
+  GET_INVOLVED_ROLES,
+  RACE_INFO,
+} from "@/lib/constants";
+import { formatCurrency } from "@/lib/utils";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
@@ -14,7 +26,9 @@ export const metadata = pageMetadata({
   canonical: `${CAMPAIGN_URL}/get-involved`,
 });
 
-export default function GetInvolvedPage() {
+export default async function GetInvolvedPage() {
+  const campaign = await getCampaign();
+
   return (
     <>
       <CampaignPageHero>
@@ -78,6 +92,50 @@ export default function GetInvolvedPage() {
           <div className="mt-8">
             <GetInvolvedForm />
           </div>
+        </Container>
+      </section>
+
+      <section className="border-t border-ink/10 bg-sand-light py-16 sm:py-20">
+        <Container className="max-w-2xl">
+          <SectionHeading eyebrow="Support the Mission" title="Every Dollar Counts" />
+          <div className="mt-8">
+            <CampaignProgress totalRaised={campaign.amount_raised} goal={campaign.fundraising_goal} showStats={false} />
+          </div>
+          <div className="mt-8 flex flex-wrap gap-4">
+            <CTAButton href={DONATE_LINK.href}>{DONATE_LINK.label}</CTAButton>
+          </div>
+
+          <div className="mt-10 flex flex-col gap-6 border-t border-ink/10 pt-8 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                Get Campaign Updates
+              </p>
+              <div className="mt-3">
+                <EmailSignupForm />
+              </div>
+            </div>
+            <div>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                Share {CAMPAIGN_NAME}
+              </p>
+              <ShareButtons
+                url={CAMPAIGN_URL}
+                title={`I'm helping move ${CAMPAIGN_NAME} closer to its ${formatCurrency(campaign.fundraising_goal)} goal for veterans.`}
+              />
+            </div>
+          </div>
+
+          {RACE_INFO.registrationUrl && (
+            <a
+              href={RACE_INFO.registrationUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-8 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-charcoal-light hover:text-ink"
+            >
+              Register for the Race
+              <ExternalLink size={13} aria-hidden />
+            </a>
+          )}
         </Container>
       </section>
     </>

@@ -1,34 +1,25 @@
 import Link from "next/link";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, ShoppingBag } from "lucide-react";
 import { getCampaign } from "@/lib/data/campaign";
 import { getPartners } from "@/lib/data/partners";
-import { getFeaturedJournalEntry, getLatestJournalEntries } from "@/lib/data/journal";
-import { getTrainingSnapshot } from "@/lib/whoop/client";
-import { getRecentDisciplineWorkouts } from "@/lib/training-stats";
+import { findAboutSubsection } from "@/lib/content/about";
 import { CampaignProgress } from "@/components/campaign/campaign-progress";
-import { CampaignPhaseBanner } from "@/components/campaign/campaign-phase-banner";
 import { PartnerLogo } from "@/components/shared/partner-logo";
-import { JournalCard } from "@/components/journal/journal-card";
 import { Countdown } from "@/components/shared/countdown";
-import { CTAButton } from "@/components/shared/cta-button";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
-import { ShareButtons } from "@/components/shared/share-buttons";
-import { EmailSignupForm } from "@/components/forms/email-signup-form";
 import {
   CAMPAIGN_NAME,
   CAMPAIGN_URL,
   CURRENT_CAMPAIGN,
   DONATE_LINK,
-  ORG_HOME_LINK,
-  ORG_SUPPORTING_STATEMENT,
+  MERCH_STORE_URL,
   RACE_INFO,
   RACE_TOTAL_DISTANCE,
-  SITE_NAME_QUOTED,
+  SHOP_CATEGORIES,
   SITE_TAGLINE,
 } from "@/lib/constants";
-import { formatCurrency, formatDateLong } from "@/lib/utils";
-import { getCampaignPhase } from "@/lib/campaign-phase";
+import { formatCurrency } from "@/lib/utils";
 import { pageMetadata } from "@/lib/metadata";
 
 const HERO_EXPLAINER = `One athlete's ${RACE_TOTAL_DISTANCE}-mile race, paired with a ${formatCurrency(70_000)} fundraising goal for veterans.`;
@@ -54,29 +45,16 @@ function firstSentence(text: string): string {
  * transparent middleware rewrite (see src/middleware.ts). The movement
  * homepage at src/app/page.tsx renders at "/" on forthe22.org instead.
  *
- * Seven sections, per AGENTS.md's Homepage spec: (1) responsive HTML hero,
- * (2) "two names, one mission" explainer (what For The 22 is, what Tri For
- * The 22 is, and how the campaign ties back to the parent org — a visitor
- * landing directly on tri.forthe22.org has seen neither name before),
- * (3) campaign concept, (4) beneficiary summary, (5) Road to Chattanooga
- * (phase + one training update + latest journal entry), (6) support &
- * follow (compact progress preview + CTA + share/newsletter). Full
- * beneficiary bios and the full training dashboard each have exactly one
- * canonical home elsewhere (/beneficiaries, /the-race) — this page only
- * previews and links to them.
+ * Five sections, per AGENTS.md's Homepage spec: (1) responsive HTML hero,
+ * (2) "Why 22" (the veteran suicide-awareness meaning behind the number),
+ * (3) campaign concept, (4) beneficiary summary, (5) shop teaser linking out
+ * to the merch store. Follow-along content (training/journal status) lives
+ * on /journal, and the donate/share/newsletter block lives on /get-involved
+ * — this page only previews and links to them.
  */
 export default async function CampaignHomePage() {
-  const [campaign, partners, featuredEntry, recentEntries, trainingSnapshot] = await Promise.all([
-    getCampaign(),
-    getPartners(),
-    getFeaturedJournalEntry(),
-    getLatestJournalEntries(1),
-    getTrainingSnapshot(),
-  ]);
-
-  const latestJournalEntry = featuredEntry ?? recentEntries[0] ?? null;
-  const recentDisciplineWorkout = trainingSnapshot ? getRecentDisciplineWorkouts(trainingSnapshot.recentWorkouts)[0] : undefined;
-  const phase = getCampaignPhase();
+  const [campaign, partners] = await Promise.all([getCampaign(), getPartners()]);
+  const why22 = findAboutSubsection("why-22");
 
   return (
     <>
@@ -95,13 +73,7 @@ export default async function CampaignHomePage() {
         />
 
         <Container className="relative py-16 sm:py-24">
-          <a
-            href={ORG_HOME_LINK.href}
-            className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light hover:underline"
-          >
-            {SITE_NAME_QUOTED} Presents
-          </a>
-          <h1 className="mt-3 text-balance font-display text-[clamp(2.25rem,7vw,4.5rem)] font-bold uppercase leading-[0.95] tracking-tight">
+          <h1 className="text-balance font-display text-[clamp(2.25rem,7vw,4.5rem)] font-bold uppercase leading-[0.95] tracking-tight">
             {CAMPAIGN_NAME}
           </h1>
 
@@ -136,36 +108,26 @@ export default async function CampaignHomePage() {
         </Container>
       </section>
 
-      {/* 2. Two names, one mission — what For The 22 is, what Tri For The 22 is, and how they connect, for a visitor arriving on the campaign subdomain with no prior context. */}
-      <section className="border-b border-ink/10 bg-off-white py-16 sm:py-20">
-        <Container className="max-w-3xl">
-          <SectionHeading eyebrow="Two Names, One Mission" title="For The 22 & Tri For The 22" />
-          <div className="mt-8 grid gap-8 sm:grid-cols-2">
-            <div>
-              <a
-                href={ORG_HOME_LINK.href}
-                className="font-display text-sm font-bold uppercase tracking-wide text-ink hover:text-bronze"
-              >
-                {SITE_NAME_QUOTED}
-              </a>
-              <p className="mt-2 text-sm leading-relaxed text-charcoal-light">{ORG_SUPPORTING_STATEMENT}</p>
+      {/* 2. Why 22 — the veteran suicide-awareness meaning behind the number, for a visitor arriving on the campaign subdomain with no prior context. */}
+      {why22 && (
+        <section className="border-b border-ink/10 bg-ink py-16 text-off-white sm:py-20">
+          <Container className="max-w-2xl">
+            <span
+              aria-hidden="true"
+              className="font-display text-6xl font-bold leading-none text-bronze-light sm:text-7xl"
+            >
+              22
+            </span>
+            <div className="mt-6 space-y-4">
+              {why22.body.map((paragraph, i) => (
+                <p key={i} className="text-base leading-relaxed text-off-white/75">
+                  {paragraph}
+                </p>
+              ))}
             </div>
-            <div>
-              <p className="font-display text-sm font-bold uppercase tracking-wide text-ink">{CAMPAIGN_NAME}</p>
-              <p className="mt-2 text-sm leading-relaxed text-charcoal-light">
-                {CAMPAIGN_NAME} is Cody Hitson&apos;s own fundraising campaign for {SITE_NAME_QUOTED} — one athlete&apos;s{" "}
-                {RACE_TOTAL_DISTANCE}-mile {CURRENT_CAMPAIGN.event} paired with a {formatCurrency(70_000)} fundraising
-                goal for veterans.
-              </p>
-            </div>
-          </div>
-          <p className="mt-8 max-w-2xl border-t border-ink/10 pt-6 text-sm leading-relaxed text-charcoal-light">
-            In short: {SITE_NAME_QUOTED} is the mission — connecting veterans and first responders with the support
-            they need. {CAMPAIGN_NAME} is this race, run to fund it — every dollar raised here goes to veteran-focused
-            nonprofit organizations aligned with that mission.
-          </p>
-        </Container>
-      </section>
+          </Container>
+        </section>
+      )}
 
       {/* 3. Campaign concept — trimmed "why 70 miles", not the full mission page. */}
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
@@ -218,99 +180,39 @@ export default async function CampaignHomePage() {
         </Container>
       </section>
 
-      {/* 5. Road to Chattanooga — phase, one training update, latest journal entry, links out. */}
+      {/* 5. Shop teaser — category-level snippet (no per-item catalog exists locally; Bonfire is fully external), linking out to the full store. */}
       <section className="border-t border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container>
-          <SectionHeading eyebrow="Follow Along" title="Road to Chattanooga" />
-          <div className="mt-8">
-            <CampaignPhaseBanner phase={phase} />
-          </div>
-
-          <div className="grid gap-6 lg:grid-cols-2">
-            {recentDisciplineWorkout ? (
-              <div className="rounded-sm border border-ink/10 bg-off-white p-6">
-                <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-                  Latest Training
+          <SectionHeading
+            eyebrow="Shop"
+            title="Wear The Mission"
+            description="Merch is sold through Bonfire — 100% of net profit goes directly to veteran-focused nonprofit organizations."
+          />
+          <div className="mt-8 grid gap-4 sm:grid-cols-3">
+            {SHOP_CATEGORIES.map((category) => (
+              <a
+                key={category.label}
+                href={MERCH_STORE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex flex-col rounded-sm border border-ink/10 bg-off-white p-6 transition-colors hover:border-bronze"
+              >
+                <ShoppingBag size={22} strokeWidth={1.5} className="text-bronze" aria-hidden="true" />
+                <p className="mt-4 font-display text-base font-bold uppercase tracking-wide text-ink">
+                  {category.label}
                 </p>
-                <p className="mt-2 font-display text-lg font-semibold uppercase tracking-wide text-ink">
-                  {recentDisciplineWorkout.discipline === "swim" && "Swim"}
-                  {recentDisciplineWorkout.discipline === "bike" && "Bike"}
-                  {recentDisciplineWorkout.discipline === "run" && "Run"}
-                </p>
-                <p className="mt-1 text-sm text-charcoal-light">
-                  {formatDateLong(recentDisciplineWorkout.workout.start)}
-                  {recentDisciplineWorkout.workout.strain !== null &&
-                    ` · Strain ${recentDisciplineWorkout.workout.strain.toFixed(1)}`}
-                </p>
-              </div>
-            ) : (
-              <div className="rounded-sm border border-ink/10 bg-off-white p-6">
-                <p className="text-sm text-charcoal-light">
-                  Training data will appear here once it&apos;s connected.
-                </p>
-              </div>
-            )}
-
-            {latestJournalEntry && (
-              <div className="lg:row-span-1">
-                <JournalCard entry={latestJournalEntry} />
-              </div>
-            )}
+                <p className="mt-1 text-sm leading-relaxed text-charcoal-light">{category.description}</p>
+              </a>
+            ))}
           </div>
-
-          <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold uppercase tracking-wide">
-            <Link href="/the-race" className="text-bronze hover:text-bronze-light">
-              The Race &amp; Training &rarr;
-            </Link>
-            <Link href="/journal" className="text-bronze hover:text-bronze-light">
-              Follow My Progress &rarr;
-            </Link>
-          </div>
-        </Container>
-      </section>
-
-      {/* 6. Support & follow — compact progress preview + both CTAs + share/newsletter. One closing section, not two. */}
-      <section className="py-16 sm:py-20">
-        <Container className="max-w-2xl">
-          <SectionHeading eyebrow="Support the Mission" title="Every Dollar Counts" />
-          <div className="mt-8">
-            <CampaignProgress totalRaised={campaign.amount_raised} goal={campaign.fundraising_goal} showStats={false} />
-          </div>
-          <div className="mt-8 flex flex-wrap gap-4">
-            <CTAButton href={DONATE_LINK.href}>{DONATE_LINK.label}</CTAButton>
-          </div>
-
-          <div className="mt-10 flex flex-col gap-6 border-t border-ink/10 pt-8 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-                Get Campaign Updates
-              </p>
-              <div className="mt-3">
-                <EmailSignupForm />
-              </div>
-            </div>
-            <div>
-              <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-                Share {CAMPAIGN_NAME}
-              </p>
-              <ShareButtons
-                url={CAMPAIGN_URL}
-                title={`I'm helping move ${CAMPAIGN_NAME} closer to its ${formatCurrency(campaign.fundraising_goal)} goal for veterans.`}
-              />
-            </div>
-          </div>
-
-          {RACE_INFO.registrationUrl && (
-            <a
-              href={RACE_INFO.registrationUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-8 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-charcoal-light hover:text-ink"
-            >
-              Register for the Race
-              <ExternalLink size={13} aria-hidden />
-            </a>
-          )}
+          <a
+            href={MERCH_STORE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-8 inline-flex items-center gap-2 rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light"
+          >
+            Shop on Bonfire <ExternalLink size={14} aria-hidden />
+          </a>
         </Container>
       </section>
     </>

@@ -7,6 +7,7 @@ import { JournalFilterRow } from "@/components/journal/journal-filter-row";
 import { BikeBuildIndexCard } from "@/components/journal/bike-build/bike-build-index-card";
 import { GearJourneyIndexCard } from "@/components/journal/gear-journey/gear-journey-index-card";
 import { TrainingSnapshot } from "@/components/training/training-snapshot";
+import { CampaignPhaseBanner } from "@/components/campaign/campaign-phase-banner";
 import { EmptyState } from "@/components/shared/empty-state";
 import { EmailSignupForm } from "@/components/forms/email-signup-form";
 import { getBikeBuildLastUpdated } from "@/lib/content/building-the-bike";
@@ -14,6 +15,7 @@ import { getGearJourneyLastUpdated } from "@/lib/content/gear-journey";
 import { getTrainingSnapshot } from "@/lib/whoop/client";
 import { getRecentDisciplineWorkouts } from "@/lib/training-stats";
 import { formatDateLong } from "@/lib/utils";
+import { getCampaignPhase } from "@/lib/campaign-phase";
 import { CAMPAIGN_URL, DONATE_LINK } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import type { JournalPrimaryCategory } from "@/types/database";
@@ -59,6 +61,7 @@ export default async function JournalPage(props: PageProps<"/journal">) {
     allEntries.some((e) => e.primary_category === category),
   );
   const showFilters = allEntries.length >= MIN_ENTRIES_FOR_FILTERS && categoriesWithEntries.length > 1;
+  const phase = getCampaignPhase();
 
   return (
     <>
@@ -74,6 +77,7 @@ export default async function JournalPage(props: PageProps<"/journal">) {
 
       <section className="border-b border-ink/10 py-10">
         <Container className="space-y-4">
+          <CampaignPhaseBanner phase={phase} />
           <BikeBuildIndexCard lastUpdated={getBikeBuildLastUpdated()} />
           <GearJourneyIndexCard lastUpdated={getGearJourneyLastUpdated()} />
         </Container>

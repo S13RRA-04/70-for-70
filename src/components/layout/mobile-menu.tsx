@@ -3,14 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import {
-  CAMPAIGN_HOME_LINK,
-  CAMPAIGNS,
-  DONATE_LINK,
-  GET_INVOLVED_LINK,
-  ORG_HOME_LINK,
-  SITE_NAME_QUOTED,
-} from "@/lib/constants";
+import { CAMPAIGN_HOME_LINK, CAMPAIGNS, DONATE_LINK, GET_INVOLVED_LINK, ORG_HOME_LINK } from "@/lib/constants";
 import type { CampaignSlug } from "@/lib/site-mode";
 import type { NavLink } from "@/types/content";
 import { cn } from "@/lib/utils";
@@ -114,7 +107,6 @@ export function MobileMenu({ open, onClose, navLinks, pathname, campaignSlug, tr
             <>
               <MobileNavGroup label="Explore" links={TRI_EXPLORE_LINKS} pathname={pathname} />
               <MobileNavGroup label="Support" links={TRI_SUPPORT_LINKS} pathname={pathname} className="mt-5 border-t border-ink/10 pt-5" />
-              <ParentInitiativeGroup quoted />
             </>
           ) : campaignSlug === "ruck" && campaign ? (
             <>
@@ -172,7 +164,7 @@ export function MobileMenu({ open, onClose, navLinks, pathname, campaignSlug, tr
   );
 }
 
-function ParentInitiativeGroup({ quoted = false }: { quoted?: boolean }) {
+function ParentInitiativeGroup() {
   return (
     <div className="mt-5 border-t border-ink/10 pt-5">
       <p className="px-3 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
@@ -182,7 +174,7 @@ function ParentInitiativeGroup({ quoted = false }: { quoted?: boolean }) {
         href={ORG_HOME_LINK.href}
         className="mt-2 block rounded-sm px-3 py-3 text-base font-medium uppercase tracking-wide text-charcoal hover:bg-sand-light"
       >
-        {quoted ? SITE_NAME_QUOTED : ORG_HOME_LINK.label} <span aria-hidden="true">&#8599;</span>
+        {ORG_HOME_LINK.label} <span aria-hidden="true">&#8599;</span>
       </a>
     </div>
   );

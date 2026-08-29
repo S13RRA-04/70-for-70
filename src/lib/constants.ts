@@ -4,16 +4,6 @@ import type { CampaignSlug } from "@/lib/site-mode";
 /** The project's name — used in the header, footer, legal copy, and site-wide metadata. Not an organization name; see PROJECT_POSITIONING. */
 export const SITE_NAME = "For The 22";
 /**
- * SITE_NAME wrapped in single quotes, for standalone use in Tri-campaign
- * marketing copy (hero, nav, footer, page intros) — a visitor landing on
- * tri.forthe22.org without ever having seen forthe22.org should read "For
- * The 22" as a distinct named organization, not descriptive prose. Tri-only:
- * never used in org-site copy, Ruck copy, or long-form legal documents
- * (campaign-terms/campaign-privacy/athlete-agreement), which already
- * formally introduce the name once.
- */
-export const SITE_NAME_QUOTED = `'${SITE_NAME}'`;
-/**
  * The org's primary positioning statement.
  */
 export const ORG_TAGLINE = "For Those Who Serve. For What Comes Next.";
@@ -189,9 +179,10 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 /**
- * 6 links + the header's separate Donate CTA button (see DONATE_LINK).
+ * 7 links + the header's separate Donate CTA button (see DONATE_LINK).
  * Sponsors (gear/resource campaign sponsors, see src/app/sponsors/page.tsx)
- * is also cross-linked from Beneficiaries and the footer.
+ * is also cross-linked from Beneficiaries and the footer. Get Involved lives
+ * here (rather than the footer) so it's reachable from the header nav.
  */
 export const CAMPAIGN_NAV_LINKS: NavLink[] = [
   { label: "About", href: "/the-mission" },
@@ -200,6 +191,7 @@ export const CAMPAIGN_NAV_LINKS: NavLink[] = [
   { label: "Beneficiaries", href: "/beneficiaries" },
   { label: "Sponsors", href: "/sponsors" },
   { label: "Shop", href: "/shop" },
+  { label: "Get Involved", href: "/get-involved" },
 ];
 
 /**
@@ -388,6 +380,18 @@ export const MERCH_STORE_URL = "https://www.bonfire.com/store/for-the-22/";
 
 /** Recipients of net Bonfire store profit, split per item on Bonfire — see MERCH_STORE_URL. */
 export const MERCH_BENEFICIARIES = ["Mighty Oaks Foundation", "Veterans and Athletes United"];
+
+/**
+ * Generic category teasers for the campaign homepage's shop hotlink. No
+ * per-item product data exists locally (Bonfire is a fully external store —
+ * see MERCH_STORE_URL), so these are category-level labels rather than named
+ * products, avoiding any drift from what's actually for sale.
+ */
+export const SHOP_CATEGORIES = [
+  { label: "Apparel", description: "Tees, tanks, and hoodies" },
+  { label: "Headwear", description: "Hats and beanies" },
+  { label: "Accessories", description: "Stickers, bags, and more" },
+] as const;
 
 /**
  * Social profile links for the footer's "Follow" list. Empty by default —

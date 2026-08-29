@@ -5,12 +5,10 @@ import {
   CAMPAIGNS,
   CONTACT_EMAIL,
   DONATE_LINK,
-  GET_INVOLVED_LINK,
   ORG_HOME_LINK,
   ORG_TAGLINE,
   PERSONAL_PROJECT_DISCLOSURE,
   SITE_NAME,
-  SITE_NAME_QUOTED,
   SITE_URL,
 } from "@/lib/constants";
 import { Container } from "@/components/shared/container";
@@ -58,7 +56,7 @@ export function Footer({
       />
       <Container
         className={`relative grid gap-10 py-14 sm:grid-cols-2 ${
-          campaignSlug === "tri" ? "lg:grid-cols-3 xl:grid-cols-7" : campaignSlug === "ruck" ? "lg:grid-cols-4" : "lg:grid-cols-3 xl:grid-cols-6"
+          campaignSlug === "tri" ? "lg:grid-cols-3 xl:grid-cols-6" : campaignSlug === "ruck" ? "lg:grid-cols-4" : "lg:grid-cols-3 xl:grid-cols-6"
         }`}
       >
         <div className={isCampaign ? "sm:col-span-2 lg:col-span-2" : "sm:col-span-2 lg:col-span-1"}>
@@ -75,9 +73,7 @@ export function Footer({
               {!isCampaign && <sup className="text-[0.5em] font-medium tracking-normal">™</sup>}
             </p>
           </div>
-          {campaignSlug === "tri" ? (
-            <p className="mt-3 max-w-sm text-sm text-off-white/70">A {SITE_NAME_QUOTED} campaign.</p>
-          ) : campaign ? (
+          {campaignSlug === "tri" ? null : campaign ? (
             <p className="mt-3 max-w-sm text-sm text-off-white/70">A {SITE_NAME} campaign.</p>
           ) : (
             <p className="mt-3 max-w-sm text-sm text-off-white/70">{ORG_TAGLINE}</p>
@@ -123,11 +119,6 @@ export function Footer({
                 <li>
                   <Link href="/shop" className="transition-colors hover:text-off-white">
                     Shop
-                  </Link>
-                </li>
-                <li>
-                  <Link href={GET_INVOLVED_LINK.href} className="transition-colors hover:text-off-white">
-                    {GET_INVOLVED_LINK.label}
                   </Link>
                 </li>
               </ul>
@@ -182,19 +173,6 @@ export function Footer({
                   <Link href="/press" className="transition-colors hover:text-off-white">
                     Press &amp; Media
                   </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
-                Parent Initiative
-              </p>
-              <ul className="mt-4 space-y-2 text-sm text-off-white/70">
-                <li>
-                  <a href={ORG_HOME_LINK.href} className="transition-colors hover:text-off-white">
-                    {ORG_HOME_LINK.label} <span aria-hidden="true">&#8599;</span>
-                  </a>
                 </li>
               </ul>
             </div>
@@ -411,7 +389,7 @@ export function Footer({
           {isCampaign && (
             <p>
               Donations are directed through each beneficiary organization&apos;s
-              authorized donation platform. {SITE_NAME} does not independently
+              authorized donation platform. {campaign?.name ?? SITE_NAME} does not independently
               process charitable contributions unless explicitly stated.
             </p>
           )}

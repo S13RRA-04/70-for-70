@@ -50,7 +50,7 @@ export default async function BeneficiariesPage() {
           </div>
           <p className="mt-10 max-w-2xl text-sm text-charcoal-light">
             Donations are made directly through each independent nonprofit organization&apos;s
-            authorized donation platform. For The 22 does not receive, process, or take
+            authorized donation platform. {CAMPAIGN_NAME} does not receive, process, or take
             possession of charitable contributions and does not issue tax receipts.
           </p>
           <p className="mt-4 max-w-2xl text-sm text-charcoal-light">

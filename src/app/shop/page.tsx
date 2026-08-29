@@ -1,5 +1,5 @@
 import { Container } from "@/components/shared/container";
-import { CAMPAIGN_NAME, MERCH_BENEFICIARIES, MERCH_STORE_URL, SITE_NAME_QUOTED } from "@/lib/constants";
+import { CAMPAIGN_NAME, MERCH_BENEFICIARIES, MERCH_STORE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
@@ -25,7 +25,7 @@ export default function ShopPage() {
           product listing.
         </p>
         <p className="mt-3 max-w-lg text-base leading-relaxed text-off-white/80">
-          {SITE_NAME_QUOTED} does not take possession of merchandise proceeds; Bonfire handles all
+          {CAMPAIGN_NAME} does not take possession of merchandise proceeds; Bonfire handles all
           orders, sizing, shipping, and payment on its own platform.
         </p>
         <a

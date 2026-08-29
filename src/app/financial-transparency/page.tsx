@@ -1,11 +1,11 @@
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
-import { MERCH_BENEFICIARIES, SITE_NAME_QUOTED } from "@/lib/constants";
+import { CAMPAIGN_NAME, MERCH_BENEFICIARIES } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
   title: "Financial Transparency",
-  description: "How donation links on this site work, and what 'For The 22' does and doesn't do with charitable giving.",
+  description: `How donation links on this site work, and what ${CAMPAIGN_NAME} does and doesn't do with charitable giving.`,
   canonical: "/financial-transparency",
 });
 
@@ -17,11 +17,11 @@ export default function FinancialTransparencyPage() {
 
         <div className="mt-8 space-y-5 text-base leading-relaxed text-charcoal-light">
           <p>
-            {SITE_NAME_QUOTED} does not collect or process charitable donations. Donation links send
+            {CAMPAIGN_NAME} does not collect or process charitable donations. Donation links send
             visitors directly to the independent nonprofit organization selected by the donor.
           </p>
           <p>
-            {SITE_NAME_QUOTED} does not issue charitable receipts, control donated funds, or determine
+            {CAMPAIGN_NAME} does not issue charitable receipts, control donated funds, or determine
             how a beneficiary organization uses donations received through its own platform.
           </p>
           <p>

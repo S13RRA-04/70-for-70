@@ -206,11 +206,12 @@ export default function BuildingTheBikePage() {
           <SectionHeading eyebrow="Why It Matters" title="More Than a Bike" />
           <div className="mt-4 space-y-4 text-base leading-relaxed text-charcoal-light">
             <p>
-              For The 22 connects veterans and first responders with resources that can help them confront mental
-              and physical barriers, while raising public awareness and funds for charitable organizations serving
-              those communities. &ldquo;22&rdquo; has become a widely recognized symbol of veteran suicide
-              awareness — not a precise, universal, or current statistic, but a reminder of the people still
-              fighting and the responsibility to keep showing up for them.
+              {CAMPAIGN_NAME} connects veterans and first responders with resources that can help them confront
+              mental and physical barriers, while raising public awareness and funds for charitable organizations
+              serving those communities. &ldquo;22&rdquo; has become a widely recognized symbol of veteran suicide
+              awareness — historically significant, but not the current national number. The VA&apos;s most recent
+              data (2023) puts the daily average at 17.5 Veterans lost to suicide, and law enforcement faces a
+              version of the same crisis, with far less complete reporting, roughly every 2 to 3 days.
             </p>
             <blockquote className="border-l-2 border-bronze pl-4 italic text-ink">
               Progress rarely arrives fully assembled. Sometimes it appears as a bare frame, a box of parts, a few

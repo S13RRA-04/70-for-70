@@ -11,7 +11,7 @@ import {
   STORY_TAGLINE,
   WHY_ENDURANCE,
 } from "@/lib/content/the-story";
-import { CAMPAIGN_NAME, DONATE_LINK, SITE_NAME_QUOTED, SITE_URL } from "@/lib/constants";
+import { CAMPAIGN_NAME, DONATE_LINK } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
@@ -31,12 +31,6 @@ export default function TheStoryPage() {
             title="The Athlete's Story"
             description={`${ABOUT_CONTENT.name} — ${STORY_TAGLINE}`}
           />
-          <a
-            href={`${SITE_URL}/about`}
-            className="mt-4 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
-          >
-            Read the founder&apos;s full story at {SITE_NAME_QUOTED} &rarr;
-          </a>
         </Container>
       </section>
 
