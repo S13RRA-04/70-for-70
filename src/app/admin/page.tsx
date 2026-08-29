@@ -26,6 +26,7 @@ export default async function AdminPage() {
     trainingObjectives,
     { count: publishedJournalEntries },
     { count: draftJournalEntries },
+    { count: pendingMessages },
   ] = await Promise.all([
     getCampaign(),
     getMiles(),
@@ -39,6 +40,7 @@ export default async function AdminPage() {
     getTrainingObjectives(),
     admin.from("journal_entries").select("*", { count: "exact", head: true }).eq("status", "published"),
     admin.from("journal_entries").select("*", { count: "exact", head: true }).eq("status", "draft"),
+    admin.from("messages").select("*", { count: "exact", head: true }).eq("approved", false),
   ]);
 
   const availableCount = miles.filter((m) => m.status === "available").length;
@@ -99,6 +101,23 @@ export default async function AdminPage() {
         </div>
         <Link
           href="/admin/donations"
+          className="rounded-sm border border-ink/20 px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
+        >
+          Manage
+        </Link>
+      </div>
+
+      <div className="mt-6 flex items-center justify-between rounded-sm border border-ink/10 bg-off-white p-6">
+        <div>
+          <p className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+            Messages
+          </p>
+          <p className="mt-1 text-sm text-charcoal-light">
+            {pendingMessages ?? 0} message(s) awaiting review before they appear on the board.
+          </p>
+        </div>
+        <Link
+          href="/admin/messages"
           className="rounded-sm border border-ink/20 px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
         >
           Manage

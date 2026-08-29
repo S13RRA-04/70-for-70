@@ -565,6 +565,32 @@ create table if not exists public.email_subscribers (
 create index if not exists email_subscribers_synced_idx on public.email_subscribers (synced_to_provider);
 
 -- ---------------------------------------------------------------------------
+-- messages
+--
+-- Short public messages of encouragement/support for the athlete — a
+-- visitor "cheer board", not a fundraising or sponsorship mechanism, so it
+-- doesn't carry the ethics-review machinery sponsorship_requests does.
+-- Submitted through /messages, written via /api/messages using the
+-- service-role key (same trust model as every other table in this file),
+-- and reviewed at /admin/messages before becoming publicly visible — see
+-- `approved` below.
+-- ---------------------------------------------------------------------------
+create table if not exists public.messages (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  -- Hides the name on the public board while still keeping it recorded for
+  -- moderation/spam-tracing — same idea as donations.anonymous.
+  anonymous boolean not null default false,
+  message text not null,
+  approved boolean not null default false,
+  submitted_at timestamptz not null default now(),
+  approved_at timestamptz
+);
+
+create index if not exists messages_approved_idx on public.messages (approved);
+create index if not exists messages_submitted_at_idx on public.messages (submitted_at desc);
+
+-- ---------------------------------------------------------------------------
 -- whoop_tokens
 --
 -- Singleton row holding the athlete's own WHOOP OAuth tokens, used to
@@ -615,6 +641,7 @@ alter table public.sponsorship_requests enable row level security;
 alter table public.sponsorship_status_history enable row level security;
 alter table public.whoop_tokens enable row level security;
 alter table public.email_subscribers enable row level security;
+alter table public.messages enable row level security;
 
 create policy "campaign is publicly readable"
   on public.campaign for select
@@ -721,3 +748,13 @@ create policy "training objectives are publicly readable"
 -- Signups are written by /api/subscribe using the service-role key
 -- server-side, same pattern as inquiries/sponsorship_requests — never a
 -- client-issued insert policy.
+
+create policy "approved messages are publicly readable"
+  on public.messages for select
+  to anon, authenticated
+  using (approved = true);
+
+-- No insert policy on public.messages: submissions are written by
+-- /api/messages using the service-role key, same pattern as
+-- inquiries/donations/email_subscribers — never a client-issued insert
+-- policy. Moderation (approve/delete) happens at /admin/messages.

@@ -103,6 +103,11 @@ export function Footer({
                     Follow My Progress
                   </Link>
                 </li>
+                <li>
+                  <Link href="/messages" className="transition-colors hover:text-off-white">
+                    Messages
+                  </Link>
+                </li>
               </ul>
             </div>
 

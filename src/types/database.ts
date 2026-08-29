@@ -431,6 +431,24 @@ export interface SponsorshipRequestRow {
   declined_at: string | null;
 }
 
+/** A public "cheer board" message — see supabase/schema.sql's public.messages. */
+export interface MessageRow {
+  id: string;
+  name: string;
+  /** Hides `name` on the public board while keeping it recorded for moderation. */
+  anonymous: boolean;
+  message: string;
+  approved: boolean;
+  submitted_at: string;
+  approved_at: string | null;
+}
+
+export interface MessageInsert {
+  name: string;
+  anonymous?: boolean;
+  message: string;
+}
+
 export interface SponsorshipStatusHistoryRow {
   id: string;
   request_id: string;

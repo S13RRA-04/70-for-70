@@ -162,6 +162,7 @@ const CAMPAIGN_PATH_PREFIXES = [
   "/beneficiaries",
   "/financial-transparency",
   "/shop",
+  "/messages",
 ];
 
 /**

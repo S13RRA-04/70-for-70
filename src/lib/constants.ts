@@ -179,7 +179,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 /**
- * 7 links + the header's separate Donate CTA button (see DONATE_LINK).
+ * 8 links + the header's separate Donate CTA button (see DONATE_LINK).
  * Sponsors (gear/resource campaign sponsors, see src/app/sponsors/page.tsx)
  * is also cross-linked from Beneficiaries and the footer. Get Involved lives
  * here (rather than the footer) so it's reachable from the header nav.
@@ -191,6 +191,7 @@ export const CAMPAIGN_NAV_LINKS: NavLink[] = [
   { label: "Beneficiaries", href: "/beneficiaries" },
   { label: "Sponsors", href: "/sponsors" },
   { label: "Shop", href: "/shop" },
+  { label: "Messages", href: "/messages" },
   { label: "Get Involved", href: "/get-involved" },
 ];
 
@@ -402,6 +403,7 @@ export const SHOP_CATEGORIES = [
  */
 export const SOCIAL_LINKS: { platform: string; label: string; url: string }[] = [
   { platform: "facebook", label: "Facebook", url: "https://www.facebook.com/profile.php?id=61593405604317" },
+  { platform: "instagram", label: "Instagram", url: "https://www.instagram.com/triforthe22/" },
 ];
 
 /**

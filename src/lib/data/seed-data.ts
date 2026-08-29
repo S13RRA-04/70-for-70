@@ -13,6 +13,7 @@ import type {
   CampaignRow,
   DonationRow,
   JournalEntryRow,
+  MessageRow,
   MileRow,
   MissionPartnerRow,
   PartnerRow,
@@ -49,6 +50,8 @@ export const SEED_MILES: MileRow[] = Array.from({ length: 70 }, (_, i) => {
 });
 
 export const SEED_DONATIONS: DonationRow[] = [];
+
+export const SEED_MESSAGES: MessageRow[] = [];
 
 export const SEED_PARTNERS: PartnerRow[] = [
   {

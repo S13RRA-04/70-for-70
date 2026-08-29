@@ -15,6 +15,7 @@ const TRI_EXPLORE_LINKS: NavLink[] = [
   { label: "Follow My Progress", href: "/journal" },
   { label: "Beneficiaries", href: "/beneficiaries" },
   { label: "Sponsors", href: "/sponsors" },
+  { label: "Messages", href: "/messages" },
 ];
 const TRI_SUPPORT_LINKS: NavLink[] = [DONATE_LINK, { label: "Shop", href: "/shop" }, GET_INVOLVED_LINK];
 
