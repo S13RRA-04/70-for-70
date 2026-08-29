@@ -4,10 +4,13 @@ import {
   CAMPAIGN_HOME_LINK,
   CAMPAIGNS,
   CONTACT_EMAIL,
+  DONATE_LINK,
+  GET_INVOLVED_LINK,
   ORG_HOME_LINK,
   ORG_TAGLINE,
   PERSONAL_PROJECT_DISCLOSURE,
   SITE_NAME,
+  SITE_NAME_QUOTED,
   SITE_URL,
 } from "@/lib/constants";
 import { Container } from "@/components/shared/container";
@@ -55,7 +58,7 @@ export function Footer({
       />
       <Container
         className={`relative grid gap-10 py-14 sm:grid-cols-2 ${
-          campaignSlug === "tri" ? "lg:grid-cols-6" : campaignSlug === "ruck" ? "lg:grid-cols-4" : "lg:grid-cols-3 xl:grid-cols-6"
+          campaignSlug === "tri" ? "lg:grid-cols-3 xl:grid-cols-7" : campaignSlug === "ruck" ? "lg:grid-cols-4" : "lg:grid-cols-3 xl:grid-cols-6"
         }`}
       >
         <div className={isCampaign ? "sm:col-span-2 lg:col-span-2" : "sm:col-span-2 lg:col-span-1"}>
@@ -72,7 +75,9 @@ export function Footer({
               {!isCampaign && <sup className="text-[0.5em] font-medium tracking-normal">™</sup>}
             </p>
           </div>
-          {campaign ? (
+          {campaignSlug === "tri" ? (
+            <p className="mt-3 max-w-sm text-sm text-off-white/70">A {SITE_NAME_QUOTED} campaign.</p>
+          ) : campaign ? (
             <p className="mt-3 max-w-sm text-sm text-off-white/70">A {SITE_NAME} campaign.</p>
           ) : (
             <p className="mt-3 max-w-sm text-sm text-off-white/70">{ORG_TAGLINE}</p>
@@ -84,12 +89,12 @@ export function Footer({
           <>
             <div>
               <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
-                Campaign
+                About
               </p>
               <ul className="mt-4 space-y-2 text-sm text-off-white/70">
                 <li>
                   <Link href="/the-mission" className="transition-colors hover:text-off-white">
-                    Campaign
+                    About
                   </Link>
                 </li>
                 <li>
@@ -99,7 +104,7 @@ export function Footer({
                 </li>
                 <li>
                   <Link href="/journal" className="transition-colors hover:text-off-white">
-                    Journal
+                    Follow My Progress
                   </Link>
                 </li>
               </ul>
@@ -111,18 +116,18 @@ export function Footer({
               </p>
               <ul className="mt-4 space-y-2 text-sm text-off-white/70">
                 <li>
-                  <Link href="/fund-a-mile" className="transition-colors hover:text-off-white">
-                    Fund a Mile
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/donate" className="transition-colors hover:text-off-white">
-                    Donate Directly
+                  <Link href={DONATE_LINK.href} className="transition-colors hover:text-off-white">
+                    {DONATE_LINK.label}
                   </Link>
                 </li>
                 <li>
                   <Link href="/shop" className="transition-colors hover:text-off-white">
                     Shop
+                  </Link>
+                </li>
+                <li>
+                  <Link href={GET_INVOLVED_LINK.href} className="transition-colors hover:text-off-white">
+                    {GET_INVOLVED_LINK.label}
                   </Link>
                 </li>
               </ul>
@@ -134,8 +139,13 @@ export function Footer({
               </p>
               <ul className="mt-4 space-y-2 text-sm text-off-white/70">
                 <li>
-                  <Link href="/partners" className="transition-colors hover:text-off-white">
-                    Partners
+                  <Link href="/beneficiaries" className="transition-colors hover:text-off-white">
+                    Beneficiaries
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/sponsors" className="transition-colors hover:text-off-white">
+                    Sponsors
                   </Link>
                 </li>
                 <li>
@@ -160,6 +170,19 @@ export function Footer({
                     </Link>
                   </li>
                 )}
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
+                Media
+              </p>
+              <ul className="mt-4 space-y-2 text-sm text-off-white/70">
+                <li>
+                  <Link href="/press" className="transition-colors hover:text-off-white">
+                    Press &amp; Media
+                  </Link>
+                </li>
               </ul>
             </div>
 

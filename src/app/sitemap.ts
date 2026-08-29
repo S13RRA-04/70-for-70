@@ -3,7 +3,7 @@ import { getJournalEntries } from "@/lib/data/journal";
 import { getBikeBuildLastUpdated } from "@/lib/content/building-the-bike";
 import { getGearJourneyLastUpdated } from "@/lib/content/gear-journey";
 import { US_STATES_GRID } from "@/lib/content/us-states";
-import { CAMPAIGN_URL, CAMPAIGNS, SITE_URL, TOTAL_FUNDRAISING_MILES } from "@/lib/constants";
+import { CAMPAIGN_URL, CAMPAIGNS, SITE_URL } from "@/lib/constants";
 import { getActiveCampaignSlug } from "@/lib/site-mode";
 
 // Kept in sync with the split enforced in src/middleware.ts. /athletes,
@@ -26,16 +26,19 @@ const ORG_ROUTES = [
   "/terms",
   "/press",
 ];
-// /beneficiaries, /campaign-supporters, /partners/inquire, /sponsors, and
-// /sponsors/request are retired (redirect into /partners) — excluded for
-// the same reason.
+// /partners, /campaign-supporters, /partners/inquire, and /sponsors/request
+// are retired stubs (redirect to /beneficiaries or /sponsors) — excluded so
+// search engines follow the redirect rather than indexing the retired URL.
+// /beneficiaries and /sponsors are real, indexed pages (see
+// src/app/beneficiaries/page.tsx and src/app/sponsors/page.tsx).
 const CAMPAIGN_ROUTES = [
   "",
   "/the-mission",
   "/the-race",
   "/the-story",
-  "/fund-a-mile",
-  "/partners",
+  "/beneficiaries",
+  "/sponsors",
+  "/get-involved",
   "/journal",
   "/donate",
   "/live",
@@ -97,15 +100,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       },
     ];
 
-    const mileEntries: MetadataRoute.Sitemap = Array.from(
-      { length: TOTAL_FUNDRAISING_MILES },
-      (_, i) => ({
-        url: `${CAMPAIGN_URL}/miles/${i + 1}`,
-        lastModified: new Date(),
-      }),
-    );
-
-    return [...campaignEntries, ...journalEntries, ...bikeBuildEntry, ...gearJourneyEntry, ...mileEntries];
+    return [...campaignEntries, ...journalEntries, ...bikeBuildEntry, ...gearJourneyEntry];
   }
 
   const orgEntries: MetadataRoute.Sitemap = ORG_ROUTES.map((path) => ({

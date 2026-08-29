@@ -4,6 +4,16 @@ import type { CampaignSlug } from "@/lib/site-mode";
 /** The project's name — used in the header, footer, legal copy, and site-wide metadata. Not an organization name; see PROJECT_POSITIONING. */
 export const SITE_NAME = "For The 22";
 /**
+ * SITE_NAME wrapped in single quotes, for standalone use in Tri-campaign
+ * marketing copy (hero, nav, footer, page intros) — a visitor landing on
+ * tri.forthe22.org without ever having seen forthe22.org should read "For
+ * The 22" as a distinct named organization, not descriptive prose. Tri-only:
+ * never used in org-site copy, Ruck copy, or long-form legal documents
+ * (campaign-terms/campaign-privacy/athlete-agreement), which already
+ * formally introduce the name once.
+ */
+export const SITE_NAME_QUOTED = `'${SITE_NAME}'`;
+/**
  * The org's primary positioning statement.
  */
 export const ORG_TAGLINE = "For Those Who Serve. For What Comes Next.";
@@ -31,7 +41,7 @@ export const PERSONAL_PROJECT_DISCLOSURE =
  * organization) is being named.
  */
 export const CAMPAIGN_NAME = "Tri For The 22";
-export const SITE_TAGLINE = "70 miles. $70,000. One mission for veterans.";
+export const SITE_TAGLINE = "70.3 miles. $70,000. One mission for veterans.";
 
 /**
  * Fixed note donors add to a gift on a beneficiary platform that has no
@@ -51,22 +61,22 @@ export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:30
 
 /**
  * The campaign root — tri.forthe22.org in production. Fundraising pages
- * (The Race, Fund a Mile, Donate, Sponsors, Partners, Live, Updates,
- * Miles, Admin) live here. See src/middleware.ts for the host-based
- * routing that enforces this split, and README's "Movement/Campaign
- * Domain Split" section for the full picture. Defaults to the same local
- * dev origin as SITE_URL — there's no real second host in local dev.
+ * (The Race, Donate, Beneficiaries, Sponsors, Live, Updates, Admin) live
+ * here. See src/middleware.ts for the host-based routing that enforces this
+ * split, and README's "Movement/Campaign Domain Split" section for the full
+ * picture. Defaults to the same local dev origin as SITE_URL — there's no
+ * real second host in local dev.
  */
 export const CAMPAIGN_URL = process.env.NEXT_PUBLIC_CAMPAIGN_URL ?? "http://localhost:3000";
 
 /**
  * The second campaign, Ruck For The 22 — ruck.forthe22.org in production.
- * Unlike Tri (a full personal-athlete site: mission, race, fund-a-mile,
- * journal, admin), this is deliberately a single-page event microsite (see
- * src/app/ruck-home/page.tsx) — no training tracker, no per-mile
- * fundraising mechanism, no dedicated Supabase schema. Defaults to the same
- * local dev origin as SITE_URL/CAMPAIGN_URL — there's no real third host in
- * local dev.
+ * Unlike Tri (a full personal-athlete site: mission, race, donate, journal,
+ * admin), this is deliberately a single-page event microsite (see
+ * src/app/ruck-home/page.tsx) — no training tracker, no dedicated fundraising
+ * mechanism beyond direct donation, no dedicated Supabase schema. Defaults to
+ * the same local dev origin as SITE_URL/CAMPAIGN_URL — there's no real third
+ * host in local dev.
  */
 export const RUCK_CAMPAIGN_URL = process.env.NEXT_PUBLIC_RUCK_URL ?? "http://localhost:3000";
 export const RUCK_CAMPAIGN_NAME = "Ruck For The 22";
@@ -179,16 +189,18 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 /**
- * 5 links + the header's separate Fund a Mile CTA button (see
- * FUND_A_MILE_LINK) — Beneficiaries/Supporters/Fundraising were folded into
- * Partners/Fund a Mile respectively so the header stays at 5 + 1 per
- * AGENTS.md's Information Architecture section.
+ * 5 links + the header's separate Donate CTA button (see DONATE_LINK) — kept
+ * at 5 + 1 per AGENTS.md's Information Architecture section. Sponsors
+ * (gear/resource campaign sponsors, see src/app/sponsors/page.tsx) isn't in
+ * this list — it's reachable from the footer and cross-linked from
+ * Beneficiaries — so splitting Beneficiaries and Sponsors onto their own
+ * pages doesn't push nav past 5.
  */
 export const CAMPAIGN_NAV_LINKS: NavLink[] = [
-  { label: "Campaign", href: "/the-mission" },
+  { label: "About", href: "/the-mission" },
   { label: "Race", href: "/the-race" },
-  { label: "Journal", href: "/journal" },
-  { label: "Partners", href: "/partners" },
+  { label: "Follow My Progress", href: "/journal" },
+  { label: "Beneficiaries", href: "/beneficiaries" },
   { label: "Shop", href: "/shop" },
 ];
 
@@ -202,15 +214,11 @@ export const CAMPAIGN_HOME_LINK: NavLink = { label: CAMPAIGN_NAME, href: CAMPAIG
 /** Campaign header → org subdomain, styled as a CTA. */
 export const ORG_HOME_LINK: NavLink = { label: SITE_NAME, href: SITE_URL };
 
-export const DONATE_LINK: NavLink = { label: "Donate Directly", href: "/donate" };
-/** The header's primary campaign CTA — replaces Donate as the solid button; Donate stays secondary. */
-export const FUND_A_MILE_LINK: NavLink = { label: "Fund a Mile", href: "/fund-a-mile" };
+export const DONATE_LINK: NavLink = { label: "Donate Now", href: "/donate" };
 /** Distinct parent-site text link in the campaign header (the logo/title still link to the campaign home). */
 export const PARENT_INITIATIVE_LINK: NavLink = { label: "A For The 22 campaign", href: SITE_URL };
 
 export const FUNDRAISING_GOAL = 70_000;
-export const DOLLARS_PER_MILE = 1_000;
-export const TOTAL_FUNDRAISING_MILES = 70;
 
 /** Official IRONMAN 70.3 leg distances, in miles. */
 export const RACE_LEGS = {
@@ -221,36 +229,13 @@ export const RACE_LEGS = {
 
 export const RACE_TOTAL_DISTANCE = 70.3;
 
-/**
- * Groups the 70 fundraising miles into race segments for the Fund a Mile
- * visualization. This is a fundraising visualization, not an exact
- * official race-mile boundary — the swim/bike/run split of the actual
- * 70.3-mile course (1.2 / 56 / 13.1) doesn't land on whole-mile lines.
- */
-export const MILE_SEGMENTS = [
-  { key: "swim", label: "The Swim", start: 1, end: 1, accent: "charcoal" },
-  { key: "bike", label: "The Bike", start: 2, end: 57, accent: "olive" },
-  { key: "run", label: "The Run", start: 58, end: 70, accent: "bronze" },
-] as const;
-
-/**
- * Mile 22 carries the movement's name and gets distinct treatment — a
- * collective mile meant to be funded together, not by one sponsor.
- */
-export const FEATURED_MILE = {
-  number: 22,
-  title: "For Those Still Fighting",
-  description:
-    "Mile 22 carries the movement's name. It's meant to be funded together — by veterans, families, and first responders showing up for each other — not by a single sponsor.",
-} as const;
-
 export const SPONSORSHIP_LEVELS = [
   {
     id: "mile",
     name: "Mile Sponsor",
     minimumContribution: 1_000,
     perks: [
-      "A designated funded mile bearing your name or company",
+      "Name/company recognition as a founding-tier campaign sponsor",
       "Name/logo listed on the website",
       "Campaign social media recognition",
     ],
@@ -307,7 +292,7 @@ export const SPONSOR_VALUE_PROPS = [
   {
     id: "tangible-impact",
     title: "A Tangible Way to Give",
-    body: "The $1,000-per-mile model makes your contribution concrete — you can point to the exact mile your company helped fund.",
+    body: "Every dollar you contribute moves the campaign visibly closer to its $70,000 goal — a concrete, trackable way to give.",
   },
   {
     id: "sponsor-recognition",
@@ -349,15 +334,62 @@ export const RACE_INFO = {
 
 export const CONTACT_EMAIL: string | null = "admin@forthe22.org";
 
+/** The /get-involved header/footer/mobile-menu link. */
+export const GET_INVOLVED_LINK: NavLink = { label: "Get Involved", href: "/get-involved" };
+
+/**
+ * Volunteer roles shown on /get-involved, keyed to
+ * GET_INVOLVED_INTEREST_TYPES (src/lib/validation/inquiry.ts) so the sign-up
+ * form's dropdown matches the roles described on the page one-to-one.
+ */
+export const GET_INVOLVED_ROLES = [
+  {
+    id: "Race Crew",
+    title: "Race Crew",
+    description:
+      "Help on the ground race weekend — aid station support, gear transport, and other hands-on tasks that keep race day running.",
+  },
+  {
+    id: "Campaign Tent",
+    title: "Campaign Tent",
+    description:
+      "Staff the campaign tent near the course — greet supporters, share the mission, and help collect donations in person.",
+  },
+  {
+    id: "Cheer Squad",
+    title: "Cheer Squad",
+    description:
+      "Show up along the course to cheer — no experience required, just energy for the swim, bike, and run legs.",
+  },
+  {
+    id: "Social Media Team",
+    title: "Social Media Team",
+    description:
+      "Help get the word out — sharing updates, creating content, and growing the campaign's reach online before and during race weekend.",
+  },
+] as const;
+
+/**
+ * A room block is being arranged at The Chattanoogan for race weekend for
+ * anyone traveling in to help or cheer — null until the booking link is
+ * live, at which point /get-involved switches from a "coming soon" note to
+ * a real "Book Your Room" button (same pattern as RACE_INFO's
+ * registrationUrl above).
+ */
+export const CHATTANOOGAN_HOTEL_BLOCK_URL: string | null = null;
+
 /**
  * Bonfire fundraising store — live, linked from the campaign's /shop.
- * 100% of net profit is paid by Bonfire directly to MERCH_BENEFICIARY;
- * For The 22 never takes possession of merchandise proceeds.
+ * 100% of net profit is paid by Bonfire directly to a recipient in
+ * MERCH_BENEFICIARIES; For The 22 never takes possession of merchandise
+ * proceeds. Bonfire annotates which of the two beneficiaries each individual
+ * item supports directly on the product listing — this site doesn't track
+ * that split per item, only the two organizations it can go to.
  */
 export const MERCH_STORE_URL = "https://www.bonfire.com/store/for-the-22/";
 
-/** Sole recipient of net Bonfire store profit — see MERCH_STORE_URL. */
-export const MERCH_BENEFICIARY = "Mighty Oaks Foundation";
+/** Recipients of net Bonfire store profit, split per item on Bonfire — see MERCH_STORE_URL. */
+export const MERCH_BENEFICIARIES = ["Mighty Oaks Foundation", "Veterans and Athletes United"];
 
 /**
  * Social profile links for the footer's "Follow" list. Empty by default —
@@ -503,7 +535,7 @@ export const CAMPAIGNS: Record<
     navLinks: CAMPAIGN_NAV_LINKS,
     logoLight: "/campaign-logo.png",
     logoDark: "/campaign-logo-white.png",
-    primaryCta: FUND_A_MILE_LINK,
+    primaryCta: DONATE_LINK,
   },
   ruck: {
     name: RUCK_CAMPAIGN_NAME,

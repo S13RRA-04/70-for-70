@@ -8,13 +8,7 @@ import { EmptyState } from "@/components/shared/empty-state";
 import { CTASection } from "@/components/shared/cta-section";
 import { TrainingSnapshot } from "@/components/training/training-snapshot";
 import { Countdown } from "@/components/shared/countdown";
-import {
-  formatCurrency,
-  formatDateLong,
-  formatNumber,
-  milesFunded,
-  percentFunded,
-} from "@/lib/utils";
+import { formatCurrency, formatDateLong, formatNumber, percentFunded } from "@/lib/utils";
 import { CAMPAIGN_URL, DONATE_LINK, RACE_INFO } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { isRaceDayModeEnabled } from "@/lib/race-day-mode";
@@ -73,8 +67,6 @@ export default async function LivePage() {
   ]);
 
   const percent = percentFunded(campaign.amount_raised, campaign.fundraising_goal);
-  const miles70 = milesFunded(campaign.amount_raised);
-  const remainingMiles = Math.max(70 - miles70, 0);
 
   return (
     <>
@@ -122,14 +114,11 @@ export default async function LivePage() {
               {formatCurrency(campaign.amount_raised)}{" "}
               <span className="text-lg font-medium text-off-white/70">raised</span>
             </p>
-            <p className="mt-1 text-sm font-semibold uppercase tracking-wide text-bronze-light">
-              {formatNumber(miles70, 1)} of 70 fundraising miles funded
-            </p>
             <div className="mt-3 h-3 w-full overflow-hidden rounded-full bg-off-white/15">
               <div className="h-full rounded-full bg-bronze" style={{ width: `${percent}%` }} />
             </div>
             <p className="mt-2 text-xs text-off-white/60">
-              {formatNumber(remainingMiles, 1)} fundraising miles left
+              {Math.round(percent)}% of the {formatCurrency(campaign.fundraising_goal)} goal
             </p>
           </div>
         </Container>
@@ -164,12 +153,6 @@ export default async function LivePage() {
                     <div>
                       <p className="font-medium text-ink">
                         {donation.anonymous ? "Anonymous" : donation.donor_name}
-                        {donation.mile_number !== null && (
-                          <span className="font-normal text-charcoal-light">
-                            {" "}
-                            · Mile {donation.mile_number}
-                          </span>
-                        )}
                       </p>
                       <p className="text-xs text-charcoal-light">{formatDateLong(donation.date)}</p>
                     </div>

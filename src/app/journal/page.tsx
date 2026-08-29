@@ -6,6 +6,7 @@ import { JournalCard } from "@/components/journal/journal-card";
 import { JournalFilterRow } from "@/components/journal/journal-filter-row";
 import { BikeBuildIndexCard } from "@/components/journal/bike-build/bike-build-index-card";
 import { GearJourneyIndexCard } from "@/components/journal/gear-journey/gear-journey-index-card";
+import { TrainingSnapshot } from "@/components/training/training-snapshot";
 import { EmptyState } from "@/components/shared/empty-state";
 import { EmailSignupForm } from "@/components/forms/email-signup-form";
 import { getBikeBuildLastUpdated } from "@/lib/content/building-the-bike";
@@ -13,7 +14,7 @@ import { getGearJourneyLastUpdated } from "@/lib/content/gear-journey";
 import { getTrainingSnapshot } from "@/lib/whoop/client";
 import { getRecentDisciplineWorkouts } from "@/lib/training-stats";
 import { formatDateLong } from "@/lib/utils";
-import { CAMPAIGN_URL } from "@/lib/constants";
+import { CAMPAIGN_URL, DONATE_LINK } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import type { JournalPrimaryCategory } from "@/types/database";
 
@@ -21,7 +22,7 @@ import type { JournalPrimaryCategory } from "@/types/database";
 const MIN_ENTRIES_FOR_FILTERS = 6;
 
 export const metadata = pageMetadata({
-  title: "The Journal",
+  title: "Follow My Progress",
   description: "Training, setbacks, milestones, partners, fundraising, and everything along the road to 70.3.",
   canonical: `${CAMPAIGN_URL}/journal`,
 });
@@ -66,7 +67,7 @@ export default async function JournalPage(props: PageProps<"/journal">) {
           as="h1"
           tone="dark"
           eyebrow="Road to Chattanooga"
-          title="The Journal"
+          title="Follow My Progress"
           description="Training, setbacks, milestones, partners, fundraising, and everything along the road to 70.3."
         />
       </CampaignPageHero>
@@ -85,9 +86,9 @@ export default async function JournalPage(props: PageProps<"/journal">) {
           {entries.length === 0 ? (
             <div className={showFilters ? "mt-8" : undefined}>
               <EmptyState
-                title="Journal entries are on the way."
+                title="New updates are on the way."
                 description="Entries will start appearing here as training and fundraising milestones happen."
-                cta={{ label: "Fund a Mile", href: "/fund-a-mile" }}
+                cta={{ label: DONATE_LINK.label, href: DONATE_LINK.href }}
               />
             </div>
           ) : (
@@ -117,32 +118,35 @@ export default async function JournalPage(props: PageProps<"/journal">) {
         </Container>
       </section>
 
-      {recentDisciplineWorkouts.length > 0 && (
-        <section className="border-t border-ink/10 bg-sand-light py-16 sm:py-20">
-          <Container>
-            <SectionHeading eyebrow="Snapshot" title="Latest Training" />
-            <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
-              The full training dashboard lives on{" "}
-              <a href="/the-race" className="text-bronze hover:underline">
-                The Race
-              </a>
-              .
-            </p>
-            <div className="mt-6 grid gap-3 sm:grid-cols-3">
-              {recentDisciplineWorkouts.map(({ discipline, workout }) => (
-                <div key={workout.id} className="rounded-sm border border-ink/10 bg-off-white p-4">
-                  <p className="text-xs font-semibold uppercase tracking-widest text-bronze">
-                    {discipline === "swim" && "Swim"}
-                    {discipline === "bike" && "Bike"}
-                    {discipline === "run" && "Run"}
-                  </p>
-                  <p className="mt-1 text-sm text-charcoal-light">{formatDateLong(workout.start)}</p>
-                </div>
-              ))}
+      <section className="border-t border-ink/10 bg-sand-light py-16 sm:py-20">
+        <Container>
+          <SectionHeading eyebrow="Live" title="Latest Training" />
+          <div className="mt-6">
+            <TrainingSnapshot snapshot={trainingSnapshot} />
+          </div>
+
+          {recentDisciplineWorkouts.length > 0 && (
+            <div className="mt-10">
+              <SectionHeading eyebrow="By Discipline" title="Recent Swim, Bike &amp; Run" />
+              <div className="mt-6 grid gap-3 sm:grid-cols-3">
+                {recentDisciplineWorkouts.map(({ discipline, workout }) => (
+                  <div key={workout.id} className="rounded-sm border border-ink/10 bg-off-white p-4">
+                    <p className="text-xs font-semibold uppercase tracking-widest text-bronze">
+                      {discipline === "swim" && "Swim"}
+                      {discipline === "bike" && "Bike"}
+                      {discipline === "run" && "Run"}
+                    </p>
+                    <p className="mt-1 text-sm text-charcoal-light">{formatDateLong(workout.start)}</p>
+                    {workout.strain !== null && (
+                      <p className="mt-1 text-sm font-medium text-ink">Strain {workout.strain.toFixed(1)}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
-          </Container>
-        </section>
-      )}
+          )}
+        </Container>
+      </section>
     </>
   );
 }

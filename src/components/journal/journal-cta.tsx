@@ -8,12 +8,12 @@ const CTA_BY_CATEGORY: Record<JournalPrimaryCategory, { label: string; href: str
   "Race Prep": { label: "Follow the Road to Chattanooga", href: "/journal" },
   Fundraising: { label: DONATE_LINK.label, href: DONATE_LINK.href },
   Milestones: { label: DONATE_LINK.label, href: DONATE_LINK.href },
-  Sponsors: { label: "Meet Our Partners", href: "/partners#beneficiaries" },
-  "Mighty Oaks": { label: "Meet Our Partners", href: "/partners#beneficiaries" },
+  Sponsors: { label: "Meet Our Partners", href: "/beneficiaries" },
+  "Mighty Oaks": { label: "Meet Our Partners", href: "/beneficiaries" },
 };
 
 export function JournalCta({ category }: { category: JournalPrimaryCategory }) {
-  const cta = CTA_BY_CATEGORY[category] ?? { label: "Back to the Journal", href: "/journal" };
+  const cta = CTA_BY_CATEGORY[category] ?? { label: "Back to Follow My Progress", href: "/journal" };
 
   return (
     <Link

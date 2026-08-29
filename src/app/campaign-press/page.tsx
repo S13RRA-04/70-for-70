@@ -4,7 +4,7 @@ import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CampaignByTheNumbers } from "@/components/campaign/campaign-by-the-numbers";
 import { APPROVED_PHOTOS, MEDIA_COVERAGE, PRESS_RELEASES } from "@/lib/content/campaign-press";
-import { CAMPAIGN_NAME, CONTACT_EMAIL, SITE_URL, SITE_TAGLINE } from "@/lib/constants";
+import { CAMPAIGN_NAME, CONTACT_EMAIL, SITE_URL, SITE_NAME_QUOTED, SITE_TAGLINE } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { formatDateLong } from "@/lib/utils";
 
@@ -51,7 +51,7 @@ export default async function CampaignPressPage() {
                 The Story
               </a>{" "}
               page — that&apos;s the authoritative source; it isn&apos;t reproduced here. Service
-              history and founder biography live on For The 22&apos;s{" "}
+              history and founder biography live on {SITE_NAME_QUOTED}&apos;s{" "}
               <a href={`${SITE_URL}/about`} className="text-bronze hover:underline">
                 About
               </a>{" "}
@@ -237,7 +237,7 @@ export default async function CampaignPressPage() {
                 </a>
               ) : (
                 <>
-                  For media inquiries, use For The 22&apos;s{" "}
+                  For media inquiries, use {SITE_NAME_QUOTED}&apos;s{" "}
                   <a href={`${SITE_URL}/contact`} className="text-bronze hover:underline">
                     contact form
                   </a>

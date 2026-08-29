@@ -3,8 +3,8 @@ import { cn } from "@/lib/utils";
 
 /**
  * Dark, contour-textured header band for campaign-domain page heroes
- * (the-mission, the-race, fund-a-mile, donate, sponsors, partners,
- * updates) — the parent org site's page heroes stay on the light
+ * (the-mission, the-race, donate, beneficiaries, sponsors, journal) — the
+ * parent org site's page heroes stay on the light
  * bg-sand-light band; this is what differentiates Tri visually per the
  * "Tri should feel more athletic/data-driven" brand direction. Pair
  * with <SectionHeading tone="dark"> inside — the plain "light" tone

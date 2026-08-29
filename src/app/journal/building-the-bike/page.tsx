@@ -86,7 +86,7 @@ export default function BuildingTheBikePage() {
       <CampaignPageHero>
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">
           <Link href="/journal" className="hover:underline">
-            Journal
+            Follow My Progress
           </Link>{" "}
           &middot; Ongoing Series
         </p>
@@ -229,13 +229,13 @@ export default function BuildingTheBikePage() {
               </Link>
             </li>
             <li>
-              <Link href="/partners#beneficiaries" className="font-semibold text-bronze hover:text-bronze-light">
+              <Link href="/beneficiaries" className="font-semibold text-bronze hover:text-bronze-light">
                 Beneficiary Organizations &rarr;
               </Link>
             </li>
             <li>
               <Link href="/journal" className="font-semibold text-bronze hover:text-bronze-light">
-                The Full Journal &rarr;
+                Follow My Progress &rarr;
               </Link>
             </li>
           </ul>
@@ -254,7 +254,7 @@ export default function BuildingTheBikePage() {
 
       <Container className="max-w-3xl py-10">
         <Link href="/journal" className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light">
-          &larr; Back to the Journal
+          &larr; Back to Follow My Progress
         </Link>
       </Container>
     </article>

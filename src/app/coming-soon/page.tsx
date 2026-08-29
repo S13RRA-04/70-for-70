@@ -31,7 +31,7 @@ export const metadata: Metadata = {
  * The campaign branch is the one that actually matters right now —
  * CAMPAIGN_LIVE is false in production, so this is what a tri.forthe22.org
  * visitor sees today. It intentionally does not expose the full campaign
- * nav (Race/Fund a Mile/Partners/Updates all point at pages with nothing
+ * nav (Race/Beneficiaries/Journal all point at pages with nothing
  * live behind them yet) — just the concept, the concrete facts that are
  * already confirmed, and a way to follow along.
  */

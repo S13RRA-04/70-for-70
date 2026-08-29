@@ -24,7 +24,7 @@ export const MISSION_SECTIONS: MissionSection[] = [
     id: "the-challenge",
     heading: "The Challenge",
     body: [
-      "Tri For The 22 pairs a 70.3-mile triathlon — a 1.2-mile swim, 56-mile bike, and 13.1-mile run — with a $70,000 fundraising goal: one mile completed on race day, one mile of fundraising, at $1,000 per mile.",
+      "Tri For The 22 pairs a 70.3-mile triathlon — a 1.2-mile swim, 56-mile bike, and 13.1-mile run — with a $70,000 fundraising goal.",
       "The race itself is the vehicle, not the point. The training, the setbacks, the early mornings, and the finish line all become part of something larger than one race.",
     ],
   },
@@ -44,7 +44,7 @@ export const MISSION_SECTIONS: MissionSection[] = [
       "The Mighty Oaks Warrior Program works with veterans through a lens centered on faith, responsibility, purpose, and relationships — helping veterans and their families move forward rather than simply trying to return to who they were before.",
       "That kind of impact on a veteran and a family is why Mighty Oaks is part of Tri For The 22.",
     ],
-    link: { label: "Learn more about Mighty Oaks", href: "/partners" },
+    link: { label: "Learn more about Mighty Oaks", href: "/beneficiaries" },
   },
   {
     id: "why-veterans-and-athletes-united",
@@ -53,14 +53,14 @@ export const MISSION_SECTIONS: MissionSection[] = [
       "Veterans and Athletes United uses adaptive sports, outdoor recreation, and community to help wounded, injured, and ill veterans rebuild strength and purpose.",
       "That kind of impact — reaching veterans who need exactly the mission, movement, and community this campaign is built around — is why Veterans and Athletes United is part of Tri For The 22.",
     ],
-    link: { label: "Learn more about Veterans and Athletes United", href: "/partners" },
+    link: { label: "Learn more about Veterans and Athletes United", href: "/beneficiaries" },
   },
   {
     id: "the-goal",
     heading: "The Goal",
     body: [
-      "The fundraising model is simple: every $1,000 raised funds one mile of the race. There are 70 fundraising miles in total, matching the approximately 70-mile distance of a 70.3-mile triathlon.",
-      "Donors can fund a mile outright or contribute alongside other supporters. Corporate sponsorships are handled separately through the sponsorship review process.",
+      "The goal is simple: $70,000 raised in support of the beneficiary organizations, alongside the 70.3-mile race itself.",
+      "Every donation counts toward that single goal, whatever the amount. Corporate sponsorships are handled separately through the sponsorship review process.",
     ],
   },
 ];

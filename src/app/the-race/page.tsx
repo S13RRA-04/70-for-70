@@ -7,14 +7,12 @@ import { CTASection } from "@/components/shared/cta-section";
 import { RaceDashboard } from "@/components/campaign/race-dashboard";
 import { TrainingTimeline } from "@/components/campaign/training-timeline";
 import { CampaignPhaseBanner } from "@/components/campaign/campaign-phase-banner";
-import { TrainingSnapshot } from "@/components/training/training-snapshot";
 import { TrainingObjectivesChecklist } from "@/components/training/training-objectives-checklist";
 import { BikeBuildTeaser } from "@/components/journal/bike-build/bike-build-teaser";
 import { getBikeBuildTeaser } from "@/lib/content/building-the-bike";
-import { getTrainingStats, getRecentDisciplineWorkouts } from "@/lib/training-stats";
+import { getTrainingStats } from "@/lib/training-stats";
 import { getJournalEntries } from "@/lib/data/journal";
 import { getTrainingObjectives } from "@/lib/data/training-objectives";
-import { getTrainingSnapshot } from "@/lib/whoop/client";
 import { formatDateLong } from "@/lib/utils";
 import { getCampaignPhase } from "@/lib/campaign-phase";
 import { CAMPAIGN_URL, RACE_INFO } from "@/lib/constants";
@@ -42,11 +40,10 @@ export const metadata = pageMetadata({
 });
 
 export default async function RacePage() {
-  const [entries, trainingStats, trainingObjectives, trainingSnapshot] = await Promise.all([
+  const [entries, trainingStats, trainingObjectives] = await Promise.all([
     getJournalEntries(),
     getTrainingStats(),
     getTrainingObjectives(),
-    getTrainingSnapshot(),
   ]);
   // "Next three verified milestones" — the 3 most recent published
   // milestone entries (getJournalEntries() already sorts newest-first), not
@@ -54,7 +51,6 @@ export default async function RacePage() {
   const milestoneEntries = entries
     .filter((e) => e.primary_category === "Milestones")
     .slice(0, 3);
-  const recentDisciplineWorkouts = trainingSnapshot ? getRecentDisciplineWorkouts(trainingSnapshot.recentWorkouts) : [];
   const phase = getCampaignPhase();
   const showRaceDayLive = phase !== "active" && isRaceDayModeEnabled();
 
@@ -115,7 +111,7 @@ export default async function RacePage() {
             <SectionHeading eyebrow="On the Bike" title="Building the Bike" />
             <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
               Cycling is the newest discipline here, and it started without a bike at all. The full story of
-              getting one — and getting it race-ready — lives in its own ongoing Journal series.
+              getting one — and getting it race-ready — lives in its own ongoing series on Follow My Progress.
             </p>
             <div className="mt-6">
               <BikeBuildTeaser teaser={getBikeBuildTeaser()} className="max-w-2xl" />
@@ -123,32 +119,19 @@ export default async function RacePage() {
           </div>
 
           <div className="mt-16">
-            <SectionHeading eyebrow="Live" title="Latest Training" />
+            <SectionHeading eyebrow="Live" title="Follow the Training" />
+            <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
+              Recovery, sleep, strain, and recent swim, bike, and run sessions are tracked in one place.
+            </p>
             <div className="mt-6">
-              <TrainingSnapshot snapshot={trainingSnapshot} />
+              <a
+                href="/journal"
+                className="inline-flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+              >
+                Follow My Progress &rarr;
+              </a>
             </div>
           </div>
-
-          {recentDisciplineWorkouts.length > 0 && (
-            <div className="mt-16">
-              <SectionHeading eyebrow="By Discipline" title="Recent Swim, Bike &amp; Run" />
-              <div className="mt-6 grid gap-3 sm:grid-cols-3">
-                {recentDisciplineWorkouts.map(({ discipline, workout }) => (
-                  <div key={workout.id} className="rounded-sm border border-ink/10 bg-off-white p-4">
-                    <p className="text-xs font-semibold uppercase tracking-widest text-bronze">
-                      {discipline === "swim" && "Swim"}
-                      {discipline === "bike" && "Bike"}
-                      {discipline === "run" && "Run"}
-                    </p>
-                    <p className="mt-1 text-sm text-charcoal-light">{formatDateLong(workout.start)}</p>
-                    {workout.strain !== null && (
-                      <p className="mt-1 text-sm font-medium text-ink">Strain {workout.strain.toFixed(1)}</p>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
 
           <div className="mt-16">
             <SectionHeading eyebrow="The Road to Chattanooga" title="Training Objectives" />
@@ -260,7 +243,7 @@ export default async function RacePage() {
         buttons={[
           showRaceDayLive
             ? { label: "Race Day Live", href: "/live" }
-            : { label: "View the Journal", href: "/journal" },
+            : { label: "Follow My Progress", href: "/journal" },
         ]}
       />
     </>

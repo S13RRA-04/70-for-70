@@ -11,7 +11,7 @@ import {
   STORY_TAGLINE,
   WHY_ENDURANCE,
 } from "@/lib/content/the-story";
-import { CAMPAIGN_NAME, SITE_URL } from "@/lib/constants";
+import { CAMPAIGN_NAME, DONATE_LINK, SITE_NAME_QUOTED, SITE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
@@ -35,7 +35,7 @@ export default function TheStoryPage() {
             href={`${SITE_URL}/about`}
             className="mt-4 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
           >
-            Read the founder&apos;s full story at For The 22 &rarr;
+            Read the founder&apos;s full story at {SITE_NAME_QUOTED} &rarr;
           </a>
         </Container>
       </section>
@@ -91,10 +91,10 @@ export default function TheStoryPage() {
 
       <CTASection
         title="Help Fund the Mission"
-        description="Fund a mile or support a beneficiary organization directly."
+        description="Support the $70,000 goal directly, or meet the beneficiary organizations it funds."
         buttons={[
-          { label: "Fund a Mile", href: "/fund-a-mile" },
-          { label: "Meet the Beneficiaries", href: "/partners#beneficiaries", variant: "secondary" },
+          { label: DONATE_LINK.label, href: DONATE_LINK.href },
+          { label: "Meet the Beneficiaries", href: "/beneficiaries", variant: "secondary" },
         ]}
       />
     </>

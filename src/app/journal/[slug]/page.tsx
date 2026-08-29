@@ -92,7 +92,7 @@ export default async function JournalEntryPage(props: PageProps<"/journal/[slug]
       />
       <Container className="max-w-3xl">
         <Link href="/journal" className="text-xs font-semibold uppercase tracking-widest text-charcoal-light hover:text-ink">
-          Journal / {entry.primary_category}
+          Follow My Progress / {entry.primary_category}
         </Link>
 
         <div className="mt-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-bronze">
@@ -171,7 +171,7 @@ export default async function JournalEntryPage(props: PageProps<"/journal/[slug]
 
         <div className="mt-6">
           <Link href="/journal" className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light">
-            &larr; Back to the Journal
+            &larr; Back to Follow My Progress
           </Link>
         </div>
       </Container>

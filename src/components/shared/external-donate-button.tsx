@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { SITE_NAME_QUOTED } from "@/lib/constants";
 
 /** Ignore an immediate refocus (e.g. an accidental click-away) — only prompt after a real trip out. */
 const MIN_AWAY_MS = 5_000;
@@ -133,11 +134,11 @@ export function ExternalDonateButton({
             id="donate-confirm-heading"
             className="font-display text-lg font-semibold uppercase tracking-wide"
           >
-            Leaving For The 22
+            Leaving {SITE_NAME_QUOTED}
           </h3>
           <p className="mt-3 text-sm text-charcoal-light">
-            You&apos;re leaving For The 22 to donate securely through {orgName}&apos;s authorized
-            platform. For The 22 does not process or take possession of this donation.
+            You&apos;re leaving {SITE_NAME_QUOTED} to donate securely through {orgName}&apos;s authorized
+            platform. {SITE_NAME_QUOTED} does not process or take possession of this donation.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <a

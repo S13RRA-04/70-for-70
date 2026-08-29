@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CAMPAIGNS } from "@/lib/constants";
+import { CAMPAIGNS, DONATE_LINK } from "@/lib/constants";
 import type { CampaignSlug, SiteMode } from "@/lib/site-mode";
 
 /**
@@ -12,13 +12,7 @@ import type { CampaignSlug, SiteMode } from "@/lib/site-mode";
  * shouldn't push a persistent fundraising CTA — see README's
  * "Movement/Campaign Domain Split".
  */
-const HIDDEN_PREFIXES = [
-  "/admin",
-  "/fund-a-mile",
-  "/donate",
-  "/sponsors",
-  "/miles/",
-];
+const HIDDEN_PREFIXES = ["/admin", "/donate", "/beneficiaries"];
 
 function useHideConversionBar(mode: SiteMode) {
   const pathname = usePathname();
@@ -62,19 +56,13 @@ export function MobileConversionBar({ mode, campaignSlug }: { mode: SiteMode; ca
   }
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-40 flex gap-2 border-t border-ink/10 bg-off-white/95 p-3 backdrop-blur-sm sm:hidden">
+    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-ink/10 bg-off-white/95 p-3 backdrop-blur-sm sm:hidden">
       <Link
-        href="/fund-a-mile"
-        data-analytics-event="fund_mile_click"
-        className="flex-1 rounded-sm bg-bronze px-4 py-3 text-center text-sm font-semibold uppercase tracking-wide text-off-white shadow-sm hover:bg-bronze-light"
+        href={DONATE_LINK.href}
+        data-analytics-event="donate_click"
+        className="block rounded-sm bg-bronze px-4 py-3 text-center text-sm font-semibold uppercase tracking-wide text-off-white shadow-sm hover:bg-bronze-light"
       >
-        Fund a Mile
-      </Link>
-      <Link
-        href="/donate"
-        className="flex-1 rounded-sm border border-ink/20 bg-off-white px-4 py-3 text-center text-sm font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
-      >
-        Donate Directly
+        {DONATE_LINK.label}
       </Link>
     </div>
   );

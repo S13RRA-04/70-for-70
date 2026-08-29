@@ -28,8 +28,21 @@ export const PARTNER_INQUIRY_INTERESTS = [
   "Community Collaboration",
 ] as const;
 
-/** Only /contact's categories are accepted — see the comment above. */
-export const INQUIRY_INTERESTS = [...SPONSOR_INQUIRY_INTERESTS] as const;
+/**
+ * /get-involved's volunteer categories — unlike JOIN_INTEREST_TYPES and
+ * PARTNER_INQUIRY_INTERESTS above, this recruitment has written federal
+ * ethics approval, so it's included in INQUIRY_INTERESTS below and the page
+ * is live, not redirected.
+ */
+export const GET_INVOLVED_INTEREST_TYPES = [
+  "Race Crew",
+  "Campaign Tent",
+  "Cheer Squad",
+  "Social Media Team",
+] as const;
+
+/** /contact's and /get-involved's categories are accepted — see the comments above. */
+export const INQUIRY_INTERESTS = [...SPONSOR_INQUIRY_INTERESTS, ...GET_INVOLVED_INTEREST_TYPES] as const;
 
 export const inquirySchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(200),

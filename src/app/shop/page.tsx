@@ -1,10 +1,10 @@
 import { Container } from "@/components/shared/container";
-import { CAMPAIGN_NAME, MERCH_BENEFICIARY, MERCH_STORE_URL } from "@/lib/constants";
+import { CAMPAIGN_NAME, MERCH_BENEFICIARIES, MERCH_STORE_URL, SITE_NAME_QUOTED } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
   title: "Shop",
-  description: `${CAMPAIGN_NAME} merchandise — 100% of net profit goes directly to ${MERCH_BENEFICIARY}.`,
+  description: `${CAMPAIGN_NAME} merchandise — 100% of net profit goes directly to ${MERCH_BENEFICIARIES[0]} or ${MERCH_BENEFICIARIES[1]}.`,
   canonical: "/shop",
 });
 
@@ -20,10 +20,12 @@ export default function ShopPage() {
         </h1>
         <p className="mt-5 max-w-lg text-base leading-relaxed text-off-white/80">
           Merchandise is sold through Bonfire, an independent third-party store. 100% of net
-          profit from every sale is paid by Bonfire directly to {MERCH_BENEFICIARY}.
+          profit from every sale is paid by Bonfire directly to {MERCH_BENEFICIARIES[0]} or{" "}
+          {MERCH_BENEFICIARIES[1]} — Bonfire notes which beneficiary each item supports on its
+          product listing.
         </p>
         <p className="mt-3 max-w-lg text-base leading-relaxed text-off-white/80">
-          For The 22 does not take possession of merchandise proceeds; Bonfire handles all
+          {SITE_NAME_QUOTED} does not take possession of merchandise proceeds; Bonfire handles all
           orders, sizing, shipping, and payment on its own platform.
         </p>
         <a

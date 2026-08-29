@@ -7,7 +7,7 @@ import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { PartnerCard } from "@/components/partners/partner-card";
 import { CampaignAllocation } from "@/components/campaign/campaign-allocation";
-import { CAMPAIGN_URL } from "@/lib/constants";
+import { CAMPAIGN_URL, SITE_NAME_QUOTED } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
@@ -16,12 +16,7 @@ export const metadata = pageMetadata({
   canonical: `${CAMPAIGN_URL}/donate`,
 });
 
-export default async function DonatePage(props: PageProps<"/donate">) {
-  const searchParams = await props.searchParams;
-  const mileParam = Array.isArray(searchParams.mile) ? searchParams.mile[0] : searchParams.mile;
-  const mileNumber = mileParam ? Number.parseInt(mileParam, 10) : null;
-  const hasMile = mileNumber !== null && Number.isFinite(mileNumber);
-
+export default async function DonatePage() {
   const [partners, campaign] = await Promise.all([getPartners(), getCampaign()]);
   const allocationBreakdown = await getAllocationBreakdown(campaign);
 
@@ -40,11 +35,7 @@ export default async function DonatePage(props: PageProps<"/donate">) {
         <Container>
           <div className="flex flex-col gap-6">
             {partners.map((partner) => (
-              <PartnerCard
-                key={partner.id}
-                partner={partner}
-                mileNumber={hasMile ? mileNumber! : undefined}
-              />
+              <PartnerCard key={partner.id} partner={partner} />
             ))}
           </div>
         </Container>
@@ -58,7 +49,7 @@ export default async function DonatePage(props: PageProps<"/donate">) {
                 <span aria-hidden="true" className="transition-transform group-open:rotate-90">
                   &rarr;
                 </span>
-                How Mile Credit Works
+                How Donations Are Verified
               </span>
             </summary>
 
@@ -101,14 +92,14 @@ export default async function DonatePage(props: PageProps<"/donate">) {
 
               <p className="max-w-2xl text-sm text-charcoal-light">
                 Once we can confirm your gift with the beneficiary organization, it&apos;s
-                credited toward a specific mile here on the site — not automatically at the
+                reflected in the campaign total here on the site — not automatically at the
                 moment of giving. If you&apos;d rather not use a partner&apos;s note field, you
                 can also let us know by emailing the campaign.
               </p>
 
               <p className="max-w-2xl text-sm font-medium text-charcoal-light">
                 Donations are made directly through each independent nonprofit organization&apos;s
-                authorized donation platform. For The 22 does not receive, process, or take
+                authorized donation platform. {SITE_NAME_QUOTED} does not receive, process, or take
                 possession of charitable contributions and does not issue tax receipts.
               </p>
 

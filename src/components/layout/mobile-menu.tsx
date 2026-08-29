@@ -7,8 +7,9 @@ import {
   CAMPAIGN_HOME_LINK,
   CAMPAIGNS,
   DONATE_LINK,
-  FUND_A_MILE_LINK,
+  GET_INVOLVED_LINK,
   ORG_HOME_LINK,
+  SITE_NAME_QUOTED,
 } from "@/lib/constants";
 import type { CampaignSlug } from "@/lib/site-mode";
 import type { NavLink } from "@/types/content";
@@ -16,12 +17,12 @@ import { cn } from "@/lib/utils";
 
 /** Tri's mobile menu groups — see AGENTS.md's "Mobile navigation" section. Explore omits Shop (grouped under Support instead). */
 const TRI_EXPLORE_LINKS: NavLink[] = [
-  { label: "Campaign", href: "/the-mission" },
+  { label: "About", href: "/the-mission" },
   { label: "Race", href: "/the-race" },
-  { label: "Journal", href: "/journal" },
-  { label: "Partners", href: "/partners" },
+  { label: "Follow My Progress", href: "/journal" },
+  { label: "Beneficiaries", href: "/beneficiaries" },
 ];
-const TRI_SUPPORT_LINKS: NavLink[] = [FUND_A_MILE_LINK, DONATE_LINK, { label: "Shop", href: "/shop" }];
+const TRI_SUPPORT_LINKS: NavLink[] = [DONATE_LINK, { label: "Shop", href: "/shop" }, GET_INVOLVED_LINK];
 
 interface MobileMenuProps {
   open: boolean;
@@ -112,7 +113,7 @@ export function MobileMenu({ open, onClose, navLinks, pathname, campaignSlug, tr
             <>
               <MobileNavGroup label="Explore" links={TRI_EXPLORE_LINKS} pathname={pathname} />
               <MobileNavGroup label="Support" links={TRI_SUPPORT_LINKS} pathname={pathname} className="mt-5 border-t border-ink/10 pt-5" />
-              <ParentInitiativeGroup />
+              <ParentInitiativeGroup quoted />
             </>
           ) : campaignSlug === "ruck" && campaign ? (
             <>
@@ -170,7 +171,7 @@ export function MobileMenu({ open, onClose, navLinks, pathname, campaignSlug, tr
   );
 }
 
-function ParentInitiativeGroup() {
+function ParentInitiativeGroup({ quoted = false }: { quoted?: boolean }) {
   return (
     <div className="mt-5 border-t border-ink/10 pt-5">
       <p className="px-3 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
@@ -180,7 +181,7 @@ function ParentInitiativeGroup() {
         href={ORG_HOME_LINK.href}
         className="mt-2 block rounded-sm px-3 py-3 text-base font-medium uppercase tracking-wide text-charcoal hover:bg-sand-light"
       >
-        {ORG_HOME_LINK.label} <span aria-hidden="true">&#8599;</span>
+        {quoted ? SITE_NAME_QUOTED : ORG_HOME_LINK.label} <span aria-hidden="true">&#8599;</span>
       </a>
     </div>
   );

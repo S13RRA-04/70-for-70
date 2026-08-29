@@ -6,7 +6,7 @@ import { CTASection } from "@/components/shared/cta-section";
 import { CampaignByTheNumbers } from "@/components/campaign/campaign-by-the-numbers";
 import { FocusScrollSection } from "@/components/shared/focus-scroll-section";
 import { MISSION_SECTIONS } from "@/lib/content/mission";
-import { CAMPAIGN_URL, SITE_NAME, SITE_URL } from "@/lib/constants";
+import { CAMPAIGN_URL, DONATE_LINK, SITE_NAME_QUOTED, SITE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
@@ -21,13 +21,13 @@ export default function MissionPage() {
     <>
       <CampaignPageHero>
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">
-          {SITE_NAME} &middot; Current Campaign
+          {SITE_NAME_QUOTED} &middot; Current Campaign
         </p>
         <SectionHeading
           as="h1"
           tone="dark"
           className="mt-2"
-          title="One Mile. One Thousand Dollars. One Mission."
+          title="70.3 Miles. $70,000. One Mission."
           description="Tri For The 22 pairs a 70.3-mile triathlon with a $70,000 fundraising goal in support of veteran-focused nonprofit organizations."
         />
         <div className="mt-10">
@@ -40,14 +40,14 @@ export default function MissionPage() {
           <FocusScrollSection>
             <SectionHeading
               eyebrow="The Parent Initiative"
-              title="A For The 22 Campaign"
-              description={`Tri For The 22 is an athletic fundraising campaign of ${SITE_NAME}, an initiative connecting veterans and first responders with resources supporting mental, physical, emotional and spiritual health.`}
+              title={`A ${SITE_NAME_QUOTED} Campaign`}
+              description={`Tri For The 22 is an athletic fundraising campaign of ${SITE_NAME_QUOTED}, an initiative connecting veterans and first responders with resources supporting mental, physical, emotional and spiritual health.`}
             />
             <a
               href={SITE_URL}
               className="mt-5 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
             >
-              Visit {SITE_NAME} &rarr;
+              Visit {SITE_NAME_QUOTED} &rarr;
             </a>
           </FocusScrollSection>
         </Container>
@@ -86,10 +86,10 @@ export default function MissionPage() {
 
       <CTASection
         title="Help Fund the Mission"
-        description="Fund a mile or support a beneficiary organization directly."
+        description="Support the $70,000 goal directly, or meet the beneficiary organizations it funds."
         buttons={[
-          { label: "Fund a Mile", href: "/fund-a-mile" },
-          { label: "Meet the Beneficiaries", href: "/partners#beneficiaries", variant: "secondary" },
+          { label: DONATE_LINK.label, href: DONATE_LINK.href },
+          { label: "Meet the Beneficiaries", href: "/beneficiaries", variant: "secondary" },
         ]}
       />
     </>

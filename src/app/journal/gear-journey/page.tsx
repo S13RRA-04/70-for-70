@@ -71,7 +71,7 @@ export default function GearJourneyPage() {
       <CampaignPageHero>
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">
           <Link href="/journal" className="hover:underline">
-            Journal
+            Follow My Progress
           </Link>{" "}
           &middot; Ongoing Series
         </p>
@@ -153,7 +153,7 @@ export default function GearJourneyPage() {
 
       <Container className="max-w-3xl py-10">
         <Link href="/journal" className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light">
-          &larr; Back to the Journal
+          &larr; Back to Follow My Progress
         </Link>
       </Container>
     </article>

@@ -20,20 +20,18 @@ import {
   CAMPAIGN_URL,
   CURRENT_CAMPAIGN,
   DONATE_LINK,
-  DOLLARS_PER_MILE,
-  FUND_A_MILE_LINK,
   ORG_HOME_LINK,
+  ORG_SUPPORTING_STATEMENT,
   RACE_INFO,
   RACE_TOTAL_DISTANCE,
-  SITE_NAME,
+  SITE_NAME_QUOTED,
   SITE_TAGLINE,
-  TOTAL_FUNDRAISING_MILES,
 } from "@/lib/constants";
 import { formatCurrency, formatDateLong } from "@/lib/utils";
 import { getCampaignPhase } from "@/lib/campaign-phase";
 import { pageMetadata } from "@/lib/metadata";
 
-const HERO_EXPLAINER = `${TOTAL_FUNDRAISING_MILES} fundraising miles, ${formatCurrency(DOLLARS_PER_MILE)} each — one athlete's 70.3-mile race mapped to a ${formatCurrency(70_000)} goal for veterans.`;
+const HERO_EXPLAINER = `One athlete's ${RACE_TOTAL_DISTANCE}-mile race, paired with a ${formatCurrency(70_000)} fundraising goal for veterans.`;
 
 export const metadata = pageMetadata({
   // Root layout's title template already appends " | {CAMPAIGN_NAME}" on
@@ -56,13 +54,16 @@ function firstSentence(text: string): string {
  * transparent middleware rewrite (see src/middleware.ts). The movement
  * homepage at src/app/page.tsx renders at "/" on forthe22.org instead.
  *
- * Six sections, per AGENTS.md's Homepage spec: (1) responsive HTML hero,
- * (2) campaign concept, (3) beneficiary summary, (4) Road to Chattanooga
- * (phase + one training update + latest journal entry), (5) support &
- * follow (compact progress preview + CTAs + share/newsletter). Full
- * beneficiary bios, the mile grid, and the full training dashboard each
- * have exactly one canonical home elsewhere (/partners, /fund-a-mile,
- * /the-race) — this page only previews and links to them.
+ * Seven sections, per AGENTS.md's Homepage spec: (1) responsive HTML hero,
+ * (2) "two names, one mission" explainer (what For The 22 is, what Tri For
+ * The 22 is, and how the campaign ties back to the parent org — a visitor
+ * landing directly on tri.forthe22.org has seen neither name before),
+ * (3) campaign concept, (4) beneficiary summary, (5) Road to Chattanooga
+ * (phase + one training update + latest journal entry), (6) support &
+ * follow (compact progress preview + CTA + share/newsletter). Full
+ * beneficiary bios and the full training dashboard each have exactly one
+ * canonical home elsewhere (/beneficiaries, /the-race) — this page only
+ * previews and links to them.
  */
 export default async function CampaignHomePage() {
   const [campaign, partners, featuredEntry, recentEntries, trainingSnapshot] = await Promise.all([
@@ -98,7 +99,7 @@ export default async function CampaignHomePage() {
             href={ORG_HOME_LINK.href}
             className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light hover:underline"
           >
-            {SITE_NAME} Presents
+            {SITE_NAME_QUOTED} Presents
           </a>
           <h1 className="mt-3 text-balance font-display text-[clamp(2.25rem,7vw,4.5rem)] font-bold uppercase leading-[0.95] tracking-tight">
             {CAMPAIGN_NAME}
@@ -110,17 +111,15 @@ export default async function CampaignHomePage() {
 
           <p className="mt-4 max-w-xl text-base leading-relaxed text-off-white/80">{HERO_EXPLAINER}</p>
 
-          <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4">
-            <Link
-              href={FUND_A_MILE_LINK.href}
-              data-analytics-event="fund_mile_click"
-              className="rounded-sm bg-bronze px-8 py-4 text-base font-semibold uppercase tracking-wide text-off-white shadow-sm transition-colors hover:bg-bronze-light"
-            >
-              {FUND_A_MILE_LINK.label}
-            </Link>
+          <div className="mt-8 max-w-sm">
+            <CampaignProgress totalRaised={campaign.amount_raised} goal={campaign.fundraising_goal} showStats={false} tone="dark" />
+          </div>
+
+          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
             <Link
               href={DONATE_LINK.href}
-              className="rounded-sm border border-off-white/40 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-off-white/10"
+              data-analytics-event="donate_click"
+              className="rounded-sm bg-bronze px-8 py-4 text-base font-semibold uppercase tracking-wide text-off-white shadow-sm transition-colors hover:bg-bronze-light"
             >
               {DONATE_LINK.label}
             </Link>
@@ -137,14 +136,44 @@ export default async function CampaignHomePage() {
         </Container>
       </section>
 
-      {/* 2. Campaign concept — trimmed "why 70 miles", not the full mission page. */}
+      {/* 2. Two names, one mission — what For The 22 is, what Tri For The 22 is, and how they connect, for a visitor arriving on the campaign subdomain with no prior context. */}
+      <section className="border-b border-ink/10 bg-off-white py-16 sm:py-20">
+        <Container className="max-w-3xl">
+          <SectionHeading eyebrow="Two Names, One Mission" title="For The 22 & Tri For The 22" />
+          <div className="mt-8 grid gap-8 sm:grid-cols-2">
+            <div>
+              <a
+                href={ORG_HOME_LINK.href}
+                className="font-display text-sm font-bold uppercase tracking-wide text-ink hover:text-bronze"
+              >
+                {SITE_NAME_QUOTED}
+              </a>
+              <p className="mt-2 text-sm leading-relaxed text-charcoal-light">{ORG_SUPPORTING_STATEMENT}</p>
+            </div>
+            <div>
+              <p className="font-display text-sm font-bold uppercase tracking-wide text-ink">{CAMPAIGN_NAME}</p>
+              <p className="mt-2 text-sm leading-relaxed text-charcoal-light">
+                {CAMPAIGN_NAME} is Cody Hitson&apos;s own fundraising campaign for {SITE_NAME_QUOTED} — one athlete&apos;s{" "}
+                {RACE_TOTAL_DISTANCE}-mile {CURRENT_CAMPAIGN.event} paired with a {formatCurrency(70_000)} fundraising
+                goal for veterans.
+              </p>
+            </div>
+          </div>
+          <p className="mt-8 max-w-2xl border-t border-ink/10 pt-6 text-sm leading-relaxed text-charcoal-light">
+            In short: {SITE_NAME_QUOTED} is the mission — connecting veterans and first responders with the support
+            they need. {CAMPAIGN_NAME} is this race, run to fund it — every dollar raised here goes to veteran-focused
+            nonprofit organizations aligned with that mission.
+          </p>
+        </Container>
+      </section>
+
+      {/* 3. Campaign concept — trimmed "why 70 miles", not the full mission page. */}
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container className="max-w-2xl">
-          <SectionHeading eyebrow="The Concept" title="Why 70 Miles?" />
+          <SectionHeading eyebrow="The Concept" title={`Why ${RACE_TOTAL_DISTANCE} Miles?`} />
           <p className="mt-5 text-base leading-relaxed text-charcoal-light">
-            {CAMPAIGN_NAME} maps {TOTAL_FUNDRAISING_MILES} fundraising miles onto the{" "}
-            {RACE_TOTAL_DISTANCE}-mile {CURRENT_CAMPAIGN.event} course — one mile funded is{" "}
-            {formatCurrency(DOLLARS_PER_MILE)} raised, going to {CURRENT_CAMPAIGN.beneficiaries.join(" and ")}.
+            {CAMPAIGN_NAME} pairs a {RACE_TOTAL_DISTANCE}-mile {CURRENT_CAMPAIGN.event} with a{" "}
+            {formatCurrency(70_000)} fundraising goal, going to {CURRENT_CAMPAIGN.beneficiaries.join(" and ")}.
           </p>
           <Link
             href="/the-mission"
@@ -155,7 +184,7 @@ export default async function CampaignHomePage() {
         </Container>
       </section>
 
-      {/* 3. Beneficiary summary — compact cards, full bios live on /partners. */}
+      {/* 4. Beneficiary summary — compact cards, full bios live on /beneficiaries. */}
       <section className="py-16 sm:py-20">
         <Container>
           <SectionHeading
@@ -178,7 +207,7 @@ export default async function CampaignHomePage() {
                   {firstSentence(partner.description)}
                 </p>
                 <Link
-                  href="/partners#beneficiaries"
+                  href="/beneficiaries"
                   className="mt-4 inline-flex w-fit text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
                 >
                   Learn More &rarr;
@@ -189,7 +218,7 @@ export default async function CampaignHomePage() {
         </Container>
       </section>
 
-      {/* 4. Road to Chattanooga — phase, one training update, latest journal entry, links out. */}
+      {/* 5. Road to Chattanooga — phase, one training update, latest journal entry, links out. */}
       <section className="border-t border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container>
           <SectionHeading eyebrow="Follow Along" title="Road to Chattanooga" />
@@ -234,24 +263,21 @@ export default async function CampaignHomePage() {
               The Race &amp; Training &rarr;
             </Link>
             <Link href="/journal" className="text-bronze hover:text-bronze-light">
-              The Journal &rarr;
+              Follow My Progress &rarr;
             </Link>
           </div>
         </Container>
       </section>
 
-      {/* 5. Support & follow — compact progress preview + both CTAs + share/newsletter. One closing section, not two. */}
+      {/* 6. Support & follow — compact progress preview + both CTAs + share/newsletter. One closing section, not two. */}
       <section className="py-16 sm:py-20">
         <Container className="max-w-2xl">
-          <SectionHeading eyebrow="Support the Mission" title="Every Mile Counts" />
+          <SectionHeading eyebrow="Support the Mission" title="Every Dollar Counts" />
           <div className="mt-8">
             <CampaignProgress totalRaised={campaign.amount_raised} goal={campaign.fundraising_goal} showStats={false} />
           </div>
           <div className="mt-8 flex flex-wrap gap-4">
-            <CTAButton href={FUND_A_MILE_LINK.href}>{FUND_A_MILE_LINK.label}</CTAButton>
-            <CTAButton href={DONATE_LINK.href} variant="secondary">
-              {DONATE_LINK.label}
-            </CTAButton>
+            <CTAButton href={DONATE_LINK.href}>{DONATE_LINK.label}</CTAButton>
           </div>
 
           <div className="mt-10 flex flex-col gap-6 border-t border-ink/10 pt-8 sm:flex-row sm:items-center sm:justify-between">
@@ -269,7 +295,7 @@ export default async function CampaignHomePage() {
               </p>
               <ShareButtons
                 url={CAMPAIGN_URL}
-                title={`I'm helping move ${CAMPAIGN_NAME} one mile closer to ${formatCurrency(campaign.fundraising_goal)} for veterans.`}
+                title={`I'm helping move ${CAMPAIGN_NAME} closer to its ${formatCurrency(campaign.fundraising_goal)} goal for veterans.`}
               />
             </div>
           </div>
