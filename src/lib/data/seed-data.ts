@@ -124,10 +124,29 @@ export const SEED_PARTNERS: PartnerRow[] = [
 // rather than fake/sample sponsor cards — see components/sponsors/sponsor-wall.tsx.
 export const SEED_SPONSORS: SponsorRow[] = [];
 
-// No formal Mission Partner relationships yet. The Partners page shows a
-// polished "coming soon" empty state rather than fake/sample partner cards —
-// see app/partners/page.tsx.
-export const SEED_MISSION_PARTNERS: MissionPartnerRow[] = [];
+export const SEED_MISSION_PARTNERS: MissionPartnerRow[] = [
+  {
+    id: "seed-mission-partner-project-echelon",
+    name: "Project Echelon",
+    relationship_label: "Campaign Sponsor",
+    description:
+      "Project Echelon uses endurance sport, mentorship, structure, and community to help veterans keep moving forward after military service — supporting Tri For The 22 as a campaign sponsor.",
+    logo_url: "/partners/project-echelon-logo.png",
+    logo_light_url: null,
+    logo_dark_url: null,
+    logo_background: null,
+    website_url: "https://www.projectechelon.org/",
+    support_type: null,
+    geographic_scope: null,
+    active: true,
+    display_order: 0,
+    agreement_status: null,
+    logo_permission: false,
+    relationship_start: null,
+    relationship_end: null,
+    associated_campaigns: null,
+  },
+];
 
 // No posts yet. Superseded by SEED_JOURNAL_ENTRIES below (see
 // supabase/schema.sql's note on public.posts) — kept in place, unused.

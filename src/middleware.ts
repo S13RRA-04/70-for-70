@@ -18,6 +18,9 @@ const PREVIEW_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 180; // 180 days
  * middleware support — see https://github.com/cloudflare/workers-sdk/issues/13755
  */
 export function middleware(request: NextRequest) {
+  const strayDomainResponse = applyStrayDomainRedirect(request);
+  if (strayDomainResponse) return strayDomainResponse;
+
   const campaignSlug = getCampaignSlug(request.headers.get("host"));
   const onCampaignHost = campaignSlug !== null;
   const live = onCampaignHost ? isCampaignLive() : isOrgLive();
@@ -31,6 +34,27 @@ export function middleware(request: NextRequest) {
   if (splitResponse) return splitResponse;
 
   return updateSupabaseSession(request);
+}
+
+/**
+ * forthe22.com is a defensive registration, not a real domain of this
+ * site — it exists only to keep someone else from squatting on the .com
+ * next to forthe22.org. Bound to this same Worker via a Cloudflare Workers
+ * Custom Domain (same mechanism as forthe22.org/tri./ruck. — see the
+ * `workers/domains` account resource), so any request that reaches this
+ * Worker under forthe22.com (bare or "www.") gets a permanent redirect to
+ * the real org domain, path and query preserved. Checked before the
+ * launch gate and domain split, unconditionally — forthe22.com never
+ * renders anything of its own.
+ */
+function applyStrayDomainRedirect(request: NextRequest): Response | null {
+  const host = request.headers.get("host");
+  if (!host) return null;
+  const hostname = host.split(":")[0].toLowerCase();
+  if (hostname !== "forthe22.com" && hostname !== "www.forthe22.com") return null;
+
+  const url = request.nextUrl;
+  return NextResponse.redirect(`${SITE_URL}${url.pathname}${url.search}`, 308);
 }
 
 /**

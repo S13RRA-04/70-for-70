@@ -38,8 +38,8 @@ export function Header({
 
   return (
     <header className="sticky top-0 z-40 border-b border-ink/10 bg-off-white/95 backdrop-blur supports-[backdrop-filter]:bg-off-white/80">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-2.5">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <Link href="/" className="flex shrink-0 items-center gap-2.5">
           <Image
             src={campaign ? campaign.logoLight : "/logo.png"}
             alt=""
@@ -48,36 +48,29 @@ export function Header({
             height={36}
             priority
           />
-          <span className="flex flex-col leading-none">
-            {campaign && (
-              <span className="text-[10px] font-semibold uppercase tracking-widest text-charcoal-light">
-                {campaignSlug === "tri" ? SITE_NAME_QUOTED : SITE_NAME}
-              </span>
-            )}
-            <span className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
-              {campaign ? campaign.name : SITE_NAME}
-              {!isCampaign && <sup className="text-[0.5em] font-medium tracking-normal">™</sup>}
-            </span>
+          <span className="whitespace-nowrap font-display text-xl font-semibold uppercase tracking-wide text-ink">
+            {campaign ? campaign.name : SITE_NAME}
+            {!isCampaign && <sup className="text-[0.5em] font-medium tracking-normal">™</sup>}
           </span>
         </Link>
 
-        <div className="hidden items-center gap-7 lg:flex">
+        <div className="hidden items-center gap-6 xl:flex">
           {campaign && (
             <a
               href={PARENT_INITIATIVE_LINK.href}
-              className="text-xs font-semibold uppercase tracking-widest text-charcoal-light transition-colors hover:text-ink"
+              className="whitespace-nowrap text-xs font-semibold uppercase tracking-widest text-charcoal-light transition-colors hover:text-ink"
             >
               {campaignSlug === "tri" ? `A ${SITE_NAME_QUOTED} campaign` : PARENT_INITIATIVE_LINK.label}{" "}
               <span aria-hidden="true">&#8599;</span>
             </a>
           )}
-          <nav aria-label="Primary" className="flex items-center gap-7">
+          <nav aria-label="Primary" className="flex items-center gap-6">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "border-b-2 border-transparent pb-0.5 text-sm font-medium uppercase tracking-wide text-charcoal transition-colors hover:text-bronze",
+                  "whitespace-nowrap border-b-2 border-transparent pb-0.5 text-sm font-medium uppercase tracking-wide text-charcoal transition-colors hover:text-bronze",
                   pathname === link.href && "border-bronze text-bronze",
                 )}
                 aria-current={pathname === link.href ? "page" : undefined}
@@ -108,7 +101,7 @@ export function Header({
           )}
         </div>
 
-        <div className="flex items-center gap-1 lg:hidden">
+        <div className="flex items-center gap-1 xl:hidden">
           {!isCampaign && (
             <Link
               href="/resources"

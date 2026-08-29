@@ -189,18 +189,16 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 /**
- * 5 links + the header's separate Donate CTA button (see DONATE_LINK) — kept
- * at 5 + 1 per AGENTS.md's Information Architecture section. Sponsors
- * (gear/resource campaign sponsors, see src/app/sponsors/page.tsx) isn't in
- * this list — it's reachable from the footer and cross-linked from
- * Beneficiaries — so splitting Beneficiaries and Sponsors onto their own
- * pages doesn't push nav past 5.
+ * 6 links + the header's separate Donate CTA button (see DONATE_LINK).
+ * Sponsors (gear/resource campaign sponsors, see src/app/sponsors/page.tsx)
+ * is also cross-linked from Beneficiaries and the footer.
  */
 export const CAMPAIGN_NAV_LINKS: NavLink[] = [
   { label: "About", href: "/the-mission" },
   { label: "Race", href: "/the-race" },
   { label: "Follow My Progress", href: "/journal" },
   { label: "Beneficiaries", href: "/beneficiaries" },
+  { label: "Sponsors", href: "/sponsors" },
   { label: "Shop", href: "/shop" },
 ];
 
