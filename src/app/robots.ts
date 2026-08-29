@@ -19,6 +19,19 @@ export default async function robots(): Promise<MetadataRoute.Robots> {
         allow: "/",
         disallow: ["/admin", "/api"],
       },
+      // Explicit Googlebot entry for the tri.forthe22.org campaign domain,
+      // kept separate from the "*" rule above per the campaign team's
+      // request — same allow/disallow, but named so it can diverge from
+      // the wildcard rule later without touching the org domain's rules.
+      ...(campaignSlug === "tri"
+        ? [
+            {
+              userAgent: "Googlebot",
+              allow: "/",
+              disallow: ["/admin", "/api"],
+            },
+          ]
+        : []),
     ],
     sitemap: `${baseUrl}/sitemap.xml`,
   };
