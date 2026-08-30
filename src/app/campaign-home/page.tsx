@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { ExternalLink, ShoppingBag } from "lucide-react";
 import { getCampaign } from "@/lib/data/campaign";
+import { getAllocationBreakdown } from "@/lib/data/allocation";
 import { getPartners } from "@/lib/data/partners";
 import { findAboutSubsection } from "@/lib/content/about";
 import { CampaignProgress } from "@/components/campaign/campaign-progress";
+import { MerchTicker } from "@/components/campaign/merch-ticker";
 import { PartnerLogo } from "@/components/shared/partner-logo";
 import { Countdown } from "@/components/shared/countdown";
 import { Container } from "@/components/shared/container";
@@ -51,13 +53,20 @@ function firstSentence(text: string): string {
  * to the merch store. Follow-along content (training/journal status) lives
  * on /journal, and the donate/share/newsletter block lives on /get-involved
  * — this page only previews and links to them.
+ *
+ * MerchTicker above the hero is a scrolling promo strip pointing at the same
+ * Bonfire store as section 5's teaser — not a sixth content section, just an
+ * attention-grabbing pointer to the real pitch further down.
  */
 export default async function CampaignHomePage() {
   const [campaign, partners] = await Promise.all([getCampaign(), getPartners()]);
+  const allocationBreakdown = await getAllocationBreakdown(campaign);
   const why22 = findAboutSubsection("why-22");
 
   return (
     <>
+      <MerchTicker />
+
       {/* 1. Hero — real HTML facts (not baked into the banner image), plus the countdown and both primary CTAs. */}
       <section className="relative overflow-hidden bg-ink text-off-white">
         <div
@@ -84,7 +93,13 @@ export default async function CampaignHomePage() {
           <p className="mt-4 max-w-xl text-base leading-relaxed text-off-white/80">{HERO_EXPLAINER}</p>
 
           <div className="mt-8 max-w-sm">
-            <CampaignProgress totalRaised={campaign.amount_raised} goal={campaign.fundraising_goal} showStats={false} tone="dark" />
+            <CampaignProgress
+              totalRaised={campaign.amount_raised}
+              goal={campaign.fundraising_goal}
+              showStats={false}
+              tone="dark"
+              breakdown={allocationBreakdown}
+            />
           </div>
 
           <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
