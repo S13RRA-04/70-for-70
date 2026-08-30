@@ -200,7 +200,7 @@ export async function updateDonationAction(formData: FormData) {
   await recomputeFundingTotals(admin);
   revalidateFundingPaths(parsed.mileNumber);
   revalidatePath(detailPath(id));
-  redirect(detailPath(id));
+  redirect(`${detailPath(id)}?saved=1`);
 }
 
 export async function deleteDonationAction(formData: FormData) {

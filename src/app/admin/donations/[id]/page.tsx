@@ -14,6 +14,7 @@ export default async function DonationDetailPage(props: PageProps<"/admin/donati
   const { id } = await props.params;
   const searchParams = await props.searchParams;
   const errorParam = Array.isArray(searchParams.error) ? searchParams.error[0] : searchParams.error;
+  const savedParam = Array.isArray(searchParams.saved) ? searchParams.saved[0] : searchParams.saved;
 
   const admin = createAdminClient();
 
@@ -44,6 +45,12 @@ export default async function DonationDetailPage(props: PageProps<"/admin/donati
       {errorParam && (
         <p role="alert" className="mt-4 rounded-sm border border-red-300 bg-red-50 px-4 py-3 text-sm font-medium text-red-800">
           {errorParam}
+        </p>
+      )}
+
+      {savedParam && (
+        <p role="status" className="mt-4 rounded-sm border border-olive/30 bg-olive/10 px-4 py-3 text-sm font-medium text-olive">
+          Changes saved.
         </p>
       )}
 
