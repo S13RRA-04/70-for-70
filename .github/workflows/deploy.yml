@@ -34,10 +34,24 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: echo "y" | npx wrangler secret delete NEXT_PUBLIC_SITE_URL --name forthe22 || true
 
+      # NEXT_PUBLIC_SUPABASE_URL/ANON_KEY are hardcoded (not pulled from
+      # secrets) because this env block only feeds *build-time* inlining
+      # into the client bundle (see isSupabaseConfigured() in
+      # src/lib/supabase/config.ts, used by "use client" pages like
+      # src/app/admin/login/page.tsx). wrangler.jsonc's vars cover the
+      # server/SSR side, but the client bundle only ever sees whatever
+      # value was present here at build time — a stale or empty
+      # NEXT_PUBLIC_SUPABASE_URL/ANON_KEY secret (unrelated to wrangler.jsonc
+      # and never re-synced after that value moved there) baked "not
+      # configured" into every deployed client bundle while SSR kept
+      # rendering the real form, producing a hydration mismatch (React error
+      # #418) that made /admin/login flash the form then revert to the
+      # error. Same value as wrangler.jsonc's vars, same trust level as
+      # NEXT_PUBLIC_SITE_URL below — the anon key is meant to be public.
       - name: Build and deploy
         env:
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_SUPABASE_URL: https://wjwgzphvpulkofvuksko.supabase.co
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indqd2d6cGh2cHVsa29mdnVrc2tvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcwODM4MzIsImV4cCI6MjEwMjY1OTgzMn0.jCX3-IkuI4JMrehYWA0Hx_qkB0kHWmJg1IiqgMQwE2w
           NEXT_PUBLIC_SITE_URL: https://forthe22.org
           NEXT_PUBLIC_CAMPAIGN_URL: https://tri.forthe22.org
           NEXT_PUBLIC_RUCK_URL: https://ruck.forthe22.org
