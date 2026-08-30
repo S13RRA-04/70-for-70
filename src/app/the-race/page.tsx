@@ -5,14 +5,14 @@ import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
 import { RaceDashboard } from "@/components/campaign/race-dashboard";
+import { RaceGoalPanel } from "@/components/campaign/race-goal-panel";
+import { RaceBenchmarks } from "@/components/campaign/race-benchmarks";
+import { RaceLogistics } from "@/components/campaign/race-logistics";
 import { TrainingTimeline } from "@/components/campaign/training-timeline";
 import { CampaignPhaseBanner } from "@/components/campaign/campaign-phase-banner";
-import { TrainingObjectivesChecklist } from "@/components/training/training-objectives-checklist";
 import { BikeBuildTeaser } from "@/components/journal/bike-build/bike-build-teaser";
 import { getBikeBuildTeaser } from "@/lib/content/building-the-bike";
-import { getTrainingStats } from "@/lib/training-stats";
 import { getJournalEntries } from "@/lib/data/journal";
-import { getTrainingObjectives } from "@/lib/data/training-objectives";
 import { formatDateLong } from "@/lib/utils";
 import { getCampaignPhase } from "@/lib/campaign-phase";
 import { CAMPAIGN_URL, RACE_INFO } from "@/lib/constants";
@@ -40,11 +40,7 @@ export const metadata = pageMetadata({
 });
 
 export default async function RacePage() {
-  const [entries, trainingStats, trainingObjectives] = await Promise.all([
-    getJournalEntries(),
-    getTrainingStats(),
-    getTrainingObjectives(),
-  ]);
+  const entries = await getJournalEntries();
   // "Next three verified milestones" — the 3 most recent published
   // milestone entries (getJournalEntries() already sorts newest-first), not
   // fabricated upcoming goals.
@@ -53,14 +49,6 @@ export default async function RacePage() {
     .slice(0, 3);
   const phase = getCampaignPhase();
   const showRaceDayLive = phase !== "active" && isRaceDayModeEnabled();
-
-  const hasTrainingVolume =
-    trainingStats.swimSessions !== null ||
-    trainingStats.bikeMiles !== null ||
-    trainingStats.runMiles !== null ||
-    trainingStats.totalHours !== null ||
-    trainingStats.weeksCompleted !== null ||
-    trainingStats.weeksRemaining !== null;
 
   return (
     <>
@@ -101,6 +89,38 @@ export default async function RacePage() {
           <RaceDashboard />
 
           <div className="mt-16">
+            <SectionHeading eyebrow="The Goal" title="Podium, M35–39" />
+            <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
+              Not just a finish — a placement goal, backed by what recent-year age-group podium finishers at this
+              race have actually run.
+            </p>
+            <div className="mt-6">
+              <RaceGoalPanel />
+            </div>
+          </div>
+
+          <div className="mt-16">
+            <SectionHeading eyebrow="The Competition" title="Times to Beat" />
+            <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
+              M35–39 age-group results at IRONMAN 70.3 Chattanooga, 2022–2026 — the real numbers behind the goal
+              above.
+            </p>
+            <div className="mt-6">
+              <RaceBenchmarks />
+            </div>
+          </div>
+
+          <div className="mt-16">
+            <SectionHeading eyebrow="Race Day" title="Course & Cutoffs" />
+            <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
+              What race day actually looks like — course details, cutoff times, and the weekend schedule.
+            </p>
+            <div className="mt-6">
+              <RaceLogistics />
+            </div>
+          </div>
+
+          <div className="mt-16">
             <SectionHeading eyebrow="Training Arc" title="Base to Race" />
             <div className="mt-6">
               <TrainingTimeline currentIndex={getCurrentTrainingPhaseIndex()} />
@@ -132,76 +152,6 @@ export default async function RacePage() {
               </a>
             </div>
           </div>
-
-          <div className="mt-16">
-            <SectionHeading eyebrow="The Road to Chattanooga" title="Training Objectives" />
-            <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
-              Milestones specific to this campaign&apos;s build toward 70.3 — not a record of
-              lifetime athletic accomplishments. Nothing here is marked complete until it&apos;s
-              actually done.
-            </p>
-            <div className="mt-6">
-              <TrainingObjectivesChecklist objectives={trainingObjectives} />
-            </div>
-          </div>
-
-          {hasTrainingVolume && (
-            <div className="mt-16">
-              <SectionHeading eyebrow="Behind the Race" title="Road to 70.3" />
-              <div className="mt-6">
-                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-                  {trainingStats.swimSessions !== null && (
-                    <div className="rounded-sm border border-ink/10 bg-off-white p-4 text-center">
-                      <p className="font-display text-2xl font-semibold text-ink">
-                        {trainingStats.swimSessions}
-                      </p>
-                      <p className="text-xs text-charcoal-light">Swim Sessions</p>
-                    </div>
-                  )}
-                  {trainingStats.bikeMiles !== null && (
-                    <div className="rounded-sm border border-ink/10 bg-off-white p-4 text-center">
-                      <p className="font-display text-2xl font-semibold text-ink">
-                        {trainingStats.bikeMiles}
-                      </p>
-                      <p className="text-xs text-charcoal-light">Miles Ridden</p>
-                    </div>
-                  )}
-                  {trainingStats.runMiles !== null && (
-                    <div className="rounded-sm border border-ink/10 bg-off-white p-4 text-center">
-                      <p className="font-display text-2xl font-semibold text-ink">
-                        {trainingStats.runMiles}
-                      </p>
-                      <p className="text-xs text-charcoal-light">Miles Run</p>
-                    </div>
-                  )}
-                  {trainingStats.totalHours !== null && (
-                    <div className="rounded-sm border border-ink/10 bg-off-white p-4 text-center">
-                      <p className="font-display text-2xl font-semibold text-ink">
-                        {trainingStats.totalHours}
-                      </p>
-                      <p className="text-xs text-charcoal-light">Total Training Hours</p>
-                    </div>
-                  )}
-                  {trainingStats.weeksCompleted !== null && (
-                    <div className="rounded-sm border border-ink/10 bg-off-white p-4 text-center">
-                      <p className="font-display text-2xl font-semibold text-ink">
-                        {trainingStats.weeksCompleted}
-                      </p>
-                      <p className="text-xs text-charcoal-light">Weeks Completed</p>
-                    </div>
-                  )}
-                  {trainingStats.weeksRemaining !== null && (
-                    <div className="rounded-sm border border-bronze/40 bg-bronze/10 p-4 text-center">
-                      <p className="font-display text-2xl font-semibold text-ink">
-                        {trainingStats.weeksRemaining}
-                      </p>
-                      <p className="text-xs text-bronze">Weeks to Race</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
 
           {milestoneEntries.length > 0 && (
             <div className="mt-16 max-w-xl rounded-sm border border-ink/10 bg-off-white p-8">

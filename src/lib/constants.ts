@@ -319,7 +319,9 @@ export const RACE_INFO = {
   raceLocation: "Chattanooga, Tennessee" as string | null,
   courseInfoUrl: "https://www.ironman.com/races/im703-chattanooga" as string | null,
   registrationUrl: "https://www.ironman.com/races/im703-chattanooga/register" as string | null,
-  athleteGoalTime: null as string | null, // TODO, e.g. "6:30:00"
+  // Placement goal, not a fixed split time — see RACE_GOAL in
+  // src/lib/content/race-goal.ts for the target split ranges behind it.
+  athleteGoalTime: "Podium finish (Top 3), M35–39" as string | null,
   trainingStartDate: null as string | null, // e.g. "2026-03-01T00:00:00-05:00" — TODO, used to compute weeks completed/remaining
 };
 

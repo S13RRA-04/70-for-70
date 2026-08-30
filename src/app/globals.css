@@ -125,4 +125,18 @@ body {
   .tabular-nums {
     font-variant-numeric: tabular-nums;
   }
+
+  /* MerchTicker's scrolling track — moves exactly one (of two duplicated) copies' width so the loop is seamless. Respects the global prefers-reduced-motion rule above, which forces animation-duration to 0.01ms. */
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-marquee {
+    animation: marquee 26s linear infinite;
+  }
 }

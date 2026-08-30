@@ -7,13 +7,15 @@ import { JournalFilterRow } from "@/components/journal/journal-filter-row";
 import { BikeBuildIndexCard } from "@/components/journal/bike-build/bike-build-index-card";
 import { GearJourneyIndexCard } from "@/components/journal/gear-journey/gear-journey-index-card";
 import { TrainingSnapshot } from "@/components/training/training-snapshot";
+import { TrainingObjectivesChecklist } from "@/components/training/training-objectives-checklist";
 import { CampaignPhaseBanner } from "@/components/campaign/campaign-phase-banner";
 import { EmptyState } from "@/components/shared/empty-state";
 import { EmailSignupForm } from "@/components/forms/email-signup-form";
 import { getBikeBuildLastUpdated } from "@/lib/content/building-the-bike";
 import { getGearJourneyLastUpdated } from "@/lib/content/gear-journey";
 import { getTrainingSnapshot } from "@/lib/whoop/client";
-import { getRecentDisciplineWorkouts } from "@/lib/training-stats";
+import { getRecentDisciplineWorkouts, getTrainingStats } from "@/lib/training-stats";
+import { getTrainingObjectives } from "@/lib/data/training-objectives";
 import { formatDateLong } from "@/lib/utils";
 import { getCampaignPhase } from "@/lib/campaign-phase";
 import { CAMPAIGN_URL, DONATE_LINK } from "@/lib/constants";
@@ -46,8 +48,21 @@ export default async function JournalPage(props: PageProps<"/journal">) {
       ? (categoryParam as JournalPrimaryCategory)
       : "All";
 
-  const [allEntries, trainingSnapshot] = await Promise.all([getJournalEntries(), getTrainingSnapshot()]);
+  const [allEntries, trainingSnapshot, trainingStats, trainingObjectives] = await Promise.all([
+    getJournalEntries(),
+    getTrainingSnapshot(),
+    getTrainingStats(),
+    getTrainingObjectives(),
+  ]);
   const recentDisciplineWorkouts = trainingSnapshot ? getRecentDisciplineWorkouts(trainingSnapshot.recentWorkouts) : [];
+
+  const hasTrainingVolume =
+    trainingStats.swimSessions !== null ||
+    trainingStats.bikeMiles !== null ||
+    trainingStats.runMiles !== null ||
+    trainingStats.totalHours !== null ||
+    trainingStats.weeksCompleted !== null ||
+    trainingStats.weeksRemaining !== null;
 
   const entries =
     activeCategory === "All" ? allEntries : await getJournalEntriesByCategory(activeCategory);
@@ -146,6 +161,76 @@ export default async function JournalPage(props: PageProps<"/journal">) {
                     )}
                   </div>
                 ))}
+              </div>
+            </div>
+          )}
+
+          <div className="mt-16">
+            <SectionHeading eyebrow="The Road to Chattanooga" title="Training Objectives" />
+            <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
+              Milestones specific to this campaign&apos;s build toward 70.3 — not a record of
+              lifetime athletic accomplishments. Nothing here is marked complete until it&apos;s
+              actually done.
+            </p>
+            <div className="mt-6">
+              <TrainingObjectivesChecklist objectives={trainingObjectives} />
+            </div>
+          </div>
+
+          {hasTrainingVolume && (
+            <div className="mt-16">
+              <SectionHeading eyebrow="Behind the Race" title="Road to 70.3" />
+              <div className="mt-6">
+                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+                  {trainingStats.swimSessions !== null && (
+                    <div className="rounded-sm border border-ink/10 bg-off-white p-4 text-center">
+                      <p className="font-display text-2xl font-semibold text-ink">
+                        {trainingStats.swimSessions}
+                      </p>
+                      <p className="text-xs text-charcoal-light">Swim Sessions</p>
+                    </div>
+                  )}
+                  {trainingStats.bikeMiles !== null && (
+                    <div className="rounded-sm border border-ink/10 bg-off-white p-4 text-center">
+                      <p className="font-display text-2xl font-semibold text-ink">
+                        {trainingStats.bikeMiles}
+                      </p>
+                      <p className="text-xs text-charcoal-light">Miles Ridden</p>
+                    </div>
+                  )}
+                  {trainingStats.runMiles !== null && (
+                    <div className="rounded-sm border border-ink/10 bg-off-white p-4 text-center">
+                      <p className="font-display text-2xl font-semibold text-ink">
+                        {trainingStats.runMiles}
+                      </p>
+                      <p className="text-xs text-charcoal-light">Miles Run</p>
+                    </div>
+                  )}
+                  {trainingStats.totalHours !== null && (
+                    <div className="rounded-sm border border-ink/10 bg-off-white p-4 text-center">
+                      <p className="font-display text-2xl font-semibold text-ink">
+                        {trainingStats.totalHours}
+                      </p>
+                      <p className="text-xs text-charcoal-light">Total Training Hours</p>
+                    </div>
+                  )}
+                  {trainingStats.weeksCompleted !== null && (
+                    <div className="rounded-sm border border-ink/10 bg-off-white p-4 text-center">
+                      <p className="font-display text-2xl font-semibold text-ink">
+                        {trainingStats.weeksCompleted}
+                      </p>
+                      <p className="text-xs text-charcoal-light">Weeks Completed</p>
+                    </div>
+                  )}
+                  {trainingStats.weeksRemaining !== null && (
+                    <div className="rounded-sm border border-bronze/40 bg-bronze/10 p-4 text-center">
+                      <p className="font-display text-2xl font-semibold text-ink">
+                        {trainingStats.weeksRemaining}
+                      </p>
+                      <p className="text-xs text-bronze">Weeks to Race</p>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           )}
