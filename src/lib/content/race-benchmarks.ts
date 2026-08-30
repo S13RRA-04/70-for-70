@@ -4,6 +4,10 @@
  * "times to beat" context for RACE_GOAL (race-goal.ts) — real recorded
  * results, not projections, except where marked unconfirmed below.
  *
+ * Deliberately anonymous — this is about the times, not putting other
+ * amateur athletes' names on a public campaign page, so no winner/finisher
+ * names are stored or rendered here.
+ *
  * 2025 is excluded from time comparisons: no swim leg was held that year
  * (river conditions), so total times aren't comparable to a normal-format
  * race. It's kept in the yearly table only for continuity, clearly flagged.
@@ -11,7 +15,6 @@
 
 export interface AgeGroupYearResult {
   year: number;
-  winner: string | null;
   swim: string | null;
   bike: string | null;
   run: string | null;
@@ -22,7 +25,6 @@ export interface AgeGroupYearResult {
 export const RACE_AGE_GROUP_YEARLY: AgeGroupYearResult[] = [
   {
     year: 2026,
-    winner: "Evan O'Connor",
     swim: "33:36",
     bike: "2:10:14",
     run: "1:25:34",
@@ -30,7 +32,6 @@ export const RACE_AGE_GROUP_YEARLY: AgeGroupYearResult[] = [
   },
   {
     year: 2025,
-    winner: "Samuel Grant",
     swim: null,
     bike: null,
     run: null,
@@ -39,7 +40,6 @@ export const RACE_AGE_GROUP_YEARLY: AgeGroupYearResult[] = [
   },
   {
     year: 2024,
-    winner: null,
     swim: null,
     bike: null,
     run: null,
@@ -48,7 +48,6 @@ export const RACE_AGE_GROUP_YEARLY: AgeGroupYearResult[] = [
   },
   {
     year: 2023,
-    winner: "Brian Reynolds",
     swim: "28:19",
     bike: "2:14:36",
     run: "1:17:09",
@@ -56,7 +55,6 @@ export const RACE_AGE_GROUP_YEARLY: AgeGroupYearResult[] = [
   },
   {
     year: 2022,
-    winner: "Brian Reynolds",
     swim: "28:07",
     bike: "2:13:44",
     run: "1:19:32",

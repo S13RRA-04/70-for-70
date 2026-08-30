@@ -15,23 +15,23 @@ const DASH = "—";
 
 /**
  * M35-39 age-group "times to beat" for IRONMAN 70.3 Chattanooga — recent-
- * year winner splits, the 2026 top 5 in full, 2023 as historical context,
+ * year winning splits, the 2026 top 5 in full, 2023 as historical context,
  * and composite performance tiers. Backs RaceGoalPanel's target ranges.
- * See race-benchmarks.ts for provenance and the 2025/2024 caveats.
+ * See race-benchmarks.ts for provenance, the 2025/2024 caveats, and why
+ * no athlete names appear here.
  */
 export function RaceBenchmarks() {
   return (
     <div className="space-y-10">
       <div>
         <h3 className="font-display text-sm font-semibold uppercase tracking-wide text-ink">
-          M35–39 Winner, by Year
+          M35–39 Winning Time, by Year
         </h3>
         <div className="mt-4 overflow-x-auto rounded-sm border border-ink/10">
-          <table className="w-full min-w-[640px] border-collapse text-left text-sm">
+          <table className="w-full min-w-[560px] border-collapse text-left text-sm">
             <thead>
               <tr className="border-b border-ink/10 bg-sand-light">
                 <th scope="col" className={HEAD_CELL}>Year</th>
-                <th scope="col" className={HEAD_CELL}>Winner</th>
                 <th scope="col" className={HEAD_CELL}>Swim</th>
                 <th scope="col" className={HEAD_CELL}>Bike</th>
                 <th scope="col" className={HEAD_CELL}>Run</th>
@@ -42,7 +42,6 @@ export function RaceBenchmarks() {
               {RACE_AGE_GROUP_YEARLY.map((row) => (
                 <tr key={row.year} className={ROW}>
                   <th scope="row" className={`${BODY_CELL} font-semibold text-ink`}>{row.year}</th>
-                  <td className={BODY_CELL}>{row.winner ?? DASH}</td>
                   <td className={BODY_CELL}>{row.swim ?? DASH}</td>
                   <td className={BODY_CELL}>{row.bike ?? DASH}</td>
                   <td className={BODY_CELL}>{row.run ?? DASH}</td>
