@@ -2,11 +2,13 @@ import { ShieldCheck } from "lucide-react";
 import { getPartners } from "@/lib/data/partners";
 import { getCampaign } from "@/lib/data/campaign";
 import { getAllocationBreakdown } from "@/lib/data/allocation";
+import { getPublicSupporterWall } from "@/lib/donor-tiers";
 import { Container } from "@/components/shared/container";
 import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { PartnerCard } from "@/components/partners/partner-card";
 import { CampaignAllocation } from "@/components/campaign/campaign-allocation";
+import { GivingLevels } from "@/components/campaign/giving-levels";
 import { CAMPAIGN_NAME, CAMPAIGN_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
@@ -17,7 +19,11 @@ export const metadata = pageMetadata({
 });
 
 export default async function DonatePage() {
-  const [partners, campaign] = await Promise.all([getPartners(), getCampaign()]);
+  const [partners, campaign, supporters] = await Promise.all([
+    getPartners(),
+    getCampaign(),
+    getPublicSupporterWall(),
+  ]);
   const allocationBreakdown = await getAllocationBreakdown(campaign);
 
   return (
@@ -32,6 +38,18 @@ export default async function DonatePage() {
       </CampaignPageHero>
 
       <section className="py-16 sm:py-20">
+        <Container>
+          <SectionHeading
+            title="Giving Levels"
+            description="Cumulative giving across both organizations, tracked by donor once a gift is verified. What each level provides is something I can offer directly — recognition, not goods or services — since the campaign never receives or processes your donation itself."
+          />
+          <div className="mt-8">
+            <GivingLevels supporters={supporters} />
+          </div>
+        </Container>
+      </section>
+
+      <section className="border-t border-ink/10 py-16 sm:py-20">
         <Container>
           <div className="flex flex-col gap-6">
             {partners.map((partner) => (
