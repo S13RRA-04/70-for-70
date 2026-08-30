@@ -128,10 +128,11 @@ export default async function JournalEntryPage(props: PageProps<"/journal/[slug]
               fill
               priority
               sizes="(min-width: 768px) 768px, 100vw"
-              // The placeholder is a round crest, not a wide photo —
-              // object-cover crops its top/bottom off to fill the 16:9
-              // frame. Only a real photo should crop.
-              className={hasPhoto ? "object-cover" : "object-contain p-10"}
+              // object-contain so no photo (portrait or landscape) ever
+              // gets cropped to fill the 16:9 frame — letterboxed on
+              // bg-sand-light instead. The placeholder gets extra padding
+              // since it's a round crest, not a wide photo.
+              className={hasPhoto ? "object-contain" : "object-contain p-10"}
             />
           </div>
         )}
