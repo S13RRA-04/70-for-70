@@ -1,4 +1,4 @@
-import { CheckCircle2, Circle, CircleDot, Target, Waves, Bike, Footprints, Repeat, HeartPulse, Dumbbell, Flag } from "lucide-react";
+import { CheckCircle2, Circle, CircleDot, Target, Trophy, Waves, Bike, Footprints, Repeat, HeartPulse, Dumbbell, Flag } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { groupByCategory } from "@/lib/data/training-objectives";
 import type { TrainingObjectiveCategory, TrainingObjectiveRow } from "@/types/database";
@@ -8,15 +8,9 @@ export const CATEGORY_LABELS: Record<TrainingObjectiveCategory, string> = {
   bike: "Bike",
   run: "Run",
   brick: "Brick",
-  vo2max: "VO2 Max",
+  vo2max: "Supporting Fitness Indicator — VO₂ Max",
   strength: "Hybrid Strength",
   race_readiness: "Race Readiness",
-};
-
-/** Shown under a category's header, in place of a doneCount claim — for
- * categories that are context rather than a checklist to clear. */
-const CATEGORY_SUBTITLE: Partial<Record<TrainingObjectiveCategory, string>> = {
-  vo2max: "Supporting fitness indicator",
 };
 
 const CATEGORY_ICON: Record<TrainingObjectiveCategory, typeof Waves> = {
@@ -42,6 +36,7 @@ const CATEGORY_ORDER: TrainingObjectiveCategory[] = [
 
 function ObjectiveRow({ objective }: { objective: TrainingObjectiveRow }) {
   const isCurrent = objective.status === "in_progress";
+  const isPodiumTarget = objective.tag?.toLowerCase() === "podium-track";
   const hasMetric =
     objective.metric_historical || objective.metric_current || objective.metric_next || objective.metric_goal;
 
@@ -71,17 +66,23 @@ function ObjectiveRow({ objective }: { objective: TrainingObjectiveRow }) {
             className={cn(
               "text-sm",
               objective.status === "done" && "text-charcoal-light/70 line-through",
-              objective.status === "not_started" && "text-charcoal-light",
-              (isCurrent || objective.status === "goal") && "font-semibold text-ink",
+              objective.status === "not_started" && !isPodiumTarget && "text-charcoal-light",
+              (isCurrent || objective.status === "goal" || isPodiumTarget) && "font-semibold text-ink",
             )}
           >
             {objective.label}
           </span>
-          {objective.tag && (
-            <span className="rounded-full border border-bronze/30 bg-bronze/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-bronze">
-              {objective.tag}
-            </span>
-          )}
+          {objective.tag &&
+            (isPodiumTarget ? (
+              <span className="inline-flex items-center gap-1 rounded-full bg-bronze px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-off-white">
+                <Trophy size={10} aria-hidden="true" />
+                {objective.tag}
+              </span>
+            ) : (
+              <span className="rounded-full border border-bronze/30 bg-bronze/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-bronze">
+                {objective.tag}
+              </span>
+            ))}
         </span>
         {hasMetric && (
           <span className="flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-charcoal-light">
@@ -131,9 +132,6 @@ function CategoryCard({
           {doneCount} of {objectives.length}
         </p>
       </div>
-      {CATEGORY_SUBTITLE[category] && (
-        <p className="mt-1 text-xs italic text-charcoal-light/70">{CATEGORY_SUBTITLE[category]}</p>
-      )}
       <ul className="mt-3 space-y-1">
         {objectives.map((objective) => (
           <ObjectiveRow key={objective.id} objective={objective} />

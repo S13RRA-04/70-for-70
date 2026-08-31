@@ -176,6 +176,11 @@ export default async function JournalPage(props: PageProps<"/journal">) {
           <div className="mt-16">
             <SectionHeading eyebrow="The Road to Chattanooga" title="Performance Benchmarks" />
             <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
+              Phase 2 shifts the focus from simply covering the distance to covering it faster and
+              more efficiently. Benchmarks now track economy, speed, durability, and race-specific
+              execution against historical Chattanooga age-group performance.
+            </p>
+            <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
               Milestones specific to this campaign&apos;s build toward 70.3 — not a record of
               lifetime athletic accomplishments. Nothing here is marked complete until it&apos;s
               actually done.
