@@ -13,6 +13,12 @@ export const CATEGORY_LABELS: Record<TrainingObjectiveCategory, string> = {
   race_readiness: "Race Readiness",
 };
 
+/** Shown under a category's header, in place of a doneCount claim — for
+ * categories that are context rather than a checklist to clear. */
+const CATEGORY_SUBTITLE: Partial<Record<TrainingObjectiveCategory, string>> = {
+  vo2max: "Supporting fitness indicator",
+};
+
 const CATEGORY_ICON: Record<TrainingObjectiveCategory, typeof Waves> = {
   swim: Waves,
   bike: Bike,
@@ -36,6 +42,8 @@ const CATEGORY_ORDER: TrainingObjectiveCategory[] = [
 
 function ObjectiveRow({ objective }: { objective: TrainingObjectiveRow }) {
   const isCurrent = objective.status === "in_progress";
+  const hasMetric =
+    objective.metric_historical || objective.metric_current || objective.metric_next || objective.metric_goal;
 
   return (
     <li
@@ -57,20 +65,44 @@ function ObjectiveRow({ objective }: { objective: TrainingObjectiveRow }) {
         <Target size={16} className="mt-0.5 shrink-0 text-bronze" aria-hidden="true" />
       )}
 
-      <span className="flex flex-1 flex-wrap items-center gap-x-2 gap-y-1">
-        <span
-          className={cn(
-            "text-sm",
-            objective.status === "done" && "text-charcoal-light/70 line-through",
-            objective.status === "not_started" && "text-charcoal-light",
-            (isCurrent || objective.status === "goal") && "font-semibold text-ink",
+      <span className="flex flex-1 flex-col gap-1">
+        <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
+          <span
+            className={cn(
+              "text-sm",
+              objective.status === "done" && "text-charcoal-light/70 line-through",
+              objective.status === "not_started" && "text-charcoal-light",
+              (isCurrent || objective.status === "goal") && "font-semibold text-ink",
+            )}
+          >
+            {objective.label}
+          </span>
+          {objective.tag && (
+            <span className="rounded-full border border-bronze/30 bg-bronze/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-bronze">
+              {objective.tag}
+            </span>
           )}
-        >
-          {objective.label}
         </span>
-        {objective.tag && (
-          <span className="rounded-full border border-bronze/30 bg-bronze/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-bronze">
-            {objective.tag}
+        {hasMetric && (
+          <span className="flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-charcoal-light">
+            {objective.metric_historical && (
+              <span>
+                Historical: <span className="font-semibold text-ink">{objective.metric_historical}</span>
+              </span>
+            )}
+            <span>
+              Current: <span className="font-semibold text-ink">{objective.metric_current ?? "TBD"}</span>
+            </span>
+            {objective.metric_next && (
+              <span>
+                Next: <span className="font-semibold text-ink">{objective.metric_next}</span>
+              </span>
+            )}
+            {objective.metric_goal && (
+              <span>
+                Race: <span className="font-semibold text-ink">{objective.metric_goal}</span>
+              </span>
+            )}
           </span>
         )}
       </span>
@@ -99,6 +131,9 @@ function CategoryCard({
           {doneCount} of {objectives.length}
         </p>
       </div>
+      {CATEGORY_SUBTITLE[category] && (
+        <p className="mt-1 text-xs italic text-charcoal-light/70">{CATEGORY_SUBTITLE[category]}</p>
+      )}
       <ul className="mt-3 space-y-1">
         {objectives.map((objective) => (
           <ObjectiveRow key={objective.id} objective={objective} />

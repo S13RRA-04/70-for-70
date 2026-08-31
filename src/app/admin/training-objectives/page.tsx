@@ -25,26 +25,61 @@ const STATUS_OPTIONS: { value: TrainingObjectiveStatus; label: string }[] = [
 
 function ObjectiveRow({ objective }: { objective: TrainingObjectiveRow }) {
   return (
-    <div className="flex flex-wrap items-center gap-2 border-t border-ink/10 py-2 first:border-t-0 first:pt-0">
-      <span className="min-w-0 flex-1 text-sm text-ink">{objective.label}</span>
-      <select
-        name={`status-${objective.id}`}
-        defaultValue={objective.status}
-        className="rounded-sm border border-ink/20 bg-off-white px-2 py-1.5 text-xs text-ink"
-      >
-        {STATUS_OPTIONS.map((opt) => (
-          <option key={opt.value} value={opt.value}>
-            {opt.label}
-          </option>
-        ))}
-      </select>
-      <input
-        name={`tag-${objective.id}`}
-        type="text"
-        defaultValue={objective.tag ?? ""}
-        placeholder="Tag (optional)"
-        className="w-36 rounded-sm border border-ink/20 bg-off-white px-2 py-1.5 text-xs text-ink"
-      />
+    <div className="border-t border-ink/10 py-2 first:border-t-0 first:pt-0">
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="min-w-0 flex-1 text-sm text-ink">{objective.label}</span>
+        <select
+          name={`status-${objective.id}`}
+          defaultValue={objective.status}
+          className="rounded-sm border border-ink/20 bg-off-white px-2 py-1.5 text-xs text-ink"
+        >
+          {STATUS_OPTIONS.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
+        <input
+          name={`tag-${objective.id}`}
+          type="text"
+          defaultValue={objective.tag ?? ""}
+          placeholder="Tag (optional)"
+          className="w-36 rounded-sm border border-ink/20 bg-off-white px-2 py-1.5 text-xs text-ink"
+        />
+      </div>
+      <div className="mt-1.5 flex flex-wrap items-center gap-2 pl-0">
+        <span className="text-[10px] font-semibold uppercase tracking-wide text-charcoal-light/70">
+          Benchmark
+        </span>
+        <input
+          name={`metric_historical-${objective.id}`}
+          type="text"
+          defaultValue={objective.metric_historical ?? ""}
+          placeholder="Historical (e.g. 28:19, 2023 winner)"
+          className="w-44 rounded-sm border border-ink/20 bg-off-white px-2 py-1.5 text-xs text-ink"
+        />
+        <input
+          name={`metric_current-${objective.id}`}
+          type="text"
+          defaultValue={objective.metric_current ?? ""}
+          placeholder="Current (e.g. 750 yd)"
+          className="w-36 rounded-sm border border-ink/20 bg-off-white px-2 py-1.5 text-xs text-ink"
+        />
+        <input
+          name={`metric_next-${objective.id}`}
+          type="text"
+          defaultValue={objective.metric_next ?? ""}
+          placeholder="Next (e.g. 1,000 yd)"
+          className="w-36 rounded-sm border border-ink/20 bg-off-white px-2 py-1.5 text-xs text-ink"
+        />
+        <input
+          name={`metric_goal-${objective.id}`}
+          type="text"
+          defaultValue={objective.metric_goal ?? ""}
+          placeholder="Race target (e.g. 2,112 yd)"
+          className="w-40 rounded-sm border border-ink/20 bg-off-white px-2 py-1.5 text-xs text-ink"
+        />
+      </div>
     </div>
   );
 }
@@ -64,7 +99,7 @@ export default async function TrainingObjectivesAdminPage() {
       </Link>
 
       <h1 className="mt-4 font-display text-2xl font-semibold uppercase text-ink">
-        Training Objectives
+        Performance Benchmarks
       </h1>
       <p className="mt-1 text-sm text-charcoal-light">
         Update status and tags as benchmarks are hit — this powers the public ladder on{" "}

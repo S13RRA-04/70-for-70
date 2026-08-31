@@ -326,6 +326,20 @@ export interface TrainingObjectiveRow {
   status: TrainingObjectiveStatus;
   /** Optional badge — "Race distance", "Stretch", "Current baseline", "Podium-track", etc. */
   tag: string | null;
+  /**
+   * Optional Historical | Current | Next | Goal display for a rung that
+   * tracks a single number over time (FTP, race split) rather than a
+   * one-time completion. All four are free text ("TBD" is a valid value)
+   * so units/qualifiers stay with the number; metric_historical is the
+   * only one of the four that's a real recorded result rather than a
+   * target, so it's the one most often null (most rungs have no relevant
+   * outside benchmark). When every field is null the row renders as a
+   * plain checklist item, unchanged from before these columns existed.
+   */
+  metric_historical: string | null;
+  metric_current: string | null;
+  metric_next: string | null;
+  metric_goal: string | null;
   completed_at: string | null;
   created_at: string;
 }

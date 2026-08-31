@@ -1,8 +1,10 @@
 import {
+  RACE_AGE_GROUP_2023_NINTH_FINISH,
   RACE_AGE_GROUP_2023_TENTH_FINISH,
   RACE_AGE_GROUP_2026_FINISHER_COUNT,
   RACE_AGE_GROUP_2026_TOP5_PERCENT_THRESHOLD,
   RACE_AGE_GROUP_PERFORMANCE_TIERS,
+  RACE_AGE_GROUP_TOP3_2025,
   RACE_AGE_GROUP_TOP5_2023,
   RACE_AGE_GROUP_TOP5_2026,
   RACE_AGE_GROUP_YEARLY,
@@ -15,10 +17,10 @@ const DASH = "—";
 
 /**
  * M35-39 age-group "times to beat" for IRONMAN 70.3 Chattanooga — recent-
- * year winning splits, the 2026 top 5 in full, 2023 as historical context,
- * and composite performance tiers. Backs RaceGoalPanel's target ranges.
- * See race-benchmarks.ts for provenance, the 2025/2024 caveats, and why
- * no athlete names appear here.
+ * year winning splits, the 2026 top 5 in full, the 2025 top 3 (shortened,
+ * no-swim format), 2023 as historical context, and composite performance
+ * tiers. Backs RaceGoalPanel's target ranges. See race-benchmarks.ts for
+ * provenance, the 2025/2024 caveats, and why no athlete names appear here.
  */
 export function RaceBenchmarks() {
   return (
@@ -99,10 +101,45 @@ export function RaceBenchmarks() {
 
       <div>
         <h3 className="font-display text-sm font-semibold uppercase tracking-wide text-ink">
+          2025 Top 3, M35–39 <span className="font-normal normal-case text-charcoal-light">(shortened format)</span>
+        </h3>
+        <p className="mt-1 text-sm text-charcoal-light">
+          No swim leg was held (river conditions), so finish times aren&apos;t comparable to a normal-format
+          year — bike and run splits are, though, and are kept here for that reason.
+        </p>
+        <div className="mt-4 overflow-x-auto rounded-sm border border-ink/10">
+          <table className="w-full min-w-[560px] border-collapse text-left text-sm">
+            <thead>
+              <tr className="border-b border-ink/10 bg-sand-light">
+                <th scope="col" className={HEAD_CELL}>Place</th>
+                <th scope="col" className={HEAD_CELL}>Swim</th>
+                <th scope="col" className={HEAD_CELL}>Bike</th>
+                <th scope="col" className={HEAD_CELL}>Run</th>
+                <th scope="col" className={HEAD_CELL}>Finish</th>
+              </tr>
+            </thead>
+            <tbody>
+              {RACE_AGE_GROUP_TOP3_2025.map((row) => (
+                <tr key={row.place} className={ROW}>
+                  <th scope="row" className={`${BODY_CELL} font-semibold text-ink`}>{row.place}</th>
+                  <td className={BODY_CELL}>{row.swim ?? DASH}</td>
+                  <td className={BODY_CELL}>{row.bike ?? DASH}</td>
+                  <td className={BODY_CELL}>{row.run ?? DASH}</td>
+                  <td className={`${BODY_CELL} font-semibold text-ink`}>{row.finish}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div>
+        <h3 className="font-display text-sm font-semibold uppercase tracking-wide text-ink">
           2023 Top 5, M35–39 <span className="font-normal normal-case text-charcoal-light">(historical context)</span>
         </h3>
         <p className="mt-1 text-sm text-charcoal-light">
-          An unusually fast year for the division — even 10th place finished in {RACE_AGE_GROUP_2023_TENTH_FINISH}.
+          An unusually fast year for the division — 9th place finished in {RACE_AGE_GROUP_2023_NINTH_FINISH}, and
+          even 10th place finished in {RACE_AGE_GROUP_2023_TENTH_FINISH}.
         </p>
         <div className="mt-4 overflow-x-auto rounded-sm border border-ink/10">
           <table className="w-full min-w-[560px] border-collapse text-left text-sm">

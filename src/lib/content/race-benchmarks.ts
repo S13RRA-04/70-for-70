@@ -33,8 +33,8 @@ export const RACE_AGE_GROUP_YEARLY: AgeGroupYearResult[] = [
   {
     year: 2025,
     swim: null,
-    bike: null,
-    run: null,
+    bike: "2:10:23",
+    run: "1:26:41",
     finish: "3:39:31",
     note: "No swim leg held (river conditions) — not comparable to a normal-format race.",
   },
@@ -79,6 +79,18 @@ export const RACE_AGE_GROUP_TOP5_2026: AgeGroupPlacingResult[] = [
   { place: 5, swim: "30:57", bike: "2:25:11", run: "1:26:29", finish: "4:30:09" },
 ];
 
+/**
+ * Top 3 M35-39, 2025 — the shortened (no-swim) format, so finish times
+ * aren't comparable to a normal-format year; kept for bike/run split
+ * context and because it's the most recent race held. Places 2 and 3
+ * have no reported splits.
+ */
+export const RACE_AGE_GROUP_TOP3_2025: AgeGroupPlacingResult[] = [
+  { place: 1, swim: null, bike: "2:10:23", run: "1:26:41", finish: "3:39:31" },
+  { place: 2, swim: null, bike: null, run: null, finish: "3:42:48" },
+  { place: 3, swim: null, bike: null, run: null, finish: "3:44:53" },
+];
+
 export const RACE_AGE_GROUP_2026_FINISHER_COUNT = 218;
 
 /** 2026 top-5% finish-time threshold for M35-39 — an intermediate benchmark between "sub-5" and the front of the division. */
@@ -93,6 +105,9 @@ export const RACE_AGE_GROUP_TOP5_2023: AgeGroupPlacingResult[] = [
   { place: 5, swim: "27:20", bike: "2:24:42", run: "1:23:12", finish: "4:21:38" },
 ];
 
+/** 2023 9th place, finish time only — no splits recorded. */
+export const RACE_AGE_GROUP_2023_NINTH_FINISH = "4:27:25";
+
 /** 2023 10th place, finish time only — no splits recorded. */
 export const RACE_AGE_GROUP_2023_TENTH_FINISH = "4:33:11";
 
@@ -105,10 +120,19 @@ export interface PerformanceTier {
   finish: string;
 }
 
-/** Composite performance tiers across the normal-format years (2022, 2023, 2026) — see RACE_GOAL for which tier the actual goal targets. */
+/**
+ * Composite performance tiers across the normal-format years (2022, 2023,
+ * 2026) — see RACE_GOAL for the actual goal targets these back.
+ *
+ * "AG winner" is labeled "(podium range)" because that's what the 2023
+ * and 2025 M35-39 results actually show: recent podiums here run closer
+ * to age-group-winner pace than to this table's old "Podium contender"
+ * tier, which undersold it by about 10 minutes. That tier is relabeled
+ * "Competitive" — a legitimate next milestone, just not the finish line.
+ */
 export const RACE_AGE_GROUP_PERFORMANCE_TIERS: PerformanceTier[] = [
-  { tier: "AG winner", swim: "28–34m", bike: "2:10–2:15", run: "1:17–1:26", transitions: "~5–7m", finish: "4:05–4:16" },
-  { tier: "Podium contender", swim: "29–35m", bike: "2:15–2:22", run: "1:22–1:30", transitions: "~6–8m", finish: "4:15–4:25" },
+  { tier: "AG winner (podium range)", swim: "28–34m", bike: "2:10–2:15", run: "1:17–1:26", transitions: "~5–7m", finish: "4:05–4:16" },
+  { tier: "Competitive", swim: "29–35m", bike: "2:15–2:22", run: "1:22–1:30", transitions: "~6–8m", finish: "4:15–4:25" },
   { tier: "Top 5–10", swim: "30–36m", bike: "2:20–2:30", run: "1:25–1:35", transitions: "~7–9m", finish: "4:25–4:40" },
   { tier: "Sub-5 target", swim: "~35–40m", bike: "~2:35–2:40", run: "~1:50–1:55", transitions: "~8–10m", finish: "4:50–5:00" },
 ];

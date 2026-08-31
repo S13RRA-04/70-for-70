@@ -166,7 +166,7 @@ export default async function JournalPage(props: PageProps<"/journal">) {
           )}
 
           <div className="mt-16">
-            <SectionHeading eyebrow="The Road to Chattanooga" title="Training Objectives" />
+            <SectionHeading eyebrow="The Road to Chattanooga" title="Performance Benchmarks" />
             <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
               Milestones specific to this campaign&apos;s build toward 70.3 — not a record of
               lifetime athletic accomplishments. Nothing here is marked complete until it&apos;s

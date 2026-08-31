@@ -403,6 +403,17 @@ create table if not exists public.training_objectives (
   -- Optional badge shown beside the rung — "Race distance", "Stretch",
   -- "Current baseline", "Podium-track", "Two weeks ago", etc.
   tag text,
+  -- Optional Historical | Current | Next | Goal display for a rung that
+  -- tracks one number over time (FTP, race split) instead of a one-time
+  -- completion. Free text so units/qualifiers travel with the number
+  -- ("TBD" is a valid value). metric_historical is a real recorded
+  -- outside result (e.g. an age-group winning split), not a target, so
+  -- it's null far more often than the others. Null in all four renders as
+  -- a plain checklist item, same as before these columns existed.
+  metric_historical text,
+  metric_current text,
+  metric_next text,
+  metric_goal text,
   completed_at timestamptz,
   created_at timestamptz not null default now()
 );
