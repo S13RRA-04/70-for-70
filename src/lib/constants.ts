@@ -409,6 +409,15 @@ export const SOCIAL_LINKS: { platform: string; label: string; url: string }[] = 
 ];
 
 /**
+ * Cody's own Strava athlete profile — not part of SOCIAL_LINKS/the footer's
+ * "Follow" list (those are the campaign's own accounts), just linked
+ * directly from the Strava section on /journal. See "Strava Training
+ * Snapshot" in README for the live activity feed this athlete ID also
+ * backs.
+ */
+export const STRAVA_PROFILE_URL = "https://www.strava.com/athletes/99955843";
+
+/**
  * The current campaign as a data object rather than hard-coded page
  * markup — the code-level seam a future multi-campaign Supabase schema
  * would plug into. The `campaign` table itself is still single-row for

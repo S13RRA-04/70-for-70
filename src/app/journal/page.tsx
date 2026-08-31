@@ -20,7 +20,7 @@ import { getRecentDisciplineWorkouts, getTrainingStats } from "@/lib/training-st
 import { getTrainingObjectives } from "@/lib/data/training-objectives";
 import { formatDateLong } from "@/lib/utils";
 import { getCampaignPhase } from "@/lib/campaign-phase";
-import { CAMPAIGN_URL, DONATE_LINK } from "@/lib/constants";
+import { CAMPAIGN_URL, DONATE_LINK, STRAVA_PROFILE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import type { JournalPrimaryCategory } from "@/types/database";
 
@@ -148,7 +148,17 @@ export default async function JournalPage(props: PageProps<"/journal">) {
           </div>
 
           <div className="mt-10">
-            <SectionHeading eyebrow="Live" title="Strava" />
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <SectionHeading eyebrow="Live" title="Strava" />
+              <a
+                href={STRAVA_PROFILE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+              >
+                Follow on Strava &rarr;
+              </a>
+            </div>
             <div className="mt-6">
               <StravaSnapshot snapshot={stravaSnapshot} />
             </div>
