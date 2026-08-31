@@ -10,6 +10,8 @@ import { SignOutButton } from "@/components/admin/sign-out-button";
 import { formatCurrency } from "@/lib/utils";
 import { isWhoopConfigured } from "@/lib/whoop/config";
 import { getWhoopConnection } from "@/lib/whoop/tokens";
+import { isStravaConfigured } from "@/lib/strava/config";
+import { getStravaConnection } from "@/lib/strava/tokens";
 
 export default async function AdminPage() {
   const user = await requireAdminUser();
@@ -23,6 +25,7 @@ export default async function AdminPage() {
     { count: openSponsorshipRequests },
     { count: unverifiedDonations },
     whoopConnection,
+    stravaConnection,
     trainingObjectives,
     { count: publishedJournalEntries },
     { count: draftJournalEntries },
@@ -37,6 +40,7 @@ export default async function AdminPage() {
       .in("status", ["submitted", "under_review", "additional_information_requested", "ethics_review"]),
     admin.from("donations").select("*", { count: "exact", head: true }).eq("verified", false),
     isWhoopConfigured() ? getWhoopConnection() : Promise.resolve(null),
+    isStravaConfigured() ? getStravaConnection() : Promise.resolve(null),
     getTrainingObjectives(),
     admin.from("journal_entries").select("*", { count: "exact", head: true }).eq("status", "published"),
     admin.from("journal_entries").select("*", { count: "exact", head: true }).eq("status", "draft"),
@@ -48,6 +52,7 @@ export default async function AdminPage() {
   const fundedCount = miles.filter((m) => m.status === "funded").length;
 
   const whoopConnected = Boolean(whoopConnection);
+  const stravaConnected = Boolean(stravaConnection);
 
   const objectivesCompleted = trainingObjectives.filter((o) => o.status === "done" || o.status === "goal").length;
 
@@ -137,6 +142,25 @@ export default async function AdminPage() {
         </div>
         <Link
           href="/admin/whoop"
+          className="rounded-sm border border-ink/20 px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
+        >
+          Manage
+        </Link>
+      </div>
+
+      <div className="mt-6 flex items-center justify-between rounded-sm border border-ink/10 bg-off-white p-6">
+        <div>
+          <p className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+            Strava Connection
+          </p>
+          <p className="mt-1 text-sm text-charcoal-light">
+            {stravaConnected
+              ? "Connected — powering the public activity feed on the Journal."
+              : "Not connected — the Strava section on the Journal is hidden."}
+          </p>
+        </div>
+        <Link
+          href="/admin/strava"
           className="rounded-sm border border-ink/20 px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
         >
           Manage

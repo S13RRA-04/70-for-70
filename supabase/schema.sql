@@ -626,6 +626,31 @@ comment on table public.whoop_tokens is
   'the new refresh_token returned alongside a refreshed access_token.';
 
 -- ---------------------------------------------------------------------------
+-- strava_tokens
+--
+-- Singleton row holding the athlete's own Strava OAuth tokens, used to
+-- display a public "recent activity" feed on /journal. Same pattern as
+-- whoop_tokens above — the athlete connecting their own account (via
+-- /admin/strava), not visitor data. Tokens are never sent to the browser;
+-- only the derived, public-safe snapshot (recent activity name/type/
+-- distance/time) is rendered.
+-- ---------------------------------------------------------------------------
+create table if not exists public.strava_tokens (
+  id uuid primary key default gen_random_uuid(),
+  strava_athlete_id text not null,
+  access_token text not null,
+  refresh_token text not null,
+  scope text not null,
+  expires_at timestamptz not null,
+  connected_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+comment on table public.strava_tokens is
+  'Single row expected. Refresh tokens rotate on every use — always persist '
+  'the new refresh_token returned alongside a refreshed access_token.';
+
+-- ---------------------------------------------------------------------------
 -- Row Level Security
 -- ---------------------------------------------------------------------------
 -- MVP model: campaign content is public-read; writes go through the
@@ -651,6 +676,7 @@ alter table public.inquiries enable row level security;
 alter table public.sponsorship_requests enable row level security;
 alter table public.sponsorship_status_history enable row level security;
 alter table public.whoop_tokens enable row level security;
+alter table public.strava_tokens enable row level security;
 alter table public.email_subscribers enable row level security;
 alter table public.messages enable row level security;
 
@@ -749,11 +775,12 @@ create policy "training objectives are publicly readable"
 -- rather than just a UI convention: there is no public write path to
 -- public.sponsors other than the admin "Activate Sponsor" action.
 
--- No policies on public.whoop_tokens: default-deny for anon/authenticated.
--- OAuth tokens never reach the browser or a public query — only
--- server-side code using the service-role key reads/writes this table
--- (the OAuth callback route, the admin connect/disconnect actions, and the
--- training-snapshot fetcher that derives the public-safe display data).
+-- No policies on public.whoop_tokens or public.strava_tokens: default-deny
+-- for anon/authenticated. OAuth tokens never reach the browser or a public
+-- query — only server-side code using the service-role key reads/writes
+-- these tables (the OAuth callback routes, the admin connect/disconnect
+-- actions, and the training-snapshot fetchers that derive the public-safe
+-- display data).
 
 -- No policies on public.email_subscribers: default-deny for anon/authenticated.
 -- Signups are written by /api/subscribe using the service-role key

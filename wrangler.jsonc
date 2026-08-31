@@ -61,17 +61,26 @@
    * already shipped in every browser's client-side bundle regardless.
    *
    * Values that are actually sensitive (SUPABASE_SERVICE_ROLE_KEY,
-   * WHOOP_CLIENT_SECRET, PREVIEW_ACCESS_TOKEN, the analytics API token,
-   * etc.) do NOT belong here — they're pushed as Worker *secret* bindings
-   * by the "Sync Worker secrets" step in
+   * WHOOP_CLIENT_SECRET, STRAVA_CLIENT_SECRET, PREVIEW_ACCESS_TOKEN, the
+   * analytics API token, etc.) do NOT belong here — they're pushed as
+   * Worker *secret* bindings by the "Sync Worker secrets" step in
    * .github/workflows/deploy.yml on every deploy, sourced from GitHub
    * Actions repo secrets, so they get the same "never dashboard-only"
    * guarantee without committing the values to git.
+   *
+   * STRAVA_CLIENT_ID is committed as an empty string below rather than
+   * omitted — same non-secret trust level as WHOOP_CLIENT_ID (already
+   * visible in the browser-facing Strava OAuth redirect URL), and
+   * declaring the key here now means filling in the real value later is a
+   * one-line edit that can't fall prey to the wipe-on-deploy bug described
+   * above. Fill in the real value (from
+   * https://www.strava.com/settings/api) once a Strava API app exists.
    */
   "vars": {
     "SITE_LIVE": "true",
     "CAMPAIGN_LIVE": "true",
     "WHOOP_CLIENT_ID": "fc3a41a2-08c9-4141-b5bb-35773f4c3509",
+    "STRAVA_CLIENT_ID": "276041",
     "NEXT_PUBLIC_SITE_URL": "https://forthe22.org",
     "NEXT_PUBLIC_CAMPAIGN_URL": "https://tri.forthe22.org",
     "NEXT_PUBLIC_RUCK_URL": "https://ruck.forthe22.org",

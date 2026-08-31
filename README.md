@@ -53,6 +53,7 @@ See [`.env.example`](.env.example) for the full list with descriptions:
 | `SUPABASE_SERVICE_ROLE_KEY` | For inquiries + admin | **Server-only.** Never expose to the browser |
 | `NEXT_PUBLIC_SITE_URL` | Recommended | Used for metadata, canonical URLs, sitemap |
 | `WHOOP_CLIENT_ID` / `WHOOP_CLIENT_SECRET` | For the training snapshot | **Server-only.** See [WHOOP Training Snapshot](#whoop-training-snapshot) below |
+| `STRAVA_CLIENT_ID` / `STRAVA_CLIENT_SECRET` | For the Strava activity feed | **Server-only.** See [Strava Training Snapshot](#strava-training-snapshot) below |
 | `CLOUDFLARE_WEB_ANALYTICS_SITE_TAG` / `CLOUDFLARE_ACCOUNT_ID` / `CLOUDFLARE_ANALYTICS_API_TOKEN` | For `/admin/analytics` | **Server-only.** No client beacon to configure — Cloudflare auto-installs it zone-wide. See [Analytics](#analytics-cloudflare-web-analytics) below |
 
 ## Deployment (Cloudflare Workers)
@@ -120,7 +121,7 @@ from here):**
    Add: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` (two
    repo secrets already used at build time — reused here for the runtime
    binding too), `SUPABASE_SERVICE_ROLE_KEY`, `WHOOP_CLIENT_SECRET`,
-   `PREVIEW_ACCESS_TOKEN`, `CLOUDFLARE_WEB_ANALYTICS_SITE_TAG`,
+   `STRAVA_CLIENT_SECRET`, `PREVIEW_ACCESS_TOKEN`, `CLOUDFLARE_WEB_ANALYTICS_SITE_TAG`,
    `CLOUDFLARE_ACCOUNT_ID` (already a repo secret), and
    `CLOUDFLARE_ANALYTICS_API_TOKEN` — see [Pre-Launch Gate](#pre-launch-gate)
    and [Analytics](#analytics-cloudflare-web-analytics) below. To add or
@@ -873,6 +874,51 @@ to stay well under WHOOP's API rate limits.
 If `WHOOP_CLIENT_ID`/`WHOOP_CLIENT_SECRET` aren't set, or nothing is
 connected yet, the Race page shows a "Live training data is coming soon"
 placeholder instead of erroring.
+
+## Strava Training Snapshot
+
+The Journal page shows a live "Strava" panel (recent activity name, type,
+date, distance, time, and pace/speed) sourced from the athlete's own
+[Strava](https://www.strava.com/settings/api) account via OAuth 2.0 — same
+pattern as [WHOOP Training Snapshot](#whoop-training-snapshot) above, right
+down to the file layout (`src/lib/strava/*` mirrors `src/lib/whoop/*`,
+`/admin/strava` mirrors `/admin/whoop`). This replaced an earlier version of
+this panel built from Strava's legacy profile-embed `<iframe>` widgets
+(`athletes/{id}/latest-rides`, `athletes/{id}/activity-summary`) — those are
+a ~2013-era feature outside Strava's current API, aren't type-filtered
+reliably, and the "summary" one shows a rolling weekly total (resets every
+Monday) rather than "latest" anything. This integration calls the real
+Strava API instead.
+
+**Setup**:
+
+1. Create an app at [Strava API Settings](https://www.strava.com/settings/api)
+   and set its "Authorization Callback Domain" to this exact host (no
+   scheme, no path): `{NEXT_PUBLIC_CAMPAIGN_URL's host}` (e.g. `localhost`
+   locally, `tri.forthe22.org` in production) — /admin/strava and its
+   callback route live on the campaign domain, same as WHOOP.
+2. Set `STRAVA_CLIENT_ID` and `STRAVA_CLIENT_SECRET` in `.env.local`.
+3. Sign in at `/admin/login`, open `/admin/strava`, and click **Connect
+   Strava Account** — this starts the OAuth flow and redirects back once
+   authorized.
+
+**How it works**: tokens are exchanged and stored server-side in the
+`strava_tokens` table (`src/lib/strava/tokens.ts`), which has no public RLS
+policies at all — same default-deny pattern as `whoop_tokens`/`inquiries`.
+Strava rotates the refresh token on every use, so `getValidAccessToken()`
+persists the new one immediately after each refresh. The public page only
+ever sees the derived, public-safe snapshot (`StravaTrainingSnapshot` in
+`src/types/strava.ts`) built by `getStravaTrainingSnapshot()` — raw tokens
+and API responses never reach a Client Component or the browser. Snapshot
+fetches are cached for 30 minutes (`next: { revalidate }` in
+`src/lib/strava/client.ts`) to stay well under Strava's API rate limits.
+Requests `activity:read_all` (not just `activity:read`) so activities
+marked private on Strava still show up — this is the athlete's own account,
+connected by the athlete, for the athlete's own public page.
+
+If `STRAVA_CLIENT_ID`/`STRAVA_CLIENT_SECRET` aren't set, or nothing is
+connected yet, the Journal page's Strava section shows a "Live Strava data
+is on the way" placeholder instead of erroring.
 
 ## Analytics (Cloudflare Web Analytics)
 

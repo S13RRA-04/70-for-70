@@ -83,6 +83,7 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           SECRET_SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           SECRET_WHOOP_CLIENT_SECRET: ${{ secrets.WHOOP_CLIENT_SECRET }}
+          SECRET_STRAVA_CLIENT_SECRET: ${{ secrets.STRAVA_CLIENT_SECRET }}
           SECRET_PREVIEW_ACCESS_TOKEN: ${{ secrets.PREVIEW_ACCESS_TOKEN }}
           SECRET_ADMIN_EMAILS: ${{ secrets.ADMIN_EMAILS }}
           SECRET_CLOUDFLARE_WEB_ANALYTICS_SITE_TAG: ${{ secrets.CLOUDFLARE_WEB_ANALYTICS_SITE_TAG }}
@@ -94,6 +95,7 @@ jobs:
             const names = [
               'SUPABASE_SERVICE_ROLE_KEY',
               'WHOOP_CLIENT_SECRET',
+              'STRAVA_CLIENT_SECRET',
               'PREVIEW_ACCESS_TOKEN',
               'ADMIN_EMAILS',
               'CLOUDFLARE_WEB_ANALYTICS_SITE_TAG',
