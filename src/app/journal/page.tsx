@@ -7,6 +7,7 @@ import { JournalFilterRow } from "@/components/journal/journal-filter-row";
 import { BikeBuildIndexCard } from "@/components/journal/bike-build/bike-build-index-card";
 import { GearJourneyIndexCard } from "@/components/journal/gear-journey/gear-journey-index-card";
 import { TrainingSnapshot } from "@/components/training/training-snapshot";
+import { StravaWidget } from "@/components/journal/strava-widget";
 import { TrainingObjectivesChecklist } from "@/components/training/training-objectives-checklist";
 import { CampaignPhaseBanner } from "@/components/campaign/campaign-phase-banner";
 import { EmptyState } from "@/components/shared/empty-state";
@@ -142,6 +143,13 @@ export default async function JournalPage(props: PageProps<"/journal">) {
           <SectionHeading eyebrow="Live" title="Latest Training" />
           <div className="mt-6">
             <TrainingSnapshot snapshot={trainingSnapshot} />
+          </div>
+
+          <div className="mt-10">
+            <SectionHeading eyebrow="Live" title="Strava" />
+            <div className="mt-6">
+              <StravaWidget />
+            </div>
           </div>
 
           {recentDisciplineWorkouts.length > 0 && (
