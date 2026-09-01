@@ -33,9 +33,15 @@
   /*
    * National Suicide Prevention Month (September) identification accents —
    * sampled from public/spm-ribbon.png so the CSS matches the actual
-   * artwork. Used the same way as OUTER_RING_COLORS/INNER_RING_COLORS in
-   * ring-colors.ts: chips, borders, dots — never a background fill — and
-   * only while isSuicidePreventionMonth() is true. See AwarenessBanner.
+   * artwork, only while isSuicidePreventionMonth() is true. Teal/purple are
+   * used the same way as OUTER_RING_COLORS/INNER_RING_COLORS in
+   * ring-colors.ts: chips, borders, dots, underlines — never a background
+   * fill (Header/Footer's identification dot, the banner's top stripe and
+   * link underlines). Navy is the one exception, used as the awareness
+   * banner's own background (see AwarenessBanner) — it's the ribbon
+   * artwork's own base color, not an arbitrary fill, and gives the banner
+   * an identity distinct from the site's generic ink chrome instead of
+   * blending into it.
    */
   --color-awareness-teal: #24bec9;
   --color-awareness-purple: #562d89;

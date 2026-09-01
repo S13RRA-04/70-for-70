@@ -78,7 +78,7 @@ export function Header({
                 {awarenessMonth && link.href === "/crisis" && (
                   <span
                     aria-hidden="true"
-                    className="ml-1.5 inline-block h-1.5 w-1.5 rounded-full align-middle"
+                    className="ml-1.5 inline-block h-2 w-2 rounded-full align-middle"
                     style={{
                       background:
                         "linear-gradient(135deg, var(--color-awareness-teal), var(--color-awareness-purple))",

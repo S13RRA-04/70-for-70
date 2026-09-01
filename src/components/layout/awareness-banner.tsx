@@ -13,16 +13,19 @@ export function AwarenessBanner() {
   if (!isSuicidePreventionMonth()) return null;
 
   return (
-    <div className="relative border-b border-off-white/10 bg-ink text-off-white">
+    <div
+      className="relative border-b border-off-white/10 text-off-white"
+      style={{ background: "var(--color-awareness-navy)" }}
+    >
       <div
         aria-hidden="true"
-        className="h-[3px] w-full"
+        className="h-1 w-full"
         style={{
           background: "linear-gradient(90deg, var(--color-awareness-teal), var(--color-awareness-purple))",
         }}
       />
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-3 gap-y-1.5 px-4 py-2.5 text-center sm:px-6 lg:px-8">
-        <Image src="/spm-ribbon.png" alt="" aria-hidden="true" width={18} height={18} className="shrink-0" />
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-3 gap-y-1.5 px-4 py-3 text-center sm:px-6 lg:px-8">
+        <Image src="/spm-ribbon.png" alt="" aria-hidden="true" width={24} height={24} className="shrink-0" />
         <p className="text-xs font-medium leading-snug text-off-white/90 sm:text-sm">
           <span className="font-semibold uppercase tracking-wide">September is National Suicide Prevention Month.</span>{" "}
           Help is available 24/7.
