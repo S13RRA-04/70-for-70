@@ -380,6 +380,17 @@ export const GET_INVOLVED_ROLES = [
       "No professional experience required, just willingness to help amplify",
     ],
   },
+  {
+    id: "Invite For The 22",
+    title: "Invite For The 22",
+    description:
+      "Already training for, riding, or hosting your own athletic event? Invite For The 22 to be part of it — extending the mission beyond race weekend.",
+    details: [
+      "Works with any race, ride, ruck, or other athletic event you're already doing",
+      "For The 22 can show up as a table, a mention, or a named partner",
+      "Helps extend awareness and fundraising for veteran- and first-responder-focused causes",
+    ],
+  },
 ] as const;
 
 /**

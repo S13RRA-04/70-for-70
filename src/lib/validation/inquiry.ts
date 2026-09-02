@@ -39,6 +39,7 @@ export const GET_INVOLVED_INTEREST_TYPES = [
   "Campaign Tent",
   "Cheer Squad",
   "Social Media Team",
+  "Invite For The 22",
 ] as const;
 
 /** /contact's and /get-involved's categories are accepted — see the comments above. */
