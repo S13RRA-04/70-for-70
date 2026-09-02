@@ -8,12 +8,12 @@ import { GEAR_NEEDS_CATEGORIES } from "@/lib/content/gear-needs";
  * needed, at a glance, styled to stand out from the plainer sponsor-wall
  * section below it. Each category is a native <details>/<summary>
  * disclosure — collapsible without any client JS, keyboard-operable and
- * screen-reader-announced by default. Open by default so the list stays
- * scannable at a glance; visitors can collapse categories they don't care
- * about. Each row links to the general /contact page (pre-filled with the
- * item), pre-existing and already validated for exactly this kind of
- * general inquiry — not a new dedicated sponsorship-intake form, which
- * stays closed pending written federal ethics approval (see
+ * screen-reader-announced by default. Collapsed by default so the section
+ * stays compact; visitors expand whichever category they care about. Each
+ * row links to the general /contact page (pre-filled with the item),
+ * pre-existing and already validated for exactly this kind of general
+ * inquiry — not a new dedicated sponsorship-intake form, which stays
+ * closed pending written federal ethics approval (see
  * GEAR_NEEDS_CATEGORIES's doc comment and SPONSOR_INQUIRY_INTERESTS).
  */
 export function CurrentGearNeeds() {
@@ -38,7 +38,7 @@ export function CurrentGearNeeds() {
 
       <div className="mt-6 space-y-4">
         {GEAR_NEEDS_CATEGORIES.map((category) => (
-          <details key={category.category} open className="group rounded-sm border border-ink/10 bg-off-white">
+          <details key={category.category} className="group rounded-sm border border-ink/10 bg-off-white">
             <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 [&::-webkit-details-marker]:hidden">
               <span className="font-display text-sm font-semibold uppercase tracking-wide text-ink">
                 {category.category}{" "}
