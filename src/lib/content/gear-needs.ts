@@ -61,9 +61,9 @@ export const GEAR_NEEDS_CATEGORIES: GearNeedsCategory[] = [
       },
       {
         component: "Running Shoes — Racing",
-        status: "wanted",
-        statusLabel: "Wanted",
-        notes: "Lighter shoe for the 13.1-mile race-day run leg — training shoes can cover it in the meantime.",
+        status: "confirmed",
+        statusLabel: "Confirmed",
+        notes: "Lighter shoe for the 13.1-mile race-day run leg — provided by TYR. See the Sponsors list below.",
       },
       {
         component: "Cycling Apparel",

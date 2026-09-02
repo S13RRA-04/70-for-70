@@ -60,10 +60,10 @@ export const BIKE_BUILD_STATUS_SUMMARY: BikeBuildStatusSummaryItem[] = [
     detail: "Shimano 105 ST-R7000 mechanical 2×11 brifters purchased August 26, 2026.",
   },
   {
-    label: "Aerobar Compatibility",
-    status: "under_review",
-    statusLabel: "Under Review",
-    detail: "Redshift Sports is checking fit once the final cockpit is known.",
+    label: "Aerobars & Seatpost",
+    status: "confirmed",
+    statusLabel: "Confirmed",
+    detail: "Redshift Sports is providing aero bars and a seatpost for the build.",
   },
   {
     label: "Final Assembly",
@@ -142,9 +142,15 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
   },
   {
     component: "Aerobars",
-    status: "under_review",
-    statusLabel: "Under Review",
-    notes: "Redshift Sports is checking compatibility and availability.",
+    status: "confirmed",
+    statusLabel: "Confirmed",
+    notes: "Provided by Redshift Sports.",
+  },
+  {
+    component: "Seatpost",
+    status: "confirmed",
+    statusLabel: "Confirmed",
+    notes: "Provided by Redshift Sports.",
   },
   {
     component: "Assembly",
@@ -188,15 +194,15 @@ export const BIKE_BUILD_CONFIRMED_CONTRIBUTORS: BikeBuildContributor[] = [
     role: "Pre-race tune-up",
     note: "Pledged complimentary labor for a pre-race tune-up, parts excluded, scheduled well ahead of race day.",
   },
+  {
+    name: "Redshift Sports",
+    role: "Aero bars & seatpost",
+    note: "Providing aero bars and a seatpost for the race bike build.",
+  },
 ];
 
 /** Support being discussed but not yet confirmed — kept separate so nothing here reads as a locked-in sponsorship. */
 export const BIKE_BUILD_CONVERSATIONS_IN_PROGRESS: BikeBuildContributor[] = [
-  {
-    name: "Redshift Sports",
-    role: "Aerobars (under review)",
-    note: "Checking whether its aerobars are compatible once the final handlebar, stem, and shifting setup is known.",
-  },
   {
     name: "Redemptive Cycles",
     role: "Used brifters request concluded",
@@ -560,6 +566,24 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "It's exactly the 170 mm crank length and 50/34 chainring configuration I selected — the same setup that turned the crankset and bottom-bracket question from an open problem into one of the strongest confirmed pieces of this build.",
       "Huge thanks to Praxis for backing that offer with real hardware, not just a conversation. That's one more component that no longer has to be sourced, guessed at, or worried about before the mechanic's inspection.",
       "Next up: getting these into Bruce's hands so they can be checked against the frame and the rest of the drivetrain.",
+    ],
+    relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+  },
+  {
+    id: "redshift-confirms-aero-bars-and-seatpost",
+    date: "2026-09-02",
+    displayDate: "September 2, 2026",
+    title: "Redshift Confirms: Aero Bars and a Seatpost",
+    summary:
+      "Redshift Sports has confirmed it's providing aero bars and a seatpost for the race bike — closing the aerobar question that had been open since late August.",
+    status: "Aero bars & seatpost confirmed",
+    featured: true,
+    contributors: ["Redshift Sports"],
+    body: [
+      "The aerobar question that's been open since late August is closed: Redshift Sports is providing aero bars and a seatpost for the race bike.",
+      "Erik and the team at Redshift first offered to check compatibility once the final cockpit was known. Now that the frame, crankset, and drivetrain have taken real shape, that offer has turned into confirmed support.",
+      "Between the aero bars and the seatpost, two more items come off the open-questions list and onto the actual build sheet.",
+      "Huge thanks to Redshift Sports for backing this campaign with real hardware.",
     ],
     relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
   },
