@@ -136,10 +136,16 @@ export const GEAR_NEEDS_CATEGORIES: GearNeedsCategory[] = [
         notes: "Aero carbon race wheelset — the current build already has a functional wheelset for training and racing.",
       },
       {
-        component: "Bike Maintenance Gear",
+        component: "Repair Stand",
+        status: "confirmed",
+        statusLabel: "Confirmed",
+        notes: "Provided by Feedback Sports — see the Sponsors list below.",
+      },
+      {
+        component: "Maintenance Tools & Supplies",
         status: "needed",
         statusLabel: "Needed",
-        notes: "Tools, spare tubes, chain lube, and a repair kit to keep the only race bike running safely through training and race day.",
+        notes: "Spare tubes, chain lube, a multitool, and a repair kit to keep the only race bike running safely through training and race day.",
       },
     ],
   },
