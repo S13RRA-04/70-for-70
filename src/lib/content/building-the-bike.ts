@@ -574,6 +574,55 @@ export function getBikeBuildLastUpdated(): string {
   return getLatestBikeBuildEntry().date;
 }
 
+const STATUS_WORD: Record<string, string> = {
+  confirmed: "Confirmed",
+  complete: "Complete",
+  available: "Acquired",
+  offered: "Offered",
+  under_review: "Under Review",
+  needed: "Needed",
+  pending: "Pending",
+};
+
+/** Which BIKE_BUILD_COMPONENT_STATUS row backs each teaser highlight, and the label shown for it. */
+const TEASER_HIGHLIGHTS: { component: string; label: string }[] = [
+  { component: "Frame", label: "Frame" },
+  { component: "Remaining Drivetrain", label: "Drivetrain" },
+  { component: "Fit", label: "Fit" },
+  { component: "Assembly", label: "Assembly" },
+];
+
+export interface BikeBuildStatusOverview {
+  badge: "BUILD IN PROGRESS" | "BUILD COMPLETE";
+  confirmedCount: number;
+  totalCount: number;
+  highlights: { label: string; statusLabel: string }[];
+}
+
+/**
+ * Compact teaser-level summary for the Journal index card — a few
+ * representative component statuses, not the full board (see
+ * ComponentStatusBoard for that). Derived from BIKE_BUILD_COMPONENT_STATUS
+ * so it can never drift from the full board's actual data.
+ */
+export function getBikeBuildStatusOverview(): BikeBuildStatusOverview {
+  const confirmedCount = BIKE_BUILD_COMPONENT_STATUS.filter(
+    (row) => row.status === "confirmed" || row.status === "complete",
+  ).length;
+
+  const highlights = TEASER_HIGHLIGHTS.map(({ component, label }) => {
+    const row = BIKE_BUILD_COMPONENT_STATUS.find((r) => r.component === component);
+    return { label, statusLabel: row ? (STATUS_WORD[row.status] ?? row.statusLabel) : "TBD" };
+  });
+
+  return {
+    badge: confirmedCount === BIKE_BUILD_COMPONENT_STATUS.length ? "BUILD COMPLETE" : "BUILD IN PROGRESS",
+    confirmedCount,
+    totalCount: BIKE_BUILD_COMPONENT_STATUS.length,
+    highlights,
+  };
+}
+
 export interface BikeBuildTeaser {
   title: string;
   displayDate: string;

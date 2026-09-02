@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { getAdjacentJournalEntries, getJournalEntryBySlug } from "@/lib/data/journal";
+import { getAdjacentJournalEntries, getJournalEntries, getJournalEntryBySlug } from "@/lib/data/journal";
 import { Container } from "@/components/shared/container";
 import { ShareButtons } from "@/components/shared/share-buttons";
 import { JournalMarkdown } from "@/components/journal/journal-markdown";
@@ -11,6 +11,7 @@ import { TrainingMetricsPanel } from "@/components/journal/training-metrics-pane
 import { MilestoneHeadline } from "@/components/journal/milestone-headline";
 import { SponsorDisclosureBanner } from "@/components/journal/sponsor-disclosure-banner";
 import { PartnerMentionsFooter } from "@/components/journal/partner-mentions-footer";
+import { RelatedEntries } from "@/components/journal/related-entries";
 import { JournalCta } from "@/components/journal/journal-cta";
 import { formatDateLong } from "@/lib/utils";
 import { parseVideoUrl } from "@/lib/video-url";
@@ -49,6 +50,12 @@ function entryJsonLd(entry: JournalEntryWithMentions) {
     url,
     mainEntityOfPage: url,
     ...(entry.published_at && { datePublished: entry.published_at }),
+    // Only when meaningfully different from publish — a row that's merely
+    // been re-saved without real content changes shouldn't claim a
+    // modification date search engines will surface.
+    ...(entry.updated_at &&
+      entry.published_at &&
+      entry.updated_at !== entry.published_at && { dateModified: entry.updated_at }),
     author: { "@type": "Organization", name: CAMPAIGN_NAME, url: CAMPAIGN_URL },
     publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
   };
@@ -76,12 +83,19 @@ function entryJsonLd(entry: JournalEntryWithMentions) {
 
 export default async function JournalEntryPage(props: PageProps<"/journal/[slug]">) {
   const { slug } = await props.params;
-  const [entry, adjacent] = await Promise.all([getJournalEntryBySlug(slug), getAdjacentJournalEntries(slug)]);
+  const [entry, adjacent, allEntries] = await Promise.all([
+    getJournalEntryBySlug(slug),
+    getAdjacentJournalEntries(slug),
+    getJournalEntries(),
+  ]);
 
   if (!entry) notFound();
 
   const video = entry.video_url ? parseVideoUrl(entry.video_url) : null;
   const hasPhoto = Boolean(entry.image_url);
+  const relatedEntries = allEntries
+    .filter((e) => e.primary_category === entry.primary_category && e.id !== entry.id)
+    .slice(0, 3);
 
   return (
     <article className="py-16 sm:py-20">
@@ -154,27 +168,28 @@ export default async function JournalEntryPage(props: PageProps<"/journal/[slug]
 
         <JournalCta category={entry.primary_category} />
 
-        {(adjacent.prev || adjacent.next) && (
-          <div className="mt-10 flex items-center justify-between border-t border-ink/10 pt-6 text-sm">
-            {adjacent.prev ? (
+        <RelatedEntries entries={relatedEntries} />
+
+        <div className="mt-10 grid grid-cols-3 items-center border-t border-ink/10 pt-6 text-sm">
+          <div className="text-left">
+            {adjacent.prev && (
               <Link href={`/journal/${adjacent.prev.slug}`} className="font-semibold text-charcoal-light hover:text-ink">
-                &larr; Previous Entry
-              </Link>
-            ) : (
-              <span />
-            )}
-            {adjacent.next && (
-              <Link href={`/journal/${adjacent.next.slug}`} className="font-semibold text-charcoal-light hover:text-ink">
-                Next Entry &rarr;
+                &larr; Previous Update
               </Link>
             )}
           </div>
-        )}
-
-        <div className="mt-6">
-          <Link href="/journal" className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light">
-            &larr; Back to Follow My Progress
-          </Link>
+          <div className="text-center">
+            <Link href="/journal" className="font-semibold text-bronze hover:text-bronze-light">
+              Back to Journal
+            </Link>
+          </div>
+          <div className="text-right">
+            {adjacent.next && (
+              <Link href={`/journal/${adjacent.next.slug}`} className="font-semibold text-charcoal-light hover:text-ink">
+                Next Update &rarr;
+              </Link>
+            )}
+          </div>
         </div>
       </Container>
     </article>

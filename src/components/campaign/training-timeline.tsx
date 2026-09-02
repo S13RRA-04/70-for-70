@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils";
-
-const PHASES = ["Base", "Build", "Specific", "Peak", "Race"] as const;
+import { TRAINING_PHASE_LABELS as PHASES } from "@/lib/campaign-phase";
 
 /**
  * Compact training-arc context — not a detailed training plan. `currentIndex`

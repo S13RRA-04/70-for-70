@@ -85,6 +85,29 @@ export async function getJournalEntryBySlug(slug: string): Promise<JournalEntryW
   };
 }
 
+/**
+ * Buckets already-sorted (newest-first) entries by publish month, preserving
+ * order. Entries with no published_at are grouped under "Undated" at the
+ * end rather than dropped. Never emits an empty group — only produces
+ * buckets for months that actually have entries in the input.
+ */
+export function groupByMonth(entries: JournalEntryRow[]): { label: string; entries: JournalEntryRow[] }[] {
+  const formatter = new Intl.DateTimeFormat("en-US", { month: "long", year: "numeric" });
+  const groups: { label: string; entries: JournalEntryRow[] }[] = [];
+
+  for (const entry of entries) {
+    const label = entry.published_at ? formatter.format(new Date(entry.published_at)) : "Undated";
+    const lastGroup = groups[groups.length - 1];
+    if (lastGroup && lastGroup.label === label) {
+      lastGroup.entries.push(entry);
+    } else {
+      groups.push({ label, entries: [entry] });
+    }
+  }
+
+  return groups;
+}
+
 export async function getAdjacentJournalEntries(
   slug: string,
 ): Promise<{ prev: JournalEntryRow | null; next: JournalEntryRow | null }> {

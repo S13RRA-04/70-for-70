@@ -14,24 +14,10 @@ import { BikeBuildTeaser } from "@/components/journal/bike-build/bike-build-teas
 import { getBikeBuildTeaser } from "@/lib/content/building-the-bike";
 import { getJournalEntries } from "@/lib/data/journal";
 import { formatDateLong } from "@/lib/utils";
-import { getCampaignPhase } from "@/lib/campaign-phase";
+import { getCampaignPhase, getCurrentTrainingPhaseIndex } from "@/lib/campaign-phase";
 import { CAMPAIGN_URL, RACE_INFO } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { isRaceDayModeEnabled } from "@/lib/race-day-mode";
-
-function getCurrentTrainingPhaseIndex(): number | undefined {
-  const { trainingStartDate, raceDate } = RACE_INFO;
-  if (!trainingStartDate || !raceDate) return undefined;
-
-  const start = new Date(trainingStartDate).getTime();
-  const end = new Date(raceDate).getTime();
-  const now = Date.now();
-  if (now <= start) return 0;
-  if (now >= end) return 4;
-
-  const fraction = (now - start) / (end - start);
-  return Math.min(4, Math.floor(fraction * 5));
-}
 
 export const metadata = pageMetadata({
   title: "IRONMAN 70.3 Chattanooga Training",
