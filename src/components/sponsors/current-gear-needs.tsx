@@ -10,8 +10,11 @@ import { GEAR_NEEDS_CATEGORIES } from "@/lib/content/gear-needs";
  * disclosure — collapsible without any client JS, keyboard-operable and
  * screen-reader-announced by default. Open by default so the list stays
  * scannable at a glance; visitors can collapse categories they don't care
- * about. Informational only — see GEAR_NEEDS_CATEGORIES's doc comment for
- * why there's no contact CTA attached here.
+ * about. Each row links to the general /contact page (pre-filled with the
+ * item), pre-existing and already validated for exactly this kind of
+ * general inquiry — not a new dedicated sponsorship-intake form, which
+ * stays closed pending written federal ethics approval (see
+ * GEAR_NEEDS_CATEGORIES's doc comment and SPONSOR_INQUIRY_INTERESTS).
  */
 export function CurrentGearNeeds() {
   return (
@@ -50,7 +53,11 @@ export function CurrentGearNeeds() {
               />
             </summary>
             <div className="border-t border-ink/10 p-4">
-              <ComponentStatusBoard rows={category.items} />
+              <ComponentStatusBoard
+                rows={category.items}
+                actionHref={(row) => `/contact?item=${encodeURIComponent(row.component)}`}
+                actionLabel="Offer to Help"
+              />
             </div>
           </details>
         ))}

@@ -5,7 +5,7 @@ import { SPONSOR_INQUIRY_INTERESTS } from "@/lib/validation/inquiry";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
-export function SponsorInquiryForm() {
+export function SponsorInquiryForm({ prefillItem }: { prefillItem?: string }) {
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const renderedAtRef = useRef<number | null>(null);
@@ -73,6 +73,11 @@ export function SponsorInquiryForm() {
 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-5" aria-busy={status === "submitting"}>
+      {prefillItem && (
+        <p className="rounded-sm border border-bronze/30 bg-bronze/5 px-4 py-3 text-sm text-charcoal-light">
+          Reaching out about: <span className="font-semibold text-ink">{prefillItem}</span>
+        </p>
+      )}
       {/* Honeypot field — hidden from sighted users, left blank by real people. */}
       <div className="absolute left-[-9999px]" aria-hidden="true">
         <label htmlFor="companyWebsite">Leave this field blank</label>
@@ -145,7 +150,7 @@ export function SponsorInquiryForm() {
           id="interest"
           name="interest"
           required
-          defaultValue=""
+          defaultValue={prefillItem ? "Other" : ""}
           className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
         >
           <option value="" disabled>
@@ -168,6 +173,7 @@ export function SponsorInquiryForm() {
           name="message"
           required
           rows={5}
+          defaultValue={prefillItem ? `I'd like to help with: ${prefillItem}\n\n` : undefined}
           className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
         />
       </div>

@@ -11,9 +11,12 @@ import type { BikeBuildComponentRow } from "@/types/bike-build";
  * each row — the same generic "status row" concept the bike-build
  * component board already renders, not literal bike-build content.
  *
- * Informational only, by design — no contact mechanism is attached here.
- * See /sponsors/request's doc comment: public sponsorship intake,
- * including in-kind, is closed pending written federal ethics approval.
+ * Each row links to the general /contact page (see CurrentGearNeeds), not
+ * a dedicated sponsorship-intake form — /sponsors/request's doc comment
+ * still applies: public sponsorship intake, including in-kind, is closed
+ * pending written federal ethics approval. /contact's form is validated
+ * against a deliberately narrow topic list (SPONSOR_INQUIRY_INTERESTS)
+ * that excludes sponsor/partner categories for exactly that reason.
  *
  * Each row is marked "needed" or "wanted" (see StatusBadge for the visual
  * treatment): "needed" is essential to safely train, race, or run the

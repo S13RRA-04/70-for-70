@@ -10,7 +10,10 @@ export const metadata = pageMetadata({
   canonical: "/contact",
 });
 
-export default function ContactPage() {
+export default async function ContactPage(props: PageProps<"/contact">) {
+  const searchParams = await props.searchParams;
+  const itemParam = Array.isArray(searchParams.item) ? searchParams.item[0] : searchParams.item;
+
   return (
     <section className="py-16 sm:py-20">
       <Container className="max-w-2xl">
@@ -26,7 +29,7 @@ export default function ContactPage() {
         />
 
         <div className="mt-10">
-          <SponsorInquiryForm />
+          <SponsorInquiryForm prefillItem={itemParam} />
         </div>
       </Container>
     </section>
