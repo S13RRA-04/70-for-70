@@ -99,6 +99,12 @@ export const GEAR_NEEDS: BikeBuildComponentRow[] = [
     notes: "For documenting training and racing to share with the campaign.",
   },
   {
+    component: "Campaign Tent",
+    status: "needed",
+    statusLabel: "Needed",
+    notes: "Pop-up canopy tent for setting up at races, community events, and race weekend in Chattanooga.",
+  },
+  {
     component: "In-Kind Promotional Items",
     status: "needed",
     statusLabel: "Needed",
