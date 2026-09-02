@@ -3,7 +3,7 @@ import { getPartners } from "@/lib/data/partners";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CampaignByTheNumbers } from "@/components/campaign/campaign-by-the-numbers";
-import { APPROVED_PHOTOS, MEDIA_COVERAGE, PRESS_RELEASES } from "@/lib/content/campaign-press";
+import { APPROVED_PHOTOS, CAMPAIGN_MATERIALS, MEDIA_COVERAGE, PRESS_RELEASES } from "@/lib/content/campaign-press";
 import { CAMPAIGN_NAME, CONTACT_EMAIL, SITE_URL, SITE_TAGLINE } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { formatDateLong } from "@/lib/utils";
@@ -246,6 +246,44 @@ export default async function CampaignPressPage() {
               )}
             </p>
           </div>
+
+          {CAMPAIGN_MATERIALS.length > 0 && (
+            <div>
+              <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+                Campaign Materials
+              </h2>
+              <p className="mt-1 text-sm text-charcoal-light">
+                Print-ready flier, poster, rack card, trifold, and QR reference cards for tabling,
+                sponsors, and community outreach.
+              </p>
+              <div className="mt-3 grid gap-6 sm:grid-cols-2">
+                {CAMPAIGN_MATERIALS.map((material) => (
+                  <div key={material.label} className="rounded-sm border border-ink/10 bg-off-white p-6">
+                    <h3 className="font-display text-base font-semibold uppercase tracking-wide text-ink">
+                      {material.label}
+                    </h3>
+                    <p className="mt-1 text-sm text-charcoal-light">{material.description}</p>
+                    <div className="mt-4 flex flex-wrap gap-4">
+                      {material.files.map((file) => (
+                        <div key={file.src} className="flex flex-col items-start gap-2">
+                          <div className="relative h-36 w-28 overflow-hidden rounded-sm border border-ink/10 bg-sand-light">
+                            <Image src={file.src} alt={file.alt} fill className="object-cover" />
+                          </div>
+                          <a
+                            href={file.src}
+                            download
+                            className="text-xs font-semibold uppercase tracking-wide text-bronze hover:underline"
+                          >
+                            Download{file.side ? ` (${file.side})` : ""}
+                          </a>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </Container>
       </section>
     </>
