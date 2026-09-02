@@ -4,6 +4,7 @@ import { Container } from "@/components/shared/container";
 import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { MissionPartnerCard } from "@/components/partners/mission-partner-card";
+import { CurrentGearNeeds } from "@/components/sponsors/current-gear-needs";
 import { EmptyState } from "@/components/shared/empty-state";
 import { CAMPAIGN_NAME, CAMPAIGN_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
@@ -35,6 +36,12 @@ export default async function SponsorsPage() {
           description={`Organizations supporting ${CAMPAIGN_NAME} through gear, resources, and outreach — distinct from the nonprofit beneficiaries the campaign raises funds for. Supporting the campaign is not the same as being a fundraising beneficiary.`}
         />
       </CampaignPageHero>
+
+      <section className="border-b border-ink/10 py-12">
+        <Container>
+          <CurrentGearNeeds />
+        </Container>
+      </section>
 
       <section className="py-16 sm:py-20">
         <Container>
