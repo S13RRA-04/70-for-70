@@ -38,11 +38,17 @@ export const MOVEMENT_TIMELINE = [
     label: "Back surgery — adapts, trains in Brazilian Jiu-Jitsu",
     image: { src: "/about/jiu-jitsu.jpg", alt: "Cody after a Brazilian Jiu-Jitsu competition" },
   },
-  { year: "2023", label: "First marathon, Nashville", image: { src: "/about/nashville.jpg", alt: "Cody at the Nashville marathon" } },
+  {
+    year: "2023",
+    label: "First marathon, Nashville",
+    image: { src: "/about/nashville.jpg", alt: "Cody at the Nashville marathon" },
+    resultsUrl: "https://my.runrocknroll.com/results/eb4ef962-624d-43f7-850e-93fb85038979",
+  },
   {
     year: "2024",
     label: "First 100-kilometer ultramarathon",
     image: { src: "/about/ultra-2.jpg", alt: "Cody racing solo on a wooded trail during an ultramarathon" },
+    resultsUrl: "https://ultrarunning.com/calendar/runner/view/Cody-Hitson-f497dcec-6a5d-11ef-abe1-b606cb15cdaf",
   },
   { year: "2027", label: "IRONMAN 70.3 Chattanooga — May 16, Chattanooga, TN" },
 ] as const;

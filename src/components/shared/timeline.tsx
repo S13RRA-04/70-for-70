@@ -5,6 +5,8 @@ export interface TimelineEntry {
   label: string;
   /** Optional supporting photo shown as a small thumbnail next to the entry. */
   image?: { src: string; alt: string };
+  /** Optional link to an official race-result/profile page verifying this entry. */
+  resultsUrl?: string;
 }
 
 /**
@@ -24,6 +26,16 @@ export function Timeline({ entries }: { entries: TimelineEntry[] }) {
           <div className="flex-1">
             <p className="font-display text-lg font-bold text-bronze">{entry.year}</p>
             <p className="mt-0.5 text-sm text-charcoal-light">{entry.label}</p>
+            {entry.resultsUrl && (
+              <a
+                href={entry.resultsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-1 inline-block text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+              >
+                See Results &rarr;
+              </a>
+            )}
           </div>
           {entry.image && (
             <div className="relative aspect-[4/5] w-16 shrink-0 overflow-hidden rounded-sm sm:w-20">
