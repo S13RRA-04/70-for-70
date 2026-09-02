@@ -42,6 +42,12 @@ export const GEAR_NEEDS_CATEGORIES: GearNeedsCategory[] = [
     items: [
       { component: "Tri Suit", status: "needed", statusLabel: "Needed", notes: "Race-day one- or two-piece tri suit." },
       {
+        component: "Swim Cap (Custom)",
+        status: "confirmed",
+        statusLabel: "Confirmed",
+        notes: "Custom campaign swim cap — provided by SwimOutlet. See the Sponsors list below.",
+      },
+      {
         component: "Wetsuit",
         status: "needed",
         statusLabel: "Needed",
