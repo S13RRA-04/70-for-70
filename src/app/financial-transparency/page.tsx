@@ -30,6 +30,13 @@ export default function FinancialTransparencyPage() {
             {MERCH_BENEFICIARIES[1]}, with the specific beneficiary noted on each item in the
             store. Sponsorship intake and athlete-support programs are not currently active.
           </p>
+          <p>
+            Some campaign promotional items — challenge coins, patches, stickers, and similar
+            merchandise — may be provided in-kind by supporters. None have been sold yet; if and
+            when they are, proceeds first repay the providing supporter&apos;s direct costs, with
+            any remaining profit split evenly between {MERCH_BENEFICIARIES[0]} and{" "}
+            {MERCH_BENEFICIARIES[1]}.
+          </p>
         </div>
       </Container>
     </section>

@@ -1,3 +1,4 @@
+import { MERCH_BENEFICIARIES } from "@/lib/constants";
 import type { BikeBuildComponentRow } from "@/types/bike-build";
 
 /**
@@ -84,5 +85,11 @@ export const GEAR_NEEDS: BikeBuildComponentRow[] = [
     status: "needed",
     statusLabel: "Needed",
     notes: "For documenting training and racing to share with the campaign.",
+  },
+  {
+    component: "In-Kind Promotional Items",
+    status: "needed",
+    statusLabel: "Needed",
+    notes: `Challenge coins, patches, stickers, and similar campaign merchandise. If sold, proceeds first repay the providing supporter's direct costs, with any remaining profit split evenly between ${MERCH_BENEFICIARIES[0]} and ${MERCH_BENEFICIARIES[1]}.`,
   },
 ];
