@@ -57,6 +57,18 @@ export const GEAR_NEEDS: BikeBuildComponentRow[] = [
     notes: "Ideally a Garmin — for tracking swim, bike, and run training with real pace, HR, and power data.",
   },
   {
+    component: "FORM Smart Swim Goggles",
+    status: "needed",
+    statusLabel: "Needed",
+    notes: "Heads-up display goggles showing real-time pace, distance, and stroke data during swim sets.",
+  },
+  {
+    component: "Oakley Meta Smart Glasses",
+    status: "needed",
+    statusLabel: "Needed",
+    notes: "AI-enabled smart glasses with a heads-up display for real-time workout data during training.",
+  },
+  {
     component: "Smart Bike Trainer",
     status: "needed",
     statusLabel: "Needed",
