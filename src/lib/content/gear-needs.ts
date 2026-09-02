@@ -1,9 +1,10 @@
 import type { BikeBuildComponentRow } from "@/types/bike-build";
 
 /**
- * Current personal gear needs for training and race day — displayed
- * prominently on /sponsors so anyone looking to help can see exactly
- * what's still needed at a glance. Reuses BikeBuildComponentRow's
+ * Current personal gear and support needs for training and race day —
+ * displayed prominently on /sponsors so anyone looking to help can see
+ * exactly what's still needed at a glance. Mostly equipment, plus one
+ * service (coaching). Reuses BikeBuildComponentRow's
  * component/status/statusLabel/notes shape (see types/bike-build.ts) since
  * it's the same generic "status row" concept the bike-build component
  * board already renders — not literal bike-build content.
@@ -47,5 +48,41 @@ export const GEAR_NEEDS: BikeBuildComponentRow[] = [
     status: "needed",
     statusLabel: "Needed",
     notes: "Training and race-day running kit.",
+  },
+  {
+    component: "GPS Multisport Watch",
+    status: "needed",
+    statusLabel: "Needed",
+    notes: "Ideally a Garmin — for tracking swim, bike, and run training with real pace, HR, and power data.",
+  },
+  {
+    component: "Smart Bike Trainer",
+    status: "needed",
+    statusLabel: "Needed",
+    notes: "Indoor smart trainer for structured, weather-proof bike sessions.",
+  },
+  {
+    component: "Power Meter Pedals",
+    status: "needed",
+    statusLabel: "Needed",
+    notes: "For accurate power-based bike training and pacing.",
+  },
+  {
+    component: "Wahoo Training Devices",
+    status: "needed",
+    statusLabel: "Needed",
+    notes: "Bike computer, sensors, and other Wahoo ecosystem training gear.",
+  },
+  {
+    component: "Coaching Support",
+    status: "needed",
+    statusLabel: "Needed",
+    notes: "Structured coaching guidance for the training blocks ahead.",
+  },
+  {
+    component: "Training Camera (GoPro)",
+    status: "needed",
+    statusLabel: "Needed",
+    notes: "For documenting training and racing to share with the campaign.",
   },
 ];
