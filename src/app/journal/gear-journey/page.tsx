@@ -23,6 +23,7 @@ export const metadata = pageMetadata({
   title: PAGE_TITLE,
   description: PAGE_DESCRIPTION,
   canonical: CANONICAL_URL,
+  type: "article",
 });
 
 function buildJsonLd() {

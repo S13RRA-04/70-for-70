@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { ExternalLink, ShoppingBag } from "lucide-react";
@@ -20,22 +21,40 @@ import {
   RACE_INFO,
   RACE_TOTAL_DISTANCE,
   SHOP_CATEGORIES,
-  SITE_TAGLINE,
 } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
 import { pageMetadata } from "@/lib/metadata";
 
 const HERO_EXPLAINER = `One athlete's ${RACE_TOTAL_DISTANCE}-mile race, paired with a ${formatCurrency(70_000)} fundraising goal for veterans.`;
 
-export const metadata = pageMetadata({
-  // Root layout's title template already appends " | {CAMPAIGN_NAME}" on
-  // the campaign host (see generateMetadata in src/app/layout.tsx) — a
-  // title here that repeats CAMPAIGN_NAME renders duplicated twice.
-  title: SITE_TAGLINE,
-  description:
-    "Tri For The 22 pairs a 70.3-mile triathlon with a $70,000 fundraising goal in support of veteran-focused nonprofit organizations.",
-  canonical: `${CAMPAIGN_URL}/`,
-});
+/**
+ * Brand-first, bypassing the root layout's "%s | {CAMPAIGN_NAME}" title
+ * template (see generateMetadata in src/app/layout.tsx) via title.absolute —
+ * the homepage is the one place branded searches ("Tri For The 22") should
+ * see the campaign name lead the title, unlike every other page where it
+ * trails as the site identifier.
+ */
+const HOMEPAGE_TITLE = `${CAMPAIGN_NAME} | Veteran & First Responder Triathlon Campaign`;
+const HOMEPAGE_DESCRIPTION =
+  "Tri For The 22 follows Cody Hitson's road to IRONMAN 70.3 Chattanooga while raising awareness and support for veterans and first responders.";
+
+export const metadata: Metadata = {
+  ...pageMetadata({
+    title: HOMEPAGE_TITLE,
+    description: HOMEPAGE_DESCRIPTION,
+    canonical: `${CAMPAIGN_URL}/`,
+  }),
+  title: { absolute: HOMEPAGE_TITLE },
+};
+
+/** Identifies the campaign itself to search engines as a distinct WebSite, separate from the ORGANIZATION_JSON_LD (For The 22 the org) rendered on every route in the root layout. */
+const CAMPAIGN_WEBSITE_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: CAMPAIGN_NAME,
+  url: CAMPAIGN_URL,
+  description: HOMEPAGE_DESCRIPTION,
+};
 
 /** First sentence of a longer description, for compact summary cards — falls back to the whole string if there's no sentence break. */
 function firstSentence(text: string): string {
@@ -66,6 +85,12 @@ export default async function CampaignHomePage() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(CAMPAIGN_WEBSITE_JSON_LD).replace(/</g, "\\u003c"),
+        }}
+      />
       <MerchTicker />
 
       {/* 1. Hero — real HTML facts (not baked into the banner image), plus the countdown and both primary CTAs. */}

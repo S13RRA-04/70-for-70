@@ -93,7 +93,7 @@ const SUBSECTIONS = {
     heading: "Why 22?",
     body: [
       "22 has become a widely recognized symbol of veteran suicide awareness. It's historically significant, but it isn't the current national number — the VA's most recent data (2023) puts the daily average at 17.5 Veterans lost to suicide.",
-      "For The 22 also serves law enforcement, fire, EMS, dispatch, and corrections. Reporting there is far less complete, but the best available estimates suggest a law-enforcement officer is lost to suicide roughly every 2 to 3 days.",
+      "For The 22 also serves first responders — law enforcement, fire, EMS, dispatch, and corrections. Reporting there is far less complete, but the best available estimates suggest a law-enforcement officer is lost to suicide roughly every 2 to 3 days.",
       "Behind every one of those numbers is a family, a team, a unit, and a community left behind — and that's what keeps this work in front of us.",
     ],
   },

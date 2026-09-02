@@ -13,8 +13,9 @@ import { CAMPAIGN_NAME, CAMPAIGN_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
-  title: "Donate",
-  description: "Support Tri For The 22 through an authorized partner donation platform.",
+  title: "Support Tri For The 22",
+  description:
+    "Support Tri For The 22 through an authorized partner donation platform — funding veteran-focused nonprofit organizations.",
   canonical: `${CAMPAIGN_URL}/donate`,
 });
 

@@ -34,8 +34,9 @@ function getCurrentTrainingPhaseIndex(): number | undefined {
 }
 
 export const metadata = pageMetadata({
-  title: "The Race",
-  description: "A 70.3-mile triathlon: 1.2-mile swim, 56-mile bike, 13.1-mile run.",
+  title: "IRONMAN 70.3 Chattanooga Training",
+  description:
+    "Training toward IRONMAN 70.3 Chattanooga on May 16, 2027 — a 1.2-mile swim, 56-mile bike, and 13.1-mile run as the physical anchor of the Tri For The 22 veteran fundraiser.",
   canonical: `${CAMPAIGN_URL}/the-race`,
 });
 

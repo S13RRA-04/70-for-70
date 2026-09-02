@@ -28,8 +28,9 @@ import type { JournalPrimaryCategory } from "@/types/database";
 const MIN_ENTRIES_FOR_FILTERS = 6;
 
 export const metadata = pageMetadata({
-  title: "Follow My Progress",
-  description: "Training, setbacks, milestones, partners, fundraising, and everything along the road to 70.3.",
+  title: "Road to Chattanooga Journal",
+  description:
+    "Follow the road to IRONMAN 70.3 Chattanooga — training, setbacks, milestones, partners, and fundraising updates for the Tri For The 22 veteran and first responder campaign.",
   canonical: `${CAMPAIGN_URL}/journal`,
 });
 

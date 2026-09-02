@@ -34,6 +34,7 @@ export const metadata = pageMetadata({
   description: PAGE_DESCRIPTION,
   canonical: CANONICAL_URL,
   image: BIKE_BUILD_HERO_PHOTO.src,
+  type: "article",
 });
 
 function buildJsonLd() {

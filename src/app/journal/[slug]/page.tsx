@@ -28,6 +28,7 @@ export async function generateMetadata(props: PageProps<"/journal/[slug]">): Pro
     description: entry.summary,
     canonical: `${CAMPAIGN_URL}/journal/${entry.slug}`,
     image: entry.image_url ?? JOURNAL_PLACEHOLDER_IMAGE,
+    type: "article",
   });
 }
 
