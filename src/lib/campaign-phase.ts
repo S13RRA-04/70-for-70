@@ -33,23 +33,26 @@ export function getCampaignPhase(now: Date = new Date()): CampaignPhase {
 
 /** The training-arc ladder shown by TrainingTimeline and the Journal hero's status strip — single source of truth for both. */
 export const TRAINING_PHASE_LABELS = ["Base", "Build", "Specific", "Peak", "Race"] as const;
+export type TrainingPhaseLabel = (typeof TRAINING_PHASE_LABELS)[number];
 
 /**
- * Which rung of TRAINING_PHASE_LABELS is "current," derived from real dates
- * only. Returns undefined (never a guess) until both a training start date
- * and a race date are known — see RACE_INFO.trainingStartDate, still a TODO
- * as of this writing. Shared by /the-race and /journal so both pages agree.
+ * The athlete's actual current block in the training arc — updated by hand
+ * as each block actually completes, not computed from
+ * RACE_INFO.trainingStartDate/raceDate. Real periodization blocks aren't
+ * equal-length time slices, so a date-fraction formula would rarely match
+ * how the plan is actually structured; a reported, ground-truth value is
+ * more honest than a computed guess. Null means no phase is claimed as
+ * "current."
  */
-export function getCurrentTrainingPhaseIndex(now: Date = new Date()): number | undefined {
-  const { trainingStartDate, raceDate } = RACE_INFO;
-  if (!trainingStartDate || !raceDate) return undefined;
+export const CURRENT_TRAINING_PHASE: TrainingPhaseLabel | null = "Build";
 
-  const start = new Date(trainingStartDate).getTime();
-  const end = new Date(raceDate).getTime();
-  const current = now.getTime();
-  if (current <= start) return 0;
-  if (current >= end) return TRAINING_PHASE_LABELS.length - 1;
-
-  const fraction = (current - start) / (end - start);
-  return Math.min(TRAINING_PHASE_LABELS.length - 1, Math.floor(fraction * TRAINING_PHASE_LABELS.length));
+/**
+ * Which rung of TRAINING_PHASE_LABELS is "current." Returns undefined
+ * (never a guess) until CURRENT_TRAINING_PHASE is set. Shared by /the-race
+ * and /journal so both pages agree.
+ */
+export function getCurrentTrainingPhaseIndex(): number | undefined {
+  if (!CURRENT_TRAINING_PHASE) return undefined;
+  const index = TRAINING_PHASE_LABELS.indexOf(CURRENT_TRAINING_PHASE);
+  return index === -1 ? undefined : index;
 }
