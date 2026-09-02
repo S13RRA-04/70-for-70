@@ -107,14 +107,14 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
   {
     component: "Bottom Bracket",
     status: "confirmed",
-    statusLabel: "Support Provided",
-    notes: "68 mm threaded; Praxis M30 bottom bracket.",
+    statusLabel: "In Hand",
+    notes: "68 mm threaded; Praxis M30 bottom bracket — arrived September 2, 2026.",
   },
   {
     component: "Crankset",
     status: "confirmed",
-    statusLabel: "Support Provided",
-    notes: "170 mm Praxis crankset.",
+    statusLabel: "In Hand",
+    notes: "170 mm Praxis Zayante Carbon crankset with 50/34 chainrings — arrived September 2, 2026.",
   },
   {
     component: "Chainrings",
@@ -479,7 +479,6 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
     summary:
       "A matched pair of Shimano 105 ST-R7000 mechanical brifters has been purchased, closing the build's largest remaining drivetrain gap.",
     status: "Brifters purchased",
-    featured: true,
     contributors: ["Bruce"],
     photos: [
       {
@@ -529,6 +528,40 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "This bike isn't part of the build. It doesn't get a line on the component board below, and it isn't the bike going to Chattanooga. It's a bridge — a way to put in real outdoor miles while the actual race bike is still a list of unresolved questions.",
       "Sometimes the fastest way to keep moving forward is somebody else's spare bike and a trail sign pointing the way.",
     ],
+  },
+  {
+    id: "praxis-crankset-arrives",
+    date: "2026-09-02",
+    displayDate: "September 2, 2026",
+    title: "Praxis Delivers: The Crankset Is Here",
+    summary: "The Praxis crankset, chainrings, and bottom bracket showed up — turning last week's offer into real parts on the counter.",
+    status: "Crankset & bottom bracket in hand",
+    featured: true,
+    contributors: ["Praxis"],
+    photos: [
+      {
+        src: "/journal/building-the-bike/praxis-crankset-arrived.jpg",
+        alt: "A Praxis Zayante Carbon crank arm, a 50/34 chainring, a boxed Praxis bottom bracket, chainring bolts, and bubble wrap laid out on a countertop.",
+        caption: "Everything Praxis sent for the crankset and bottom bracket — Zayante Carbon crank arm, 50/34 chainring, boxed M30 bottom bracket, and hardware.",
+        width: 2000,
+        height: 1500,
+      },
+    ],
+    technicalDetails: {
+      heading: "What Arrived",
+      items: [
+        { label: "Crank Arm", value: "Praxis Zayante Carbon, 170 mm" },
+        { label: "Chainrings", value: "50/34, LT2 spider, X-Rings" },
+        { label: "Bottom Bracket", value: "Praxis M30" },
+      ],
+    },
+    body: [
+      "The parts Praxis offered last week showed up: a Zayante Carbon crank arm, a Praxis 50/34 chainring, a boxed M30 bottom bracket, and the chainring bolts to hold it all together.",
+      "It's exactly the 170 mm crank length and 50/34 chainring configuration I selected — the same setup that turned the crankset and bottom-bracket question from an open problem into one of the strongest confirmed pieces of this build.",
+      "Huge thanks to Praxis for backing that offer with real hardware, not just a conversation. That's one more component that no longer has to be sourced, guessed at, or worried about before the mechanic's inspection.",
+      "Next up: getting these into Bruce's hands so they can be checked against the frame and the rest of the drivetrain.",
+    ],
+    relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
   },
 ];
 
