@@ -18,6 +18,7 @@ export type BikeBuildStatus =
   | "offered"
   | "under_review"
   | "needed"
+  | "wanted"
   | "pending"
   | "complete";
 

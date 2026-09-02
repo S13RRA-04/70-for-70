@@ -15,6 +15,15 @@ import type { BikeBuildComponentRow } from "@/types/bike-build";
  * See /sponsors/request's doc comment: public sponsorship intake,
  * including in-kind, is closed pending written federal ethics approval.
  *
+ * Each row is marked "needed" or "wanted" (see StatusBadge for the visual
+ * treatment): "needed" is essential to safely train, race, or run the
+ * campaign — training/racing genuinely can't proceed the same way without
+ * it, and there's no reasonable substitute already on hand. "wanted" would
+ * help — better data, more comfort, more efficient training, more
+ * campaign reach — but training and racing continue without it. This is a
+ * judgment call, not a formula; re-evaluate a row's bucket if the
+ * reasoning above no longer fits it.
+ *
  * Update a row's status by hand as an item is actually secured — never
  * mark something confirmed before it happens. Add a new category by
  * appending to GEAR_NEEDS_CATEGORIES; nothing else needs to change.
@@ -49,9 +58,9 @@ export const GEAR_NEEDS_CATEGORIES: GearNeedsCategory[] = [
       },
       {
         component: "Running Shoes — Racing",
-        status: "needed",
-        statusLabel: "Needed",
-        notes: "Lighter shoe for the 13.1-mile race-day run leg.",
+        status: "wanted",
+        statusLabel: "Wanted",
+        notes: "Lighter shoe for the 13.1-mile race-day run leg — training shoes can cover it in the meantime.",
       },
       {
         component: "Cycling Apparel",
@@ -61,9 +70,9 @@ export const GEAR_NEEDS_CATEGORIES: GearNeedsCategory[] = [
       },
       {
         component: "Running Apparel",
-        status: "needed",
-        statusLabel: "Needed",
-        notes: "Training and race-day running kit.",
+        status: "wanted",
+        statusLabel: "Wanted",
+        notes: "Technical training and race-day running kit — general athletic wear works in the meantime.",
       },
     ],
   },
@@ -72,38 +81,38 @@ export const GEAR_NEEDS_CATEGORIES: GearNeedsCategory[] = [
     items: [
       {
         component: "GPS Multisport Watch",
-        status: "needed",
-        statusLabel: "Needed",
+        status: "wanted",
+        statusLabel: "Wanted",
         notes: "Ideally a Garmin — for tracking swim, bike, and run training with real pace, HR, and power data.",
       },
       {
         component: "FORM Smart Swim Goggles",
-        status: "needed",
-        statusLabel: "Needed",
+        status: "wanted",
+        statusLabel: "Wanted",
         notes: "Heads-up display goggles showing real-time pace, distance, and stroke data during swim sets.",
       },
       {
         component: "Oakley Meta Smart Glasses",
-        status: "needed",
-        statusLabel: "Needed",
+        status: "wanted",
+        statusLabel: "Wanted",
         notes: "AI-enabled smart glasses with a heads-up display for real-time workout data during training.",
       },
       {
         component: "Smart Bike Trainer",
-        status: "needed",
-        statusLabel: "Needed",
+        status: "wanted",
+        statusLabel: "Wanted",
         notes: "Indoor smart trainer for structured, weather-proof bike sessions.",
       },
       {
         component: "Power Meter Pedals",
-        status: "needed",
-        statusLabel: "Needed",
+        status: "wanted",
+        statusLabel: "Wanted",
         notes: "For accurate power-based bike training and pacing.",
       },
       {
         component: "Wahoo Training Devices",
-        status: "needed",
-        statusLabel: "Needed",
+        status: "wanted",
+        statusLabel: "Wanted",
         notes: "Bike computer, sensors, and other Wahoo ecosystem training gear.",
       },
     ],
@@ -113,14 +122,14 @@ export const GEAR_NEEDS_CATEGORIES: GearNeedsCategory[] = [
     items: [
       {
         component: "Coaching Support",
-        status: "needed",
-        statusLabel: "Needed",
-        notes: "Structured coaching guidance for the training blocks ahead.",
+        status: "wanted",
+        statusLabel: "Wanted",
+        notes: "Structured coaching guidance for the training blocks ahead — currently self-programmed via TrainingPeaks.",
       },
       {
         component: "Training Camera (GoPro)",
-        status: "needed",
-        statusLabel: "Needed",
+        status: "wanted",
+        statusLabel: "Wanted",
         notes: "For documenting training and racing to share with the campaign.",
       },
       {
@@ -131,8 +140,8 @@ export const GEAR_NEEDS_CATEGORIES: GearNeedsCategory[] = [
       },
       {
         component: "In-Kind Promotional Items",
-        status: "needed",
-        statusLabel: "Needed",
+        status: "wanted",
+        statusLabel: "Wanted",
         notes: `Challenge coins, patches, stickers, and similar campaign merchandise. If sold, proceeds first repay the providing supporter's direct costs, with any remaining profit split evenly between ${MERCH_BENEFICIARIES[0]} and ${MERCH_BENEFICIARIES[1]}.`,
       },
     ],

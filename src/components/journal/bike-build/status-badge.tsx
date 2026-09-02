@@ -1,4 +1,4 @@
-import { CheckCircle2, CircleDot, Circle, HelpCircle, AlertCircle } from "lucide-react";
+import { CheckCircle2, CircleDot, Circle, HelpCircle, AlertCircle, Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { BikeBuildStatus } from "@/types/bike-build";
 
@@ -8,6 +8,11 @@ import type { BikeBuildStatus } from "@/types/bike-build";
  * separately (see BikeBuildStatusSummaryItem.statusLabel /
  * BikeBuildComponentRow.statusLabel) — color and icon reinforce it, they
  * never carry the meaning alone.
+ *
+ * "needed" (bronze/alert) vs "wanted" (muted/star) is a deliberate visual
+ * hierarchy — needed items are essential to safely train/race or run the
+ * campaign; wanted items would help but training and racing proceed
+ * without them. See GEAR_NEEDS_CATEGORIES for the actual classification.
  */
 const STATUS_STYLES: Record<BikeBuildStatus, { icon: typeof CheckCircle2; className: string }> = {
   confirmed: { icon: CheckCircle2, className: "text-olive" },
@@ -16,6 +21,7 @@ const STATUS_STYLES: Record<BikeBuildStatus, { icon: typeof CheckCircle2; classN
   offered: { icon: CircleDot, className: "text-bronze" },
   under_review: { icon: HelpCircle, className: "text-bronze" },
   needed: { icon: AlertCircle, className: "text-bronze" },
+  wanted: { icon: Star, className: "text-charcoal-light" },
   pending: { icon: Circle, className: "text-charcoal-light/60" },
 };
 

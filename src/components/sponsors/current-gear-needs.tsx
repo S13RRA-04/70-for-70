@@ -1,5 +1,6 @@
 import { ChevronDown } from "lucide-react";
 import { ComponentStatusBoard } from "@/components/journal/bike-build/component-status-board";
+import { StatusBadge } from "@/components/journal/bike-build/status-badge";
 import { GEAR_NEEDS_CATEGORIES } from "@/lib/content/gear-needs";
 
 /**
@@ -22,6 +23,15 @@ export function CurrentGearNeeds() {
       <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
         The equipment and support still needed to get to the starting line — updated as items are secured.
       </p>
+
+      <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-charcoal-light">
+        <span className="flex items-center gap-1.5">
+          <StatusBadge status="needed" label="Needed" /> essential to safely train and race
+        </span>
+        <span className="flex items-center gap-1.5">
+          <StatusBadge status="wanted" label="Wanted" /> would help, not required
+        </span>
+      </div>
 
       <div className="mt-6 space-y-4">
         {GEAR_NEEDS_CATEGORIES.map((category) => (
