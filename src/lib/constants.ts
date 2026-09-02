@@ -341,24 +341,44 @@ export const GET_INVOLVED_ROLES = [
     title: "Race Crew",
     description:
       "Help on the ground race weekend — aid station support, gear transport, and other hands-on tasks that keep race day running.",
+    details: [
+      "Available for some or all of race weekend in Chattanooga",
+      "Comfortable with hands-on tasks — setup, gear transport, aid station support",
+      "No experience required, just reliable and ready to help where needed",
+    ],
   },
   {
     id: "Campaign Tent",
     title: "Campaign Tent",
     description:
       "Staff the campaign tent near the course — greet supporters, share the mission, and help collect donations in person.",
+    details: [
+      "Comfortable talking with strangers about the mission and the campaign",
+      "Available for a shift near the course on race weekend",
+      "Helps greet supporters and track in-person donations",
+    ],
   },
   {
     id: "Cheer Squad",
     title: "Cheer Squad",
     description:
       "Show up along the course to cheer — no experience required, just energy for the swim, bike, and run legs.",
+    details: [
+      "No experience or advance commitment required — just show up",
+      "Pick a spot along the swim, bike, or run course",
+      "Bring energy, signs, and noise",
+    ],
   },
   {
     id: "Social Media Team",
     title: "Social Media Team",
     description:
       "Help get the word out — sharing updates, creating content, and growing the campaign's reach online before and during race weekend.",
+    details: [
+      "Comfortable posting and sharing on Instagram, Facebook, or similar platforms",
+      "Can help before race weekend (spreading the word) and/or during (real-time updates)",
+      "No professional experience required, just willingness to help amplify",
+    ],
   },
 ] as const;
 

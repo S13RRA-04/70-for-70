@@ -5,6 +5,7 @@ import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTAButton } from "@/components/shared/cta-button";
 import { GetInvolvedForm } from "@/components/forms/get-involved-form";
+import { RoleDetailDialog } from "@/components/get-involved/role-detail-dialog";
 import { CampaignProgress } from "@/components/campaign/campaign-progress";
 import { ShareButtons } from "@/components/shared/share-buttons";
 import { EmailSignupForm } from "@/components/forms/email-signup-form";
@@ -50,12 +51,7 @@ export default async function GetInvolvedPage() {
           />
           <div className="mt-8 grid gap-6 sm:grid-cols-2">
             {GET_INVOLVED_ROLES.map((role) => (
-              <div key={role.id} className="rounded-sm border border-ink/10 bg-off-white p-6">
-                <h3 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
-                  {role.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-charcoal-light">{role.description}</p>
-              </div>
+              <RoleDetailDialog key={role.id} role={role} />
             ))}
           </div>
         </Container>

@@ -127,7 +127,7 @@ export function ExternalDonateButton({
           if (e.target === dialogRef.current) dialogRef.current?.close();
         }}
         aria-labelledby="donate-confirm-heading"
-        className="w-[min(28rem,calc(100vw-2rem))] rounded-sm border border-ink/10 bg-off-white p-0 text-ink shadow-xl backdrop:bg-ink/60"
+        className="m-auto w-[min(28rem,calc(100vw-2rem))] rounded-sm border border-ink/10 bg-off-white p-0 text-ink shadow-xl backdrop:bg-ink/60"
       >
         <div className="p-6">
           <h3
@@ -173,7 +173,7 @@ export function ExternalDonateButton({
           if (e.target === reportDialogRef.current) reportDialogRef.current?.close();
         }}
         aria-labelledby="donate-report-heading"
-        className="w-[min(28rem,calc(100vw-2rem))] rounded-sm border border-ink/10 bg-off-white p-0 text-ink shadow-xl backdrop:bg-ink/60"
+        className="m-auto w-[min(28rem,calc(100vw-2rem))] rounded-sm border border-ink/10 bg-off-white p-0 text-ink shadow-xl backdrop:bg-ink/60"
       >
         <div className="p-6">
           {status === "done" ? (
