@@ -118,6 +118,29 @@ export const GEAR_NEEDS_CATEGORIES: GearNeedsCategory[] = [
     ],
   },
   {
+    category: "Bike Equipment & Maintenance",
+    items: [
+      {
+        component: "Dedicated Triathlon Bike Frame",
+        status: "wanted",
+        statusLabel: "Wanted",
+        notes: "A purpose-built tri/aero frame — the donated Stradalli build in progress already covers the actual need.",
+      },
+      {
+        component: "Triathlon Carbon Wheels",
+        status: "wanted",
+        statusLabel: "Wanted",
+        notes: "Aero carbon race wheelset — the current build already has a functional wheelset for training and racing.",
+      },
+      {
+        component: "Bike Maintenance Gear",
+        status: "needed",
+        statusLabel: "Needed",
+        notes: "Tools, spare tubes, chain lube, and a repair kit to keep the only race bike running safely through training and race day.",
+      },
+    ],
+  },
+  {
     category: "Support & Campaign Needs",
     items: [
       {
