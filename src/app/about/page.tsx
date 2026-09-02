@@ -92,6 +92,14 @@ export default function AboutPage() {
                   className="object-cover"
                 />
               </div>
+              <a
+                href="https://news.va.gov/91792/veteranoftheday-navy-veteran-cody-hitson/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-6 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+              >
+                Featured as VA&apos;s #VeteranOfTheDay &rarr;
+              </a>
             </ImageTextRow>
           </div>
         </Container>

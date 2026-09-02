@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ExternalLink, ShoppingBag } from "lucide-react";
 import { getCampaign } from "@/lib/data/campaign";
 import { getAllocationBreakdown } from "@/lib/data/allocation";
@@ -203,6 +204,28 @@ export default async function CampaignHomePage() {
             title="Wear The Mission"
             description="Merch is sold through Bonfire — 100% of net profit goes directly to veteran-focused nonprofit organizations."
           />
+
+          <div className="mt-8 grid grid-cols-2 gap-4 sm:max-w-xl">
+            <div className="relative aspect-[3/4] overflow-hidden rounded-sm border border-ink/10">
+              <Image
+                src="/shop/merch-shirt-front.jpg"
+                alt="Cody wearing the For The 22 campaign tee"
+                fill
+                className="object-cover"
+                sizes="(min-width: 640px) 300px, 50vw"
+              />
+            </div>
+            <div className="relative aspect-[3/4] overflow-hidden rounded-sm border border-ink/10">
+              <Image
+                src="/shop/merch-shirt-back.jpg"
+                alt="Back of the tee, reading 'Because 22 does not equal 0' above a QR code linking to the campaign"
+                fill
+                className="object-cover"
+                sizes="(min-width: 640px) 300px, 50vw"
+              />
+            </div>
+          </div>
+
           <div className="mt-8 grid gap-4 sm:grid-cols-3">
             {SHOP_CATEGORIES.map((category) => (
               <a
