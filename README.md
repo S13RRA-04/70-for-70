@@ -400,6 +400,43 @@ incidental git operation.
   / `campaign-privacy.ts`) is, like the parent's, pending review by
   qualified legal counsel before being treated as final.
 
+## Merch Store (Bonfire Pro Custom Domain)
+
+The campaign's merch store (`MERCH_STORE_URL` in `src/lib/constants.ts`,
+linked from `/shop`, the campaign homepage's shop teaser, and the merch
+ticker) is `https://shop.forthe22.org/` — a Bonfire Pro custom domain, not
+a page this Worker renders. Bonfire hosts and serves the store entirely
+from its own infrastructure; `shop.forthe22.org` only needs a DNS record
+pointing at Bonfire, the same way any other custom domain works.
+
+This is a different mechanism from `tri.forthe22.org`/`ruck.forthe22.org`
+above — those are Cloudflare Workers Custom Domains that route traffic
+*into* this app. `shop.forthe22.org` must NOT be added as a Workers Custom
+Domain on the `forthe22` Worker — doing so would route requests into this
+Next.js app instead of to Bonfire, and the store would never load.
+
+**Remaining manual steps (Cloudflare dashboard + Bonfire dashboard — needs
+your login to both):**
+
+1. In Cloudflare, add a **CNAME** record on the `forthe22.org` zone:
+   `shop` → `forthe22.bonfire.com`, set to **DNS only** (grey cloud, not
+   proxied). Bonfire needs to see the real request to issue the SSL
+   certificate for the custom domain — leaving it proxied through
+   Cloudflare is likely to break that certificate handshake.
+2. In Bonfire's dashboard, confirm the custom domain `shop.forthe22.org`
+   is saved under the store's Pro custom-domain setting, and wait for its
+   SSL/verification status to show active (can take anywhere from a few
+   minutes to a few hours after the CNAME propagates).
+3. Once both are done, `https://shop.forthe22.org/` starts serving the
+   store immediately — `MERCH_STORE_URL` is already committed pointing at
+   it, so no further deploy is needed on this end.
+
+The credentials available to this repo's tooling (`wrangler` OAuth login,
+`CLOUDFLARE_WORKERS_API_TOKEN` in `.env`) are both scoped for Worker
+deploys, not DNS — the CNAME record above has to be added by hand through
+the Cloudflare dashboard (or with a token that's separately granted
+`Zone → DNS → Edit` on the `forthe22.org` zone).
+
 ## New Pages (Movement Brief)
 
 _Historical snapshot from an earlier milestone — `/join` described below has
