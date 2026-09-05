@@ -409,14 +409,8 @@ export const CHATTANOOGAN_HOTEL_BLOCK_URL: string | null = null;
  * proceeds. Bonfire annotates which of the two beneficiaries each individual
  * item supports directly on the product listing — this site doesn't track
  * that split per item, only the two organizations it can go to.
- *
- * Points at shop.forthe22.org (a Bonfire Pro custom domain, CNAMEd to
- * forthe22.bonfire.com) rather than bonfire.com/store/for-the-22 directly —
- * Bonfire serves the store itself from its own infrastructure; this app
- * never renders it, it only links out. DNS-only (unproxied) required for
- * Bonfire's SSL certificate to provision on the custom domain.
  */
-export const MERCH_STORE_URL = "https://shop.forthe22.org/";
+export const MERCH_STORE_URL = "https://www.bonfire.com/store/for-the-22/";
 
 /** Recipients of net Bonfire store profit, split per item on Bonfire — see MERCH_STORE_URL. */
 export const MERCH_BENEFICIARIES = ["Mighty Oaks Foundation", "Veterans and Athletes United"];

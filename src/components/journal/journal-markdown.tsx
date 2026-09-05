@@ -22,6 +22,8 @@ const components: Components = {
   code: ({ ...props }) => <code className="rounded bg-ink/5 px-1.5 py-0.5 text-sm text-ink" {...props} />,
   strong: ({ ...props }) => <strong className="font-semibold text-ink" {...props} />,
   hr: ({ ...props }) => <hr className="my-8 border-ink/10" {...props} />,
+  // eslint-disable-next-line @next/next/no-img-element -- body images come from arbitrary Supabase storage URLs at render time, not a build-time-known set next/image can optimize.
+  img: ({ ...props }) => <img className="mt-6 w-full rounded-sm" {...props} />,
 };
 
 /** Renders a journal entry's Markdown body with the site's editorial typography. Shared by the public post page and the admin editor's preview pane. */
