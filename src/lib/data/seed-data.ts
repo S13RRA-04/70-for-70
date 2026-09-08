@@ -17,6 +17,7 @@ import type {
   MileRow,
   MissionPartnerRow,
   PartnerRow,
+  PerformanceSnapshotRow,
   PostRow,
   SponsorRow,
   TrainingObjectiveRow,
@@ -336,4 +337,166 @@ export const SEED_TRAINING_OBJECTIVES: TrainingObjectiveRow[] = [
     },
   ),
   objective("seed-race-14", "race_readiness", "IRONMAN 70.3 Chattanooga completed", 13, "goal"),
+];
+
+function snapshot(
+  id: string,
+  recorded_on: string,
+  category: PerformanceSnapshotRow["category"],
+  metric_key: string,
+  label: string,
+  value_display: string,
+  display_order: number,
+  options: { numeric?: number; unit?: string; measured?: boolean } = {},
+): PerformanceSnapshotRow {
+  return {
+    id,
+    recorded_on,
+    category,
+    metric_key,
+    label,
+    value_display,
+    value_numeric: options.numeric ?? null,
+    unit: options.unit ?? null,
+    is_measured: options.measured ?? true,
+    display_order,
+    created_at: now,
+  };
+}
+
+/** Mirrors supabase/2026-09-08-performance-snapshots.sql's first dated row set — see that file for the full rationale. */
+export const SEED_PERFORMANCE_SNAPSHOTS: PerformanceSnapshotRow[] = [
+  snapshot("seed-perf-swim-1", "2026-09-08", "swim", "swim_pace_100yd", "Repeatable 100 yd Pace", "1:58/100 yd", 0, {
+    numeric: 118,
+    unit: "sec/100yd",
+  }),
+  snapshot(
+    "seed-perf-swim-2",
+    "2026-09-08",
+    "swim",
+    "swim_pace_100yd_avg",
+    "Latest 10×100 Average",
+    "1:58.3/100 yd",
+    1,
+    { numeric: 118.3, unit: "sec/100yd" },
+  ),
+  snapshot("seed-perf-swim-3", "2026-09-08", "swim", "swim_pace_fastest", "Fastest 100", "1:55/100 yd", 2, {
+    numeric: 115,
+    unit: "sec/100yd",
+  }),
+  snapshot("seed-perf-swim-4", "2026-09-08", "swim", "swim_pace_range", "Latest Range", "1:55–2:02", 3),
+  snapshot(
+    "seed-perf-swim-5",
+    "2026-09-08",
+    "swim",
+    "swim_pace_previous",
+    "Previous Benchmark",
+    "~2:04/100 yd",
+    4,
+    { numeric: 124, unit: "sec/100yd" },
+  ),
+
+  snapshot("seed-perf-bike-1", "2026-09-08", "bike", "bike_ftp_watts", "FTP", "143 W", 0, {
+    numeric: 143,
+    unit: "W",
+  }),
+  snapshot(
+    "seed-perf-bike-2",
+    "2026-09-08",
+    "bike",
+    "bike_20min_power_watts",
+    "20-Minute Average Power",
+    "151 W",
+    1,
+    { numeric: 151, unit: "W" },
+  ),
+  snapshot("seed-perf-bike-3", "2026-09-08", "bike", "bike_ftp_test_hr", "FTP Test Average HR", "167 bpm", 2, {
+    numeric: 167,
+    unit: "bpm",
+  }),
+  snapshot(
+    "seed-perf-bike-4",
+    "2026-09-08",
+    "bike",
+    "bike_ftp_test_cadence",
+    "FTP Test Average Cadence",
+    "76 rpm",
+    3,
+    { numeric: 76, unit: "rpm" },
+  ),
+
+  snapshot("seed-perf-ride-1", "2026-09-08", "ride", "ride_distance_mi", "Distance", "11.23 mi", 0, {
+    numeric: 11.23,
+    unit: "mi",
+  }),
+  snapshot("seed-perf-ride-2", "2026-09-08", "ride", "ride_moving_time", "Moving Time", "53:47", 1),
+  snapshot("seed-perf-ride-3", "2026-09-08", "ride", "ride_avg_speed_mph", "Average Speed", "12.5 mph", 2, {
+    numeric: 12.5,
+    unit: "mph",
+  }),
+  snapshot("seed-perf-ride-4", "2026-09-08", "ride", "ride_max_speed_mph", "Max Speed", "27.5 mph", 3, {
+    numeric: 27.5,
+    unit: "mph",
+  }),
+  snapshot("seed-perf-ride-5", "2026-09-08", "ride", "ride_elevation_ft", "Elevation Gain", "407 ft", 4, {
+    numeric: 407,
+    unit: "ft",
+  }),
+  snapshot("seed-perf-ride-6", "2026-09-08", "ride", "ride_avg_hr", "Average HR", "143 bpm", 5, {
+    numeric: 143,
+    unit: "bpm",
+  }),
+  snapshot("seed-perf-ride-7", "2026-09-08", "ride", "ride_max_hr", "Max HR", "158 bpm", 6, {
+    numeric: 158,
+    unit: "bpm",
+  }),
+  snapshot("seed-perf-ride-8", "2026-09-08", "ride", "ride_relative_effort", "Relative Effort", "74", 7, {
+    numeric: 74,
+  }),
+  snapshot("seed-perf-ride-9", "2026-09-08", "ride", "ride_zone2_pct", "Zone 2", "32.1%", 8, {
+    numeric: 32.1,
+    unit: "%",
+  }),
+  snapshot("seed-perf-ride-10", "2026-09-08", "ride", "ride_zone3_pct", "Zone 3", "65.7%", 9, {
+    numeric: 65.7,
+    unit: "%",
+  }),
+  snapshot(
+    "seed-perf-ride-11",
+    "2026-09-08",
+    "ride",
+    "ride_zone23_combined_pct",
+    "Combined Z2/Z3",
+    "97.8%",
+    10,
+    { numeric: 97.8, unit: "%" },
+  ),
+
+  snapshot("seed-perf-aerobic-1", "2026-09-08", "aerobic", "vo2max", "Estimated VO2 Max", "41", 0, {
+    numeric: 41,
+    unit: "ml/kg/min",
+  }),
+
+  snapshot("seed-perf-tp-1", "2026-09-08", "trainingpeaks", "tp_fitness", "Fitness (CTL)", "15", 0, {
+    numeric: 15,
+    measured: false,
+  }),
+  snapshot("seed-perf-tp-2", "2026-09-08", "trainingpeaks", "tp_fatigue", "Fatigue (ATL)", "38", 1, {
+    numeric: 38,
+    measured: false,
+  }),
+  snapshot("seed-perf-tp-3", "2026-09-08", "trainingpeaks", "tp_form", "Form (TSB)", "-23", 2, {
+    numeric: -23,
+    measured: false,
+  }),
+  snapshot(
+    "seed-perf-tp-4",
+    "2026-09-08",
+    "trainingpeaks",
+    "tp_ramp_rate",
+    "7-Day Fitness Ramp Rate",
+    "+3",
+    3,
+    { numeric: 3, measured: false },
+  ),
 ];

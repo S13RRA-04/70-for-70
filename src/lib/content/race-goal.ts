@@ -33,7 +33,7 @@ export const RACE_GOAL = {
   splits: {
     swim: {
       historical: "28:19 (2023 winner)",
-      current: "TBD",
+      current: "1:58/100 yd training pace (not race effort)",
       competitive: "30:00–32:00",
       podium: "≤29:00 (~1:22–1:25 per 100 yd)",
     } satisfies GoalMetric,

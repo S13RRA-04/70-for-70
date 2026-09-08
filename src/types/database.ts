@@ -344,6 +344,42 @@ export interface TrainingObjectiveRow {
   created_at: string;
 }
 
+/**
+ * "swim"/"bike"/"ride"/"aerobic" are directly measured (a test, a device
+ * reading); "trainingpeaks" is platform-calculated from accumulated
+ * training load (Fitness/Fatigue/Form/ramp), not a raw measurement — kept
+ * as its own category so the UI can visually separate the two rather than
+ * implying a TSS-model score carries the same certainty as a stopwatch.
+ */
+export type PerformanceMetricCategory = "swim" | "bike" | "ride" | "aerobic" | "trainingpeaks";
+
+/**
+ * One metric, on one date — e.g. ("2026-09-08", "bike_ftp_watts", "143 W").
+ * Normalized this way (one row per metric per date) rather than one wide
+ * row per date so a future update only inserts new rows for the metrics
+ * that actually changed, existing history for every metric_key is
+ * preserved automatically, and a trend chart for a single metric (swim
+ * pace, FTP, VO2 max, TrainingPeaks Fitness) is just "every row with this
+ * metric_key, ordered by recorded_on" — no schema change needed to add one.
+ */
+export interface PerformanceSnapshotRow {
+  id: string;
+  recorded_on: string;
+  category: PerformanceMetricCategory;
+  /** Stable machine key for grouping one metric's history over time, e.g. "bike_ftp_watts" — never change once a metric_key has history, or the trend breaks at that point. */
+  metric_key: string;
+  label: string;
+  /** Free-text display value ("1:58/100 yd", "143 W") — units live in the string, same convention as TrainingObjectiveRow's metric_* fields. */
+  value_display: string;
+  /** Parsed numeric form for future charting, in `unit`. Null when value_display isn't a single chartable number (e.g. a HH:MM range). */
+  value_numeric: number | null;
+  unit: string | null;
+  /** False only for trainingpeaks category rows — see PerformanceMetricCategory. */
+  is_measured: boolean;
+  display_order: number;
+  created_at: string;
+}
+
 export interface MissionPartnerRow {
   id: string;
   name: string;

@@ -14,6 +14,7 @@ import { TrainingBridge } from "@/components/journal/training-bridge";
 import { TrainingSnapshot } from "@/components/training/training-snapshot";
 import { StravaSnapshot } from "@/components/training/strava-snapshot";
 import { TrainingObjectivesChecklist } from "@/components/training/training-objectives-checklist";
+import { PerformanceMetricsPanel } from "@/components/training/performance-metrics-panel";
 import { CampaignPhaseBanner } from "@/components/campaign/campaign-phase-banner";
 import { EmptyState } from "@/components/shared/empty-state";
 import { EmailSignupForm } from "@/components/forms/email-signup-form";
@@ -24,6 +25,7 @@ import { getTrainingSnapshot } from "@/lib/whoop/client";
 import { getStravaTrainingSnapshot } from "@/lib/strava/client";
 import { getRecentDisciplineWorkouts, getTrainingStats } from "@/lib/training-stats";
 import { getTrainingObjectives } from "@/lib/data/training-objectives";
+import { getLatestPerformanceSnapshot } from "@/lib/data/performance-snapshots";
 import { getCampaignPhase } from "@/lib/campaign-phase";
 import { CAMPAIGN_URL, DONATE_LINK, STRAVA_PROFILE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
@@ -97,13 +99,15 @@ export default async function JournalPage(props: PageProps<"/journal">) {
   const pageParam = Array.isArray(searchParams.page) ? searchParams.page[0] : searchParams.page;
   const page = Math.max(1, Number(pageParam) || 1);
 
-  const [allEntries, trainingSnapshot, stravaSnapshot, trainingStats, trainingObjectives] = await Promise.all([
-    getJournalEntries(),
-    getTrainingSnapshot(),
-    getStravaTrainingSnapshot(),
-    getTrainingStats(),
-    getTrainingObjectives(),
-  ]);
+  const [allEntries, trainingSnapshot, stravaSnapshot, trainingStats, trainingObjectives, performanceSnapshot] =
+    await Promise.all([
+      getJournalEntries(),
+      getTrainingSnapshot(),
+      getStravaTrainingSnapshot(),
+      getTrainingStats(),
+      getTrainingObjectives(),
+      getLatestPerformanceSnapshot(),
+    ]);
   const recentDisciplineWorkouts = trainingSnapshot ? getRecentDisciplineWorkouts(trainingSnapshot.recentWorkouts) : [];
 
   const hasTrainingVolume =
@@ -274,7 +278,15 @@ export default async function JournalPage(props: PageProps<"/journal">) {
               lifetime athletic accomplishments. Nothing here is marked complete until it&apos;s
               actually done.
             </p>
-            <div className="mt-6">
+
+            <div className="mt-8">
+              <PerformanceMetricsPanel
+                recordedOn={performanceSnapshot.recordedOn}
+                rows={performanceSnapshot.rows}
+              />
+            </div>
+
+            <div className="mt-10">
               <TrainingObjectivesChecklist objectives={trainingObjectives} />
             </div>
           </div>

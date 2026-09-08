@@ -422,6 +422,49 @@ create index if not exists training_objectives_category_idx
   on public.training_objectives (category, display_order);
 
 -- ---------------------------------------------------------------------------
+-- performance_snapshots
+--
+-- Dated, measured/platform-calculated performance numbers shown on
+-- /journal's Performance Benchmarks section — swim pace, FTP and its test
+-- conditions, the latest outdoor ride, VO2 max, and TrainingPeaks'
+-- Fitness/Fatigue/Form. Distinct from training_objectives (a completion
+-- ladder of milestones): this is a running log of actual readings, one row
+-- per metric per date, so a later update inserts new rows rather than
+-- overwriting history — see PerformanceSnapshotRow's doc comment in
+-- src/types/database.ts for why it's normalized this way. "Latest
+-- snapshot" is just every row at max(recorded_on); a future trend chart
+-- for one metric is every row sharing its metric_key, ordered by
+-- recorded_on.
+-- ---------------------------------------------------------------------------
+create table if not exists public.performance_snapshots (
+  id uuid primary key default gen_random_uuid(),
+  recorded_on date not null,
+  category text not null check (category in ('swim', 'bike', 'ride', 'aerobic', 'trainingpeaks')),
+  -- Stable machine key for grouping one metric's history over time, e.g.
+  -- "bike_ftp_watts" — never change once a metric_key has history.
+  metric_key text not null,
+  label text not null,
+  -- Free-text display value ("1:58/100 yd", "143 W") — units travel with
+  -- the string, same convention as training_objectives' metric_* columns.
+  value_display text not null,
+  -- Parsed numeric form for future charting. Null when value_display isn't
+  -- a single chartable number (e.g. a HH:MM range).
+  value_numeric numeric,
+  unit text,
+  -- False only for category = 'trainingpeaks' — a TSS-model score, not a
+  -- direct measurement, kept visually distinct on the public page.
+  is_measured boolean not null default true,
+  display_order integer not null default 0,
+  created_at timestamptz not null default now(),
+  unique (recorded_on, metric_key)
+);
+
+create index if not exists performance_snapshots_recorded_on_idx
+  on public.performance_snapshots (recorded_on desc);
+create index if not exists performance_snapshots_metric_key_idx
+  on public.performance_snapshots (metric_key, recorded_on);
+
+-- ---------------------------------------------------------------------------
 -- partners
 -- ---------------------------------------------------------------------------
 create table if not exists public.partners (
@@ -672,6 +715,7 @@ alter table public.journal_entry_beneficiary_mentions enable row level security;
 alter table public.partners enable row level security;
 alter table public.mission_partners enable row level security;
 alter table public.training_objectives enable row level security;
+alter table public.performance_snapshots enable row level security;
 alter table public.inquiries enable row level security;
 alter table public.sponsorship_requests enable row level security;
 alter table public.sponsorship_status_history enable row level security;
@@ -762,6 +806,14 @@ create policy "training objectives are publicly readable"
 -- No insert/update/delete policy on public.training_objectives: only
 -- requireAdminUser() + createAdminClient() (via /admin/training-objectives)
 -- mutates this table.
+
+create policy "performance snapshots are publicly readable"
+  on public.performance_snapshots for select
+  to anon, authenticated
+  using (true);
+-- No insert/update/delete policy on public.performance_snapshots: written
+-- only via the service-role client, same trust model as every other table
+-- in this file.
 
 -- No policies on public.inquiries: default-deny for anon/authenticated.
 -- Only the service-role key (which bypasses RLS) can read or write it.
