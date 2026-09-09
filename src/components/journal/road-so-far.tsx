@@ -9,12 +9,14 @@ const STATUS_LABEL: Record<JournalMilestoneStatus, string> = {
 
 /**
  * Restrained campaign timeline, not a project tracker — see AGENTS.md's
- * Journal brief §3. Driven entirely by the milestones array passed in, so
- * a 5th/6th entry needs no layout changes here.
+ * Journal brief §3. Driven entirely by the milestones array passed in — a
+ * 6th/7th entry needs no further layout change (the grid still wraps
+ * cleanly), just widen the lg breakpoint's column count to match if the
+ * count keeps growing.
  */
 export function RoadSoFar({ milestones }: { milestones: (JournalMilestone & { status: JournalMilestoneStatus })[] }) {
   return (
-    <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
       {milestones.map((milestone) => {
         const isComplete = milestone.status === "complete";
         const isCurrent = milestone.status === "current";

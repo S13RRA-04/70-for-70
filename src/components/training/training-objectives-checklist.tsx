@@ -36,7 +36,7 @@ const CATEGORY_ORDER: TrainingObjectiveCategory[] = [
 
 function ObjectiveRow({ objective }: { objective: TrainingObjectiveRow }) {
   const isCurrent = objective.status === "in_progress";
-  const isPodiumTarget = objective.tag?.toLowerCase() === "podium-track";
+  const isStretchTarget = objective.tag?.toLowerCase() === "stretch target";
   const hasMetric =
     objective.metric_historical || objective.metric_current || objective.metric_next || objective.metric_goal;
 
@@ -66,14 +66,14 @@ function ObjectiveRow({ objective }: { objective: TrainingObjectiveRow }) {
             className={cn(
               "text-sm",
               objective.status === "done" && "text-charcoal-light/70 line-through",
-              objective.status === "not_started" && !isPodiumTarget && "text-charcoal-light",
-              (isCurrent || objective.status === "goal" || isPodiumTarget) && "font-semibold text-ink",
+              objective.status === "not_started" && !isStretchTarget && "text-charcoal-light",
+              (isCurrent || objective.status === "goal" || isStretchTarget) && "font-semibold text-ink",
             )}
           >
             {objective.label}
           </span>
           {objective.tag &&
-            (isPodiumTarget ? (
+            (isStretchTarget ? (
               <span className="inline-flex items-center gap-1 rounded-full bg-bronze px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-off-white">
                 <Trophy size={10} aria-hidden="true" />
                 {objective.tag}

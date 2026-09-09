@@ -36,6 +36,23 @@ export const TRAINING_PHASE_LABELS = ["Base", "Build", "Specific", "Peak", "Race
 export type TrainingPhaseLabel = (typeof TRAINING_PHASE_LABELS)[number];
 
 /**
+ * A fuller, narrative version of each single-word rung above — for
+ * JournalStatusStrip's "Current Phase" stat only. TrainingTimeline's
+ * stepper keeps the terse one-word labels (five rungs of matching length
+ * read better as a stepper); this is for the one place that shows a phase
+ * name on its own, where a bare "Build" reads as more generic than the
+ * campaign's own Phase 2 framing already used on /journal's Performance
+ * Benchmarks section.
+ */
+export const TRAINING_PHASE_DESCRIPTIONS: Record<TrainingPhaseLabel, string> = {
+  Base: "Phase 1 — Base + Technique",
+  Build: "Phase 2 — Building the Engine",
+  Specific: "Phase 3 — Race-Specific",
+  Peak: "Phase 4 — Peak",
+  Race: "Race Week",
+};
+
+/**
  * The athlete's actual current block in the training arc — updated by hand
  * as each block actually completes, not computed from
  * RACE_INFO.trainingStartDate/raceDate. Real periodization blocks aren't

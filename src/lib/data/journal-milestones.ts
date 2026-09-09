@@ -1,7 +1,6 @@
 import { BIKE_BUILD_TIMELINE } from "@/lib/content/building-the-bike";
 import { getCampaignPhase } from "@/lib/campaign-phase";
 import { RACE_INFO } from "@/lib/constants";
-import { formatDateLong } from "@/lib/utils";
 import type { JournalEntryRow } from "@/types/database";
 
 export type JournalMilestoneStatus = "complete" | "current" | "upcoming";
@@ -22,10 +21,14 @@ export const JOURNAL_MILESTONES: JournalMilestone[] = [
   { id: "training-begins", title: "Training Begins", description: "The work starts." },
   { id: "first-support-arrives", title: "First Support Arrives", description: "Partners begin joining the campaign." },
   { id: "bike-build-begins", title: "Bike Build Begins", description: "The community starts assembling the race machine." },
+  { id: "race-prep", title: "Race Prep", description: "Training shifts to race-specific execution." },
   {
     id: "chattanooga",
-    title: "Chattanooga",
-    description: RACE_INFO.raceDate ? formatDateLong(RACE_INFO.raceDate) : "The finish line.",
+    title: "Chattanooga 70.3",
+    // Description is deliberately not the race date again — RoadSoFar
+    // already renders `date` as its own <time> element below this text,
+    // so repeating it here just duplicated the same date twice on the card.
+    description: "The finish line.",
     date: RACE_INFO.raceDate ?? undefined,
   },
 ];
@@ -46,6 +49,7 @@ export function getJournalMilestonesWithStatus(
     "training-begins": entries.some((e) => e.primary_category === "Training") ? "complete" : "upcoming",
     "first-support-arrives": entries.some((e) => e.primary_category === "Sponsors") ? "complete" : "upcoming",
     "bike-build-begins": BIKE_BUILD_TIMELINE.length > 0 ? "complete" : "upcoming",
+    "race-prep": entries.some((e) => e.primary_category === "Race Prep") ? "complete" : "upcoming",
     chattanooga: raceStatus,
   };
 

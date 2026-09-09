@@ -68,7 +68,7 @@ select * from (values
   ('swim', 'Open-water 1,000 yd with sighting', 11, 'not_started', null, null, null, null, null),
   ('swim', 'Full-distance open-water swim', 12, 'not_started', null, null, null, null, null),
   ('swim', '1.2 mi race swim ≤32:00', 13, 'not_started', null, '28:19 (2023 M35–39 winner)', null, null, null),
-  ('swim', 'Podium-track swim ≤29:00', 14, 'not_started', 'Podium-track', null, null, null, null),
+  ('swim', 'Stretch-target swim ≤29:00', 14, 'not_started', 'Stretch Target', null, null, null, null),
 
   ('bike', 'Outdoor baseline: 9.06 mi / 12.1 mph / 412 ft', 0, 'done', null, null, null, null, null),
   ('bike', 'Confident braking, shifting, cornering, descending', 1, 'not_started', null, null, null, null, null),
@@ -80,14 +80,14 @@ select * from (values
   ('bike', 'Establish FTP', 7, 'not_started', null, null, null, null, null),
   ('bike', 'FTP ≥2.5 W/kg', 8, 'not_started', null, null, null, null, null),
   ('bike', 'FTP ≥3.0 W/kg', 9, 'not_started', null, null, null, null, null),
-  ('bike', 'FTP ≥3.5 W/kg podium-track', 10, 'not_started', 'Podium-track', null, null, null, null),
+  ('bike', 'FTP ≥3.5 W/kg stretch target', 10, 'not_started', 'Stretch Target', null, null, null, null),
   ('bike', 'Hold aero position 20 min continuously', 11, 'not_started', null, null, null, null, null),
   ('bike', 'Hold aero position 60 min without meaningful power loss', 12, 'not_started', null, null, null, null, null),
   ('bike', '40 mi controlled with fueling executed', 13, 'not_started', null, null, null, null, null),
   ('bike', '56 mi at planned race effort', 14, 'not_started', null, null, null, null, null),
   ('bike', '56 mi + successful transition run', 15, 'not_started', null, null, null, null, null),
   ('bike', '70.3 bike split ≤2:25 competitive', 16, 'not_started', 'Competitive', '2:10:23–2:14:36 (2023 & 2025 M35–39 winners)', null, null, null),
-  ('bike', 'Podium-track bike split ≤2:15', 17, 'not_started', 'Podium-track', null, null, null, null),
+  ('bike', 'Stretch-target bike split ≤2:15', 17, 'not_started', 'Stretch Target', null, null, null, null),
 
   ('run', 'Establish aerobic HR/pace baseline', 0, 'not_started', null, null, null, null, null),
   ('run', 'Establish current 5K benchmark', 1, 'not_started', null, null, null, null, null),
@@ -96,15 +96,15 @@ select * from (values
   ('run', 'Sub-25:00 5K', 4, 'not_started', null, null, null, null, null),
   ('run', 'Sub-23:00 5K', 5, 'not_started', null, null, null, null, null),
   ('run', 'Sub-21:00 5K', 6, 'not_started', null, null, null, null, null),
-  ('run', 'Sub-20:00 5K podium-track', 7, 'not_started', 'Podium-track', null, null, null, null),
+  ('run', 'Sub-20:00 5K stretch target', 7, 'not_started', 'Stretch Target', null, null, null, null),
   ('run', 'Controlled 10K at target training pace', 8, 'not_started', null, null, null, null, null),
   ('run', '10 mi aerobic without pace decay', 9, 'not_started', null, null, null, null, null),
   ('run', 'Open half marathon <1:40', 10, 'not_started', null, null, null, null, null),
-  ('run', 'Open half marathon <1:30 podium-track', 11, 'not_started', 'Podium-track', null, null, null, null),
+  ('run', 'Open half marathon <1:30 stretch target', 11, 'not_started', 'Stretch Target', null, null, null, null),
   ('run', '30 min off bike within 10% of fresh aerobic pace', 12, 'not_started', null, null, null, null, null),
   ('run', '60 min off bike with stable HR and pace', 13, 'not_started', null, null, null, null, null),
   ('run', '70.3 run ≤1:30 competitive', 14, 'not_started', 'Competitive', '1:17:09–1:26:41 (2023 & 2025 M35–39 winners)', null, null, null),
-  ('run', 'Podium-track 70.3 run ≤1:20–1:25', 15, 'not_started', 'Podium-track', null, null, null, null),
+  ('run', 'Stretch-target 70.3 run ≤1:20–1:25', 15, 'not_started', 'Stretch Target', null, null, null, null),
 
   ('brick', 'First bike → run transition', 0, 'not_started', null, null, null, null, null),
   ('brick', '60 min bike + 15 min run with smooth transition', 1, 'not_started', null, null, null, null, null),
@@ -141,7 +141,7 @@ select * from (values
   ('race_readiness', 'Full-distance swim at target race pace', 9, 'not_started', null, null, null, null, null),
   ('race_readiness', '56 mi bike at target race effort', 10, 'not_started', null, null, null, null, null),
   ('race_readiness', '60 min post-bike run at target race effort', 11, 'not_started', null, null, null, null, null),
-  ('race_readiness', 'Podium-track overall capability: ~4:05–4:15', 12, 'not_started', 'Podium-track', '4:04:51–4:27:25 (2023 top-9, M35–39); 2025 not directly comparable — no swim leg held', null, null, null),
+  ('race_readiness', 'Stretch-target overall capability: ~4:05–4:15', 12, 'not_started', 'Stretch Target', '4:04:51–4:27:25 (2023 top-9, M35–39); 2025 not directly comparable — no swim leg held', null, null, null),
   ('race_readiness', 'IRONMAN 70.3 Chattanooga completed', 13, 'goal', null, null, null, null, null)
 ) as v (category, label, display_order, status, tag, metric_historical, metric_current, metric_next, metric_goal)
 where not exists (select 1 from public.training_objectives);

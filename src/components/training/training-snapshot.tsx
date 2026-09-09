@@ -26,7 +26,14 @@ function formatSportName(sportName: string): string {
     .join(" ");
 }
 
-export function TrainingSnapshot({ snapshot }: { snapshot: WhoopTrainingSnapshot | null }) {
+export function TrainingSnapshot({
+  snapshot,
+  maxWorkouts,
+}: {
+  snapshot: WhoopTrainingSnapshot | null;
+  /** Caps the "Recent Workouts" list — omit to show everything WHOOP returned (see getTrainingSnapshot's own fetch limit). */
+  maxWorkouts?: number;
+}) {
   if (!snapshot) {
     return (
       <EmptyState
@@ -35,6 +42,9 @@ export function TrainingSnapshot({ snapshot }: { snapshot: WhoopTrainingSnapshot
       />
     );
   }
+
+  const recentWorkouts =
+    maxWorkouts !== undefined ? snapshot.recentWorkouts.slice(0, maxWorkouts) : snapshot.recentWorkouts;
 
   return (
     <div>
@@ -58,13 +68,13 @@ export function TrainingSnapshot({ snapshot }: { snapshot: WhoopTrainingSnapshot
         />
       </div>
 
-      {snapshot.recentWorkouts.length > 0 && (
+      {recentWorkouts.length > 0 && (
         <div className="mt-5">
           <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
             Recent Workouts
           </p>
           <ul className="mt-2 space-y-2">
-            {snapshot.recentWorkouts.map((workout) => (
+            {recentWorkouts.map((workout) => (
               <li
                 key={workout.id}
                 className="flex items-center justify-between rounded-sm border border-ink/10 bg-off-white px-3 py-2 text-sm"

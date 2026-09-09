@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { getJournalEntries, groupByMonth } from "@/lib/data/journal";
 import { Container } from "@/components/shared/container";
 import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
@@ -10,11 +11,10 @@ import { BikeBuildIndexCard } from "@/components/journal/bike-build/bike-build-i
 import { GearJourneyIndexCard } from "@/components/journal/gear-journey/gear-journey-index-card";
 import { JournalStatusStrip } from "@/components/journal/journal-status-strip";
 import { RoadSoFar } from "@/components/journal/road-so-far";
-import { TrainingBridge } from "@/components/journal/training-bridge";
 import { TrainingSnapshot } from "@/components/training/training-snapshot";
-import { StravaSnapshot } from "@/components/training/strava-snapshot";
 import { TrainingObjectivesChecklist } from "@/components/training/training-objectives-checklist";
 import { PerformanceMetricsPanel } from "@/components/training/performance-metrics-panel";
+import { FundraisingImpactStrip } from "@/components/campaign/fundraising-impact-strip";
 import { CampaignPhaseBanner } from "@/components/campaign/campaign-phase-banner";
 import { EmptyState } from "@/components/shared/empty-state";
 import { EmailSignupForm } from "@/components/forms/email-signup-form";
@@ -22,10 +22,10 @@ import { getBikeBuildLastUpdated } from "@/lib/content/building-the-bike";
 import { getGearJourneyLastUpdated } from "@/lib/content/gear-journey";
 import { getJournalMilestonesWithStatus } from "@/lib/data/journal-milestones";
 import { getTrainingSnapshot } from "@/lib/whoop/client";
-import { getStravaTrainingSnapshot } from "@/lib/strava/client";
-import { getRecentDisciplineWorkouts, getTrainingStats } from "@/lib/training-stats";
+import { getTrainingStats } from "@/lib/training-stats";
 import { getTrainingObjectives } from "@/lib/data/training-objectives";
 import { getLatestPerformanceSnapshot } from "@/lib/data/performance-snapshots";
+import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
 import { getCampaignPhase } from "@/lib/campaign-phase";
 import { CAMPAIGN_URL, DONATE_LINK, STRAVA_PROFILE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
@@ -99,16 +99,15 @@ export default async function JournalPage(props: PageProps<"/journal">) {
   const pageParam = Array.isArray(searchParams.page) ? searchParams.page[0] : searchParams.page;
   const page = Math.max(1, Number(pageParam) || 1);
 
-  const [allEntries, trainingSnapshot, stravaSnapshot, trainingStats, trainingObjectives, performanceSnapshot] =
+  const [allEntries, trainingSnapshot, trainingStats, trainingObjectives, performanceSnapshot, fundraisingStats] =
     await Promise.all([
       getJournalEntries(),
       getTrainingSnapshot(),
-      getStravaTrainingSnapshot(),
       getTrainingStats(),
       getTrainingObjectives(),
       getLatestPerformanceSnapshot(),
+      getFundraisingImpactStats(),
     ]);
-  const recentDisciplineWorkouts = trainingSnapshot ? getRecentDisciplineWorkouts(trainingSnapshot.recentWorkouts) : [];
 
   const hasTrainingVolume =
     trainingStats.swimSessions !== null ||
@@ -162,9 +161,9 @@ export default async function JournalPage(props: PageProps<"/journal">) {
         <SectionHeading
           as="h1"
           tone="dark"
-          eyebrow="Road to Chattanooga"
-          title="Follow My Progress"
-          description="Training, setbacks, milestones, partners, fundraising, and everything along the road to 70.3."
+          eyebrow="The Journal"
+          title="Road to Chattanooga"
+          description="This isn't a workout log. It's the campaign's story — training, setbacks, milestones, partners, and fundraising — all on the way to IRONMAN 70.3 and the veterans and first responders it's for."
         />
         <JournalStatusStrip latestEntryPublishedAt={allEntries[0]?.published_at ?? null} />
       </CampaignPageHero>
@@ -237,33 +236,19 @@ export default async function JournalPage(props: PageProps<"/journal">) {
 
       <section className="border-t border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container>
-          <SectionHeading eyebrow="Live" title="Latest Training" />
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <SectionHeading eyebrow="Recovery" title="Training Snapshot" />
+            <a
+              href={STRAVA_PROFILE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+            >
+              Follow on Strava &rarr;
+            </a>
+          </div>
           <div className="mt-6">
-            <TrainingBridge recentDisciplineWorkouts={recentDisciplineWorkouts} />
-          </div>
-
-          <div className="mt-10">
-            <SectionHeading eyebrow="Recovery" title="Snapshot" />
-            <div className="mt-6">
-              <TrainingSnapshot snapshot={trainingSnapshot} />
-            </div>
-          </div>
-
-          <div className="mt-10">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <SectionHeading eyebrow="Live" title="Strava" />
-              <a
-                href={STRAVA_PROFILE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
-              >
-                Follow on Strava &rarr;
-              </a>
-            </div>
-            <div className="mt-6">
-              <StravaSnapshot snapshot={stravaSnapshot} />
-            </div>
+            <TrainingSnapshot snapshot={trainingSnapshot} maxWorkouts={3} />
           </div>
 
           <div className="mt-16">
@@ -352,13 +337,35 @@ export default async function JournalPage(props: PageProps<"/journal">) {
       </section>
 
       <section className="py-16 sm:py-20">
-        <Container className="max-w-xl">
-          <p className="mb-3 text-center text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-            Get New Campaign Updates
+        <Container className="max-w-xl text-center">
+          <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+            Follow the Road to Chattanooga
+          </p>
+          <p className="mt-2 mb-6 text-sm text-charcoal-light">
+            Get journal entries, milestones, race updates, and campaign news.
           </p>
           <EmailSignupForm />
         </Container>
       </section>
+
+      <section className="border-t border-ink/10 py-16">
+        <Container>
+          <SectionHeading eyebrow="Campaign Impact" title="Where Things Stand" />
+          <div className="mt-6">
+            <FundraisingImpactStrip stats={fundraisingStats} />
+          </div>
+        </Container>
+      </section>
+
+      <div className="bg-off-white py-10">
+        <Image
+          src="/because-wordmark-black.png"
+          alt="Because 22 ≠ 0"
+          width={1600}
+          height={300}
+          className="mx-auto h-auto w-full max-w-xs px-4 sm:max-w-sm"
+        />
+      </div>
 
       <CTASection
         eyebrow="Why It Matters"
@@ -366,7 +373,7 @@ export default async function JournalPage(props: PageProps<"/journal">) {
         description="Training for 70.3 miles gives this campaign a finish line. Supporting veterans and first responders gives it a reason to exist."
         buttons={[
           { label: "Fund a Mile", href: "/fund-a-mile" },
-          { label: "See Who We Support", href: "/beneficiaries", variant: "secondary" },
+          { label: "Get Involved", href: "/get-involved", variant: "secondary" },
         ]}
       />
       <div className="bg-ink pb-16 text-center">

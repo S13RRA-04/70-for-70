@@ -172,9 +172,9 @@ export const SEED_JOURNAL_ENTRIES: JournalEntryRow[] = [];
  * Durability → Podium-specific race execution, recalibrated against real
  * M35–39 Chattanooga results (2023 + 2025 — see race-goal.ts /
  * race-benchmarks.ts) rather than generic "finish the distance" rungs.
- * tag "Competitive" / "Podium-track" marks the two race-pace tiers a
- * split ladder ends on — the checklist only applies special ("podium")
- * styling to the latter, not every row.
+ * tag "Competitive" / "Stretch Target" marks the two race-pace tiers a
+ * split ladder ends on — the checklist only applies special styling to
+ * the latter, not every row.
  */
 function objective(
   id: string,
@@ -218,7 +218,7 @@ export const SEED_TRAINING_OBJECTIVES: TrainingObjectiveRow[] = [
   objective("seed-swim-14", "swim", "1.2 mi race swim ≤32:00", 13, "not_started", null, {
     historical: "28:19 (2023 M35–39 winner)",
   }),
-  objective("seed-swim-15", "swim", "Podium-track swim ≤29:00", 14, "not_started", "Podium-track"),
+  objective("seed-swim-15", "swim", "Stretch-target swim ≤29:00", 14, "not_started", "Stretch Target"),
 
   objective("seed-bike-1", "bike", "Outdoor baseline: 9.06 mi / 12.1 mph / 412 ft", 0, "done"),
   objective("seed-bike-2", "bike", "Confident braking, shifting, cornering, descending", 1),
@@ -230,7 +230,7 @@ export const SEED_TRAINING_OBJECTIVES: TrainingObjectiveRow[] = [
   objective("seed-bike-8", "bike", "Establish FTP", 7),
   objective("seed-bike-9", "bike", "FTP ≥2.5 W/kg", 8),
   objective("seed-bike-10", "bike", "FTP ≥3.0 W/kg", 9),
-  objective("seed-bike-11", "bike", "FTP ≥3.5 W/kg podium-track", 10, "not_started", "Podium-track"),
+  objective("seed-bike-11", "bike", "FTP ≥3.5 W/kg stretch target", 10, "not_started", "Stretch Target"),
   objective("seed-bike-12", "bike", "Hold aero position 20 min continuously", 11),
   objective("seed-bike-13", "bike", "Hold aero position 60 min without meaningful power loss", 12),
   objective("seed-bike-14", "bike", "40 mi controlled with fueling executed", 13),
@@ -239,7 +239,7 @@ export const SEED_TRAINING_OBJECTIVES: TrainingObjectiveRow[] = [
   objective("seed-bike-17", "bike", "70.3 bike split ≤2:25 competitive", 16, "not_started", "Competitive", {
     historical: "2:10:23–2:14:36 (2023 & 2025 M35–39 winners)",
   }),
-  objective("seed-bike-18", "bike", "Podium-track bike split ≤2:15", 17, "not_started", "Podium-track"),
+  objective("seed-bike-18", "bike", "Stretch-target bike split ≤2:15", 17, "not_started", "Stretch Target"),
 
   objective("seed-run-1", "run", "Establish aerobic HR/pace baseline", 0),
   objective("seed-run-2", "run", "Establish current 5K benchmark", 1),
@@ -248,17 +248,17 @@ export const SEED_TRAINING_OBJECTIVES: TrainingObjectiveRow[] = [
   objective("seed-run-5", "run", "Sub-25:00 5K", 4),
   objective("seed-run-6", "run", "Sub-23:00 5K", 5),
   objective("seed-run-7", "run", "Sub-21:00 5K", 6),
-  objective("seed-run-8", "run", "Sub-20:00 5K podium-track", 7, "not_started", "Podium-track"),
+  objective("seed-run-8", "run", "Sub-20:00 5K stretch target", 7, "not_started", "Stretch Target"),
   objective("seed-run-9", "run", "Controlled 10K at target training pace", 8),
   objective("seed-run-10", "run", "10 mi aerobic without pace decay", 9),
   objective("seed-run-11", "run", "Open half marathon <1:40", 10),
-  objective("seed-run-12", "run", "Open half marathon <1:30 podium-track", 11, "not_started", "Podium-track"),
+  objective("seed-run-12", "run", "Open half marathon <1:30 stretch target", 11, "not_started", "Stretch Target"),
   objective("seed-run-13", "run", "30 min off bike within 10% of fresh aerobic pace", 12),
   objective("seed-run-14", "run", "60 min off bike with stable HR and pace", 13),
   objective("seed-run-15", "run", "70.3 run ≤1:30 competitive", 14, "not_started", "Competitive", {
     historical: "1:17:09–1:26:41 (2023 & 2025 M35–39 winners)",
   }),
-  objective("seed-run-16", "run", "Podium-track 70.3 run ≤1:20–1:25", 15, "not_started", "Podium-track"),
+  objective("seed-run-16", "run", "Stretch-target 70.3 run ≤1:20–1:25", 15, "not_started", "Stretch Target"),
 
   objective("seed-brick-1", "brick", "First bike → run transition", 0),
   objective("seed-brick-2", "brick", "60 min bike + 15 min run with smooth transition", 1),
@@ -328,10 +328,10 @@ export const SEED_TRAINING_OBJECTIVES: TrainingObjectiveRow[] = [
   objective(
     "seed-race-13",
     "race_readiness",
-    "Podium-track overall capability: ~4:05–4:15",
+    "Stretch-target overall capability: ~4:05–4:15",
     12,
     "not_started",
-    "Podium-track",
+    "Stretch Target",
     {
       historical: "4:04:51–4:27:25 (2023 top-9, M35–39); 2025 not directly comparable — no swim leg held",
     },

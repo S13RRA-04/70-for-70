@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { TRAINING_PHASE_LABELS, getCurrentTrainingPhaseIndex } from "@/lib/campaign-phase";
+import { TRAINING_PHASE_LABELS, TRAINING_PHASE_DESCRIPTIONS, getCurrentTrainingPhaseIndex } from "@/lib/campaign-phase";
 import { CURRENT_CAMPAIGN, RACE_INFO } from "@/lib/constants";
 import { formatDateLong } from "@/lib/utils";
 
@@ -11,7 +11,8 @@ import { formatDateLong } from "@/lib/utils";
  */
 export function JournalStatusStrip({ latestEntryPublishedAt }: { latestEntryPublishedAt: string | null }) {
   const phaseIndex = getCurrentTrainingPhaseIndex();
-  const currentPhase = phaseIndex !== undefined ? TRAINING_PHASE_LABELS[phaseIndex] : "TBD";
+  const currentPhase =
+    phaseIndex !== undefined ? TRAINING_PHASE_DESCRIPTIONS[TRAINING_PHASE_LABELS[phaseIndex]] : "TBD";
 
   const items: { label: string; value: React.ReactNode }[] = [
     { label: "Next Race", value: CURRENT_CAMPAIGN.event },
