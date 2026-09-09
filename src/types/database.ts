@@ -384,6 +384,20 @@ export interface PerformanceSnapshotRow {
   created_at: string;
 }
 
+/**
+ * Stable machine key for section/badge logic — relationship_label stays
+ * the free-text display string. See mission_partners.partner_type's
+ * comment in schema.sql for why the two are kept separate.
+ */
+export type PartnerType =
+  | "campaign-sponsor"
+  | "gear-partner"
+  | "service-partner"
+  | "print-partner"
+  | "accommodations-partner"
+  | "training-partner"
+  | "raffle-supporter";
+
 export interface MissionPartnerRow {
   id: string;
   name: string;
@@ -408,6 +422,34 @@ export interface MissionPartnerRow {
   relationship_start: string | null;
   relationship_end: string | null;
   associated_campaigns: string[] | null;
+  /** Null on older rows predating this column — treat as "uncategorized," never guess a type from relationship_label. */
+  partner_type: PartnerType | null;
+}
+
+export type RaffleItemStatus = "confirmed" | "received";
+
+/**
+ * One prize-package item for the Fundraiser Raffle (see
+ * public.raffle_items in schema.sql). `partner_id` links back to the
+ * donor's MissionPartnerRow (partner_type "raffle-supporter") when a full
+ * profile exists — null is valid (an item can be logged before its donor
+ * has one).
+ */
+export interface RaffleItemRow {
+  id: string;
+  created_at: string;
+  display_order: number;
+  partner_id: string | null;
+  brand: string;
+  item_name: string;
+  quantity: number;
+  retail_value_min: number | null;
+  retail_value_max: number | null;
+  image_url: string | null;
+  status: RaffleItemStatus;
+  website_url: string | null;
+  donor_note: string | null;
+  featured: boolean;
 }
 
 export interface EmailSubscriberRow {

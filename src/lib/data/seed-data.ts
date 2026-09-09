@@ -19,6 +19,7 @@ import type {
   PartnerRow,
   PerformanceSnapshotRow,
   PostRow,
+  RaffleItemRow,
   SponsorRow,
   TrainingObjectiveRow,
 } from "@/types/database";
@@ -149,6 +150,48 @@ export const SEED_MISSION_PARTNERS: MissionPartnerRow[] = [
     relationship_start: null,
     relationship_end: null,
     associated_campaigns: null,
+    partner_type: "campaign-sponsor",
+  },
+  {
+    id: "seed-mission-partner-bombs-and-blades",
+    name: "Bombs & Blades Hot Sauce",
+    relationship_label: "Raffle Supporter",
+    description:
+      "Alabama veteran-owned brand supporting the Tri For the 22 fundraising raffle with a donated Trinity Pack.",
+    logo_url: "/partners/bombs-and-blades-logo.png",
+    logo_light_url: null,
+    logo_dark_url: null,
+    logo_background: null,
+    website_url: "https://bombsandblades.com",
+    support_type: null,
+    geographic_scope: null,
+    active: true,
+    display_order: 0,
+    agreement_status: null,
+    logo_permission: true,
+    relationship_start: null,
+    relationship_end: null,
+    associated_campaigns: null,
+    partner_type: "raffle-supporter",
+  },
+];
+
+export const SEED_RAFFLE_ITEMS: RaffleItemRow[] = [
+  {
+    id: "seed-raffle-item-bombs-and-blades-trinity-pack",
+    created_at: now,
+    display_order: 0,
+    partner_id: "seed-mission-partner-bombs-and-blades",
+    brand: "Bombs & Blades Hot Sauce",
+    item_name: "Trinity Pack — three-pack of Bombs & Blades hot sauces",
+    quantity: 1,
+    retail_value_min: 35,
+    retail_value_max: 40,
+    image_url: null,
+    status: "confirmed",
+    website_url: "https://bombsandblades.com",
+    donor_note: null,
+    featured: false,
   },
 ];
 

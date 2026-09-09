@@ -618,7 +618,19 @@ create table if not exists public.mission_partners (
   logo_permission boolean not null default false,
   relationship_start date,
   relationship_end date,
-  associated_campaigns text[]
+  associated_campaigns text[],
+  -- Stable machine key for section logic (which grid a partner renders in,
+  -- which badge it gets) — relationship_label stays the free-text display
+  -- string (unchanged meaning), this is what code branches on. A raffle
+  -- donor is 'raffle-supporter' here even if relationship_label also says
+  -- "Raffle Supporter" — never inferred from relationship_label text, so a
+  -- future free-text label change can't silently reclassify a partner.
+  partner_type text check (
+    partner_type is null or partner_type in (
+      'campaign-sponsor', 'gear-partner', 'service-partner', 'print-partner',
+      'accommodations-partner', 'training-partner', 'raffle-supporter'
+    )
+  )
 );
 
 create index if not exists mission_partners_active_idx on public.mission_partners (active);
@@ -634,6 +646,51 @@ alter table public.mission_partners add column if not exists logo_light_url text
 alter table public.mission_partners add column if not exists logo_dark_url text;
 alter table public.mission_partners add column if not exists logo_background text
   check (logo_background is null or logo_background in ('light', 'dark'));
+alter table public.mission_partners add column if not exists partner_type text
+  check (
+    partner_type is null or partner_type in (
+      'campaign-sponsor', 'gear-partner', 'service-partner', 'print-partner',
+      'accommodations-partner', 'training-partner', 'raffle-supporter'
+    )
+  );
+
+-- ---------------------------------------------------------------------------
+-- raffle_items
+--
+-- Itemized prize-package ledger for the Tri For The 22 Fundraiser Raffle
+-- (see /sponsors' Fundraiser Raffle section). Deliberately separate from
+-- mission_partners: a raffle-supporter partner row is the brand's profile
+-- card (name, logo, description, website); this table is the actual prize
+-- inventory, since one brand can eventually contribute more than one item.
+-- `partner_id` links an item back to its brand's mission_partners row when
+-- one exists (optional — an item can be logged before its donor has a full
+-- profile). The section's "Confirmed Retail Value" and "Items in Prize
+-- Package" stats are always computed by summing/counting this table, never
+-- hand-typed — see getRaffleItems()/getRaffleSummary().
+-- ---------------------------------------------------------------------------
+create table if not exists public.raffle_items (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  display_order integer not null default 0,
+  partner_id uuid references public.mission_partners (id) on delete set null,
+  brand text not null,
+  item_name text not null,
+  quantity integer not null default 1,
+  -- A range (e.g. "$35-40") stores both bounds; a known exact value sets
+  -- both to the same number. At least one of the two is expected to be set
+  -- once an item is entered, but neither is required at the DB level so a
+  -- placeholder row (name/brand known, value still being confirmed) is
+  -- still valid.
+  retail_value_min numeric,
+  retail_value_max numeric,
+  image_url text,
+  status text not null default 'confirmed' check (status in ('confirmed', 'received')),
+  website_url text,
+  donor_note text,
+  featured boolean not null default false
+);
+
+create index if not exists raffle_items_display_order_idx on public.raffle_items (display_order);
 
 -- ---------------------------------------------------------------------------
 -- inquiries
@@ -780,6 +837,7 @@ alter table public.journal_entry_partner_mentions enable row level security;
 alter table public.journal_entry_beneficiary_mentions enable row level security;
 alter table public.partners enable row level security;
 alter table public.mission_partners enable row level security;
+alter table public.raffle_items enable row level security;
 alter table public.training_objectives enable row level security;
 alter table public.performance_snapshots enable row level security;
 alter table public.inquiries enable row level security;
@@ -865,6 +923,14 @@ create policy "active mission partners are publicly readable"
   on public.mission_partners for select
   to anon, authenticated
   using (active = true);
+
+create policy "raffle items are publicly readable"
+  on public.raffle_items for select
+  to anon, authenticated
+  using (true);
+-- No insert/update/delete policy on public.raffle_items: written only via
+-- the service-role client (SQL/Supabase Studio, same as mission_partners —
+-- neither table has a dedicated admin CRUD page yet).
 
 create policy "training objectives are publicly readable"
   on public.training_objectives for select
