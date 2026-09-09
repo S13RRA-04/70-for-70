@@ -397,7 +397,6 @@ export type PartnerType =
   | "print-partner"
   | "accommodations-partner"
   | "training-partner"
-  | "raffle-supporter"
   | "giveaway-supporter";
 
 export interface MissionPartnerRow {
@@ -426,32 +425,6 @@ export interface MissionPartnerRow {
   associated_campaigns: string[] | null;
   /** Null on older rows predating this column — treat as "uncategorized," never guess a type from relationship_label. */
   partner_type: PartnerType | null;
-}
-
-export type RaffleItemStatus = "confirmed" | "received";
-
-/**
- * One prize-package item for the Fundraiser Raffle (see
- * public.raffle_items in schema.sql). `partner_id` links back to the
- * donor's MissionPartnerRow (partner_type "raffle-supporter") when a full
- * profile exists — null is valid (an item can be logged before its donor
- * has one).
- */
-export interface RaffleItemRow {
-  id: string;
-  created_at: string;
-  display_order: number;
-  partner_id: string | null;
-  brand: string;
-  item_name: string;
-  quantity: number;
-  retail_value_min: number | null;
-  retail_value_max: number | null;
-  image_url: string | null;
-  status: RaffleItemStatus;
-  website_url: string | null;
-  donor_note: string | null;
-  featured: boolean;
 }
 
 /** Computed pre/live/complete status — see computeEventStatus() in src/lib/22-for-the-22/event-status.ts. Distinct from EventConfigRow.status_override, the nullable admin escape hatch that feeds it. */
@@ -541,11 +514,11 @@ export type GiveawayPrizeStatus = "confirmed" | "received";
 
 /**
  * One prize-package item for the 22 For the 22 giveaway/sweepstakes (see
- * public.giveaway_prizes in schema.sql) — structurally a clone of
- * RaffleItemRow but its own table, since this event's copy must say
- * "giveaway"/"sweepstakes," never "raffle." `partner_id` links back to the
- * donor's MissionPartnerRow (partner_type "giveaway-supporter") when a full
- * profile exists.
+ * public.giveaway_prizes in schema.sql) — this campaign cannot legally run
+ * a raffle, so every donated prize lives here and is entered by free
+ * 22-for-the-22 event registration, never by a separate paid/ticketed
+ * mechanic. `partner_id` links back to the donor's MissionPartnerRow
+ * (partner_type "giveaway-supporter") when a full profile exists.
  */
 export interface GiveawayPrizeRow {
   id: string;

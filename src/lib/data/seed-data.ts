@@ -22,7 +22,6 @@ import type {
   PartnerRow,
   PerformanceSnapshotRow,
   PostRow,
-  RaffleItemRow,
   SponsorRow,
   TrainingObjectiveRow,
 } from "@/types/database";
@@ -158,9 +157,9 @@ export const SEED_MISSION_PARTNERS: MissionPartnerRow[] = [
   {
     id: "seed-mission-partner-bombs-and-blades",
     name: "Bombs & Blades Hot Sauce",
-    relationship_label: "Raffle Supporter",
+    relationship_label: "Giveaway Supporter",
     description:
-      "Alabama veteran-owned brand supporting the Tri For the 22 fundraising raffle with a donated Trinity Pack.",
+      "Alabama veteran-owned brand supporting the 22 For the 22 giveaway with a donated Trinity Pack.",
     logo_url: "/partners/bombs-and-blades-logo.png",
     logo_light_url: null,
     logo_dark_url: null,
@@ -174,15 +173,15 @@ export const SEED_MISSION_PARTNERS: MissionPartnerRow[] = [
     logo_permission: true,
     relationship_start: null,
     relationship_end: null,
-    associated_campaigns: null,
-    partner_type: "raffle-supporter",
+    associated_campaigns: ["22-for-the-22"],
+    partner_type: "giveaway-supporter",
   },
   {
     id: "seed-mission-partner-fire-department-coffee",
     name: "Fire Department Coffee",
-    relationship_label: "Raffle Supporter",
+    relationship_label: "Giveaway Supporter",
     description:
-      "Veteran-owned coffee brand supporting the Tri For the 22 fundraising raffle with donated gift cards.",
+      "Veteran-owned coffee brand supporting the 22 For the 22 giveaway with donated gift cards.",
     logo_url: "/partners/fire-department-coffee-logo.png",
     logo_light_url: null,
     logo_dark_url: null,
@@ -196,43 +195,8 @@ export const SEED_MISSION_PARTNERS: MissionPartnerRow[] = [
     logo_permission: true,
     relationship_start: null,
     relationship_end: null,
-    associated_campaigns: null,
-    partner_type: "raffle-supporter",
-  },
-];
-
-export const SEED_RAFFLE_ITEMS: RaffleItemRow[] = [
-  {
-    id: "seed-raffle-item-bombs-and-blades-trinity-pack",
-    created_at: now,
-    display_order: 0,
-    partner_id: "seed-mission-partner-bombs-and-blades",
-    brand: "Bombs & Blades Hot Sauce",
-    item_name: "Trinity Pack — three-pack of Bombs & Blades hot sauces",
-    quantity: 1,
-    retail_value_min: 35,
-    retail_value_max: 40,
-    image_url: null,
-    status: "confirmed",
-    website_url: "https://bombsandblades.com",
-    donor_note: null,
-    featured: false,
-  },
-  {
-    id: "seed-raffle-item-fire-department-coffee-gift-card",
-    created_at: now,
-    display_order: 1,
-    partner_id: "seed-mission-partner-fire-department-coffee",
-    brand: "Fire Department Coffee",
-    item_name: "$5 Gift Card",
-    quantity: 3,
-    retail_value_min: 5,
-    retail_value_max: 5,
-    image_url: null,
-    status: "received",
-    website_url: "https://www.firedeptcoffee.com/",
-    donor_note: null,
-    featured: false,
+    associated_campaigns: ["22-for-the-22"],
+    partner_type: "giveaway-supporter",
   },
 ];
 
@@ -269,10 +233,45 @@ export const SEED_EVENT_CONFIG: EventConfigRow = {
   created_at: now,
 };
 
-// No prizes confirmed yet. The giveaway section shows a polished "more
-// prizes coming" empty state rather than placeholder cards — same
-// convention as SEED_RAFFLE_ITEMS/SEED_SPONSORS.
-export const SEED_GIVEAWAY_PRIZES: GiveawayPrizeRow[] = [];
+// Mirrors the two real confirmed giveaway prizes in production.
+export const SEED_GIVEAWAY_PRIZES: GiveawayPrizeRow[] = [
+  {
+    id: "seed-giveaway-prize-bombs-and-blades-trinity-pack",
+    event_id: SEED_EVENT_CONFIG.id,
+    created_at: now,
+    display_order: 0,
+    partner_id: "seed-mission-partner-bombs-and-blades",
+    brand: "Bombs & Blades Hot Sauce",
+    prize_name: "Trinity Pack — three-pack of Bombs & Blades hot sauces",
+    quantity: 1,
+    winner_count: 1,
+    retail_value_min: 35,
+    retail_value_max: 40,
+    image_url: null,
+    status: "confirmed",
+    website_url: "https://bombsandblades.com",
+    donor_note: null,
+    featured: false,
+  },
+  {
+    id: "seed-giveaway-prize-fire-department-coffee-gift-card",
+    event_id: SEED_EVENT_CONFIG.id,
+    created_at: now,
+    display_order: 1,
+    partner_id: "seed-mission-partner-fire-department-coffee",
+    brand: "Fire Department Coffee",
+    prize_name: "$5 Gift Card",
+    quantity: 3,
+    winner_count: 1,
+    retail_value_min: 5,
+    retail_value_max: 5,
+    image_url: null,
+    status: "received",
+    website_url: "https://www.firedeptcoffee.com/",
+    donor_note: null,
+    featured: false,
+  },
+];
 
 // No activity log entries yet — populated live via /admin/22-for-the-22/activity-log during the event.
 export const SEED_EVENT_ACTIVITY_LOG: EventActivityLogRow[] = [];

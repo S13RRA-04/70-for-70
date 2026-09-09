@@ -28,10 +28,9 @@ export const metadata = pageMetadata({
  * src/lib/constants.ts, request form at /sponsors/request), which remains
  * retired pending written federal ethics approval.
  *
- * The Fundraiser Raffle (a separate fundraising mechanic from the free
- * 22 For the 22 giveaway — see the compliance note on
- * FundraiserRaffleSection) lives on /22forthe22 now, not here; this page
- * keeps only a teaser link into the giveaway section below.
+ * The 22 For the 22 giveaway (a free, no-purchase-necessary drawing — this
+ * campaign cannot legally run a raffle) lives on /22forthe22, not here;
+ * this page keeps only a teaser link into the giveaway section below.
  *
  * Section order is deliberate — partner logos first (previously buried
  * below a large gear-needs table), then the needs list, then a general
@@ -40,9 +39,7 @@ export const metadata = pageMetadata({
 export default async function SponsorsPage() {
   const [partners, currentEvent] = await Promise.all([getMissionPartners(), getCurrentEventConfig()]);
   const giveawayPrizes = currentEvent ? await getGiveawayPrizes(currentEvent.id) : [];
-  const generalPartners = partners.filter(
-    (p) => p.partner_type !== "raffle-supporter" && p.partner_type !== "giveaway-supporter",
-  );
+  const generalPartners = partners.filter((p) => p.partner_type !== "giveaway-supporter");
 
   return (
     <>
@@ -93,7 +90,7 @@ export default async function SponsorsPage() {
             align="center"
             eyebrow="Get Involved"
             title="Become a Supporter"
-            description="Gear, services, promotion, or a raffle item — if your organization wants to back the mission, we'd like to hear from you."
+            description="Gear, services, promotion, or a giveaway prize — if your organization wants to back the mission, we'd like to hear from you."
           />
           <CTAButton href="/contact" className="mt-6">
             Get in Touch

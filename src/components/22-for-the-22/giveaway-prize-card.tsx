@@ -1,15 +1,13 @@
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
 import { PartnerLogo } from "@/components/shared/partner-logo";
-import { formatValueRange } from "@/components/sponsors/raffle-value";
+import { formatValueRange } from "./giveaway-value";
 import type { GiveawayPrizeRow, MissionPartnerRow } from "@/types/database";
 
 /**
- * One giveaway prize card — structurally a clone of RaffleSupporterCard but
- * its own component, since this event's copy must say "giveaway," never
- * "raffle." `partner` is the donor's mission_partners row when one exists
- * (GiveawayPrizeRow.partner_id) — null is valid, a prize can be logged
- * before its donor has a full profile.
+ * One giveaway prize card. `partner` is the donor's mission_partners row
+ * when one exists (GiveawayPrizeRow.partner_id) — null is valid, a prize
+ * can be logged before its donor has a full profile.
  */
 export function GiveawayPrizeCard({ prize, partner }: { prize: GiveawayPrizeRow; partner: MissionPartnerRow | null }) {
   const displayName = partner?.name ?? prize.brand;

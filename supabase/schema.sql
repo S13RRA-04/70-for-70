@@ -632,14 +632,17 @@ create table if not exists public.mission_partners (
   associated_campaigns text[],
   -- Stable machine key for section logic (which grid a partner renders in,
   -- which badge it gets) — relationship_label stays the free-text display
-  -- string (unchanged meaning), this is what code branches on. A raffle
-  -- donor is 'raffle-supporter' here even if relationship_label also says
-  -- "Raffle Supporter" — never inferred from relationship_label text, so a
-  -- future free-text label change can't silently reclassify a partner.
+  -- string (unchanged meaning), this is what code branches on. A giveaway
+  -- donor is 'giveaway-supporter' here even if relationship_label also says
+  -- "Giveaway Supporter" — never inferred from relationship_label text, so
+  -- a future free-text label change can't silently reclassify a partner.
+  -- No 'raffle-supporter' value: this campaign cannot legally run a raffle,
+  -- so every donor is a giveaway supporter, entered by free event
+  -- registration — see the retire-raffle-into-giveaway migration.
   partner_type text check (
     partner_type is null or partner_type in (
       'campaign-sponsor', 'gear-partner', 'service-partner', 'print-partner',
-      'accommodations-partner', 'training-partner', 'raffle-supporter', 'giveaway-supporter'
+      'accommodations-partner', 'training-partner', 'giveaway-supporter'
     )
   )
 );
@@ -661,36 +664,37 @@ alter table public.mission_partners add column if not exists partner_type text
   check (
     partner_type is null or partner_type in (
       'campaign-sponsor', 'gear-partner', 'service-partner', 'print-partner',
-      'accommodations-partner', 'training-partner', 'raffle-supporter'
+      'accommodations-partner', 'training-partner', 'giveaway-supporter'
     )
   );
 
--- Widen partner_type to add 'giveaway-supporter' for 22 For the 22 prize
--- donors — deliberately its own value, not a reuse of 'raffle-supporter',
--- per the no-raffle-language compliance requirement for that event. Drop +
--- recreate rather than "add if not exists" because this modifies an
--- existing check constraint, not a new column; safe to re-run.
+-- Widen/narrow partner_type to its current final set: 'giveaway-supporter'
+-- for 22 For the 22 prize donors, entered by free event registration —
+-- this campaign cannot legally run a raffle, so 'raffle-supporter' is not
+-- a valid value (see the retire-raffle-into-giveaway migration, which
+-- reclassified every existing raffle-supporter row). Drop + recreate
+-- rather than "add if not exists" because this modifies an existing check
+-- constraint, not a new column; safe to re-run.
 alter table public.mission_partners drop constraint if exists mission_partners_partner_type_check;
 alter table public.mission_partners add constraint mission_partners_partner_type_check check (
   partner_type is null or partner_type in (
     'campaign-sponsor', 'gear-partner', 'service-partner', 'print-partner',
-    'accommodations-partner', 'training-partner', 'raffle-supporter', 'giveaway-supporter'
+    'accommodations-partner', 'training-partner', 'giveaway-supporter'
   )
 );
 
 -- ---------------------------------------------------------------------------
--- raffle_items
+-- raffle_items — RETIRED, kept only so existing rows aren't destroyed.
 --
--- Itemized prize-package ledger for the Tri For The 22 Fundraiser Raffle
--- (see /sponsors' Fundraiser Raffle section). Deliberately separate from
--- mission_partners: a raffle-supporter partner row is the brand's profile
--- card (name, logo, description, website); this table is the actual prize
--- inventory, since one brand can eventually contribute more than one item.
--- `partner_id` links an item back to its brand's mission_partners row when
--- one exists (optional — an item can be logged before its donor has a full
--- profile). The section's "Confirmed Retail Value" and "Items in Prize
--- Package" stats are always computed by summing/counting this table, never
--- hand-typed — see getRaffleItems()/getRaffleSummary().
+-- Formerly the itemized prize-package ledger for a "Fundraiser Raffle."
+-- This campaign cannot legally run a raffle, so the feature was retired:
+-- every row was copied into public.giveaway_prizes (entered by free
+-- 22-for-the-22 event registration, never a separate paid/ticketed
+-- mechanic) and this table was emptied — see the
+-- retire-raffle-into-giveaway migration. No application code reads or
+-- writes this table anymore. Left in place (rather than dropped) so the
+-- migration made no irreversible DDL change; safe to drop entirely in a
+-- future cleanup once its history is no longer needed.
 -- ---------------------------------------------------------------------------
 create table if not exists public.raffle_items (
   id uuid primary key default gen_random_uuid(),
@@ -867,14 +871,14 @@ create index if not exists event_activity_log_event_id_idx on public.event_activ
 -- ---------------------------------------------------------------------------
 -- giveaway_prizes
 --
--- Prize catalog for the 22 For the 22 giveaway/sweepstakes — structurally a
--- clone of raffle_items above but its own table with its own naming, since
--- this event's copy must say "giveaway"/"sweepstakes," never "raffle" (no
--- purchase or donation necessary compliance requirement). `partner_id` links
--- to a donor's mission_partners row (partner_type 'giveaway-supporter')
--- exactly like raffle_items.partner_id does for 'raffle-supporter'. Section
--- totals are always computed from this table, never hand-typed — see
--- getGiveawaySummary().
+-- Prize catalog for the 22 For the 22 giveaway/sweepstakes — every donated
+-- prize lives here, entered by free 22-for-the-22 event registration; this
+-- campaign cannot legally run a raffle, so there is no separate
+-- paid/ticketed prize mechanic (see the now-retired raffle_items table).
+-- No purchase or donation necessary — see NO_PURCHASE_NECESSARY_DISCLOSURE.
+-- `partner_id` links to a donor's mission_partners row (partner_type
+-- 'giveaway-supporter'). Section totals are always computed from this
+-- table, never hand-typed — see getGiveawaySummary().
 -- ---------------------------------------------------------------------------
 create table if not exists public.giveaway_prizes (
   id uuid primary key default gen_random_uuid(),
@@ -1143,14 +1147,14 @@ create policy "active mission partners are publicly readable"
   to anon, authenticated
   using (active = true);
 
+-- public.raffle_items is retired and empty (see its own comment above) —
+-- left with a harmless public-select policy rather than removed, since
+-- the table itself was left in place too.
 drop policy if exists "raffle items are publicly readable" on public.raffle_items;
 create policy "raffle items are publicly readable"
   on public.raffle_items for select
   to anon, authenticated
   using (true);
--- No insert/update/delete policy on public.raffle_items: written only via
--- the service-role client (SQL/Supabase Studio, same as mission_partners —
--- neither table has a dedicated admin CRUD page yet).
 
 drop policy if exists "training objectives are publicly readable" on public.training_objectives;
 create policy "training objectives are publicly readable"

@@ -5,7 +5,7 @@ import { getGiveawaySummary } from "@/lib/data/giveaway-prizes";
 import { GIVEAWAY_ODDS_DISCLOSURE, NO_PURCHASE_NECESSARY_DISCLOSURE } from "@/lib/content/22-for-the-22";
 import type { GiveawayPrizeRow, MissionPartnerRow } from "@/types/database";
 
-/** Muted placeholder sitting next to confirmed prize cards — invites more brands in without pretending a confirmed relationship exists yet. Mirrors RaffleMoreComingCard. */
+/** Muted placeholder sitting next to confirmed prize cards — invites more brands in without pretending a confirmed relationship exists yet. */
 function GiveawayMoreComingCard() {
   return (
     <div className="flex flex-col justify-center rounded-sm border border-dashed border-ink/20 bg-sand-light/40 p-6 text-center">
@@ -28,8 +28,7 @@ function GiveawayMoreComingCard() {
 /**
  * The 22-Hour Giveaway section — reused on both /22forthe22 (the event page)
  * and /sponsors ("Support 22 For the 22"). Takes prizes and mission partners
- * already fetched by the caller (no fetch here) and joins them locally,
- * same pattern as FundraiserRaffleSection.
+ * already fetched by the caller (no fetch here) and joins them locally.
  */
 export function EventGiveawaySection({
   prizes,
