@@ -162,7 +162,7 @@ export const SEED_POSTS: PostRow[] = [];
 export const SEED_JOURNAL_ENTRIES: JournalEntryRow[] = [];
 
 /**
- * The real benchmark ladder shown on /journal ("Follow My Progress"),
+ * The real benchmark ladder shown on /the-race's Training Dashboard,
  * mirrored here as the offline/no-Supabase fallback so local dev without
  * a DB still matches production. Edited going forward via
  * /admin/training-objectives, not this file — see supabase/seed.sql for

@@ -20,9 +20,9 @@ export type SponsorTier =
 
 export type PostCategory =
   | "Training"
-  | "Fundraising"
+  | "Campaign"
   | "Mighty Oaks"
-  | "Sponsors"
+  | "Support"
   | "Race Prep"
   | "Milestones";
 

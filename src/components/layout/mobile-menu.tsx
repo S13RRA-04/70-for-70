@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 const TRI_EXPLORE_LINKS: NavLink[] = [
   { label: "About", href: "/the-mission" },
   { label: "Race", href: "/the-race" },
-  { label: "Follow My Progress", href: "/journal" },
+  { label: "Journal", href: "/journal" },
   { label: "Beneficiaries", href: "/beneficiaries" },
   { label: "Sponsors", href: "/sponsors" },
   { label: "Messages", href: "/messages" },

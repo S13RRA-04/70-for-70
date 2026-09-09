@@ -8,9 +8,9 @@ import type { JournalEntryRow, JournalGalleryImage, PartnerRow } from "@/types/d
 
 const CATEGORIES: JournalEntryRow["primary_category"][] = [
   "Training",
-  "Fundraising",
+  "Campaign",
   "Mighty Oaks",
-  "Sponsors",
+  "Support",
   "Race Prep",
   "Milestones",
 ];

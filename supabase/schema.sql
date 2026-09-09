@@ -265,8 +265,8 @@ create table if not exists public.posts (
   image_url text,
   category text not null check (
     category in (
-      'Training', 'Fundraising', 'Mighty Oaks', 'Project Echelon',
-      'Sponsors', 'Race Prep', 'Milestones'
+      'Training', 'Campaign', 'Mighty Oaks', 'Project Echelon',
+      'Support', 'Race Prep', 'Milestones'
     )
   ),
   published_at timestamptz,
@@ -294,8 +294,8 @@ create table if not exists public.journal_entries (
   post_type text not null check (post_type in ('article', 'vlog', 'photo', 'milestone')),
   primary_category text not null check (
     primary_category in (
-      'Training', 'Fundraising', 'Mighty Oaks', 'Project Echelon',
-      'Sponsors', 'Race Prep', 'Milestones'
+      'Training', 'Campaign', 'Mighty Oaks', 'Project Echelon',
+      'Support', 'Race Prep', 'Milestones'
     )
   ),
   tags text[] not null default '{}',

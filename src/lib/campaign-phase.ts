@@ -1,3 +1,4 @@
+import { weeksBetween } from "@/lib/utils";
 import { RACE_INFO } from "@/lib/constants";
 
 /**
@@ -45,10 +46,10 @@ export type TrainingPhaseLabel = (typeof TRAINING_PHASE_LABELS)[number];
  * Benchmarks section.
  */
 export const TRAINING_PHASE_DESCRIPTIONS: Record<TrainingPhaseLabel, string> = {
-  Base: "Phase 1 — Base + Technique",
-  Build: "Phase 2 — Building the Engine",
-  Specific: "Phase 3 — Race-Specific",
-  Peak: "Phase 4 — Peak",
+  Base: "Phase 1: Base + Technique",
+  Build: "Phase 2: Building the Engine",
+  Specific: "Phase 3: Race-Specific",
+  Peak: "Phase 4: Peak",
   Race: "Race Week",
 };
 
@@ -72,4 +73,16 @@ export function getCurrentTrainingPhaseIndex(): number | undefined {
   if (!CURRENT_TRAINING_PHASE) return undefined;
   const index = TRAINING_PHASE_LABELS.indexOf(CURRENT_TRAINING_PHASE);
   return index === -1 ? undefined : index;
+}
+
+/**
+ * Weeks remaining until race day, or null before RACE_INFO.raceDate is
+ * confirmed or after it's passed. Single source of truth for both
+ * JournalStatusStrip's compact hero row and TrainingStats' "Weeks to
+ * Race" figure — same formula, computed once.
+ */
+export function getWeeksToRace(now: Date = new Date()): number | null {
+  const { raceDate } = RACE_INFO;
+  if (!raceDate || new Date(raceDate) < now) return null;
+  return weeksBetween(now.toISOString(), raceDate);
 }

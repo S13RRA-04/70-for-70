@@ -100,7 +100,7 @@ export function Footer({
                 </li>
                 <li>
                   <Link href="/journal" className="transition-colors hover:text-off-white">
-                    Follow My Progress
+                    Journal
                   </Link>
                 </li>
                 <li>

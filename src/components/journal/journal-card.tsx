@@ -11,10 +11,18 @@ interface JournalCardProps {
   featured?: boolean;
   /** The single newest published entry, when it isn't already the manually-curated `featured` one. Mutually exclusive with the Featured badge. */
   isLatest?: boolean;
+  /** Overrides the default "Read/Watch Update →" CTA text — for a call site (e.g. /journal's dominant featured card) that wants more specific copy. */
+  readMoreLabel?: string;
   className?: string;
 }
 
-export function JournalCard({ entry, featured = false, isLatest = false, className }: JournalCardProps) {
+export function JournalCard({
+  entry,
+  featured = false,
+  isLatest = false,
+  readMoreLabel,
+  className,
+}: JournalCardProps) {
   const isMilestone = entry.post_type === "milestone";
   const hasPhoto = Boolean(entry.image_url);
 
@@ -96,7 +104,7 @@ export function JournalCard({ entry, featured = false, isLatest = false, classNa
             </p>
           )}
           <span className="mt-3 text-xs font-semibold uppercase tracking-wide text-bronze">
-            {entry.post_type === "vlog" ? "Watch Update →" : "Read Update →"}
+            {readMoreLabel ?? (entry.post_type === "vlog" ? "Watch Update →" : "Read Update →")}
           </span>
         </div>
       </Link>

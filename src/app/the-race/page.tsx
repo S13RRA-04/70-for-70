@@ -11,11 +11,18 @@ import { RaceLogistics } from "@/components/campaign/race-logistics";
 import { TrainingTimeline } from "@/components/campaign/training-timeline";
 import { CampaignPhaseBanner } from "@/components/campaign/campaign-phase-banner";
 import { BikeBuildTeaser } from "@/components/journal/bike-build/bike-build-teaser";
+import { TrainingSnapshot } from "@/components/training/training-snapshot";
+import { PerformanceMetricsPanel } from "@/components/training/performance-metrics-panel";
+import { TrainingObjectivesChecklist } from "@/components/training/training-objectives-checklist";
 import { getBikeBuildTeaser } from "@/lib/content/building-the-bike";
 import { getJournalEntries } from "@/lib/data/journal";
+import { getTrainingSnapshot } from "@/lib/whoop/client";
+import { getTrainingObjectives } from "@/lib/data/training-objectives";
+import { getLatestPerformanceSnapshot } from "@/lib/data/performance-snapshots";
+import { getTrainingStats } from "@/lib/training-stats";
 import { formatDateLong } from "@/lib/utils";
 import { getCampaignPhase, getCurrentTrainingPhaseIndex } from "@/lib/campaign-phase";
-import { CAMPAIGN_URL, RACE_INFO } from "@/lib/constants";
+import { CAMPAIGN_URL, RACE_INFO, STRAVA_PROFILE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { isRaceDayModeEnabled } from "@/lib/race-day-mode";
 
@@ -27,7 +34,13 @@ export const metadata = pageMetadata({
 });
 
 export default async function RacePage() {
-  const entries = await getJournalEntries();
+  const [entries, trainingSnapshot, trainingObjectives, performanceSnapshot, trainingStats] = await Promise.all([
+    getJournalEntries(),
+    getTrainingSnapshot(),
+    getTrainingObjectives(),
+    getLatestPerformanceSnapshot(),
+    getTrainingStats(),
+  ]);
   // "Next three verified milestones" — the 3 most recent published
   // milestone entries (getJournalEntries() already sorts newest-first), not
   // fabricated upcoming goals.
@@ -36,6 +49,14 @@ export default async function RacePage() {
     .slice(0, 3);
   const phase = getCampaignPhase();
   const showRaceDayLive = phase !== "active" && isRaceDayModeEnabled();
+
+  const hasTrainingVolume =
+    trainingStats.swimSessions !== null ||
+    trainingStats.bikeMiles !== null ||
+    trainingStats.runMiles !== null ||
+    trainingStats.totalHours !== null ||
+    trainingStats.weeksCompleted !== null ||
+    trainingStats.weeksRemaining !== null;
 
   return (
     <>
@@ -118,7 +139,7 @@ export default async function RacePage() {
             <SectionHeading eyebrow="On the Bike" title="Building the Bike" />
             <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
               Cycling is the newest discipline here, and it started without a bike at all. The full story of
-              getting one — and getting it race-ready — lives in its own ongoing series on Follow My Progress.
+              getting one — and getting it race-ready — lives in its own ongoing series in the Journal.
             </p>
             <div className="mt-6">
               <BikeBuildTeaser teaser={getBikeBuildTeaser()} className="max-w-2xl" />
@@ -126,19 +147,92 @@ export default async function RacePage() {
           </div>
 
           <div className="mt-16">
-            <SectionHeading eyebrow="Live" title="Follow the Training" />
-            <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
-              Recovery, sleep, strain, and recent swim, bike, and run sessions are tracked in one place.
-            </p>
-            <div className="mt-6">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <SectionHeading eyebrow="Recovery" title="Training Snapshot" />
               <a
-                href="/journal"
-                className="inline-flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+                href={STRAVA_PROFILE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
               >
-                Follow My Progress &rarr;
+                Follow on Strava &rarr;
               </a>
             </div>
+            <div className="mt-6">
+              <TrainingSnapshot snapshot={trainingSnapshot} />
+            </div>
           </div>
+
+          <div className="mt-16">
+            <SectionHeading eyebrow="The Road to Chattanooga" title="Performance Benchmarks" />
+            <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
+              Phase 2 shifts the focus from simply covering the distance to covering it faster and
+              more efficiently. Benchmarks now track economy, speed, durability, and race-specific
+              execution against historical Chattanooga age-group performance.
+            </p>
+            <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
+              Milestones specific to this campaign&apos;s build toward 70.3 — not a record of
+              lifetime athletic accomplishments. Nothing here is marked complete until it&apos;s
+              actually done.
+            </p>
+
+            <div className="mt-8">
+              <PerformanceMetricsPanel
+                recordedOn={performanceSnapshot.recordedOn}
+                rows={performanceSnapshot.rows}
+              />
+            </div>
+
+            <div className="mt-10">
+              <TrainingObjectivesChecklist objectives={trainingObjectives} />
+            </div>
+          </div>
+
+          {hasTrainingVolume && (
+            <div className="mt-16">
+              <SectionHeading eyebrow="Behind the Race" title="Road to 70.3" />
+              <div className="mt-6">
+                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+                  {trainingStats.swimSessions !== null && (
+                    <div className="rounded-sm border border-ink/10 bg-off-white p-4 text-center">
+                      <p className="font-display text-2xl font-semibold text-ink">{trainingStats.swimSessions}</p>
+                      <p className="text-xs text-charcoal-light">Swim Sessions</p>
+                    </div>
+                  )}
+                  {trainingStats.bikeMiles !== null && (
+                    <div className="rounded-sm border border-ink/10 bg-off-white p-4 text-center">
+                      <p className="font-display text-2xl font-semibold text-ink">{trainingStats.bikeMiles}</p>
+                      <p className="text-xs text-charcoal-light">Miles Ridden</p>
+                    </div>
+                  )}
+                  {trainingStats.runMiles !== null && (
+                    <div className="rounded-sm border border-ink/10 bg-off-white p-4 text-center">
+                      <p className="font-display text-2xl font-semibold text-ink">{trainingStats.runMiles}</p>
+                      <p className="text-xs text-charcoal-light">Miles Run</p>
+                    </div>
+                  )}
+                  {trainingStats.totalHours !== null && (
+                    <div className="rounded-sm border border-ink/10 bg-off-white p-4 text-center">
+                      <p className="font-display text-2xl font-semibold text-ink">{trainingStats.totalHours}</p>
+                      <p className="text-xs text-charcoal-light">Total Training Hours</p>
+                    </div>
+                  )}
+                  {trainingStats.weeksCompleted !== null && (
+                    <div className="rounded-sm border border-ink/10 bg-off-white p-4 text-center">
+                      <p className="font-display text-2xl font-semibold text-ink">{trainingStats.weeksCompleted}</p>
+                      <p className="text-xs text-charcoal-light">Weeks Completed</p>
+                    </div>
+                  )}
+                  {trainingStats.weeksRemaining !== null && (
+                    <div className="rounded-sm border border-bronze/40 bg-bronze/10 p-4 text-center">
+                      <p className="font-display text-2xl font-semibold text-ink">{trainingStats.weeksRemaining}</p>
+                      <p className="text-xs text-bronze">Weeks to Race</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
 
           {milestoneEntries.length > 0 && (
             <div className="mt-16 max-w-xl rounded-sm border border-ink/10 bg-off-white p-8">
@@ -180,7 +274,7 @@ export default async function RacePage() {
         buttons={[
           showRaceDayLive
             ? { label: "Race Day Live", href: "/live" }
-            : { label: "Follow My Progress", href: "/journal" },
+            : { label: "Read the Journal", href: "/journal" },
         ]}
       />
     </>

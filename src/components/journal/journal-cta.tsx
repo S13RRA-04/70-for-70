@@ -6,14 +6,14 @@ import type { JournalPrimaryCategory } from "@/types/database";
 const CTA_BY_CATEGORY: Record<JournalPrimaryCategory, { label: string; href: string }> = {
   Training: { label: "Follow the Road to Chattanooga", href: "/journal" },
   "Race Prep": { label: "Follow the Road to Chattanooga", href: "/journal" },
-  Fundraising: { label: DONATE_LINK.label, href: DONATE_LINK.href },
+  Campaign: { label: DONATE_LINK.label, href: DONATE_LINK.href },
   Milestones: { label: DONATE_LINK.label, href: DONATE_LINK.href },
-  Sponsors: { label: "Meet Our Partners", href: "/beneficiaries" },
+  Support: { label: "Meet Our Partners", href: "/beneficiaries" },
   "Mighty Oaks": { label: "Meet Our Partners", href: "/beneficiaries" },
 };
 
 export function JournalCta({ category }: { category: JournalPrimaryCategory }) {
-  const cta = CTA_BY_CATEGORY[category] ?? { label: "Back to Follow My Progress", href: "/journal" };
+  const cta = CTA_BY_CATEGORY[category] ?? { label: "Back to the Journal", href: "/journal" };
 
   return (
     <Link

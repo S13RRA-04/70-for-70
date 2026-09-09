@@ -4,9 +4,9 @@ import type { JournalPrimaryCategory } from "@/types/database";
 
 const CATEGORY_ICON: Record<JournalPrimaryCategory, typeof Footprints> = {
   Training: Footprints,
-  Fundraising: HandCoins,
+  Campaign: HandCoins,
   "Mighty Oaks": TreePine,
-  Sponsors: Handshake,
+  Support: Handshake,
   "Race Prep": Flag,
   Milestones: Trophy,
 };
