@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { EventStatusClock } from "./event-status-clock";
 import { EVENT_HERO_CONTENT } from "@/lib/content/22-for-the-22";
@@ -19,7 +20,14 @@ export function EventHero({
       className="relative overflow-hidden bg-ink py-16 text-off-white sm:py-24"
     >
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
-        <h1 className="text-balance font-display text-[clamp(2.25rem,7vw,4.5rem)] font-bold uppercase leading-[0.95] tracking-tight">
+        <Image
+          src="/22-for-the-22-logo-white.png"
+          alt="22 For the 22"
+          width={88}
+          height={88}
+          className="h-16 w-16 sm:h-20 sm:w-20"
+        />
+        <h1 className="mt-6 text-balance font-display text-[clamp(2.25rem,7vw,4.5rem)] font-bold uppercase leading-[0.95] tracking-tight">
           {EVENT_HERO_CONTENT.headline}
         </h1>
         <p className="mt-4 text-lg font-semibold uppercase tracking-wide text-bronze-light sm:text-xl">
