@@ -439,7 +439,7 @@ create index if not exists training_objectives_category_idx
 create table if not exists public.performance_snapshots (
   id uuid primary key default gen_random_uuid(),
   recorded_on date not null,
-  category text not null check (category in ('swim', 'bike', 'ride', 'aerobic', 'trainingpeaks')),
+  category text not null check (category in ('swim', 'bike', 'run', 'ride', 'aerobic', 'trainingpeaks')),
   -- Stable machine key for grouping one metric's history over time, e.g.
   -- "bike_ftp_watts" — never change once a metric_key has history.
   metric_key text not null,

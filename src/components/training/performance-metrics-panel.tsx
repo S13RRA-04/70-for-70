@@ -7,13 +7,14 @@ import type { PerformanceMetricCategory, PerformanceSnapshotRow } from "@/types/
 const CATEGORY_LABELS: Record<PerformanceMetricCategory, string> = {
   swim: "Swim",
   bike: "Bike",
+  run: "Latest Outdoor Run",
   ride: "Latest Outdoor Ride",
   aerobic: "Aerobic Fitness",
   trainingpeaks: "TrainingPeaks",
 };
 
-/** Rendering order for the "Measured" half — ride last since it's the most recent single workout, not a standing benchmark like the others. */
-const MEASURED_CATEGORY_ORDER: PerformanceMetricCategory[] = ["swim", "bike", "aerobic", "ride"];
+/** Rendering order for the "Measured" half — ride/run last since each is the most recent single workout, not a standing benchmark like swim/bike/aerobic. */
+const MEASURED_CATEGORY_ORDER: PerformanceMetricCategory[] = ["swim", "bike", "aerobic", "ride", "run"];
 
 function CategoryGroup({ category, rows }: { category: PerformanceMetricCategory; rows: PerformanceSnapshotRow[] }) {
   return (
@@ -23,7 +24,12 @@ function CategoryGroup({ category, rows }: { category: PerformanceMetricCategory
       </p>
       <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
         {rows.map((row) => (
-          <StatCard key={row.id} label={row.label} value={row.value_display} />
+          <StatCard
+            key={row.id}
+            label={row.label}
+            value={row.value_display}
+            sublabel={row.is_measured ? undefined : "Prediction, not a completed test"}
+          />
         ))}
       </div>
     </div>

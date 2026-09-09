@@ -10,10 +10,8 @@ function sortByDisplayOrder(rows: PerformanceSnapshotRow[]): PerformanceSnapshot
 }
 
 /**
- * "Latest snapshot" is every row sharing the most recent recorded_on —
- * not a separate flag, so a future insert of a new dated row set becomes
- * the latest snapshot automatically. Returns [] rather than throwing when
- * no rows exist yet, so the panel can render its own empty state.
+ * Returns [] rather than throwing when no rows exist yet, so the panel can
+ * render its own empty state.
  */
 async function getAllPerformanceSnapshots(): Promise<PerformanceSnapshotRow[]> {
   if (!isSupabaseConfigured()) {
@@ -34,6 +32,16 @@ async function getAllPerformanceSnapshots(): Promise<PerformanceSnapshotRow[]> {
   return data;
 }
 
+/**
+ * "Latest" is computed per metric_key, not per shared date — different
+ * metrics realistically get updated on different days (a run one day, a
+ * swim set the next), so requiring every row to share one exact
+ * recorded_on would make the panel go blank for every category except
+ * whichever was most recently touched. `recordedOn` (for the section's
+ * "Updated <date>" timestamp) is the most recent recorded_on across ALL
+ * metrics, so it reflects when the page itself was last touched even
+ * though individual numbers may be a few days older.
+ */
 export async function getLatestPerformanceSnapshot(): Promise<{
   recordedOn: string | null;
   rows: PerformanceSnapshotRow[];
@@ -41,8 +49,16 @@ export async function getLatestPerformanceSnapshot(): Promise<{
   const all = await getAllPerformanceSnapshots();
   if (all.length === 0) return { recordedOn: null, rows: [] };
 
+  const latestByMetricKey = new Map<string, PerformanceSnapshotRow>();
+  for (const row of all) {
+    const existing = latestByMetricKey.get(row.metric_key);
+    if (!existing || row.recorded_on > existing.recorded_on) {
+      latestByMetricKey.set(row.metric_key, row);
+    }
+  }
+
   const recordedOn = all.reduce((latest, row) => (row.recorded_on > latest ? row.recorded_on : latest), all[0].recorded_on);
-  return { recordedOn, rows: sortByDisplayOrder(all.filter((row) => row.recorded_on === recordedOn)) };
+  return { recordedOn, rows: sortByDisplayOrder([...latestByMetricKey.values()]) };
 }
 
 export type PerformanceSnapshotByCategory = Partial<Record<PerformanceMetricCategory, PerformanceSnapshotRow[]>>;

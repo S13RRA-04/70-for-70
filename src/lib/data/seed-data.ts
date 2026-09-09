@@ -472,6 +472,52 @@ export const SEED_PERFORMANCE_SNAPSHOTS: PerformanceSnapshotRow[] = [
     { numeric: 97.8, unit: "%" },
   ),
 
+  snapshot("seed-perf-run-1", "2026-09-09", "run", "run_distance_mi", "Distance", "4.28 mi", 0, {
+    numeric: 4.28,
+    unit: "mi",
+  }),
+  snapshot("seed-perf-run-2", "2026-09-09", "run", "run_moving_time", "Moving Time", "45:09", 1),
+  snapshot("seed-perf-run-3", "2026-09-09", "run", "run_avg_pace", "Average Pace", "10:32/mi", 2, {
+    numeric: 632,
+    unit: "sec/mi",
+  }),
+  snapshot("seed-perf-run-4", "2026-09-09", "run", "run_avg_hr", "Average HR", "145 bpm", 3, {
+    numeric: 145,
+    unit: "bpm",
+  }),
+  snapshot("seed-perf-run-5", "2026-09-09", "run", "run_max_hr", "Max HR", "165 bpm", 4, {
+    numeric: 165,
+    unit: "bpm",
+  }),
+  snapshot("seed-perf-run-6", "2026-09-09", "run", "run_elevation_ft", "Elevation Gain", "136 ft", 5, {
+    numeric: 136,
+    unit: "ft",
+  }),
+  snapshot("seed-perf-run-7", "2026-09-09", "run", "run_fastest_mile", "Fastest Mile Split", "9:00/mi", 6, {
+    numeric: 540,
+    unit: "sec/mi",
+  }),
+  snapshot(
+    "seed-perf-run-8",
+    "2026-09-09",
+    "run",
+    "run_tempo_pace",
+    "Tempo Pace (work intervals)",
+    "~8:10/mi",
+    7,
+    { numeric: 490, unit: "sec/mi" },
+  ),
+  snapshot(
+    "seed-perf-run-9",
+    "2026-09-09",
+    "run",
+    "run_predicted_5k",
+    "Strava Predicted 5K",
+    "28:06 (prediction)",
+    8,
+    { numeric: 1686, unit: "sec", measured: false },
+  ),
+
   snapshot("seed-perf-aerobic-1", "2026-09-08", "aerobic", "vo2max", "Estimated VO2 Max", "41", 0, {
     numeric: 41,
     unit: "ml/kg/min",

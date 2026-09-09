@@ -176,6 +176,16 @@ select * from (values
   ('2026-09-08', 'ride', 'ride_zone3_pct', 'Zone 3', '65.7%', 65.7, '%', true, 9),
   ('2026-09-08', 'ride', 'ride_zone23_combined_pct', 'Combined Z2/Z3', '97.8%', 97.8, '%', true, 10),
 
+  ('2026-09-09', 'run', 'run_distance_mi', 'Distance', '4.28 mi', 4.28, 'mi', true, 0),
+  ('2026-09-09', 'run', 'run_moving_time', 'Moving Time', '45:09', null, null, true, 1),
+  ('2026-09-09', 'run', 'run_avg_pace', 'Average Pace', '10:32/mi', 632, 'sec/mi', true, 2),
+  ('2026-09-09', 'run', 'run_avg_hr', 'Average HR', '145 bpm', 145, 'bpm', true, 3),
+  ('2026-09-09', 'run', 'run_max_hr', 'Max HR', '165 bpm', 165, 'bpm', true, 4),
+  ('2026-09-09', 'run', 'run_elevation_ft', 'Elevation Gain', '136 ft', 136, 'ft', true, 5),
+  ('2026-09-09', 'run', 'run_fastest_mile', 'Fastest Mile Split', '9:00/mi', 540, 'sec/mi', true, 6),
+  ('2026-09-09', 'run', 'run_tempo_pace', 'Tempo Pace (work intervals)', '~8:10/mi', 490, 'sec/mi', true, 7),
+  ('2026-09-09', 'run', 'run_predicted_5k', 'Strava Predicted 5K', '28:06 (prediction)', 1686, 'sec', false, 8),
+
   ('2026-09-08', 'aerobic', 'vo2max', 'Estimated VO2 Max', '41', 41, 'ml/kg/min', true, 0),
 
   ('2026-09-08', 'trainingpeaks', 'tp_fitness', 'Fitness (CTL)', '15', 15, null, false, 0),

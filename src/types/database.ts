@@ -345,13 +345,17 @@ export interface TrainingObjectiveRow {
 }
 
 /**
- * "swim"/"bike"/"ride"/"aerobic" are directly measured (a test, a device
- * reading); "trainingpeaks" is platform-calculated from accumulated
+ * "swim"/"bike"/"run"/"ride"/"aerobic" are directly measured (a test, a
+ * device reading); "trainingpeaks" is platform-calculated from accumulated
  * training load (Fitness/Fatigue/Form/ramp), not a raw measurement — kept
  * as its own category so the UI can visually separate the two rather than
- * implying a TSS-model score carries the same certainty as a stopwatch.
+ * implying a TSS-model score carries the same certainty as a stopwatch. A
+ * row *within* a measured category can still be a platform estimate (e.g.
+ * a Strava-predicted 5K, not an actual timed test) — that's what
+ * PerformanceSnapshotRow.is_measured is for at the row level; category is
+ * the coarser, section-level split.
  */
-export type PerformanceMetricCategory = "swim" | "bike" | "ride" | "aerobic" | "trainingpeaks";
+export type PerformanceMetricCategory = "swim" | "bike" | "run" | "ride" | "aerobic" | "trainingpeaks";
 
 /**
  * One metric, on one date — e.g. ("2026-09-08", "bike_ftp_watts", "143 W").
@@ -374,7 +378,7 @@ export interface PerformanceSnapshotRow {
   /** Parsed numeric form for future charting, in `unit`. Null when value_display isn't a single chartable number (e.g. a HH:MM range). */
   value_numeric: number | null;
   unit: string | null;
-  /** False only for trainingpeaks category rows — see PerformanceMetricCategory. */
+  /** False for trainingpeaks category rows, and for any other row that's a platform estimate rather than a direct measurement (e.g. a Strava-predicted 5K) — see PerformanceMetricCategory. */
   is_measured: boolean;
   display_order: number;
   created_at: string;
