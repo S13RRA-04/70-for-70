@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { EVENT_DISCIPLINES } from "@/lib/validation/event-registration";
-import { EVENT_DISCIPLINE_LABELS, GIVEAWAY_ODDS_DISCLOSURE, REGISTRATION_SUCCESS_MESSAGE } from "@/lib/content/22-for-the-22";
+import { EVENT_DISCIPLINE_LABELS, GIVEAWAY_ODDS_DISCLOSURE } from "@/lib/content/22-for-the-22";
+import { RegistrationSuccess } from "@/components/22-for-the-22/registration-success";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -113,16 +114,7 @@ export function EventRegistrationForm() {
   }
 
   if (status === "success") {
-    return (
-      <div
-        role="status"
-        data-analytics-event="22_registration_complete"
-        className="rounded-sm border border-olive/30 bg-olive/10 p-8"
-      >
-        <p className="font-display text-xl font-semibold uppercase tracking-wide text-ink">You&apos;re In</p>
-        <p className="mt-3 text-base text-charcoal-light">{REGISTRATION_SUCCESS_MESSAGE}</p>
-      </div>
-    );
+    return <RegistrationSuccess />;
   }
 
   return (
