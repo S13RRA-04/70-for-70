@@ -1058,16 +1058,19 @@ alter table public.event_registrations enable row level security;
 alter table public.event_activity_log enable row level security;
 alter table public.giveaway_prizes enable row level security;
 
+drop policy if exists "campaign is publicly readable" on public.campaign;
 create policy "campaign is publicly readable"
   on public.campaign for select
   to anon, authenticated
   using (true);
 
+drop policy if exists "miles are publicly readable" on public.miles;
 create policy "miles are publicly readable"
   on public.miles for select
   to anon, authenticated
   using (true);
 
+drop policy if exists "verified donations are publicly readable" on public.donations;
 create policy "verified donations are publicly readable"
   on public.donations for select
   to anon, authenticated
@@ -1086,11 +1089,13 @@ grant select (
   dedication_public, date, external_reference, verified, created_at
 ) on public.donations to anon, authenticated;
 
+drop policy if exists "active sponsors are publicly readable" on public.sponsors;
 create policy "active sponsors are publicly readable"
   on public.sponsors for select
   to anon, authenticated
   using (active = true);
 
+drop policy if exists "published posts are publicly readable" on public.posts;
 create policy "published posts are publicly readable"
   on public.posts for select
   to anon, authenticated
@@ -1098,11 +1103,13 @@ create policy "published posts are publicly readable"
 
 -- A scheduled entry self-publishes the moment anyone reads past its
 -- scheduled_for time — no cron/background job needed to flip the status.
+drop policy if exists "published journal entries are publicly readable" on public.journal_entries;
 create policy "published journal entries are publicly readable"
   on public.journal_entries for select
   to anon, authenticated
   using (status = 'published' or (status = 'scheduled' and scheduled_for <= now()));
 
+drop policy if exists "journal entry partner mentions are publicly readable" on public.journal_entry_partner_mentions;
 create policy "journal entry partner mentions are publicly readable"
   on public.journal_entry_partner_mentions for select
   to anon, authenticated
@@ -1113,6 +1120,7 @@ create policy "journal entry partner mentions are publicly readable"
     )
   );
 
+drop policy if exists "journal entry beneficiary mentions are publicly readable" on public.journal_entry_beneficiary_mentions;
 create policy "journal entry beneficiary mentions are publicly readable"
   on public.journal_entry_beneficiary_mentions for select
   to anon, authenticated
@@ -1123,16 +1131,19 @@ create policy "journal entry beneficiary mentions are publicly readable"
     )
   );
 
+drop policy if exists "active partners are publicly readable" on public.partners;
 create policy "active partners are publicly readable"
   on public.partners for select
   to anon, authenticated
   using (active = true);
 
+drop policy if exists "active mission partners are publicly readable" on public.mission_partners;
 create policy "active mission partners are publicly readable"
   on public.mission_partners for select
   to anon, authenticated
   using (active = true);
 
+drop policy if exists "raffle items are publicly readable" on public.raffle_items;
 create policy "raffle items are publicly readable"
   on public.raffle_items for select
   to anon, authenticated
@@ -1141,6 +1152,7 @@ create policy "raffle items are publicly readable"
 -- the service-role client (SQL/Supabase Studio, same as mission_partners —
 -- neither table has a dedicated admin CRUD page yet).
 
+drop policy if exists "training objectives are publicly readable" on public.training_objectives;
 create policy "training objectives are publicly readable"
   on public.training_objectives for select
   to anon, authenticated
@@ -1149,6 +1161,7 @@ create policy "training objectives are publicly readable"
 -- requireAdminUser() + createAdminClient() (via /admin/training-objectives)
 -- mutates this table.
 
+drop policy if exists "performance snapshots are publicly readable" on public.performance_snapshots;
 create policy "performance snapshots are publicly readable"
   on public.performance_snapshots for select
   to anon, authenticated
@@ -1187,6 +1200,7 @@ create policy "performance snapshots are publicly readable"
 -- server-side, same pattern as inquiries/sponsorship_requests — never a
 -- client-issued insert policy.
 
+drop policy if exists "approved messages are publicly readable" on public.messages;
 create policy "approved messages are publicly readable"
   on public.messages for select
   to anon, authenticated
@@ -1197,16 +1211,19 @@ create policy "approved messages are publicly readable"
 -- inquiries/donations/email_subscribers — never a client-issued insert
 -- policy. Moderation (approve/delete) happens at /admin/messages.
 
+drop policy if exists "event config is publicly readable" on public.event_config;
 create policy "event config is publicly readable"
   on public.event_config for select
   to anon, authenticated
   using (true);
 
+drop policy if exists "event activity log is publicly readable" on public.event_activity_log;
 create policy "event activity log is publicly readable"
   on public.event_activity_log for select
   to anon, authenticated
   using (true);
 
+drop policy if exists "giveaway prizes are publicly readable" on public.giveaway_prizes;
 create policy "giveaway prizes are publicly readable"
   on public.giveaway_prizes for select
   to anon, authenticated
