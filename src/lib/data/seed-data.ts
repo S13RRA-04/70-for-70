@@ -226,7 +226,7 @@ export const SEED_RAFFLE_ITEMS: RaffleItemRow[] = [
     retail_value_min: 5,
     retail_value_max: 5,
     image_url: null,
-    status: "confirmed",
+    status: "received",
     website_url: "https://www.firedeptcoffee.com/",
     donor_note: null,
     featured: false,
