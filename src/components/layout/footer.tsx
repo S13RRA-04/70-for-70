@@ -122,6 +122,11 @@ export function Footer({
                   </Link>
                 </li>
                 <li>
+                  <Link href="/get-involved" className="transition-colors hover:text-off-white">
+                    Get Involved
+                  </Link>
+                </li>
+                <li>
                   <Link href="/shop" className="transition-colors hover:text-off-white">
                     Shop
                   </Link>

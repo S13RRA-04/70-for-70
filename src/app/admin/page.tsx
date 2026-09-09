@@ -30,6 +30,7 @@ export default async function AdminPage() {
     { count: publishedJournalEntries },
     { count: draftJournalEntries },
     { count: pendingMessages },
+    { count: newTriathlonTeamApplications },
   ] = await Promise.all([
     getCampaign(),
     getMiles(),
@@ -45,6 +46,7 @@ export default async function AdminPage() {
     admin.from("journal_entries").select("*", { count: "exact", head: true }).eq("status", "published"),
     admin.from("journal_entries").select("*", { count: "exact", head: true }).eq("status", "draft"),
     admin.from("messages").select("*", { count: "exact", head: true }).eq("approved", false),
+    admin.from("triathlon_team_applications").select("*", { count: "exact", head: true }).eq("status", "new"),
   ]);
 
   const availableCount = miles.filter((m) => m.status === "available").length;
@@ -106,6 +108,23 @@ export default async function AdminPage() {
         </div>
         <Link
           href="/admin/donations"
+          className="rounded-sm border border-ink/20 px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
+        >
+          Manage
+        </Link>
+      </div>
+
+      <div className="mt-6 flex items-center justify-between rounded-sm border border-ink/10 bg-off-white p-6">
+        <div>
+          <p className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+            Triathlon Team Applications
+          </p>
+          <p className="mt-1 text-sm text-charcoal-light">
+            {newTriathlonTeamApplications ?? 0} new application(s) awaiting review.
+          </p>
+        </div>
+        <Link
+          href="/admin/triathlon-team"
           className="rounded-sm border border-ink/20 px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
         >
           Manage

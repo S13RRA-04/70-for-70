@@ -512,3 +512,61 @@ export interface SponsorshipStatusHistoryRow {
   note: string | null;
   created_at: string;
 }
+
+export type TriathlonExperienceLevel =
+  | "First-time triathlete"
+  | "Sprint"
+  | "Olympic"
+  | "70.3"
+  | "Full IRONMAN"
+  | "Multiple distances";
+
+export type TriathlonApplicationStatus = "new" | "reviewing" | "approved" | "declined" | "waitlisted";
+
+/**
+ * A public application to join the Triathlon Team (see supabase/schema.sql's
+ * public.triathlon_team_applications and /get-involved/triathlon-team).
+ * Never publicly readable — service-role only, same trust model as
+ * sponsorship_requests and inquiries. `status`/`admin_notes` are internal
+ * review fields, never rendered on any public page.
+ */
+export interface TriathlonTeamApplicationRow {
+  id: string;
+  created_at: string;
+  status: TriathlonApplicationStatus;
+
+  full_name: string;
+  email: string;
+  phone: string;
+  city: string;
+  state: string;
+
+  experience_level: TriathlonExperienceLevel;
+  years_in_triathlon: string;
+  preferred_distance: string;
+
+  registered_for_race: boolean;
+  race_name: string | null;
+  race_date: string | null;
+  race_distance: string | null;
+  race_location: string | null;
+  needs_race_help: boolean | null;
+
+  mission_reason: string;
+
+  fundraising_experience: boolean;
+  fundraising_goal: string;
+
+  instagram: string | null;
+  facebook: string | null;
+  strava: string | null;
+  other_social: string | null;
+
+  apparel_size: string;
+
+  ack_costs: boolean;
+  ack_safety: boolean;
+  ack_conduct: boolean;
+
+  admin_notes: string | null;
+}

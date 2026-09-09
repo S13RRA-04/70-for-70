@@ -275,6 +275,7 @@ export default async function RacePage() {
           showRaceDayLive
             ? { label: "Race Day Live", href: "/live" }
             : { label: "Read the Journal", href: "/journal" },
+          { label: "Join the Triathlon Team", href: "/get-involved/triathlon-team", variant: "secondary" },
         ]}
       />
     </>

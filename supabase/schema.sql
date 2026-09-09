@@ -198,6 +198,72 @@ create index if not exists sponsorship_status_history_request_id_idx
   on public.sponsorship_status_history (request_id, created_at);
 
 -- ---------------------------------------------------------------------------
+-- triathlon_team_applications
+--
+-- Public applications to join the Triathlon Team — race and fundraise
+-- under the Tri For The 22 banner (see /get-involved/triathlon-team).
+-- Submitted through /api/triathlon-team using the service-role key (same
+-- trust model as inquiries/sponsorship_requests below); never auto-approved
+-- or published anywhere — an admin reviews every application at
+-- /admin/triathlon-team and changes status by hand. Simpler than
+-- sponsorship_requests deliberately: one status + one notes field, no
+-- append-only history table, since this isn't gated by the same
+-- ethics-review workflow.
+-- ---------------------------------------------------------------------------
+create table if not exists public.triathlon_team_applications (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  status text not null default 'new' check (status in ('new', 'reviewing', 'approved', 'declined', 'waitlisted')),
+
+  full_name text not null,
+  email text not null,
+  phone text not null,
+  city text not null,
+  state text not null,
+
+  experience_level text not null check (
+    experience_level in ('First-time triathlete', 'Sprint', 'Olympic', '70.3', 'Full IRONMAN', 'Multiple distances')
+  ),
+  years_in_triathlon text not null,
+  preferred_distance text not null,
+
+  registered_for_race boolean not null default false,
+  race_name text,
+  race_date date,
+  race_distance text,
+  race_location text,
+  needs_race_help boolean,
+
+  mission_reason text not null,
+
+  fundraising_experience boolean not null default false,
+  fundraising_goal text not null,
+
+  instagram text,
+  facebook text,
+  strava text,
+  other_social text,
+
+  apparel_size text not null,
+
+  -- Required acknowledgment checkboxes — see the application form. All
+  -- three must be true for a submission to reach this table at all (the
+  -- API route rejects an unchecked one), but stored as columns rather than
+  -- assumed so an admin reviewing a record can see exactly what was agreed.
+  ack_costs boolean not null,
+  ack_safety boolean not null,
+  ack_conduct boolean not null,
+
+  -- Internal only — never exposed to the public frontend.
+  admin_notes text
+);
+
+create index if not exists triathlon_team_applications_status_idx
+  on public.triathlon_team_applications (status);
+create index if not exists triathlon_team_applications_created_at_idx
+  on public.triathlon_team_applications (created_at desc);
+
+-- ---------------------------------------------------------------------------
 -- sponsors
 -- ---------------------------------------------------------------------------
 create table if not exists public.sponsors (
@@ -717,6 +783,7 @@ alter table public.mission_partners enable row level security;
 alter table public.training_objectives enable row level security;
 alter table public.performance_snapshots enable row level security;
 alter table public.inquiries enable row level security;
+alter table public.triathlon_team_applications enable row level security;
 alter table public.sponsorship_requests enable row level security;
 alter table public.sponsorship_status_history enable row level security;
 alter table public.whoop_tokens enable row level security;
@@ -817,6 +884,12 @@ create policy "performance snapshots are publicly readable"
 
 -- No policies on public.inquiries: default-deny for anon/authenticated.
 -- Only the service-role key (which bypasses RLS) can read or write it.
+
+-- No policies on public.triathlon_team_applications: default-deny for
+-- anon/authenticated, including status and admin_notes. The public
+-- application form submits through /api/triathlon-team using the
+-- service-role key; every read (the /admin/triathlon-team queue) goes
+-- through requireAdminUser() + createAdminClient() the same way.
 
 -- No policies on public.sponsorship_requests or public.sponsorship_status_history:
 -- default-deny for anon/authenticated, including internal_notes and every

@@ -266,6 +266,15 @@ export default async function JournalPage(props: PageProps<"/journal">) {
           >
             See Full Training Dashboard &rarr;
           </Link>
+
+          <div className="mt-6 rounded-sm border border-bronze/30 bg-bronze/5 px-5 py-4">
+            <p className="text-sm text-charcoal-light">
+              Want to race for the mission?{" "}
+              <Link href="/get-involved/triathlon-team" className="font-semibold text-bronze hover:text-bronze-light">
+                Join the Triathlon Team &rarr;
+              </Link>
+            </p>
+          </div>
         </Container>
       </section>
 
