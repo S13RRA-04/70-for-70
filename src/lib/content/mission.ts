@@ -38,6 +38,15 @@ export const MISSION_SECTIONS: MissionSection[] = [
     link: { label: "Read the Founder's Story", href: `${SITE_URL}/about#founders-story` },
   },
   {
+    id: "why-first-responders",
+    heading: "Why First Responders",
+    body: [
+      "Law enforcement, fire, EMS, dispatch, and corrections carry a version of the same weight — repeated exposure to trauma, and a culture that often rewards toughness over asking for help. Reporting is far less complete than it is for veterans, but the best available estimates suggest a law-enforcement officer is lost to suicide roughly every 2 to 3 days.",
+      "That's why For The 22 has always stood for veterans and first responders together — the number \"22\" started as a veteran statistic, but the mission behind it was never about one uniform. Closing that same gap is why first responders are part of this campaign's mission, not an afterthought to it.",
+    ],
+    link: { label: "Read Why 22", href: `${SITE_URL}/about#for-the-22` },
+  },
+  {
     id: "why-mighty-oaks",
     heading: "Why Mighty Oaks",
     body: [
