@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Container } from "@/components/shared/container";
 import { getCurrentEventConfig } from "@/lib/data/event-config";
 import { getCurrentEventStatus, isEventPromoWindowNow } from "@/lib/22-for-the-22/event-status";
 import type { CampaignSlug } from "@/lib/site-mode";
@@ -23,7 +24,7 @@ export async function EventAnnouncementBanner({ campaignSlug }: { campaignSlug: 
 
   return (
     <div className="border-b border-off-white/10 bg-ink text-off-white">
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-3 gap-y-1.5 px-4 py-3 text-center sm:px-6 lg:px-8">
+      <Container className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 py-3 text-center">
         <p className="text-xs font-medium leading-snug text-off-white/90 sm:text-sm">
           <span className="font-semibold uppercase tracking-wide text-bronze-light">22 For the 22</span>{" "}
           {status === "live" ? "is live now — 22 hours, one mission." : "· Nov 21–22, 2026 · Free to join."}
@@ -34,7 +35,7 @@ export async function EventAnnouncementBanner({ campaignSlug }: { campaignSlug: 
         >
           {ctaLabel}
         </Link>
-      </div>
+      </Container>
     </div>
   );
 }

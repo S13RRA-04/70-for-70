@@ -211,7 +211,7 @@ export default async function EventPage() {
         <section className="border-t border-ink/10 bg-sand-light py-16 sm:py-20">
           <Container>
             <SectionHeading eyebrow="With Thanks To" title="22 For the 22 Supporters" />
-            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
               {giveawaySupporters.map((partner) => (
                 <div key={partner.id} className="rounded-sm border border-ink/10 bg-off-white p-6">
                   <p className="font-display text-lg font-semibold uppercase tracking-wide text-ink">

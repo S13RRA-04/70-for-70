@@ -121,7 +121,7 @@ export default function HomePage() {
 
       {/* Find the Support You Need — Tier 2: gateway into the resource directory, crisis access integrated as a paired dark panel rather than its own full-width band */}
       <section id="resources" className="scroll-mt-20 bg-sand-light py-16 sm:py-24">
-        <Container className="max-w-[1400px]">
+        <Container>
           <RevealOnScroll>
             <SectionHeading
               eyebrow="Our Core Mission"
@@ -156,7 +156,7 @@ export default function HomePage() {
 
       {/* Areas of Support — the four pillars of the core mission, equal weight, no sport-specific emphasis */}
       <section id="support-areas" className="scroll-mt-20 bg-off-white py-16 sm:py-24">
-        <Container className="max-w-[1400px]">
+        <Container>
           <RevealOnScroll>
             <SectionHeading eyebrow="How We Help" title="Areas of Support" />
           </RevealOnScroll>
@@ -177,7 +177,7 @@ export default function HomePage() {
 
       {/* Who the Directory Serves */}
       <section id="who-we-serve" className="scroll-mt-20 bg-sand-light py-16 sm:py-24">
-        <Container className="max-w-[1400px]">
+        <Container>
           <RevealOnScroll>
             <SectionHeading eyebrow="Built For" title="Who the Directory Serves" />
           </RevealOnScroll>
@@ -200,7 +200,7 @@ export default function HomePage() {
       {/* Why 22 + Black — Tier 1: sparse, poster-like memorial composition, typography-led */}
       {why22 && (
         <section id="why-22" className="scroll-mt-20 bg-ink py-20 text-off-white sm:py-28">
-          <Container className="max-w-[1400px]">
+          <Container>
             <RevealOnScroll>
               <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
                 <div>
@@ -246,7 +246,7 @@ export default function HomePage() {
       {/* Why I Started This — Tier 2: shrunk founder teaser, one image/paragraph/pull-quote, pointing to the full story on /about rather than retelling it here */}
       {theIdea && (
         <section id="story" className="scroll-mt-20 bg-sand-light py-16 sm:py-24">
-          <Container className="max-w-[1400px]">
+          <Container>
             <RevealOnScroll>
               <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
                 <div className="relative aspect-[4/5] overflow-hidden rounded-sm lg:col-span-5">

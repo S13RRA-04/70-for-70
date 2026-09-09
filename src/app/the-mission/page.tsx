@@ -20,17 +20,19 @@ export default function MissionPage() {
   return (
     <>
       <CampaignPageHero>
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">
-          Current Campaign
-        </p>
-        <SectionHeading
-          as="h1"
-          tone="dark"
-          className="mt-2"
-          title="70.3 Miles. $70,000. One Mission."
-          description="Tri For The 22 pairs a 70.3-mile triathlon with a $70,000 fundraising goal in support of veteran-focused nonprofit organizations."
-        />
-        <div className="mt-10">
+        <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:gap-16">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">
+              Current Campaign
+            </p>
+            <SectionHeading
+              as="h1"
+              tone="dark"
+              className="mt-2"
+              title="70.3 Miles. $70,000. One Mission."
+              description="Tri For The 22 pairs a 70.3-mile triathlon with a $70,000 fundraising goal in support of veteran-focused nonprofit organizations."
+            />
+          </div>
           <CampaignByTheNumbers />
         </div>
       </CampaignPageHero>

@@ -1,4 +1,4 @@
-import { ExternalLink, Waves, Bike, Footprints } from "lucide-react";
+import { ExternalLink, Waves, HandCoins, Handshake, Timer, type LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { getCampaign } from "@/lib/data/campaign";
 import { Container } from "@/components/shared/container";
@@ -33,38 +33,44 @@ interface HelpPathway {
   description: string;
   ctaLabel: string;
   href: string;
+  icon: LucideIcon;
 }
 
+/**
+ * The four primary "do something" pathways — deliberately equal weight
+ * (same card treatment, same row) rather than singling any one out in its
+ * own oversized hero band. Volunteer/spread-the-word lives in its own
+ * section below (see id="roles") instead of a fifth card here, since that
+ * section's own eyebrow already covers it.
+ */
 const HELP_PATHWAYS: HelpPathway[] = [
   {
     title: "Join the Triathlon Team",
     description: "Train, race, and fundraise under the Tri For The 22 banner.",
     ctaLabel: "Apply as a Triathlete →",
     href: "/get-involved/triathlon-team",
+    icon: Waves,
   },
   {
     title: "Join the 22-Hour Challenge",
     description: "Run. Ruck. Ride. Walk. Row. Swim. Move for 22 hours in support of the mission — free to join.",
     ctaLabel: "Register Free →",
     href: "/22forthe22",
+    icon: Timer,
   },
   {
     title: "Support the Campaign",
     description: "Donate or help fund the mission.",
     ctaLabel: "Support the Mission →",
     href: DONATE_LINK.href,
+    icon: HandCoins,
   },
   {
     title: "Become a Partner",
     description: "Provide financial, in-kind, promotional, or organizational support.",
     ctaLabel: "Partner With Us →",
     href: "/sponsors",
-  },
-  {
-    title: "Help Spread the Word",
-    description: "Help expand the reach of Tri For The 22.",
-    ctaLabel: "Get Involved →",
-    href: "#roles",
+    icon: Handshake,
   },
 ];
 
@@ -83,63 +89,24 @@ export default async function GetInvolvedPage() {
         />
       </CampaignPageHero>
 
-      {/* 1. Join the Triathlon Team — the most prominent, direct extension of the campaign concept. */}
+      {/* Choose how to help — four equal-weight pathways, none singled out in its own oversized band. */}
       <section className="border-b border-ink/10 bg-ink py-16 text-off-white sm:py-20">
-        <Container className="max-w-3xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-bronze-light">
-            Race For The Mission
-          </p>
-          <h2 className="mt-3 text-balance font-display text-3xl font-semibold uppercase tracking-tight sm:text-4xl">
-            Join the Triathlon Team
-          </h2>
-          <p className="mt-3 max-w-xl text-base text-off-white/75">
-            Race for the mission. Raise funds. Represent Tri For The 22.
-          </p>
-
-          <div className="mt-6 flex items-center gap-4 text-bronze-light">
-            <Waves size={22} aria-hidden />
-            <Bike size={22} aria-hidden />
-            <Footprints size={22} aria-hidden />
-          </div>
-
-          <p className="mt-6 max-w-2xl text-base leading-relaxed text-off-white/80">
-            Tri For The 22 is building a team of triathletes who want to race in support of
-            veterans and first responders while raising awareness and funds through their own
-            training and events.
-          </p>
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-off-white/80">
-            Whether you&apos;re preparing for your first sprint triathlon or your next IRONMAN,
-            you can use your race to help carry the mission forward.
-          </p>
-          <p className="mt-4 text-sm font-semibold uppercase tracking-wide text-off-white/60">
-            Sprint. Olympic. 70.3. IRONMAN.
-          </p>
-
-          <CTAButton href="/get-involved/triathlon-team" tone="dark" size="lg" className="mt-8">
-            Apply to Join the Triathlon Team
-          </CTAButton>
-
-          <p className="mt-4 max-w-xl text-xs text-off-white/50">
-            Race expenses are on the athlete — Tri For The 22 cannot supply team members with
-            funds or gear.
-          </p>
-        </Container>
-      </section>
-
-      {/* 11. Choose how to help — the four pathways, Triathlon Team first. */}
-      <section className="py-16 sm:py-20">
         <Container>
-          <SectionHeading eyebrow="Ways To Help" title="Choose How You Want to Help" />
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <SectionHeading eyebrow="Ways To Help" title="Choose How You Want to Help" tone="dark" />
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {HELP_PATHWAYS.map((pathway) => (
-              <div key={pathway.title} className="flex flex-col rounded-sm border border-ink/10 bg-off-white p-6">
-                <h3 className="font-display text-base font-semibold uppercase tracking-wide text-ink">
+              <div
+                key={pathway.title}
+                className="flex flex-col rounded-sm border border-off-white/15 bg-off-white/5 p-6"
+              >
+                <pathway.icon size={26} className="text-bronze-light" aria-hidden />
+                <h3 className="mt-4 font-display text-lg font-semibold uppercase tracking-wide">
                   {pathway.title}
                 </h3>
-                <p className="mt-2 flex-1 text-sm text-charcoal-light">{pathway.description}</p>
+                <p className="mt-2 flex-1 text-sm text-off-white/75">{pathway.description}</p>
                 <Link
                   href={pathway.href}
-                  className="mt-4 text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+                  className="mt-5 text-sm font-semibold uppercase tracking-wide text-bronze-light hover:text-off-white"
                 >
                   {pathway.ctaLabel}
                 </Link>

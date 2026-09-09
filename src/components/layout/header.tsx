@@ -9,6 +9,7 @@ import { CAMPAIGNS, ORG_NAV_LINKS, PARENT_INITIATIVE_LINK, SITE_NAME } from "@/l
 import type { CampaignSlug, SiteMode } from "@/lib/site-mode";
 import { cn } from "@/lib/utils";
 import { MobileMenu } from "@/components/layout/mobile-menu";
+import { Container } from "@/components/shared/container";
 
 export function Header({
   mode,
@@ -38,7 +39,7 @@ export function Header({
 
   return (
     <header className="sticky top-0 z-40 border-b border-ink/10 bg-off-white/95 backdrop-blur supports-[backdrop-filter]:bg-off-white/80">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <Container className="flex h-16 items-center justify-between">
         <Link href="/" className="flex shrink-0 items-center gap-2.5">
           <Image
             src={campaign ? campaign.logoLight : "/logo.png"}
@@ -120,7 +121,7 @@ export function Header({
             {open ? <X size={26} aria-hidden /> : <Menu size={26} aria-hidden />}
           </button>
         </div>
-      </div>
+      </Container>
 
       <MobileMenu
         open={open}

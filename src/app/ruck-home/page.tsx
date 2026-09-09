@@ -166,50 +166,52 @@ export default async function RuckHomePage() {
           style={{ backgroundImage: "url(/topo-map.png)" }}
           aria-hidden="true"
         />
-        <Container className="relative py-16 sm:py-24">
-          <a
-            href={ORG_HOME_LINK.href}
-            className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light hover:underline"
-          >
-            {SITE_NAME} Presents
-          </a>
-          <h1 className="mt-3 text-balance font-display text-[clamp(2.25rem,7vw,4.5rem)] font-bold uppercase leading-[0.95] tracking-tight">
-            {RUCK.name}
-          </h1>
-
-          <p className="mt-4 text-lg font-semibold uppercase tracking-wide text-bronze-light sm:text-xl">
-            {RUCK_EVENT_INFO.name} &middot; {RUCK_EVENT_INFO.eventDateDisplay}
-          </p>
-
-          <p className="mt-4 max-w-xl text-base leading-relaxed text-off-white/80">
-            {RUCK_EVENT_INFO.formatNote}
-          </p>
-
-          <p className="mt-3 max-w-xl text-base italic leading-relaxed text-off-white/70">
-            {RUCK_EVENT_INFO.personalNote}
-          </p>
-
-          <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4">
+        <Container className="relative grid gap-10 py-16 sm:py-24 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:gap-16">
+          <div>
             <a
-              href={RUCK.primaryCta.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-analytics-event="ruck_register_click"
-              className="inline-flex items-center gap-1.5 rounded-sm bg-bronze px-8 py-4 text-base font-semibold uppercase tracking-wide text-off-white shadow-sm transition-colors hover:bg-bronze-light"
+              href={ORG_HOME_LINK.href}
+              className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light hover:underline"
             >
-              {RUCK.primaryCta.label} on Eventbee
-              <ExternalLink size={16} aria-hidden />
+              {SITE_NAME} Presents
             </a>
-            <a
-              href="#beneficiaries"
-              className="rounded-sm border border-off-white/40 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-off-white/10"
-            >
-              Donate
-            </a>
+            <h1 className="mt-3 text-balance font-display text-[clamp(2.25rem,7vw,4.5rem)] font-bold uppercase leading-[0.95] tracking-tight">
+              {RUCK.name}
+            </h1>
+
+            <p className="mt-4 text-lg font-semibold uppercase tracking-wide text-bronze-light sm:text-xl">
+              {RUCK_EVENT_INFO.name} &middot; {RUCK_EVENT_INFO.eventDateDisplay}
+            </p>
+
+            <p className="mt-4 max-w-xl text-base leading-relaxed text-off-white/80">
+              {RUCK_EVENT_INFO.formatNote}
+            </p>
+
+            <p className="mt-3 max-w-xl text-base italic leading-relaxed text-off-white/70">
+              {RUCK_EVENT_INFO.personalNote}
+            </p>
+
+            <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4">
+              <a
+                href={RUCK.primaryCta.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-analytics-event="ruck_register_click"
+                className="inline-flex items-center gap-1.5 rounded-sm bg-bronze px-8 py-4 text-base font-semibold uppercase tracking-wide text-off-white shadow-sm transition-colors hover:bg-bronze-light"
+              >
+                {RUCK.primaryCta.label} on Eventbee
+                <ExternalLink size={16} aria-hidden />
+              </a>
+              <a
+                href="#beneficiaries"
+                className="rounded-sm border border-off-white/40 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-off-white/10"
+              >
+                Donate
+              </a>
+            </div>
           </div>
 
           {RUCK_EVENT_INFO.eventDate && (
-            <div className="mt-10 max-w-sm">
+            <div className="rounded-sm border border-off-white/10 bg-off-white/5 p-6 backdrop-blur-sm sm:p-8">
               <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-off-white/60">
                 Event Countdown
               </p>

@@ -65,7 +65,7 @@ export default async function SponsorsPage() {
               description="Confirmed campaign partners will appear on this page as relationships are finalized."
             />
           ) : (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
               {generalPartners.map((partner) => (
                 <MissionPartnerCard key={partner.id} partner={partner} />
               ))}

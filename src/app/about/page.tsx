@@ -74,7 +74,7 @@ export default function AboutPage() {
       {/* 2. Service */}
       <section id="service" className="scroll-mt-28 border-b border-ink/10 py-16 sm:py-24">
         <span id="my-story" aria-hidden="true" className="block scroll-mt-28 sm:scroll-mt-32" />
-        <Container className="max-w-[1400px]">
+        <Container>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze">01 — Service</p>
           <div className="mt-6">
             <ImageTextRow image={myStory.image!} heading={myStory.heading}>
@@ -173,7 +173,7 @@ export default function AboutPage() {
           </a>
         </Container>
 
-        <Container className="mt-14 max-w-[1400px] sm:mt-20">
+        <Container className="mt-14 sm:mt-20">
           <div data-rail-quiet className="bg-ink px-6 py-14 text-off-white sm:px-16 sm:py-20">
             <span className="font-display text-7xl font-bold leading-none text-bronze-light sm:text-8xl">
               22
@@ -213,7 +213,7 @@ export default function AboutPage() {
 
       {/* 7. The Mark */}
       <section id="the-mark" className="scroll-mt-28 border-b border-ink/10 py-16 sm:py-24">
-        <Container className="max-w-[1400px]">
+        <Container>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze">05 — The Mark</p>
           <h2 className="mt-2 font-display text-2xl font-semibold uppercase tracking-tight text-ink sm:text-3xl">
             Nothing in the mark is decorative.

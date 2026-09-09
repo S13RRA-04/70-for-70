@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Container } from "@/components/shared/container";
 import { GiveawayPrizeCard } from "./giveaway-prize-card";
 import { getGiveawaySummary } from "@/lib/data/giveaway-prizes";
 import { GIVEAWAY_ODDS_DISCLOSURE, NO_PURCHASE_NECESSARY_DISCLOSURE } from "@/lib/content/22-for-the-22";
@@ -44,7 +45,7 @@ export function EventGiveawaySection({
 
   return (
     <section id="giveaway" data-analytics-event="giveaway_section_view" className="py-16 sm:py-20">
-      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+      <Container>
         <p className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-bronze">22-Hour Giveaway</p>
         <h2 className="text-balance font-display text-3xl font-semibold uppercase tracking-tight text-ink sm:text-4xl">
           Free Registration. Free Entry.
@@ -75,7 +76,7 @@ export function EventGiveawaySection({
           </div>
         )}
 
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
           {prizes.map((prize) => (
             <GiveawayPrizeCard key={prize.id} prize={prize} partner={prize.partner_id ? partnerById.get(prize.partner_id) ?? null : null} />
           ))}
@@ -90,7 +91,7 @@ export function EventGiveawaySection({
           . Retail values are approximate and provided for informational purposes. Product contributions do not
           imply endorsement of Tri For the 22 by any government agency or employer.
         </p>
-      </div>
+      </Container>
     </section>
   );
 }

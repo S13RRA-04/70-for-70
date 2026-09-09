@@ -12,6 +12,7 @@ import { GearJourneyIndexCard } from "@/components/journal/gear-journey/gear-jou
 import { JournalStatusStrip } from "@/components/journal/journal-status-strip";
 import { RoadSoFar } from "@/components/journal/road-so-far";
 import { CurrentTrainingSummary } from "@/components/training/current-training-summary";
+import { CampaignProgress } from "@/components/campaign/campaign-progress";
 import { FundraisingImpactStrip } from "@/components/campaign/fundraising-impact-strip";
 import { CampaignPhaseBanner } from "@/components/campaign/campaign-phase-banner";
 import { EmptyState } from "@/components/shared/empty-state";
@@ -175,12 +176,51 @@ export default async function JournalPage(props: PageProps<"/journal">) {
         <CampaignPhaseBanner phase={phase} />
       </CampaignPageHero>
 
-      {/* 2. Featured / latest entry — the dominant content item on the page. */}
+      {/* 2. Featured / latest entry, paired with a compact live Campaign Status panel — makes use of the widened container instead of a single narrow column. */}
       {featuredEntry && (
         <section className="py-14 sm:py-16">
           <Container>
-            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-bronze">Latest</p>
-            <JournalCard entry={featuredEntry} featured readMoreLabel="Read the Journal Entry →" />
+            <div className="grid gap-8 lg:grid-cols-[1.65fr_1fr] lg:items-start">
+              <div>
+                <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-bronze">Latest</p>
+                <JournalCard entry={featuredEntry} featured readMoreLabel="Read the Journal Entry →" />
+              </div>
+
+              <div className="rounded-sm border border-ink/10 bg-sand-light p-6">
+                <p className="text-xs font-semibold uppercase tracking-widest text-bronze">Campaign Status</p>
+                <div className="mt-4">
+                  <CampaignProgress
+                    totalRaised={fundraisingStats.amountRaised}
+                    goal={fundraisingStats.fundraisingGoal}
+                    showStats={false}
+                  />
+                </div>
+                <div className="mt-6 grid grid-cols-2 gap-3">
+                  <div className="rounded-sm border border-ink/10 bg-off-white px-4 py-3">
+                    <p className="font-display text-xl font-semibold tabular-nums text-ink">
+                      {fundraisingStats.milesFunded}/{fundraisingStats.milesTotal}
+                    </p>
+                    <p className="mt-0.5 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                      Miles Funded
+                    </p>
+                  </div>
+                  <div className="rounded-sm border border-ink/10 bg-off-white px-4 py-3">
+                    <p className="font-display text-xl font-semibold tabular-nums text-ink">
+                      {fundraisingStats.supporterCount}
+                    </p>
+                    <p className="mt-0.5 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                      Supporters
+                    </p>
+                  </div>
+                </div>
+                <Link
+                  href="/the-race"
+                  className="mt-6 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+                >
+                  See Full Training Dashboard &rarr;
+                </Link>
+              </div>
+            </div>
           </Container>
         </section>
       )}
@@ -219,7 +259,7 @@ export default async function JournalPage(props: PageProps<"/journal">) {
                     <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
                       {group.label}
                     </h3>
-                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
                       {group.entries.map((entry) => (
                         <JournalCard key={entry.id} entry={entry} isLatest={entry.id === latestEntry?.id} />
                       ))}

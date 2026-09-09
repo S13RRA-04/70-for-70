@@ -121,18 +121,30 @@ export default async function CampaignHomePage() {
           aria-hidden="true"
         />
 
-        <Container className="relative py-16 sm:py-24">
-          <h1 className="text-balance font-display text-[clamp(2.25rem,7vw,4.5rem)] font-bold uppercase leading-[0.95] tracking-tight">
-            {CAMPAIGN_NAME}
-          </h1>
+        <Container className="relative grid gap-10 py-16 sm:py-24 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:gap-16">
+          <div>
+            <h1 className="text-balance font-display text-[clamp(2.25rem,7vw,4.5rem)] font-bold uppercase leading-[0.95] tracking-tight">
+              {CAMPAIGN_NAME}
+            </h1>
 
-          <p className="mt-4 text-lg font-semibold uppercase tracking-wide text-bronze-light sm:text-xl">
-            {CURRENT_CAMPAIGN.event} &middot; May 16, 2027 &middot; {RACE_INFO.raceLocation}
-          </p>
+            <p className="mt-4 text-lg font-semibold uppercase tracking-wide text-bronze-light sm:text-xl">
+              {CURRENT_CAMPAIGN.event} &middot; May 16, 2027 &middot; {RACE_INFO.raceLocation}
+            </p>
 
-          <p className="mt-4 max-w-xl text-base leading-relaxed text-off-white/80">{HERO_EXPLAINER}</p>
+            <p className="mt-4 max-w-xl text-base leading-relaxed text-off-white/80">{HERO_EXPLAINER}</p>
 
-          <div className="mt-8 max-w-sm">
+            <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
+              <Link
+                href={DONATE_LINK.href}
+                data-analytics-event="donate_click"
+                className="rounded-sm bg-bronze px-8 py-4 text-base font-semibold uppercase tracking-wide text-off-white shadow-sm transition-colors hover:bg-bronze-light"
+              >
+                {DONATE_LINK.label}
+              </Link>
+            </div>
+          </div>
+
+          <div className="rounded-sm border border-off-white/10 bg-off-white/5 p-6 backdrop-blur-sm sm:p-8">
             <CampaignProgress
               totalRaised={campaign.amount_raised}
               goal={campaign.fundraising_goal}
@@ -140,26 +152,16 @@ export default async function CampaignHomePage() {
               tone="dark"
               breakdown={allocationBreakdown}
             />
-          </div>
 
-          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
-            <Link
-              href={DONATE_LINK.href}
-              data-analytics-event="donate_click"
-              className="rounded-sm bg-bronze px-8 py-4 text-base font-semibold uppercase tracking-wide text-off-white shadow-sm transition-colors hover:bg-bronze-light"
-            >
-              {DONATE_LINK.label}
-            </Link>
+            {RACE_INFO.raceDate && (
+              <div className="mt-8 border-t border-off-white/10 pt-8">
+                <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-off-white/60">
+                  Race Day Countdown
+                </p>
+                <Countdown targetIso={RACE_INFO.raceDate} />
+              </div>
+            )}
           </div>
-
-          {RACE_INFO.raceDate && (
-            <div className="mt-10 max-w-sm">
-              <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-off-white/60">
-                Race Day Countdown
-              </p>
-              <Countdown targetIso={RACE_INFO.raceDate} />
-            </div>
-          )}
         </Container>
       </section>
 

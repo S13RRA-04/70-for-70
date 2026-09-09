@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Container } from "@/components/shared/container";
 import { CurrentMovementLog } from "./current-movement-log";
 import { CampaignProgress } from "@/components/campaign/campaign-progress";
 import { DONATE_LINK } from "@/lib/constants";
@@ -22,7 +23,7 @@ export function LiveEventPanel({
 }) {
   return (
     <section className="border-y border-ink/10 bg-sand-light py-16 sm:py-20">
-      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+      <Container>
         <p className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-bronze">Live Now</p>
         <h2 className="text-balance font-display text-3xl font-semibold uppercase tracking-tight text-ink sm:text-4xl">
           22 For the 22 Is Underway
@@ -72,7 +73,7 @@ export function LiveEventPanel({
             </div>
           </div>
         )}
-      </div>
+      </Container>
     </section>
   );
 }

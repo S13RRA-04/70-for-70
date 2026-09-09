@@ -73,7 +73,7 @@ export default function AdvocacyPage() {
 
       {/* The Reality — two-column icon-led narrative, not stacked full-width text */}
       <section className="py-16 sm:py-20">
-        <Container className="max-w-[1400px]">
+        <Container>
           <SectionHeading eyebrow="The Reality" title="What They Carry" />
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
             {THE_REALITY.map((item) => (
@@ -100,7 +100,7 @@ export default function AdvocacyPage() {
 
       {why22 && (
         <section className="border-t border-ink/10 bg-sand-light py-16 sm:py-20">
-          <Container className="max-w-6xl">
+          <Container>
             <div className="grid gap-8 lg:grid-cols-[1.3fr_1fr] lg:items-start">
               <div>
                 <SectionHeading eyebrow="The Symbol" title={why22.heading} />
@@ -137,7 +137,7 @@ export default function AdvocacyPage() {
 
       {/* A Public Responsibility — four-up icon-card grid instead of a two-column list */}
       <section className="border-t border-ink/10 bg-ink py-16 text-off-white sm:py-20">
-        <Container className="max-w-[1400px]">
+        <Container>
           <SectionHeading
             tone="dark"
             eyebrow="A Public Responsibility"

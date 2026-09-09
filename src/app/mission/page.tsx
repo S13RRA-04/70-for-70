@@ -93,7 +93,7 @@ export default function MissionPage() {
 
       {/* Who We Serve — chip row, not a bullet list */}
       <section className="bg-off-white py-16 sm:py-20">
-        <Container className="max-w-[1400px]">
+        <Container>
           <SectionHeading eyebrow="Built For" title="Who We Serve" />
           <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7">
             {WHO_WE_SERVE.map(({ label, icon: Icon }) => (
@@ -111,7 +111,7 @@ export default function MissionPage() {
 
       {/* What We Connect People To — icon-card grid */}
       <section className="border-t border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container className="max-w-[1400px]">
+        <Container>
           <SectionHeading eyebrow="How We Help" title="What We Connect People To" />
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
             {RESOURCE_AREAS.map((area) => (
@@ -129,7 +129,7 @@ export default function MissionPage() {
 
       {/* How the directory works — numbered process row */}
       <section className="border-t border-ink/10 bg-off-white py-16 sm:py-20">
-        <Container className="max-w-[1400px]">
+        <Container>
           <SectionHeading eyebrow="The Process" title="How the Directory Works" />
           <div className="mt-8 grid gap-6 sm:grid-cols-2">
             {HOW_IT_WORKS.map((step) => (
@@ -151,7 +151,7 @@ export default function MissionPage() {
 
       {/* What For The 22 is not — dark full-bleed contrast block */}
       <section className="bg-ink py-16 text-off-white sm:py-20">
-        <Container className="max-w-[1400px]">
+        <Container>
           <SectionHeading tone="dark" eyebrow="For Clarity" title="What For The 22 Is Not" />
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
             {WHAT_WE_ARE_NOT.map((item) => (

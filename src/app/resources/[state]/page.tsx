@@ -72,7 +72,7 @@ export default async function StateResourcesPage({
         <section className="py-16 sm:py-20">
           <Container>
             <SectionHeading eyebrow="Local" title={`${state.name}-Specific Resources`} />
-            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
               {local.map((resource) => (
                 <ResourceCard key={resource.name} resource={resource} />
               ))}
@@ -88,7 +88,7 @@ export default async function StateResourcesPage({
             title="Available in Every State"
             description={`These programs aren't specific to ${state.name}, but every one of them is open to residents here.`}
           />
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
             {nationwide.map((resource) => (
               <ResourceCard key={resource.name} resource={resource} />
             ))}

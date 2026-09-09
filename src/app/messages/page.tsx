@@ -49,7 +49,7 @@ export default async function MessagesPage() {
               />
             </div>
           ) : (
-            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
               {messages.map((entry) => (
                 <div key={entry.id} className="flex flex-col rounded-sm border border-ink/10 bg-off-white p-6">
                   <p className="text-sm leading-relaxed text-charcoal-light">&ldquo;{entry.message}&rdquo;</p>
