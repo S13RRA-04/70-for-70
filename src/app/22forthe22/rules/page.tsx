@@ -8,6 +8,7 @@ import {
   SAFETY_LANGUAGE,
 } from "@/lib/content/22-for-the-22";
 import { Container } from "@/components/shared/container";
+import { JournalMarkdown } from "@/components/journal/journal-markdown";
 import { CAMPAIGN_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
@@ -44,9 +45,7 @@ export default async function EventRulesPage() {
         </p>
 
         {event?.official_rules_body ? (
-          <div className="prose prose-sm mt-8 max-w-none whitespace-pre-line text-charcoal-light">
-            {event.official_rules_body}
-          </div>
+          <JournalMarkdown body={event.official_rules_body} className="mt-8" />
         ) : (
           <div className="mt-8 space-y-8">
             {EVENT_RULES_PLACEHOLDER_SECTIONS.map((section) => (
