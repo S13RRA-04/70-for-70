@@ -46,7 +46,9 @@ export function RaffleSupporterCard({ partner, items }: { partner: MissionPartne
         <div className="mt-3 space-y-2 text-sm">
           <div>
             <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">Contribution</p>
-            <p className="mt-0.5 text-ink">{items.map((i) => i.item_name).join("; ")}</p>
+            <p className="mt-0.5 text-ink">
+              {items.map((i) => (i.quantity > 1 ? `${i.quantity}× ${i.item_name}` : i.item_name)).join("; ")}
+            </p>
           </div>
           <div>
             <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">Retail Value</p>
