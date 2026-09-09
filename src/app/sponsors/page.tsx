@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { getMissionPartners } from "@/lib/data/mission-partners";
-import { getRaffleItems } from "@/lib/data/raffle-items";
 import { getCurrentEventConfig } from "@/lib/data/event-config";
 import { getGiveawayPrizes } from "@/lib/data/giveaway-prizes";
 import { Container } from "@/components/shared/container";
@@ -8,7 +7,6 @@ import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { MissionPartnerCard } from "@/components/partners/mission-partner-card";
 import { CurrentGearNeeds } from "@/components/sponsors/current-gear-needs";
-import { FundraiserRaffleSection } from "@/components/sponsors/fundraiser-raffle-section";
 import { EventGiveawaySection } from "@/components/22-for-the-22/event-giveaway-section";
 import { CTAButton } from "@/components/shared/cta-button";
 import { EmptyState } from "@/components/shared/empty-state";
@@ -23,24 +21,24 @@ export const metadata = pageMetadata({
 
 /**
  * Partners & Supporters — gear/resource partners (e.g. ISM Saddles,
- * Zealios), the Fundraiser Raffle's confirmed donors, and the current
- * gear/support wishlist, split out from the former /partners page so they
- * get their own page distinct from the nonprofit beneficiaries (see
- * src/app/beneficiaries/page.tsx). Distinct from the paid dollar-tier
- * sponsorship program (SPONSORSHIP_LEVELS in src/lib/constants.ts, request
- * form at /sponsors/request), which remains retired pending written
- * federal ethics approval.
+ * Zealios) and the current gear/support wishlist, split out from the
+ * former /partners page so they get their own page distinct from the
+ * nonprofit beneficiaries (see src/app/beneficiaries/page.tsx). Distinct
+ * from the paid dollar-tier sponsorship program (SPONSORSHIP_LEVELS in
+ * src/lib/constants.ts, request form at /sponsors/request), which remains
+ * retired pending written federal ethics approval.
+ *
+ * The Fundraiser Raffle (a separate fundraising mechanic from the free
+ * 22 For the 22 giveaway — see the compliance note on
+ * FundraiserRaffleSection) lives on /22forthe22 now, not here; this page
+ * keeps only a teaser link into the giveaway section below.
  *
  * Section order is deliberate — partner logos first (previously buried
- * below a large gear-needs table), then the raffle, then the needs list,
- * then a general "become a supporter" path, then disclosures.
+ * below a large gear-needs table), then the needs list, then a general
+ * "become a supporter" path, then disclosures.
  */
 export default async function SponsorsPage() {
-  const [partners, raffleItems, currentEvent] = await Promise.all([
-    getMissionPartners(),
-    getRaffleItems(),
-    getCurrentEventConfig(),
-  ]);
+  const [partners, currentEvent] = await Promise.all([getMissionPartners(), getCurrentEventConfig()]);
   const giveawayPrizes = currentEvent ? await getGiveawayPrizes(currentEvent.id) : [];
   const generalPartners = partners.filter(
     (p) => p.partner_type !== "raffle-supporter" && p.partner_type !== "giveaway-supporter",
@@ -73,8 +71,6 @@ export default async function SponsorsPage() {
           )}
         </Container>
       </section>
-
-      <FundraiserRaffleSection partners={partners} raffleItems={raffleItems} />
 
       {currentEvent && (
         <section className="border-b border-ink/10 bg-sand-light">

@@ -9,10 +9,16 @@ import { DONATE_LINK } from "@/lib/constants";
 import type { MissionPartnerRow, RaffleItemRow } from "@/types/database";
 
 /**
- * "Tri For the 22 Fundraiser Raffle" — sits between Current Gear & Support
- * Needs and the general partner grid on /sponsors. Takes the full partner
- * and raffle-item lists already fetched by the page (no second fetch here
- * — see /sponsors' doc comment) and filters/joins them locally.
+ * "Tri For the 22 Fundraiser Raffle" — rendered on /22forthe22, between the
+ * free Giveaway section and the event's donation/fundraising-goal section.
+ * Deliberately a separate table/data model/naming from the 22 For the 22
+ * giveaway (public.giveaway_prizes, partner_type 'giveaway-supporter'): this
+ * raffle has no entry mechanic live yet and may eventually be a paid/ticketed
+ * fundraiser, whereas the giveaway is free and no-purchase-necessary by law
+ * (see NO_PURCHASE_NECESSARY_DISCLOSURE). Never merge the two or borrow
+ * giveaway/sweepstakes language for this section. Takes the full partner and
+ * raffle-item lists already fetched by the page and filters/joins them
+ * locally.
  */
 export function FundraiserRaffleSection({
   partners,

@@ -4,6 +4,7 @@ import { getCurrentEventConfig } from "@/lib/data/event-config";
 import { getGiveawayPrizes } from "@/lib/data/giveaway-prizes";
 import { getEventActivityLog } from "@/lib/data/event-activity-log";
 import { getMissionPartners } from "@/lib/data/mission-partners";
+import { getRaffleItems } from "@/lib/data/raffle-items";
 import { getJournalEntriesByCategory } from "@/lib/data/journal";
 import { getCurrentEventStatus } from "@/lib/22-for-the-22/event-status";
 import {
@@ -18,6 +19,7 @@ import {
 import { EventHero } from "@/components/22-for-the-22/event-hero";
 import { EventGiveawaySection } from "@/components/22-for-the-22/event-giveaway-section";
 import { LiveEventPanel } from "@/components/22-for-the-22/live-event-panel";
+import { FundraiserRaffleSection } from "@/components/sponsors/fundraiser-raffle-section";
 import { EventRegistrationForm } from "@/components/forms/event-registration-form";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
@@ -42,10 +44,11 @@ export default async function EventPage() {
     );
   }
 
-  const [prizes, activityLog, missionPartners, liveJournalEntries] = await Promise.all([
+  const [prizes, activityLog, missionPartners, raffleItems, liveJournalEntries] = await Promise.all([
     getGiveawayPrizes(event.id),
     getEventActivityLog(event.id),
     getMissionPartners(),
+    getRaffleItems(),
     getJournalEntriesByCategory("22 For the 22"),
   ]);
 
@@ -184,6 +187,10 @@ export default async function EventPage() {
           </Container>
         </section>
       )}
+
+      {/* Fundraiser Raffle — a separate fundraising mechanic from the free
+          giveaway above; see the compliance note on FundraiserRaffleSection. */}
+      <FundraiserRaffleSection partners={missionPartners} raffleItems={raffleItems} />
 
       {/* Donation + Fundraising Goal */}
       <section className="py-16 sm:py-20">
