@@ -19,8 +19,10 @@ jobs:
       - run: npm ci
 
       # One-time cleanup for a stale Worker *secret* named
-      # NEXT_PUBLIC_SITE_URL (pointing at a broken "https://www.forthe22.org"
-      # with no DNS record) that predates committing this var into
+      # NEXT_PUBLIC_SITE_URL (pointing at a broken, unregistered "www"
+      # subdomain with no DNS record — see next.config.ts's env block for
+      # why the exact wrong URL is deliberately not quoted here) that
+      # predates committing this var into
       # wrangler.jsonc's `vars`. Secrets are a separate binding namespace
       # from plaintext vars — a `vars` push in "Build and deploy" below
       # does NOT clear or overwrite an existing secret of the same name, so

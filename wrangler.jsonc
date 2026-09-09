@@ -36,12 +36,17 @@
    * GitHub Actions workflow passes them as build-time shell env vars, but
    * OpenNext-for-Cloudflare reads NEXT_PUBLIC_* server-side from the Worker's
    * *runtime* env bindings, not just build-time inlining — so a stale
-   * dashboard-set NEXT_PUBLIC_SITE_URL ("https://www.forthe22.org", a
-   * subdomain with no DNS record) kept silently surviving every deploy,
-   * breaking every server-rendered "back to For The 22" link and
-   * metadataBase-derived URL site-wide despite the workflow's env block
-   * always looking correct. Declared here now so a deploy always sets the
-   * real value, the same fix already applied once for WHOOP_CLIENT_ID.
+   * dashboard-set value for the org root domain (pointing at an unregistered
+   * "www" subdomain with no DNS record — see next.config.ts's `env` block
+   * for the exact string and the ongoing saga of tracking this bug down;
+   * deliberately not repeated here as a quoted literal, since a prior
+   * version of this exact comment quoting that value is suspected of being
+   * misread as the real one by some build-time tool) kept silently
+   * surviving every deploy, breaking every server-rendered "back to For The
+   * 22" link and metadataBase-derived URL site-wide despite the workflow's
+   * env block always looking correct. Declared here now so a deploy always
+   * sets the real value, the same fix already applied once for
+   * WHOOP_CLIENT_ID.
    * NEXT_PUBLIC_RUCK_URL (Ruck For The 22's root, ruck.forthe22.org) is
    * declared here for the same reason from day one.
    *
