@@ -163,6 +163,7 @@ const CAMPAIGN_PATH_PREFIXES = [
   "/financial-transparency",
   "/shop",
   "/messages",
+  "/22forthe22",
 ];
 
 /**

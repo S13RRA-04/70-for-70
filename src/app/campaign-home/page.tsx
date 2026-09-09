@@ -8,6 +8,9 @@ import { getPartners } from "@/lib/data/partners";
 import { findAboutSubsection } from "@/lib/content/about";
 import { CampaignProgress } from "@/components/campaign/campaign-progress";
 import { MerchTicker } from "@/components/campaign/merch-ticker";
+import { EventPromoSection } from "@/components/campaign/event-promo-section";
+import { getCurrentEventConfig } from "@/lib/data/event-config";
+import { isEventPromoWindowNow } from "@/lib/22-for-the-22/event-status";
 import { PartnerLogo } from "@/components/shared/partner-logo";
 import { Countdown } from "@/components/shared/countdown";
 import { Container } from "@/components/shared/container";
@@ -67,21 +70,32 @@ function firstSentence(text: string): string {
  * transparent middleware rewrite (see src/middleware.ts). The movement
  * homepage at src/app/page.tsx renders at "/" on forthe22.org instead.
  *
- * Five sections, per AGENTS.md's Homepage spec: (1) responsive HTML hero,
- * (2) "Why 22" (the veteran suicide-awareness meaning behind the number),
- * (3) campaign concept, (4) beneficiary summary, (5) shop teaser linking out
- * to the merch store. Follow-along content (training/journal status) lives
- * on /journal, and the donate/share/newsletter block lives on /get-involved
- * — this page only previews and links to them.
+ * Five fixed sections, per AGENTS.md's Homepage spec: (1) responsive HTML
+ * hero, (2) "Why 22" (the veteran suicide-awareness meaning behind the
+ * number), (3) campaign concept, (4) beneficiary summary, (5) shop teaser
+ * linking out to the merch store. Follow-along content (training/journal
+ * status) lives on /journal, and the donate/share/newsletter block lives on
+ * /get-involved — this page only previews and links to them.
  *
  * MerchTicker above the hero is a scrolling promo strip pointing at the same
- * Bonfire store as section 5's teaser — not a sixth content section, just an
- * attention-grabbing pointer to the real pitch further down.
+ * Bonfire store as section 5's teaser — an attention-grabbing pointer to the
+ * real pitch further down, not a content section of its own.
+ *
+ * A sixth section — EventPromoSection, between the hero and "Why 22" — is
+ * conditional: it only renders during 22 For the 22's promo window (see
+ * isEventPromoWindow), so the homepage doesn't carry stale event content
+ * most of the year. Treat it as a self-gating exception to the "five fixed
+ * sections" contract above, not a precedent for adding more.
  */
 export default async function CampaignHomePage() {
-  const [campaign, partners] = await Promise.all([getCampaign(), getPartners()]);
+  const [campaign, partners, currentEvent] = await Promise.all([
+    getCampaign(),
+    getPartners(),
+    getCurrentEventConfig(),
+  ]);
   const allocationBreakdown = await getAllocationBreakdown(campaign);
   const why22 = findAboutSubsection("why-22");
+  const showEventPromo = currentEvent && isEventPromoWindowNow(currentEvent.starts_at, currentEvent.ends_at);
 
   return (
     <>
@@ -148,6 +162,9 @@ export default async function CampaignHomePage() {
           )}
         </Container>
       </section>
+
+      {/* Conditional 6th section — see this page's doc comment. */}
+      {showEventPromo && currentEvent && <EventPromoSection event={currentEvent} />}
 
       {/* 2. Why 22 — the veteran suicide-awareness meaning behind the number, for a visitor arriving on the campaign subdomain with no prior context. */}
       {why22 && (

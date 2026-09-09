@@ -361,7 +361,7 @@ create table if not exists public.journal_entries (
   primary_category text not null check (
     primary_category in (
       'Training', 'Campaign', 'Mighty Oaks', 'Project Echelon',
-      'Support', 'Race Prep', 'Milestones'
+      'Support', 'Race Prep', 'Milestones', '22 For the 22'
     )
   ),
   tags text[] not null default '{}',
@@ -421,6 +421,17 @@ create table if not exists public.journal_entries (
 create index if not exists journal_entries_status_idx on public.journal_entries (status, published_at desc);
 create unique index if not exists journal_entries_slug_idx on public.journal_entries (slug);
 create index if not exists journal_entries_category_idx on public.journal_entries (primary_category);
+
+-- Widen primary_category to add '22 For the 22' for databases where
+-- journal_entries already existed before this value was added to the
+-- create table statement above. Safe to re-run.
+alter table public.journal_entries drop constraint if exists journal_entries_primary_category_check;
+alter table public.journal_entries add constraint journal_entries_primary_category_check check (
+  primary_category in (
+    'Training', 'Campaign', 'Mighty Oaks', 'Project Echelon',
+    'Support', 'Race Prep', 'Milestones', '22 For the 22'
+  )
+);
 
 -- ---------------------------------------------------------------------------
 -- journal_entry_partner_mentions / journal_entry_beneficiary_mentions
@@ -628,7 +639,7 @@ create table if not exists public.mission_partners (
   partner_type text check (
     partner_type is null or partner_type in (
       'campaign-sponsor', 'gear-partner', 'service-partner', 'print-partner',
-      'accommodations-partner', 'training-partner', 'raffle-supporter'
+      'accommodations-partner', 'training-partner', 'raffle-supporter', 'giveaway-supporter'
     )
   )
 );
@@ -653,6 +664,19 @@ alter table public.mission_partners add column if not exists partner_type text
       'accommodations-partner', 'training-partner', 'raffle-supporter'
     )
   );
+
+-- Widen partner_type to add 'giveaway-supporter' for 22 For the 22 prize
+-- donors — deliberately its own value, not a reuse of 'raffle-supporter',
+-- per the no-raffle-language compliance requirement for that event. Drop +
+-- recreate rather than "add if not exists" because this modifies an
+-- existing check constraint, not a new column; safe to re-run.
+alter table public.mission_partners drop constraint if exists mission_partners_partner_type_check;
+alter table public.mission_partners add constraint mission_partners_partner_type_check check (
+  partner_type is null or partner_type in (
+    'campaign-sponsor', 'gear-partner', 'service-partner', 'print-partner',
+    'accommodations-partner', 'training-partner', 'raffle-supporter', 'giveaway-supporter'
+  )
+);
 
 -- ---------------------------------------------------------------------------
 -- raffle_items
@@ -691,6 +715,187 @@ create table if not exists public.raffle_items (
 );
 
 create index if not exists raffle_items_display_order_idx on public.raffle_items (display_order);
+
+-- ---------------------------------------------------------------------------
+-- event_config
+--
+-- One row per annual instance of a recurring endurance-challenge event — the
+-- first is "22 For the 22" (Nov 21-22, 2026). `series_slug` groups instances
+-- of the same recurring event across years; `event_slug` is the stable
+-- per-instance key the public page looks up (see getCurrentEventConfig() in
+-- src/lib/data/event-config.ts, keyed off CURRENT_EVENT_SLUG in
+-- src/lib/content/22-for-the-22.ts). A future year is a new row plus a
+-- one-line constant bump, never an overwrite of this row. Admin-editable via
+-- /admin/22-for-the-22/settings rather than hardcoded, since operational
+-- fields (registration open/closed, fundraising totals, rules copy, winner
+-- announcement) need to change during the live 22-hour window without a
+-- redeploy.
+-- ---------------------------------------------------------------------------
+create table if not exists public.event_config (
+  id uuid primary key default gen_random_uuid(),
+  event_slug text not null unique,
+  series_slug text not null default '22-for-the-22',
+  event_year integer not null,
+  event_name text not null default '22 For the 22',
+  tagline text not null default '22 Hours. One Mission. Keep Moving.',
+
+  -- Always compared as epoch instants (see computeEventStatus() in
+  -- src/lib/22-for-the-22/event-status.ts) — never hand-rolled against
+  -- "current Central Time."
+  starts_at timestamptz not null,
+  ends_at timestamptz not null,
+
+  -- Manual escape hatch for the computed pre/live/complete status. Null
+  -- (the normal case) means "compute from starts_at/ends_at."
+  status_override text check (status_override is null or status_override in ('pre', 'live', 'complete')),
+
+  registration_open boolean not null default true,
+
+  fundraising_goal numeric(12, 2) not null default 0 check (fundraising_goal >= 0),
+  -- Hand-updated by an admin via the settings editor — this event has no
+  -- donation-tagging column of its own on public.donations, so this is a
+  -- manually maintained counter, same trust model as agreement_status
+  -- elsewhere in this file (free text/numbers filled in by hand, never
+  -- inferred).
+  amount_raised numeric(12, 2) not null default 0 check (amount_raised >= 0),
+
+  merch_url text,
+  donate_url text,
+
+  -- Optional full legal rules text (markdown) — when set, overrides the
+  -- hardcoded placeholder-section scaffold on /22forthe22/rules. Null until
+  -- reviewed legal copy exists.
+  official_rules_body text,
+
+  winner_announcement text,
+
+  updated_at timestamptz not null default now(),
+  created_at timestamptz not null default now()
+);
+
+create index if not exists event_config_series_year_idx on public.event_config (series_slug, event_year);
+
+comment on table public.event_config is
+  'Single active row per annual instance of a recurring endurance-challenge event. See getCurrentEventConfig() in src/lib/data/event-config.ts.';
+
+-- ---------------------------------------------------------------------------
+-- event_registrations
+--
+-- Free registration for a public.event_config instance — submitting this
+-- form IS the free giveaway/sweepstakes entry (see waiver_accepted below).
+-- Never publicly readable — service-role only, same trust model as
+-- triathlon_team_applications. "Light" team model: no teams/team_members
+-- tables — participation_type/team_name/team_captain live directly on each
+-- individual registrant row.
+-- ---------------------------------------------------------------------------
+create table if not exists public.event_registrations (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  event_id uuid not null references public.event_config (id) on delete cascade,
+
+  -- No 'waitlisted' — this is a free, uncapped challenge, not a
+  -- capacity-limited race; an admin only ever needs to exclude a bad-faith
+  -- or duplicate entry, hence just confirmed/cancelled.
+  status text not null default 'confirmed' check (status in ('confirmed', 'cancelled')),
+
+  first_name text not null,
+  last_name text not null,
+  email text not null,
+  city text not null,
+  state text not null,
+  phone text,
+
+  participation_type text not null check (participation_type in ('solo', 'team')),
+  team_name text,
+  team_captain boolean not null default false,
+
+  disciplines text[] not null check (
+    disciplines <@ array['run', 'ruck', 'ride', 'walk', 'row', 'swim', 'hike', 'other']::text[]
+    and array_length(disciplines, 1) > 0
+  ),
+  discipline_other_note text,
+  participation_reason text,
+
+  -- Single checkbox does double duty as waiver/terms agreement AND giveaway
+  -- entry consent — registering for the free event IS the free giveaway
+  -- entry, so a second opt-in would be redundant and could imply someone
+  -- could register without being entered.
+  waiver_accepted boolean not null check (waiver_accepted = true),
+  email_consent boolean not null default false,
+
+  -- Admin-only override, default true — lets an admin exclude a flagged
+  -- registration (bot, duplicate, fraud) from winner selection without
+  -- deleting the row. Never surfaced to the public or the registrant.
+  giveaway_eligible boolean not null default true,
+
+  admin_notes text,
+
+  constraint event_registrations_team_name_required check (
+    participation_type = 'solo' or (team_name is not null and length(trim(team_name)) > 0)
+  )
+);
+
+create index if not exists event_registrations_event_id_idx on public.event_registrations (event_id);
+create index if not exists event_registrations_status_idx on public.event_registrations (status);
+create index if not exists event_registrations_created_at_idx on public.event_registrations (created_at desc);
+-- One registration per email per event instance — the API route catches the
+-- resulting unique-violation (Postgres 23505) and returns a friendly
+-- "already registered" message rather than a generic 500.
+create unique index if not exists event_registrations_event_email_idx
+  on public.event_registrations (event_id, lower(email));
+
+-- ---------------------------------------------------------------------------
+-- event_activity_log
+--
+-- The "Current Movement" module on the live event page — a simple
+-- admin-editable ordered log ("Hour 1: Run", "Hour 4: Ruck"), managed at
+-- /admin/22-for-the-22/activity-log.
+-- ---------------------------------------------------------------------------
+create table if not exists public.event_activity_log (
+  id uuid primary key default gen_random_uuid(),
+  event_id uuid not null references public.event_config (id) on delete cascade,
+  created_at timestamptz not null default now(),
+  logged_at timestamptz not null default now(),
+  hour_label text not null,
+  activity_label text not null,
+  note text,
+  display_order integer not null default 0
+);
+
+create index if not exists event_activity_log_event_id_idx on public.event_activity_log (event_id, display_order);
+
+-- ---------------------------------------------------------------------------
+-- giveaway_prizes
+--
+-- Prize catalog for the 22 For the 22 giveaway/sweepstakes — structurally a
+-- clone of raffle_items above but its own table with its own naming, since
+-- this event's copy must say "giveaway"/"sweepstakes," never "raffle" (no
+-- purchase or donation necessary compliance requirement). `partner_id` links
+-- to a donor's mission_partners row (partner_type 'giveaway-supporter')
+-- exactly like raffle_items.partner_id does for 'raffle-supporter'. Section
+-- totals are always computed from this table, never hand-typed — see
+-- getGiveawaySummary().
+-- ---------------------------------------------------------------------------
+create table if not exists public.giveaway_prizes (
+  id uuid primary key default gen_random_uuid(),
+  event_id uuid not null references public.event_config (id) on delete cascade,
+  created_at timestamptz not null default now(),
+  display_order integer not null default 0,
+  partner_id uuid references public.mission_partners (id) on delete set null,
+  brand text not null,
+  prize_name text not null,
+  quantity integer not null default 1,
+  winner_count integer not null default 1 check (winner_count > 0),
+  retail_value_min numeric,
+  retail_value_max numeric,
+  image_url text,
+  status text not null default 'confirmed' check (status in ('confirmed', 'received')),
+  website_url text,
+  donor_note text,
+  featured boolean not null default false
+);
+
+create index if not exists giveaway_prizes_event_id_idx on public.giveaway_prizes (event_id, display_order);
 
 -- ---------------------------------------------------------------------------
 -- inquiries
@@ -848,6 +1053,10 @@ alter table public.whoop_tokens enable row level security;
 alter table public.strava_tokens enable row level security;
 alter table public.email_subscribers enable row level security;
 alter table public.messages enable row level security;
+alter table public.event_config enable row level security;
+alter table public.event_registrations enable row level security;
+alter table public.event_activity_log enable row level security;
+alter table public.giveaway_prizes enable row level security;
 
 create policy "campaign is publicly readable"
   on public.campaign for select
@@ -987,3 +1196,28 @@ create policy "approved messages are publicly readable"
 -- /api/messages using the service-role key, same pattern as
 -- inquiries/donations/email_subscribers — never a client-issued insert
 -- policy. Moderation (approve/delete) happens at /admin/messages.
+
+create policy "event config is publicly readable"
+  on public.event_config for select
+  to anon, authenticated
+  using (true);
+
+create policy "event activity log is publicly readable"
+  on public.event_activity_log for select
+  to anon, authenticated
+  using (true);
+
+create policy "giveaway prizes are publicly readable"
+  on public.giveaway_prizes for select
+  to anon, authenticated
+  using (true);
+-- No insert/update/delete policy on any of the three above — written only
+-- via /admin/22-for-the-22 using the service-role client, same trust model
+-- as raffle_items/mission_partners.
+
+-- No policies on public.event_registrations: default-deny for
+-- anon/authenticated, including status and admin_notes — identical trust
+-- model to public.triathlon_team_applications. The public registration form
+-- submits through /api/22-for-the-22/register using the service-role key;
+-- every read (/admin/22-for-the-22) goes through requireAdminUser() +
+-- createAdminClient().

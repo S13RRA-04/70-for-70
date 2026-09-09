@@ -12,6 +12,9 @@
 import type {
   CampaignRow,
   DonationRow,
+  EventActivityLogRow,
+  EventConfigRow,
+  GiveawayPrizeRow,
   JournalEntryRow,
   MessageRow,
   MileRow,
@@ -241,6 +244,38 @@ export const SEED_POSTS: PostRow[] = [];
 // polished empty states rather than placeholder entries — see
 // app/journal/page.tsx and app/campaign-home/page.tsx.
 export const SEED_JOURNAL_ENTRIES: JournalEntryRow[] = [];
+
+// The 2026 instance of "22 For the 22" — mirrors the row seed.sql inserts
+// into public.event_config. See CURRENT_EVENT_SLUG in
+// src/lib/content/22-for-the-22.ts.
+export const SEED_EVENT_CONFIG: EventConfigRow = {
+  id: "seed-event-config-22-for-the-22-2026",
+  event_slug: "22-for-the-22-2026",
+  series_slug: "22-for-the-22",
+  event_year: 2026,
+  event_name: "22 For the 22",
+  tagline: "22 Hours. One Mission. Keep Moving.",
+  starts_at: "2026-11-21T16:00:00Z",
+  ends_at: "2026-11-22T14:00:00Z",
+  status_override: null,
+  registration_open: true,
+  fundraising_goal: 22_000,
+  amount_raised: 0,
+  merch_url: "https://www.bonfire.com/22-for-the-22/",
+  donate_url: null,
+  official_rules_body: null,
+  winner_announcement: null,
+  updated_at: now,
+  created_at: now,
+};
+
+// No prizes confirmed yet. The giveaway section shows a polished "more
+// prizes coming" empty state rather than placeholder cards — same
+// convention as SEED_RAFFLE_ITEMS/SEED_SPONSORS.
+export const SEED_GIVEAWAY_PRIZES: GiveawayPrizeRow[] = [];
+
+// No activity log entries yet — populated live via /admin/22-for-the-22/activity-log during the event.
+export const SEED_EVENT_ACTIVITY_LOG: EventActivityLogRow[] = [];
 
 /**
  * The real benchmark ladder shown on /the-race's Training Dashboard,

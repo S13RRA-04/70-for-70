@@ -46,6 +46,7 @@ const VALID_CATEGORIES: JournalPrimaryCategory[] = [
   "Support",
   "Race Prep",
   "Milestones",
+  "22 For the 22",
 ];
 
 /** "Bike Build" is a UI-only pseudo-category layered on top of the real DB enum — see JournalFilterRow's doc comment. */

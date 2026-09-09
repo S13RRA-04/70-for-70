@@ -25,6 +25,16 @@ select n, 1000, 0, 'available'
 from generate_series(1, 70) as n
 on conflict (mile_number) do nothing;
 
+-- "22 For the 22" — the 2026 instance of the annual 22-hour endurance
+-- challenge. starts_at/ends_at are UTC instants for 10:00 AM / 8:00 AM CST
+-- (Nov 21-22, 2026 is Central Standard Time, UTC-6). See event_config's
+-- comment in schema.sql — a future year is a new row, not an edit to this
+-- one.
+insert into public.event_config (event_slug, series_slug, event_year, event_name, tagline, starts_at, ends_at, fundraising_goal)
+select '22-for-the-22-2026', '22-for-the-22', 2026, '22 For the 22', '22 Hours. One Mission. Keep Moving.',
+  '2026-11-21T16:00:00Z', '2026-11-22T14:00:00Z', 22000
+where not exists (select 1 from public.event_config where event_slug = '22-for-the-22-2026');
+
 insert into public.partners (name, description, what_they_do, logo_url, website_url, donation_url, active)
 values
   (

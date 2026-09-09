@@ -1,12 +1,15 @@
 import Link from "next/link";
 import { getMissionPartners } from "@/lib/data/mission-partners";
 import { getRaffleItems } from "@/lib/data/raffle-items";
+import { getCurrentEventConfig } from "@/lib/data/event-config";
+import { getGiveawayPrizes } from "@/lib/data/giveaway-prizes";
 import { Container } from "@/components/shared/container";
 import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { MissionPartnerCard } from "@/components/partners/mission-partner-card";
 import { CurrentGearNeeds } from "@/components/sponsors/current-gear-needs";
 import { FundraiserRaffleSection } from "@/components/sponsors/fundraiser-raffle-section";
+import { EventGiveawaySection } from "@/components/22-for-the-22/event-giveaway-section";
 import { CTAButton } from "@/components/shared/cta-button";
 import { EmptyState } from "@/components/shared/empty-state";
 import { CAMPAIGN_NAME, CAMPAIGN_URL } from "@/lib/constants";
@@ -33,8 +36,15 @@ export const metadata = pageMetadata({
  * then a general "become a supporter" path, then disclosures.
  */
 export default async function SponsorsPage() {
-  const [partners, raffleItems] = await Promise.all([getMissionPartners(), getRaffleItems()]);
-  const generalPartners = partners.filter((p) => p.partner_type !== "raffle-supporter");
+  const [partners, raffleItems, currentEvent] = await Promise.all([
+    getMissionPartners(),
+    getRaffleItems(),
+    getCurrentEventConfig(),
+  ]);
+  const giveawayPrizes = currentEvent ? await getGiveawayPrizes(currentEvent.id) : [];
+  const generalPartners = partners.filter(
+    (p) => p.partner_type !== "raffle-supporter" && p.partner_type !== "giveaway-supporter",
+  );
 
   return (
     <>
@@ -65,6 +75,15 @@ export default async function SponsorsPage() {
       </section>
 
       <FundraiserRaffleSection partners={partners} raffleItems={raffleItems} />
+
+      {currentEvent && (
+        <section className="border-b border-ink/10 bg-sand-light">
+          <EventGiveawaySection prizes={giveawayPrizes} partners={partners} />
+          <Container className="pb-16">
+            <CTAButton href="/22forthe22">See the Full 22 For the 22 Event Page</CTAButton>
+          </Container>
+        </section>
+      )}
 
       <section className="border-b border-ink/10 py-12">
         <Container>

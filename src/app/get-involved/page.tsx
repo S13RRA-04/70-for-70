@@ -43,6 +43,12 @@ const HELP_PATHWAYS: HelpPathway[] = [
     href: "/get-involved/triathlon-team",
   },
   {
+    title: "Join the 22-Hour Challenge",
+    description: "Run. Ruck. Ride. Walk. Row. Swim. Move for 22 hours in support of the mission — free to join.",
+    ctaLabel: "Register Free →",
+    href: "/22forthe22",
+  },
+  {
     title: "Support the Campaign",
     description: "Donate or help fund the mission.",
     ctaLabel: "Support the Mission →",

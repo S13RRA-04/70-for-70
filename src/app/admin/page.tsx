@@ -4,6 +4,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { getCampaign } from "@/lib/data/campaign";
 import { getMiles } from "@/lib/data/miles";
 import { getTrainingObjectives } from "@/lib/data/training-objectives";
+import { getCurrentEventConfig } from "@/lib/data/event-config";
 import { Container } from "@/components/shared/container";
 import { StatCard } from "@/components/shared/stat-card";
 import { SignOutButton } from "@/components/admin/sign-out-button";
@@ -31,6 +32,7 @@ export default async function AdminPage() {
     { count: draftJournalEntries },
     { count: pendingMessages },
     { count: newTriathlonTeamApplications },
+    currentEvent,
   ] = await Promise.all([
     getCampaign(),
     getMiles(),
@@ -47,7 +49,16 @@ export default async function AdminPage() {
     admin.from("journal_entries").select("*", { count: "exact", head: true }).eq("status", "draft"),
     admin.from("messages").select("*", { count: "exact", head: true }).eq("approved", false),
     admin.from("triathlon_team_applications").select("*", { count: "exact", head: true }).eq("status", "new"),
+    getCurrentEventConfig(),
   ]);
+
+  const { count: eventRegistrationCount } = currentEvent
+    ? await admin
+        .from("event_registrations")
+        .select("*", { count: "exact", head: true })
+        .eq("event_id", currentEvent.id)
+        .eq("status", "confirmed")
+    : { count: 0 };
 
   const availableCount = miles.filter((m) => m.status === "available").length;
   const partialCount = miles.filter((m) => m.status === "partially_funded").length;
@@ -125,6 +136,25 @@ export default async function AdminPage() {
         </div>
         <Link
           href="/admin/triathlon-team"
+          className="rounded-sm border border-ink/20 px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
+        >
+          Manage
+        </Link>
+      </div>
+
+      <div className="mt-6 flex items-center justify-between rounded-sm border border-ink/10 bg-off-white p-6">
+        <div>
+          <p className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+            22 For the 22 Registrations
+          </p>
+          <p className="mt-1 text-sm text-charcoal-light">
+            {currentEvent
+              ? `${eventRegistrationCount ?? 0} confirmed registration(s) for ${currentEvent.event_name}.`
+              : "No event_config row found for the current event slug."}
+          </p>
+        </div>
+        <Link
+          href="/admin/22-for-the-22"
           className="rounded-sm border border-ink/20 px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
         >
           Manage

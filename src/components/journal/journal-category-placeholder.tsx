@@ -1,4 +1,4 @@
-import { Footprints, HandCoins, Handshake, Flag, Trophy, TreePine } from "lucide-react";
+import { Footprints, HandCoins, Handshake, Flag, Trophy, TreePine, Timer } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { JournalPrimaryCategory } from "@/types/database";
 
@@ -9,6 +9,7 @@ const CATEGORY_ICON: Record<JournalPrimaryCategory, typeof Footprints> = {
   Support: Handshake,
   "Race Prep": Flag,
   Milestones: Trophy,
+  "22 For the 22": Timer,
 };
 
 /**

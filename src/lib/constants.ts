@@ -187,6 +187,7 @@ if (process.env.NODE_ENV !== "production") {
 export const CAMPAIGN_NAV_LINKS: NavLink[] = [
   { label: "About", href: "/the-mission" },
   { label: "Race", href: "/the-race" },
+  { label: "22 For the 22", href: "/22forthe22" },
   { label: "Journal", href: "/journal" },
   { label: "Beneficiaries", href: "/beneficiaries" },
   { label: "Sponsors", href: "/sponsors" },

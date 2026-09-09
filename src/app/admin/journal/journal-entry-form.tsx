@@ -13,6 +13,7 @@ const CATEGORIES: JournalEntryRow["primary_category"][] = [
   "Support",
   "Race Prep",
   "Milestones",
+  "22 For the 22",
 ];
 
 const DISCIPLINES: NonNullable<JournalEntryRow["training_discipline"]>[] = [

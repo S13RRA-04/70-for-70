@@ -47,6 +47,8 @@ const CAMPAIGN_ROUTES = [
   "/press",
   "/terms",
   "/privacy",
+  "/22forthe22",
+  "/22forthe22/rules",
 ];
 
 /**

@@ -37,3 +37,23 @@ export async function notifyTriathlonTeamApplicationSubmitted(input: {
       `Triathlon Team application ${input.applicationId}.`,
   );
 }
+
+/**
+ * Same "architecturally wired, not yet delivered" state as
+ * notifyTriathlonTeamApplicationSubmitted above — the on-screen success
+ * message (see EventRegistrationForm's success state, which shows the
+ * verbatim REGISTRATION_SUCCESS_MESSAGE) is the real confirmation until a
+ * real email provider is configured.
+ */
+export async function notifyEventRegistrationSubmitted(input: {
+  registrationId: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+}) {
+  console.info(
+    `[notifications] TODO: email provider not configured — would send ${input.firstName} ` +
+      `${input.lastName} (${input.email}) a confirmation email and notify the campaign ` +
+      `administrator about 22 For the 22 registration ${input.registrationId}.`,
+  );
+}

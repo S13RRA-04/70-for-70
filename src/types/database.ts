@@ -24,7 +24,8 @@ export type PostCategory =
   | "Mighty Oaks"
   | "Support"
   | "Race Prep"
-  | "Milestones";
+  | "Milestones"
+  | "22 For the 22";
 
 export type InquiryInterest =
   | "Corporate Sponsor"
@@ -396,7 +397,8 @@ export type PartnerType =
   | "print-partner"
   | "accommodations-partner"
   | "training-partner"
-  | "raffle-supporter";
+  | "raffle-supporter"
+  | "giveaway-supporter";
 
 export interface MissionPartnerRow {
   id: string;
@@ -447,6 +449,118 @@ export interface RaffleItemRow {
   retail_value_max: number | null;
   image_url: string | null;
   status: RaffleItemStatus;
+  website_url: string | null;
+  donor_note: string | null;
+  featured: boolean;
+}
+
+/** Computed pre/live/complete status — see computeEventStatus() in src/lib/22-for-the-22/event-status.ts. Distinct from EventConfigRow.status_override, the nullable admin escape hatch that feeds it. */
+export type EventLiveStatus = "pre" | "live" | "complete";
+
+/**
+ * One annual instance of a recurring endurance-challenge event (see
+ * public.event_config in schema.sql). A future year is a new row, not an
+ * edit to this one — see getCurrentEventConfig() in
+ * src/lib/data/event-config.ts.
+ */
+export interface EventConfigRow {
+  id: string;
+  event_slug: string;
+  series_slug: string;
+  event_year: number;
+  event_name: string;
+  tagline: string;
+  starts_at: string;
+  ends_at: string;
+  status_override: EventLiveStatus | null;
+  registration_open: boolean;
+  fundraising_goal: number;
+  /** Hand-updated by an admin — no per-event donation tagging exists yet. See EventConfigRow's comment in schema.sql. */
+  amount_raised: number;
+  merch_url: string | null;
+  donate_url: string | null;
+  /** Markdown. When set, overrides the hardcoded placeholder scaffold on /22forthe22/rules. */
+  official_rules_body: string | null;
+  winner_announcement: string | null;
+  updated_at: string;
+  created_at: string;
+}
+
+export type EventRegistrationStatus = "confirmed" | "cancelled";
+export type EventParticipationType = "solo" | "team";
+export type EventDiscipline = "run" | "ruck" | "ride" | "walk" | "row" | "swim" | "hike" | "other";
+
+/**
+ * A free registration for an EventConfigRow instance — submitting this IS
+ * the free giveaway/sweepstakes entry (see waiver_accepted). Never publicly
+ * readable — service-role only, same trust model as
+ * TriathlonTeamApplicationRow.
+ */
+export interface EventRegistrationRow {
+  id: string;
+  created_at: string;
+  event_id: string;
+  status: EventRegistrationStatus;
+
+  first_name: string;
+  last_name: string;
+  email: string;
+  city: string;
+  state: string;
+  phone: string | null;
+
+  participation_type: EventParticipationType;
+  team_name: string | null;
+  team_captain: boolean;
+
+  disciplines: EventDiscipline[];
+  discipline_other_note: string | null;
+  participation_reason: string | null;
+
+  waiver_accepted: boolean;
+  email_consent: boolean;
+  /** Admin-only exclusion flag for a flagged (bot/duplicate/fraud) entry. Never surfaced to the public or the registrant. */
+  giveaway_eligible: boolean;
+
+  admin_notes: string | null;
+}
+
+/** The admin-editable "Current Movement" log entry ("Hour 1: Run") — see public.event_activity_log in schema.sql. */
+export interface EventActivityLogRow {
+  id: string;
+  event_id: string;
+  created_at: string;
+  logged_at: string;
+  hour_label: string;
+  activity_label: string;
+  note: string | null;
+  display_order: number;
+}
+
+export type GiveawayPrizeStatus = "confirmed" | "received";
+
+/**
+ * One prize-package item for the 22 For the 22 giveaway/sweepstakes (see
+ * public.giveaway_prizes in schema.sql) — structurally a clone of
+ * RaffleItemRow but its own table, since this event's copy must say
+ * "giveaway"/"sweepstakes," never "raffle." `partner_id` links back to the
+ * donor's MissionPartnerRow (partner_type "giveaway-supporter") when a full
+ * profile exists.
+ */
+export interface GiveawayPrizeRow {
+  id: string;
+  event_id: string;
+  created_at: string;
+  display_order: number;
+  partner_id: string | null;
+  brand: string;
+  prize_name: string;
+  quantity: number;
+  winner_count: number;
+  retail_value_min: number | null;
+  retail_value_max: number | null;
+  image_url: string | null;
+  status: GiveawayPrizeStatus;
   website_url: string | null;
   donor_note: string | null;
   featured: boolean;
