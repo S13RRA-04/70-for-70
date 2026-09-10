@@ -1,5 +1,6 @@
 import "server-only";
 import { createClient } from "@/lib/supabase/server";
+import { isAppEventRegistrationOpen } from "@/lib/data/app/events";
 import type { AppRegistrationRow, RegistrationType } from "@/types/app";
 
 /** The signed-in participant's own registration for one event, or null if not registered — RLS scopes this to auth.uid() automatically. */
@@ -34,6 +35,10 @@ export async function registerForAppEvent(input: {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return { ok: false, error: "Sign in to register." };
+
+  const { data: event } = await supabase.from("events").select("*").eq("id", input.eventId).maybeSingle();
+  if (!event) return { ok: false, error: "That challenge could not be found." };
+  if (!isAppEventRegistrationOpen(event)) return { ok: false, error: "Registration for this challenge is closed." };
 
   const { error } = await supabase.from("registrations").insert({
     event_id: input.eventId,

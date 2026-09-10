@@ -1,12 +1,14 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getAppEventBySlug } from "@/lib/data/app/events";
+import { getAppEventBySlug, isAppEventRegistrationOpen } from "@/lib/data/app/events";
 import { getMyRegistration } from "@/lib/data/app/registrations";
 import { getMyActivities, summarizeActivities } from "@/lib/data/app/activities";
 import { getMilestonesForEvent } from "@/lib/data/app/milestones";
+import { findLinkableEventRegistration } from "@/lib/data/app/link-registration";
 import { formatDateLong } from "@/lib/utils";
 import { RegisterForChallengeButton } from "@/components/app/register-for-challenge-button";
 import { ChallengeSessionPanel } from "@/components/app/challenge-session-panel";
+import { LinkRegistrationPrompt } from "@/components/app/link-registration-prompt";
 
 export async function generateMetadata(props: PageProps<"/app/challenges/[slug]">): Promise<Metadata> {
   const { slug } = await props.params;
@@ -25,6 +27,8 @@ export default async function ChallengeDetailPage(props: PageProps<"/app/challen
     getMilestonesForEvent(event.id),
   ]);
   const summary = summarizeActivities(activities);
+  const linkableRegistration = registration ? null : await findLinkableEventRegistration(event.id);
+  const registrationOpen = isAppEventRegistrationOpen(event);
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-8">
@@ -70,8 +74,14 @@ export default async function ChallengeDetailPage(props: PageProps<"/app/challen
               </p>
             </div>
           )
-        ) : (
+        ) : linkableRegistration ? (
+          <LinkRegistrationPrompt eventId={event.id} slug={event.slug} firstName={linkableRegistration.firstName} />
+        ) : registrationOpen ? (
           <RegisterForChallengeButton eventId={event.id} slug={event.slug} />
+        ) : (
+          <div className="rounded-sm border border-dashed border-ink/20 p-6 text-center">
+            <p className="text-sm text-charcoal-light">Registration for this challenge is closed.</p>
+          </div>
         )}
       </div>
 

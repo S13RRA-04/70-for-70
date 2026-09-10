@@ -5,6 +5,7 @@ import { getCampaign } from "@/lib/data/campaign";
 import { getMiles } from "@/lib/data/miles";
 import { getTrainingObjectives } from "@/lib/data/training-objectives";
 import { getCurrentEventConfig } from "@/lib/data/event-config";
+import { CURRENT_APP_EVENT_SLUG } from "@/lib/data/app/events";
 import { Container } from "@/components/shared/container";
 import { StatCard } from "@/components/shared/stat-card";
 import { SignOutButton } from "@/components/admin/sign-out-button";
@@ -59,6 +60,14 @@ export default async function AdminPage() {
         .eq("event_id", currentEvent.id)
         .eq("status", "confirmed")
     : { count: 0 };
+
+  const { data: appEvent } = await admin.from("events").select("id").eq("slug", CURRENT_APP_EVENT_SLUG).maybeSingle();
+  const [{ count: appRegistrationCount }, { count: appSessionCount }] = appEvent
+    ? await Promise.all([
+        admin.from("registrations").select("*", { count: "exact", head: true }).eq("event_id", appEvent.id),
+        admin.from("activities").select("*", { count: "exact", head: true }).eq("event_id", appEvent.id),
+      ])
+    : [{ count: 0 }, { count: 0 }];
 
   const availableCount = miles.filter((m) => m.status === "available").length;
   const partialCount = miles.filter((m) => m.status === "partially_funded").length;
@@ -155,6 +164,24 @@ export default async function AdminPage() {
         </div>
         <Link
           href="/admin/22-for-the-22"
+          className="rounded-sm border border-ink/20 px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
+        >
+          Manage
+        </Link>
+      </div>
+
+      <div className="mt-6 flex items-center justify-between rounded-sm border border-ink/10 bg-off-white p-6">
+        <div>
+          <p className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+            For the 22 App
+          </p>
+          <p className="mt-1 text-sm text-charcoal-light">
+            {appRegistrationCount ?? 0} app registration(s), {appSessionCount ?? 0} session(s) logged —
+            app.forthe22.org.
+          </p>
+        </div>
+        <Link
+          href="/admin/for-the-22-app"
           className="rounded-sm border border-ink/20 px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
         >
           Manage

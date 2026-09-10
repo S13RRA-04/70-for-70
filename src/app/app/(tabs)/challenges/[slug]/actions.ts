@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { registerForAppEvent } from "@/lib/data/app/registrations";
 import { createActivity, deleteActivity } from "@/lib/data/app/activities";
+import { linkExistingRegistration } from "@/lib/data/app/link-registration";
 import type { RegistrationType } from "@/types/app";
 import type { CreateActivityInput } from "@/lib/validation/activity";
 import type { ActivityRow } from "@/types/app";
@@ -43,5 +44,14 @@ export async function deleteActivityAction(
     revalidatePath("/app/share");
     revalidatePath("/app/home");
   }
+  return result;
+}
+
+export async function linkExistingRegistrationAction(
+  eventId: string,
+  slug: string,
+): Promise<{ ok: true } | { ok: false; error: string }> {
+  const result = await linkExistingRegistration(eventId);
+  if (result.ok) revalidatePath(`/app/challenges/${slug}`);
   return result;
 }
