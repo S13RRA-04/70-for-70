@@ -52,8 +52,8 @@ const HELP_PATHWAYS: HelpPathway[] = [
     icon: Waves,
   },
   {
-    title: "Join the 22-Hour Challenge",
-    description: "Run. Ruck. Ride. Walk. Row. Swim. Move for 22 hours in support of the mission — free to join.",
+    title: "Join 22 For the 22",
+    description: "22 sessions. 22 minutes each. Move your way in support of the mission — free to join.",
     ctaLabel: "Register Free →",
     href: "/22forthe22",
     icon: Timer,

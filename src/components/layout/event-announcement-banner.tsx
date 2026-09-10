@@ -20,14 +20,14 @@ export async function EventAnnouncementBanner({ campaignSlug }: { campaignSlug: 
   if (!isEventPromoWindowNow(event.starts_at, event.ends_at)) return null;
 
   const status = getCurrentEventStatus(event.starts_at, event.ends_at, event.status_override);
-  const ctaLabel = status === "live" ? "Follow the 22-Hour Challenge" : "Join the Challenge";
+  const ctaLabel = status === "live" ? "Follow 22 For the 22" : "Join the Challenge";
 
   return (
     <div className="border-b border-off-white/10 bg-ink text-off-white">
       <Container className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 py-3 text-center">
         <p className="text-xs font-medium leading-snug text-off-white/90 sm:text-sm">
           <span className="font-semibold uppercase tracking-wide text-bronze-light">22 For the 22</span>{" "}
-          {status === "live" ? "is live now — 22 hours, one mission." : "· Nov 21–22, 2026 · Free to join."}
+          {status === "live" ? "is live now — 22 minutes, 22 times, one mission." : "· Nov 21–22, 2026 · Free to join."}
         </p>
         <Link
           href="/22forthe22"

@@ -741,7 +741,7 @@ create table if not exists public.event_config (
   series_slug text not null default '22-for-the-22',
   event_year integer not null,
   event_name text not null default '22 For the 22',
-  tagline text not null default '22 Hours. One Mission. Keep Moving.',
+  tagline text not null default '22 Minutes. 22 Times. One Mission.',
 
   -- Always compared as epoch instants (see computeEventStatus() in
   -- src/lib/22-for-the-22/event-status.ts) — never hand-rolled against
@@ -813,8 +813,12 @@ create table if not exists public.event_registrations (
   team_name text,
   team_captain boolean not null default false,
 
+  -- "Activities You May Use" on the registration form — widened from the
+  -- original 8 values to add strength/mobility/adaptive when the event
+  -- moved from continuous-endurance framing to 22 sessions of >=22 minutes
+  -- each. See the 2026-09-10-22-for-the-22-session-format migration.
   disciplines text[] not null check (
-    disciplines <@ array['run', 'ruck', 'ride', 'walk', 'row', 'swim', 'hike', 'other']::text[]
+    disciplines <@ array['run', 'ruck', 'ride', 'walk', 'row', 'swim', 'hike', 'strength', 'mobility', 'adaptive', 'other']::text[]
     and array_length(disciplines, 1) > 0
   ),
   discipline_other_note text,

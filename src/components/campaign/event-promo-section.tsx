@@ -18,7 +18,7 @@ export function EventPromoSection({ event }: { event: EventConfigRow }) {
       <Container className="max-w-2xl text-center">
         <p className="font-display text-4xl font-bold uppercase tracking-tight sm:text-5xl">22 For the 22</p>
         <p className="mt-2 text-base font-semibold uppercase tracking-wide text-off-white/90">
-          22 Hours. One Mission. Keep Moving.
+          22 Minutes. 22 Times. One Mission.
         </p>
         <p className="mt-3 text-sm text-off-white/80">November 21–22, 2026</p>
         <Link
@@ -26,7 +26,7 @@ export function EventPromoSection({ event }: { event: EventConfigRow }) {
           data-analytics-event="22_register_click"
           className="mt-6 inline-flex rounded-sm bg-ink px-8 py-4 text-base font-semibold uppercase tracking-wide text-off-white shadow-sm transition-colors hover:bg-charcoal"
         >
-          {status === "live" ? "Follow the 22-Hour Challenge" : "Join the Challenge"}
+          {status === "live" ? "Follow 22 For the 22" : "Join the Challenge"}
         </Link>
       </Container>
     </section>

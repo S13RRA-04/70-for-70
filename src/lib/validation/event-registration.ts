@@ -8,6 +8,9 @@ export const EVENT_DISCIPLINES = [
   "row",
   "swim",
   "hike",
+  "strength",
+  "mobility",
+  "adaptive",
   "other",
 ] as const;
 

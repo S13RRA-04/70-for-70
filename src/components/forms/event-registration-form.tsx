@@ -185,10 +185,12 @@ export function EventRegistrationForm() {
       <div>
         <fieldset>
           <legend className="text-sm font-medium text-ink">
-            Planned Disciplines <span aria-hidden="true">*</span>
+            Activities You May Use <span aria-hidden="true">*</span>
           </legend>
-          <p className="mt-1 text-sm text-charcoal-light">Choose one or mix several — however you move, keep moving.</p>
-          <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4">
+          <p className="mt-1 text-sm text-charcoal-light">
+            Choose as many as you&apos;d like. You can change activities throughout the challenge.
+          </p>
+          <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
             {EVENT_DISCIPLINES.map((d) => (
               <label
                 key={d}
@@ -226,7 +228,7 @@ export function EventRegistrationForm() {
           <input type="checkbox" name="waiverAccepted" required className="mt-0.5 h-4 w-4 shrink-0 accent-bronze" />
           <span>
             I agree to the event waiver and terms, and understand that completing this free registration enters
-            me in the 22-Hour Giveaway. {GIVEAWAY_ODDS_DISCLOSURE}
+            me in the 22 For the 22 Giveaway. {GIVEAWAY_ODDS_DISCLOSURE}
           </span>
         </label>
         <label className="flex items-start gap-3 text-sm text-ink">

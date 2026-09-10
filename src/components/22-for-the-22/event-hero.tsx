@@ -2,8 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/shared/container";
 import { EventStatusClock } from "./event-status-clock";
-import { EVENT_HERO_CONTENT } from "@/lib/content/22-for-the-22";
-import { DONATE_LINK } from "@/lib/constants";
+import { EVENT_HERO_CONTENT, NO_PURCHASE_NECESSARY_DISCLOSURE } from "@/lib/content/22-for-the-22";
 import type { EventConfigRow, EventLiveStatus } from "@/types/database";
 
 export function EventHero({
@@ -32,13 +31,21 @@ export function EventHero({
           <h1 className="mt-6 text-balance font-display text-[clamp(2.25rem,7vw,4.5rem)] font-bold uppercase leading-[0.95] tracking-tight">
             {EVENT_HERO_CONTENT.headline}
           </h1>
-          <p className="mt-4 text-lg font-semibold uppercase tracking-wide text-bronze-light sm:text-xl">
-            {EVENT_HERO_CONTENT.subheadline}
+          <p className="mt-4 max-w-xl text-lg font-semibold uppercase tracking-wide text-bronze-light sm:text-xl">
+            {EVENT_HERO_CONTENT.supportingLine}
           </p>
 
-          <p className="mt-4 max-w-xl text-base leading-relaxed text-off-white/80">
-            {EVENT_HERO_CONTENT.dateDisplay} &middot; {EVENT_HERO_CONTENT.timeDisplay} &middot;{" "}
-            {EVENT_HERO_CONTENT.durationDisplay}
+          <p className="mt-4 text-sm font-semibold uppercase tracking-widest text-off-white/70">
+            {EVENT_HERO_CONTENT.dateDisplay}
+          </p>
+
+          <p className="mt-4 max-w-xl text-base leading-relaxed text-off-white/80">{EVENT_HERO_CONTENT.secondaryCopy}</p>
+          <p className="mt-3 max-w-xl text-sm font-semibold uppercase tracking-wide text-off-white/60">
+            {EVENT_HERO_CONTENT.differentLine}
+          </p>
+
+          <p className="mt-6 max-w-xl text-xs font-semibold uppercase tracking-wide text-off-white/70">
+            {NO_PURCHASE_NECESSARY_DISCLOSURE}
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
@@ -52,8 +59,7 @@ export function EventHero({
               </Link>
             )}
             <Link
-              href={event.donate_url ?? DONATE_LINK.href}
-              data-analytics-event="22_donate_click"
+              href="#how-it-works"
               className="rounded-sm border border-off-white/40 px-8 py-4 text-base font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-off-white/10"
             >
               {EVENT_HERO_CONTENT.secondaryCta}

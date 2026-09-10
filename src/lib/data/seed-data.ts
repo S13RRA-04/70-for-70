@@ -218,7 +218,7 @@ export const SEED_EVENT_CONFIG: EventConfigRow = {
   series_slug: "22-for-the-22",
   event_year: 2026,
   event_name: "22 For the 22",
-  tagline: "22 Hours. One Mission. Keep Moving.",
+  tagline: "22 Minutes. 22 Times. One Mission.",
   starts_at: "2026-11-21T16:00:00Z",
   ends_at: "2026-11-22T14:00:00Z",
   status_override: null,

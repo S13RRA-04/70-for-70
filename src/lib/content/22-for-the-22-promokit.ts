@@ -141,18 +141,24 @@ export const PROMO_KIT_OPTIONAL_DISCLAIMER =
 
 /** Shown on the registration success state. Verbatim. */
 export const PROMO_KIT_SUCCESS_SHARING_NOTE =
-  "Sharing campaign content is optional and does not provide additional giveaway entries or increase your odds of winning.";
+  "Sharing campaign content is optional and does not provide additional giveaway entries or improve odds of winning.";
 
 /** Shown in the confirmation email. Verbatim. */
 export const PROMO_KIT_EMAIL_DISCLAIMER =
   "Sharing, posting, tagging, or using campaign promotional materials is completely optional and does not provide additional entries or increase your odds of winning.";
 
 export const REGISTRATION_SUCCESS_CONTENT = {
-  headline: "You're Registered.",
-  subheadline: "Now help carry the mission.",
-  body: "Your registration is complete. Download the 22 For the 22 Participant Promo Kit for ready-to-share social graphics, story assets, photo frames, suggested captions, hashtags, and campaign materials.",
-  primaryCta: "Download Participant Promo Kit",
-  secondaryCta: "View Individual Assets",
+  headline: "You're In.",
+  subheadline: "22 minutes. 22 times. One mission.",
+  body: "Your registration for 22 For the 22 is complete.",
+  nextSteps: [
+    "Plan your 22 sessions",
+    "Download your Participant Promo Kit",
+    "Track your progress",
+    "Share the mission if you choose",
+  ],
+  primaryCta: "View My 22-Session Tracker",
+  secondaryCta: "Download Participant Promo Kit",
 } as const;
 
 export const REGISTRATION_EMAIL_CONTENT = {

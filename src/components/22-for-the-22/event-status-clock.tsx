@@ -118,7 +118,7 @@ export function EventStatusClock({
           </div>
           <div>
             <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-off-white/60">Remaining</p>
-            <TimeGrid parts={remaining} units={["hours", "minutes", "seconds"]} label="Time remaining in the 22-hour challenge" />
+            <TimeGrid parts={remaining} units={["hours", "minutes", "seconds"]} label="Time remaining in the event window" />
           </div>
         </div>
       </div>
@@ -128,7 +128,7 @@ export function EventStatusClock({
   return (
     <div>
       <p className="font-display text-2xl font-bold uppercase tracking-wide text-bronze-light sm:text-3xl">
-        22 Hours Complete
+        Event Window Complete
       </p>
       <p className="mt-2 text-sm text-off-white/75">Thank you for moving with the mission.</p>
     </div>

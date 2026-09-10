@@ -461,7 +461,18 @@ export interface EventConfigRow {
 
 export type EventRegistrationStatus = "confirmed" | "cancelled";
 export type EventParticipationType = "solo" | "team";
-export type EventDiscipline = "run" | "ruck" | "ride" | "walk" | "row" | "swim" | "hike" | "other";
+export type EventDiscipline =
+  | "run"
+  | "ruck"
+  | "ride"
+  | "walk"
+  | "row"
+  | "swim"
+  | "hike"
+  | "strength"
+  | "mobility"
+  | "adaptive"
+  | "other";
 
 /**
  * A free registration for an EventConfigRow instance — submitting this IS

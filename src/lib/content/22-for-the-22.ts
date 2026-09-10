@@ -8,6 +8,14 @@
  * strings) or the placeholder Official Rules scaffold, which
  * EventConfigRow.official_rules_body can override once real legal copy is
  * approved — see /22forthe22/rules.
+ *
+ * Format: 22 sessions of at least 22 minutes each (484 minutes total),
+ * completed at the participant's own pace within the same overall event
+ * window (still Nov 21-22 — see event_config.starts_at/ends_at). This is
+ * deliberately NOT a continuous-endurance event — never write copy implying
+ * participants should stay awake overnight, avoid rest, or exercise without
+ * stopping. See src/lib/content/22-for-the-22-tracker.ts for the
+ * session-tracker and milestone-share copy.
  */
 
 import type { TermsSection } from "@/lib/content/terms";
@@ -29,69 +37,107 @@ export const NO_PURCHASE_NECESSARY_DISCLOSURE =
 export const GIVEAWAY_ODDS_DISCLOSURE =
   "No purchase or donation necessary. Purchases and donations do not improve odds of winning.";
 
-/** Verbatim — must appear on the event page regardless of registration_open. */
-export const SAFETY_LANGUAGE =
-  "Participants are responsible for choosing activities appropriate for their ability, taking necessary rest, hydration, nutrition, and safety precautions throughout the event.";
+/**
+ * Verbatim, in order — the full safety callout at the bottom of
+ * /22forthe22. SAFETY_LANGUAGE (a single joined string) exists for the
+ * handful of inline call sites (Official Rules page, Make the 22 Your Own
+ * footer) that only have room for one line.
+ */
+export const SAFETY_LANGUAGE_PARAGRAPHS = [
+  "Participants are responsible for selecting activities appropriate for their health, fitness, experience, environment, and abilities.",
+  "Take appropriate rest and recovery between sessions.",
+  "Use appropriate hydration, nutrition, equipment, visibility, weather precautions, and supervision when applicable.",
+  "The event does not require participants to remain awake, exercise continuously, or complete sessions when doing so would be unsafe.",
+] as const;
 
-/** Verbatim — shown once a registration submits successfully. */
-export const REGISTRATION_SUCCESS_MESSAGE =
-  "You're in. On November 21, we move for 22 hours — for those who served, those still fighting, and those we refuse to forget.";
+export const SAFETY_LANGUAGE = SAFETY_LANGUAGE_PARAGRAPHS.join(" ");
 
 export const EVENT_HERO_CONTENT = {
-  headline: "22 FOR THE 22",
-  subheadline: "22 Hours. One Mission. Keep Moving.",
+  headline: "22 Minutes. 22 Times. One Mission.",
+  supportingLine:
+    "484 minutes of movement for veterans, first responders, and the communities that stand behind them.",
   dateDisplay: "November 21–22, 2026",
-  timeDisplay: "10:00 AM → 8:00 AM",
-  durationDisplay: "22 Continuous Hours",
+  secondaryCopy:
+    "Complete twenty-two 22-minute movement sessions during the event window. Walk, run, ride, ruck, swim, row, hike, lift, stretch, or choose another activity appropriate for you.",
+  differentLine: "Different activities. Different abilities. Same mission.",
   primaryCta: "Register Free",
-  secondaryCta: "Support the Mission",
+  secondaryCta: "How It Works",
   tertiaryCta: "Get the Event Shirt",
 } as const;
 
-export const EVENT_WHAT_IS_COPY = [
-  "22 For the 22 is a 22-hour endurance challenge centered on one simple goal: keep moving.",
-  "From 10:00 AM on November 21 through 8:00 AM on November 22, participants can run, ruck, ride, walk, row, swim, hike, or combine disciplines as they work to stay active throughout the full 22-hour window.",
-  "The event supports the broader Tri For the 22 mission of raising awareness and support for veteran and first responder mental health, suicide prevention, recovery, and community connection.",
-] as const;
+export const EVENT_WHAT_IS_CONTENT = {
+  intro: "22 For the 22 is a movement challenge built around one number and one mission.",
+  statLine: "22 minutes of intentional activity, 22 times.",
+  paragraphs: [
+    "That adds up to 484 minutes — just over eight hours of movement — completed across the official event period.",
+    "How you complete those sessions is up to you.",
+    "Run. Walk. Ruck. Ride. Swim. Row. Hike. Lift. Stretch. Use adaptive exercise. Mix disciplines.",
+    "The goal is not speed, distance, or competition.",
+    "The goal is to move with purpose while helping raise awareness and support for veteran and first responder mental health, suicide prevention, recovery, and community connection.",
+  ],
+} as const;
 
-export const EVENT_CHALLENGE_FORMAT_COPY = [
-  "This is not about speed. It is not about one discipline. It is about continuing to move.",
-  "Run for a while.",
-  "Switch to a bike.",
-  "Ruck.",
-  "Walk.",
-  "Row.",
-  "Swim.",
-  "Recover and continue.",
-  "However you move, keep the mission moving with you.",
-] as const;
+export const EVENT_CHALLENGE_FORMAT_CONTENT = {
+  intro: [
+    "There is no required pace, distance, or discipline.",
+    "Each of your 22 sessions simply needs to include at least 22 minutes of intentional movement.",
+    "Participants may complete more than one session in a day and may take breaks between sessions.",
+  ],
+  examples: [
+    "22-minute walk",
+    "22-minute run",
+    "22-minute ride",
+    "22-minute ruck",
+    "22-minute swim",
+    "22-minute row",
+    "22-minute strength session",
+    "22-minute yoga or mobility session",
+    "22-minute adaptive workout",
+    "any other intentional activity appropriate for the participant",
+  ],
+  closing: "Participants may combine disciplines throughout the event.",
+} as const;
+
+export const EVENT_ACCESSIBILITY_CONTENT = {
+  title: "Movement Looks Different for Everyone",
+  paragraphs: [
+    "22 For the 22 is designed to be adaptable.",
+    "Participants should choose activities, intensity, and duration appropriate for their abilities and circumstances.",
+    "Adaptive movement counts.",
+    "Walking counts.",
+    "Mobility work counts.",
+    "The mission matters more than pace.",
+  ],
+} as const;
 
 export const EVENT_HOW_IT_WORKS_STEPS = [
   {
     id: "register",
     title: "Register",
-    description: "Free entry.",
+    description: "Registration is free.",
   },
   {
-    id: "move",
-    title: "Move",
-    description: "Choose your discipline or mix several: Run / Ruck / Ride / Walk / Row / Swim / Hike / Other endurance movement.",
-  },
-  {
-    id: "go-for-22",
-    title: "Go for 22",
-    description: "The challenge runs for 22 hours.",
-  },
-  {
-    id: "support-the-mission",
-    title: "Support the Mission",
+    id: "choose-movement",
+    title: "Choose Your Movement",
     description:
-      "Optional donations can be made through tri.forthe22.org/donate. Optional event merchandise may be purchased separately.",
+      "Pick one activity or mix several: Run / Walk / Ruck / Ride / Swim / Row / Hike / Strength / Mobility / Adaptive Exercise / Other.",
   },
   {
-    id: "finish",
-    title: "Finish",
-    description: "At 8:00 AM on Nov. 22, conclude the event and conduct the free giveaway drawing.",
+    id: "complete-sessions",
+    title: "Complete 22 Sessions",
+    description:
+      "Complete 22 separate activity sessions of at least 22 minutes each. Sessions may be scheduled however you choose within the official event period.",
+  },
+  {
+    id: "track-progress",
+    title: "Track Your Progress",
+    description: "Mark off each completed session as you work toward 22.",
+  },
+  {
+    id: "carry-mission",
+    title: "Carry the Mission",
+    description:
+      "Share your progress if you choose, invite others to participate, and support the broader mission. Social sharing and donations remain optional.",
   },
 ] as const;
 
@@ -103,13 +149,16 @@ export const EVENT_DISCIPLINE_LABELS: Record<string, string> = {
   row: "Row",
   swim: "Swim",
   hike: "Hike",
+  strength: "Strength Training",
+  mobility: "Yoga / Mobility",
+  adaptive: "Adaptive Exercise",
   other: "Other",
 };
 
 export const EVENT_SEO = {
-  title: "22 For the 22 | 22-Hour Veteran & First Responder Endurance Challenge",
+  title: "22 For the 22 | 22-Minute Movement Challenge for Veterans & First Responders",
   description:
-    "Join Tri For the 22 for a free 22-hour endurance challenge on November 21–22, 2026. Run, ruck, ride, walk, row, swim, or keep moving your way in support of veteran and first responder mental health.",
+    "Join 22 For the 22: complete 22 sessions of 22 minutes of movement while raising awareness and support for veterans, first responders, and suicide prevention.",
 } as const;
 
 /**

@@ -26,9 +26,10 @@ function GiveawayMoreComingCard() {
 }
 
 /**
- * The 22-Hour Giveaway section — reused on both /22forthe22 (the event page)
- * and /sponsors ("Support 22 For the 22"). Takes prizes and mission partners
- * already fetched by the caller (no fetch here) and joins them locally.
+ * The 22 For the 22 Giveaway section — reused on both /22forthe22 (the
+ * event page) and /sponsors ("Support 22 For the 22"). Takes prizes and
+ * mission partners already fetched by the caller (no fetch here) and joins
+ * them locally.
  */
 export function EventGiveawaySection({
   prizes,
@@ -45,13 +46,13 @@ export function EventGiveawaySection({
   return (
     <section id="giveaway" data-analytics-event="giveaway_section_view" className="py-16 sm:py-20">
       <Container>
-        <p className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-bronze">22-Hour Giveaway</p>
+        <p className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-bronze">22 For the 22 Giveaway</p>
         <h2 className="text-balance font-display text-3xl font-semibold uppercase tracking-tight text-ink sm:text-4xl">
           Free Registration. Free Entry.
         </h2>
         <p className="mt-3 max-w-2xl text-base text-charcoal-light/90">
-          Every free registration for 22 For the 22 is automatically entered in the event giveaway. Winner(s)
-          are selected after registration closes near the end of the 22-hour challenge.
+          Every free registration for 22 For the 22 is automatically entered in the event giveaway. Winner(s) are
+          selected after registration closes, per the Official Rules.
         </p>
 
         <p className="mt-4 max-w-2xl text-sm font-semibold uppercase tracking-wide text-ink">

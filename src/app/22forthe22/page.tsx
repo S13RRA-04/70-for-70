@@ -7,17 +7,20 @@ import { getMissionPartners } from "@/lib/data/mission-partners";
 import { getJournalEntriesByCategory } from "@/lib/data/journal";
 import { getCurrentEventStatus } from "@/lib/22-for-the-22/event-status";
 import {
-  EVENT_CHALLENGE_FORMAT_COPY,
+  EVENT_ACCESSIBILITY_CONTENT,
+  EVENT_CHALLENGE_FORMAT_CONTENT,
   EVENT_HOW_IT_WORKS_STEPS,
   EVENT_SEO,
-  EVENT_WHAT_IS_COPY,
+  EVENT_WHAT_IS_CONTENT,
   GIVEAWAY_ODDS_DISCLOSURE,
   NO_PURCHASE_NECESSARY_DISCLOSURE,
-  SAFETY_LANGUAGE,
+  SAFETY_LANGUAGE_PARAGRAPHS,
 } from "@/lib/content/22-for-the-22";
 import { EventHero } from "@/components/22-for-the-22/event-hero";
 import { EventGiveawaySection } from "@/components/22-for-the-22/event-giveaway-section";
 import { LiveEventPanel } from "@/components/22-for-the-22/live-event-panel";
+import { SessionTracker } from "@/components/22-for-the-22/session-tracker";
+import { EventSupporterCard } from "@/components/22-for-the-22/event-supporter-card";
 import { EventRegistrationForm } from "@/components/forms/event-registration-form";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
@@ -80,7 +83,7 @@ export default async function EventPage() {
       {status === "complete" && (
         <section className="border-b border-ink/10 bg-ink py-16 text-off-white sm:py-20">
           <Container className="max-w-2xl">
-            <SectionHeading eyebrow="22 Hours Complete" title="Thank You for Moving" tone="dark" />
+            <SectionHeading eyebrow="Event Window Complete" title="Thank You for Moving" tone="dark" />
             <p className="mt-4 text-base leading-relaxed text-off-white/75">
               {event.winner_announcement ?? "Winners will be announced here once the giveaway drawing is complete."}
             </p>
@@ -92,8 +95,12 @@ export default async function EventPage() {
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container className="max-w-2xl">
           <SectionHeading eyebrow="The Challenge" title="What Is 22 For the 22?" />
+          <p className="mt-5 text-base leading-relaxed text-charcoal-light">{EVENT_WHAT_IS_CONTENT.intro}</p>
+          <p className="mt-5 font-display text-2xl font-bold uppercase tracking-tight text-bronze sm:text-3xl">
+            {EVENT_WHAT_IS_CONTENT.statLine}
+          </p>
           <div className="mt-5 space-y-4">
-            {EVENT_WHAT_IS_COPY.map((paragraph, i) => (
+            {EVENT_WHAT_IS_CONTENT.paragraphs.map((paragraph, i) => (
               <p key={i} className="text-base leading-relaxed text-charcoal-light">
                 {paragraph}
               </p>
@@ -103,9 +110,9 @@ export default async function EventPage() {
       </section>
 
       {/* How It Works */}
-      <section className="py-16 sm:py-20">
+      <section id="how-it-works" className="scroll-mt-20 py-16 sm:py-20">
         <Container>
-          <SectionHeading eyebrow="How It Works" title="Register. Move. Go for 22." />
+          <SectionHeading eyebrow="How It Works" title="Register. Move. Track. Repeat." />
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
             {EVENT_HOW_IT_WORKS_STEPS.map((step, i) => (
               <div key={step.id} className="rounded-sm border border-ink/10 bg-off-white p-6">
@@ -120,29 +127,49 @@ export default async function EventPage() {
         </Container>
       </section>
 
-      {/* Challenge Format */}
+      {/* Make the 22 Your Own (formerly "Challenge Format") */}
       <section className="border-y border-ink/10 bg-ink py-16 text-off-white sm:py-20">
         <Container className="max-w-2xl">
-          <SectionHeading eyebrow="Challenge Format" title="Keep Moving, However You Move" tone="dark" />
+          <SectionHeading title="Make the 22 Your Own" tone="dark" />
           <div className="mt-5 space-y-2">
-            {EVENT_CHALLENGE_FORMAT_COPY.map((line, i) => (
+            {EVENT_CHALLENGE_FORMAT_CONTENT.intro.map((line, i) => (
               <p key={i} className="text-base leading-relaxed text-off-white/80">
                 {line}
               </p>
             ))}
           </div>
-          <p className="mt-6 text-sm leading-relaxed text-off-white/60">{SAFETY_LANGUAGE}</p>
+          <ul className="mt-6 list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-off-white/80">
+            {EVENT_CHALLENGE_FORMAT_CONTENT.examples.map((example, i) => (
+              <li key={i}>{example}</li>
+            ))}
+          </ul>
+          <p className="mt-6 text-base leading-relaxed text-off-white/80">{EVENT_CHALLENGE_FORMAT_CONTENT.closing}</p>
+          <p className="mt-6 text-sm leading-relaxed text-off-white/60">{SAFETY_LANGUAGE_PARAGRAPHS[0]}</p>
+        </Container>
+      </section>
+
+      {/* Movement Looks Different for Everyone */}
+      <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
+        <Container className="max-w-2xl">
+          <SectionHeading title={EVENT_ACCESSIBILITY_CONTENT.title} />
+          <div className="mt-5 space-y-2">
+            {EVENT_ACCESSIBILITY_CONTENT.paragraphs.map((paragraph, i) => (
+              <p key={i} className="text-base leading-relaxed text-charcoal-light">
+                {paragraph}
+              </p>
+            ))}
+          </div>
         </Container>
       </section>
 
       {/* Registration */}
       {event.registration_open ? (
-        <section id="register" className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
+        <section id="register" className="border-b border-ink/10 bg-off-white py-16 sm:py-20">
           <Container className="max-w-2xl">
             <SectionHeading
               eyebrow="Register"
               title="Register Free"
-              description="Solo or team, local or remote — registration is free, and completing it enters you in the 22-Hour Giveaway."
+              description="Solo or team, local or remote — registration is free, and completing it enters you in the 22 For the 22 Giveaway."
             />
             <p className="mt-4 text-sm font-semibold uppercase tracking-wide text-ink">
               {NO_PURCHASE_NECESSARY_DISCLOSURE}
@@ -153,12 +180,22 @@ export default async function EventPage() {
           </Container>
         </section>
       ) : (
-        <section id="register" className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
+        <section id="register" className="border-b border-ink/10 bg-off-white py-16 sm:py-20">
           <Container className="max-w-2xl">
             <SectionHeading eyebrow="Register" title="Registration Is Closed" description="Check back for the next 22 For the 22." />
           </Container>
         </section>
       )}
+
+      {/* Session Tracker */}
+      <section id="tracker" className="scroll-mt-20 border-b border-ink/10 bg-sand-light py-16 sm:py-20">
+        <Container className="max-w-3xl">
+          <SectionHeading eyebrow="Your Progress" title="22-Session Tracker" description="Mark off each session as you complete it. Saved on this device only." />
+          <div className="mt-8">
+            <SessionTracker />
+          </div>
+        </Container>
+      </section>
 
       {/* Giveaway */}
       <EventGiveawaySection prizes={prizes} partners={missionPartners} />
@@ -191,7 +228,7 @@ export default async function EventPage() {
           <SectionHeading
             eyebrow="Support the Mission"
             title="22 For the 22 Fundraising Goal"
-            description="Registration is free. If the mission speaks to you, consider supporting the organizations behind Tri For the 22."
+            description="Registration costs nothing. If you'd like to take the mission further, optional donations support the nonprofit organizations behind Tri For the 22."
           />
           <div className="mt-8">
             <CampaignProgress totalRaised={event.amount_raised} goal={event.fundraising_goal} />
@@ -213,12 +250,7 @@ export default async function EventPage() {
             <SectionHeading eyebrow="With Thanks To" title="22 For the 22 Supporters" />
             <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
               {giveawaySupporters.map((partner) => (
-                <div key={partner.id} className="rounded-sm border border-ink/10 bg-off-white p-6">
-                  <p className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
-                    {partner.name}
-                  </p>
-                  <p className="mt-2 text-sm text-charcoal-light">{partner.description}</p>
-                </div>
+                <EventSupporterCard key={partner.id} partner={partner} />
               ))}
             </div>
           </Container>
@@ -228,7 +260,13 @@ export default async function EventPage() {
       {/* Safety */}
       <section className="border-t border-ink/10 py-10">
         <Container className="max-w-2xl">
-          <p className="text-sm leading-relaxed text-charcoal-light">{SAFETY_LANGUAGE}</p>
+          <div className="space-y-2">
+            {SAFETY_LANGUAGE_PARAGRAPHS.map((paragraph, i) => (
+              <p key={i} className="text-sm leading-relaxed text-charcoal-light">
+                {paragraph}
+              </p>
+            ))}
+          </div>
           <p className="mt-3 text-xs leading-relaxed text-charcoal-light/80">{GIVEAWAY_ODDS_DISCLOSURE}</p>
           <Link href="/22forthe22/rules" data-analytics-event="22_rules_view" className="mt-3 inline-flex text-xs font-semibold uppercase tracking-wide text-bronze hover:underline">
             Read the Official Rules &rarr;
