@@ -3,6 +3,32 @@
 import { useRef, useState, useSyncExternalStore } from "react";
 import { Share2, Download, Copy, Check } from "lucide-react";
 import { CAMPAIGN_URL } from "@/lib/constants";
+import { EVENT_DISCIPLINE_LABELS } from "@/lib/content/22-for-the-22";
+
+const DISTANCE_UNIT_ABBREVIATIONS: Record<string, string> = {
+  miles: "mi",
+  kilometers: "km",
+  yards: "yd",
+  meters: "m",
+};
+
+interface LastActivity {
+  activityType: string;
+  durationMinutes: number;
+  distance?: number;
+  distanceUnit?: string;
+}
+
+/** "22-MINUTE RUN" or "22-MINUTE RUN · 2.5 MI" — what the participant just logged, shown in place of the generic total-minutes line when known (see SessionCompleteScreen, the only place this is populated). */
+function lastActivityLine(activity: LastActivity): string {
+  const label = (EVENT_DISCIPLINE_LABELS[activity.activityType] ?? activity.activityType).toUpperCase();
+  const base = `${activity.durationMinutes}-MINUTE ${label}`;
+  if (activity.distance && activity.distanceUnit) {
+    const unit = DISTANCE_UNIT_ABBREVIATIONS[activity.distanceUnit] ?? activity.distanceUnit;
+    return `${base} · ${activity.distance} ${unit}`;
+  }
+  return base;
+}
 
 const CARD_WIDTH = 1080;
 const CARD_HEIGHT = 1080;
@@ -24,6 +50,7 @@ interface ProgressShareCardProps {
   sessionCount: number;
   requiredSessions: number;
   totalMinutes: number;
+  lastActivity?: LastActivity;
 }
 
 /** Draws the same card shown on-screen onto an offscreen canvas for the PNG download — kept in sync by hand since there's no server-side renderer available. */
@@ -48,7 +75,11 @@ function drawCard(canvas: HTMLCanvasElement, props: ProgressShareCardProps) {
   ctx.fillStyle = "#f6f3ea";
   ctx.globalAlpha = 0.7;
   ctx.font = "500 32px Oswald, sans-serif";
-  ctx.fillText(`${props.totalMinutes} MINUTES MOVED`, CARD_WIDTH / 2, 550);
+  ctx.fillText(
+    props.lastActivity ? lastActivityLine(props.lastActivity) : `${props.totalMinutes} MINUTES MOVED`,
+    CARD_WIDTH / 2,
+    550,
+  );
   ctx.globalAlpha = 1;
 
   ctx.strokeStyle = "rgba(246,243,234,0.2)";
@@ -72,7 +103,9 @@ export function ProgressShareCard(props: ProgressShareCardProps) {
   const [copied, setCopied] = useState(false);
 
   const shareUrl = `${CAMPAIGN_URL}/22forthe22`;
-  const shareText = `${props.firstName} is at ${props.sessionCount} of ${props.requiredSessions} sessions for ${props.eventName}. Because 22 ≠ 0.`;
+  const shareText = props.lastActivity
+    ? `${props.firstName} just logged a ${lastActivityLine(props.lastActivity).toLowerCase()} session for ${props.eventName} — ${props.sessionCount} of ${props.requiredSessions} complete. Because 22 ≠ 0.`
+    : `${props.firstName} is at ${props.sessionCount} of ${props.requiredSessions} sessions for ${props.eventName}. Because 22 ≠ 0.`;
   const canNativeShare = mounted && "share" in navigator;
 
   async function handleShare() {
@@ -112,7 +145,7 @@ export function ProgressShareCard(props: ProgressShareCardProps) {
   return (
     <div>
       <div
-        aria-label={`Progress card: ${props.sessionCount} of ${props.requiredSessions} sessions complete, ${props.totalMinutes} minutes moved`}
+        aria-label={`Progress card: ${props.sessionCount} of ${props.requiredSessions} sessions complete${props.lastActivity ? `, just logged ${lastActivityLine(props.lastActivity).toLowerCase()}` : `, ${props.totalMinutes} minutes moved`}`}
         className="mx-auto flex aspect-square w-full max-w-sm flex-col items-center justify-center rounded-sm bg-ink p-8 text-center text-off-white"
       >
         <p className="font-display text-sm font-semibold uppercase tracking-[0.3em] text-bronze-light">
@@ -122,7 +155,7 @@ export function ProgressShareCard(props: ProgressShareCardProps) {
           {props.sessionCount} of {props.requiredSessions} Complete
         </p>
         <p className="mt-2 text-sm font-semibold uppercase tracking-widest text-off-white/70">
-          {props.totalMinutes} Minutes Moved
+          {props.lastActivity ? lastActivityLine(props.lastActivity) : `${props.totalMinutes} Minutes Moved`}
         </p>
         <div className="mt-6 w-24 border-t border-off-white/20" />
         <p className="mt-6 font-display text-xl font-bold uppercase tracking-tight">{props.eventName}</p>

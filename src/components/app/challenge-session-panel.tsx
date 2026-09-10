@@ -8,7 +8,17 @@ import { SessionLogForm } from "./session-log-form";
 import { SessionCompleteScreen } from "./session-complete-screen";
 import type { MilestoneRow } from "@/types/app";
 
-type ViewState = "tracker" | "logging" | { sessionNumber: number; totalMinutes: number };
+interface JustLoggedActivity {
+  activityType: string;
+  durationMinutes: number;
+  distance?: number;
+  distanceUnit?: string;
+}
+
+type ViewState =
+  | "tracker"
+  | "logging"
+  | { sessionNumber: number; totalMinutes: number; lastActivity: JustLoggedActivity };
 
 export function ChallengeSessionPanel({
   eventId,
@@ -53,7 +63,16 @@ export function ChallengeSessionPanel({
     if (result.ok) {
       const newSessionCount = sessionCount + 1;
       const newTotalMinutes = totalMinutes + input.durationMinutes;
-      setView({ sessionNumber: newSessionCount, totalMinutes: newTotalMinutes });
+      setView({
+        sessionNumber: newSessionCount,
+        totalMinutes: newTotalMinutes,
+        lastActivity: {
+          activityType: input.activityType,
+          durationMinutes: input.durationMinutes,
+          distance: input.distance,
+          distanceUnit: input.distanceUnit,
+        },
+      });
       router.refresh();
     }
 
@@ -67,6 +86,7 @@ export function ChallengeSessionPanel({
         sessionNumber={view.sessionNumber}
         totalSessions={requiredSessions}
         totalMinutes={view.totalMinutes}
+        lastActivity={view.lastActivity}
         milestoneTitle={milestone?.title ?? null}
         milestoneMessage={milestone?.message ?? null}
         isFinished={view.sessionNumber >= requiredSessions}

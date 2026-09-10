@@ -1,9 +1,29 @@
 import Link from "next/link";
 
+interface JustLoggedActivity {
+  activityType: string;
+  durationMinutes: number;
+  distance?: number;
+  distanceUnit?: string;
+}
+
+function shareHrefFor(lastActivity: JustLoggedActivity): string {
+  const params = new URLSearchParams({
+    activityType: lastActivity.activityType,
+    durationMinutes: String(lastActivity.durationMinutes),
+  });
+  if (lastActivity.distance && lastActivity.distanceUnit) {
+    params.set("distance", String(lastActivity.distance));
+    params.set("distanceUnit", lastActivity.distanceUnit);
+  }
+  return `/app/share?${params.toString()}`;
+}
+
 export function SessionCompleteScreen({
   sessionNumber,
   totalSessions,
   totalMinutes,
+  lastActivity,
   milestoneTitle,
   milestoneMessage,
   isFinished,
@@ -12,12 +32,14 @@ export function SessionCompleteScreen({
   sessionNumber: number;
   totalSessions: number;
   totalMinutes: number;
+  lastActivity: JustLoggedActivity;
   milestoneTitle: string | null;
   milestoneMessage: string | null;
   isFinished: boolean;
   onDone: () => void;
 }) {
   const remaining = Math.max(totalSessions - sessionNumber, 0);
+  const shareHref = shareHrefFor(lastActivity);
 
   if (isFinished) {
     return (
@@ -51,7 +73,7 @@ export function SessionCompleteScreen({
 
         <div className="mt-6 flex flex-col gap-3">
           <Link
-            href="/app/share"
+            href={shareHref}
             className="flex min-h-[44px] w-full items-center justify-center rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
           >
             Share My Finish
@@ -85,7 +107,7 @@ export function SessionCompleteScreen({
 
       <div className="mt-6 flex flex-col gap-3 sm:flex-row">
         <Link
-          href="/app/share"
+          href={shareHref}
           className="flex min-h-[44px] w-full items-center justify-center rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light sm:w-auto sm:flex-1"
         >
           Share This
