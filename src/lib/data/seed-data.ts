@@ -540,25 +540,25 @@ export const SEED_PERFORMANCE_SNAPSHOTS: PerformanceSnapshotRow[] = [
     { numeric: 76, unit: "rpm" },
   ),
 
-  snapshot("seed-perf-ride-1", "2026-09-08", "ride", "ride_distance_mi", "Distance", "11.23 mi", 0, {
-    numeric: 11.23,
+  snapshot("seed-perf-ride-1", "2026-09-10", "ride", "ride_distance_mi", "Distance", "12.28 mi", 0, {
+    numeric: 12.28,
     unit: "mi",
   }),
-  snapshot("seed-perf-ride-2", "2026-09-08", "ride", "ride_moving_time", "Moving Time", "53:47", 1),
-  snapshot("seed-perf-ride-3", "2026-09-08", "ride", "ride_avg_speed_mph", "Average Speed", "12.5 mph", 2, {
-    numeric: 12.5,
+  snapshot("seed-perf-ride-2", "2026-09-10", "ride", "ride_moving_time", "Moving Time", "57:31", 1),
+  snapshot("seed-perf-ride-3", "2026-09-10", "ride", "ride_avg_speed_mph", "Average Speed", "12.8 mph", 2, {
+    numeric: 12.8,
     unit: "mph",
   }),
   snapshot("seed-perf-ride-4", "2026-09-08", "ride", "ride_max_speed_mph", "Max Speed", "27.5 mph", 3, {
     numeric: 27.5,
     unit: "mph",
   }),
-  snapshot("seed-perf-ride-5", "2026-09-08", "ride", "ride_elevation_ft", "Elevation Gain", "407 ft", 4, {
-    numeric: 407,
+  snapshot("seed-perf-ride-5", "2026-09-10", "ride", "ride_elevation_ft", "Elevation Gain", "276 ft", 4, {
+    numeric: 276,
     unit: "ft",
   }),
-  snapshot("seed-perf-ride-6", "2026-09-08", "ride", "ride_avg_hr", "Average HR", "143 bpm", 5, {
-    numeric: 143,
+  snapshot("seed-perf-ride-6", "2026-09-10", "ride", "ride_avg_hr", "Average HR", "148 bpm", 5, {
+    numeric: 148,
     unit: "bpm",
   }),
   snapshot("seed-perf-ride-7", "2026-09-08", "ride", "ride_max_hr", "Max HR", "158 bpm", 6, {
