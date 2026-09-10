@@ -3,6 +3,8 @@ import Link from "next/link";
 import { requireParticipant } from "@/lib/supabase/require-participant";
 import { getMyProfile } from "@/lib/data/app/profiles";
 import { getAppEvents } from "@/lib/data/app/events";
+import { getMyActivities, summarizeActivities } from "@/lib/data/app/activities";
+import { getMilestonesForEvent } from "@/lib/data/app/milestones";
 import { createClient } from "@/lib/supabase/server";
 import { DONATE_LINK } from "@/lib/constants";
 
@@ -20,6 +22,12 @@ export default async function AppHomePage() {
   const registeredEventIds = new Set((myRegistrations ?? []).map((r) => r.event_id));
   const activeEvent = events.find((e) => registeredEventIds.has(e.id) && e.status !== "archived");
 
+  const [activities, milestones] = activeEvent
+    ? await Promise.all([getMyActivities(activeEvent.id), getMilestonesForEvent(activeEvent.id)])
+    : [[], []];
+  const summary = summarizeActivities(activities);
+  const nextMilestone = milestones.find((m) => m.threshold > summary.sessionCount) ?? null;
+
   const greetingName = profile?.first_name || "there";
 
   return (
@@ -33,15 +41,33 @@ export default async function AppHomePage() {
           <p className="mt-1 font-display text-xl font-semibold uppercase tracking-wide text-ink">
             {activeEvent.name}
           </p>
-          <p className="mt-4 text-sm text-charcoal-light">
-            Session logging is coming soon — your registration is confirmed and ready.
-          </p>
+
+          {activeEvent.required_sessions && (
+            <div className="mt-4 flex flex-wrap items-baseline gap-x-4 gap-y-1">
+              <p className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+                {summary.sessionCount} OF {activeEvent.required_sessions} COMPLETE
+              </p>
+              {activeEvent.minimum_total_minutes && (
+                <p className="text-sm font-semibold text-charcoal-light">
+                  {summary.totalMinutes} / {activeEvent.minimum_total_minutes} minutes
+                </p>
+              )}
+            </div>
+          )}
+
           <Link
             href={`/app/challenges/${activeEvent.slug}`}
             className="mt-4 inline-flex min-h-[44px] items-center justify-center rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
           >
-            View Challenge
+            Continue Challenge
           </Link>
+
+          {nextMilestone && (
+            <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+              {nextMilestone.threshold - summary.sessionCount} session
+              {nextMilestone.threshold - summary.sessionCount === 1 ? "" : "s"} until your next milestone.
+            </p>
+          )}
         </div>
       ) : (
         <div className="mt-6 rounded-sm border border-dashed border-ink/20 p-6 text-center">

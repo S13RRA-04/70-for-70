@@ -2,8 +2,11 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getAppEventBySlug } from "@/lib/data/app/events";
 import { getMyRegistration } from "@/lib/data/app/registrations";
+import { getMyActivities, summarizeActivities } from "@/lib/data/app/activities";
+import { getMilestonesForEvent } from "@/lib/data/app/milestones";
 import { formatDateLong } from "@/lib/utils";
 import { RegisterForChallengeButton } from "@/components/app/register-for-challenge-button";
+import { ChallengeSessionPanel } from "@/components/app/challenge-session-panel";
 
 export async function generateMetadata(props: PageProps<"/app/challenges/[slug]">): Promise<Metadata> {
   const { slug } = await props.params;
@@ -16,7 +19,12 @@ export default async function ChallengeDetailPage(props: PageProps<"/app/challen
   const event = await getAppEventBySlug(slug);
   if (!event) notFound();
 
-  const registration = await getMyRegistration(event.id);
+  const [registration, activities, milestones] = await Promise.all([
+    getMyRegistration(event.id),
+    getMyActivities(event.id),
+    getMilestonesForEvent(event.id),
+  ]);
+  const summary = summarizeActivities(activities);
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-8">
@@ -45,14 +53,23 @@ export default async function ChallengeDetailPage(props: PageProps<"/app/challen
 
       <div className="mt-8">
         {registration ? (
-          <div className="rounded-sm border border-olive/30 bg-olive/10 p-6">
-            <p className="font-display text-sm font-semibold uppercase tracking-wide text-olive">
-              You&apos;re Registered
-            </p>
-            <p className="mt-2 text-sm text-charcoal-light">
-              Session logging and your progress tracker are coming soon — your spot is confirmed.
-            </p>
-          </div>
+          event.event_type === "session_count" && event.required_sessions && event.minimum_session_minutes ? (
+            <ChallengeSessionPanel
+              eventId={event.id}
+              slug={event.slug}
+              requiredSessions={event.required_sessions}
+              minimumSessionMinutes={event.minimum_session_minutes}
+              sessionCount={summary.sessionCount}
+              totalMinutes={summary.totalMinutes}
+              milestones={milestones}
+            />
+          ) : (
+            <div className="rounded-sm border border-olive/30 bg-olive/10 p-6">
+              <p className="font-display text-sm font-semibold uppercase tracking-wide text-olive">
+                You&apos;re Registered
+              </p>
+            </div>
+          )
         ) : (
           <RegisterForChallengeButton eventId={event.id} slug={event.slug} />
         )}
