@@ -9,6 +9,7 @@ import { RaceDashboard } from "@/components/campaign/race-dashboard";
 import { RaceGoalPanel } from "@/components/campaign/race-goal-panel";
 import { RaceBenchmarks } from "@/components/campaign/race-benchmarks";
 import { RaceLogistics } from "@/components/campaign/race-logistics";
+import { ChattanoogaBikeBuild } from "@/components/campaign/chattanooga-bike-build";
 import { TrainingTimeline } from "@/components/campaign/training-timeline";
 import { CampaignPhaseBanner } from "@/components/campaign/campaign-phase-banner";
 import { BikeBuildTeaser } from "@/components/journal/bike-build/bike-build-teaser";
@@ -130,6 +131,20 @@ export default async function RacePage() {
           </div>
 
           <div className="mt-16">
+            <SectionHeading eyebrow="Chattanooga Bike Build" title="Training for the Course, Not Just the Distance" />
+            <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
+              The Chattanooga bike leg isn&apos;t simply a 56-mile endurance ride. The course includes roughly
+              2,218 feet of elevation gain, with repeated rollers through much of the middle of the course. The
+              objective in training is therefore not simply to increase average speed. It is to increase speed,
+              climbing durability, and distance while keeping the physiological cost controlled enough to run a
+              half marathon afterward.
+            </p>
+            <div className="mt-6">
+              <ChattanoogaBikeBuild />
+            </div>
+          </div>
+
+          <div className="mt-16">
             <SectionHeading eyebrow="Training Arc" title="Base to Race" />
             <div className="mt-6">
               <TrainingTimeline currentIndex={getCurrentTrainingPhaseIndex()} />
@@ -141,6 +156,11 @@ export default async function RacePage() {
             <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
               Cycling is the newest discipline here, and it started without a bike at all. The full story of
               getting one — and getting it race-ready — lives in its own ongoing series in the Journal.
+            </p>
+            <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
+              With outdoor riding now underway, the focus has shifted from simply building the race bike to
+              building the engine required to ride Chattanooga&apos;s rolling 56-mile course and still have a
+              half marathon left in the legs.
             </p>
             <div className="mt-6">
               <BikeBuildTeaser teaser={getBikeBuildTeaser()} className="max-w-2xl" />

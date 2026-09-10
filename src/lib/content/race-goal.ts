@@ -10,11 +10,15 @@
  * next milestone, just no longer the finish line. Rolled forward on a
  * 3-year basis as more results come in.
  */
+import { BIKE_PROGRESS } from "./bike-progress";
+
 export interface GoalMetric {
   /** A real recorded M35–39 result at this race — not a target. Null where no relevant result exists. */
   historical: string | null;
   /** Cody's own current, measured benchmark — "TBD" until race-effort data exists for this split. */
   current: string;
+  /** Optional secondary line under `current` — a caveat or extra context, e.g. "not race effort." */
+  currentDetail?: string;
   /** Where training is realistically pointed next — a more conservative, still-competitive range. */
   competitive: string;
   /** What the 2023/2025 M35–39 results say the podium actually takes. */
@@ -39,7 +43,8 @@ export const RACE_GOAL = {
     } satisfies GoalMetric,
     bike: {
       historical: "2:10:23–2:14:36 (2023 & 2025 winners)",
-      current: "12.1 mph outdoor training baseline (not race effort)",
+      current: `${BIKE_PROGRESS.avgSpeedMph} mph · ${BIKE_PROGRESS.distanceMi} mi · ${BIKE_PROGRESS.elevationFt} ft gain · ${BIKE_PROGRESS.avgHr} bpm avg HR`,
+      currentDetail: "Current outdoor training baseline — not race effort",
       competitive: "2:20:00–2:25:00 (23.1–24.0 mph)",
       podium: "≤2:15:00 (~24.9+ mph)",
     } satisfies GoalMetric,

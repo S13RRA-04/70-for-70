@@ -1,9 +1,20 @@
+import type { GoalMetric } from "@/lib/content/race-goal";
 import { RACE_GOAL } from "@/lib/content/race-goal";
 
 const HEAD_CELL = "px-4 py-3 text-xs font-semibold uppercase tracking-widest text-charcoal-light";
 const BODY_CELL = "px-4 py-3 align-top";
 const ROW = "border-b border-ink/10 bg-off-white last:border-0";
 const DASH = "—";
+
+/** Current-benchmark cell — most rows are a single line; a row with `currentDetail` (e.g. Bike) gets a muted second line for the caveat. */
+function CurrentCell({ metric }: { metric: GoalMetric }) {
+  return (
+    <td className={BODY_CELL}>
+      <div>{metric.current}</div>
+      {metric.currentDetail && <div className="mt-1 text-xs text-charcoal-light">{metric.currentDetail}</div>}
+    </td>
+  );
+}
 
 const SPLIT_ROWS = [
   { label: "Swim (1.2 mi)", metric: RACE_GOAL.splits.swim },
@@ -43,7 +54,7 @@ export function RaceGoalPanel() {
                 Overall finish
               </th>
               <td className={BODY_CELL}>{RACE_GOAL.targetFinish.historical ?? DASH}</td>
-              <td className={BODY_CELL}>{RACE_GOAL.targetFinish.current}</td>
+              <CurrentCell metric={RACE_GOAL.targetFinish} />
               <td className={BODY_CELL}>{RACE_GOAL.targetFinish.competitive}</td>
               <td className={`${BODY_CELL} font-semibold text-ink`}>{RACE_GOAL.targetFinish.podium}</td>
             </tr>
@@ -53,7 +64,7 @@ export function RaceGoalPanel() {
                   {row.label}
                 </th>
                 <td className={BODY_CELL}>{row.metric.historical ?? DASH}</td>
-                <td className={BODY_CELL}>{row.metric.current}</td>
+                <CurrentCell metric={row.metric} />
                 <td className={BODY_CELL}>{row.metric.competitive}</td>
                 <td className={`${BODY_CELL} font-semibold text-ink`}>{row.metric.podium}</td>
               </tr>
