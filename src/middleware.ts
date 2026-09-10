@@ -2,7 +2,7 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { updateSupabaseSession } from "@/lib/supabase/proxy-session";
 import { getPreviewToken, isCampaignLive, isOrgLive, PREVIEW_COOKIE_NAME } from "@/lib/launch-gate";
-import { getCampaignSlug, type CampaignSlug } from "@/lib/site-mode";
+import { getCampaignSlug, isAppHost, type CampaignSlug } from "@/lib/site-mode";
 import { CAMPAIGN_URL, SITE_URL } from "@/lib/constants";
 
 const PREVIEW_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 180; // 180 days
@@ -21,6 +21,17 @@ export function middleware(request: NextRequest) {
   const strayDomainResponse = applyStrayDomainRedirect(request);
   if (strayDomainResponse) return strayDomainResponse;
 
+  // app.forthe22.org is a different product surface entirely (authenticated
+  // participant app, not marketing content) — never subject to the org/
+  // campaign launch gate or domain split below. Real pages live under
+  // src/app/app/* in the filesystem; this rewrites every path transparently
+  // so the URL bar still shows app.forthe22.org/whatever.
+  if (isAppHost(request.headers.get("host"))) {
+    const appResponse = applyAppHostRewrite(request);
+    if (appResponse) return appResponse;
+    return updateSupabaseSession(request);
+  }
+
   const campaignSlug = getCampaignSlug(request.headers.get("host"));
   const onCampaignHost = campaignSlug !== null;
   const live = onCampaignHost ? isCampaignLive() : isOrgLive();
@@ -34,6 +45,29 @@ export function middleware(request: NextRequest) {
   if (splitResponse) return splitResponse;
 
   return updateSupabaseSession(request);
+}
+
+/**
+ * Paths that must NOT be rewritten under /app/* even on the app host — API
+ * routes and admin (identical across every host, same as SHARED_PATH_PREFIXES
+ * below) plus the PWA manifest/service-worker files, which Next.js/the
+ * browser expect at their conventional root paths.
+ */
+const APP_HOST_PASSTHROUGH_PREFIXES = [
+  "/api",
+  "/admin",
+  "/manifest.webmanifest",
+  "/sw.js",
+  "/robots.txt",
+];
+
+function applyAppHostRewrite(request: NextRequest): Response | null {
+  const { pathname } = request.nextUrl;
+  if (APP_HOST_PASSTHROUGH_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`))) {
+    return null;
+  }
+  if (pathname.startsWith("/app")) return null; // already a real /app/* path (e.g. a Link href built server-side)
+  return NextResponse.rewrite(new URL(`/app${pathname}`, request.nextUrl));
 }
 
 /**

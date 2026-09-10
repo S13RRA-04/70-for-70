@@ -72,6 +72,15 @@ export const RUCK_CAMPAIGN_URL = process.env.NEXT_PUBLIC_RUCK_URL ?? "http://loc
 export const RUCK_CAMPAIGN_NAME = "Ruck For The 22";
 
 /**
+ * The "For the 22" participant app — app.forthe22.org in production. A
+ * different product surface from every campaign above: authenticated,
+ * cross-campaign, installable (see src/app/manifest.ts, src/lib/site-mode.ts's
+ * isAppHost). Defaults to the same local dev origin as the others — there's
+ * no real fourth host in local dev.
+ */
+export const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+
+/**
  * On-brand fallback photo for a journal entry with no image_url — used
  * anywhere a post's image would otherwise be shown (card, detail hero,
  * social share/JSON-LD image), so text-only entries still get a real,

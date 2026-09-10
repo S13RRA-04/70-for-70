@@ -27,6 +27,7 @@ const nextConfig: NextConfig = {
     NEXT_PUBLIC_SITE_URL: "https://forthe22.org",
     NEXT_PUBLIC_CAMPAIGN_URL: "https://tri.forthe22.org",
     NEXT_PUBLIC_RUCK_URL: "https://ruck.forthe22.org",
+    NEXT_PUBLIC_APP_URL: "https://app.forthe22.org",
   },
   images: {
     remotePatterns: [

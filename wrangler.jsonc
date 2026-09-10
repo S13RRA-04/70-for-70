@@ -89,6 +89,7 @@
     "NEXT_PUBLIC_SITE_URL": "https://forthe22.org",
     "NEXT_PUBLIC_CAMPAIGN_URL": "https://tri.forthe22.org",
     "NEXT_PUBLIC_RUCK_URL": "https://ruck.forthe22.org",
+    "NEXT_PUBLIC_APP_URL": "https://app.forthe22.org",
     "NEXT_PUBLIC_SUPABASE_URL": "https://wjwgzphvpulkofvuksko.supabase.co",
     "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indqd2d6cGh2cHVsa29mdnVrc2tvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcwODM4MzIsImV4cCI6MjEwMjY1OTgzMn0.jCX3-IkuI4JMrehYWA0Hx_qkB0kHWmJg1IiqgMQwE2w"
   }

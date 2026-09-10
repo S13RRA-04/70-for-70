@@ -123,15 +123,27 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         >
           Skip to content
         </a>
-        <AwarenessBanner />
-        <EventAnnouncementBanner campaignSlug={campaignSlug} />
-        <Header mode={mode} campaignSlug={campaignSlug} awarenessMonth={awarenessMonth} />
-        <main id="main-content" className="flex-1">
-          {children}
-        </main>
-        <Footer mode={mode} campaignSlug={campaignSlug} awarenessMonth={awarenessMonth} />
-        <MobileConversionBarSpacer mode={mode} campaignSlug={campaignSlug} />
-        <MobileConversionBar mode={mode} campaignSlug={campaignSlug} />
+        {mode === "app" ? (
+          // app.forthe22.org is a different product surface (authenticated
+          // participant app) — none of the marketing chrome below applies.
+          // Its own nested layout (src/app/app/layout.tsx) provides bottom
+          // navigation and everything else, inside this same <body>.
+          <main id="main-content" className="flex min-h-full flex-1 flex-col">
+            {children}
+          </main>
+        ) : (
+          <>
+            <AwarenessBanner />
+            <EventAnnouncementBanner campaignSlug={campaignSlug} />
+            <Header mode={mode} campaignSlug={campaignSlug} awarenessMonth={awarenessMonth} />
+            <main id="main-content" className="flex-1">
+              {children}
+            </main>
+            <Footer mode={mode} campaignSlug={campaignSlug} awarenessMonth={awarenessMonth} />
+            <MobileConversionBarSpacer mode={mode} campaignSlug={campaignSlug} />
+            <MobileConversionBar mode={mode} campaignSlug={campaignSlug} />
+          </>
+        )}
       </body>
     </html>
   );
