@@ -4,6 +4,7 @@ import { Container } from "@/components/shared/container";
 import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
+import { StravaFollowBadge } from "@/components/shared/strava-follow-badge";
 import { RaceDashboard } from "@/components/campaign/race-dashboard";
 import { RaceGoalPanel } from "@/components/campaign/race-goal-panel";
 import { RaceBenchmarks } from "@/components/campaign/race-benchmarks";
@@ -22,7 +23,7 @@ import { getLatestPerformanceSnapshot } from "@/lib/data/performance-snapshots";
 import { getTrainingStats } from "@/lib/training-stats";
 import { formatDateLong } from "@/lib/utils";
 import { getCampaignPhase, getCurrentTrainingPhaseIndex } from "@/lib/campaign-phase";
-import { CAMPAIGN_URL, RACE_INFO, STRAVA_PROFILE_URL } from "@/lib/constants";
+import { CAMPAIGN_URL, RACE_INFO } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { isRaceDayModeEnabled } from "@/lib/race-day-mode";
 
@@ -149,14 +150,7 @@ export default async function RacePage() {
           <div className="mt-16">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <SectionHeading eyebrow="Recovery" title="Training Snapshot" />
-              <a
-                href={STRAVA_PROFILE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
-              >
-                Follow on Strava &rarr;
-              </a>
+              <StravaFollowBadge />
             </div>
             <div className="mt-6">
               <TrainingSnapshot snapshot={trainingSnapshot} />
