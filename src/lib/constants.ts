@@ -81,6 +81,18 @@ export const RUCK_CAMPAIGN_NAME = "Ruck For The 22";
 export const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 
 /**
+ * "22 For the 22" — 22.forthe22.org in production. Split off from
+ * tri.forthe22.org/22forthe22 into its own subdomain/campaign so the event
+ * (an awareness/participation challenge) has its own address distinct from
+ * the fundraiser it promotes. Small campaign, 3 real pages (home, promo
+ * kit, rules) — see CAMPAIGNS["22"] below and applyEvent22Guard in
+ * src/middleware.ts. Defaults to the same local dev origin as the others —
+ * there's no real fifth host in local dev.
+ */
+export const EVENT22_CAMPAIGN_URL = process.env.NEXT_PUBLIC_EVENT22_URL ?? "http://localhost:3000";
+export const EVENT22_CAMPAIGN_NAME = "22 For the 22";
+
+/**
  * On-brand fallback photo for a journal entry with no image_url — used
  * anywhere a post's image would otherwise be shown (card, detail hero,
  * social share/JSON-LD image), so text-only entries still get a real,
@@ -196,13 +208,28 @@ if (process.env.NODE_ENV !== "production") {
 export const CAMPAIGN_NAV_LINKS: NavLink[] = [
   { label: "About", href: "/the-mission" },
   { label: "Race", href: "/the-race" },
-  { label: "22 For the 22", href: "/22forthe22" },
+  // Absolute — 22 For the 22 moved to its own subdomain, see
+  // EVENT22_CAMPAIGN_URL's doc comment above.
+  { label: "22 For the 22", href: EVENT22_CAMPAIGN_URL },
   { label: "Journal", href: "/journal" },
   { label: "Beneficiaries", href: "/beneficiaries" },
   { label: "Sponsors", href: "/sponsors" },
   { label: "Shop", href: "/shop" },
   { label: "Messages", href: "/messages" },
   { label: "Get Involved", href: "/get-involved" },
+];
+
+/**
+ * "22 For the 22"'s own header/mobile nav — anchors into the single-scroll
+ * event page (see the id="how-it-works"/"register"/"tracker" sections in
+ * src/app/22forthe22/page.tsx) plus the one real subpage, /rules.
+ */
+export const EVENT22_NAV_LINKS: NavLink[] = [
+  { label: "Home", href: "/" },
+  { label: "How It Works", href: "/#how-it-works" },
+  { label: "Register", href: "/#register" },
+  { label: "Tracker", href: "/#tracker" },
+  { label: "Rules", href: "/rules" },
 ];
 
 /**
@@ -218,6 +245,8 @@ export const ORG_HOME_LINK: NavLink = { label: SITE_NAME, href: SITE_URL };
 export const DONATE_LINK: NavLink = { label: "Donate Now", href: "/donate" };
 /** Distinct parent-site text link in the campaign header (the logo/title still link to the campaign home). */
 export const PARENT_INITIATIVE_LINK: NavLink = { label: "A For The 22 campaign", href: SITE_URL };
+/** 22 For the 22's header/footer backlink to the fundraiser it promotes — see CAMPAIGNS["22"].parentLink. */
+export const TRI_PARENT_LINK: NavLink = { label: "A Tri For The 22 Event", href: CAMPAIGN_URL };
 
 export const FUNDRAISING_GOAL = 70_000;
 
@@ -581,6 +610,8 @@ export const CAMPAIGNS: Record<
     logoLight: string;
     logoDark: string;
     primaryCta: NavLink & { external?: boolean };
+    /** A small text link back to this campaign's own "parent" — the org for Ruck, Tri itself for 22 For the 22. Unset for Tri, which has no parent link of its own. Read by Header/MobileMenu instead of a hardcoded per-slug check. */
+    parentLink?: NavLink;
   }
 > = {
   tri: {
@@ -602,5 +633,20 @@ export const CAMPAIGNS: Record<
     logoLight: "/logo.png",
     logoDark: "/ruck-logo-white.png",
     primaryCta: { ...RUCK_REGISTER_LINK, external: true },
+    parentLink: PARENT_INITIATIVE_LINK,
+  },
+  "22": {
+    name: EVENT22_CAMPAIGN_NAME,
+    url: EVENT22_CAMPAIGN_URL,
+    tagline: "November 21–22, 2026 · 22 Minutes, 22 Times",
+    description:
+      "Join 22 For the 22: complete 22 sessions of 22 minutes of movement while raising awareness and support for veterans, first responders, and suicide prevention.",
+    navLinks: EVENT22_NAV_LINKS,
+    // No light-background mark exists yet (same situation Ruck is in) —
+    // falls back to the real org mark rather than white-on-white.
+    logoLight: "/logo.png",
+    logoDark: "/22-for-the-22-logo-white.png",
+    primaryCta: { label: "Register Free", href: "/#register" },
+    parentLink: TRI_PARENT_LINK,
   },
 };

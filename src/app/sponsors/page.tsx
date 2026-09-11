@@ -10,7 +10,7 @@ import { CurrentGearNeeds } from "@/components/sponsors/current-gear-needs";
 import { EventGiveawaySection } from "@/components/22-for-the-22/event-giveaway-section";
 import { CTAButton } from "@/components/shared/cta-button";
 import { EmptyState } from "@/components/shared/empty-state";
-import { CAMPAIGN_NAME, CAMPAIGN_URL } from "@/lib/constants";
+import { CAMPAIGN_NAME, CAMPAIGN_URL, EVENT22_CAMPAIGN_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
@@ -29,8 +29,9 @@ export const metadata = pageMetadata({
  * retired pending written federal ethics approval.
  *
  * The 22 For the 22 giveaway (a free, no-purchase-necessary drawing — this
- * campaign cannot legally run a raffle) lives on /22forthe22, not here;
- * this page keeps only a teaser link into the giveaway section below.
+ * campaign cannot legally run a raffle) lives on its own subdomain
+ * (22.forthe22.org), not here; this page keeps only a teaser link into the
+ * giveaway section below.
  *
  * Section order is deliberate — partner logos first (previously buried
  * below a large gear-needs table), then the needs list, then a general
@@ -73,7 +74,7 @@ export default async function SponsorsPage() {
         <section className="border-b border-ink/10 bg-sand-light">
           <EventGiveawaySection prizes={giveawayPrizes} partners={partners} />
           <Container className="pb-16">
-            <CTAButton href="/22forthe22">See the Full 22 For the 22 Event Page</CTAButton>
+            <CTAButton href={EVENT22_CAMPAIGN_URL}>See the Full 22 For the 22 Event Page</CTAButton>
           </Container>
         </section>
       )}

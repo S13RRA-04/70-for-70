@@ -3,11 +3,12 @@ import { headers } from "next/headers";
 export type SiteMode = "org" | "campaign" | "app";
 
 /** Every live campaign subdomain. Adding a new one is a two-step change: add its slug/hostname pair to CAMPAIGN_HOSTS below, then add its branding to CAMPAIGNS in constants.ts. */
-export type CampaignSlug = "tri" | "ruck";
+export type CampaignSlug = "tri" | "ruck" | "22";
 
 const CAMPAIGN_HOSTS: Record<CampaignSlug, string> = {
   tri: "tri.forthe22.org",
   ruck: "ruck.forthe22.org",
+  "22": "22.forthe22.org",
 };
 
 /**

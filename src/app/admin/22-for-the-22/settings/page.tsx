@@ -143,7 +143,7 @@ export default async function EventSettingsAdminPage(props: PageProps<"/admin/22
               Official Rules (Markdown)
             </label>
             <p className="mt-1 text-xs text-charcoal-light">
-              Leave blank to show the placeholder rules scaffold at /22forthe22/rules. Set once reviewed legal
+              Leave blank to show the placeholder rules scaffold at 22.forthe22.org/rules. Set once reviewed legal
               copy is approved — it fully replaces the placeholder.
             </p>
             <textarea

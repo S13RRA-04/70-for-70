@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Container } from "@/components/shared/container";
 import { getCurrentEventConfig } from "@/lib/data/event-config";
 import { getCurrentEventStatus, isEventPromoWindowNow } from "@/lib/22-for-the-22/event-status";
+import { EVENT22_CAMPAIGN_URL } from "@/lib/constants";
 import type { CampaignSlug } from "@/lib/site-mode";
 
 /**
@@ -30,7 +31,7 @@ export async function EventAnnouncementBanner({ campaignSlug }: { campaignSlug: 
           {status === "live" ? "is live now — 22 minutes, 22 times, one mission." : "· Nov 21–22, 2026 · Free to join."}
         </p>
         <Link
-          href="/22forthe22"
+          href={EVENT22_CAMPAIGN_URL}
           className="text-xs font-semibold uppercase tracking-widest text-off-white underline decoration-2 decoration-bronze underline-offset-4 hover:text-off-white/80 sm:text-sm"
         >
           {ctaLabel}

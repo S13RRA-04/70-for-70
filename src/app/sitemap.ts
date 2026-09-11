@@ -47,8 +47,6 @@ const CAMPAIGN_ROUTES = [
   "/press",
   "/terms",
   "/privacy",
-  "/22forthe22",
-  "/22forthe22/rules",
 ];
 
 /**
@@ -67,6 +65,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // comment) — nothing to enumerate beyond its own root.
   if (campaignSlug === "ruck") {
     return [{ url: `${CAMPAIGNS.ruck.url}/`, lastModified: new Date() }];
+  }
+
+  // 22 For the 22 has exactly 3 real pages — see EVENT22_PATH_REWRITES in
+  // src/middleware.ts.
+  if (campaignSlug === "22") {
+    const base = CAMPAIGNS["22"].url;
+    return [
+      { url: `${base}/`, lastModified: new Date() },
+      { url: `${base}/promokit`, lastModified: new Date() },
+      { url: `${base}/rules`, lastModified: new Date() },
+    ];
   }
 
   if (campaignSlug === "tri") {

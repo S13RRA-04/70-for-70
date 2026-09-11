@@ -6,7 +6,7 @@ import {
   PROMO_KIT_ZIP_PATH,
   REGISTRATION_EMAIL_CONTENT,
 } from "@/lib/content/22-for-the-22-promokit";
-import { CAMPAIGN_URL } from "@/lib/constants";
+import { EVENT22_CAMPAIGN_URL } from "@/lib/constants";
 
 /**
  * TODO: no email provider is configured yet. Wire this to a real service
@@ -62,9 +62,9 @@ export async function notifyEventRegistrationSubmitted(input: {
   lastName: string;
   email: string;
 }) {
-  const eventPageUrl = `${CAMPAIGN_URL}/22forthe22`;
-  const promoKitPageUrl = `${CAMPAIGN_URL}/22forthe22/promokit`;
-  const promoKitZipUrl = `${CAMPAIGN_URL}${PROMO_KIT_ZIP_PATH}`;
+  const eventPageUrl = EVENT22_CAMPAIGN_URL;
+  const promoKitPageUrl = `${EVENT22_CAMPAIGN_URL}/promokit`;
+  const promoKitZipUrl = `${EVENT22_CAMPAIGN_URL}${PROMO_KIT_ZIP_PATH}`;
   const suggestedCaption = PROMO_KIT_CAPTIONS[0].body;
 
   const emailBody = [

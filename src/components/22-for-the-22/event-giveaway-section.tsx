@@ -34,7 +34,7 @@ function GiveawayMoreComingCard() {
 export function EventGiveawaySection({
   prizes,
   partners,
-  rulesHref = "/22forthe22/rules",
+  rulesHref = "/rules",
 }: {
   prizes: GiveawayPrizeRow[];
   partners: MissionPartnerRow[];

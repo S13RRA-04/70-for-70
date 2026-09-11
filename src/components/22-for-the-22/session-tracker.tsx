@@ -14,7 +14,7 @@ import {
 import { CURRENT_EVENT_SLUG } from "@/lib/content/22-for-the-22";
 import { ShareButtons } from "@/components/shared/share-buttons";
 import { CopyButton } from "./promokit/copy-button";
-import { CAMPAIGN_URL } from "@/lib/constants";
+import { EVENT22_CAMPAIGN_URL } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 const STORAGE_KEY = sessionTrackerStorageKey(CURRENT_EVENT_SLUG);
@@ -143,7 +143,7 @@ export function SessionTracker() {
               analyticsEvent="tracker_milestone_caption_copy"
             />
             <ShareButtons
-              url={`${CAMPAIGN_URL}/22forthe22`}
+              url={EVENT22_CAMPAIGN_URL}
               title={reachedMilestone.caption}
               analyticsEvent="tracker_milestone_share_click"
             />

@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   CAMPAIGN_HOME_LINK,
+  CAMPAIGN_URL,
   CAMPAIGNS,
   CONTACT_EMAIL,
   DONATE_LINK,
@@ -56,7 +57,11 @@ export function Footer({
       />
       <Container
         className={`relative grid gap-10 py-14 sm:grid-cols-2 ${
-          campaignSlug === "tri" ? "lg:grid-cols-3 xl:grid-cols-6" : campaignSlug === "ruck" ? "lg:grid-cols-4" : "lg:grid-cols-3 xl:grid-cols-6"
+          campaignSlug === "tri"
+            ? "lg:grid-cols-3 xl:grid-cols-6"
+            : campaignSlug === "ruck" || campaignSlug === "22"
+              ? "lg:grid-cols-4"
+              : "lg:grid-cols-3 xl:grid-cols-6"
         }`}
       >
         <div className={isCampaign ? "sm:col-span-2 lg:col-span-2" : "sm:col-span-2 lg:col-span-1"}>
@@ -242,6 +247,64 @@ export function Footer({
               </ul>
             </div>
           </>
+        ) : campaignSlug === "22" && campaign ? (
+          <>
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
+                Event
+              </p>
+              <ul className="mt-4 space-y-2 text-sm text-off-white/70">
+                {campaign.navLinks.map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href} className="transition-colors hover:text-off-white">
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
+                Support
+              </p>
+              <ul className="mt-4 space-y-2 text-sm text-off-white/70">
+                <li>
+                  <a href={CAMPAIGN_URL} className="transition-colors hover:text-off-white">
+                    Visit Tri For The 22 <span aria-hidden="true">&#8599;</span>
+                  </a>
+                </li>
+                <li>
+                  <a href={`${CAMPAIGN_URL}${DONATE_LINK.href}`} className="transition-colors hover:text-off-white">
+                    {DONATE_LINK.label} <span aria-hidden="true">&#8599;</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
+                Organization
+              </p>
+              <ul className="mt-4 space-y-2 text-sm text-off-white/70">
+                <li>
+                  <a href={`${legalBase}/privacy`} className="transition-colors hover:text-off-white">
+                    Privacy
+                  </a>
+                </li>
+                <li>
+                  <a href={`${legalBase}/terms`} className="transition-colors hover:text-off-white">
+                    Terms
+                  </a>
+                </li>
+                <li>
+                  <a href={ORG_HOME_LINK.href} className="transition-colors hover:text-off-white">
+                    {ORG_HOME_LINK.label} <span aria-hidden="true">&#8599;</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </>
         ) : (
           <>
             <div>
@@ -280,6 +343,11 @@ export function Footer({
                 <li>
                   <a href={CAMPAIGNS.ruck.url} className="transition-colors hover:text-off-white">
                     {CAMPAIGNS.ruck.name} <span aria-hidden="true">&#8599;</span>
+                  </a>
+                </li>
+                <li>
+                  <a href={CAMPAIGNS["22"].url} className="transition-colors hover:text-off-white">
+                    {CAMPAIGNS["22"].name} <span aria-hidden="true">&#8599;</span>
                   </a>
                 </li>
               </ul>

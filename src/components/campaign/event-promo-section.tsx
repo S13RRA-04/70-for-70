@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Container } from "@/components/shared/container";
 import { getCurrentEventStatus } from "@/lib/22-for-the-22/event-status";
+import { EVENT22_CAMPAIGN_URL } from "@/lib/constants";
 import type { EventConfigRow } from "@/types/database";
 
 /**
@@ -22,7 +23,7 @@ export function EventPromoSection({ event }: { event: EventConfigRow }) {
         </p>
         <p className="mt-3 text-sm text-off-white/80">November 21–22, 2026</p>
         <Link
-          href="/22forthe22"
+          href={EVENT22_CAMPAIGN_URL}
           data-analytics-event="22_register_click"
           className="mt-6 inline-flex rounded-sm bg-ink px-8 py-4 text-base font-semibold uppercase tracking-wide text-off-white shadow-sm transition-colors hover:bg-charcoal"
         >

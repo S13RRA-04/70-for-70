@@ -216,19 +216,22 @@ allocation, different beneficiary).
   supplement, not replace, the parent's general Terms/Privacy.
 - **ruck.forthe22.org** (campaign): a single page — see "Ruck For The 22 —
   a single-page campaign" below.
+- **22.forthe22.org** (campaign): 3 pages — home, promo kit, rules — see
+  "22 For the 22 — a small event campaign" below.
 
 **How it's enforced** — three pieces, all reading the request's `Host`
 header:
 
 1. [`src/lib/site-mode.ts`](src/lib/site-mode.ts) — `getCampaignSlug()` is
    the single source of truth for "which campaign, if any, is this"
-   (hostname matched against `CAMPAIGN_HOSTS`, currently `tri.`/`ruck.`);
-   `isCampaignHost()` (still used where callers only need "org vs. some
-   campaign," not which one) is just `getCampaignSlug() !== null`. Shared
-   by middleware (reads `NextRequest` directly) and Server Components
-   (`getActiveCampaignSlug()`, reads `next/headers`). Adding a fourth
-   campaign is a two-step change: add its slug/hostname to
-   `CAMPAIGN_HOSTS`, then its branding to `CAMPAIGNS` in `constants.ts`.
+   (hostname matched against `CAMPAIGN_HOSTS`, currently
+   `tri.`/`ruck.`/`22.`); `isCampaignHost()` (still used where callers only
+   need "org vs. some campaign," not which one) is just
+   `getCampaignSlug() !== null`. Shared by middleware (reads `NextRequest`
+   directly) and Server Components (`getActiveCampaignSlug()`, reads
+   `next/headers`). Adding a new campaign is a two-step change: add its
+   slug/hostname to `CAMPAIGN_HOSTS`, then its branding to `CAMPAIGNS` in
+   `constants.ts`.
 2. [`src/middleware.ts`](src/middleware.ts)'s `applyDomainSplit()` —
    permanently (`308`) redirects a request to the correct domain if it's
    on the wrong one for a given path (e.g. `forthe22.org/donate` → `308`
@@ -308,6 +311,40 @@ genuinely different things:**
   neither Cody nor RuckUp 22, Inc. has any arrangement with them to watch
   for or credit one.
 
+### 22 For the 22 — a small event campaign
+
+"22 For the 22" (a 22-session movement/awareness challenge — see
+`src/lib/content/22-for-the-22.ts`) used to live nested under Tri at
+`tri.forthe22.org/22forthe22`. It's now its own campaign at
+`22.forthe22.org`, with 3 real pages instead of Ruck's 1: home
+(`/`), promo kit (`/promokit`), and rules (`/rules`).
+
+Unlike Tri and Ruck, none of those 3 pages moved on disk — they're still
+the same `src/app/22forthe22/page.tsx` / `.../promokit/page.tsx` /
+`.../rules/page.tsx` files. Only *which host's path* resolves to them
+changed:
+- `CAMPAIGN_HOME_ROUTES["22"]` (`src/middleware.ts`) rewrites `22.forthe22.org/`
+  to `/22forthe22`, same mechanism as `/campaign-home`/`/ruck-home`.
+- `EVENT22_PATH_REWRITES` (`src/middleware.ts`) rewrites `/promokit` →
+  `/22forthe22/promokit` and `/rules` → `/22forthe22/rules`, host-scoped to
+  `"22"` only (these paths don't exist for Tri or Ruck).
+- `applyEvent22Guard()` — same idea as `applyRuckSingleHomeGuard()`, sized
+  for 3 real paths instead of 1 — collapses anything else on
+  `22.forthe22.org` back to `/`, so e.g. `22.forthe22.org/the-race` (a real
+  Tri route) doesn't render under 22's own branding.
+- `applyEvent22LegacyRedirect()` permanently (`308`) redirects any stray
+  `/22forthe22[/...]` request on any *other* host to the equivalent path
+  on `22.forthe22.org` — this is what makes the old
+  `tri.forthe22.org/22forthe22` URLs keep working after the move.
+
+`CAMPAIGNS["22"]` in `constants.ts` carries a `parentLink` back to Tri
+(`"A Tri For The 22 Event" → tri.forthe22.org`) — 22 For the 22 doubles as
+an awareness campaign for the Tri fundraiser it promotes, so its header,
+footer, and mobile menu all backlink to Tri specifically (not just the
+org, the way Ruck's `parentLink` does). `EVENT22_CAMPAIGN_URL`
+(`NEXT_PUBLIC_EVENT22_URL`) is the fourth `NEXT_PUBLIC_*_URL`, alongside
+`SITE_URL`/`CAMPAIGN_URL`/`RUCK_CAMPAIGN_URL` below.
+
 **Shared-path rewrites**: a few paths exist on *both* hosts with entirely
 different content — same pattern for all of them, `applyDomainSplit()`
 rewrites (not redirects — the URL bar stays the same) the campaign-host
@@ -338,13 +375,14 @@ not a relative `<Link>` — see `src/app/press/page.tsx`,
 relative link would still technically work (the middleware redirect
 catches it) but bounces through an extra hop.
 
-**`SITE_URL` vs `CAMPAIGN_URL` vs `RUCK_CAMPAIGN_URL`**: all three are in
-`constants.ts`, read from `NEXT_PUBLIC_SITE_URL` /
-`NEXT_PUBLIC_CAMPAIGN_URL` / `NEXT_PUBLIC_RUCK_URL`. `WHOOP_REDIRECT_URI`
+**`SITE_URL` vs `CAMPAIGN_URL` vs `RUCK_CAMPAIGN_URL` vs
+`EVENT22_CAMPAIGN_URL`**: all four are in `constants.ts`, read from
+`NEXT_PUBLIC_SITE_URL` / `NEXT_PUBLIC_CAMPAIGN_URL` /
+`NEXT_PUBLIC_RUCK_URL` / `NEXT_PUBLIC_EVENT22_URL`. `WHOOP_REDIRECT_URI`
 derives from `CAMPAIGN_URL` (not `SITE_URL`) since `/admin/whoop` lives on
 the Tri campaign domain — the callback URL registered in the WHOOP
 Developer Dashboard must be `https://tri.forthe22.org/api/whoop/callback`.
-Ruck has no `/admin`, so this doesn't apply to it.
+Ruck and 22 For the 22 have no `/admin`, so this doesn't apply to either.
 
 **Admin auth**: `/admin/*` is campaign-only by design, so the Supabase
 auth cookie only ever needs to work on one host — no cross-subdomain
@@ -380,6 +418,15 @@ tri.forthe22.org.
    share one flag — see `isCampaignHost()`), so no separate launch-gate
    flip is needed for Ruck specifically; it goes live the moment the
    domain is attached.
+6. Add `22.forthe22.org` as a fourth custom domain on the same Worker,
+   same as steps 1/5 — `NEXT_PUBLIC_EVENT22_URL` is already committed in
+   `wrangler.jsonc`'s `vars` and in `.github/workflows/deploy.yml`'s build
+   env. `CAMPAIGN_LIVE` already gates every campaign host, so it goes live
+   the moment the domain is attached — no separate flag. Until this step
+   is done, `applyEvent22LegacyRedirect()` in `src/middleware.ts` correctly
+   redirects old `tri.forthe22.org/22forthe22*` traffic to a host that
+   doesn't resolve yet — that's expected, not a bug, and resolves itself
+   the moment the domain is attached.
 
 Deployment itself is automatic: `.github/workflows/deploy.yml` deploys to
 Cloudflare on every push to `master`, using `CLOUDFLARE_API_TOKEN`/

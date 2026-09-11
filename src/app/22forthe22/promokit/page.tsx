@@ -20,18 +20,18 @@ import {
   PROMO_KIT_ZIP_FILENAME,
   PROMO_KIT_ZIP_PATH,
 } from "@/lib/content/22-for-the-22-promokit";
-import { CAMPAIGN_URL } from "@/lib/constants";
+import { CAMPAIGN_URL, EVENT22_CAMPAIGN_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = pageMetadata({
   title: "Participant Promo Kit | 22 For the 22",
   description:
     "Ready-to-share social graphics, Story assets, photo frames, suggested captions, and hashtags for 22 For the 22 participants.",
-  canonical: `${CAMPAIGN_URL}/22forthe22/promokit`,
+  canonical: `${EVENT22_CAMPAIGN_URL}/promokit`,
 });
 
 const CAMPAIGN_LINKS = [
-  { label: "Event Page", href: `${CAMPAIGN_URL}/22forthe22` },
+  { label: "Event Page", href: EVENT22_CAMPAIGN_URL },
   { label: "Main Site", href: CAMPAIGN_URL },
   { label: "Donate", href: `${CAMPAIGN_URL}/donate` },
 ];
@@ -62,7 +62,7 @@ export default function PromoKitPage() {
             Download Full Promo Kit (ZIP)
           </a>
           <Link
-            href="/22forthe22"
+            href="/"
             className="inline-flex min-h-[44px] items-center gap-1.5 rounded-sm border border-off-white/40 px-6 py-3.5 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-off-white/10"
           >
             Back to Event Page
@@ -173,7 +173,7 @@ export default function PromoKitPage() {
           <SectionHeading eyebrow="Share" title="Share the Event Page" />
           <div className="mt-6">
             <ShareButtons
-              url={`${CAMPAIGN_URL}/22forthe22`}
+              url={EVENT22_CAMPAIGN_URL}
               title="I'm participating in 22 For the 22 — join the mission."
               analyticsEvent="promokit_share_click"
             />

@@ -62,7 +62,7 @@ export default async function EventRegistrationsAdminPage(props: PageProps<"/adm
         </Link>
       </div>
       <p className="mt-1 text-sm text-charcoal-light">
-        Free registrations submitted at /22forthe22 — each one is an entry in the free giveaway. Nothing here
+        Free registrations submitted at 22.forthe22.org — each one is an entry in the free giveaway. Nothing here
         is public.
       </p>
 

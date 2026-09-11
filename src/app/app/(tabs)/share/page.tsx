@@ -6,6 +6,7 @@ import { getAppEvents } from "@/lib/data/app/events";
 import { getMyActivities, summarizeActivities } from "@/lib/data/app/activities";
 import { createClient } from "@/lib/supabase/server";
 import { ProgressShareCard } from "@/components/app/progress-share-card";
+import { EVENT22_CAMPAIGN_URL } from "@/lib/constants";
 
 export const metadata: Metadata = { title: "Share" };
 
@@ -57,7 +58,7 @@ export default async function SharePage(props: PageProps<"/app/share">) {
           Social graphics, photo frames, suggested captions, and hashtags — ready to use.
         </p>
         <a
-          href="https://tri.forthe22.org/22forthe22/promokit"
+          href={`${EVENT22_CAMPAIGN_URL}/promokit`}
           target="_blank"
           rel="noopener noreferrer"
           data-analytics-event="promo_asset_downloaded"

@@ -6,7 +6,7 @@ import { getAppEvents } from "@/lib/data/app/events";
 import { getMyActivities, summarizeActivities } from "@/lib/data/app/activities";
 import { getMilestonesForEvent } from "@/lib/data/app/milestones";
 import { createClient } from "@/lib/supabase/server";
-import { DONATE_LINK } from "@/lib/constants";
+import { DONATE_LINK, EVENT22_CAMPAIGN_URL } from "@/lib/constants";
 
 export const metadata: Metadata = { title: "Home" };
 
@@ -89,7 +89,7 @@ export default async function AppHomePage() {
           Share Progress
         </Link>
         <a
-          href="https://tri.forthe22.org/22forthe22/promokit"
+          href={`${EVENT22_CAMPAIGN_URL}/promokit`}
           target="_blank"
           rel="noopener noreferrer"
           className="rounded-sm border border-ink/10 bg-off-white p-4 text-sm font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
@@ -97,7 +97,7 @@ export default async function AppHomePage() {
           Promo Kit
         </a>
         <a
-          href="https://tri.forthe22.org/22forthe22"
+          href={EVENT22_CAMPAIGN_URL}
           target="_blank"
           rel="noopener noreferrer"
           className="rounded-sm border border-ink/10 bg-off-white p-4 text-sm font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"

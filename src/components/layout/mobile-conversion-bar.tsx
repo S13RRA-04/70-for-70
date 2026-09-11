@@ -28,17 +28,16 @@ export function MobileConversionBarSpacer({ mode }: { mode: SiteMode; campaignSl
 
 export function MobileConversionBar({ mode, campaignSlug }: { mode: SiteMode; campaignSlug?: CampaignSlug | null }) {
   const hidden = useHideConversionBar(mode);
-  const pathname = usePathname();
 
   if (hidden) {
     return null;
   }
 
-  if (pathname.startsWith("/22forthe22")) {
+  if (campaignSlug === "22") {
     return (
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-ink/10 bg-off-white/95 p-3 backdrop-blur-sm sm:hidden">
         <Link
-          href="/22forthe22#register"
+          href="/#register"
           data-analytics-event="22_register_click"
           className="block rounded-sm bg-bronze px-4 py-3 text-center text-sm font-semibold uppercase tracking-wide text-off-white shadow-sm hover:bg-bronze-light"
         >

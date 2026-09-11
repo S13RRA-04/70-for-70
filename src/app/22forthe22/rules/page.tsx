@@ -9,13 +9,13 @@ import {
 } from "@/lib/content/22-for-the-22";
 import { Container } from "@/components/shared/container";
 import { JournalMarkdown } from "@/components/journal/journal-markdown";
-import { CAMPAIGN_URL } from "@/lib/constants";
+import { EVENT22_CAMPAIGN_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = pageMetadata({
   title: "Official Rules | 22 For the 22",
   description: "Official Rules for the 22 For the 22 free giveaway/sweepstakes.",
-  canonical: `${CAMPAIGN_URL}/22forthe22/rules`,
+  canonical: `${EVENT22_CAMPAIGN_URL}/rules`,
 });
 
 /**
@@ -31,7 +31,7 @@ export default async function EventRulesPage() {
   return (
     <div data-analytics-event="22_rules_view" className="py-16 sm:py-20">
       <Container className="max-w-2xl">
-        <Link href="/22forthe22" className="text-sm font-semibold uppercase tracking-wide text-charcoal-light hover:text-ink">
+        <Link href="/" className="text-sm font-semibold uppercase tracking-wide text-charcoal-light hover:text-ink">
           &larr; Back to 22 For the 22
         </Link>
 

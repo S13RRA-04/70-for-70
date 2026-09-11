@@ -47,7 +47,8 @@
    * env block always looking correct. Declared here now so a deploy always
    * sets the real value, the same fix already applied once for
    * WHOOP_CLIENT_ID.
-   * NEXT_PUBLIC_RUCK_URL (Ruck For The 22's root, ruck.forthe22.org) is
+   * NEXT_PUBLIC_RUCK_URL (Ruck For The 22's root, ruck.forthe22.org) and
+   * NEXT_PUBLIC_EVENT22_URL (22 For the 22's root, 22.forthe22.org) are
    * declared here for the same reason from day one.
    *
    * NEXT_PUBLIC_SUPABASE_URL/NEXT_PUBLIC_SUPABASE_ANON_KEY hit the same bug
@@ -90,6 +91,7 @@
     "NEXT_PUBLIC_CAMPAIGN_URL": "https://tri.forthe22.org",
     "NEXT_PUBLIC_RUCK_URL": "https://ruck.forthe22.org",
     "NEXT_PUBLIC_APP_URL": "https://app.forthe22.org",
+    "NEXT_PUBLIC_EVENT22_URL": "https://22.forthe22.org",
     "NEXT_PUBLIC_SUPABASE_URL": "https://wjwgzphvpulkofvuksko.supabase.co",
     "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indqd2d6cGh2cHVsa29mdnVrc2tvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcwODM4MzIsImV4cCI6MjEwMjY1OTgzMn0.jCX3-IkuI4JMrehYWA0Hx_qkB0kHWmJg1IiqgMQwE2w"
   }

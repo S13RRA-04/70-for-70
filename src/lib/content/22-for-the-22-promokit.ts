@@ -1,14 +1,15 @@
 /**
  * "22 For the 22" Participant Promo Kit — copy and asset metadata for the
  * post-registration promo flow (registration success state, confirmation
- * email content, and /22forthe22/promokit). All verbatim compliance
+ * email content, and 22.forthe22.org/promokit). All verbatim compliance
  * language here (the optional/no-additional-entries disclaimers) should be
  * treated the same as NO_PURCHASE_NECESSARY_DISCLOSURE in
  * ./22-for-the-22.ts — do not paraphrase.
  *
- * Assets themselves live under /public/assets/22forthe22/promokit/ — see
- * that directory's README.txt for the same campaign links/hashtags/
- * captions in plain-text form (shipped inside the downloadable ZIP too).
+ * Assets themselves live under /public/assets/22forthe22/promokit/ (a
+ * public asset path, unaffected by which host serves the page) — see that
+ * directory's README.txt for the same campaign links/hashtags/captions in
+ * plain-text form (shipped inside the downloadable ZIP too).
  */
 
 export const PROMO_KIT_ASSET_BASE_PATH = "/assets/22forthe22/promokit";
@@ -101,17 +102,17 @@ export const PROMO_KIT_CAPTIONS: PromoKitCaption[] = [
   {
     id: "short",
     label: "Short",
-    body: "I'm in for 22 For the 22.\n\nWe're using endurance and community to raise awareness for veteran suicide prevention.\n\nBecause 22 ≠ 0.\n\nhttps://tri.forthe22.org/22forthe22",
+    body: "I'm in for 22 For the 22.\n\nWe're using endurance and community to raise awareness for veteran suicide prevention.\n\nBecause 22 ≠ 0.\n\nhttps://22.forthe22.org",
   },
   {
     id: "mission-focused",
     label: "Mission-Focused",
-    body: "I'm participating in 22 For the 22 to help raise awareness for veteran suicide prevention and support the mission behind Tri For the 22.\n\nLearn more, join the event, and help carry the mission:\nhttps://tri.forthe22.org/22forthe22\n\nBecause 22 ≠ 0.",
+    body: "I'm participating in 22 For the 22 to help raise awareness for veteran suicide prevention and support the mission behind Tri For the 22.\n\nLearn more, join the event, and help carry the mission:\nhttps://22.forthe22.org\n\nBecause 22 ≠ 0.",
   },
   {
     id: "participant-focused",
     label: "Participant-Focused",
-    body: "I've officially joined 22 For the 22.\n\nThis isn't about a finish time. It's about showing up, carrying the message, and reminding veterans that they do not have to fight their battles alone.\n\nJoin us:\nhttps://tri.forthe22.org/22forthe22\n\nBecause 22 ≠ 0.",
+    body: "I've officially joined 22 For the 22.\n\nThis isn't about a finish time. It's about showing up, carrying the message, and reminding veterans that they do not have to fight their battles alone.\n\nJoin us:\nhttps://22.forthe22.org\n\nBecause 22 ≠ 0.",
   },
 ];
 

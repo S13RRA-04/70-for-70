@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { updateSupabaseSession } from "@/lib/supabase/proxy-session";
 import { getPreviewToken, isCampaignLive, isOrgLive, PREVIEW_COOKIE_NAME } from "@/lib/launch-gate";
 import { getCampaignSlug, isAppHost, type CampaignSlug } from "@/lib/site-mode";
-import { CAMPAIGN_URL, SITE_URL } from "@/lib/constants";
+import { CAMPAIGN_URL, EVENT22_CAMPAIGN_URL, SITE_URL } from "@/lib/constants";
 
 const PREVIEW_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 180; // 180 days
 
@@ -20,6 +20,9 @@ const PREVIEW_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 180; // 180 days
 export function middleware(request: NextRequest) {
   const strayDomainResponse = applyStrayDomainRedirect(request);
   if (strayDomainResponse) return strayDomainResponse;
+
+  const legacyEvent22Response = applyEvent22LegacyRedirect(request);
+  if (legacyEvent22Response) return legacyEvent22Response;
 
   // app.forthe22.org is a different product surface entirely (authenticated
   // participant app, not marketing content) — never subject to the org/
@@ -89,6 +92,27 @@ function applyStrayDomainRedirect(request: NextRequest): Response | null {
 
   const url = request.nextUrl;
   return NextResponse.redirect(`${SITE_URL}${url.pathname}${url.search}`, 308);
+}
+
+/**
+ * "22 For the 22" moved off tri.forthe22.org/22forthe22 to its own
+ * subdomain (22.forthe22.org) — see EVENT22_CAMPAIGN_URL's doc comment in
+ * constants.ts. Permanently redirects any stray /22forthe22[/...] request,
+ * on any host except the "22" host itself (which serves this same
+ * underlying route directly via CAMPAIGN_HOME_ROUTES/EVENT22_PATH_REWRITES
+ * below — never redirect it, that would loop), to the equivalent path on
+ * the new host. Checked unconditionally, before the launch gate and domain
+ * split, same as applyStrayDomainRedirect above.
+ */
+function applyEvent22LegacyRedirect(request: NextRequest): Response | null {
+  const campaignSlug = getCampaignSlug(request.headers.get("host"));
+  if (campaignSlug === "22") return null;
+
+  const { pathname, search } = request.nextUrl;
+  if (pathname !== "/22forthe22" && !pathname.startsWith("/22forthe22/")) return null;
+
+  const rest = pathname.slice("/22forthe22".length); // "" | "/rules" | "/promokit" | ...
+  return NextResponse.redirect(`${EVENT22_CAMPAIGN_URL}${rest}${search}`, 308);
 }
 
 /**
@@ -197,7 +221,6 @@ const CAMPAIGN_PATH_PREFIXES = [
   "/financial-transparency",
   "/shop",
   "/messages",
-  "/22forthe22",
 ];
 
 /**
@@ -220,6 +243,20 @@ function matchesPathPrefix(pathname: string, prefixes: string[]): boolean {
 const CAMPAIGN_HOME_ROUTES: Record<CampaignSlug, string> = {
   tri: "/campaign-home",
   ruck: "/ruck-home",
+  // The page itself never moved on disk — only which host's "/" points at
+  // it. See EVENT22_CAMPAIGN_URL's doc comment in constants.ts.
+  "22": "/22forthe22",
+};
+
+/**
+ * "22" host-only path rewrites — same idea as CAMPAIGN_PATH_REWRITES below,
+ * but scoped to a single campaign rather than "any campaign host," since
+ * these paths don't exist on Tri or Ruck. The real files stay nested under
+ * src/app/22forthe22/* (see CAMPAIGN_HOME_ROUTES above for why).
+ */
+const EVENT22_PATH_REWRITES: Record<string, string> = {
+  "/promokit": "/22forthe22/promokit",
+  "/rules": "/22forthe22/rules",
 };
 
 /**
@@ -252,6 +289,22 @@ function applyRuckSingleHomeGuard(request: NextRequest, campaignSlug: CampaignSl
   return NextResponse.redirect(new URL("/", request.nextUrl), 308);
 }
 
+/** 22 For the 22's own real paths on its host — everything else collapses back to "/", same reasoning as applyRuckSingleHomeGuard above. */
+const EVENT22_OWN_PATHS = ["/", "/promokit", "/rules"];
+
+/**
+ * Same idea as applyRuckSingleHomeGuard, sized for 22 For the 22's 3 real
+ * pages instead of just 1 — without this, 22.forthe22.org/the-race (a real
+ * route that exists for Tri) would render Tri's page content under 22's
+ * own header/footer branding.
+ */
+function applyEvent22Guard(request: NextRequest, campaignSlug: CampaignSlug | null): Response | null {
+  if (campaignSlug !== "22") return null;
+  const { pathname } = request.nextUrl;
+  if (EVENT22_OWN_PATHS.includes(pathname) || matchesPathPrefix(pathname, SHARED_PATH_PREFIXES)) return null;
+  return NextResponse.redirect(new URL("/", request.nextUrl), 308);
+}
+
 /**
  * Returns a response if this request needs to be rewritten/redirected to
  * stay on the correct side of the movement/campaign split, or null if it
@@ -267,12 +320,19 @@ function applyDomainSplit(
   const ruckGuardResponse = applyRuckSingleHomeGuard(request, campaignSlug);
   if (ruckGuardResponse) return ruckGuardResponse;
 
+  const event22GuardResponse = applyEvent22Guard(request, campaignSlug);
+  if (event22GuardResponse) return event22GuardResponse;
+
   // "/" is the one path that exists on every host with different content.
   // Each campaign's home lives at its own real route (see
   // CAMPAIGN_HOME_ROUTES) and is rewritten in transparently — the URL bar
   // still shows "/".
   if (url.pathname === "/") {
     return campaignSlug ? NextResponse.rewrite(new URL(CAMPAIGN_HOME_ROUTES[campaignSlug], url)) : null;
+  }
+
+  if (campaignSlug === "22" && url.pathname in EVENT22_PATH_REWRITES) {
+    return NextResponse.rewrite(new URL(EVENT22_PATH_REWRITES[url.pathname], url));
   }
 
   if (onCampaignHost && url.pathname in CAMPAIGN_PATH_REWRITES) {

@@ -26,13 +26,13 @@ import { EventRegistrationForm } from "@/components/forms/event-registration-for
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CampaignProgress } from "@/components/campaign/campaign-progress";
-import { CAMPAIGN_URL, DONATE_LINK } from "@/lib/constants";
+import { CAMPAIGN_URL, DONATE_LINK, EVENT22_CAMPAIGN_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = pageMetadata({
   title: EVENT_SEO.title,
   description: EVENT_SEO.description,
-  canonical: `${CAMPAIGN_URL}/22forthe22`,
+  canonical: EVENT22_CAMPAIGN_URL,
 });
 
 export default async function EventPage() {
@@ -124,12 +124,17 @@ export default async function EventPage() {
               </p>
             ))}
           </div>
-          <Link
-            href={EVENT_TRI_CONNECTION_CONTENT.linkHref}
-            className="mt-6 inline-block text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
-          >
-            {EVENT_TRI_CONNECTION_CONTENT.linkLabel} &rarr;
-          </Link>
+          <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2">
+            {EVENT_TRI_CONNECTION_CONTENT.links.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="inline-block text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+              >
+                {link.label} &rarr;
+              </Link>
+            ))}
+          </div>
         </Container>
       </section>
 
@@ -258,7 +263,7 @@ export default async function EventPage() {
             <CampaignProgress totalRaised={event.amount_raised} goal={event.fundraising_goal} />
           </div>
           <Link
-            href={event.donate_url ?? DONATE_LINK.href}
+            href={event.donate_url ?? `${CAMPAIGN_URL}${DONATE_LINK.href}`}
             data-analytics-event="22_donate_click"
             className="mt-6 inline-flex rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
           >
@@ -292,7 +297,7 @@ export default async function EventPage() {
             ))}
           </div>
           <p className="mt-3 text-xs leading-relaxed text-charcoal-light/80">{GIVEAWAY_ODDS_DISCLOSURE}</p>
-          <Link href="/22forthe22/rules" data-analytics-event="22_rules_view" className="mt-3 inline-flex text-xs font-semibold uppercase tracking-wide text-bronze hover:underline">
+          <Link href="/rules" data-analytics-event="22_rules_view" className="mt-3 inline-flex text-xs font-semibold uppercase tracking-wide text-bronze hover:underline">
             Read the Official Rules &rarr;
           </Link>
         </Container>

@@ -15,6 +15,7 @@ import {
   CAMPAIGN_URL,
   CHATTANOOGAN_HOTEL_BLOCK_URL,
   DONATE_LINK,
+  EVENT22_CAMPAIGN_URL,
   GET_INVOLVED_ROLES,
   RACE_INFO,
 } from "@/lib/constants";
@@ -55,7 +56,7 @@ const HELP_PATHWAYS: HelpPathway[] = [
     title: "Join 22 For the 22",
     description: "22 sessions. 22 minutes each. Move your way in support of the mission — free to join.",
     ctaLabel: "Register Free →",
-    href: "/22forthe22",
+    href: EVENT22_CAMPAIGN_URL,
     icon: Timer,
   },
   {

@@ -19,7 +19,7 @@
  */
 
 import type { TermsSection } from "@/lib/content/terms";
-import { ORG_SUPPORTING_STATEMENT, SITE_URL } from "@/lib/constants";
+import { CAMPAIGN_URL, ORG_SUPPORTING_STATEMENT, SITE_URL } from "@/lib/constants";
 
 /** The event_config.event_slug this deploy points every public 22-for-the-22 page at. Bump this (and insert a new event_config row) to roll over to a future year. */
 export const CURRENT_EVENT_SLUG = "22-for-the-22-2026";
@@ -85,7 +85,10 @@ export const EVENT_WHAT_IS_CONTENT = {
  * promotes — 22 For the 22 doubles as an awareness campaign for Tri For
  * The 22, which is itself one campaign under the broader For The 22
  * umbrella (forthe22.org). ORG_SUPPORTING_STATEMENT is reused verbatim
- * (see its doc comment in constants.ts) rather than paraphrased.
+ * (see its doc comment in constants.ts) rather than paraphrased. Two links,
+ * not one — since this event moved to its own subdomain
+ * (22.forthe22.org), this section is the page's most explicit backlink to
+ * the fundraiser it promotes, alongside the org-level link it already had.
  */
 export const EVENT_TRI_CONNECTION_CONTENT = {
   eyebrow: "The Bigger Picture",
@@ -96,8 +99,10 @@ export const EVENT_TRI_CONNECTION_CONTENT = {
     "Tri For The 22 is, in turn, one campaign under the broader For The 22 umbrella.",
     ORG_SUPPORTING_STATEMENT,
   ],
-  linkLabel: "Learn More About For The 22",
-  linkHref: SITE_URL,
+  links: [
+    { label: "Visit Tri For The 22", href: CAMPAIGN_URL },
+    { label: "Learn More About For The 22", href: SITE_URL },
+  ],
 } as const;
 
 export const EVENT_CHALLENGE_FORMAT_CONTENT = {

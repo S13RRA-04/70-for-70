@@ -2,7 +2,7 @@
 
 import { useRef, useState, useSyncExternalStore } from "react";
 import { Share2, Download, Copy, Check } from "lucide-react";
-import { CAMPAIGN_URL } from "@/lib/constants";
+import { EVENT22_CAMPAIGN_URL } from "@/lib/constants";
 import { EVENT_DISCIPLINE_LABELS } from "@/lib/content/22-for-the-22";
 
 const DISTANCE_UNIT_ABBREVIATIONS: Record<string, string> = {
@@ -102,7 +102,7 @@ export function ProgressShareCard(props: ProgressShareCardProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [copied, setCopied] = useState(false);
 
-  const shareUrl = `${CAMPAIGN_URL}/22forthe22`;
+  const shareUrl = EVENT22_CAMPAIGN_URL;
   const shareText = props.lastActivity
     ? `${props.firstName} just logged a ${lastActivityLine(props.lastActivity).toLowerCase()} session for ${props.eventName} — ${props.sessionCount} of ${props.requiredSessions} complete. Because 22 ≠ 0.`
     : `${props.firstName} is at ${props.sessionCount} of ${props.requiredSessions} sessions for ${props.eventName}. Because 22 ≠ 0.`;

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { CAMPAIGN_HOME_LINK, CAMPAIGNS, DONATE_LINK, GET_INVOLVED_LINK, ORG_HOME_LINK } from "@/lib/constants";
+import { CAMPAIGN_HOME_LINK, CAMPAIGNS, DONATE_LINK, GET_INVOLVED_LINK } from "@/lib/constants";
 import type { CampaignSlug } from "@/lib/site-mode";
 import type { NavLink } from "@/types/content";
 import { cn } from "@/lib/utils";
@@ -109,20 +109,20 @@ export function MobileMenu({ open, onClose, navLinks, pathname, campaignSlug, tr
               <MobileNavGroup label="Explore" links={TRI_EXPLORE_LINKS} pathname={pathname} />
               <MobileNavGroup label="Support" links={TRI_SUPPORT_LINKS} pathname={pathname} className="mt-5 border-t border-ink/10 pt-5" />
             </>
-          ) : campaignSlug === "ruck" && campaign ? (
+          ) : (campaignSlug === "ruck" || campaignSlug === "22") && campaign ? (
             <>
               <MobileNavGroup label="Explore" links={campaign.navLinks} pathname={pathname} />
               <div className="mt-5 border-t border-ink/10 pt-5">
                 <a
                   href={campaign.primaryCta.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  {...(campaign.primaryCta.external && { target: "_blank", rel: "noopener noreferrer" })}
                   className="block rounded-sm bg-bronze px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
                 >
-                  {campaign.primaryCta.label} <span aria-hidden="true">&#8599;</span>
+                  {campaign.primaryCta.label}
+                  {campaign.primaryCta.external && <span aria-hidden="true"> &#8599;</span>}
                 </a>
               </div>
-              <ParentInitiativeGroup />
+              {campaign.parentLink && <ParentInitiativeGroup link={campaign.parentLink} />}
             </>
           ) : (
             <>
@@ -165,17 +165,17 @@ export function MobileMenu({ open, onClose, navLinks, pathname, campaignSlug, tr
   );
 }
 
-function ParentInitiativeGroup() {
+function ParentInitiativeGroup({ link }: { link: NavLink }) {
   return (
     <div className="mt-5 border-t border-ink/10 pt-5">
       <p className="px-3 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
         Parent Initiative
       </p>
       <a
-        href={ORG_HOME_LINK.href}
+        href={link.href}
         className="mt-2 block rounded-sm px-3 py-3 text-base font-medium uppercase tracking-wide text-charcoal hover:bg-sand-light"
       >
-        {ORG_HOME_LINK.label} <span aria-hidden="true">&#8599;</span>
+        {link.label} <span aria-hidden="true">&#8599;</span>
       </a>
     </div>
   );

@@ -5,7 +5,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
-import { CAMPAIGNS, ORG_NAV_LINKS, PARENT_INITIATIVE_LINK, SITE_NAME } from "@/lib/constants";
+import { CAMPAIGNS, ORG_NAV_LINKS, SITE_NAME } from "@/lib/constants";
 import type { CampaignSlug, SiteMode } from "@/lib/site-mode";
 import { cn } from "@/lib/utils";
 import { MobileMenu } from "@/components/layout/mobile-menu";
@@ -56,12 +56,12 @@ export function Header({
         </Link>
 
         <div className="hidden items-center gap-6 xl:flex">
-          {campaign && campaignSlug !== "tri" && (
+          {campaign?.parentLink && (
             <a
-              href={PARENT_INITIATIVE_LINK.href}
+              href={campaign.parentLink.href}
               className="whitespace-nowrap text-xs font-semibold uppercase tracking-widest text-charcoal-light transition-colors hover:text-ink"
             >
-              {PARENT_INITIATIVE_LINK.label} <span aria-hidden="true">&#8599;</span>
+              {campaign.parentLink.label} <span aria-hidden="true">&#8599;</span>
             </a>
           )}
           <nav aria-label="Primary" className="flex items-center gap-6">

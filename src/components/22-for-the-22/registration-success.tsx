@@ -37,7 +37,7 @@ export function RegistrationSuccess() {
 
       <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
         <Link
-          href="/22forthe22#tracker"
+          href="/#tracker"
           data-analytics-event="tracker_view_click"
           className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-sm bg-bronze px-6 py-3.5 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light sm:w-auto"
         >
@@ -45,7 +45,7 @@ export function RegistrationSuccess() {
           {REGISTRATION_SUCCESS_CONTENT.primaryCta}
         </Link>
         <Link
-          href="/22forthe22/promokit"
+          href="/promokit"
           data-analytics-event="promokit_view_assets_click"
           className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-sm border border-ink/20 px-6 py-3.5 text-sm font-semibold uppercase tracking-wide text-ink transition-colors hover:bg-ink/5 sm:w-auto"
         >

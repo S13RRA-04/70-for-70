@@ -134,7 +134,7 @@ export default async function GiveawayPrizesAdminPage() {
 
       <h1 className="mt-4 font-display text-2xl font-semibold uppercase text-ink">Giveaway Prizes</h1>
       <p className="mt-1 text-sm text-charcoal-light">
-        Powers the giveaway section on /22forthe22 and the supporter grid on /sponsors. Add a supporter with
+        Powers the giveaway section on 22.forthe22.org and the supporter grid on /sponsors. Add a supporter with
         partner_type &quot;giveaway-supporter&quot; in Mission Partners first if you want a prize linked to a
         logo/profile.
       </p>
