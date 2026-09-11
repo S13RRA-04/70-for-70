@@ -130,6 +130,14 @@ export const MOVEMENT_CAMPAIGNS = [
       "A community rucking event in Huntsville, Alabama — ruck the full 22 miles or walk any distance with family and friends to raise awareness, in support of confirmed veteran-focused nonprofit beneficiaries.",
     url: RUCK_CAMPAIGN_URL,
   },
+  {
+    name: EVENT22_CAMPAIGN_NAME,
+    discipline: "Movement Challenge",
+    status: "current" as const,
+    description:
+      "22 sessions of 22 minutes of movement, completed at your own pace across a 22-hour event window — raising public awareness of the veteran and first responder mental health crisis, and doubling as an awareness campaign for Tri For The 22.",
+    url: EVENT22_CAMPAIGN_URL,
+  },
   { name: "Run For The 22", discipline: "Running", status: "future" as const },
   { name: "Ride For The 22", discipline: "Cycling", status: "future" as const },
 ] as const;
@@ -200,17 +208,17 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 /**
- * 8 links + the header's separate Donate CTA button (see DONATE_LINK).
+ * 7 links + the header's separate Donate CTA button (see DONATE_LINK).
  * Sponsors (gear/resource campaign sponsors, see src/app/sponsors/page.tsx)
  * is also cross-linked from Beneficiaries and the footer. Get Involved lives
- * here (rather than the footer) so it's reachable from the header nav.
+ * here (rather than the footer) so it's reachable from the header nav. 22
+ * For the 22 deliberately does NOT appear here — it moved to its own
+ * subdomain (EVENT22_CAMPAIGN_URL) and is listed as its own campaign on the
+ * org site's /campaigns page (MOVEMENT_CAMPAIGNS) instead of Tri's nav.
  */
 export const CAMPAIGN_NAV_LINKS: NavLink[] = [
   { label: "About", href: "/the-mission" },
   { label: "Race", href: "/the-race" },
-  // Absolute — 22 For the 22 moved to its own subdomain, see
-  // EVENT22_CAMPAIGN_URL's doc comment above.
-  { label: "22 For the 22", href: EVENT22_CAMPAIGN_URL },
   { label: "Journal", href: "/journal" },
   { label: "Beneficiaries", href: "/beneficiaries" },
   { label: "Sponsors", href: "/sponsors" },
