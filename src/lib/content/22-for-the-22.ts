@@ -19,6 +19,7 @@
  */
 
 import type { TermsSection } from "@/lib/content/terms";
+import { ORG_SUPPORTING_STATEMENT, SITE_URL } from "@/lib/constants";
 
 /** The event_config.event_slug this deploy points every public 22-for-the-22 page at. Bump this (and insert a new event_config row) to roll over to a future year. */
 export const CURRENT_EVENT_SLUG = "22-for-the-22-2026";
@@ -68,13 +69,35 @@ export const EVENT_HERO_CONTENT = {
 export const EVENT_WHAT_IS_CONTENT = {
   intro: "22 For the 22 is a movement challenge built around one number and one mission.",
   statLine: "22 minutes of intentional activity, 22 times.",
+  tagline: "Movement Creates Momentum.",
   paragraphs: [
-    "That adds up to 484 minutes — just over eight hours of movement — completed across the official event period.",
+    "The challenge unfolds across a single 22-hour event window, putting participants out in their own communities with a shared purpose: raising public awareness of the veteran and first responder mental health crisis.",
+    "That adds up to 484 minutes — just over eight hours of movement — completed at your own pace, with rest between sessions, across that 22-hour window.",
     "How you complete those sessions is up to you.",
     "Run. Walk. Ruck. Ride. Swim. Row. Hike. Lift. Stretch. Use adaptive exercise. Mix disciplines.",
     "The goal is not speed, distance, or competition.",
     "The goal is to move with purpose while helping raise awareness and support for veteran and first responder mental health, suicide prevention, recovery, and community connection.",
   ],
+} as const;
+
+/**
+ * Explains the relationship between this event and the fundraiser it
+ * promotes — 22 For the 22 doubles as an awareness campaign for Tri For
+ * The 22, which is itself one campaign under the broader For The 22
+ * umbrella (forthe22.org). ORG_SUPPORTING_STATEMENT is reused verbatim
+ * (see its doc comment in constants.ts) rather than paraphrased.
+ */
+export const EVENT_TRI_CONNECTION_CONTENT = {
+  eyebrow: "The Bigger Picture",
+  heading: "How This Supports Tri For the 22",
+  paragraphs: [
+    "22 For the 22 doubles as an awareness campaign for Tri For The 22 — Cody's 70.3-mile triathlon fundraiser in support of confirmed veteran- and first-responder-focused nonprofit beneficiaries.",
+    "Every session logged and every story shared during the event window carries that fundraiser's mission further into the community.",
+    "Tri For The 22 is, in turn, one campaign under the broader For The 22 umbrella.",
+    ORG_SUPPORTING_STATEMENT,
+  ],
+  linkLabel: "Learn More About For The 22",
+  linkHref: SITE_URL,
 } as const;
 
 export const EVENT_CHALLENGE_FORMAT_CONTENT = {

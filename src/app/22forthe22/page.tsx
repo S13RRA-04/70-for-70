@@ -11,6 +11,7 @@ import {
   EVENT_CHALLENGE_FORMAT_CONTENT,
   EVENT_HOW_IT_WORKS_STEPS,
   EVENT_SEO,
+  EVENT_TRI_CONNECTION_CONTENT,
   EVENT_WHAT_IS_CONTENT,
   GIVEAWAY_ODDS_DISCLOSURE,
   NO_PURCHASE_NECESSARY_DISCLOSURE,
@@ -99,6 +100,9 @@ export default async function EventPage() {
           <p className="mt-5 font-display text-2xl font-bold uppercase tracking-tight text-bronze sm:text-3xl">
             {EVENT_WHAT_IS_CONTENT.statLine}
           </p>
+          <p className="mt-2 font-display text-sm font-bold uppercase tracking-[0.2em] text-ink">
+            {EVENT_WHAT_IS_CONTENT.tagline}
+          </p>
           <div className="mt-5 space-y-4">
             {EVENT_WHAT_IS_CONTENT.paragraphs.map((paragraph, i) => (
               <p key={i} className="text-base leading-relaxed text-charcoal-light">
@@ -106,6 +110,26 @@ export default async function EventPage() {
               </p>
             ))}
           </div>
+        </Container>
+      </section>
+
+      {/* How This Supports Tri For the 22 */}
+      <section className="border-b border-ink/10 py-16 sm:py-20">
+        <Container className="max-w-2xl">
+          <SectionHeading eyebrow={EVENT_TRI_CONNECTION_CONTENT.eyebrow} title={EVENT_TRI_CONNECTION_CONTENT.heading} />
+          <div className="mt-5 space-y-4">
+            {EVENT_TRI_CONNECTION_CONTENT.paragraphs.map((paragraph, i) => (
+              <p key={i} className="text-base leading-relaxed text-charcoal-light">
+                {paragraph}
+              </p>
+            ))}
+          </div>
+          <Link
+            href={EVENT_TRI_CONNECTION_CONTENT.linkHref}
+            className="mt-6 inline-block text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+          >
+            {EVENT_TRI_CONNECTION_CONTENT.linkLabel} &rarr;
+          </Link>
         </Container>
       </section>
 
