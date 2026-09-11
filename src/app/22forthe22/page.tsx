@@ -26,7 +26,7 @@ import { EventRegistrationForm } from "@/components/forms/event-registration-for
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CampaignProgress } from "@/components/campaign/campaign-progress";
-import { CAMPAIGN_URL, DONATE_LINK, EVENT22_CAMPAIGN_URL } from "@/lib/constants";
+import { APP_URL, CAMPAIGN_URL, DONATE_LINK, EVENT22_CAMPAIGN_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = pageMetadata({
@@ -222,6 +222,25 @@ export default async function EventPage() {
           <SectionHeading eyebrow="Your Progress" title="22-Session Tracker" description="Mark off each session as you complete it. Saved on this device only." />
           <div className="mt-8">
             <SessionTracker />
+          </div>
+
+          <div className="mt-8 rounded-sm border border-ink/10 bg-off-white p-6 text-center">
+            <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+              Tracking On the Go
+            </p>
+            <p className="mt-2 text-sm text-charcoal-light">
+              Want your progress saved to your account instead of just this device? Use the For the 22 app during
+              the event to log sessions, watch your milestones, and pick up right where you left off on any device.
+            </p>
+            <a
+              href={APP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-analytics-event="22_app_click"
+              className="mt-4 inline-flex min-h-[44px] items-center justify-center rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
+            >
+              Open the For the 22 App
+            </a>
           </div>
         </Container>
       </section>
