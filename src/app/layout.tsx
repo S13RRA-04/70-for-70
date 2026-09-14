@@ -32,6 +32,9 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
+/** Impact.com publisher/affiliate-partnership domain-ownership proof — tri.forthe22.org only, see generateMetadata below. */
+const IMPACT_SITE_VERIFICATION_ID = "e5ccd9f5-f773-4c29-b6ce-4e1fb9b6b356";
+
 /**
  * Mode-aware — a static `export const metadata` can't read the request
  * host, so campaign-domain pages inherited the org's forthe22.org
@@ -70,6 +73,9 @@ export async function generateMetadata(): Promise<Metadata> {
     alternates: {
       canonical: "/",
     },
+    ...(campaignSlug === "tri" && {
+      verification: { other: { "impact-site-verification": IMPACT_SITE_VERIFICATION_ID } },
+    }),
   };
 }
 
