@@ -644,7 +644,21 @@ create table if not exists public.mission_partners (
       'campaign-sponsor', 'gear-partner', 'service-partner', 'print-partner',
       'accommodations-partner', 'training-partner', 'giveaway-supporter'
     )
-  )
+  ),
+  -- Formal fair-market-value recognition level (cash + in-kind), shown on
+  -- /sponsors — see MISSION_PARTNER_TIERS in src/lib/constants.ts for the
+  -- public benefits copy per level. Null = not yet classified.
+  tier text check (
+    tier is null or tier in (
+      'presenting-partner', 'mission-sponsor', 'mission-partner',
+      'advocate', 'ally', 'campaign-supporter'
+    )
+  ),
+  -- Independent functional label (e.g. "Official Bicycle Support Partner")
+  -- — deliberately NOT derived from tier; a partner can have a designation
+  -- with no tier (monetary classification pending), a tier with no
+  -- designation, both, or neither.
+  designation text
 );
 
 create index if not exists mission_partners_active_idx on public.mission_partners (active);
@@ -680,6 +694,17 @@ alter table public.mission_partners add constraint mission_partners_partner_type
   partner_type is null or partner_type in (
     'campaign-sponsor', 'gear-partner', 'service-partner', 'print-partner',
     'accommodations-partner', 'training-partner', 'giveaway-supporter'
+  )
+);
+
+-- See 2026-09-14-mission-partner-tiers.sql.
+alter table public.mission_partners add column if not exists tier text;
+alter table public.mission_partners add column if not exists designation text;
+alter table public.mission_partners drop constraint if exists mission_partners_tier_check;
+alter table public.mission_partners add constraint mission_partners_tier_check check (
+  tier is null or tier in (
+    'presenting-partner', 'mission-sponsor', 'mission-partner',
+    'advocate', 'ally', 'campaign-supporter'
   )
 );
 

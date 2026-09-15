@@ -153,6 +153,8 @@ export const SEED_MISSION_PARTNERS: MissionPartnerRow[] = [
     relationship_end: null,
     associated_campaigns: null,
     partner_type: "campaign-sponsor",
+    tier: "ally",
+    designation: null,
   },
   {
     id: "seed-mission-partner-bombs-and-blades",
@@ -175,6 +177,8 @@ export const SEED_MISSION_PARTNERS: MissionPartnerRow[] = [
     relationship_end: null,
     associated_campaigns: ["22-for-the-22"],
     partner_type: "giveaway-supporter",
+    tier: null,
+    designation: null,
   },
   {
     id: "seed-mission-partner-fire-department-coffee",
@@ -197,6 +201,8 @@ export const SEED_MISSION_PARTNERS: MissionPartnerRow[] = [
     relationship_end: null,
     associated_campaigns: ["22-for-the-22"],
     partner_type: "giveaway-supporter",
+    tier: null,
+    designation: null,
   },
 ];
 

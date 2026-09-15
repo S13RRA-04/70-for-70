@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CAMPAIGN_NAME, MERCH_BENEFICIARIES } from "@/lib/constants";
@@ -28,7 +29,18 @@ export default function FinancialTransparencyPage() {
             Merchandise is sold through Bonfire, an independent third-party store — 100% of net
             profit is paid by Bonfire directly to {MERCH_BENEFICIARIES[0]} or{" "}
             {MERCH_BENEFICIARIES[1]}, with the specific beneficiary noted on each item in the
-            store. Sponsorship intake and athlete-support programs are not currently active.
+            store.
+          </p>
+          <p>
+            Campaign sponsorship and in-kind athlete support (see{" "}
+            <Link href="/sponsors" className="font-semibold text-bronze hover:text-bronze-light">
+              Partners &amp; Supporters
+            </Link>
+            ) are separate from charitable fundraising. A sponsorship or in-kind contribution
+            supports the campaign directly — it is not a charitable donation, is not
+            tax-deductible through {CAMPAIGN_NAME}, and does not pass through any beneficiary
+            organization. Charitable donations continue to go directly to the beneficiary
+            organizations, as described above.
           </p>
           <p>
             Some campaign promotional items — challenge coins, patches, stickers, and similar

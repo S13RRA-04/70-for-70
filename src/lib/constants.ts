@@ -357,6 +357,73 @@ export const CUSTOM_PARTNERSHIP_CATEGORIES = [
   "Community Events",
 ] as const;
 
+/**
+ * Live, public recognition levels for mission_partners.tier — shown on
+ * /sponsors' "Become a Tri For the 22 Partner" section and used to group
+ * current partners by tier. Distinct from (and does not replace) the dead
+ * SPONSORSHIP_LEVELS/SPONSOR_VALUE_PROPS above, which belong to the
+ * separate, still-dormant sponsors-table/SponsorWall/sponsorship_requests
+ * cash-application pipeline — see src/app/sponsors/page.tsx's doc comment.
+ * Levels reflect cumulative fair-market value of cash + in-kind support,
+ * not cash contribution alone.
+ */
+export const MISSION_PARTNER_TIERS = [
+  {
+    id: "presenting-partner" as const,
+    name: "Presenting Partner",
+    range: "$5,000+",
+    benefits: [
+      "Premier website recognition",
+      "Premier campaign-material recognition",
+      "Featured recognition leading into IRONMAN 70.3 Chattanooga",
+      "Race-day and post-race recognition",
+      "Logo placement on Cody's race kit for IRONMAN 70.3 Chattanooga",
+    ],
+    note: "Race-kit placement is reserved for Presenting Partners and is subject to available space, artwork/production deadlines, and applicable event rules. Presenting Partner opportunities may be limited.",
+  },
+  {
+    id: "mission-sponsor" as const,
+    name: "Mission Sponsor",
+    range: "$2,500–$4,999",
+    benefits: [
+      "Priority website placement",
+      "Logo on major campaign collateral",
+      "Logo on campaign event signage/banners",
+      "Multiple dedicated social features",
+      "Recognition in appropriate campaign/community outreach",
+    ],
+  },
+  {
+    id: "mission-partner" as const,
+    name: "Mission Partner",
+    range: "$1,000–$2,499",
+    benefits: [
+      "Prominent website logo placement",
+      "Logo on select printed campaign collateral",
+      "Dedicated social-media sponsor spotlight",
+      "Benefits of lower levels",
+    ],
+  },
+  {
+    id: "advocate" as const,
+    name: "Advocate",
+    range: "$500–$999",
+    benefits: ["Enhanced/prominent website recognition", "Recurring sponsor recognition", "Benefits of lower levels"],
+  },
+  {
+    id: "ally" as const,
+    name: "Ally",
+    range: "$250–$499",
+    benefits: ["Website logo/name recognition", "Social-media acknowledgment"],
+  },
+  {
+    id: "campaign-supporter" as const,
+    name: "Campaign Supporter",
+    range: "Under $250",
+    benefits: ["Website supporter recognition", "Social-media acknowledgment"],
+  },
+] as const;
+
 export const RACE_INFO = {
   // IRONMAN 70.3 Chattanooga, confirmed for May 16, 2027. 07:00 ET is the
   // typical 70.3 Chattanooga rolling-start time — adjust once IRONMAN

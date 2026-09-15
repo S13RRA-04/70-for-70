@@ -399,6 +399,22 @@ export type PartnerType =
   | "training-partner"
   | "giveaway-supporter";
 
+/**
+ * Formal fair-market-value recognition level (cash + in-kind), shown on
+ * /sponsors — see MISSION_PARTNER_TIERS in src/lib/constants.ts for the
+ * public benefits copy per level. Independent of PartnerType above (that's
+ * an internal section/badge key) and of MissionPartnerRow.designation
+ * (a functional label like "Official Bicycle Support Partner" that a
+ * partner can carry with or without a tier).
+ */
+export type MissionPartnerTier =
+  | "presenting-partner"
+  | "mission-sponsor"
+  | "mission-partner"
+  | "advocate"
+  | "ally"
+  | "campaign-supporter";
+
 export interface MissionPartnerRow {
   id: string;
   name: string;
@@ -425,6 +441,10 @@ export interface MissionPartnerRow {
   associated_campaigns: string[] | null;
   /** Null on older rows predating this column — treat as "uncategorized," never guess a type from relationship_label. */
   partner_type: PartnerType | null;
+  /** Null = not yet formally classified (e.g. cumulative value still being established). */
+  tier: MissionPartnerTier | null;
+  /** Independent of tier — see MissionPartnerTier's doc comment. */
+  designation: string | null;
 }
 
 /** Computed pre/live/complete status — see computeEventStatus() in src/lib/22-for-the-22/event-status.ts. Distinct from EventConfigRow.status_override, the nullable admin escape hatch that feeds it. */

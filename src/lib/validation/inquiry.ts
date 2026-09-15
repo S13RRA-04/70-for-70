@@ -1,17 +1,31 @@
 import { z } from "zod";
 
-/** /contact's general-inquiry categories — the only route still accepting public inquiry submissions. */
-export const SPONSOR_INQUIRY_INTERESTS = ["Media", "General Question", "Other"] as const;
+/**
+ * /contact's general-inquiry categories, rendered directly in
+ * SponsorInquiryForm's "Topic" dropdown. "Mission Partnership",
+ * "Sponsorship", and "In-Kind Support" have written federal ethics
+ * approval for public campaign-sponsorship/partnership intake (confirmed
+ * 2026-09-14 — see the "Become a Tri For the 22 Partner" section on
+ * src/app/sponsors/page.tsx), matching 3 of the 5 values also listed in
+ * PARTNER_INQUIRY_INTERESTS below.
+ */
+export const SPONSOR_INQUIRY_INTERESTS = [
+  "Media",
+  "General Question",
+  "Mission Partnership",
+  "Sponsorship",
+  "In-Kind Support",
+  "Other",
+] as const;
 
 /**
- * "Join the Movement" athlete interest (/join) and partner inquiries
- * (/partners/inquire) categories — kept exported only so their now-orphaned
- * form components (unreachable: both pages redirect before rendering)
- * still typecheck. Deliberately excluded from INQUIRY_INTERESTS below, so
- * a submission using one of these categories is rejected by validation —
- * both routes are retired, public athlete/sponsor/partner intake is closed
- * pending written federal ethics approval. Existing `inquiries` rows under
- * these categories are preserved in the database.
+ * "Join the Movement" athlete interest (/join) categories — kept exported
+ * only so its now-orphaned form component (unreachable: the page redirects
+ * before rendering) still typechecks. Deliberately excluded from
+ * INQUIRY_INTERESTS below, so a submission using one of these categories is
+ * rejected by validation — /join is retired, public athlete intake is
+ * closed pending written federal ethics approval. Existing `inquiries` rows
+ * under these categories are preserved in the database.
  */
 export const JOIN_INTEREST_TYPES = [
   "Veteran Athlete",
@@ -20,6 +34,18 @@ export const JOIN_INTEREST_TYPES = [
   "Local Chapter/Event Interest",
 ] as const;
 
+/**
+ * The former /partners/inquire form's full category list — kept exported
+ * only so that now-orphaned form component (unreachable: the page
+ * redirects before rendering) still typechecks. "Beneficiary Organization"
+ * and "Community Collaboration" remain excluded from INQUIRY_INTERESTS
+ * below — beneficiary intake is a separate, more sensitive vetting
+ * workflow not covered by the 2026-09-14 sponsorship-approval, so
+ * /partners/inquire stays retired. The other 3 values are superseded by
+ * SPONSOR_INQUIRY_INTERESTS above, which is what /contact's live form
+ * actually renders. Existing `inquiries` rows under any of these
+ * categories are preserved in the database.
+ */
 export const PARTNER_INQUIRY_INTERESTS = [
   "Beneficiary Organization",
   "Mission Partnership",
@@ -29,10 +55,9 @@ export const PARTNER_INQUIRY_INTERESTS = [
 ] as const;
 
 /**
- * /get-involved's volunteer categories — unlike JOIN_INTEREST_TYPES and
- * PARTNER_INQUIRY_INTERESTS above, this recruitment has written federal
- * ethics approval, so it's included in INQUIRY_INTERESTS below and the page
- * is live, not redirected.
+ * /get-involved's volunteer categories — this recruitment has written
+ * federal ethics approval, so it's included in INQUIRY_INTERESTS below and
+ * the page is live, not redirected.
  */
 export const GET_INVOLVED_INTEREST_TYPES = [
   "Race Crew",
