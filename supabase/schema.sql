@@ -642,7 +642,8 @@ create table if not exists public.mission_partners (
   partner_type text check (
     partner_type is null or partner_type in (
       'campaign-sponsor', 'gear-partner', 'service-partner', 'print-partner',
-      'accommodations-partner', 'training-partner', 'giveaway-supporter'
+      'accommodations-partner', 'training-partner', 'giveaway-supporter',
+      'team-benefit-partner'
     )
   ),
   -- Formal fair-market-value recognition level (cash + in-kind), shown on
@@ -678,7 +679,8 @@ alter table public.mission_partners add column if not exists partner_type text
   check (
     partner_type is null or partner_type in (
       'campaign-sponsor', 'gear-partner', 'service-partner', 'print-partner',
-      'accommodations-partner', 'training-partner', 'giveaway-supporter'
+      'accommodations-partner', 'training-partner', 'giveaway-supporter',
+      'team-benefit-partner'
     )
   );
 
@@ -693,7 +695,8 @@ alter table public.mission_partners drop constraint if exists mission_partners_p
 alter table public.mission_partners add constraint mission_partners_partner_type_check check (
   partner_type is null or partner_type in (
     'campaign-sponsor', 'gear-partner', 'service-partner', 'print-partner',
-    'accommodations-partner', 'training-partner', 'giveaway-supporter'
+    'accommodations-partner', 'training-partner', 'giveaway-supporter',
+    'team-benefit-partner'
   )
 );
 

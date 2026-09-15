@@ -49,9 +49,10 @@ export const GEAR_NEEDS_CATEGORIES: GearNeedsCategory[] = [
       },
       {
         component: "Wetsuit",
-        status: "needed",
-        statusLabel: "Needed",
-        notes: "For open-water training and, if the race permits it, race day.",
+        status: "available",
+        statusLabel: "Partner Pricing Available",
+        notes:
+          "XTERRA WETSUITS provides approved Tri For The 22 team members access to special team pricing through its Clubs, Teams & Coaches Program. Individual equipment is not automatically provided.",
       },
       {
         component: "Cycling Shoes",

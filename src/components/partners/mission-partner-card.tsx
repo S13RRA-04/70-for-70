@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
 import { PartnerLogo } from "@/components/shared/partner-logo";
+import { TeamBenefitBadge } from "@/components/partners/team-benefit-badge";
 import type { MissionPartnerRow } from "@/types/database";
 
 /** Card size, driven by the partner's tier — see mapTierToSize in src/app/sponsors/page.tsx. */
@@ -60,6 +61,12 @@ export function MissionPartnerCard({
 
       {partner.support_type && (
         <p className="mt-3 text-sm leading-snug text-charcoal-light">{partner.support_type}</p>
+      )}
+
+      {partner.partner_type === "team-benefit-partner" && (
+        <div className="mt-3">
+          <TeamBenefitBadge />
+        </div>
       )}
 
       {partner.website_url && (

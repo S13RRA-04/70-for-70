@@ -397,7 +397,15 @@ export type PartnerType =
   | "print-partner"
   | "accommodations-partner"
   | "training-partner"
-  | "giveaway-supporter";
+  | "giveaway-supporter"
+  /**
+   * A partner whose support is a discount/pricing arrangement for approved
+   * team members (e.g. XTERRA WETSUITS' Clubs, Teams & Coaches Program) —
+   * drives the "Team Benefit" badge on the public supporter grid. The
+   * actual access details/discount code are never public; see
+   * MissionPartnerRow.description for the public-safe summary only.
+   */
+  | "team-benefit-partner";
 
 /**
  * Formal fair-market-value recognition level (cash + in-kind), shown on

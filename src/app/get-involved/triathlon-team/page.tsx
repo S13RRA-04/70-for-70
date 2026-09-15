@@ -2,6 +2,9 @@ import { Container } from "@/components/shared/container";
 import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { TriathlonTeamApplicationForm } from "@/components/forms/triathlon-team-application-form";
+import { PartnerLogo } from "@/components/shared/partner-logo";
+import { CTAButton } from "@/components/shared/cta-button";
+import { getMissionPartners } from "@/lib/data/mission-partners";
 import { CAMPAIGN_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
@@ -12,7 +15,10 @@ export const metadata = pageMetadata({
   canonical: `${CAMPAIGN_URL}/get-involved/triathlon-team`,
 });
 
-export default function TriathlonTeamPage() {
+export default async function TriathlonTeamPage() {
+  const partners = await getMissionPartners();
+  const teamBenefitPartner = partners.find((p) => p.partner_type === "team-benefit-partner");
+
   return (
     <>
       <CampaignPageHero>
@@ -47,6 +53,44 @@ export default function TriathlonTeamPage() {
               own responsibility unless something is specifically approved in writing.
             </p>
           </div>
+
+          {teamBenefitPartner && (
+            <div id="team-equipment-benefits" className="mt-12 scroll-mt-24">
+              <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+                Team Equipment Benefits
+              </h2>
+              <p className="mt-3 text-sm leading-relaxed text-charcoal-light">
+                Tri For The 22 works with select campaign partners to make training and race
+                equipment more accessible to participating athletes. Benefits vary by partner and
+                do not guarantee free equipment.
+              </p>
+
+              <div className="mt-6 flex flex-col gap-5 rounded-sm border border-ink/10 bg-off-white p-6 sm:flex-row sm:items-start">
+                <PartnerLogo
+                  name={teamBenefitPartner.name}
+                  logoUrl={teamBenefitPartner.logo_url}
+                  logoLightUrl={teamBenefitPartner.logo_light_url}
+                  logoDarkUrl={teamBenefitPartner.logo_dark_url}
+                  background={teamBenefitPartner.logo_background}
+                  className="h-20 w-full shrink-0 sm:w-44"
+                />
+                <div className="flex-1">
+                  <p className="font-display text-base font-bold uppercase tracking-wide text-ink">
+                    {teamBenefitPartner.name}{" "}
+                    <span className="text-bronze">— {teamBenefitPartner.relationship_label}</span>
+                  </p>
+                  <p className="mt-2 text-sm leading-relaxed text-charcoal-light">
+                    Approved Tri For The 22 team members may receive access to special XTERRA
+                    team pricing on wetsuits, swim apparel and accessories through the XTERRA
+                    Clubs, Teams &amp; Coaches Program.
+                  </p>
+                  <CTAButton href="/contact?item=XTERRA%20Team%20Access" className="mt-5">
+                    Request Team Access
+                  </CTAButton>
+                </div>
+              </div>
+            </div>
+          )}
 
           <div className="mt-12">
             <TriathlonTeamApplicationForm />

@@ -8,6 +8,7 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { MissionPartnerCard, type MissionPartnerCardSize } from "@/components/partners/mission-partner-card";
 import { PresentingPartnerFeature } from "@/components/partners/presenting-partner-feature";
 import { OfficialDesignationFeature } from "@/components/partners/official-designation-feature";
+import { TeamBenefitPartnerFeature } from "@/components/partners/team-benefit-partner-feature";
 import { PartnershipStoryBreak } from "@/components/sponsors/partnership-story-break";
 import { SponsorshipProgression } from "@/components/sponsors/sponsorship-progression";
 import { DonateVsPartner } from "@/components/sponsors/donate-vs-partner";
@@ -79,6 +80,7 @@ export default async function SponsorsPage() {
   const featuredDesignationPartner = generalPartners.find(
     (p) => p.designation === OFFICIAL_BICYCLE_SUPPORT_DESIGNATION,
   );
+  const teamBenefitPartner = generalPartners.find((p) => p.partner_type === "team-benefit-partner");
 
   const tieredGroups = MISSION_PARTNER_TIERS.filter((tier) => tier.id !== "presenting-partner")
     .map((tier) => ({
@@ -171,6 +173,23 @@ export default async function SponsorsPage() {
               quote="Helping turn a donated frame into the race bike that will carry Tri For the 22 through Chattanooga."
               linkHref="/journal/building-the-bike"
               linkLabel="See the Bike Build"
+            />
+          </Container>
+        </section>
+      )}
+
+      {/* Team benefit partnership — a discount/pricing arrangement for approved team members, not a monetary tier. */}
+      {teamBenefitPartner && (
+        <section className="border-t border-ink/10 py-16 sm:py-20">
+          <Container className="max-w-4xl">
+            <TeamBenefitPartnerFeature
+              partner={teamBenefitPartner}
+              categories={["Wetsuits", "Swim Shorts / Apparel", "Goggles", "Swim Gear & Accessories"]}
+              benefitTitle="Team Equipment Benefit"
+              benefitCopy="Approved Tri For the 22 team members have access to special XTERRA pricing. Qualifying purchases also generate equipment credit for Tri For the 22 that can be redeemed for training and race equipment."
+              disclaimer="Product availability, pricing and team benefits are subject to change. Team pricing is available only to approved Tri For the 22 team members."
+              ctaHref="/get-involved/triathlon-team#team-equipment-benefits"
+              ctaLabel="Learn About Team Benefits"
             />
           </Container>
         </section>
