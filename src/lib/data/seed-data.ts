@@ -402,10 +402,11 @@ export const SEED_TRAINING_OBJECTIVES: TrainingObjectiveRow[] = [
 
   objective("seed-vo2max-1", "vo2max", "37", 0, "done", "One month ago"),
   objective("seed-vo2max-2", "vo2max", "38", 1, "done", "Two weeks ago"),
-  objective("seed-vo2max-3", "vo2max", "40", 2, "done", "Current"),
-  objective("seed-vo2max-4", "vo2max", "42", 3),
-  objective("seed-vo2max-5", "vo2max", "45", 4),
-  objective("seed-vo2max-6", "vo2max", "50", 5),
+  objective("seed-vo2max-3", "vo2max", "40", 2, "done", "One week ago"),
+  objective("seed-vo2max-4", "vo2max", "41", 3, "done", "Recently"),
+  objective("seed-vo2max-5", "vo2max", "42", 4, "done", "Current"),
+  objective("seed-vo2max-6", "vo2max", "45", 5),
+  objective("seed-vo2max-7", "vo2max", "50", 6),
 
   objective("seed-strength-1", "strength", "Establish Phase 2 strength baselines", 0, "in_progress"),
   objective(
@@ -638,9 +639,13 @@ export const SEED_PERFORMANCE_SNAPSHOTS: PerformanceSnapshotRow[] = [
     8,
     { numeric: 1686, unit: "sec", measured: false },
   ),
+  snapshot("seed-perf-run-10", "2026-09-15", "run", "run_timed_mile", "Timed Mile", "7:42", 9, {
+    numeric: 462,
+    unit: "sec/mi",
+  }),
 
-  snapshot("seed-perf-aerobic-1", "2026-09-08", "aerobic", "vo2max", "Estimated VO2 Max", "41", 0, {
-    numeric: 41,
+  snapshot("seed-perf-aerobic-1", "2026-09-15", "aerobic", "vo2max", "Estimated VO2 Max", "42", 0, {
+    numeric: 42,
     unit: "ml/kg/min",
   }),
 
