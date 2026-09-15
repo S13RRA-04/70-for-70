@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
 import { PartnerLogo } from "@/components/shared/partner-logo";
@@ -24,6 +25,18 @@ export function GiveawayPrizeCard({ prize, partner }: { prize: GiveawayPrizeRow;
           </span>
         )}
       </div>
+
+      {prize.image_url && (
+        <div className="mt-4 aspect-square w-full overflow-hidden rounded-sm bg-sand-light">
+          <Image
+            src={prize.image_url}
+            alt={prize.prize_name}
+            width={400}
+            height={400}
+            className="h-full w-full object-cover"
+          />
+        </div>
+      )}
 
       {partner ? (
         <PartnerLogo
