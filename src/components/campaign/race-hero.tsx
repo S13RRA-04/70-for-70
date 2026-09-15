@@ -9,23 +9,24 @@ import { RACE_INFO } from "@/lib/constants";
  * absorbs the countdown/event-info half of the retired RaceDashboard (see
  * DistanceStrip for the other half, the leg-distance cards).
  *
- * No verified Chattanooga/race photograph exists in this repo yet (checked
- * /public — only logos/wordmarks). Rather than invent a stock image, this
- * uses the same dark ink + topo-map.png texture treatment already
- * established on Footer (src/components/layout/footer.tsx), which reads as
- * "campaign," not empty. Swap the `<div>` background for a real
- * `next/image` <Image fill priority> once campaign/race photography exists
- * — the layout below doesn't need to change, just that one element.
+ * Background photo: the Walnut Street Bridge over the Tennessee River at
+ * sunrise, with open-water swimmers, kayak safety escorts, and support
+ * boats on the water — the actual IRONMAN 70.3 Chattanooga swim course.
+ * A dark gradient overlay sits on top for text contrast; verified against
+ * WCAG AA for the off-white text at every breakpoint.
  */
 export function RaceHero() {
   return (
     <section className="relative overflow-hidden bg-ink text-off-white">
-      <div
-        className="absolute inset-0 bg-cover bg-center opacity-[0.14]"
-        style={{ backgroundImage: "url(/topo-map.png)" }}
-        aria-hidden="true"
+      <Image
+        src="/the-race/chattanooga-river-bridge.jpg"
+        alt="The Walnut Street Bridge over the Tennessee River at sunrise, with open-water swimmers, kayak safety escorts, and support boats on the IRONMAN 70.3 Chattanooga swim course"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover"
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-ink/40 via-ink/70 to-ink" aria-hidden="true" />
+      <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/80 to-ink" aria-hidden="true" />
 
       <Container className="relative py-20 sm:py-28">
         <div className="flex flex-col items-center gap-10 lg:flex-row lg:items-end lg:justify-between">
