@@ -26,13 +26,46 @@ function formatSportName(sportName: string): string {
     .join(" ");
 }
 
+function WorkoutList({ workouts }: { workouts: WhoopTrainingSnapshot["recentWorkouts"] }) {
+  return (
+    <ul className="mt-2 space-y-2">
+      {workouts.map((workout) => (
+        <li
+          key={workout.id}
+          className="flex items-center justify-between rounded-sm border border-ink/10 bg-off-white px-3 py-2 text-sm"
+        >
+          <div>
+            <p className="font-medium text-ink">{formatSportName(workout.sportName)}</p>
+            <p className="text-xs text-charcoal-light">{formatDateLong(workout.start)}</p>
+          </div>
+          <div className="text-right text-xs text-charcoal-light">
+            <p>{formatDuration(workout.start, workout.end)}</p>
+            {workout.strain !== null && (
+              <p className={cn("font-medium text-ink")}>Strain {workout.strain.toFixed(1)}</p>
+            )}
+          </div>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export function TrainingSnapshot({
   snapshot,
   maxWorkouts,
+  compact,
 }: {
   snapshot: WhoopTrainingSnapshot | null;
-  /** Caps the "Recent Workouts" list — omit to show everything WHOOP returned (see getTrainingSnapshot's own fetch limit). */
+  /** Caps the "Recent Workouts" list — omit to show everything WHOOP returned (see getTrainingSnapshot's own fetch limit). Ignored when `compact` is set (compact always shows exactly 1, with the rest behind "View Training Details"). */
   maxWorkouts?: number;
+  /**
+   * Shows only the latest workout up front; any additional recent workouts
+   * move behind a "View Training Details" <details> instead of duplicating
+   * the recovery/sleep/strain cards a second time. For the compact "Today's
+   * Training Status" module on /the-race — everywhere else keeps the full
+   * list via `maxWorkouts`.
+   */
+  compact?: boolean;
 }) {
   if (!snapshot) {
     return (
@@ -45,6 +78,8 @@ export function TrainingSnapshot({
 
   const recentWorkouts =
     maxWorkouts !== undefined ? snapshot.recentWorkouts.slice(0, maxWorkouts) : snapshot.recentWorkouts;
+  const visibleWorkouts = compact ? snapshot.recentWorkouts.slice(0, 1) : recentWorkouts;
+  const remainingWorkouts = compact ? snapshot.recentWorkouts.slice(1) : [];
 
   return (
     <div>
@@ -68,31 +103,24 @@ export function TrainingSnapshot({
         />
       </div>
 
-      {recentWorkouts.length > 0 && (
+      {visibleWorkouts.length > 0 && (
         <div className="mt-5">
           <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-            Recent Workouts
+            {compact ? "Latest Session" : "Recent Workouts"}
           </p>
-          <ul className="mt-2 space-y-2">
-            {recentWorkouts.map((workout) => (
-              <li
-                key={workout.id}
-                className="flex items-center justify-between rounded-sm border border-ink/10 bg-off-white px-3 py-2 text-sm"
-              >
-                <div>
-                  <p className="font-medium text-ink">{formatSportName(workout.sportName)}</p>
-                  <p className="text-xs text-charcoal-light">{formatDateLong(workout.start)}</p>
-                </div>
-                <div className="text-right text-xs text-charcoal-light">
-                  <p>{formatDuration(workout.start, workout.end)}</p>
-                  {workout.strain !== null && (
-                    <p className={cn("font-medium text-ink")}>Strain {workout.strain.toFixed(1)}</p>
-                  )}
-                </div>
-              </li>
-            ))}
-          </ul>
+          <WorkoutList workouts={visibleWorkouts} />
         </div>
+      )}
+
+      {compact && remainingWorkouts.length > 0 && (
+        <details className="mt-3">
+          <summary className="cursor-pointer text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light">
+            View Training Details ↓
+          </summary>
+          <div className="mt-2">
+            <WorkoutList workouts={remainingWorkouts} />
+          </div>
+        </details>
       )}
 
       <p className="mt-4 text-xs text-charcoal-light">

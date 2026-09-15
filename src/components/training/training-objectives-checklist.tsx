@@ -120,24 +120,37 @@ function CategoryCard({
 }) {
   const Icon = CATEGORY_ICON[category];
   const doneCount = objectives.filter((o) => o.status === "done" || o.status === "goal").length;
+  // First not-yet-done objective, in display order — the "what's next" preview shown collapsed.
+  const next = objectives.find((o) => o.status === "not_started" || o.status === "in_progress");
+  // Open by default only for the category currently being worked (has an in_progress row) —
+  // keeps at most one category expanded on load rather than showing all 84 benchmarks at once.
+  const hasCurrent = objectives.some((o) => o.status === "in_progress");
 
   return (
-    <div className="mb-4 break-inside-avoid rounded-sm border border-ink/10 bg-off-white p-5">
-      <div className="flex items-center justify-between">
-        <p className="flex items-center gap-2 font-display text-sm font-semibold uppercase tracking-wide text-ink">
-          <Icon size={16} className="text-bronze" aria-hidden="true" />
-          {CATEGORY_LABELS[category]}
-        </p>
-        <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-          {doneCount} of {objectives.length}
-        </p>
-      </div>
+    <details className="mb-4 break-inside-avoid rounded-sm border border-ink/10 bg-off-white p-5" open={hasCurrent}>
+      <summary className="cursor-pointer list-none">
+        <span className="flex items-center justify-between gap-2">
+          <span className="flex items-center gap-2 font-display text-sm font-semibold uppercase tracking-wide text-ink">
+            <Icon size={16} className="text-bronze" aria-hidden="true" />
+            {CATEGORY_LABELS[category]}
+          </span>
+          <span className="shrink-0 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+            {doneCount} of {objectives.length}
+          </span>
+        </span>
+        {next && (
+          <span className="mt-1.5 block text-xs text-charcoal-light">
+            Next: <span className="font-semibold text-ink">{next.label}</span>
+          </span>
+        )}
+      </summary>
+
       <ul className="mt-3 space-y-1">
         {objectives.map((objective) => (
           <ObjectiveRow key={objective.id} objective={objective} />
         ))}
       </ul>
-    </div>
+    </details>
   );
 }
 
@@ -153,15 +166,38 @@ export function TrainingObjectivesChecklist({ objectives }: { objectives: Traini
   const grouped = groupByCategory(objectives);
   const total = objectives.length;
   const totalDone = objectives.filter((o) => o.status === "done" || o.status === "goal").length;
+  const percent = total > 0 ? Math.round((totalDone / total) * 100) : 0;
 
   return (
     <div>
-      <div className="columns-1 gap-4 sm:columns-2 lg:columns-3">
+      <div className="flex flex-wrap items-baseline justify-between gap-2">
+        <p className="font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
+          Road to Race Ready
+        </p>
+        <p className="font-display text-lg font-semibold text-ink">
+          {totalDone} <span className="text-charcoal-light">/ {total} Benchmarks</span>
+        </p>
+      </div>
+      <div
+        role="progressbar"
+        aria-valuenow={percent}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label={`${totalDone} of ${total} training benchmarks complete`}
+        className="mt-3 h-3 w-full overflow-hidden rounded-full bg-charcoal/10"
+      >
+        <div
+          className="h-full rounded-full bg-gradient-to-r from-olive to-bronze transition-[width] duration-700 ease-out"
+          style={{ width: `${percent}%` }}
+        />
+      </div>
+      <p className="mt-1.5 text-xs font-semibold uppercase tracking-widest text-charcoal-light">{percent}%</p>
+
+      <div className="mt-8 columns-1 gap-4 sm:columns-2 lg:columns-3">
         {CATEGORY_ORDER.filter((category) => grouped[category].length > 0).map((category) => (
           <CategoryCard key={category} category={category} objectives={grouped[category]} />
         ))}
       </div>
-      <p className="mt-2 text-xs text-charcoal-light">{totalDone} of {total} benchmarks reached.</p>
     </div>
   );
 }

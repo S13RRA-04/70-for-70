@@ -34,10 +34,16 @@ export function RaceGoalPanel() {
   return (
     <div className="rounded-sm border border-bronze/40 bg-bronze/10 p-8">
       <p className="text-xs font-semibold uppercase tracking-widest text-bronze">{RACE_GOAL.ageGroup} Age Group</p>
-      <p className="mt-1 font-display text-2xl font-semibold text-ink">{RACE_GOAL.placementLabel}</p>
-      <p className="mt-1 text-sm text-charcoal-light">Podium target: {RACE_GOAL.targetFinish.podium}</p>
+      <p className="mt-2 text-balance font-display text-4xl font-bold uppercase leading-none tracking-tight text-ink sm:text-5xl">
+        Podium.
+        <br />
+        {RACE_GOAL.ageGroup}.
+      </p>
+      <p className="mt-2 text-sm font-medium text-charcoal-light">{RACE_GOAL.placementLabel}</p>
+      <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-charcoal-light">Target Finish</p>
+      <p className="mt-1 font-display text-2xl font-bold text-bronze sm:text-3xl">{RACE_GOAL.targetFinish.podium}</p>
 
-      <div className="mt-6 overflow-x-auto rounded-sm border border-ink/10">
+      <div className="mt-8 overflow-x-auto rounded-sm border border-ink/10">
         <table className="w-full min-w-[720px] border-collapse text-left text-sm">
           <thead>
             <tr className="border-b border-ink/10 bg-sand-light">

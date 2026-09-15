@@ -1,26 +1,28 @@
-import Image from "next/image";
-import { ExternalLink } from "lucide-react";
 import { Container } from "@/components/shared/container";
-import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
 import { StravaFollowBadge } from "@/components/shared/strava-follow-badge";
-import { RaceDashboard } from "@/components/campaign/race-dashboard";
+import { RaceHero } from "@/components/campaign/race-hero";
+import { DistanceStrip } from "@/components/campaign/distance-strip";
+import { PerformanceProgression } from "@/components/campaign/performance-progression";
 import { RaceGoalPanel } from "@/components/campaign/race-goal-panel";
 import { RaceBenchmarks } from "@/components/campaign/race-benchmarks";
 import { RaceLogistics } from "@/components/campaign/race-logistics";
 import { ChattanoogaBikeBuild } from "@/components/campaign/chattanooga-bike-build";
 import { TrainingTimeline } from "@/components/campaign/training-timeline";
 import { CampaignPhaseBanner } from "@/components/campaign/campaign-phase-banner";
+import { MissionFinale } from "@/components/campaign/mission-finale";
 import { BikeBuildTeaser } from "@/components/journal/bike-build/bike-build-teaser";
 import { TrainingSnapshot } from "@/components/training/training-snapshot";
 import { PerformanceMetricsPanel } from "@/components/training/performance-metrics-panel";
 import { TrainingObjectivesChecklist } from "@/components/training/training-objectives-checklist";
+import { PerformanceTrendChart } from "@/components/training/performance-trend-chart";
 import { getBikeBuildTeaser } from "@/lib/content/building-the-bike";
 import { getJournalEntries } from "@/lib/data/journal";
 import { getTrainingSnapshot } from "@/lib/whoop/client";
 import { getTrainingObjectives } from "@/lib/data/training-objectives";
-import { getLatestPerformanceSnapshot } from "@/lib/data/performance-snapshots";
+import { getLatestPerformanceSnapshot, getPerformanceMetricHistory } from "@/lib/data/performance-snapshots";
+import { getCampaign } from "@/lib/data/campaign";
 import { getTrainingStats } from "@/lib/training-stats";
 import { formatDateLong } from "@/lib/utils";
 import { getCampaignPhase, getCurrentTrainingPhaseIndex } from "@/lib/campaign-phase";
@@ -35,14 +37,25 @@ export const metadata = pageMetadata({
   canonical: `${CAMPAIGN_URL}/the-race`,
 });
 
+/** The 4 trend metrics shown in "The Work Is Working" — one representative benchmark per discipline, plus the supporting VO2 Max indicator. */
+const TREND_METRICS = [
+  { key: "swim_pace_fastest", label: "Swim — Fastest 100 yd Pace" },
+  { key: "bike_ftp_watts", label: "Bike — FTP" },
+  { key: "run_avg_pace", label: "Run — Average Pace" },
+  { key: "vo2max", label: "VO2 Max" },
+];
+
 export default async function RacePage() {
-  const [entries, trainingSnapshot, trainingObjectives, performanceSnapshot, trainingStats] = await Promise.all([
-    getJournalEntries(),
-    getTrainingSnapshot(),
-    getTrainingObjectives(),
-    getLatestPerformanceSnapshot(),
-    getTrainingStats(),
-  ]);
+  const [entries, trainingSnapshot, trainingObjectives, performanceSnapshot, trainingStats, campaign, trendHistories] =
+    await Promise.all([
+      getJournalEntries(),
+      getTrainingSnapshot(),
+      getTrainingObjectives(),
+      getLatestPerformanceSnapshot(),
+      getTrainingStats(),
+      getCampaign(),
+      Promise.all(TREND_METRICS.map((m) => getPerformanceMetricHistory(m.key))),
+    ]);
   // "Next three verified milestones" — the 3 most recent published
   // milestone entries (getJournalEntries() already sorts newest-first), not
   // fabricated upcoming goals.
@@ -60,55 +73,49 @@ export default async function RacePage() {
     trainingStats.weeksCompleted !== null ||
     trainingStats.weeksRemaining !== null;
 
+  const raceDateLabel = RACE_INFO.raceDate
+    ? new Date(RACE_INFO.raceDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" })
+    : null;
+
   return (
     <>
-      <CampaignPageHero containerClassName="flex flex-col-reverse items-center gap-10 sm:flex-row sm:justify-between">
-        <div className="flex-1">
-          <SectionHeading
-            as="h1"
-            tone="dark"
-            eyebrow="The Race"
-            title="70.3-Mile Triathlon"
-            description="A swim, bike, and run event completed as the physical anchor of the Tri For The 22 campaign. IRONMAN 70.3 Chattanooga — May 16, 2027, in Chattanooga, Tennessee."
-          />
-          {RACE_INFO.registrationUrl && (
-            <a
-              href={RACE_INFO.registrationUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-6 inline-flex items-center gap-1.5 rounded-sm bg-bronze px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light"
-            >
-              Register for the Race
-              <ExternalLink size={14} aria-hidden />
-            </a>
-          )}
-        </div>
-        <Image
-          src="/campaign-logo-white.png"
-          alt="Tri For The 22 campaign logo mark"
-          width={160}
-          height={160}
-          className="w-32 shrink-0 sm:w-40"
-          priority
-        />
-      </CampaignPageHero>
+      {/* STORY — cinematic hero, event identity */}
+      <RaceHero />
+
+      {/* DATA — at-a-glance race shape */}
+      <DistanceStrip />
 
       <section className="py-16 sm:py-20">
         <Container>
           <CampaignPhaseBanner phase={phase} />
-          <RaceDashboard />
 
-          <div className="mt-16">
+          {/* STORY — the competitive stakes */}
+          <div className="mt-8">
             <SectionHeading eyebrow="The Goal" title="Podium, M35–39" />
             <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
               Not just a finish — a placement goal, backed by what recent-year age-group podium finishers at this
               race have actually run.
             </p>
             <div className="mt-6">
+              <PerformanceProgression />
+            </div>
+            <div className="mt-6">
               <RaceGoalPanel />
             </div>
           </div>
 
+          {/* VISUAL — the course */}
+          <div className="mt-16">
+            <SectionHeading eyebrow="Race Day" title="The Course" />
+            <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
+              What race day actually looks like — course details, cutoff times, and the weekend schedule.
+            </p>
+            <div className="mt-6">
+              <RaceLogistics />
+            </div>
+          </div>
+
+          {/* DATA (collapsible) — historical competition context */}
           <div className="mt-16">
             <SectionHeading eyebrow="The Competition" title="Times to Beat" />
             <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
@@ -120,18 +127,9 @@ export default async function RacePage() {
             </div>
           </div>
 
+          {/* PROGRESS + PHOTO — the current training story */}
           <div className="mt-16">
-            <SectionHeading eyebrow="Race Day" title="Course & Cutoffs" />
-            <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
-              What race day actually looks like — course details, cutoff times, and the weekend schedule.
-            </p>
-            <div className="mt-6">
-              <RaceLogistics />
-            </div>
-          </div>
-
-          <div className="mt-16">
-            <SectionHeading eyebrow="Chattanooga Bike Build" title="Training for the Course, Not Just the Distance" />
+            <SectionHeading eyebrow="Chattanooga Bike Build" title="The Road to 56" />
             <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
               The Chattanooga bike leg isn&apos;t simply a 56-mile endurance ride. The course includes roughly
               2,218 feet of elevation gain, with repeated rollers through much of the middle of the course. The
@@ -144,10 +142,53 @@ export default async function RacePage() {
             </div>
           </div>
 
+          {/* VISUAL — trend charts */}
+          <div className="mt-16">
+            <SectionHeading eyebrow="The Work Is Working" title="Performance Trends" />
+            <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
+              Real recorded benchmarks over time — not a full TrainingPeaks dashboard, just enough to show the
+              direction things are moving.
+            </p>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {TREND_METRICS.map((m, i) => (
+                <PerformanceTrendChart key={m.key} label={m.label} rows={trendHistories[i]} />
+              ))}
+            </div>
+          </div>
+
+          {/* PROGRESS — benchmark dashboard */}
+          <div className="mt-16">
+            <SectionHeading eyebrow="Milestones" title="Benchmarks" />
+            <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
+              Milestones specific to this campaign&apos;s build toward 70.3 — not a record of lifetime athletic
+              accomplishments. Nothing here is marked complete until it&apos;s actually done.
+            </p>
+
+            <div className="mt-8">
+              <PerformanceMetricsPanel recordedOn={performanceSnapshot.recordedOn} rows={performanceSnapshot.rows} />
+            </div>
+
+            <div className="mt-10">
+              <TrainingObjectivesChecklist objectives={trainingObjectives} />
+            </div>
+          </div>
+
+          {/* DATA — compact live training status */}
+          <div className="mt-16">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <SectionHeading eyebrow="Recovery" title="Today's Training Status" />
+              <StravaFollowBadge />
+            </div>
+            <div className="mt-6">
+              <TrainingSnapshot snapshot={trainingSnapshot} compact />
+            </div>
+          </div>
+
+          {/* PROGRESS — training arc */}
           <div className="mt-16">
             <SectionHeading eyebrow="Training Arc" title="Base to Race" />
             <div className="mt-6">
-              <TrainingTimeline currentIndex={getCurrentTrainingPhaseIndex()} />
+              <TrainingTimeline currentIndex={getCurrentTrainingPhaseIndex()} raceDateLabel={raceDateLabel} />
             </div>
           </div>
 
@@ -164,41 +205,6 @@ export default async function RacePage() {
             </p>
             <div className="mt-6">
               <BikeBuildTeaser teaser={getBikeBuildTeaser()} className="max-w-2xl" />
-            </div>
-          </div>
-
-          <div className="mt-16">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <SectionHeading eyebrow="Recovery" title="Training Snapshot" />
-              <StravaFollowBadge />
-            </div>
-            <div className="mt-6">
-              <TrainingSnapshot snapshot={trainingSnapshot} />
-            </div>
-          </div>
-
-          <div className="mt-16">
-            <SectionHeading eyebrow="The Road to Chattanooga" title="Performance Benchmarks" />
-            <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
-              Phase 2 shifts the focus from simply covering the distance to covering it faster and
-              more efficiently. Benchmarks now track economy, speed, durability, and race-specific
-              execution against historical Chattanooga age-group performance.
-            </p>
-            <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
-              Milestones specific to this campaign&apos;s build toward 70.3 — not a record of
-              lifetime athletic accomplishments. Nothing here is marked complete until it&apos;s
-              actually done.
-            </p>
-
-            <div className="mt-8">
-              <PerformanceMetricsPanel
-                recordedOn={performanceSnapshot.recordedOn}
-                rows={performanceSnapshot.rows}
-              />
-            </div>
-
-            <div className="mt-10">
-              <TrainingObjectivesChecklist objectives={trainingObjectives} />
             </div>
           </div>
 
@@ -292,6 +298,9 @@ export default async function RacePage() {
           { label: "Join the Triathlon Team", href: "/get-involved/triathlon-team", variant: "secondary" },
         ]}
       />
+
+      {/* MISSION — the finale, deliberately last */}
+      <MissionFinale totalRaised={campaign.amount_raised} goal={campaign.fundraising_goal} />
     </>
   );
 }

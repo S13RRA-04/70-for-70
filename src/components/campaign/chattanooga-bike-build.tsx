@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ExternalLink } from "lucide-react";
 import {
   BIKE_DEVELOPMENT_STAGES,
@@ -132,7 +133,35 @@ export function ChattanoogaBikeBuild() {
         </p>
         <h3 className="mt-2 font-display text-sm font-semibold uppercase tracking-wide text-ink">The Road to 56</h3>
 
-        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-6 overflow-hidden rounded-sm bg-off-white shadow-sm">
+          <Image
+            src="/journal/building-the-bike/loaner-bike-blue-trail.jpg"
+            alt="The loaner training bike on the trail, standing in for the campaign race bike while it's still being built"
+            width={1512}
+            height={2016}
+            className="h-48 w-full object-cover object-[50%_30%] sm:h-56"
+          />
+        </div>
+
+        {/* Connecting track — filled through the current stage, muted after, matching each card's own bronze/muted state below. */}
+        <div className="mt-6 hidden gap-4 sm:grid sm:grid-cols-4" aria-hidden="true">
+          {BIKE_DEVELOPMENT_STAGES.map((stage, i) => {
+            const currentIndex = BIKE_DEVELOPMENT_STAGES.findIndex((s) => s.isCurrent);
+            const isFilled = currentIndex !== -1 && i <= currentIndex;
+            return (
+              <div key={stage.label} className="flex items-center">
+                <span
+                  className={`h-2.5 w-2.5 shrink-0 rounded-full ${isFilled ? "bg-bronze" : "bg-ink/15"}`}
+                />
+                {i < BIKE_DEVELOPMENT_STAGES.length - 1 && (
+                  <span className={`ml-1 h-0.5 flex-1 ${isFilled ? "bg-bronze" : "bg-ink/15"}`} />
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {BIKE_DEVELOPMENT_STAGES.map((stage) => (
             <div
               key={stage.label}

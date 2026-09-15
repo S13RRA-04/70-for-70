@@ -23,8 +23,25 @@ const DASH = "—";
  * provenance, the 2025/2024 caveats, and why no athlete names appear here.
  */
 export function RaceBenchmarks() {
+  const podiumTier = RACE_AGE_GROUP_PERFORMANCE_TIERS.find((t) => t.tier.startsWith("AG winner"));
+
   return (
-    <div className="space-y-10">
+    <div>
+      <p className="text-xs font-semibold uppercase tracking-widest text-bronze">What Does a Podium Take?</p>
+      {podiumTier && (
+        <p className="mt-2 max-w-2xl text-base leading-relaxed text-charcoal-light">
+          Recent-year M35–39 podium finishes at Chattanooga have run{" "}
+          <span className="font-semibold text-ink">{podiumTier.finish}</span> — that&apos;s the real-result
+          context behind the {RACE_AGE_GROUP_YEARLY[0]?.year ?? "recent-year"} podium target above.
+        </p>
+      )}
+
+      <details className="mt-6">
+        <summary className="cursor-pointer text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light">
+          See the Numbers Behind the Goal
+        </summary>
+
+        <div className="mt-6 space-y-10">
       <div>
         <h3 className="font-display text-sm font-semibold uppercase tracking-wide text-ink">
           M35–39 Winning Time, by Year
@@ -202,6 +219,8 @@ export function RaceBenchmarks() {
           </table>
         </div>
       </div>
+        </div>
+      </details>
     </div>
   );
 }

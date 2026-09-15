@@ -1,13 +1,16 @@
+import { Waves, Bike, Footprints } from "lucide-react";
 import { RACE_LOGISTICS } from "@/lib/content/race-logistics";
 
 const LEG_CARDS = [
   {
     label: "Swim",
+    Icon: Waves,
     description: RACE_LOGISTICS.swim.description,
     facts: [{ label: "Cutoff", value: RACE_LOGISTICS.swim.cutoff }],
   },
   {
     label: "Bike",
+    Icon: Bike,
     description: RACE_LOGISTICS.bike.description,
     facts: [
       { label: "Elevation gain", value: RACE_LOGISTICS.bike.elevationGain },
@@ -18,6 +21,7 @@ const LEG_CARDS = [
   },
   {
     label: "Run",
+    Icon: Footprints,
     description: RACE_LOGISTICS.run.description,
     facts: [
       { label: "Elevation gain", value: RACE_LOGISTICS.run.elevationGain },
@@ -39,7 +43,10 @@ export function RaceLogistics() {
       <div className="grid gap-4 lg:grid-cols-3">
         {LEG_CARDS.map((leg) => (
           <div key={leg.label} className="rounded-sm border border-ink/10 bg-off-white p-6">
-            <p className="font-display text-sm font-semibold uppercase tracking-wide text-ink">{leg.label}</p>
+            <p className="flex items-center gap-2 font-display text-sm font-semibold uppercase tracking-wide text-ink">
+              <leg.Icon size={16} className="text-bronze" aria-hidden />
+              {leg.label}
+            </p>
             <p className="mt-2 text-sm text-charcoal-light">{leg.description}</p>
             <dl className="mt-4 space-y-2 text-sm">
               {leg.facts.map((fact) => (
@@ -55,8 +62,10 @@ export function RaceLogistics() {
         ))}
       </div>
 
-      <div className="mt-6 rounded-sm border border-ink/10 bg-off-white p-6">
-        <p className="font-display text-sm font-semibold uppercase tracking-wide text-ink">Race Weekend Schedule</p>
+      <details className="mt-6 rounded-sm border border-ink/10 bg-off-white p-6">
+        <summary className="cursor-pointer font-display text-sm font-semibold uppercase tracking-wide text-ink">
+          Race-Day Details ↓
+        </summary>
         <dl className="mt-4 space-y-3 text-sm">
           {RACE_LOGISTICS.schedule.map((item) => (
             <div key={item.label} className="flex flex-col gap-1 border-t border-ink/10 pt-3 sm:flex-row sm:justify-between sm:gap-4">
@@ -65,12 +74,12 @@ export function RaceLogistics() {
             </div>
           ))}
         </dl>
-      </div>
 
-      <p className="mt-4 text-xs text-charcoal-light">
-        Compiled from a third-party race guide, not IRONMAN&apos;s own athlete guide — treat as recent-year
-        reference and confirm against the official 2027 athlete guide once IRONMAN publishes it.
-      </p>
+        <p className="mt-4 text-xs text-charcoal-light">
+          Compiled from a third-party race guide, not IRONMAN&apos;s own athlete guide — treat as recent-year
+          reference and confirm against the official 2027 athlete guide once IRONMAN publishes it.
+        </p>
+      </details>
     </div>
   );
 }
