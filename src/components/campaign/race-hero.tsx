@@ -24,7 +24,7 @@ export function RaceHero() {
         fill
         priority
         sizes="100vw"
-        className="object-cover"
+        className="object-cover object-top"
       />
       <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/80 to-ink" aria-hidden="true" />
 
