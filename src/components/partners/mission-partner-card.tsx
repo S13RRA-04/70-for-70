@@ -58,6 +58,10 @@ export function MissionPartnerCard({
         <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-ink">{partner.designation}</p>
       )}
 
+      {partner.support_type && (
+        <p className="mt-3 text-sm leading-snug text-charcoal-light">{partner.support_type}</p>
+      )}
+
       {partner.website_url && (
         <Link
           href={partner.website_url}

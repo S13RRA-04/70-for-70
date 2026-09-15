@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import { Container } from "@/components/shared/container";
 import { isSuicidePreventionMonth } from "@/lib/awareness-month";
 
@@ -39,13 +38,17 @@ export function AwarenessBanner() {
           >
             Call or Text 988
           </a>
-          <Link
+          {/* Plain <a>, not <Link> — on a campaign host /crisis 308s
+              cross-origin to forthe22.org, and Next's client-side
+              fetch-based navigation gets CORS-blocked following that
+              redirect. A full page load handles it fine. */}
+          <a
             href="/crisis"
             className="text-xs font-semibold uppercase tracking-widest text-off-white underline decoration-2 underline-offset-4 hover:text-off-white/80 sm:text-sm"
             style={{ textDecorationColor: "var(--color-awareness-purple)" }}
           >
             Find Resources
-          </Link>
+          </a>
         </div>
       </Container>
     </div>

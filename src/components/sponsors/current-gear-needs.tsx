@@ -1,7 +1,10 @@
+import Image from "next/image";
 import { ChevronDown } from "lucide-react";
 import { ComponentStatusBoard } from "@/components/journal/bike-build/component-status-board";
 import { StatusBadge } from "@/components/journal/bike-build/status-badge";
 import { GEAR_NEEDS_CATEGORIES } from "@/lib/content/gear-needs";
+import type { MissionPartnerRow } from "@/types/database";
+import type { BikeBuildComponentRow } from "@/types/bike-build";
 
 /**
  * Prominent, above-the-fold callout on /sponsors — the exact gear still
@@ -16,7 +19,19 @@ import { GEAR_NEEDS_CATEGORIES } from "@/lib/content/gear-needs";
  * closed pending written federal ethics approval (see
  * GEAR_NEEDS_CATEGORIES's doc comment and SPONSOR_INQUIRY_INTERESTS).
  */
-export function CurrentGearNeeds() {
+/**
+ * Best-effort match of a confirmed row to the partner who provided it, by
+ * scanning the row's free-text notes for a known partner name — there's no
+ * structured link between GEAR_NEEDS_CATEGORIES and mission_partners.
+ * Returns null for anything not confirmed or with no matching partner.
+ */
+function findProvidingPartner(row: BikeBuildComponentRow, partners: MissionPartnerRow[]): MissionPartnerRow | null {
+  if (row.status !== "confirmed") return null;
+  const notes = row.notes?.toLowerCase() ?? "";
+  return partners.find((p) => p.name.length > 2 && notes.includes(p.name.toLowerCase())) ?? null;
+}
+
+export function CurrentGearNeeds({ partners = [] }: { partners?: MissionPartnerRow[] }) {
   return (
     <div className="rounded-sm border-2 border-bronze bg-bronze/5 p-6 sm:p-8">
       <p className="text-xs font-semibold uppercase tracking-widest text-bronze">Help Make This Possible</p>
@@ -37,30 +52,51 @@ export function CurrentGearNeeds() {
       </div>
 
       <div className="mt-6 space-y-4">
-        {GEAR_NEEDS_CATEGORIES.map((category) => (
-          <details key={category.category} className="group rounded-sm border border-ink/10 bg-off-white">
-            <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 [&::-webkit-details-marker]:hidden">
-              <span className="font-display text-sm font-semibold uppercase tracking-wide text-ink">
-                {category.category}{" "}
-                <span className="font-sans font-normal normal-case text-charcoal-light">
-                  ({category.items.length})
+        {GEAR_NEEDS_CATEGORIES.map((category) => {
+          const securedCount = category.items.filter((item) => item.status === "confirmed").length;
+          return (
+            <details key={category.category} className="group rounded-sm border border-ink/10 bg-off-white">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 [&::-webkit-details-marker]:hidden">
+                <span className="font-display text-sm font-semibold uppercase tracking-wide text-ink">
+                  {category.category}{" "}
+                  <span className="font-sans font-normal normal-case text-charcoal-light">
+                    ({securedCount} of {category.items.length} secured)
+                  </span>
                 </span>
-              </span>
-              <ChevronDown
-                size={16}
-                className="shrink-0 text-charcoal-light transition-transform group-open:rotate-180"
-                aria-hidden
-              />
-            </summary>
-            <div className="border-t border-ink/10 p-4">
-              <ComponentStatusBoard
-                rows={category.items}
-                actionHref={(row) => `/contact?item=${encodeURIComponent(row.component)}`}
-                actionLabel="Offer to Help"
-              />
-            </div>
-          </details>
-        ))}
+                <ChevronDown
+                  size={16}
+                  className="shrink-0 text-charcoal-light transition-transform group-open:rotate-180"
+                  aria-hidden
+                />
+              </summary>
+              <div className="border-t border-ink/10 p-4">
+                <ComponentStatusBoard
+                  rows={category.items}
+                  actionHref={(row) => `/contact?item=${encodeURIComponent(row.component)}`}
+                  actionLabel="Offer to Help"
+                  rowExtra={(row) => {
+                    const provider = findProvidingPartner(row, partners);
+                    if (!provider?.logo_url) return null;
+                    return (
+                      <span className="mt-2 flex items-center gap-2">
+                        <span className="text-xs font-semibold uppercase tracking-wide text-charcoal-light/70">
+                          Provided by
+                        </span>
+                        <Image
+                          src={provider.logo_url}
+                          alt={`${provider.name} logo`}
+                          width={72}
+                          height={24}
+                          className="h-5 w-auto object-contain"
+                        />
+                      </span>
+                    );
+                  }}
+                />
+              </div>
+            </details>
+          );
+        })}
       </div>
     </div>
   );

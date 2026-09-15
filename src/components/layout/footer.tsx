@@ -357,25 +357,29 @@ export function Footer({
               <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
                 Support
               </p>
+              {/* Plain <a>, not <Link> — on a campaign host /crisis 308s
+                  cross-origin to forthe22.org, and Next's client-side
+                  fetch-based navigation gets CORS-blocked following that
+                  redirect. A full page load handles it fine. */}
               <ul className="mt-4 space-y-2 text-sm text-off-white/70">
                 <li>
-                  <Link href="/crisis" className="transition-colors hover:text-off-white">
+                  <a href="/crisis" className="transition-colors hover:text-off-white">
                     Need Help Now
                     {awarenessDot}
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link href="/crisis#veterans" className="transition-colors hover:text-off-white">
+                  <a href="/crisis#veterans" className="transition-colors hover:text-off-white">
                     Veteran Crisis Resources
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link
+                  <a
                     href="/crisis#first-responders"
                     className="transition-colors hover:text-off-white"
                   >
                     First Responder Resources
-                  </Link>
+                  </a>
                 </li>
               </ul>
             </div>

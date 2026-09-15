@@ -378,6 +378,7 @@ export const MISSION_PARTNER_TIERS = [
       "Featured recognition leading into IRONMAN 70.3 Chattanooga",
       "Race-day and post-race recognition",
       "Logo placement on Cody's race kit for IRONMAN 70.3 Chattanooga",
+      "Everything included at Mission Sponsor level",
     ],
     note: "Race-kit placement is reserved for Presenting Partners and is subject to available space, artwork/production deadlines, and applicable event rules. Presenting Partner opportunities may be limited.",
   },
@@ -391,6 +392,7 @@ export const MISSION_PARTNER_TIERS = [
       "Logo on campaign event signage/banners",
       "Multiple dedicated social features",
       "Recognition in appropriate campaign/community outreach",
+      "Everything included at Mission Partner level",
     ],
   },
   {
@@ -401,14 +403,18 @@ export const MISSION_PARTNER_TIERS = [
       "Prominent website logo placement",
       "Logo on select printed campaign collateral",
       "Dedicated social-media sponsor spotlight",
-      "Benefits of lower levels",
+      "Everything included at Advocate level",
     ],
   },
   {
     id: "advocate" as const,
     name: "Advocate",
     range: "$500–$999",
-    benefits: ["Enhanced/prominent website recognition", "Recurring sponsor recognition", "Benefits of lower levels"],
+    benefits: [
+      "Enhanced/prominent website recognition",
+      "Recurring sponsor recognition",
+      "Everything included at Ally level",
+    ],
   },
   {
     id: "ally" as const,

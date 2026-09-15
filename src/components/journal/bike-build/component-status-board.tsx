@@ -12,6 +12,8 @@ interface ComponentStatusBoardProps {
    */
   actionHref?: (row: BikeBuildComponentRow) => string;
   actionLabel?: string;
+  /** Optional extra content rendered after a row's notes — e.g. the confirming sponsor's logo. */
+  rowExtra?: (row: BikeBuildComponentRow) => React.ReactNode;
 }
 
 /**
@@ -19,7 +21,12 @@ interface ComponentStatusBoardProps {
  * container so the table never forces the page to scroll horizontally on
  * narrow screens — see BIKE_BUILD_COMPONENT_STATUS for the editable rows.
  */
-export function ComponentStatusBoard({ rows, actionHref, actionLabel = "Offer to Help" }: ComponentStatusBoardProps) {
+export function ComponentStatusBoard({
+  rows,
+  actionHref,
+  actionLabel = "Offer to Help",
+  rowExtra,
+}: ComponentStatusBoardProps) {
   return (
     <div className="overflow-x-auto rounded-sm border border-ink/10">
       <table className="w-full min-w-[620px] border-collapse text-left text-sm">
@@ -50,7 +57,10 @@ export function ComponentStatusBoard({ rows, actionHref, actionLabel = "Offer to
               <td className="px-4 py-3 align-top">
                 <StatusBadge status={row.status} label={row.statusLabel} />
               </td>
-              <td className="px-4 py-3 align-top text-charcoal-light">{row.notes}</td>
+              <td className="px-4 py-3 align-top text-charcoal-light">
+                {row.notes}
+                {rowExtra?.(row)}
+              </td>
               {actionHref && (
                 <td className="px-4 py-3 align-top">
                   <Link
