@@ -66,6 +66,12 @@ export const BIKE_BUILD_STATUS_SUMMARY: BikeBuildStatusSummaryItem[] = [
     detail: "Redshift Sports is providing aero bars and a seatpost for the build.",
   },
   {
+    label: "Parts Pickup",
+    status: "available",
+    statusLabel: "In Transit",
+    detail: "Family has picked up the available components from Montgomery Bicycle Club; full inventory happens this weekend.",
+  },
+  {
     label: "Final Assembly",
     status: "pending",
     statusLabel: "Pending",
@@ -126,13 +132,13 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
     component: "Wheel & Cassette",
     status: "available",
     statusLabel: "Available Through MBC",
-    notes: "Shimano-compatible 11-speed; expected 11–32.",
+    notes: "Shimano-compatible 11-speed; expected 11–32. Picked up from MBC by family — full inventory happens this weekend.",
   },
   {
     component: "Remaining Drivetrain",
     status: "available",
     statusLabel: "Mostly Available",
-    notes: "Final inventory and compatibility pending the mechanic's inspection.",
+    notes: "Final inventory and compatibility pending the mechanic's inspection. Available components are now on their way home from MBC.",
   },
   {
     component: "Brifters",
@@ -151,6 +157,30 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
     status: "confirmed",
     statusLabel: "Confirmed",
     notes: "Provided by Redshift Sports.",
+  },
+  {
+    component: "Saddle",
+    status: "confirmed",
+    statusLabel: "Confirmed",
+    notes: "Provided by ISM Saddles.",
+  },
+  {
+    component: "Pedals",
+    status: "confirmed",
+    statusLabel: "Purchased",
+    notes: "RockBros pedals, purchased online.",
+  },
+  {
+    component: "Chain",
+    status: "needed",
+    statusLabel: "Needed",
+    notes: "11-speed chain still needs to be purchased; final spec pending this weekend's inventory.",
+  },
+  {
+    component: "Tires",
+    status: "needed",
+    statusLabel: "Needed",
+    notes: "Still needs to be purchased before final assembly.",
   },
   {
     component: "Assembly",
@@ -198,6 +228,16 @@ export const BIKE_BUILD_CONFIRMED_CONTRIBUTORS: BikeBuildContributor[] = [
     name: "Redshift Sports",
     role: "Aero bars & seatpost",
     note: "Providing aero bars and a seatpost for the race bike build.",
+  },
+  {
+    name: "Feedback Sports",
+    role: "Mechanic stand",
+    note: "Donated a Pro Mechanic 2.0 repair stand for the build and everything after it.",
+  },
+  {
+    name: "ISM Saddles",
+    role: "Saddle",
+    note: "Provided the saddle going on the race bike.",
   },
 ];
 
@@ -584,6 +624,41 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "Erik and the team at Redshift first offered to check compatibility once the final cockpit was known. Now that the frame, crankset, and drivetrain have taken real shape, that offer has turned into confirmed support.",
       "Between the aero bars and the seatpost, two more items come off the open-questions list and onto the actual build sheet.",
       "Huge thanks to Redshift Sports for backing this campaign with real hardware.",
+    ],
+    relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+  },
+  {
+    id: "feedback-sports-mechanic-stand",
+    date: "2026-09-16",
+    displayDate: "September 16, 2026",
+    title: "Feedback Sports Sends a Home Base for the Bike",
+    summary:
+      "Feedback Sports has provided a Pro Mechanic 2.0 repair stand — the tool that turns a garage floor into an actual workspace between now and race day.",
+    status: "Mechanic stand secured",
+    contributors: ["Feedback Sports"],
+    body: [
+      "Somewhere between a bare frame and a race-ready bicycle, a bike needs a place to actually be worked on — something better than a kickstand and a hopeful attitude.",
+      "Feedback Sports solved that problem with a donated Pro Mechanic 2.0 repair stand. It isn't a component of the bike itself, but it's about to become one of the most-used tools in this entire build — holding the frame steady through inventory, installation, adjustments, and whatever else turns up between now and Chattanooga.",
+      "Between now and race day, this stand is going to earn its keep.",
+      "Huge thanks to Feedback Sports for making sure the bike has somewhere to stand while it becomes a bicycle.",
+    ],
+  },
+  {
+    id: "mbc-parts-head-home",
+    date: "2026-09-16",
+    displayDate: "September 16, 2026",
+    title: "The Parts Are (Almost) Home",
+    summary:
+      "Family picked up the available components from Montgomery Bicycle Club — full inventory, and the start of actual assembly, happens this weekend.",
+    status: "Inventory pending",
+    featured: true,
+    contributors: ["Betsy & MBC"],
+    body: [
+      "The components MBC has been holding for this build didn't stay at MBC. My family picked them up — which means the parts are now closer to this bike than they've been since the search for one started back in August.",
+      "I haven't gotten my hands on them yet. That happens this weekend, when I collect everything from my family and finally take a real inventory — not the estimated, conversation-based inventory this page has been running on, but an actual count of what's in the boxes.",
+      "Once that's done, the plan is to start assembling. The components I already know are going on this bike: the ISM saddle, the Praxis crankset that arrived a couple weeks ago, the Shimano 105 brifters, and a set of RockBros pedals I picked up online myself.",
+      "I also already know two things are missing: tires and a chain. Neither is sourced yet.",
+      "Beyond that? What else this build still needs is honestly still an open question — one this weekend's inventory should start answering.",
     ],
     relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
   },
