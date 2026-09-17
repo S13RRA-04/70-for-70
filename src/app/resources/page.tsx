@@ -38,7 +38,7 @@ export default function ResourcesPage() {
       <CTASection
         eyebrow="Know a Good One?"
         title="Submit a Resource"
-        description="If you know a program, grant, or community that belongs here, send it our way — every submission is reviewed before it's added."
+        description="If you know a program, grant, or community that belongs here, send it our way — every submission is reviewed before it's added. The directory is focused on nonprofit, government, and official veteran/first-responder programs, not commercial services or individually licensed professionals."
         buttons={
           CONTACT_EMAIL
             ? [{ label: "Submit a Resource", href: `mailto:${CONTACT_EMAIL}?subject=Resource%20Submission` }]

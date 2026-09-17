@@ -872,6 +872,50 @@ export const SEED_PERFORMANCE_SNAPSHOTS: PerformanceSnapshotRow[] = [
     10,
     { numeric: 97.8, unit: "%" },
   ),
+  snapshot("seed-perf-ride-12", "2026-09-16", "ride", "ride_distance_mi", "Distance", "6.88 mi", 0, {
+    numeric: 6.88,
+    unit: "mi",
+  }),
+  snapshot("seed-perf-ride-13", "2026-09-16", "ride", "ride_moving_time", "Moving Time", "30:20", 1),
+  snapshot("seed-perf-ride-14", "2026-09-16", "ride", "ride_avg_speed_mph", "Average Speed", "13.6 mph", 2, {
+    numeric: 13.6,
+    unit: "mph",
+  }),
+  snapshot("seed-perf-ride-15", "2026-09-16", "ride", "ride_max_speed_mph", "Max Speed", "19.3 mph", 3, {
+    numeric: 19.3,
+    unit: "mph",
+  }),
+  snapshot("seed-perf-ride-16", "2026-09-16", "ride", "ride_elevation_ft", "Elevation Gain", "54 ft", 4, {
+    numeric: 54,
+    unit: "ft",
+  }),
+  snapshot("seed-perf-ride-17", "2026-09-16", "ride", "ride_relative_effort", "Relative Effort", "36", 7, {
+    numeric: 36,
+  }),
+  snapshot(
+    "seed-perf-ride-18",
+    "2026-09-16",
+    "ride",
+    "ride_avg_power_watts",
+    "Estimated Avg Power",
+    "78 W",
+    11,
+    { numeric: 78, unit: "W", measured: false },
+  ),
+  snapshot("seed-perf-ride-19", "2026-09-16", "ride", "ride_energy_kj", "Energy Output", "142 kJ", 12, {
+    numeric: 142,
+    unit: "kJ",
+    measured: false,
+  }),
+  snapshot(
+    "seed-perf-ride-20",
+    "2026-09-16",
+    "ride",
+    "ride_conditions",
+    "Conditions",
+    "86°F / Feels 91°F / 66% humidity",
+    13,
+  ),
 
   snapshot("seed-perf-run-1", "2026-09-09", "run", "run_distance_mi", "Distance", "4.28 mi", 0, {
     numeric: 4.28,

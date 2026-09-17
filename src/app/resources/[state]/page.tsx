@@ -99,7 +99,7 @@ export default async function StateResourcesPage({
       <CTASection
         eyebrow="Know a Good One?"
         title={`Submit a ${state.name} Resource`}
-        description="If you know a program, grant, or community local to this state that belongs here, send it our way — every submission is reviewed before it's added."
+        description="If you know a program, grant, or community local to this state that belongs here, send it our way — every submission is reviewed before it's added. The directory is focused on nonprofit, government, and official veteran/first-responder programs, not commercial services or individually licensed professionals."
         buttons={
           CONTACT_EMAIL
             ? [
