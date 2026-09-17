@@ -299,7 +299,7 @@ export const SEED_MISSION_PARTNERS: MissionPartnerRow[] = [
   {
     id: "seed-mission-partner-minuteman-press",
     name: "Minuteman Press",
-    relationship_label: "Advocate",
+    relationship_label: "Print Partner",
     description:
       "Minuteman Press is Tri For The 22's exclusive print partner, providing campaign printing services and support.",
     logo_url: "/partners/minuteman-press-logo.png",

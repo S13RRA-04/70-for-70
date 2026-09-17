@@ -1,4 +1,5 @@
 import { MISSION_PARTNER_TIERS } from "@/lib/constants";
+import { TIER_THEME } from "@/lib/tier-theme";
 
 /** Simple, generic jersey silhouette — not a real race-kit render or any sponsor's actual logo. */
 function RaceKitSilhouette() {
@@ -30,24 +31,31 @@ export function SponsorshipProgression() {
   return (
     <div>
       <div className="flex flex-col gap-0 lg:flex-row lg:items-stretch lg:gap-0">
-        {steps.map((tier) => (
-          <div key={tier.id} className="flex flex-col lg:flex-1">
-            <div className="flex flex-col rounded-sm border border-ink/10 bg-off-white p-5">
-              <p className="font-display text-base font-bold uppercase tracking-wide text-ink">{tier.name}</p>
-              <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-bronze">{tier.range}</p>
-              <ul className="mt-3 space-y-1 text-xs leading-relaxed text-charcoal-light">
-                {tier.benefits.slice(0, 2).map((benefit) => (
-                  <li key={benefit}>{benefit}</li>
-                ))}
-              </ul>
+        {steps.map((tier) => {
+          const theme = TIER_THEME[tier.id as keyof typeof TIER_THEME];
+          return (
+            <div key={tier.id} className="flex flex-col lg:flex-1">
+              <div className={`flex flex-col rounded-sm border p-5 ${theme.background} ${theme.border} ${theme.accentBar ?? ""}`}>
+                <span
+                  className={`inline-flex w-fit items-center rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest ${theme.badgeBg} ${theme.badgeText}`}
+                >
+                  {tier.name}
+                </span>
+                <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-bronze">{tier.range}</p>
+                <ul className="mt-3 space-y-1 text-xs leading-relaxed text-charcoal-light">
+                  {tier.benefits.slice(0, 2).map((benefit) => (
+                    <li key={benefit}>{benefit}</li>
+                  ))}
+                </ul>
+              </div>
+              {/* Connector: vertical on mobile, horizontal on desktop */}
+              <div
+                className="mx-auto h-6 w-px bg-bronze/40 lg:mx-0 lg:h-px lg:w-6 lg:self-center"
+                aria-hidden="true"
+              />
             </div>
-            {/* Connector: vertical on mobile, horizontal on desktop */}
-            <div
-              className="mx-auto h-6 w-px bg-bronze/40 lg:mx-0 lg:h-px lg:w-6 lg:self-center"
-              aria-hidden="true"
-            />
-          </div>
-        ))}
+          );
+        })}
 
         {/* Presenting Partner — the premium destination step */}
         <div className="flex flex-col rounded-sm border-2 border-bronze bg-ink p-6 text-off-white lg:flex-1">

@@ -129,7 +129,12 @@ export default async function SponsorsPage() {
                     <p className="text-xs font-semibold uppercase tracking-widest text-bronze">{tier.name}</p>
                     <div className={`mt-4 grid gap-6 ${GRID_COLS[size]}`}>
                       {tierPartners.map((partner) => (
-                        <MissionPartnerCard key={partner.id} partner={partner} size={size} />
+                        <MissionPartnerCard
+                          key={partner.id}
+                          partner={partner}
+                          size={size}
+                          tier={tier.id as Exclude<MissionPartnerTier, "presenting-partner">}
+                        />
                       ))}
                     </div>
                   </div>

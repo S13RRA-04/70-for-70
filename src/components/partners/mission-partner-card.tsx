@@ -2,7 +2,9 @@ import Link from "next/link";
 import { ExternalLink } from "lucide-react";
 import { PartnerLogo } from "@/components/shared/partner-logo";
 import { TeamBenefitBadge } from "@/components/partners/team-benefit-badge";
-import type { MissionPartnerRow } from "@/types/database";
+import { TIER_THEME } from "@/lib/tier-theme";
+import { MISSION_PARTNER_TIERS } from "@/lib/constants";
+import type { MissionPartnerRow, MissionPartnerTier } from "@/types/database";
 
 /** Card size, driven by the partner's tier — see mapTierToSize in src/app/sponsors/page.tsx. */
 export type MissionPartnerCardSize = "large" | "medium" | "compact";
@@ -28,15 +30,21 @@ const PADDING: Record<MissionPartnerCardSize, string> = {
 export function MissionPartnerCard({
   partner,
   size = "medium",
+  tier,
 }: {
   partner: MissionPartnerRow;
   size?: MissionPartnerCardSize;
+  /** Drives the card's tier-specific theme (border/background/badge) — see src/lib/tier-theme.ts. Omit for an untiered official/additional partner. */
+  tier?: Exclude<MissionPartnerTier, "presenting-partner">;
 }) {
+  const theme = tier ? TIER_THEME[tier] : undefined;
+  const tierName = tier ? MISSION_PARTNER_TIERS.find((t) => t.id === tier)?.name : undefined;
+
   return (
     <div
-      className={`flex flex-col rounded-sm border bg-off-white ${PADDING[size]} ${
-        size === "large" ? "border-bronze/40" : "border-ink/10"
-      }`}
+      className={`flex flex-col rounded-sm border ${theme?.background ?? "bg-off-white"} ${PADDING[size]} ${
+        theme?.border ?? "border-ink/10"
+      } ${theme?.accentBar ?? ""}`}
     >
       <PartnerLogo
         name={partner.name}
@@ -51,12 +59,20 @@ export function MissionPartnerCard({
         {partner.name}
       </h3>
 
+      {tierName && theme && (
+        <span
+          className={`mt-2 inline-flex w-fit items-center rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest ${theme.badgeBg} ${theme.badgeText}`}
+        >
+          {tierName}
+        </span>
+      )}
+
       <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-bronze">
         {partner.relationship_label}
       </p>
 
       {partner.designation && (
-        <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-ink">{partner.designation}</p>
+        <p className="mt-2 text-xs font-semibold uppercase tracking-widest text-ink">{partner.designation}</p>
       )}
 
       {partner.support_type && (
