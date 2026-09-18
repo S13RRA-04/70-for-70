@@ -34,9 +34,26 @@ export const RACE_LOGISTICS = {
     overallCutoff: "8:30 (total elapsed race time)",
     aidStations: "Roughly every mile — water, hydration drink, cola, gels, bars, fruit.",
   },
-  schedule: [
-    { label: "Athlete check-in", detail: "Friday 2–7 PM or Saturday 9 AM–4 PM (mandatory; no race-day check-in)." },
-    { label: "Bike check-in", detail: "Saturday 10 AM–5 PM — bike stays racked in transition overnight." },
-    { label: "Transition area access", detail: "Race morning, 4:30–6:15 AM." },
+  /**
+   * Day-grouped for the Race Weekend timeline (see RaceWeekendTimeline) —
+   * check-in is mandatory with no race-day check-in, and the bike stays
+   * racked in transition overnight once checked in.
+   */
+  weekendSchedule: [
+    {
+      day: "Friday",
+      items: [{ time: "2:00 PM–7:00 PM", label: "Athlete Check-In" }],
+    },
+    {
+      day: "Saturday",
+      items: [
+        { time: "9:00 AM–4:00 PM", label: "Athlete Check-In" },
+        { time: "10:00 AM–5:00 PM", label: "Bike Check-In" },
+      ],
+    },
+    {
+      day: "Sunday — Race Day",
+      items: [{ time: "4:30 AM–6:15 AM", label: "Transition Access" }],
+    },
   ],
 } as const;

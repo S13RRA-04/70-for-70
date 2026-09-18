@@ -2,6 +2,7 @@ import Image from "next/image";
 import { ExternalLink } from "lucide-react";
 import { Container } from "@/components/shared/container";
 import { Countdown } from "@/components/shared/countdown";
+import { CTAButton } from "@/components/shared/cta-button";
 import { RACE_INFO } from "@/lib/constants";
 
 /**
@@ -57,15 +58,30 @@ export function RaceHero() {
               {RACE_INFO.raceLocation}
             </p>
 
+            {RACE_INFO.athleteGoalTime && (
+              <p className="mt-4 text-sm font-semibold uppercase tracking-wide text-bronze-light">
+                Primary Goal: {RACE_INFO.athleteGoalTime.replace(", ", " — ")}
+              </p>
+            )}
+
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
+              <CTAButton href="#course" tone="dark">
+                View the Course
+              </CTAButton>
+              <CTAButton href="#training-status" variant="secondary" tone="dark">
+                Follow the Training
+              </CTAButton>
+            </div>
+
             {RACE_INFO.registrationUrl && (
               <a
                 href={RACE_INFO.registrationUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-8 inline-flex items-center gap-1.5 rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light"
+                className="mt-5 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-off-white/60 hover:text-off-white"
               >
                 Register for the Race
-                <ExternalLink size={14} aria-hidden />
+                <ExternalLink size={12} aria-hidden />
               </a>
             )}
           </div>
