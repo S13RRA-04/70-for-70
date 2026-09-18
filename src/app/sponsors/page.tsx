@@ -5,9 +5,9 @@ import { getGiveawayPrizes } from "@/lib/data/giveaway-prizes";
 import { Container } from "@/components/shared/container";
 import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
-import { MissionPartnerCard, type MissionPartnerCardSize } from "@/components/partners/mission-partner-card";
-import { PresentingPartnerFeature } from "@/components/partners/presenting-partner-feature";
-import { OfficialDesignationFeature } from "@/components/partners/official-designation-feature";
+import { MissionPartnerCard } from "@/components/partners/mission-partner-card";
+import { SponsorSection } from "@/components/partners/sponsor-section";
+import { PresentingPartnerFeature, PresentingPartnerPlaceholder } from "@/components/partners/presenting-partner-feature";
 import { TeamBenefitPartnerFeature } from "@/components/partners/team-benefit-partner-feature";
 import { PartnershipStoryBreak } from "@/components/sponsors/partnership-story-break";
 import { SponsorshipProgression } from "@/components/sponsors/sponsorship-progression";
@@ -18,10 +18,7 @@ import { CTAButton } from "@/components/shared/cta-button";
 import { EmptyState } from "@/components/shared/empty-state";
 import { CAMPAIGN_NAME, CAMPAIGN_URL, EVENT22_CAMPAIGN_URL, MISSION_PARTNER_TIERS } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
-import type { MissionPartnerTier } from "@/types/database";
-
-/** The one functional designation with its own featured treatment today — see spec section 6/19. */
-const OFFICIAL_BICYCLE_SUPPORT_DESIGNATION = "Official Bicycle Support Partner";
+import type { MissionPartnerRow, PartnerType } from "@/types/database";
 
 export const metadata = pageMetadata({
   title: "Partners & Supporters",
@@ -29,27 +26,31 @@ export const metadata = pageMetadata({
   canonical: `${CAMPAIGN_URL}/sponsors`,
 });
 
-/** Card size per tier — see the visual-hierarchy spec on MissionPartnerCardSize. Presenting Partner isn't in this grid at all — see PresentingPartnerFeature. */
-const TIER_CARD_SIZE: Record<Exclude<MissionPartnerTier, "presenting-partner">, MissionPartnerCardSize> = {
-  "mission-sponsor": "large",
-  "mission-partner": "medium",
-  advocate: "medium",
-  ally: "compact",
-  "campaign-supporter": "compact",
+/**
+ * Support TYPE, not sponsorship RANK — shown as a small category chip on
+ * untiered "Campaign Partners & Services" cards only (see MissionPartnerCard).
+ * Deliberately doesn't cover every PartnerType: campaign-sponsor and
+ * team-benefit-partner have their own dedicated presentation elsewhere and
+ * don't need a redundant category chip too.
+ */
+const PARTNER_TYPE_CATEGORY_LABEL: Partial<Record<PartnerType, string>> = {
+  "gear-partner": "Gear",
+  "service-partner": "Service",
+  "print-partner": "Printing",
+  "training-partner": "Training",
+  "accommodations-partner": "Lodging",
 };
 
-const GRID_COLS: Record<MissionPartnerCardSize, string> = {
-  large: "sm:grid-cols-2",
-  medium: "sm:grid-cols-2 lg:grid-cols-3",
-  compact: "sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4",
-};
+const TIERED_ORDER = MISSION_PARTNER_TIERS.filter((tier) => tier.id !== "presenting-partner").map((tier) => tier.id);
 
 /**
  * Partners & Supporters — gear/resource/monetary mission partners
- * (mission_partners table), grouped by formal recognition tier (see
- * MISSION_PARTNER_TIERS in src/lib/constants.ts), plus the current
- * gear/support wishlist — split out from the former /partners page so
- * they get their own page distinct from the nonprofit beneficiaries (see
+ * (mission_partners table), ranked by formal recognition tier (see
+ * MISSION_PARTNER_TIERS in src/lib/constants.ts) so visual prominence
+ * (section spacing, card size/border, logo scale) decreases as the page
+ * moves downward — see src/lib/tier-theme.ts for the per-tier config that
+ * drives it. Split out from the former /partners page so it gets its own
+ * page distinct from the nonprofit beneficiaries (see
  * src/app/beneficiaries/page.tsx). Tiers reflect the cumulative
  * fair-market value of cash + in-kind support a partner has provided, not
  * cash alone (see the sponsorship-progression section below).
@@ -65,11 +66,18 @@ const GRID_COLS: Record<MissionPartnerCardSize, string> = {
  * (22.forthe22.org), not here; this page keeps only a teaser link into the
  * giveaway section below.
  *
- * Section order establishes credibility before making an ask: current
- * partners and their functional recognition first (evidence of momentum),
- * then the recruitment pitch (aspiration), then the specific remaining
- * needs (a concrete, actionable opportunity), then disclosures. See the
- * redesign spec this order was built from for the full rationale.
+ * A partner's sponsorship TIER and campaign ROLE (e.g. Montgomery Bicycle
+ * Club's "Official Bicycle Support Partner") are independent concepts —
+ * role designations render as a small badge on whatever card the partner
+ * already has, never as their own separate tier/section (see
+ * PartnerRoleBadge and MissionPartnerRow.designation's doc comment).
+ *
+ * Section order keeps the tier hierarchy and its value-range explanation
+ * together and uninterrupted (tiers → untiered campaign partners → the
+ * recruitment ladder), then the rest of the page's supporting sections
+ * (a team-benefit spotlight, the 22 For the 22 giveaway, a story break,
+ * the donate-vs-partner explainer, and the current gear-needs tracker)
+ * follow after, in that order.
  */
 export default async function SponsorsPage() {
   const [partners, currentEvent] = await Promise.all([getMissionPartners(), getCurrentEventConfig()]);
@@ -77,22 +85,17 @@ export default async function SponsorsPage() {
   const generalPartners = partners.filter((p) => p.partner_type !== "giveaway-supporter");
 
   const presentingPartners = generalPartners.filter((p) => p.tier === "presenting-partner");
-  const featuredDesignationPartner = generalPartners.find(
-    (p) => p.designation === OFFICIAL_BICYCLE_SUPPORT_DESIGNATION,
-  );
   const teamBenefitPartner = generalPartners.find((p) => p.partner_type === "team-benefit-partner");
 
-  const tieredGroups = MISSION_PARTNER_TIERS.filter((tier) => tier.id !== "presenting-partner")
-    .map((tier) => ({
-      tier,
-      partners: generalPartners.filter((p) => p.tier === tier.id),
-    }))
-    .filter((group) => group.partners.length > 0);
+  const tieredPartners: Record<string, MissionPartnerRow[]> = {};
+  for (const tierId of TIERED_ORDER) {
+    tieredPartners[tierId] = generalPartners.filter((p) => p.tier === tierId);
+  }
 
-  const officialPartners = generalPartners.filter(
-    (p) => !p.tier && p.designation && p.id !== featuredDesignationPartner?.id,
-  );
-  const additionalPartners = generalPartners.filter((p) => !p.tier && !p.designation);
+  // Everyone without a formal dollar/FMV tier yet — gear, service, print, training,
+  // and lodging partners, functional-role partners like MBC, and team-benefit
+  // partners like XTERRA (which also gets its own spotlight section below).
+  const campaignPartnersAndServices = generalPartners.filter((p) => !p.tier);
 
   const hasAnyCurrentPartners = generalPartners.length > 0;
 
@@ -108,84 +111,102 @@ export default async function SponsorsPage() {
         />
       </CampaignPageHero>
 
-      {/* Current Partners — established first, before any recruitment pitch. */}
-      <section className="py-16 sm:py-20">
-        <Container>
-          {!hasAnyCurrentPartners ? (
+      {!hasAnyCurrentPartners ? (
+        <section className="py-16 sm:py-20">
+          <Container>
             <EmptyState
               title="Partners will be listed here soon."
               description="Confirmed campaign partners will appear on this page as relationships are finalized."
             />
-          ) : (
-            <div className="space-y-12">
-              {presentingPartners.map((partner) => (
-                <PresentingPartnerFeature key={partner.id} partner={partner} />
-              ))}
-
-              {tieredGroups.map(({ tier, partners: tierPartners }) => {
-                const size = TIER_CARD_SIZE[tier.id as Exclude<MissionPartnerTier, "presenting-partner">];
-                return (
-                  <div key={tier.id}>
-                    <p className="text-xs font-semibold uppercase tracking-widest text-bronze">{tier.name}</p>
-                    <div className={`mt-4 grid gap-6 ${GRID_COLS[size]}`}>
-                      {tierPartners.map((partner) => (
-                        <MissionPartnerCard
-                          key={partner.id}
-                          partner={partner}
-                          size={size}
-                          tier={tier.id as Exclude<MissionPartnerTier, "presenting-partner">}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                );
-              })}
-
-              {officialPartners.length > 0 && (
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-widest text-bronze">Official Partners</p>
-                  <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    {officialPartners.map((partner) => (
-                      <MissionPartnerCard key={partner.id} partner={partner} size="medium" />
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {additionalPartners.length > 0 && (
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-widest text-bronze">
-                    Additional Campaign Partners
-                  </p>
-                  <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    {additionalPartners.map((partner) => (
-                      <MissionPartnerCard key={partner.id} partner={partner} size="medium" />
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-        </Container>
-      </section>
-
-      {/* Official functional partnership — e.g. Montgomery Bicycle Club's bike-build support. */}
-      {featuredDesignationPartner && (
-        <section className="border-t border-ink/10 bg-sand-light py-16 sm:py-20">
-          <Container className="max-w-4xl">
-            <OfficialDesignationFeature
-              partner={featuredDesignationPartner}
-              quote="Helping turn a donated frame into the race bike that will carry Tri For the 22 through Chattanooga."
-              linkHref="/journal/building-the-bike"
-              linkLabel="See the Bike Build"
-            />
           </Container>
         </section>
+      ) : (
+        <>
+          {/* Presenting Partner — the most visually dominant level, or a tasteful "open" placeholder. */}
+          <section className="border-b border-ink/10 bg-ink py-16 sm:py-20">
+            <Container>
+              {presentingPartners.length > 0 ? (
+                <div className="space-y-8">
+                  {presentingPartners.map((partner) => (
+                    <PresentingPartnerFeature key={partner.id} partner={partner} />
+                  ))}
+                </div>
+              ) : (
+                <PresentingPartnerPlaceholder />
+              )}
+            </Container>
+          </section>
+
+          {/* Mission Sponsor → Mission Partner → Advocate → Ally → Campaign Supporter, decreasing prominence. */}
+          {TIERED_ORDER.map((tierId) => (
+            <SponsorSection
+              key={tierId}
+              tier={tierId as Exclude<(typeof TIERED_ORDER)[number], "presenting-partner">}
+              partners={tieredPartners[tierId]}
+            />
+          ))}
+
+          {/* Campaign Partners & Services — support that doesn't fit the dollar/FMV tier hierarchy. */}
+          {campaignPartnersAndServices.length > 0 && (
+            <section className="border-t border-ink/10 bg-sand-light/50 py-12 sm:py-14">
+              <Container>
+                <h2 className="font-display text-lg font-bold uppercase tracking-tight text-ink">
+                  Campaign Partners &amp; Services
+                </h2>
+                <p className="mt-1 max-w-2xl text-sm text-charcoal-light">
+                  Organizations supporting the campaign through gear, services, and expertise outside the formal
+                  sponsorship tiers above.
+                </p>
+                <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+                  {campaignPartnersAndServices.map((partner) => (
+                    <MissionPartnerCard
+                      key={partner.id}
+                      partner={partner}
+                      categoryLabel={
+                        partner.partner_type ? PARTNER_TYPE_CATEGORY_LABEL[partner.partner_type] : undefined
+                      }
+                    />
+                  ))}
+                </div>
+              </Container>
+            </section>
+          )}
+
+          {/* Become a Partner — kept immediately after the tier hierarchy, not buried below other sections. */}
+          <section className="border-t border-ink/10 py-16 sm:py-20">
+            <Container className="max-w-3xl">
+              <SectionHeading
+                align="center"
+                eyebrow="Support the Campaign"
+                title="Become a Tri For the 22 Partner"
+                description="Tri For the 22 is being built with the help of businesses and organizations providing equipment, services, expertise, and financial support. Partnership opportunities recognize the organizations helping get the campaign to the starting line while keeping fundraising for the beneficiary organizations separate."
+              />
+            </Container>
+          </section>
+
+          <section className="border-b border-ink/10 py-4 sm:py-8">
+            <Container>
+              <SponsorshipProgression />
+
+              <div className="mx-auto mt-10 max-w-3xl space-y-3 text-sm leading-relaxed text-charcoal-light">
+                <p>
+                  Support doesn&apos;t have to come in the form of a check. Tri For the 22 recognizes qualifying
+                  contributions of equipment, products, printing, professional services, and other campaign needs
+                  toward partnership levels based on their fair-market value.
+                </p>
+                <p>
+                  Partnership levels may reflect the cumulative value of qualifying support provided during the
+                  campaign.
+                </p>
+              </div>
+            </Container>
+          </section>
+        </>
       )}
 
       {/* Team benefit partnership — a discount/pricing arrangement for approved team members, not a monetary tier. */}
       {teamBenefitPartner && (
-        <section className="border-t border-ink/10 py-16 sm:py-20">
+        <section className="border-b border-ink/10 py-16 sm:py-20">
           <Container className="max-w-4xl">
             <TeamBenefitPartnerFeature
               partner={teamBenefitPartner}
@@ -201,7 +222,7 @@ export default async function SponsorsPage() {
       )}
 
       {currentEvent && (
-        <section className="border-t border-ink/10 bg-sand-light">
+        <section className="border-b border-ink/10 bg-sand-light">
           <EventGiveawaySection prizes={giveawayPrizes} partners={partners} />
           <Container className="pb-16">
             <CTAButton href={EVENT22_CAMPAIGN_URL}>See the Full 22 For the 22 Event Page</CTAButton>
@@ -209,35 +230,7 @@ export default async function SponsorsPage() {
         </section>
       )}
 
-      {/* Visual/story break between current-partner recognition and the recruitment pitch below. */}
       <PartnershipStoryBreak />
-
-      {/* Become a Partner — recruitment pitch starts here. */}
-      <section className="border-b border-ink/10 py-16 sm:py-20">
-        <Container className="max-w-3xl">
-          <SectionHeading
-            align="center"
-            eyebrow="Support the Campaign"
-            title="Become a Tri For the 22 Partner"
-            description="Tri For the 22 is being built with the help of businesses and organizations providing equipment, services, expertise, and financial support. Partnership opportunities recognize the organizations helping get the campaign to the starting line while keeping fundraising for the beneficiary organizations separate."
-          />
-        </Container>
-      </section>
-
-      <section className="border-b border-ink/10 py-4 sm:py-8">
-        <Container>
-          <SponsorshipProgression />
-
-          <div className="mx-auto mt-10 max-w-3xl space-y-3 text-sm leading-relaxed text-charcoal-light">
-            <p>
-              Support doesn&apos;t have to come in the form of a check. Tri For the 22 recognizes qualifying
-              contributions of equipment, products, printing, professional services, and other campaign needs
-              toward partnership levels based on their fair-market value.
-            </p>
-            <p>Partnership levels may reflect the cumulative value of qualifying support provided during the campaign.</p>
-          </div>
-        </Container>
-      </section>
 
       {/* Donate vs. Partner — kept explicit; sponsorship money is never routed to beneficiaries. */}
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
@@ -246,7 +239,7 @@ export default async function SponsorsPage() {
         </Container>
       </section>
 
-      {/* Current Gear & Support Needs — moved below the partner/partnership story, reframed as actionable opportunities. */}
+      {/* Current Gear & Support Needs — reframed as actionable opportunities. */}
       <section className="border-b border-ink/10 py-16 sm:py-20">
         <Container>
           <SectionHeading

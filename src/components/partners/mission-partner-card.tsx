@@ -1,70 +1,68 @@
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
 import { PartnerLogo } from "@/components/shared/partner-logo";
+import { PartnerRoleBadge } from "@/components/partners/partner-role-badge";
 import { TeamBenefitBadge } from "@/components/partners/team-benefit-badge";
 import { TIER_THEME } from "@/lib/tier-theme";
 import { MISSION_PARTNER_TIERS } from "@/lib/constants";
 import type { MissionPartnerRow, MissionPartnerTier } from "@/types/database";
 
-/** Card size, driven by the partner's tier — see mapTierToSize in src/app/sponsors/page.tsx. */
-export type MissionPartnerCardSize = "large" | "medium" | "compact";
-
-const LOGO_HEIGHT: Record<MissionPartnerCardSize, string> = {
-  large: "h-32",
-  medium: "h-24",
-  compact: "h-20",
-};
-
-const NAME_SIZE: Record<MissionPartnerCardSize, string> = {
-  large: "text-2xl",
-  medium: "text-xl",
-  compact: "text-base",
-};
-
-const PADDING: Record<MissionPartnerCardSize, string> = {
-  large: "p-8",
-  medium: "p-6",
-  compact: "p-4",
+/** Untiered-card fallback — smaller and quieter than any formal sponsorship tier. See TIER_THEME for the tiered equivalents. */
+const UNTIERED_CARD = {
+  border: "border border-ink/10",
+  background: "bg-off-white",
+  padding: "p-4",
+  logoHeight: "h-16",
+  nameSize: "text-sm",
 };
 
 export function MissionPartnerCard({
   partner,
-  size = "medium",
   tier,
+  categoryLabel,
 }: {
   partner: MissionPartnerRow;
-  size?: MissionPartnerCardSize;
-  /** Drives the card's tier-specific theme (border/background/badge) — see src/lib/tier-theme.ts. Omit for an untiered official/additional partner. */
+  /** Drives the card's tier-specific theme (border/background/logo size/badge) — see src/lib/tier-theme.ts. Omit for an untiered campaign partner. */
   tier?: Exclude<MissionPartnerTier, "presenting-partner">;
+  /** Shown as a small category chip instead of a tier badge — for untiered "Campaign Partners & Services" cards (e.g. "Gear", "Printing"). Ignored when `tier` is set. */
+  categoryLabel?: string;
 }) {
   const theme = tier ? TIER_THEME[tier] : undefined;
   const tierName = tier ? MISSION_PARTNER_TIERS.find((t) => t.id === tier)?.name : undefined;
 
+  const border = theme?.border ?? UNTIERED_CARD.border;
+  const background = theme?.background ?? UNTIERED_CARD.background;
+  const padding = theme?.padding ?? UNTIERED_CARD.padding;
+  const logoHeight = theme?.logoHeight ?? UNTIERED_CARD.logoHeight;
+  const nameSize = theme?.nameSize ?? UNTIERED_CARD.nameSize;
+
   return (
-    <div
-      className={`flex flex-col rounded-sm border ${theme?.background ?? "bg-off-white"} ${PADDING[size]} ${
-        theme?.border ?? "border-ink/10"
-      } ${theme?.accentBar ?? ""}`}
-    >
+    <div className={`flex flex-col rounded-sm ${background} ${padding} ${border} ${theme?.accentBar ?? ""}`}>
       <PartnerLogo
         name={partner.name}
         logoUrl={partner.logo_url}
         logoLightUrl={partner.logo_light_url}
         logoDarkUrl={partner.logo_dark_url}
         background={partner.logo_background}
-        className={`${LOGO_HEIGHT[size]} w-full`}
+        className={`${logoHeight} w-full`}
       />
 
-      <h3 className={`mt-4 font-display ${NAME_SIZE[size]} font-semibold uppercase tracking-wide text-ink`}>
+      <h3 className={`mt-4 font-display ${nameSize} font-semibold uppercase tracking-wide text-ink`}>
         {partner.name}
       </h3>
 
-      {tierName && theme && (
+      {tierName && theme ? (
         <span
           className={`mt-2 inline-flex w-fit items-center rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest ${theme.badgeBg} ${theme.badgeText}`}
         >
           {tierName}
         </span>
+      ) : (
+        categoryLabel && (
+          <div className="mt-2">
+            <PartnerRoleBadge label={categoryLabel} variant="category" />
+          </div>
+        )
       )}
 
       <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-bronze">
@@ -72,7 +70,9 @@ export function MissionPartnerCard({
       </p>
 
       {partner.designation && (
-        <p className="mt-2 text-xs font-semibold uppercase tracking-widest text-ink">{partner.designation}</p>
+        <div className="mt-2">
+          <PartnerRoleBadge label={partner.designation} />
+        </div>
       )}
 
       {partner.support_type && (
@@ -90,7 +90,7 @@ export function MissionPartnerCard({
           href={partner.website_url}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-5 inline-flex w-fit items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+          className="mt-5 inline-flex w-fit items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bronze"
         >
           Visit Partner
           <ExternalLink size={13} aria-hidden />
