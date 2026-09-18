@@ -275,15 +275,14 @@ export const SEED_MISSION_PARTNERS: MissionPartnerRow[] = [
   {
     id: "seed-mission-partner-montgomery-bicycle-club",
     name: "Montgomery Bicycle Club",
-    relationship_label: "Functional Partner",
-    description:
-      "Helping turn a donated frame into the race bike that will carry Tri For The 22 through Chattanooga — contributing significant bicycle parts, service, expertise, and time to the campaign race bike build.",
+    relationship_label: "Gear Partner",
+    description: "The Montgomery Bicycle Club is building Cody a race bike for the Tri For The 22 campaign.",
     logo_url: "/partners/montgomery-bicycle-club-logo.png",
     logo_light_url: null,
     logo_dark_url: null,
     logo_background: null,
-    website_url: null,
-    support_type: "Bicycle parts, service & expertise",
+    website_url: "https://www.mgmbikeclub.org/",
+    support_type: "Race Bike Build",
     geographic_scope: null,
     active: true,
     display_order: 6,
@@ -292,8 +291,8 @@ export const SEED_MISSION_PARTNERS: MissionPartnerRow[] = [
     relationship_start: null,
     relationship_end: null,
     associated_campaigns: null,
-    partner_type: "service-partner",
-    tier: null,
+    partner_type: "gear-partner",
+    tier: "presenting-partner",
     designation: "Official Bicycle Support Partner",
   },
   {
@@ -820,6 +819,33 @@ export const SEED_PERFORMANCE_SNAPSHOTS: PerformanceSnapshotRow[] = [
     4,
     { numeric: 124, unit: "sec/100yd" },
   ),
+  snapshot("seed-perf-swim-6", "2026-09-18", "swim", "swim_session_distance_yd", "Session Distance", "2,400 yd", 5, {
+    numeric: 2400,
+    unit: "yd",
+  }),
+  snapshot("seed-perf-swim-7", "2026-09-18", "swim", "swim_session_duration", "Session Duration", "1:00:00", 6),
+  snapshot("seed-perf-swim-8", "2026-09-18", "swim", "swim_session_tss", "Session TSS", "70", 7, {
+    numeric: 70,
+    measured: false,
+  }),
+  snapshot("seed-perf-swim-9", "2026-09-18", "swim", "swim_session_avg_hr", "Session Average HR", "133 bpm", 8, {
+    numeric: 133,
+    unit: "bpm",
+  }),
+  snapshot("seed-perf-swim-10", "2026-09-18", "swim", "swim_session_max_hr", "Session Max HR", "168 bpm", 9, {
+    numeric: 168,
+    unit: "bpm",
+  }),
+  snapshot(
+    "seed-perf-swim-11",
+    "2026-09-18",
+    "swim",
+    "swim_session_calories",
+    "Session Calories",
+    "627 kcal",
+    10,
+    { numeric: 627, unit: "kcal" },
+  ),
 
   snapshot("seed-perf-bike-1", "2026-09-08", "bike", "bike_ftp_watts", "FTP", "143 W", 0, {
     numeric: 143,
@@ -990,6 +1016,35 @@ export const SEED_PERFORMANCE_SNAPSHOTS: PerformanceSnapshotRow[] = [
     numeric: 462,
     unit: "sec/mi",
   }),
+  snapshot("seed-perf-run-11", "2026-09-18", "run", "run_distance_mi", "Distance", "3.05 mi", 0, {
+    numeric: 3.05,
+    unit: "mi",
+  }),
+  snapshot("seed-perf-run-12", "2026-09-18", "run", "run_moving_time", "Moving Time", "29:30", 1),
+  snapshot("seed-perf-run-13", "2026-09-18", "run", "run_avg_pace", "Average Pace", "9:39/mi", 2, {
+    numeric: 579,
+    unit: "sec/mi",
+  }),
+  snapshot("seed-perf-run-14", "2026-09-18", "run", "run_elevation_ft", "Elevation Gain", "166 ft", 5, {
+    numeric: 166,
+    unit: "ft",
+  }),
+  snapshot("seed-perf-run-15", "2026-09-18", "run", "run_relative_effort", "Relative Effort", "37", 10, {
+    numeric: 37,
+  }),
+  snapshot("seed-perf-run-16", "2026-09-18", "run", "run_calories", "Calories", "565 kcal", 11, {
+    numeric: 565,
+    unit: "kcal",
+  }),
+  snapshot(
+    "seed-perf-run-17",
+    "2026-09-18",
+    "run",
+    "run_conditions",
+    "Conditions",
+    "70°F / Feels 73°F / 90% humidity",
+    12,
+  ),
 
   snapshot("seed-perf-aerobic-1", "2026-09-15", "aerobic", "vo2max", "Estimated VO2 Max", "42", 0, {
     numeric: 42,
@@ -1018,4 +1073,16 @@ export const SEED_PERFORMANCE_SNAPSHOTS: PerformanceSnapshotRow[] = [
     3,
     { numeric: 3, measured: false },
   ),
+  snapshot("seed-perf-tp-5", "2026-09-18", "trainingpeaks", "tp_fitness", "Fitness (CTL)", "21", 0, {
+    numeric: 21,
+    measured: false,
+  }),
+  snapshot("seed-perf-tp-6", "2026-09-18", "trainingpeaks", "tp_fatigue", "Fatigue (ATL)", "49", 1, {
+    numeric: 49,
+    measured: false,
+  }),
+  snapshot("seed-perf-tp-7", "2026-09-18", "trainingpeaks", "tp_form", "Form (TSB)", "-17", 2, {
+    numeric: -17,
+    measured: false,
+  }),
 ];

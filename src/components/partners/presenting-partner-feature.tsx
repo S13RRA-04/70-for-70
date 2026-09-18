@@ -12,7 +12,18 @@ import type { MissionPartnerRow } from "@/types/database";
  * (the same one CampaignPageHero uses) rather than a flat fill, so it reads
  * as the top of the mountain without turning into a gold-medal graphic.
  */
-export function PresentingPartnerFeature({ partner }: { partner: MissionPartnerRow }) {
+export function PresentingPartnerFeature({
+  partner,
+  secondaryLinkHref,
+  secondaryLinkLabel,
+}: {
+  partner: MissionPartnerRow;
+  /** Optional internal link to related campaign content (e.g. MBC's build story) — distinct from the partner's own website link below. */
+  secondaryLinkHref?: string;
+  secondaryLinkLabel?: string;
+}) {
+  const blurb = partner.description || partner.support_type;
+
   return (
     <div className="relative overflow-hidden rounded-sm border-2 border-bronze bg-ink text-off-white">
       <div
@@ -36,21 +47,36 @@ export function PresentingPartnerFeature({ partner }: { partner: MissionPartnerR
             {partner.name}
           </h3>
 
-          {partner.support_type && (
-            <p className="mt-4 max-w-xl text-base leading-relaxed text-off-white/80">{partner.support_type}</p>
+          {partner.designation && (
+            <p className="mt-2 text-xs font-semibold uppercase tracking-widest text-off-white/80">
+              {partner.designation}
+            </p>
           )}
 
-          {partner.website_url && (
-            <Link
-              href={partner.website_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-6 inline-flex w-fit items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-bronze-light hover:text-bronze focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bronze-light"
-            >
-              Visit {partner.name}
-              <ExternalLink size={14} aria-hidden />
-            </Link>
-          )}
+          {blurb && <p className="mt-4 max-w-xl text-base leading-relaxed text-off-white/80">{blurb}</p>}
+
+          <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
+            {partner.website_url && (
+              <Link
+                href={partner.website_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex w-fit items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-bronze-light hover:text-bronze focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bronze-light"
+              >
+                Visit {partner.name}
+                <ExternalLink size={14} aria-hidden />
+              </Link>
+            )}
+
+            {secondaryLinkHref && secondaryLinkLabel && (
+              <Link
+                href={secondaryLinkHref}
+                className="inline-flex w-fit items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-off-white/70 hover:text-off-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-off-white/70"
+              >
+                {secondaryLinkLabel} &rarr;
+              </Link>
+            )}
+          </div>
         </div>
       </div>
     </div>

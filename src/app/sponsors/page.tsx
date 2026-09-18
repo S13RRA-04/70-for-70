@@ -42,6 +42,10 @@ const PARTNER_TYPE_CATEGORY_LABEL: Partial<Record<PartnerType, string>> = {
 };
 
 const TIERED_ORDER = MISSION_PARTNER_TIERS.filter((tier) => tier.id !== "presenting-partner").map((tier) => tier.id);
+const PRESENTING_PARTNER_TIER = MISSION_PARTNER_TIERS.find((tier) => tier.id === "presenting-partner")!;
+
+/** MBC's role designation also earns it a link to the campaign's build story — see PresentingPartnerFeature's secondaryLink props. */
+const OFFICIAL_BICYCLE_SUPPORT_DESIGNATION = "Official Bicycle Support Partner";
 
 /**
  * Partners & Supporters — gear/resource/monetary mission partners
@@ -125,15 +129,39 @@ export default async function SponsorsPage() {
           {/* Presenting Partner — the most visually dominant level, or a tasteful "open" placeholder. */}
           <section className="border-b border-ink/10 bg-ink py-16 sm:py-20">
             <Container>
-              {presentingPartners.length > 0 ? (
-                <div className="space-y-8">
-                  {presentingPartners.map((partner) => (
-                    <PresentingPartnerFeature key={partner.id} partner={partner} />
-                  ))}
-                </div>
-              ) : (
-                <PresentingPartnerPlaceholder />
-              )}
+              <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                <h2 className="font-display text-3xl font-bold uppercase tracking-tight text-off-white sm:text-4xl">
+                  {PRESENTING_PARTNER_TIER.name}
+                </h2>
+                <p className="text-sm text-off-white/60">
+                  {PRESENTING_PARTNER_TIER.range} in qualifying campaign support
+                </p>
+              </div>
+
+              <div className="mt-6">
+                {presentingPartners.length > 0 ? (
+                  <div className="space-y-8">
+                    {presentingPartners.map((partner) => (
+                      <PresentingPartnerFeature
+                        key={partner.id}
+                        partner={partner}
+                        secondaryLinkHref={
+                          partner.designation === OFFICIAL_BICYCLE_SUPPORT_DESIGNATION
+                            ? "/journal/building-the-bike"
+                            : undefined
+                        }
+                        secondaryLinkLabel={
+                          partner.designation === OFFICIAL_BICYCLE_SUPPORT_DESIGNATION
+                            ? "See the Bike Build"
+                            : undefined
+                        }
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <PresentingPartnerPlaceholder />
+                )}
+              </div>
             </Container>
           </section>
 
