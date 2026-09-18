@@ -69,7 +69,7 @@ export const BIKE_BUILD_STATUS_SUMMARY: BikeBuildStatusSummaryItem[] = [
     label: "Parts Pickup",
     status: "available",
     statusLabel: "In Transit",
-    detail: "Family has picked up the available components from Montgomery Bicycle Club; full inventory happens this weekend.",
+    detail: "Family has picked up the available components from Montgomery Bicycle Club; Cody collects them and takes full inventory September 19.",
   },
   {
     label: "Final Assembly",
@@ -161,14 +161,26 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
   {
     component: "Saddle",
     status: "confirmed",
-    statusLabel: "Confirmed",
-    notes: "Provided by ISM Saddles.",
+    statusLabel: "In Hand",
+    notes: "ISM PR 3.0 (60mm), provided by ISM Saddles — arrived August 28, 2026.",
   },
   {
     component: "Pedals",
     status: "confirmed",
+    statusLabel: "In Hand",
+    notes: "RockBros clipless pedals with cleats, purchased online — arrived September 16, 2026.",
+  },
+  {
+    component: "Shifter Cables & Housing",
+    status: "confirmed",
     statusLabel: "Purchased",
-    notes: "RockBros pedals, purchased online.",
+    notes: "Purchased September 18, 2026 — expected to arrive Sunday, September 20.",
+  },
+  {
+    component: "Handlebar Tape",
+    status: "confirmed",
+    statusLabel: "Purchased",
+    notes: "Purchased September 18, 2026 — expected to arrive Sunday, September 20.",
   },
   {
     component: "Chain",
@@ -237,7 +249,7 @@ export const BIKE_BUILD_CONFIRMED_CONTRIBUTORS: BikeBuildContributor[] = [
   {
     name: "ISM Saddles",
     role: "Saddle",
-    note: "Provided the saddle going on the race bike.",
+    note: "Provided the saddle going on the race bike — and sent a shirt along with it.",
   },
 ];
 
@@ -576,6 +588,37 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
     ],
   },
   {
+    id: "ism-saddle-arrives",
+    date: "2026-08-28",
+    displayDate: "August 28, 2026",
+    title: "ISM Delivers the Saddle — and a Shirt",
+    summary: "The ISM PR 3.0 saddle pledged for the build arrived, along with an ISM t-shirt that wasn't part of the ask.",
+    status: "Saddle in hand",
+    contributors: ["ISM Saddles"],
+    photos: [
+      {
+        src: "/journal/building-the-bike/ism-saddle-and-shirt.jpeg",
+        alt: "An ISM PR 3.0 saddle resting on a dark gray ISM-branded t-shirt.",
+        caption: "The ISM PR 3.0 saddle, size 60mm — and the shirt ISM sent along with it.",
+        width: 2856,
+        height: 2142,
+      },
+    ],
+    technicalDetails: {
+      heading: "Saddle",
+      items: [
+        { label: "Model", value: "ISM PR 3.0" },
+        { label: "Size", value: "60mm" },
+      ],
+    },
+    body: [
+      "Two weeks after Praxis and Redshift turned open questions into real hardware, ISM did the same for the saddle: the PR 3.0 they pledged showed up, size 60mm, ISM branding intact.",
+      "A cutout saddle isn't a small ask — it's the kind of component that either works for a rider's anatomy or genuinely doesn't, no matter how good the rest of the build is. ISM backing that with real hardware instead of just an offer is one more piece of this bike that no longer has to be sourced, guessed at, or worried about.",
+      "ISM also sent along a shirt — not something I asked for, just a nice gesture that came with the box.",
+      "Huge thanks to ISM Saddles for getting behind this campaign with real support, not just a conversation.",
+    ],
+  },
+  {
     id: "praxis-crankset-arrives",
     date: "2026-09-02",
     displayDate: "September 2, 2026",
@@ -628,6 +671,28 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
     relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
   },
   {
+    id: "pearl-izumi-cycling-shoes",
+    date: "2026-09-10",
+    displayDate: "Week of September 8, 2026",
+    title: "Cycling Shoes: Pearl iZumi",
+    summary: "A pair of Pearl iZumi cycling shoes — purchased, not donated — rounding out the connection from pedal to cockpit.",
+    status: "Cycling shoes purchased",
+    photos: [
+      {
+        src: "/journal/building-the-bike/pearl-izumi-shoes.jpeg",
+        alt: "A pair of black Pearl iZumi cycling shoes with clipless cleats visible on the sole, on a carpeted floor.",
+        caption: "Pearl iZumi cycling shoes, purchased for the build.",
+        width: 2856,
+        height: 2142,
+      },
+    ],
+    body: [
+      "Cycling shoes had been sitting on the gear-needs list as \"Needed\" since this page started. This is the one that came off the list by simply buying it.",
+      "A pair of Pearl iZumi cycling shoes: stiff soles, a proper clipless cleat interface, and the actual connection point between the pedals below and the aero position everything else on this bike is built around.",
+      "Unlike the saddle, the crankset, or the aero bars, there's no sponsor behind this one — just a purchase, made because training doesn't wait for every piece of the puzzle to be donated.",
+    ],
+  },
+  {
     id: "feedback-sports-mechanic-stand",
     date: "2026-09-16",
     displayDate: "September 16, 2026",
@@ -661,6 +726,43 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "Beyond that? What else this build still needs is honestly still an open question — one this weekend's inventory should start answering.",
     ],
     relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+  },
+  {
+    id: "rockbros-pedals-arrive",
+    date: "2026-09-16",
+    displayDate: "September 16, 2026",
+    title: "Pedals and Cleats: RockBros",
+    summary: "A pair of RockBros clipless pedals with cleats arrived — the last piece connecting shoe to crank.",
+    status: "Pedals in hand",
+    photos: [
+      {
+        src: "/journal/building-the-bike/rockbros-pedals.png",
+        alt: "A pair of RockBros clipless bicycle pedals with matching cleats and hex wrenches, as listed for purchase.",
+        caption: "The RockBros clipless pedals and cleats, as ordered.",
+        width: 942,
+        height: 782,
+      },
+    ],
+    body: [
+      "Two days ago, the plan was \"I know I'll need tires and a chain — what else, I don't know yet.\" Pedals turned out to be one of the answers.",
+      "A pair of RockBros clipless pedals, cleats included, arrived the same day the MBC parts started their trip home. Between these and the Pearl iZumi shoes bought a couple weeks earlier, the connection from foot to crank is now fully accounted for.",
+      "Like the shoes, this was a straightforward purchase, not a donation — sometimes the fastest way to close a gap is just to close it.",
+    ],
+  },
+  {
+    id: "cables-tape-and-tomorrows-pickup",
+    date: "2026-09-18",
+    displayDate: "September 18, 2026",
+    title: "Cables, Housing, Bar Tape — and Tomorrow's the Day",
+    summary: "Shifter cables, housing, and handlebar tape are ordered and due Sunday — and tomorrow, the parts finally come home.",
+    status: "Consumables ordered; pickup tomorrow",
+    featured: true,
+    body: [
+      "Two more purchases went in today: shifter cables and housing, and handlebar tape. Neither is glamorous, and neither was really answerable until the frame and drivetrain were far enough along to know exactly what the cabling needs to do. Both are expected to arrive Sunday, September 20.",
+      "The bigger news is what happens before that shipment even shows up: tomorrow, I'm picking up the bike — the actual components MBC has been holding, that my family collected on my behalf a couple of days ago.",
+      "That's the moment this page has been building toward since the frame first showed up in a garage in late August: real inventory, in hand, instead of a list of parts scattered across a shop, a family member's car, and a handful of online orders.",
+      "Not assembled yet. Not fitted yet. But for the first time, everything is finally about to be in one place.",
+    ],
   },
 ];
 

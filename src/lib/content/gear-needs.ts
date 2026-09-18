@@ -56,9 +56,9 @@ export const GEAR_NEEDS_CATEGORIES: GearNeedsCategory[] = [
       },
       {
         component: "Cycling Shoes",
-        status: "needed",
-        statusLabel: "Needed",
-        notes: "Clipless shoes for the bike leg.",
+        status: "confirmed",
+        statusLabel: "Confirmed",
+        notes: "Pearl iZumi clipless cycling shoes, purchased.",
       },
       {
         component: "Running Shoes — Training",
