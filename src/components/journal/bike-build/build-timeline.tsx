@@ -86,6 +86,43 @@ export function BuildTimeline({ entries }: { entries: BikeBuildTimelineEntry[] }
               </div>
             )}
 
+            {entry.costTable && (
+              <div className="mt-5">
+                <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                  {entry.costTable.heading}
+                </p>
+                {entry.costTable.note && (
+                  <p className="mt-1 text-xs text-charcoal-light/80">{entry.costTable.note}</p>
+                )}
+                <div className="mt-3 overflow-x-auto rounded-sm border border-ink/10">
+                  <table className="w-full min-w-[420px] border-collapse text-left text-sm">
+                    <thead>
+                      <tr className="border-b border-ink/10 bg-sand-light">
+                        <th scope="col" className="px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                          Part
+                        </th>
+                        <th scope="col" className="px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                          Estimated Cost
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {entry.costTable.rows.map((row) => (
+                        <tr key={row.part} className="border-b border-ink/10 bg-off-white last:border-0">
+                          <td className="px-4 py-2.5 align-top text-ink">{row.part}</td>
+                          <td className="px-4 py-2.5 align-top text-charcoal-light">{row.cost}</td>
+                        </tr>
+                      ))}
+                      <tr className="bg-bronze/5">
+                        <td className="px-4 py-2.5 font-semibold text-ink">{entry.costTable.totalLabel}</td>
+                        <td className="px-4 py-2.5 font-semibold text-ink">{entry.costTable.totalValue}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
             {entry.photos && entry.photos.length > 0 && (
               <div className="mt-5 grid gap-4 sm:grid-cols-2">
                 {entry.photos.map((photo) => (
