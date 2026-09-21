@@ -45,7 +45,7 @@ export const BIKE_BUILD_STATUS_SUMMARY: BikeBuildStatusSummaryItem[] = [
     label: "Frame / Build",
     status: "pending",
     statusLabel: "In Progress",
-    detail: "Donated 2012 Stradalli carbon frame is the foundation; the bike is not assembled.",
+    detail: "Donated 2012 Stradalli carbon frame is on the repair stand — wheels, handlebar, seatpost, and bottom bracket are installed; assembly is underway.",
   },
   {
     label: "Fit Confirmation",
@@ -75,13 +75,13 @@ export const BIKE_BUILD_STATUS_SUMMARY: BikeBuildStatusSummaryItem[] = [
     label: "Remaining Purchases",
     status: "needed",
     statusLabel: "In Progress",
-    detail: "Derailleurs, brake calipers, tires, chain, and brake cables still needed before assembly — estimated $320–455 remaining.",
+    detail: "Chain and a rim brake set are ordered and awaiting delivery; front/rear derailleurs, tires, and brake cables still need to be ordered.",
   },
   {
     label: "Final Assembly",
     status: "pending",
-    statusLabel: "Pending",
-    detail: "Awaiting fit confirmation and the remaining components.",
+    statusLabel: "In Progress",
+    detail: "Underway as of September 21, 2026 — wheels, handlebar, seatpost, and bottom bracket installed; crankset, pedals, aerobars, brifters, and saddle still to go.",
   },
   {
     label: "First Outdoor Ride",
@@ -119,8 +119,8 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
   {
     component: "Bottom Bracket",
     status: "confirmed",
-    statusLabel: "In Hand",
-    notes: "68 mm threaded; Praxis M30 bottom bracket — arrived September 2, 2026.",
+    statusLabel: "Installed",
+    notes: "68 mm threaded; Praxis M30 bottom bracket — installed September 21, 2026.",
   },
   {
     component: "Crankset",
@@ -137,8 +137,8 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
   {
     component: "Wheel & Cassette",
     status: "confirmed",
-    statusLabel: "In Hand",
-    notes: "700C quick-release rim-brake wheelset with a Shimano Ultegra CS-6800 11-speed cassette already mounted — confirmed usable at inventory, September 19, 2026.",
+    statusLabel: "Installed",
+    notes: "700C quick-release rim-brake wheelset with a Shimano Ultegra CS-6800 11-speed cassette already mounted — both wheels attached to the frame September 21, 2026.",
   },
   {
     component: "Front Derailleur",
@@ -155,14 +155,14 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
   {
     component: "Brake Calipers",
     status: "needed",
-    statusLabel: "Needed",
-    notes: "Front and rear rim-brake calipers — targeting Shimano 105 BR-R7000 dual-pivot.",
+    statusLabel: "Ordered — Awaiting Delivery",
+    notes: "Front and rear rim-brake calipers ordered September 21, 2026; still awaiting delivery.",
   },
   {
     component: "Handlebars & Stem",
     status: "confirmed",
-    statusLabel: "In Hand",
-    notes: "Specialized Hover drop handlebar on a Specialized V13 stem.",
+    statusLabel: "Installed",
+    notes: "Specialized Hover drop handlebar on a Specialized V13 stem — handlebar installed September 21, 2026.",
   },
   {
     component: "Brake Cables",
@@ -185,8 +185,8 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
   {
     component: "Seatpost",
     status: "confirmed",
-    statusLabel: "Confirmed",
-    notes: "Provided by Redshift Sports.",
+    statusLabel: "Installed",
+    notes: "Redshift Sports multi-position seatpost — installed September 21, 2026.",
   },
   {
     component: "Saddle",
@@ -215,8 +215,8 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
   {
     component: "Chain",
     status: "needed",
-    statusLabel: "Needed",
-    notes: "Targeting a Shimano CN-HG601-11, 11-speed.",
+    statusLabel: "Ordered — Awaiting Delivery",
+    notes: "Ordered September 21, 2026, targeting a Shimano CN-HG601-11, 11-speed; still awaiting delivery.",
   },
   {
     component: "Tires",
@@ -227,8 +227,8 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
   {
     component: "Assembly",
     status: "pending",
-    statusLabel: "Pending",
-    notes: "Awaiting fit and final component confirmation.",
+    statusLabel: "In Progress",
+    notes: "Frame mounted on the Feedback Sports stand — wheels, handlebar, seatpost, and bottom bracket installed as of September 21, 2026. Crankset, pedals, aerobars, brifters, and saddle still to go.",
   },
   {
     component: "Pre-Race Tune-Up",
@@ -881,6 +881,42 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "The frame is here. The wheels are here. The cockpit is here. The crank and bottom bracket are here. The saddle is here. The controls are here. The shoes and pedals are here. Even the cassette turned out to already be sitting on the rear wheel.",
       "Now it's a finite shopping list. Brakes. Derailleurs. Tires. Chain. Cables.",
       "Then comes assembly. And after spending all this time collecting parts, measuring, researching compatibility, chasing deals, and figuring out what this old Stradalli needs, that's the part I've been waiting for: turning the collection of parts into a bike — and then finding out how fast I can make it go.",
+    ],
+    relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+  },
+  {
+    id: "assembly-begins",
+    date: "2026-09-21",
+    displayDate: "September 21, 2026",
+    title: "Assembly Begins",
+    summary:
+      "The parts didn't just make it home — they made it onto the bike. Wheels, handlebar, seatpost, and bottom bracket are installed; the crankset, pedals, aerobars, brifters, and saddle are next.",
+    status: "Assembly underway",
+    featured: true,
+    photos: [
+      {
+        src: "/journal/building-the-bike/assembly-begins-frame-on-stand.jpeg",
+        alt: "The Stradalli Sorrento frame mounted on a Feedback Sports repair stand in a garage, with both wheels and a drop handlebar already installed.",
+        caption: "Up on the Feedback Sports stand, with wheels, handlebar, and seatpost already on.",
+        width: 4032,
+        height: 3024,
+      },
+    ],
+    technicalDetails: {
+      heading: "Assembly Status",
+      items: [
+        { label: "Installed", value: "Wheels, Specialized handlebar, Redshift Sports seatpost, Praxis bottom bracket" },
+        { label: "In hand, not yet installed", value: "Praxis crankset, RockBros pedals, Redshift Sports aerobars, Shimano 105 brifters, ISM saddle" },
+        { label: "Ordered, awaiting delivery", value: "Chain, rim brake set" },
+        { label: "Still to order", value: "Front derailleur, rear derailleur, tires" },
+      ],
+    },
+    body: [
+      "The parts didn't just make it home — they made it onto the bike. Assembly has officially started.",
+      "The frame is up on the donated Feedback Sports Mechanic 2.0 stand, which turns out to be exactly as useful as advertised. Both wheels are attached. The Specialized handlebar is on. The Redshift Sports multi-position seatpost is in. The Praxis bottom bracket is installed.",
+      "Still to go, but already in hand: the Praxis crankset, the RockBros pedals, the Redshift Sports aerobars, the Shimano 105 brifters, and the ISM saddle. None of that is a sourcing question anymore — it's just a matter of turning wrenches.",
+      "A chain and a rim brake set are ordered and on the way. The front and rear derailleurs and a set of tires are still on the shopping list — the last real gaps left in the build.",
+      "Next up: another inventory pass once everything's on, a fit adjustment, and then — assuming nothing else goes sideways — a real test ride.",
     ],
     relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
   },
