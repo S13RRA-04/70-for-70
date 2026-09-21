@@ -75,7 +75,7 @@ export const BIKE_BUILD_STATUS_SUMMARY: BikeBuildStatusSummaryItem[] = [
     label: "Remaining Purchases",
     status: "needed",
     statusLabel: "In Progress",
-    detail: "Chain and a rim brake set are ordered and awaiting delivery; front/rear derailleurs, tires, and brake cables still need to be ordered.",
+    detail: "Chain, a rim brake set, an alloy headset spacer set, and a seat tube collar are ordered and awaiting delivery; front/rear derailleurs, tires, and brake cables still need to be ordered.",
   },
   {
     label: "Final Assembly",
@@ -165,6 +165,12 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
     notes: "Specialized Hover drop handlebar on a Specialized V13 stem — handlebar installed September 21, 2026.",
   },
   {
+    component: "Headset Spacers",
+    status: "needed",
+    statusLabel: "Ordered — Awaiting Delivery",
+    notes: "Alloy spacer set for front-end stack height, surfaced during assembly — ordered September 21, 2026; still awaiting delivery.",
+  },
+  {
     component: "Brake Cables",
     status: "needed",
     statusLabel: "Needed",
@@ -193,6 +199,12 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
     status: "confirmed",
     statusLabel: "Installed",
     notes: "Provided by Redshift Sports to adapt the Dual Position seatpost to the frame's seat tube — an estimated $25 in-kind; installed September 21, 2026.",
+  },
+  {
+    component: "Seat Tube Collar",
+    status: "needed",
+    statusLabel: "Ordered — Awaiting Delivery",
+    notes: "Needed to clamp the Redshift Sports seatpost in the frame — ordered September 21, 2026; still awaiting delivery.",
   },
   {
     component: "Saddle",
@@ -934,6 +946,28 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "Still to go, but already in hand: the Praxis crankset, the RockBros pedals, the Redshift Sports aerobars, the Shimano 105 brifters, and the ISM saddle. None of that is a sourcing question anymore — it's just a matter of turning wrenches.",
       "A chain and a rim brake set are ordered and on the way. The front and rear derailleurs and a set of tires are still on the shopping list — the last real gaps left in the build.",
       "Next up: another inventory pass once everything's on, a fit adjustment, and then — assuming nothing else goes sideways — a real test ride.",
+    ],
+    relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+  },
+  {
+    id: "headset-spacers-and-seat-collar-ordered",
+    date: "2026-09-21",
+    displayDate: "September 21, 2026",
+    title: "Two More Small Parts: Headset Spacers and a Seat Tube Collar",
+    summary:
+      "Assembly turned up two more small gaps — an alloy headset spacer set and a seat tube collar — neither on last week's shopping list, and both now ordered.",
+    status: "Consumables ordered",
+    technicalDetails: {
+      heading: "Newly Ordered",
+      items: [
+        { label: "Headset Spacers", value: "Alloy, for front-end stack height" },
+        { label: "Seat Tube Collar", value: "Clamps the Redshift Sports seatpost in the frame" },
+      ],
+    },
+    body: [
+      "Turning wrenches always turns up a few more things you didn't know you needed. Getting the frame onto the stand and the cockpit roughed in surfaced two small gaps: an alloy headset spacer set, to get the front-end stack height right, and a seat tube collar, to actually clamp the new Redshift seatpost in place.",
+      "Neither one made the shopping list from last week's inventory — they're the kind of small hardware that only shows up once you're physically working through fit, not sourcing something ahead of time from spec sheets.",
+      "Both are ordered and on the way.",
     ],
     relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
   },
