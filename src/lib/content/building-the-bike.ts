@@ -75,7 +75,7 @@ export const BIKE_BUILD_STATUS_SUMMARY: BikeBuildStatusSummaryItem[] = [
     label: "Remaining Purchases",
     status: "needed",
     statusLabel: "In Progress",
-    detail: "Chain, a rim brake set, an alloy headset spacer set, and a seat tube collar are ordered and awaiting delivery; front/rear derailleurs, tires, and brake cables still need to be ordered.",
+    detail: "Chain, a rim brake set, an alloy headset spacer set, a seat tube collar, and the rear derailleur are ordered and awaiting delivery; the front derailleur, tires, and brake cables still need to be ordered.",
   },
   {
     label: "Final Assembly",
@@ -149,8 +149,8 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
   {
     component: "Rear Derailleur",
     status: "needed",
-    statusLabel: "Needed",
-    notes: "Targeting a Shimano 105 RD-R7000-GS medium cage — not required by the current cassette, but leaves room for a wider-range cassette later.",
+    statusLabel: "Ordered — Awaiting Delivery",
+    notes: "Shimano 105 RD-R7000-GS medium cage, 11-speed — ordered September 21, 2026 for $38.62; still awaiting delivery. Not required by the current cassette, but leaves room for a wider-range cassette later.",
   },
   {
     component: "Brake Calipers",
@@ -968,6 +968,28 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "Turning wrenches always turns up a few more things you didn't know you needed. Getting the frame onto the stand and the cockpit roughed in surfaced two small gaps: an alloy headset spacer set, to get the front-end stack height right, and a seat tube collar, to actually clamp the new Redshift seatpost in place.",
       "Neither one made the shopping list from last week's inventory — they're the kind of small hardware that only shows up once you're physically working through fit, not sourcing something ahead of time from spec sheets.",
       "Both are ordered and on the way.",
+    ],
+    relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+  },
+  {
+    id: "rear-derailleur-ordered",
+    date: "2026-09-21",
+    displayDate: "September 21, 2026",
+    title: "Rear Derailleur: Ordered",
+    summary:
+      "A Shimano 105 RD-R7000 GS medium-cage rear derailleur is ordered for $38.62 — under the estimate, and one of the two remaining derailleurs now checked off.",
+    status: "Rear derailleur ordered",
+    technicalDetails: {
+      heading: "Rear Derailleur",
+      items: [
+        { label: "Model", value: "Shimano 105 RD-R7000, 11-speed, GS medium cage" },
+        { label: "Price", value: "$38.62" },
+      ],
+    },
+    body: [
+      "The rear derailleur targeted since inventory day is now ordered: a Shimano 105 RD-R7000, 11-speed, GS medium cage — exactly the part identified as the plan, not a substitute.",
+      "It came in at $38.62, comfortably under the $45–70 estimate from the shopping list. Good news for the budget doesn't happen often on this build; it's worth noting when it does.",
+      "That leaves the front derailleur as the only derailleur still to source — everything else on the drivetrain side of the shopping list is either installed, in hand, or on the way.",
     ],
     relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
   },
