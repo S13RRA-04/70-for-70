@@ -180,13 +180,19 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
     component: "Aerobars",
     status: "confirmed",
     statusLabel: "Confirmed",
-    notes: "Provided by Redshift Sports.",
+    notes: "Quick-Release Clip-on Aerobars, provided by Redshift Sports — an estimated $220 in-kind.",
   },
   {
     component: "Seatpost",
     status: "confirmed",
     statusLabel: "Installed",
-    notes: "Redshift Sports multi-position seatpost — installed September 21, 2026.",
+    notes: "Redshift Sports Dual Position seatpost — an estimated $250 in-kind; installed September 21, 2026.",
+  },
+  {
+    component: "Seatpost Shim",
+    status: "confirmed",
+    statusLabel: "Installed",
+    notes: "Provided by Redshift Sports to adapt the Dual Position seatpost to the frame's seat tube — an estimated $25 in-kind; installed September 21, 2026.",
   },
   {
     component: "Saddle",
@@ -269,7 +275,7 @@ export const BIKE_BUILD_CONFIRMED_CONTRIBUTORS: BikeBuildContributor[] = [
   {
     name: "Redshift Sports",
     role: "Aero bars & seatpost",
-    note: "Providing aero bars and a seatpost for the race bike build.",
+    note: "Providing aero bars, a seatpost, and a seatpost shim for the race bike build — an estimated $495 in-kind.",
   },
   {
     name: "Feedback Sports",
@@ -688,14 +694,25 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
     displayDate: "September 2, 2026",
     title: "Redshift Confirms: Aero Bars and a Seatpost",
     summary:
-      "Redshift Sports has confirmed it's providing aero bars and a seatpost for the race bike — closing the aerobar question that had been open since late August.",
+      "Redshift Sports has confirmed it's providing aero bars, a seatpost, and a seatpost shim for the race bike — an estimated $495 in-kind — closing the aerobar question that had been open since late August.",
     status: "Aero bars & seatpost confirmed",
     featured: true,
     contributors: ["Redshift Sports"],
+    costTable: {
+      heading: "Donated Value",
+      note: "Retail estimates for the components Redshift Sports is providing, not what the team was billed.",
+      rows: [
+        { part: "Quick-Release Clip-on Aerobars", cost: "$220" },
+        { part: "Dual Position seatpost", cost: "$250" },
+        { part: "Seatpost shim", cost: "$25" },
+      ],
+      totalLabel: "Estimated total in-kind value",
+      totalValue: "$495",
+    },
     body: [
-      "The aerobar question that's been open since late August is closed: Redshift Sports is providing aero bars and a seatpost for the race bike.",
+      "The aerobar question that's been open since late August is closed: Redshift Sports is providing aero bars, a seatpost, and a seatpost shim for the race bike.",
       "Erik and the team at Redshift first offered to check compatibility once the final cockpit was known. Now that the frame, crankset, and drivetrain have taken real shape, that offer has turned into confirmed support.",
-      "Between the aero bars and the seatpost, two more items come off the open-questions list and onto the actual build sheet.",
+      "Between the aero bars, the seatpost, and the shim, three more items come off the open-questions list and onto the actual build sheet — an estimated $495 in donated gear.",
       "Huge thanks to Redshift Sports for backing this campaign with real hardware.",
     ],
     relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
