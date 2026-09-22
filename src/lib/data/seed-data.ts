@@ -1050,6 +1050,10 @@ export const SEED_PERFORMANCE_SNAPSHOTS: PerformanceSnapshotRow[] = [
     numeric: 42,
     unit: "ml/kg/min",
   }),
+  snapshot("seed-perf-aerobic-2", "2026-09-22", "aerobic", "vo2max", "Estimated VO2 Max", "44", 0, {
+    numeric: 44,
+    unit: "ml/kg/min",
+  }),
 
   snapshot("seed-perf-tp-1", "2026-09-08", "trainingpeaks", "tp_fitness", "Fitness (CTL)", "15", 0, {
     numeric: 15,
