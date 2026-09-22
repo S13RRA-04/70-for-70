@@ -45,7 +45,7 @@ export const BIKE_BUILD_STATUS_SUMMARY: BikeBuildStatusSummaryItem[] = [
     label: "Frame / Build",
     status: "pending",
     statusLabel: "In Progress",
-    detail: "Donated 2012 Stradalli carbon frame is on the repair stand — wheels, handlebar, seatpost, and bottom bracket are installed; assembly is underway.",
+    detail: "Donated 2012 Stradalli carbon frame is on the repair stand — wheels, handlebar, seatpost, bottom bracket, aerobars, and brifters are installed; assembly is underway.",
   },
   {
     label: "Fit Confirmation",
@@ -81,7 +81,7 @@ export const BIKE_BUILD_STATUS_SUMMARY: BikeBuildStatusSummaryItem[] = [
     label: "Final Assembly",
     status: "pending",
     statusLabel: "In Progress",
-    detail: "Underway as of September 21, 2026 — wheels, handlebar, seatpost, and bottom bracket installed; crankset, pedals, aerobars, brifters, and saddle still to go.",
+    detail: "Wheels, handlebar, seatpost, bottom bracket, aerobars, and brifters installed as of September 21, 2026; crankset (on hold for grease), cable housing (on hold for brakes/derailleurs), pedals, and saddle still to go.",
   },
   {
     label: "First Outdoor Ride",
@@ -126,7 +126,7 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
     component: "Crankset",
     status: "confirmed",
     statusLabel: "In Hand",
-    notes: "170 mm Praxis Zayante Carbon crankset with 50/34 chainrings — arrived September 2, 2026.",
+    notes: "170 mm Praxis Zayante Carbon crankset with 50/34 chainrings — arrived September 2, 2026; install on hold pending assembly grease.",
   },
   {
     component: "Chainrings",
@@ -179,14 +179,14 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
   {
     component: "Brifters",
     status: "confirmed",
-    statusLabel: "Purchased",
-    notes: "Shimano 105 ST-R7000 mechanical rim-brake 2×11 pair; purchased August 26, 2026.",
+    statusLabel: "Installed",
+    notes: "Shimano 105 ST-R7000 mechanical rim-brake 2×11 pair; purchased August 26, 2026, installed September 21, 2026.",
   },
   {
     component: "Aerobars",
     status: "confirmed",
-    statusLabel: "Confirmed",
-    notes: "Quick-Release Clip-on Aerobars, provided by Redshift Sports — an estimated $220 in-kind.",
+    statusLabel: "Installed",
+    notes: "Quick-Release Clip-on Aerobars, provided by Redshift Sports — an estimated $220 in-kind; installed September 21, 2026.",
   },
   {
     component: "Seatpost",
@@ -222,7 +222,7 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
     component: "Shifter Cables & Housing",
     status: "confirmed",
     statusLabel: "In Hand",
-    notes: "Boao Universal Bike Brake Cable Kit (a combined shift- and brake-cable housing set) — purchased September 18, 2026 for $10.76, delivered September 20, 2026.",
+    notes: "Boao Universal Bike Brake Cable Kit (a combined shift- and brake-cable housing set) — purchased September 18, 2026 for $10.76, delivered September 20, 2026; not yet routed, holding until the brake calipers and derailleurs arrive.",
   },
   {
     component: "Handlebar Tape",
@@ -252,7 +252,7 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
     component: "Assembly",
     status: "pending",
     statusLabel: "In Progress",
-    notes: "Frame mounted on the Feedback Sports stand — wheels, handlebar, seatpost, and bottom bracket installed as of September 21, 2026. Crankset, pedals, aerobars, brifters, and saddle still to go.",
+    notes: "Frame mounted on the Feedback Sports stand — wheels, handlebar, seatpost, bottom bracket, aerobars, and brifters installed as of September 21, 2026. Crankset on hold for assembly grease; cable housing on hold for the brake calipers and derailleurs; pedals and saddle still to go.",
   },
   {
     component: "Pre-Race Tune-Up",
@@ -1028,6 +1028,38 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "Also newly ordered: a set of headset spacers and a seatpost collar, both surfaced during assembly, plus a tube of assembly grease — because putting a drivetrain together dry is a bad idea no matter how many sponsors are involved.",
       "One correction, too: the cycling shoes tracked earlier as Pearl iZumi were actually a pair of Quest Road shoes, $67.19 — the product name got crossed up in an earlier update. Fixed now.",
       "None of this changes what's actually left to do — front derailleur, tires — but the shopping list is shorter, and the numbers are finally real.",
+    ],
+    relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+  },
+  {
+    id: "aerobars-and-brifters-installed",
+    date: "2026-09-22",
+    displayDate: "September 21, 2026",
+    title: "Aerobars and Brifters: On the Bike",
+    summary:
+      "The Redshift Sports aerobars and Shimano 105 brifters are installed — cable housing and the crankset are next, once the remaining parts arrive.",
+    status: "Aerobars & brifters installed",
+    photos: [
+      {
+        src: "/journal/building-the-bike/aerobars-brifters-installed.jpeg",
+        alt: "The Stradalli Sorrento frame on the Feedback Sports repair stand with Redshift Sports clip-on aerobars mounted on the base bar and Shimano 105 brifters installed on the drop bars.",
+        caption: "Aerobars and brifters on the bike — last night's work.",
+        width: 2856,
+        height: 2142,
+      },
+    ],
+    technicalDetails: {
+      heading: "Installed Last Night",
+      items: [
+        { label: "Aerobars", value: "Redshift Sports Quick-Release Clip-on Aerobars" },
+        { label: "Brifters", value: "Shimano 105 ST-R7000, mechanical 2×11" },
+      ],
+    },
+    body: [
+      "Last night, two more parts came off the \"in hand, not yet installed\" list: the Redshift Sports quick-release clip-on aerobars and the Shimano 105 brifters.",
+      "The aerobars clip onto the base bar, and the brifters take their place on the drops — control and position, both now actually on the bike instead of sitting in a box on the workbench.",
+      "The shift and brake cable housing is next, but that can wait — there's no point routing cables to derailleurs and brakes that haven't arrived yet.",
+      "The crankset is staying off for now, too. It's ready to go, but the assembly grease hasn't arrived — and putting a bottom-bracket-adjacent component together dry isn't worth the shortcut.",
     ],
     relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
   },
