@@ -1,6 +1,7 @@
 import Image from "next/image";
-import { Link2 } from "lucide-react";
+import { Link2, ZoomIn } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { PhotoLightbox } from "@/components/shared/photo-lightbox";
 import type { BikeBuildTimelineEntry } from "@/types/bike-build";
 
 /**
@@ -127,16 +128,27 @@ export function BuildTimeline({ entries }: { entries: BikeBuildTimelineEntry[] }
               <div className="mt-5 grid gap-4 sm:grid-cols-2">
                 {entry.photos.map((photo) => (
                   <figure key={photo.src} className="overflow-hidden rounded-sm border border-ink/10">
-                    <div className="relative aspect-[4/3] w-full bg-sand-light">
-                      <Image
-                        src={photo.src}
-                        alt={photo.alt}
-                        fill
-                        loading="lazy"
-                        sizes="(min-width: 640px) 50vw, 100vw"
-                        className="object-cover"
-                      />
-                    </div>
+                    <PhotoLightbox
+                      src={photo.src}
+                      alt={photo.alt}
+                      caption={photo.caption}
+                      width={photo.width}
+                      height={photo.height}
+                    >
+                      <div className="relative aspect-[4/3] w-full bg-sand-light">
+                        <Image
+                          src={photo.src}
+                          alt={photo.alt}
+                          fill
+                          loading="lazy"
+                          sizes="(min-width: 640px) 50vw, 100vw"
+                          className="object-cover transition-transform duration-200 group-hover:scale-[1.03]"
+                        />
+                        <span className="absolute right-2 top-2 rounded-full bg-ink/60 p-1.5 text-off-white opacity-0 transition-opacity group-hover:opacity-100">
+                          <ZoomIn size={14} aria-hidden />
+                        </span>
+                      </div>
+                    </PhotoLightbox>
                     <figcaption className="bg-off-white px-3 py-2 text-xs text-charcoal-light">
                       {photo.isEstimate && <span className="font-semibold text-bronze">Approximate: </span>}
                       {photo.caption}

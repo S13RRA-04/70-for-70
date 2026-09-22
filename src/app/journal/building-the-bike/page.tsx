@@ -1,9 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
+import { ZoomIn } from "lucide-react";
 import { Container } from "@/components/shared/container";
 import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
+import { PhotoLightbox } from "@/components/shared/photo-lightbox";
 import { BuildStatusPanel } from "@/components/journal/bike-build/build-status-panel";
 import { BuildTimeline } from "@/components/journal/bike-build/build-timeline";
 import { ComponentStatusBoard } from "@/components/journal/bike-build/component-status-board";
@@ -120,16 +122,27 @@ export default function BuildingTheBikePage() {
 
       <section className="border-b border-ink/10 py-16 sm:py-20">
         <Container className="max-w-3xl">
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-sm bg-sand-light sm:aspect-[16/9]">
-            <Image
-              src={BIKE_BUILD_HERO_PHOTO.src}
-              alt={BIKE_BUILD_HERO_PHOTO.alt}
-              fill
-              priority
-              sizes="(min-width: 768px) 768px, 100vw"
-              className="object-cover"
-            />
-          </div>
+          <PhotoLightbox
+            src={BIKE_BUILD_HERO_PHOTO.src}
+            alt={BIKE_BUILD_HERO_PHOTO.alt}
+            caption={BIKE_BUILD_HERO_PHOTO.caption}
+            width={BIKE_BUILD_HERO_PHOTO.width}
+            height={BIKE_BUILD_HERO_PHOTO.height}
+          >
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-sm bg-sand-light sm:aspect-[16/9]">
+              <Image
+                src={BIKE_BUILD_HERO_PHOTO.src}
+                alt={BIKE_BUILD_HERO_PHOTO.alt}
+                fill
+                priority
+                sizes="(min-width: 768px) 768px, 100vw"
+                className="object-cover transition-transform duration-200 group-hover:scale-[1.02]"
+              />
+              <span className="absolute right-3 top-3 rounded-full bg-ink/60 p-1.5 text-off-white opacity-0 transition-opacity group-hover:opacity-100">
+                <ZoomIn size={16} aria-hidden />
+              </span>
+            </div>
+          </PhotoLightbox>
           <p className="mt-3 text-sm text-charcoal-light">{BIKE_BUILD_HERO_PHOTO.caption}</p>
         </Container>
       </section>
