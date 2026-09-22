@@ -58,7 +58,7 @@ export const GEAR_NEEDS_CATEGORIES: GearNeedsCategory[] = [
         component: "Cycling Shoes",
         status: "confirmed",
         statusLabel: "Confirmed",
-        notes: "Pearl iZumi clipless cycling shoes, purchased.",
+        notes: "Men's Quest Road clipless cycling shoes, purchased for $67.19.",
       },
       {
         component: "Running Shoes — Training",
