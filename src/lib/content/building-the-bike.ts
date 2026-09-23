@@ -75,7 +75,7 @@ export const BIKE_BUILD_STATUS_SUMMARY: BikeBuildStatusSummaryItem[] = [
     label: "Remaining Purchases",
     status: "needed",
     statusLabel: "In Progress",
-    detail: "Chain, a rim brake set, an alloy headset spacer set, a replacement seat tube collar, the rear derailleur, and the front derailleur are all ordered and awaiting delivery; only race tires still need to be ordered. Training tires and tubes are already in hand.",
+    detail: "Chain, a rim brake set, an alloy headset spacer set, a replacement seat tube collar, the rear derailleur, the front derailleur, and training tires are all ordered and awaiting delivery; only race tires still need to be ordered. Tubes are already in hand.",
   },
   {
     label: "Final Assembly",
@@ -108,7 +108,7 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
     component: "Frame",
     status: "confirmed",
     statusLabel: "In Assembly",
-    notes: "2012 Stradalli carbon frame, sourced through Betsy and the Montgomery Bicycle Club community — an $88 acquisition/transfer cost was paid out of pocket.",
+    notes: "2012 Stradalli carbon frame, sourced through Betsy and the Montgomery Bicycle Club community.",
   },
   {
     component: "Fit",
@@ -244,9 +244,9 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
   },
   {
     component: "Training Tires",
-    status: "confirmed",
-    statusLabel: "In Hand",
-    notes: "Vittoria Zaffiro EVO, 700×25C, black — purchased September 22, 2026 for $82.71, specifically for training rides.",
+    status: "needed",
+    statusLabel: "Ordered — Awaiting Delivery",
+    notes: "Vittoria Zaffiro EVO, 700×25C, black — ordered September 22, 2026 for $82.71, specifically for training rides; still awaiting delivery.",
   },
   {
     component: "Race Tires",
@@ -1100,14 +1100,14 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
         { label: "Pedals", value: "RockBros clipless — installed" },
         { label: "Saddle", value: "ISM PR 3.0 — installed" },
         { label: "Seatpost Collar", value: "Wrong size — reordered" },
-        { label: "Training Tires", value: "Vittoria Zaffiro EVO, 700×25C — $82.71" },
+        { label: "Training Tires", value: "Vittoria Zaffiro EVO, 700×25C — $82.71, ordered" },
       ],
     },
     body: [
       "Three more parts came off the list today: the Praxis crankset, the RockBros pedals, and the ISM saddle are all installed. The bike is starting to look less like a frame with parts clipped onto it and more like an actual bicycle.",
       "The crankset had been sitting ready since it went on hold for assembly grease — the grease is in hand now, so that's no longer holding anything up.",
       "Not everything went smoothly: the seatpost collar ordered a couple of days ago turned out to be the wrong size. It's been reordered, so that one's still on hold — a small, unglamorous setback, but a setback all the same.",
-      "Also new: a pair of Vittoria Zaffiro EVO tires, 700×25C, bought specifically for training rides — not the final race tires, which are still on the shopping list, but enough to actually get this bike rolling once the remaining drivetrain parts are on.",
+      "Also new: a pair of Vittoria Zaffiro EVO tires, 700×25C, ordered specifically for training rides — not the final race tires, which are still on the shopping list, and not in hand yet either, but on the way.",
       "What's left: cable housing (waiting on the brake calipers and derailleurs), the reordered seatpost collar, the front derailleur, and race tires. The list keeps getting shorter.",
     ],
     relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],

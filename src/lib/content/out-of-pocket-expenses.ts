@@ -23,7 +23,6 @@ export const OUT_OF_POCKET_EXPENSE_CATEGORIES: ExpenseCategory[] = [
   {
     category: "Bike & Build",
     items: [
-      { label: "Used Stradalli bike/frame", amount: 88.0 },
       { label: "Shimano ST-R7000 brifters", amount: 138.99 },
       { label: "Shimano FD-R7000 clamp-on front derailleur", amount: 59.4 },
       { label: "Shimano RD-R7000 rear derailleur", amount: 38.62 },
@@ -42,7 +41,7 @@ export const OUT_OF_POCKET_EXPENSE_CATEGORIES: ExpenseCategory[] = [
       { label: "Chain repair tool set", amount: 16.3 },
       { label: "Three pairs of quick links", amount: 9.17 },
     ],
-    subtotal: 654.74,
+    subtotal: 566.74,
   },
   {
     category: "Training & Race Gear",
@@ -59,7 +58,7 @@ export const OUT_OF_POCKET_EXPENSE_CATEGORIES: ExpenseCategory[] = [
 ];
 
 /** Sum of every category's subtotal above — gear and apparel, before race registration. */
-export const EQUIPMENT_EXPENSE_SUBTOTAL = 784.67;
+export const EQUIPMENT_EXPENSE_SUBTOTAL = 696.67;
 
 export const RACE_REGISTRATION_EXPENSE: ExpenseItem = {
   label: "IRONMAN 70.3 Chattanooga race registration",
@@ -67,4 +66,4 @@ export const RACE_REGISTRATION_EXPENSE: ExpenseItem = {
 };
 
 /** EQUIPMENT_EXPENSE_SUBTOTAL + RACE_REGISTRATION_EXPENSE.amount. */
-export const TOTAL_OUT_OF_POCKET = 1354.67;
+export const TOTAL_OUT_OF_POCKET = 1266.67;
