@@ -548,6 +548,16 @@ export const SHOP_CATEGORIES = [
 ] as const;
 
 /**
+ * The campaign's second, non-fundraising store — sold through Exray,
+ * distinct from MERCH_STORE_URL (the Bonfire store, which pays 100% of net
+ * profit to MERCH_BENEFICIARIES). 100% of Exray proceeds go directly to
+ * campaign/mission costs (equipment, training, race expenses) instead —
+ * never to the beneficiary organizations. Linked from a clearly separated
+ * second section on /shop, not folded into the Bonfire disclosure above it.
+ */
+export const MISSION_STORE_URL = "https://exray.cc/collections/for-the-22-store?code=VTTAUZ7Y";
+
+/**
  * Social profile links for the footer's "Follow" list. Empty by default —
  * intentionally not a placeholder set of fake icons; add entries only with
  * real, confirmed profile URLs. See SocialLinks, which renders nothing
