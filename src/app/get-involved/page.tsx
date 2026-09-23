@@ -7,6 +7,7 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { CTAButton } from "@/components/shared/cta-button";
 import { GetInvolvedForm } from "@/components/forms/get-involved-form";
 import { RoleDetailDialog } from "@/components/get-involved/role-detail-dialog";
+import { OutOfPocketExpenses } from "@/components/get-involved/out-of-pocket-expenses";
 import { CampaignProgress } from "@/components/campaign/campaign-progress";
 import { ShareButtons } from "@/components/shared/share-buttons";
 import { EmailSignupForm } from "@/components/forms/email-signup-form";
@@ -162,6 +163,19 @@ export default async function GetInvolvedPage() {
           <SectionHeading eyebrow="Sign Up" title="Count Me In" />
           <div className="mt-8">
             <GetInvolvedForm />
+          </div>
+        </Container>
+      </section>
+
+      <section className="border-t border-ink/10 py-16 sm:py-20">
+        <Container className="max-w-2xl">
+          <SectionHeading
+            eyebrow="The Real Cost"
+            title="Out-of-Pocket So Far"
+            description="Cody has personally covered the gap between what's been donated and what a race-ready bike and a season of training actually require. This is his own money, not campaign funds — a plain accounting of what this has cost so far."
+          />
+          <div className="mt-8">
+            <OutOfPocketExpenses />
           </div>
         </Container>
       </section>

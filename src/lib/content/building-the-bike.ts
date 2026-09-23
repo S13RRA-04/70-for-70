@@ -75,7 +75,7 @@ export const BIKE_BUILD_STATUS_SUMMARY: BikeBuildStatusSummaryItem[] = [
     label: "Remaining Purchases",
     status: "needed",
     statusLabel: "In Progress",
-    detail: "Chain, a rim brake set, an alloy headset spacer set, a reordered seat tube collar, and the rear derailleur are ordered and awaiting delivery; the front derailleur and race tires still need to be ordered. Training tires are already in hand.",
+    detail: "Chain, a rim brake set, an alloy headset spacer set, a replacement seat tube collar, the rear derailleur, and the front derailleur are all ordered and awaiting delivery; only race tires still need to be ordered. Training tires and tubes are already in hand.",
   },
   {
     label: "Final Assembly",
@@ -106,9 +106,9 @@ export const BIKE_BUILD_STATUS_SUMMARY: BikeBuildStatusSummaryItem[] = [
 export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
   {
     component: "Frame",
-    status: "available",
-    statusLabel: "Available / Under Evaluation",
-    notes: "Donated 2012 Stradalli carbon frame.",
+    status: "confirmed",
+    statusLabel: "In Assembly",
+    notes: "2012 Stradalli carbon frame, sourced through Betsy and the Montgomery Bicycle Club community — an $88 acquisition/transfer cost was paid out of pocket.",
   },
   {
     component: "Fit",
@@ -143,8 +143,8 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
   {
     component: "Front Derailleur",
     status: "needed",
-    statusLabel: "Needed",
-    notes: "Targeting a Shimano 105 FD-R7000-F braze-on derailleur, plus a clamp adapter — the Stradalli doesn't appear to have an integrated braze-on mount.",
+    statusLabel: "Ordered — Awaiting Delivery",
+    notes: "Shimano FD-R7000 clamp-on front derailleur — purchased for $59.40, sidestepping the earlier braze-on-plus-adapter plan since the Stradalli doesn't have an integrated braze-on mount; still awaiting delivery.",
   },
   {
     component: "Rear Derailleur",
@@ -204,7 +204,7 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
     component: "Seat Tube Collar",
     status: "needed",
     statusLabel: "Ordered — Awaiting Delivery",
-    notes: "PLATT quick-release aluminium alloy seatpost collar (28.6/31.8/34.9 mm), to clamp the Redshift Sports seatpost in the frame — the first order (September 21, 2026, $9.71) turned out to be the wrong size and has been reordered; still awaiting delivery.",
+    notes: "Quick-release aluminium alloy seatpost collar, to clamp the Redshift Sports seatpost in the frame — the first order (September 21, 2026, $9.71) turned out to be the wrong size; the correct-size replacement ($9.67) is on order, still awaiting delivery.",
   },
   {
     component: "Saddle",
@@ -234,7 +234,7 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
     component: "Chain",
     status: "needed",
     statusLabel: "Ordered — Awaiting Delivery",
-    notes: "Shimano 105 CN-HG601-11, 11-speed, 116-link — ordered September 19, 2026 for $26.48; estimated delivery Friday, September 25, 2026.",
+    notes: "Shimano 105 CN-HG601-11, 11-speed, 116-link — ordered September 19, 2026 for $26.48; estimated delivery Friday, September 25, 2026. Three pairs of quick links ($9.17) purchased alongside it.",
   },
   {
     component: "Assembly Grease",
@@ -252,7 +252,13 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
     component: "Race Tires",
     status: "needed",
     statusLabel: "Needed",
-    notes: "Targeting Continental Grand Prix 5000s, likely 700×25C — pending a clearance check for 28s on this older frame/brake setup. Two tubes also needed.",
+    notes: "Targeting Continental Grand Prix 5000s, likely 700×25C — pending a clearance check for 28s on this older frame/brake setup.",
+  },
+  {
+    component: "Tubes",
+    status: "confirmed",
+    statusLabel: "In Hand",
+    notes: "An initial pair ($15.00) plus an additional two-pack ($6.48) — purchased for the training tires and as race-day spares.",
   },
   {
     component: "Assembly",
