@@ -81,7 +81,7 @@ export const BIKE_BUILD_STATUS_SUMMARY: BikeBuildStatusSummaryItem[] = [
     label: "Final Assembly",
     status: "pending",
     statusLabel: "In Progress",
-    detail: "Wheels, handlebar, seatpost, bottom bracket, aerobars, brifters, crankset, pedals, and saddle all installed as of September 22, 2026; only cable housing (on hold for brakes/derailleurs) and the seatpost collar (reordered) remain.",
+    detail: "Wheels, handlebar, seatpost, bottom bracket, aerobars, brifters, crankset, pedals, saddle, and headset spacers/top cap all installed as of September 23, 2026; shift/brake cable routing has begun but can't finish until the brake calipers and derailleurs arrive, and the seatpost collar is still on hold for a reorder.",
   },
   {
     label: "First Outdoor Ride",
@@ -166,9 +166,9 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
   },
   {
     component: "Headset Spacers",
-    status: "needed",
-    statusLabel: "Ordered — Awaiting Delivery",
-    notes: "Saipe 9-piece aluminium alloy fork/stem spacer set (2/3/5/10 mm), for front-end stack height, surfaced during assembly — ordered September 21, 2026 for $9.71; expected Wednesday, September 23, 2026.",
+    status: "confirmed",
+    statusLabel: "Installed",
+    notes: "Saipe 9-piece aluminium alloy fork/stem spacer set (2/3/5/10 mm), for front-end stack height, surfaced during assembly — ordered September 21, 2026 for $9.71, installed September 23, 2026 along with the headset top cap.",
   },
   {
     component: "Brake Cables",
@@ -221,8 +221,8 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
   {
     component: "Shifter Cables & Housing",
     status: "confirmed",
-    statusLabel: "In Hand",
-    notes: "Boao Universal Bike Brake Cable Kit (a combined shift- and brake-cable housing set) — purchased September 18, 2026 for $10.76, delivered September 20, 2026; not yet routed, holding until the brake calipers and derailleurs arrive.",
+    statusLabel: "Installation Started",
+    notes: "Boao Universal Bike Brake Cable Kit (a combined shift- and brake-cable housing set) — purchased September 18, 2026 for $10.76, delivered September 20, 2026; routing began September 23, 2026, with final connections waiting on the brake calipers and derailleurs to arrive.",
   },
   {
     component: "Handlebar Tape",
@@ -264,7 +264,7 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
     component: "Assembly",
     status: "pending",
     statusLabel: "In Progress",
-    notes: "Frame mounted on the Feedback Sports stand — wheels, handlebar, seatpost, bottom bracket, aerobars, brifters, crankset, pedals, and saddle all installed as of September 22, 2026. Cable housing is on hold for the brake calipers and derailleurs; the seatpost collar is on hold for a reorder.",
+    notes: "Frame mounted on the Feedback Sports stand — wheels, handlebar, seatpost, bottom bracket, aerobars, brifters, crankset, pedals, saddle, and headset spacers/top cap all installed as of September 23, 2026. Shift/brake cable routing has begun but can't be finished until the brake calipers and derailleurs arrive; the seatpost collar is on hold for a reorder.",
   },
   {
     component: "Pre-Race Tune-Up",
@@ -1109,6 +1109,45 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "Not everything went smoothly: the seatpost collar ordered a couple of days ago turned out to be the wrong size. It's been reordered, so that one's still on hold — a small, unglamorous setback, but a setback all the same.",
       "Also new: a pair of Vittoria Zaffiro EVO tires, 700×25C, ordered specifically for training rides — not the final race tires, which are still on the shopping list, and not in hand yet either, but on the way.",
       "What's left: cable housing (waiting on the brake calipers and derailleurs), the reordered seatpost collar, the front derailleur, and race tires. The list keeps getting shorter.",
+    ],
+    relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+  },
+  {
+    id: "headset-spacers-and-cable-routing",
+    date: "2026-09-24",
+    displayDate: "September 23, 2026",
+    title: "Headset Spacers In, Cable Routing Underway",
+    summary:
+      "The headset spacers and top cap are installed, and shift/brake cable routing has started — a head start for when the derailleurs and brake calipers actually arrive.",
+    status: "Headset installed; cable routing started",
+    photos: [
+      {
+        src: "/journal/building-the-bike/headset-spacers-top-cap-installed.jpeg",
+        alt: "Close-up of the Stradalli Sorrento's head tube showing the installed headset spacer stack and a red anodized top cap below the stem.",
+        caption: "Headset spacers and top cap, installed.",
+        width: 2142,
+        height: 2856,
+      },
+      {
+        src: "/journal/building-the-bike/cable-routing-begins.jpeg",
+        alt: "The Stradalli Sorrento on the Feedback Sports repair stand with shift and brake cable housing routed along the frame, not yet connected to derailleurs or brakes.",
+        caption: "Cable housing routed along the frame — a head start ahead of the derailleurs and brakes.",
+        width: 2856,
+        height: 2142,
+      },
+    ],
+    technicalDetails: {
+      heading: "Last Night's Work",
+      items: [
+        { label: "Headset Spacers", value: "Installed" },
+        { label: "Headset Top Cap", value: "Installed" },
+        { label: "Shift/Brake Cable Housing", value: "Routing started" },
+      ],
+    },
+    body: [
+      "Last night's session: the headset spacers and top cap are installed, and cable routing for the shifters and brakes is underway.",
+      "The derailleurs and rim brake calipers still haven't arrived, so there's nothing to actually connect the cables to yet — but there's no reason to wait on routing the housing itself. Getting it run now means less work later, once those parts finally show up.",
+      "Small, unglamorous progress, but progress: one more section of the bike that doesn't have to be dealt with cold when the remaining parts land.",
     ],
     relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
   },
