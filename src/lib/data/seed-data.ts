@@ -808,6 +808,10 @@ export const SEED_PERFORMANCE_SNAPSHOTS: PerformanceSnapshotRow[] = [
     numeric: 115,
     unit: "sec/100yd",
   }),
+  snapshot("seed-perf-swim-3b", "2026-09-29", "swim", "swim_pace_fastest", "Fastest 100", "1:52/100 yd", 2, {
+    numeric: 112,
+    unit: "sec/100yd",
+  }),
   snapshot("seed-perf-swim-4", "2026-09-08", "swim", "swim_pace_range", "Latest Range", "1:55–2:02", 3),
   snapshot(
     "seed-perf-swim-5",
