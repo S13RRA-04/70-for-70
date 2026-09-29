@@ -495,6 +495,48 @@ export const RESOURCES: Resource[] = [
     cost: "Free",
     geographicScope: "Nationwide",
   },
+  {
+    name: "Creative Forces: NEA Military Healing Arts Network",
+    url: "https://www.arts.gov/initiatives/creative-forces",
+    description:
+      "National Endowment for the Arts initiative, in partnership with the VA and Department of War, delivering creative arts therapies (art, music, dance/movement, drama therapy) at military and VA clinical sites nationwide — including telehealth — plus community-based arts programming for service members, veterans, and their families and caregivers exposed to trauma or traumatic brain injury.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Veteran", "Active Military", "Family", "Caregiver"],
+    cost: "Not stated as free or paid on this page — clinical program runs through VA/military treatment facilities",
+    geographicScope: "Nationwide (clinical sites + telehealth + community programs)",
+  },
+  {
+    name: "Armed Services Arts Partnership (ASAP)",
+    url: "https://asapasap.org/",
+    description:
+      "Free art and comedy classes — visual arts, writing, music, storytelling, improv, acting, dance, comedy — for veterans, service members, military spouses, family members, caregivers, and survivors, taught by veterans, in person in five city chapters or online.",
+    needCategoryIds: ["mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "Military Spouse", "Family", "Caregiver", "Survivor"],
+    cost: "Free",
+    geographicScope: "Nationwide (online) + in-person chapters in Hampton Roads VA, Indianapolis, San Antonio, San Diego, and Washington DC",
+  },
+  {
+    // TODO(verify): cost and specific eligibility criteria not stated on the org's own site; contact directly before publishing firmer claims.
+    name: "CreatiVets",
+    url: "https://www.creativets.org/",
+    description:
+      "Nonprofit teaching veterans to process trauma through visual art and songwriting, including a Visual Arts Program and Astrophotography Program; has served 4,500+ veterans through a network of nonprofit partners.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Not stated — apply through their online portal",
+    geographicScope: "Nationwide",
+  },
+  {
+    name: "Patriot Art Foundation",
+    url: "https://www.patriotartfoundation.org/",
+    description:
+      "Free watercolor and drawing instruction plus free art materials for veterans, through online classes (Watercolor Boot Camp, Drawing Boot Camp) and in-person workshops at partner VA hospitals and clinics.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Veteran"],
+    cost: "Free",
+    geographicScope: "Nationwide (online) + in-person at partner VA facilities",
+    phone: "703-203-1746",
+  },
 
   // ---------------------------------------------------------------------
   // Outdoor Programs
