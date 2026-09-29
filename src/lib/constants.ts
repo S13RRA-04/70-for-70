@@ -565,7 +565,7 @@ export const MISSION_STORE_URL = "https://exray.cc/collections/for-the-22-store?
  * site — see README's Eliminating Placeholder Content).
  */
 export const SOCIAL_LINKS: { platform: string; label: string; url: string }[] = [
-  { platform: "facebook", label: "Facebook", url: "https://www.facebook.com/profile.php?id=61593405604317" },
+  { platform: "facebook", label: "Facebook", url: "https://www.facebook.com/profile.php?id=61594694740294" },
   { platform: "instagram", label: "Instagram", url: "https://www.instagram.com/triforthe22/" },
   { platform: "youtube", label: "YouTube", url: "https://www.youtube.com/@triforthe22" },
 ];
