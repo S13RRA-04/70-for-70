@@ -13,13 +13,17 @@
  * entries here are free).
  *
  * Financial Assistance, Housing & Transportation, and Legal & Benefits were
- * held back until a regional research pass could vet state-specific entries
- * — see the Southeast Regional Resources block below (first pass: AL, TN,
- * GA, FL, MS, NC, SC, KY). Entries there carry a `state` and a
+ * originally held back nationally until a regional research pass could vet
+ * state-specific entries — see the "<State> Regional" blocks below, now
+ * covering all 50 states. Entries there carry a `state` and a
  * `verifiedDate`; a handful still have an inline TODO where the source
  * research flagged something to reconfirm (a specific URL, an active
  * chapter schedule) before treating it as fully production-checked the
- * same way the rest of this file's entries are.
+ * same way the rest of this file's entries are. Coverage still varies by
+ * state — some regional blocks are a handful of entries, others (the
+ * original Southeast pass: AL, TN, GA, FL, MS, NC, SC, KY) are deeper and
+ * span more categories — so a state having a section here is not a claim
+ * that its entry is exhaustive.
  */
 
 export interface Resource {
@@ -1113,6 +1117,81 @@ export const RESOURCES: Resource[] = [
     state: "Florida",
     verifiedDate: "2026-08-20",
   },
+  {
+    name: "Paralyzed Veterans of America — Central Florida Chapter",
+    url: "https://pvacf.org/",
+    description:
+      "Adaptive sports and recreation, an adaptive-equipment loaner program, and advocacy/benefits support for veterans with spinal cord injury or dysfunction, MS, or related neurological conditions.",
+    needCategoryIds: ["sports-fitness", "equipment-grants"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Membership-based veteran service organization — contact chapter to confirm program-specific costs",
+    geographicScope: "Central Florida",
+    state: "Florida",
+    verifiedDate: "2026-09-29",
+  },
+  {
+    name: "Florida Veterans Support Line (1-844-MyFLVet)",
+    url: "https://www.myflvet.com/",
+    description:
+      "Free, 24/7 confidential statewide crisis and peer-support line for veterans, active duty, Guard, Reserve, and their loved ones, with care coordination through a database of 3,000+ Florida resources. Operated through Florida's 211 network.",
+    needCategoryIds: ["mental-health", "financial-assistance", "housing-transportation"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family", "Survivor"],
+    cost: "Free",
+    geographicScope: "Florida",
+    state: "Florida",
+    verifiedDate: "2026-09-29",
+    phone: "1-844-693-5838",
+    availability: "24/7",
+  },
+  {
+    name: "Blueline Rescue (UCF RESTORES)",
+    url: "https://bluelinerescue.org/",
+    description:
+      "Free, confidential mobile peer-support platform for Florida law enforcement, connecting active and retired officers and their families to trained peer supporters, chaplains, and culturally competent licensed clinicians statewide.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Law Enforcement", "Family"],
+    cost: "Free",
+    geographicScope: "Florida",
+    state: "Florida",
+    verifiedDate: "2026-09-29",
+    eligibility: "Sworn law enforcement (active and retired) and their families",
+  },
+  {
+    name: "Volunteers of America Florida — Veteran Services",
+    url: "https://www.voaflorida.org/services/veteran-services/",
+    description:
+      "Florida's largest provider of supportive housing for veterans — outreach, transitional and affordable housing, SSVF case management/rental assistance, and residential substance-use treatment across 19 Florida communities.",
+    needCategoryIds: ["housing-transportation"],
+    audienceTags: ["Veteran", "Family", "Disabled"],
+    cost: "Free / income-based — SSVF programs are federally funded for low-income veteran families",
+    geographicScope: "Florida (19 communities, Pensacola to Key West)",
+    state: "Florida",
+    verifiedDate: "2026-09-29",
+  },
+  {
+    name: "National Veterans Homeless Support (NVHS)",
+    url: "https://nvhs.org/programs/housing-homelessness-prevention-for-veterans/",
+    description:
+      "Central Florida nonprofit providing transitional housing with case management, emergency shelter referrals, rental/eviction-prevention assistance, and street outreach for veterans experiencing or at risk of homelessness.",
+    needCategoryIds: ["housing-transportation"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Assistance-based — contact to confirm current cost/eligibility specifics",
+    geographicScope: "Central Florida (Brevard County-focused)",
+    state: "Florida",
+    verifiedDate: "2026-09-29",
+  },
+  {
+    name: "Mission United — United Way Miami",
+    url: "https://unitedwaymiami.org/mission-united/",
+    description:
+      "Free program connecting veterans and their families in Miami-Dade County to a coordinated network of community partners for job training/career coaching, legal resources, financial empowerment, and food assistance.",
+    needCategoryIds: ["financial-assistance", "career-education", "legal-benefits"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free",
+    geographicScope: "Miami-Dade County / South Florida",
+    state: "Florida",
+    verifiedDate: "2026-09-29",
+  },
 
   // ---------------------------------------------------------------------
   // Southeast Regional — Mississippi
@@ -1200,6 +1279,71 @@ export const RESOURCES: Resource[] = [
     geographicScope: "Mississippi Gulf Coast",
     state: "Mississippi",
     verifiedDate: "2026-08-20",
+  },
+  {
+    name: "L.E.A.P.S. — Law Enforcement Alliance for Peer Support",
+    url: "https://msleaps.org/",
+    description:
+      "All-volunteer, statewide peer-support network of trained Mississippi law enforcement officers and dispatchers who respond confidentially to officer-involved shootings, suicides/interventions, line-of-duty deaths, and job or family-related stress.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Law Enforcement", "Dispatch", "First Responder"],
+    cost: "Free",
+    geographicScope: "Mississippi",
+    state: "Mississippi",
+    verifiedDate: "2026-09-29",
+    eligibility: "Sworn law enforcement personnel and dispatchers (does not serve fire/EMS)",
+  },
+  {
+    name: "South Mississippi Veterans Resources — SSVF Program",
+    url: "https://southmsveteransresources.com/?page_id=9",
+    description:
+      "Supportive Services for Veteran Families (SSVF) program providing case management, rental/utility/deposit/moving-cost assistance, and help accessing VA and public benefits for very low-income veteran families who are homeless or at imminent risk.",
+    needCategoryIds: ["housing-transportation"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free",
+    geographicScope: "Jackson, MS south to the Mississippi Gulf Coast",
+    state: "Mississippi",
+    verifiedDate: "2026-09-29",
+    eligibility: "Non-dishonorable discharge; homeless or at imminent risk; household income ≤50% area median income",
+    phone: "601-545-3668",
+  },
+  {
+    name: "MUTEH (Mississippi United to End Homelessness) — SSVF Program",
+    url: "https://www.muteh.org/ssvf-grants-per-diem",
+    description:
+      "Supportive Services for Veteran Families program providing temporary housing assistance and case management to rapidly re-house or prevent homelessness among very low-income veteran families in Central Mississippi.",
+    needCategoryIds: ["housing-transportation"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free / VA-grant funded",
+    geographicScope: "Copiah, Hinds, Madison, Rankin, Simpson & Yazoo counties (Central Mississippi / Jackson metro)",
+    state: "Mississippi",
+    verifiedDate: "2026-09-29",
+    eligibility: "Veteran household member; income ≤50% area median income; currently homeless or at imminent risk",
+  },
+  {
+    name: "Mississippi National Guard — Military & Family Readiness Assistance Center",
+    url: "https://www.ng.ms.gov/installations/cs/res/sfac",
+    description:
+      "Comprehensive, coordinated support services for Mississippi National Guard members, Reserve, and their families, including deployment support, mental-health referrals, wounded warrior program connections, and reintegration assistance.",
+    needCategoryIds: ["family-support", "mental-health"],
+    audienceTags: ["Guard/Reserve", "Active Military", "Family", "Military Spouse", "Veteran"],
+    cost: "Free",
+    geographicScope: "Mississippi (Camp Shelby Joint Forces Training Center)",
+    state: "Mississippi",
+    verifiedDate: "2026-09-29",
+    phone: "601-387-6764",
+  },
+  {
+    name: "Wounded Warriors of Mississippi",
+    url: "https://www.wwofms.org/",
+    description:
+      "Brandon-based nonprofit helping Mississippi veterans with invisible wounds reconnect with society through peer-connection events, help with daily tasks, and emergency financial aid (utility bills, medications, essential needs).",
+    needCategoryIds: ["mental-health", "financial-assistance", "purpose-community"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free — volunteer-run, donation-funded",
+    geographicScope: "Brandon / Central Mississippi",
+    state: "Mississippi",
+    verifiedDate: "2026-09-29",
   },
 
   // ---------------------------------------------------------------------
@@ -1290,6 +1434,56 @@ export const RESOURCES: Resource[] = [
     state: "North Carolina",
     verifiedDate: "2026-08-20",
   },
+  {
+    name: "Veterans Bridge Home",
+    url: "https://veteransbridgehome.org/",
+    description:
+      "Connects veterans, service members, and their families to housing, employment, mental/behavioral health services, VA benefits navigation, transportation, and financial support through personalized case navigation.",
+    needCategoryIds: ["housing-transportation", "career-education", "financial-assistance"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family", "Military Spouse"],
+    cost: "Free",
+    geographicScope: "Metrolina/Charlotte, Triad, Sandhills & Triangle, North Carolina",
+    state: "North Carolina",
+    verifiedDate: "2026-09-29",
+  },
+  {
+    name: "United Way of Forsyth County — Veterans Services (SSVF)",
+    url: "https://www.uwforsyth.org/veterans",
+    description:
+      "SSVF program run with Salvation Army and Goodwill Industries providing housing search/placement, short-term rent/utility/moving-cost assistance, VA benefits navigation, transportation, childcare, and legal services for very low-income veteran families.",
+    needCategoryIds: ["housing-transportation", "financial-assistance"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free",
+    geographicScope: "Piedmont Triad — Davidson, Davie, Forsyth, Guilford, Stokes, Surry & Yadkin counties",
+    state: "North Carolina",
+    verifiedDate: "2026-09-29",
+    eligibility: "Very low-income veteran families (SSVF income-based criteria)",
+  },
+  {
+    name: "NCServes (AmericaServes network)",
+    url: "https://www.ncserves.org/about-ncserves",
+    description:
+      "North Carolina's statewide coordinated-care network of 250+ partner organizations connecting veterans, service members, and families to housing, employment, mental health, financial, legal, and crisis assistance through a single point of entry.",
+    needCategoryIds: ["legal-benefits", "financial-assistance", "housing-transportation"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family", "Military Spouse"],
+    cost: "Free",
+    geographicScope: "North Carolina (4 regional coordination centers)",
+    state: "North Carolina",
+    verifiedDate: "2026-09-29",
+  },
+  {
+    name: "Camp Corral — North Carolina",
+    url: "https://www.campcorral.org/camps/",
+    description:
+      "Free week-long summer camp for children ages 8–15 of wounded, ill, injured, or fallen military service members and veterans, held at YMCA Camp Hanes in King, NC.",
+    needCategoryIds: ["family-support"],
+    audienceTags: ["Family", "Gold Star", "Survivor"],
+    cost: "Free",
+    geographicScope: "King, North Carolina (Piedmont Triad)",
+    state: "North Carolina",
+    verifiedDate: "2026-09-29",
+    eligibility: "Children ages 8-15 of wounded, ill, injured, or fallen military service members/veterans",
+  },
 
   // ---------------------------------------------------------------------
   // Southeast Regional — South Carolina
@@ -1379,22 +1573,103 @@ export const RESOURCES: Resource[] = [
     state: "South Carolina",
     verifiedDate: "2026-08-20",
   },
+  {
+    name: "Warrior Surf Foundation",
+    url: "https://www.warriorsurf.org/",
+    description:
+      "Free 12-week surf-therapy program combining surfing, yoga, and psycho-education for veterans, active-duty service members, and their immediate family members struggling with PTSD, anxiety, depression, and transition issues.",
+    needCategoryIds: ["mental-health", "sports-fitness", "outdoor-programs"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "Free",
+    geographicScope: "Folly Beach / Charleston, South Carolina",
+    state: "South Carolina",
+    verifiedDate: "2026-09-29",
+    eligibility: "Veterans, active-duty service members, and their immediate family members",
+  },
+  {
+    name: "Upstate Warrior Solution",
+    url: "https://upstatewarriorsolution.org/",
+    description:
+      "Community-based nonprofit providing holistic service coordination — housing, employment, healthcare/benefits navigation, education, and mental-health referrals — for veterans and (since 2022) first responders and their families across the SC Upstate.",
+    needCategoryIds: ["purpose-community", "career-education", "housing-transportation", "mental-health"],
+    audienceTags: ["Veteran", "Law Enforcement", "Fire", "EMS", "First Responder", "Family"],
+    cost: "Free",
+    geographicScope: "Upstate South Carolina — Greenville, Anderson, Pickens, Spartanburg & Oconee counties",
+    state: "South Carolina",
+    verifiedDate: "2026-09-29",
+    phone: "864-520-2073",
+  },
+  {
+    name: "SC FAST (South Carolina Firefighters Assistance and Support Team)",
+    url: "https://scfast.org/learn_more/",
+    description:
+      "Statewide behavioral-health nonprofit providing peer support, suicide-awareness training, and connections to clinical mental-health services for SC firefighters, EMS, public safety personnel, and 911 telecommunicators/dispatchers and their families.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Fire", "EMS", "Dispatch", "First Responder", "Family"],
+    cost: "Free",
+    geographicScope: "South Carolina",
+    state: "South Carolina",
+    verifiedDate: "2026-09-29",
+    phone: "1-844-972-3278",
+  },
+  {
+    name: "Mission United — Trident United Way",
+    url: "https://www.tuw.org/mission-united",
+    description:
+      "Connects veterans, active-duty service members, and their families in the Charleston tri-county area to navigation/referral support, financial assistance, employment/education services, legal assistance, and healthcare/mental-health resources.",
+    needCategoryIds: ["financial-assistance", "housing-transportation"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Military Spouse", "Family", "Caregiver"],
+    cost: "Free — navigation/case-management service",
+    geographicScope: "Charleston / Tri-County South Carolina (Berkeley, Charleston & Dorchester counties)",
+    state: "South Carolina",
+    verifiedDate: "2026-09-29",
+    eligibility: "Active duty (all branches, incl. Reserve/Guard), military spouses and dependents, caregivers, and veterans of any era with any discharge",
+    phone: "843-740-9000",
+  },
+  {
+    name: "Fisher House — Ralph H. Johnson VA Medical Center",
+    url: "https://www.fisherhouse.org/programs/houses/current-houses/south-carolina-ralph-h-johnson-va-medical-center/",
+    description:
+      "Free \"home away from home\" lodging near the Charleston VA Medical Center for families and caregivers of veterans receiving treatment there.",
+    needCategoryIds: ["family-support"],
+    audienceTags: ["Veteran", "Family", "Caregiver"],
+    cost: "Free",
+    geographicScope: "Charleston, South Carolina",
+    state: "South Carolina",
+    verifiedDate: "2026-09-29",
+    eligibility: "Family/caregiver of a veteran patient at the Charleston VA Medical Center, generally living 50+ miles away; referral needed via the veteran's VA social worker/provider",
+    phone: "843-805-8200",
+  },
+  {
+    name: "Alston Wilkes Society — Veteran Services",
+    url: "https://www.alstonwilkes.org/veteran-services",
+    description:
+      "South Carolina nonprofit providing transitional Veterans Homes for homeless male veterans in Columbia and Greenville, plus a statewide SSVF program offering temporary financial assistance (rent, utilities, deposits, moving costs) to veterans and families at risk of or experiencing homelessness.",
+    needCategoryIds: ["housing-transportation", "financial-assistance"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free to eligible participants",
+    geographicScope: "South Carolina (statewide SSVF; Veterans Homes in Columbia, Greenville, Greer, Summerville & Spartanburg)",
+    state: "South Carolina",
+    verifiedDate: "2026-09-29",
+    eligibility: "Veterans Homes program is for male veterans experiencing homelessness; SSVF eligibility depends on discharge characterization, income, and homelessness/at-risk status",
+    phone: "803-995-8464",
+  },
 
   // ---------------------------------------------------------------------
   // Southeast Regional — Kentucky
   // ---------------------------------------------------------------------
   {
-    // TODO(verify): Verify current chapter programming.
-    name: "Catalyst Sports – Louisville Chapter",
-    url: "https://moveunitedsport.org/locations/",
+    // TODO(verify): Cost not confirmed on the org's own page — call 404-692-0933 to confirm before publishing as "Free."
+    name: "Catalyst Sports – Louisville/Lexington Chapter",
+    url: "https://www.catalystsports.org/louisville",
     description:
-      "Community-based adaptive adventure sports through the Catalyst Sports / Move United network.",
-    needCategoryIds: ["sports-fitness"],
-    audienceTags: ["Disabled"],
-    cost: "Varies",
-    geographicScope: "Louisville",
+      "Adaptive rock climbing clinics in Louisville (Rocksport) and Lexington (LEF Climbing) for people with physical disabilities, plus a dedicated Veterans program (VetsClimb/VetsCycle/VetsHike) for service members with physical or mental service-related injuries.",
+    needCategoryIds: ["sports-fitness", "outdoor-programs"],
+    audienceTags: ["Veteran", "Active Military", "Disabled", "Civilian Supporter"],
+    cost: "Not confirmed — contact to confirm program cost",
+    geographicScope: "Louisville / Lexington, Kentucky",
     state: "Kentucky",
-    verifiedDate: "2026-08-20",
+    verifiedDate: "2026-09-29",
   },
   {
     name: "Kentucky First Responder Peer Support Team",
@@ -1409,16 +1684,19 @@ export const RESOURCES: Resource[] = [
     verifiedDate: "2026-08-20",
   },
   {
+    // TODO(verify): Cost not explicitly stated on the org's own site — call 1-888-522-7228 to confirm before publishing a firmer cost claim.
     name: "Kentucky Community Crisis Response Team (KCCRT)",
-    url: "https://kccrt.ky.gov/PublishingImages/Pages/index/KCCRT%201-Pager.pdf",
+    url: "https://kccrt.ky.gov/",
     description:
-      "Peer and mental-health response after critical incidents, traumatic events and disasters; debriefing and psychological first aid.",
+      "Statewide, state-run volunteer peer-support and crisis-response team of first responders, mental-health professionals, and chaplains that deploys 24/7 to provide Critical Incident Debriefings and Psychological First Aid to first responders and communities after line-of-duty deaths, mass casualty events, and disasters.",
     needCategoryIds: ["mental-health"],
-    audienceTags: ["First Responder"],
-    cost: "Free / State-supported",
+    audienceTags: ["Law Enforcement", "Fire", "EMS", "Dispatch", "First Responder", "Civilian Supporter"],
+    cost: "Not explicitly stated — state-run program requested via a 24/7 hotline",
     geographicScope: "Kentucky",
     state: "Kentucky",
-    verifiedDate: "2026-08-20",
+    verifiedDate: "2026-09-29",
+    phone: "1-888-522-7228",
+    availability: "24/7 response request line",
   },
   {
     name: "Kentucky Veterans Program Trust Fund",
@@ -1468,6 +1746,87 @@ export const RESOURCES: Resource[] = [
     geographicScope: "Kentucky",
     state: "Kentucky",
     verifiedDate: "2026-08-20",
+  },
+  {
+    name: "Kentucky Department of Veterans Affairs — Veterans Benefits Field Representatives",
+    url: "https://veterans.ky.gov/Benefits/Pages/default.aspx",
+    description:
+      "State agency providing free, professional help to veterans and their dependents filing federal and state VA claims, appeals, and benefits counseling, through Veterans Benefits Field Representatives located statewide.",
+    needCategoryIds: ["legal-benefits"],
+    audienceTags: ["Veteran", "Family", "Survivor"],
+    cost: "Free",
+    geographicScope: "Kentucky (statewide field offices)",
+    state: "Kentucky",
+    verifiedDate: "2026-09-29",
+    phone: "502-564-9203",
+  },
+  {
+    name: "Team River Runner — Kentucky Central Chapter",
+    url: "https://www.teamriverrunner.org/kentucky-central/",
+    description:
+      "Free adaptive paddlesports (kayaking, SUP, whitewater) program for veterans, active-duty service members, and their families, providing all boats, gear, instruction, transportation, food and lodging at no cost to participants.",
+    needCategoryIds: ["sports-fitness", "outdoor-programs"],
+    audienceTags: ["Veteran", "Active Military", "Family", "Disabled"],
+    cost: "Free",
+    geographicScope: "Central Kentucky",
+    state: "Kentucky",
+    verifiedDate: "2026-09-29",
+  },
+  {
+    name: "Kentucky C.O.P.S. (Concerns of Police Survivors)",
+    url: "https://www.copskentucky.net/",
+    description:
+      "Statewide nonprofit providing emotional support, financial assistance, and legal help to surviving families and coworkers of Kentucky law enforcement officers killed in the line of duty; support available 24/7/365 with no membership fee.",
+    needCategoryIds: ["mental-health", "family-support"],
+    audienceTags: ["Law Enforcement", "Survivor", "Family", "Coworker", "Gold Star"],
+    cost: "Free",
+    geographicScope: "Kentucky",
+    state: "Kentucky",
+    verifiedDate: "2026-09-29",
+    eligibility: "Surviving families/coworkers of law enforcement officers whose line-of-duty death meets federal C.O.P.S. criteria",
+    phone: "606-356-5578",
+  },
+  {
+    name: "Volunteers of America Mid-States — Veterans Services (SSVF)",
+    url: "https://www.voamid.org/services/veterans-services/",
+    description:
+      "VA-funded Supportive Services for Veteran Families program providing outreach, case management, and direct rent/utility/moving-cost assistance to low-income veteran families who are homeless or at risk of homelessness, serving Louisville, Lexington, and many other Kentucky counties.",
+    needCategoryIds: ["housing-transportation", "financial-assistance"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free",
+    geographicScope: "Kentucky (statewide/multi-county, HQ Louisville)",
+    state: "Kentucky",
+    verifiedDate: "2026-09-29",
+    eligibility: "Low-income veteran families (household income ≤50% area median income) who are homeless or at risk",
+    phone: "502-636-0771",
+  },
+  {
+    name: "USA Cares",
+    url: "https://usacares.org/",
+    description:
+      "Kentucky-headquartered (Louisville) national nonprofit providing emergency financial assistance to post-9/11 veterans and military families facing housing loss or job disruption, plus career transition support.",
+    needCategoryIds: ["financial-assistance"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family", "Military Spouse"],
+    cost: "Free — grant/assistance program, apply via the site",
+    geographicScope: "Kentucky (HQ Louisville) / national",
+    state: "Kentucky",
+    verifiedDate: "2026-09-29",
+    phone: "1-800-773-0387",
+  },
+  {
+    // TODO(verify): ky.ng.mil returned a 403 on direct automated fetch (likely bot-blocking); recommend a manual spot-check of the link.
+    name: "Kentucky National Guard Family Assistance Center",
+    url: "https://ky.ng.mil/Benefits-Resources/Family-Assistance-Center/",
+    description:
+      "Statewide \"one-stop shop\" offering legal assistance, financial counseling, TRICARE support, ID card/DEERS help, crisis intervention/referral, and community outreach for service members, veterans, retirees, and their military dependents, with locations in 10 Kentucky cities.",
+    needCategoryIds: ["family-support", "financial-assistance", "legal-benefits"],
+    audienceTags: ["Guard/Reserve", "Active Military", "Veteran", "Family", "Military Spouse"],
+    cost: "Free",
+    geographicScope: "Kentucky (statewide — Frankfort, Louisville, Lexington, Bowling Green, London, Prestonsburg, Burlington, Ashland, Richmond, Owensboro)",
+    state: "Kentucky",
+    verifiedDate: "2026-09-29",
+    phone: "1-800-372-7601",
+    availability: "24/7 main hotline",
   },
 
   // ---------------------------------------------------------------------
