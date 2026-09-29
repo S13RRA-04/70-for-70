@@ -1,6 +1,7 @@
 import type {
   BikeBuildComponentRow,
   BikeBuildContributor,
+  BikeBuildPhoto,
   BikeBuildStatusSummaryItem,
   BikeBuildTimelineEntry,
 } from "@/types/bike-build";
@@ -1270,6 +1271,53 @@ export function getLatestBikeBuildEntry(): BikeBuildTimelineEntry {
 export function getBikeBuildLastUpdated(): string {
   return getLatestBikeBuildEntry().date;
 }
+
+export interface BikeBuildGalleryPhoto extends BikeBuildPhoto {
+  entryId: string;
+  entryTitle: string;
+  date: string;
+}
+
+/**
+ * Every photo across BIKE_BUILD_TIMELINE, oldest first — powers the
+ * auto-scrolling gallery on /journal/building-the-bike. Purely derived from
+ * the timeline above; add a photo to any entry and it appears here
+ * automatically, in chronological order, with no separate list to maintain.
+ */
+export function getAllBikeBuildPhotos(): BikeBuildGalleryPhoto[] {
+  const photos: BikeBuildGalleryPhoto[] = [];
+  for (const entry of BIKE_BUILD_TIMELINE) {
+    if (!entry.photos) continue;
+    for (const photo of entry.photos) {
+      photos.push({ ...photo, entryId: entry.id, entryTitle: entry.title, date: entry.date });
+    }
+  }
+  return photos;
+}
+
+/**
+ * The gallery's closing before/after pair — hand-picked, not derived, so an
+ * incidental close-up (a brake caliper, a spacer stack) never accidentally
+ * becomes the "after" shot just because it's the most recent photo. Update
+ * `after` by hand whenever a better full-bike photo exists; `before` should
+ * only ever change if an earlier frame photo is found.
+ */
+export const BIKE_BUILD_BEFORE_AFTER: { before: BikeBuildPhoto; after: BikeBuildPhoto } = {
+  before: {
+    src: "/journal/building-the-bike/frame-hero.jpg",
+    alt: "The donated 2012 Stradalli Sorrento carbon frame and fork standing upright in a garage.",
+    caption: "August 25, 2026 — a bare donated frame. Not yet a bicycle.",
+    width: 2400,
+    height: 1800,
+  },
+  after: {
+    src: "/journal/building-the-bike/looks-like-a-bike-full.jpeg",
+    alt: "The Stradalli Sorrento on the Feedback Sports repair stand with wrapped drop bars, aerobars, and a mostly complete cockpit and drivetrain.",
+    caption: "September 27, 2026 — the same frame, now unmistakably a race bike.",
+    width: 2016,
+    height: 1512,
+  },
+};
 
 const STATUS_WORD: Record<string, string> = {
   confirmed: "Confirmed",

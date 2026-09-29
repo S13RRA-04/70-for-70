@@ -8,10 +8,13 @@ import { CTASection } from "@/components/shared/cta-section";
 import { PhotoLightbox } from "@/components/shared/photo-lightbox";
 import { BuildStatusPanel } from "@/components/journal/bike-build/build-status-panel";
 import { BuildTimeline } from "@/components/journal/bike-build/build-timeline";
+import { BuildPhotoGallery } from "@/components/journal/bike-build/build-photo-gallery";
+import { BuildBeforeAfter } from "@/components/journal/bike-build/build-before-after";
 import { ComponentStatusBoard } from "@/components/journal/bike-build/component-status-board";
 import { ContributorsSection } from "@/components/journal/bike-build/contributors-section";
 import { PhotoRoadmap } from "@/components/journal/bike-build/photo-roadmap";
 import {
+  BIKE_BUILD_BEFORE_AFTER,
   BIKE_BUILD_COMPONENT_STATUS,
   BIKE_BUILD_CONFIRMED_CONTRIBUTORS,
   BIKE_BUILD_CONVERSATIONS_IN_PROGRESS,
@@ -20,6 +23,7 @@ import {
   BIKE_BUILD_PHOTO_ROADMAP,
   BIKE_BUILD_STATUS_SUMMARY,
   BIKE_BUILD_TIMELINE,
+  getAllBikeBuildPhotos,
   getBikeBuildLastUpdated,
 } from "@/lib/content/building-the-bike";
 import { formatDateLong } from "@/lib/utils";
@@ -78,6 +82,7 @@ function buildJsonLd() {
  */
 export default function BuildingTheBikePage() {
   const lastUpdated = getBikeBuildLastUpdated();
+  const allPhotos = getAllBikeBuildPhotos();
 
   return (
     <article>
@@ -186,10 +191,34 @@ export default function BuildingTheBikePage() {
         </Container>
       </section>
 
+      {allPhotos.length > 0 && (
+        <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
+          <Container>
+            <SectionHeading
+              eyebrow="Photography"
+              title="The Build in Photos"
+              description="Every real photo from this page, in the order it happened — one component at a time. Click any photo for a closer look; hover to pause."
+            />
+          </Container>
+          <div className="mt-8">
+            <BuildPhotoGallery photos={allPhotos} />
+          </div>
+
+          <Container className="mt-12">
+            <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+              Then and Now
+            </p>
+            <div className="mt-4">
+              <BuildBeforeAfter before={BIKE_BUILD_BEFORE_AFTER.before} after={BIKE_BUILD_BEFORE_AFTER.after} />
+            </div>
+          </Container>
+        </section>
+      )}
+
       <section className="border-b border-ink/10 py-16 sm:py-20">
         <Container>
           <SectionHeading
-            eyebrow="Photography"
+            eyebrow="Coming Soon"
             title="What's Coming Into Focus"
             description="Only real campaign photographs appear on this page. These slots stay empty and clearly labeled until there's an actual photo to put in them."
           />
