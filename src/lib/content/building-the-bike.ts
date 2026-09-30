@@ -46,7 +46,7 @@ export const BIKE_BUILD_STATUS_SUMMARY: BikeBuildStatusSummaryItem[] = [
     label: "Frame / Build",
     status: "pending",
     statusLabel: "Nearly Complete",
-    detail: "Donated 2012 Stradalli carbon frame now looks like a complete race bike — wheels, handlebar/tape, seatpost, bottom bracket, aerobars, brifters, crankset, pedals, saddle, headset, rear derailleur, and both brake calipers are all installed.",
+    detail: "Donated 2012 Stradalli carbon frame now looks like a complete race bike — wheels with tires and tubes, handlebar/tape, seatpost, bottom bracket, aerobars, brifters, crankset, pedals, saddle, headset, rear derailleur, and both brake calipers are all installed.",
   },
   {
     label: "Fit Confirmation",
@@ -76,13 +76,13 @@ export const BIKE_BUILD_STATUS_SUMMARY: BikeBuildStatusSummaryItem[] = [
     label: "Remaining Purchases",
     status: "needed",
     statusLabel: "In Progress",
-    detail: "Nearly everything has arrived — the rim brake set and rear derailleur are installed, and the front derailleur, replacement seat tube collar, training tires, and chain are in hand awaiting installation. Only race tires still need to be ordered.",
+    detail: "Nearly everything has arrived and gone on — the replacement seat tube collar and chain are in hand awaiting installation. Only the front derailleur is still awaiting delivery, and race tires still need to be ordered.",
   },
   {
     label: "Final Assembly",
     status: "pending",
     statusLabel: "Nearly Complete",
-    detail: "As of the weekend of September 26-27, 2026, the rear derailleur and both brake calipers are installed and cabled, alongside everything installed earlier. What's left: the front derailleur, training tires/tubes, the seatpost collar, and the chain — then tuning and a first shakedown ride.",
+    detail: "As of September 30, 2026, the training tires and tubes are mounted, alongside everything installed earlier. What's left: the front derailleur (still awaiting delivery) and the chain — then tuning and a first shakedown ride.",
   },
   {
     label: "First Outdoor Ride",
@@ -143,9 +143,9 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
   },
   {
     component: "Front Derailleur",
-    status: "confirmed",
-    statusLabel: "In Hand",
-    notes: "Shimano FD-R7000 clamp-on front derailleur — purchased for $59.40, sidestepping the earlier braze-on-plus-adapter plan since the Stradalli doesn't have an integrated braze-on mount; arrived, still needs to be installed and adjusted.",
+    status: "needed",
+    statusLabel: "Ordered — Awaiting Delivery",
+    notes: "Shimano FD-R7000 clamp-on front derailleur — purchased for $59.40, sidestepping the earlier braze-on-plus-adapter plan since the Stradalli doesn't have an integrated braze-on mount; the last part still awaiting delivery.",
   },
   {
     component: "Rear Derailleur",
@@ -246,8 +246,8 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
   {
     component: "Training Tires",
     status: "confirmed",
-    statusLabel: "In Hand",
-    notes: "Vittoria Zaffiro EVO, 700×25C, black — ordered September 22, 2026 for $82.71, specifically for training rides; arrived, still needs to be mounted with tubes.",
+    statusLabel: "Installed",
+    notes: "Vittoria Zaffiro EVO, 700×25C, black — ordered September 22, 2026 for $82.71, specifically for training rides; mounted September 30, 2026.",
   },
   {
     component: "Race Tires",
@@ -258,14 +258,14 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
   {
     component: "Tubes",
     status: "confirmed",
-    statusLabel: "In Hand",
-    notes: "An initial pair ($15.00) plus an additional two-pack ($6.48) — purchased for the training tires and as race-day spares.",
+    statusLabel: "Installed",
+    notes: "An initial pair ($15.00) plus an additional two-pack ($6.48) — purchased for the training tires and as race-day spares; installed with the training tires September 30, 2026.",
   },
   {
     component: "Assembly",
     status: "pending",
     statusLabel: "Nearly Complete",
-    notes: "As of the weekend of September 26-27, 2026: wheels, handlebar, bar tape, seatpost, bottom bracket, aerobars, brifters, crankset, pedals, saddle, headset spacers/top cap, rear derailleur, and both brake calipers are all installed, with shift/brake cabling run to match. Remaining: install and adjust the front derailleur, mount the training tires and tubes, install the seatpost collar, and size/route/connect the chain — then full tuning and a first shakedown ride.",
+    notes: "As of September 30, 2026: everything is installed except the front derailleur and chain — wheels, tires and tubes, handlebar, bar tape, seatpost, bottom bracket, aerobars, brifters, crankset, pedals, saddle, headset spacers/top cap, rear derailleur, and both brake calipers are all on. Waiting on the front derailleur to arrive; once it does, install it and the chain, adjust everything, and take it for a first test ride.",
   },
   {
     component: "Pre-Race Tune-Up",
@@ -1258,6 +1258,38 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "I started this project with a used 2012 carbon frame and a plan.",
       "Now there's a nearly complete triathlon bike sitting in my garage.",
       "A few more parts. A few more adjustments. Then we ride.",
+    ],
+    relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+  },
+  {
+    id: "tires-and-tubes-installed",
+    date: "2026-09-30",
+    displayDate: "September 30, 2026",
+    title: "Tires and Tubes Are On",
+    summary:
+      "The Vittoria training tires and tubes are mounted. All that's left is the front derailleur — once it arrives, it's the chain, final adjustments, and a first test ride.",
+    status: "Tires and tubes installed",
+    featured: true,
+    photos: [
+      {
+        src: "/journal/building-the-bike/tires-and-tubes-installed.jpeg",
+        alt: "The Stradalli Sorrento on the Feedback Sports repair stand with training tires and tubes mounted on both wheels, nearly fully assembled.",
+        caption: "Tires and tubes on — the bike is nearly ready to ride.",
+        width: 2856,
+        height: 2142,
+      },
+    ],
+    technicalDetails: {
+      heading: "Status",
+      items: [
+        { label: "Tires & Tubes", value: "Installed" },
+        { label: "Still Waiting On", value: "Front derailleur (awaiting delivery)" },
+        { label: "Then", value: "Install front derailleur & chain, adjust, test ride" },
+      ],
+    },
+    body: [
+      "Tires and tubes are on. All I'm waiting on now is for the front derailleur to come in.",
+      "Once it does, I'll install it and the chain, make some adjustments, and take it out for a test ride. From there, make some adjustments and dial everything in so it's ready for training next week.",
     ],
     relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
   },
