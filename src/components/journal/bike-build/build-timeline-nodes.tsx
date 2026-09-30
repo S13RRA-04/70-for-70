@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Camera, Link2, ZoomIn } from "lucide-react";
 import { PhotoLightbox } from "@/components/shared/photo-lightbox";
@@ -35,6 +35,8 @@ function Node({
   isLast,
   monthLabel,
   onToggle,
+  onPreview,
+  onPreviewEnd,
 }: {
   node: BikeBuildTimelineNode;
   isActive: boolean;
@@ -44,13 +46,16 @@ function Node({
   /** Set only on the first node of a new month, so a label can introduce that cluster of dates. */
   monthLabel: string | null;
   onToggle: () => void;
+  /** Reports this node's button so the parent can measure it and position the shared preview tooltip (see BuildTimelineNodes — the tooltip can't live here, since the scrollable row would clip it). */
+  onPreview: (node: BikeBuildTimelineNode, target: HTMLElement) => void;
+  onPreviewEnd: () => void;
 }) {
   const hasPhotos = node.photos.length > 0;
 
   return (
-    <li className="group relative flex shrink-0 scroll-mx-4 snap-center flex-col items-center pt-6">
+    <li className="relative flex shrink-0 scroll-mx-4 snap-center flex-col items-center pt-6">
       {monthLabel && (
-        <span className="absolute -top-0.5 left-0 whitespace-nowrap text-[10px] font-bold uppercase tracking-[0.2em] text-charcoal-light/50">
+        <span className="absolute top-0 left-0 whitespace-nowrap text-[10px] font-bold uppercase tracking-[0.2em] text-charcoal-light/50">
           {monthLabel}
         </span>
       )}
@@ -68,6 +73,10 @@ function Node({
       <button
         type="button"
         onClick={onToggle}
+        onMouseEnter={(e) => onPreview(node, e.currentTarget)}
+        onMouseLeave={onPreviewEnd}
+        onFocus={(e) => onPreview(node, e.currentTarget)}
+        onBlur={onPreviewEnd}
         aria-expanded={isActive}
         aria-label={`${node.displayDate}: ${node.entries.map((e) => e.title).join(", ")}`}
         className={cn(
@@ -81,25 +90,6 @@ function Node({
       >
         {hasPhotos ? node.photos.length : <Camera size={13} className="opacity-30" aria-hidden />}
       </button>
-
-      {/* Hover/focus preview — desktop only; touch users get the same info by tapping (which opens the panel below). */}
-      <div
-        role="tooltip"
-        className="pointer-events-none absolute bottom-full left-1/2 z-20 mb-2.5 hidden w-56 -translate-x-1/2 rounded-sm border border-ink/10 bg-ink px-3 py-2.5 text-off-white opacity-0 shadow-lg transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100 sm:block"
-      >
-        <p className="text-[10px] font-semibold uppercase tracking-widest text-bronze-light">{node.displayDate}</p>
-        <div className="mt-1 space-y-1">
-          {node.entries.map((entry) => (
-            <p key={entry.id} className="text-xs leading-snug">
-              {entry.summary}
-            </p>
-          ))}
-        </div>
-        <span
-          aria-hidden="true"
-          className="absolute left-1/2 top-full h-2 w-2 -translate-x-1/2 -translate-y-1 rotate-45 bg-ink"
-        />
-      </div>
 
       <time
         dateTime={node.date}
@@ -265,6 +255,20 @@ export function BuildTimelineNodes({ nodes }: { nodes: BikeBuildTimelineNode[] }
   // it off the previous one. `nodes` is oldest-first, so the last node is
   // unambiguously current, matching getLatestBikeBuildEntry()'s own logic.
   const [activeDate, setActiveDate] = useState<string | null>(() => nodes.at(-1)?.date ?? null);
+  const [preview, setPreview] = useState<{ node: BikeBuildTimelineNode; left: number; top: number } | null>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  function handlePreview(node: BikeBuildTimelineNode, target: HTMLElement) {
+    const wrapper = wrapperRef.current;
+    if (!wrapper) return;
+    const wrapperRect = wrapper.getBoundingClientRect();
+    const targetRect = target.getBoundingClientRect();
+    setPreview({
+      node,
+      left: targetRect.left - wrapperRect.left + targetRect.width / 2,
+      top: targetRect.top - wrapperRect.top - 14,
+    });
+  }
 
   useEffect(() => {
     // window.location isn't available during SSR, so the featured-entry
@@ -293,7 +297,7 @@ export function BuildTimelineNodes({ nodes }: { nodes: BikeBuildTimelineNode[] }
 
   return (
     <div>
-      <div className="relative">
+      <div ref={wrapperRef} className="relative">
         {/* Edge fade masks hint that the row scrolls — same technique MerchTicker uses for its marquee edges. */}
         <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-gradient-to-r from-off-white to-transparent sm:w-12" aria-hidden="true" />
         <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-gradient-to-l from-off-white to-transparent sm:w-12" aria-hidden="true" />
@@ -312,10 +316,45 @@ export function BuildTimelineNodes({ nodes }: { nodes: BikeBuildTimelineNode[] }
                 isLast={i === nodes.length - 1}
                 monthLabel={monthLabel}
                 onToggle={() => setActiveDate((current) => (current === node.date ? null : node.date))}
+                onPreview={handlePreview}
+                onPreviewEnd={() => setPreview(null)}
               />
             );
           })}
         </ol>
+
+        {/*
+         * Rendered as a sibling of the scrollable <ol>, not a descendant.
+         * The row is overflow-x-auto, which per the CSS overflow spec
+         * forces overflow-y to auto too (you can't have one axis scroll
+         * and the other stay visible) — a tooltip popping up above a node
+         * was getting silently clipped by that vertical scrollport with no
+         * way to scroll to it. Measuring the hovered button's position on
+         * hover/focus and rendering the tooltip here, outside the clipped
+         * container, is what actually makes it visible.
+         */}
+        {preview && (
+          <div
+            role="tooltip"
+            style={{ left: preview.left, top: preview.top }}
+            className="pointer-events-none absolute z-30 hidden w-56 -translate-x-1/2 -translate-y-full rounded-sm border border-ink/10 bg-ink px-3 py-2.5 text-off-white shadow-lg sm:block"
+          >
+            <p className="text-[10px] font-semibold uppercase tracking-widest text-bronze-light">
+              {preview.node.displayDate}
+            </p>
+            <div className="mt-1 space-y-1">
+              {preview.node.entries.map((entry) => (
+                <p key={entry.id} className="text-xs leading-snug">
+                  {entry.summary}
+                </p>
+              ))}
+            </div>
+            <span
+              aria-hidden="true"
+              className="absolute left-1/2 top-full h-2 w-2 -translate-x-1/2 -translate-y-1 rotate-45 bg-ink"
+            />
+          </div>
+        )}
       </div>
 
       {active && (
