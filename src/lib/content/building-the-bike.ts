@@ -1377,11 +1377,11 @@ export const BIKE_BUILD_BEFORE_AFTER: { before: BikeBuildPhoto; after: BikeBuild
     height: 1800,
   },
   after: {
-    src: "/journal/building-the-bike/looks-like-a-bike-full.jpeg",
-    alt: "The Stradalli Sorrento on the Feedback Sports repair stand with wrapped drop bars, aerobars, and a mostly complete cockpit and drivetrain.",
-    caption: "September 27, 2026 — the same frame, now unmistakably a race bike.",
-    width: 2016,
-    height: 1512,
+    src: "/journal/building-the-bike/tires-and-tubes-installed.jpeg",
+    alt: "The Stradalli Sorrento on the Feedback Sports repair stand with training tires and tubes mounted on both wheels, nearly fully assembled.",
+    caption: "September 30, 2026 — the same frame, tires on and nearly ready to ride.",
+    width: 2856,
+    height: 2142,
   },
 };
 
