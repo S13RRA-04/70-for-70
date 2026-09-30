@@ -690,7 +690,6 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
     title: "Praxis Delivers: The Crankset Is Here",
     summary: "The Praxis crankset, chainrings, and bottom bracket showed up — turning last week's offer into real parts on the counter.",
     status: "Crankset & bottom bracket in hand",
-    featured: true,
     contributors: ["Praxis"],
     photos: [
       {
@@ -725,7 +724,6 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
     summary:
       "Redshift Sports has confirmed it's providing aero bars, a seatpost, and a seatpost shim for the race bike — an estimated $495 in-kind — closing the aerobar question that had been open since late August.",
     status: "Aero bars & seatpost confirmed",
-    featured: true,
     contributors: ["Redshift Sports"],
     costTable: {
       heading: "Donated Value",
@@ -790,7 +788,6 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
     summary:
       "Family picked up the available components from Montgomery Bicycle Club — full inventory, and the start of actual assembly, happens this weekend.",
     status: "Inventory pending",
-    featured: true,
     contributors: ["Betsy & MBC"],
     body: [
       "The components MBC has been holding for this build didn't stay at MBC. My family picked them up — which means the parts are now closer to this bike than they've been since the search for one started back in August.",
@@ -830,7 +827,6 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
     title: "Cables, Housing, Bar Tape — and Tomorrow's the Day",
     summary: "Shifter cables, housing, and handlebar tape are ordered and due Sunday — and tomorrow, the parts finally come home.",
     status: "Consumables ordered; pickup tomorrow",
-    featured: true,
     body: [
       "Two more purchases went in today: shifter cables and housing, and handlebar tape. Neither is glamorous, and neither was really answerable until the frame and drivetrain were far enough along to know exactly what the cabling needs to do. Both are expected to arrive Sunday, September 20.",
       "The bigger news is what happens before that shipment even shows up: tomorrow, I'm picking up the bike — the actual components MBC has been holding, that my family collected on my behalf a couple of days ago.",
@@ -846,7 +842,6 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
     summary:
       "With the parts finally collected, today was inventory day — laying everything out to see what's actually here, what's compatible, and what's still missing.",
     status: "Full inventory complete",
-    featured: true,
     photos: [
       {
         src: "/journal/building-the-bike/inventory-frame.jpeg",
@@ -936,7 +931,6 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
     summary:
       "The parts didn't just make it home — they made it onto the bike. Wheels, handlebar, seatpost, and bottom bracket are installed; the crankset, pedals, aerobars, brifters, and saddle are next.",
     status: "Assembly underway",
-    featured: true,
     photos: [
       {
         src: "/journal/building-the-bike/assembly-begins-frame-on-stand.jpeg",
@@ -1082,7 +1076,6 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
     summary:
       "Three more parts installed — the Praxis crankset, RockBros pedals, and ISM saddle — plus a reordered seatpost collar and a set of training tires.",
     status: "Crankset, pedals & saddle installed",
-    featured: true,
     photos: [
       {
         src: "/journal/building-the-bike/crankset-pedals-saddle-installed.jpeg",
@@ -1158,7 +1151,6 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
     summary:
       "The chain has arrived — the last big part in transit. If everything lands on schedule, the build wraps next weekend and training on the Stradalli begins October 5.",
     status: "Chain arrived; build nearing completion",
-    featured: true,
     technicalDetails: {
       heading: "Target Dates",
       items: [
@@ -1194,7 +1186,6 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
     summary:
       "The rear derailleur and both brake calipers are mounted, the cockpit is wrapped and aero, and the Stradalli is unmistakably a race bike now — only a handful of jobs remain.",
     status: "Drivetrain hardware and cockpit installed",
-    featured: true,
     photos: [
       {
         src: "/journal/building-the-bike/looks-like-a-bike-full.jpeg",

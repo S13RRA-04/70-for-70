@@ -85,7 +85,13 @@ export interface BikeBuildTimelineEntry {
   contributors?: string[];
   costTable?: BikeBuildCostTable;
   relatedLinks?: { label: string; href: string }[];
-  /** Marks the newest/pinned entry — used for the hero teaser and the journal index card. */
+  /**
+   * Marks the newest entry — used for the hero teaser, the journal index
+   * card, and which node the interactive timeline opens by default. Should
+   * be true on exactly one entry at a time: the actual latest one. When
+   * appending a new entry, add `featured: true` to it and remove the flag
+   * from whichever entry had it before — don't just add without removing.
+   */
   featured?: boolean;
 }
 
