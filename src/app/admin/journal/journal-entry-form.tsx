@@ -196,7 +196,20 @@ export function JournalEntryForm({
       <div className="rounded-sm border border-ink/10 bg-off-white p-6">
         <h2 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">Media</h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
-          <JournalImageUpload label="Hero / Thumbnail Image" hiddenFieldName="image_url" defaultValue={entry?.image_url} />
+          <div>
+            <JournalImageUpload label="Hero / Thumbnail Image" hiddenFieldName="image_url" defaultValue={entry?.image_url} />
+            <label htmlFor="image_alt" className="mt-2 block text-xs font-medium text-ink">
+              Alt Text (describe the photo, not the post title)
+            </label>
+            <input
+              id="image_alt"
+              name="image_alt"
+              type="text"
+              defaultValue={entry?.image_alt ?? ""}
+              className={inputClass}
+              placeholder="e.g. Cody assembling the race bike frame on a stand"
+            />
+          </div>
           <div>
             <label htmlFor="video_url" className={labelClass}>
               Video URL (YouTube or Vimeo — vlog entries)

@@ -86,3 +86,17 @@ export function getWeeksToRace(now: Date = new Date()): number | null {
   if (!raceDate || new Date(raceDate) < now) return null;
   return weeksBetween(now.toISOString(), raceDate);
 }
+
+/**
+ * Whole days remaining until race day, or null before RACE_INFO.raceDate is
+ * confirmed or after it's passed — same guard as getWeeksToRace, for the
+ * homepage campaign status bar's "N DAYS TO CHATTANOOGA" figure, which
+ * reads better as a day count than a week count this close to race day.
+ */
+export function getDaysToRace(now: Date = new Date()): number | null {
+  const { raceDate } = RACE_INFO;
+  if (!raceDate) return null;
+  const diffMs = new Date(raceDate).getTime() - now.getTime();
+  if (diffMs < 0) return null;
+  return Math.ceil(diffMs / 86_400_000);
+}

@@ -15,8 +15,9 @@ import { RelatedEntries } from "@/components/journal/related-entries";
 import { JournalCta } from "@/components/journal/journal-cta";
 import { formatDateLong } from "@/lib/utils";
 import { parseVideoUrl } from "@/lib/video-url";
-import { CAMPAIGN_NAME, CAMPAIGN_URL, JOURNAL_PLACEHOLDER_IMAGE, SITE_NAME, SITE_URL } from "@/lib/constants";
+import { CAMPAIGN_URL, JOURNAL_PLACEHOLDER_IMAGE, SITE_NAME, SITE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
+import { breadcrumbJsonLd, CAMPAIGN_HOME_CRUMB, FOUNDER_PERSON_JSON_LD, jsonLdScriptProps } from "@/lib/json-ld";
 import type { JournalEntryWithMentions } from "@/types/database";
 
 export async function generateMetadata(props: PageProps<"/journal/[slug]">): Promise<Metadata> {
@@ -56,7 +57,7 @@ function entryJsonLd(entry: JournalEntryWithMentions) {
     ...(entry.updated_at &&
       entry.published_at &&
       entry.updated_at !== entry.published_at && { dateModified: entry.updated_at }),
-    author: { "@type": "Organization", name: CAMPAIGN_NAME, url: CAMPAIGN_URL },
+    author: FOUNDER_PERSON_JSON_LD,
     publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
   };
 
@@ -81,6 +82,14 @@ function entryJsonLd(entry: JournalEntryWithMentions) {
   };
 }
 
+function entryBreadcrumbJsonLd(entry: JournalEntryWithMentions) {
+  return breadcrumbJsonLd([
+    CAMPAIGN_HOME_CRUMB,
+    { name: "Journal", url: `${CAMPAIGN_URL}/journal` },
+    { name: entry.title, url: `${CAMPAIGN_URL}/journal/${entry.slug}` },
+  ]);
+}
+
 export default async function JournalEntryPage(props: PageProps<"/journal/[slug]">) {
   const { slug } = await props.params;
   const [entry, adjacent, allEntries] = await Promise.all([
@@ -99,12 +108,8 @@ export default async function JournalEntryPage(props: PageProps<"/journal/[slug]
 
   return (
     <article className="py-16 sm:py-20">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(entryJsonLd(entry)).replace(/</g, "\\u003c"),
-        }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(entryJsonLd(entry))} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(entryBreadcrumbJsonLd(entry))} />
       <Container className="max-w-3xl">
         <Link href="/journal" className="text-xs font-semibold uppercase tracking-widest text-charcoal-light hover:text-ink">
           The Journal / {entry.primary_category}
@@ -139,7 +144,7 @@ export default async function JournalEntryPage(props: PageProps<"/journal/[slug]
           <div className="relative mt-8 aspect-[16/9] w-full overflow-hidden rounded-sm bg-sand-light">
             <Image
               src={entry.image_url ?? JOURNAL_PLACEHOLDER_IMAGE}
-              alt={entry.title}
+              alt={entry.image_alt ?? entry.title}
               fill
               priority
               sizes="(min-width: 768px) 768px, 100vw"

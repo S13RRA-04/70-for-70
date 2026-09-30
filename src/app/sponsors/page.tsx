@@ -18,6 +18,7 @@ import { CTAButton } from "@/components/shared/cta-button";
 import { EmptyState } from "@/components/shared/empty-state";
 import { CAMPAIGN_NAME, CAMPAIGN_URL, EVENT22_CAMPAIGN_URL, MISSION_PARTNER_TIERS } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
+import { breadcrumbJsonLd, CAMPAIGN_HOME_CRUMB, jsonLdScriptProps } from "@/lib/json-ld";
 import type { MissionPartnerRow, PartnerType } from "@/types/database";
 
 export const metadata = pageMetadata({
@@ -25,6 +26,8 @@ export const metadata = pageMetadata({
   description: "Organizations and brands supporting Tri For The 22 through gear, resources, fundraising, and outreach.",
   canonical: `${CAMPAIGN_URL}/sponsors`,
 });
+
+const BREADCRUMB_JSON_LD = breadcrumbJsonLd([CAMPAIGN_HOME_CRUMB, { name: "Sponsors", url: `${CAMPAIGN_URL}/sponsors` }]);
 
 /**
  * Support TYPE, not sponsorship RANK — shown as a small category chip on
@@ -105,6 +108,7 @@ export default async function SponsorsPage() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
       <CampaignPageHero>
         <SectionHeading
           as="h1"
@@ -201,7 +205,7 @@ export default async function SponsorsPage() {
           )}
 
           {/* Become a Partner — kept immediately after the tier hierarchy, not buried below other sections. */}
-          <section className="border-t border-ink/10 py-16 sm:py-20">
+          <section id="become-a-partner" className="scroll-mt-24 border-t border-ink/10 py-16 sm:py-20">
             <Container className="max-w-3xl">
               <SectionHeading
                 align="center"

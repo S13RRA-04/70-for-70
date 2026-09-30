@@ -8,6 +8,7 @@ import { FocusScrollSection } from "@/components/shared/focus-scroll-section";
 import { MISSION_SECTIONS } from "@/lib/content/mission";
 import { CAMPAIGN_URL, DONATE_LINK } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
+import { breadcrumbJsonLd, CAMPAIGN_HOME_CRUMB, jsonLdScriptProps } from "@/lib/json-ld";
 
 export const metadata = pageMetadata({
   title: "The Mission",
@@ -16,9 +17,12 @@ export const metadata = pageMetadata({
   canonical: `${CAMPAIGN_URL}/the-mission`,
 });
 
+const BREADCRUMB_JSON_LD = breadcrumbJsonLd([CAMPAIGN_HOME_CRUMB, { name: "The Mission", url: `${CAMPAIGN_URL}/the-mission` }]);
+
 export default function MissionPage() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
       <CampaignPageHero>
         <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:gap-16">
           <div>

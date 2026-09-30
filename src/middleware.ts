@@ -17,12 +17,26 @@ const PREVIEW_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 180; // 180 days
  * fully support. Switch back to `proxy.ts` once OpenNext adds Node
  * middleware support — see https://github.com/cloudflare/workers-sdk/issues/13755
  */
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
+  const nonce = btoa(crypto.randomUUID());
+  const csp = buildContentSecurityPolicy(nonce);
+
+  // Every path below that RENDERS A DOCUMENT (a rewrite, or the session
+  // passthrough) has to be built from a request carrying these two headers:
+  // Next reads the CSP off the *request* to nonce its own inline bootstrap
+  // scripts and styles, and without that nonce our own policy blocks them and
+  // the page ships dead JavaScript. Redirects and JSON responses don't need
+  // them, but still get the header via applyCsp() so no response leaves the
+  // Worker without it.
+  const renderHeaders = new Headers(request.headers);
+  renderHeaders.set("x-nonce", nonce);
+  renderHeaders.set("Content-Security-Policy", csp);
+
   const strayDomainResponse = applyStrayDomainRedirect(request);
-  if (strayDomainResponse) return strayDomainResponse;
+  if (strayDomainResponse) return applyCsp(strayDomainResponse, csp);
 
   const legacyEvent22Response = applyEvent22LegacyRedirect(request);
-  if (legacyEvent22Response) return legacyEvent22Response;
+  if (legacyEvent22Response) return applyCsp(legacyEvent22Response, csp);
 
   // app.forthe22.org is a different product surface entirely (authenticated
   // participant app, not marketing content) — never subject to the org/
@@ -30,9 +44,9 @@ export function middleware(request: NextRequest) {
   // src/app/app/* in the filesystem; this rewrites every path transparently
   // so the URL bar still shows app.forthe22.org/whatever.
   if (isAppHost(request.headers.get("host"))) {
-    const appResponse = applyAppHostRewrite(request);
-    if (appResponse) return appResponse;
-    return updateSupabaseSession(request);
+    const appResponse = applyAppHostRewrite(request, renderHeaders);
+    if (appResponse) return applyCsp(appResponse, csp);
+    return applyCsp(await updateSupabaseSession(request, renderHeaders), csp);
   }
 
   const campaignSlug = getCampaignSlug(request.headers.get("host"));
@@ -40,14 +54,71 @@ export function middleware(request: NextRequest) {
   const live = onCampaignHost ? isCampaignLive() : isOrgLive();
 
   if (!live) {
-    const gateResponse = applyLaunchGate(request, onCampaignHost);
-    if (gateResponse) return gateResponse;
+    const gateResponse = applyLaunchGate(request, onCampaignHost, renderHeaders);
+    if (gateResponse) return applyCsp(gateResponse, csp);
   }
 
-  const splitResponse = applyDomainSplit(request, onCampaignHost, campaignSlug);
-  if (splitResponse) return splitResponse;
+  const splitResponse = applyDomainSplit(request, onCampaignHost, campaignSlug, renderHeaders);
+  if (splitResponse) return applyCsp(splitResponse, csp);
 
-  return updateSupabaseSession(request);
+  return applyCsp(await updateSupabaseSession(request, renderHeaders), csp);
+}
+
+/**
+ * Nonce-based CSP, built fresh per request. Nonces only help if they're
+ * unpredictable and single-use, which is why this is not a static
+ * next.config.ts header. Origins are derived from real config rather than
+ * wildcards: the Supabase project URL and the exact video-embed hosts this
+ * app can actually embed, so a CSP change can't quietly widen the allowlist.
+ *
+ * - `script-src` gets the nonce but no 'unsafe-inline': that's the whole point,
+ *   and it works because every route is already dynamically rendered (the root
+ *   layout reads the request host — see getSiteMode()). 'unsafe-eval' is added
+ *   in development only, because React's dev-mode debugging uses eval
+ *   (node_modules/next/dist/docs/01-app/02-guides/content-security-policy.md).
+ * - `style-src` does need 'unsafe-inline': nonces don't cover style
+ *   *attributes*, and this codebase uses React inline styles (progress bars,
+ *   timeline positions) plus next/font's injected <style> tags throughout.
+ * - `connect-src`/`img-src` use the exact Supabase project origin — the admin
+ *   login page and the app's auth pages talk to Supabase from the browser, and
+ *   journal images are served from that project's Storage bucket. `*.supabase.co`
+ *   would be simpler but would trust every other project's subdomain too.
+ * - `upgrade-insecure-requests` is production-only; in local dev it would
+ *   rewrite http://localhost asset and navigation URLs to https.
+ */
+function buildContentSecurityPolicy(nonce: string): string {
+  const isDev = process.env.NODE_ENV === "development";
+  const supabaseOrigin = process.env.NEXT_PUBLIC_SUPABASE_URL
+    ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).origin
+    : null;
+
+  const directives = [
+    "default-src 'self'",
+    `script-src 'self' 'nonce-${nonce}'${isDev ? " 'unsafe-eval'" : ""}`,
+    "style-src 'self' 'unsafe-inline'",
+    `img-src 'self' data: blob:${supabaseOrigin ? ` ${supabaseOrigin}` : ""} https://img.youtube.com`,
+    "font-src 'self' data:",
+    `connect-src 'self'${supabaseOrigin ? ` ${supabaseOrigin} ${supabaseOrigin.replace("https://", "wss://")}` : ""}`,
+    // The Journal's click-to-play video facade is the only iframe on the site
+    // (src/lib/video-url.ts).
+    "frame-src https://www.youtube.com https://player.vimeo.com",
+    // The participant app registers its own service worker (/sw.js).
+    "worker-src 'self'",
+    "manifest-src 'self'",
+    "base-uri 'self'",
+    "object-src 'none'",
+    "frame-ancestors 'none'",
+    "form-action 'self'",
+    ...(isDev ? [] : ["upgrade-insecure-requests"]),
+  ];
+
+  return directives.join("; ").replace(/\s{2,}/g, " ").trim();
+}
+
+/** Attaches the CSP to a response that middleware returns before rendering. */
+function applyCsp(response: Response, csp: string): Response {
+  response.headers.set("Content-Security-Policy", csp);
+  return response;
 }
 
 /**
@@ -64,13 +135,15 @@ const APP_HOST_PASSTHROUGH_PREFIXES = [
   "/robots.txt",
 ];
 
-function applyAppHostRewrite(request: NextRequest): Response | null {
+function applyAppHostRewrite(request: NextRequest, renderHeaders: Headers): Response | null {
   const { pathname } = request.nextUrl;
   if (APP_HOST_PASSTHROUGH_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`))) {
     return null;
   }
   if (pathname.startsWith("/app")) return null; // already a real /app/* path (e.g. a Link href built server-side)
-  return NextResponse.rewrite(new URL(`/app${pathname}`, request.nextUrl));
+  return NextResponse.rewrite(new URL(`/app${pathname}`, request.nextUrl), {
+    request: { headers: renderHeaders },
+  });
 }
 
 /**
@@ -122,7 +195,7 @@ function applyEvent22LegacyRedirect(request: NextRequest): Response | null {
  * isOrgLive/isCampaignLive — so this only runs for whichever domain isn't
  * live yet; the other domain skips the gate entirely.
  */
-function applyLaunchGate(request: NextRequest, onCampaignHost: boolean): Response | null {
+function applyLaunchGate(request: NextRequest, onCampaignHost: boolean, renderHeaders: Headers): Response | null {
   const url = request.nextUrl;
 
   // /admin/* (and its own API routes, e.g. WHOOP OAuth) is never gated —
@@ -178,7 +251,7 @@ function applyLaunchGate(request: NextRequest, onCampaignHost: boolean): Respons
   if (url.pathname !== "/coming-soon") {
     const comingSoonUrl = new URL("/coming-soon", url);
     if (onCampaignHost) comingSoonUrl.searchParams.set("scope", "campaign");
-    return NextResponse.rewrite(comingSoonUrl);
+    return NextResponse.rewrite(comingSoonUrl, { request: { headers: renderHeaders } });
   }
 
   return null;
@@ -221,6 +294,7 @@ const CAMPAIGN_PATH_PREFIXES = [
   "/financial-transparency",
   "/shop",
   "/messages",
+  "/get-involved",
 ];
 
 /**
@@ -314,6 +388,7 @@ function applyDomainSplit(
   request: NextRequest,
   onCampaignHost: boolean,
   campaignSlug: CampaignSlug | null,
+  renderHeaders: Headers,
 ): Response | null {
   const url = request.nextUrl;
 
@@ -328,15 +403,23 @@ function applyDomainSplit(
   // CAMPAIGN_HOME_ROUTES) and is rewritten in transparently — the URL bar
   // still shows "/".
   if (url.pathname === "/") {
-    return campaignSlug ? NextResponse.rewrite(new URL(CAMPAIGN_HOME_ROUTES[campaignSlug], url)) : null;
+    return campaignSlug
+      ? NextResponse.rewrite(new URL(CAMPAIGN_HOME_ROUTES[campaignSlug], url), {
+          request: { headers: renderHeaders },
+        })
+      : null;
   }
 
   if (campaignSlug === "22" && url.pathname in EVENT22_PATH_REWRITES) {
-    return NextResponse.rewrite(new URL(EVENT22_PATH_REWRITES[url.pathname], url));
+    return NextResponse.rewrite(new URL(EVENT22_PATH_REWRITES[url.pathname], url), {
+      request: { headers: renderHeaders },
+    });
   }
 
   if (onCampaignHost && url.pathname in CAMPAIGN_PATH_REWRITES) {
-    return NextResponse.rewrite(new URL(CAMPAIGN_PATH_REWRITES[url.pathname], url));
+    return NextResponse.rewrite(new URL(CAMPAIGN_PATH_REWRITES[url.pathname], url), {
+      request: { headers: renderHeaders },
+    });
   }
 
   // Permanent (308) redirects — a visitor on the wrong domain for a given

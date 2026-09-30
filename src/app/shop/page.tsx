@@ -1,6 +1,7 @@
 import { Container } from "@/components/shared/container";
-import { CAMPAIGN_NAME, MERCH_BENEFICIARIES, MERCH_STORE_URL, MISSION_STORE_URL } from "@/lib/constants";
+import { CAMPAIGN_NAME, CAMPAIGN_URL, MERCH_BENEFICIARIES, MERCH_STORE_URL, MISSION_STORE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
+import { breadcrumbJsonLd, CAMPAIGN_HOME_CRUMB, jsonLdScriptProps } from "@/lib/json-ld";
 
 export const metadata = pageMetadata({
   title: "Shop",
@@ -8,9 +9,12 @@ export const metadata = pageMetadata({
   canonical: "/shop",
 });
 
+const BREADCRUMB_JSON_LD = breadcrumbJsonLd([CAMPAIGN_HOME_CRUMB, { name: "Shop", url: `${CAMPAIGN_URL}/shop` }]);
+
 export default function ShopPage() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
       <section className="border-b border-ink/10 bg-ink py-16 text-off-white sm:py-24">
         <Container className="max-w-2xl">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-bronze-light">

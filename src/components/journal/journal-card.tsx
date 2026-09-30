@@ -40,7 +40,7 @@ export function JournalCard({
           {hasPhoto ? (
             <Image
               src={entry.image_url!}
-              alt={entry.title}
+              alt={entry.image_alt ?? entry.title}
               fill
               priority={featured}
               className="object-cover"

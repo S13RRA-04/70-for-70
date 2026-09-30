@@ -1,34 +1,52 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
-import { ExternalLink, ShoppingBag } from "lucide-react";
+import { Waves, HandHelping, Handshake, HandCoins, Share2, type LucideIcon } from "lucide-react";
 import { getCampaign } from "@/lib/data/campaign";
 import { getAllocationBreakdown } from "@/lib/data/allocation";
 import { getPartners } from "@/lib/data/partners";
+import { getMissionPartners } from "@/lib/data/mission-partners";
+import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
+import { getJournalEntries, getLatestJournalEntries } from "@/lib/data/journal";
+import { getJournalMilestonesWithStatus } from "@/lib/data/journal-milestones";
 import { findAboutSubsection } from "@/lib/content/about";
+import {
+  BIKE_BUILD_CONFIRMED_CONTRIBUTORS,
+  BIKE_BUILD_HERO_PHOTO,
+  getBikeBuildStatusOverview,
+} from "@/lib/content/building-the-bike";
+import { getDaysToRace } from "@/lib/campaign-phase";
 import { CampaignProgress } from "@/components/campaign/campaign-progress";
+import { CampaignStatusBar } from "@/components/campaign/campaign-status-bar";
 import { MerchTicker } from "@/components/campaign/merch-ticker";
 import { EventPromoSection } from "@/components/campaign/event-promo-section";
 import { getCurrentEventConfig } from "@/lib/data/event-config";
 import { isEventPromoWindowNow } from "@/lib/22-for-the-22/event-status";
 import { PartnerLogo } from "@/components/shared/partner-logo";
+import { PartnerLogoWall } from "@/components/partners/partner-logo-wall";
 import { Countdown } from "@/components/shared/countdown";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
+import { CTAButton } from "@/components/shared/cta-button";
+import { CTASection } from "@/components/shared/cta-section";
+import { EmptyState } from "@/components/shared/empty-state";
+import { JournalCard } from "@/components/journal/journal-card";
+import { RoadSoFar } from "@/components/journal/road-so-far";
+import { BikeBuildStatusPreview } from "@/components/journal/bike-build/bike-build-status-preview";
+import { ShareButtons } from "@/components/shared/share-buttons";
 import {
   CAMPAIGN_NAME,
   CAMPAIGN_URL,
   CURRENT_CAMPAIGN,
   DONATE_LINK,
-  MERCH_STORE_URL,
+  FUNDRAISING_GOAL,
   RACE_INFO,
   RACE_TOTAL_DISTANCE,
-  SHOP_CATEGORIES,
 } from "@/lib/constants";
-import { formatCurrency } from "@/lib/utils";
+import { formatCurrency, formatDateLong } from "@/lib/utils";
 import { pageMetadata } from "@/lib/metadata";
+import { jsonLdScriptProps } from "@/lib/json-ld";
 
-const HERO_EXPLAINER = `One athlete's ${RACE_TOTAL_DISTANCE}-mile race, paired with a ${formatCurrency(70_000)} fundraising goal for veterans.`;
+const HERO_HEADLINE = `${RACE_TOTAL_DISTANCE} MILES. ${formatCurrency(FUNDRAISING_GOAL)}. ONE MISSION.`;
 
 /**
  * Brand-first, bypassing the root layout's "%s | {CAMPAIGN_NAME}" title
@@ -39,7 +57,7 @@ const HERO_EXPLAINER = `One athlete's ${RACE_TOTAL_DISTANCE}-mile race, paired w
  */
 const HOMEPAGE_TITLE = `${CAMPAIGN_NAME} | Veteran & First Responder Triathlon Campaign`;
 const HOMEPAGE_DESCRIPTION =
-  "Tri For The 22 follows Cody Hitson's road to IRONMAN 70.3 Chattanooga while raising awareness and support for veterans and first responders.";
+  "Tri For The 22 follows Cody Hitson's road to IRONMAN 70.3 Chattanooga while raising awareness and support for veterans, first responders, and their families.";
 
 export const metadata: Metadata = {
   ...pageMetadata({
@@ -65,49 +83,99 @@ function firstSentence(text: string): string {
   return match ? match[0] : text;
 }
 
+interface RoleCta {
+  title: string;
+  description: string;
+  ctaLabel: string;
+  href: string;
+  icon: LucideIcon;
+}
+
+/**
+ * Homepage-local "Choose Your Role" pathways — deliberately not shared with
+ * Get Involved's own HELP_PATHWAYS array (src/app/get-involved/page.tsx):
+ * that page gets its own rebuild in a later phase and shouldn't be coupled
+ * to this homepage teaser in the meantime.
+ */
+const ROLE_CTAS: RoleCta[] = [
+  {
+    title: "Race With Us",
+    description: "Join the Triathlon Team and train, race, and fundraise under the Tri For The 22 banner.",
+    ctaLabel: "Apply to Race",
+    href: "/get-involved/triathlon-team",
+    icon: Waves,
+  },
+  {
+    title: "Volunteer",
+    description: "Help on the ground race weekend in Chattanooga, or spread the word from anywhere.",
+    ctaLabel: "See Volunteer Roles",
+    href: "/get-involved#roles",
+    icon: HandHelping,
+  },
+  {
+    title: "Partner",
+    description: "Provide financial, in-kind, promotional, or organizational support.",
+    ctaLabel: "Become a Partner",
+    href: "/sponsors#become-a-partner",
+    icon: Handshake,
+  },
+  {
+    title: "Donate",
+    description: "Fund the mission directly — every dollar moves the campaign toward its goal.",
+    ctaLabel: "Support the Mission",
+    href: DONATE_LINK.href,
+    icon: HandCoins,
+  },
+];
+
 /**
  * The campaign homepage — rendered at "/" on tri.forthe22.org via a
  * transparent middleware rewrite (see src/middleware.ts). The movement
  * homepage at src/app/page.tsx renders at "/" on forthe22.org instead.
  *
- * Five fixed sections, per AGENTS.md's Homepage spec: (1) responsive HTML
- * hero, (2) "Why 22" (the veteran suicide-awareness meaning behind the
- * number), (3) campaign concept, (4) beneficiary summary, (5) shop teaser
- * linking out to the merch store. Follow-along content (training/journal
- * status) lives on /journal, and the donate/share/newsletter block lives on
- * /get-involved — this page only previews and links to them.
+ * 11 fixed sections (the "live campaign dashboard" redesign): Hero, Live
+ * Campaign Status, Mission, Road to Chattanooga, Latest From the Road,
+ * Building the Bike, Beneficiaries, Campaign Partners, Choose Your Role,
+ * Final CTA, Footer (Footer is the shared layout component, not rendered
+ * here). Detailed follow-along content still lives on its own pages
+ * (/journal, /the-race, /journal/building-the-bike, /sponsors,
+ * /get-involved) — this page previews and links to them, it doesn't
+ * duplicate them.
  *
- * MerchTicker above the hero is a scrolling promo strip pointing at the same
- * Bonfire store as section 5's teaser — an attention-grabbing pointer to the
- * real pitch further down, not a content section of its own.
- *
- * A sixth section — EventPromoSection, between the hero and "Why 22" — is
- * conditional: it only renders during 22 For the 22's promo window (see
- * isEventPromoWindow), so the homepage doesn't carry stale event content
- * most of the year. Treat it as a self-gating exception to the "five fixed
- * sections" contract above, not a precedent for adding more.
+ * A conditional 12th section — EventPromoSection, between the hero and
+ * Live Campaign Status — only renders during 22 For the 22's promo window
+ * (see isEventPromoWindowNow), so the homepage doesn't carry stale event
+ * content most of the year.
  */
 export default async function CampaignHomePage() {
-  const [campaign, partners, currentEvent] = await Promise.all([
+  const [campaign, partners, missionPartners, currentEvent, fundraisingStats, allEntries] = await Promise.all([
     getCampaign(),
     getPartners(),
+    getMissionPartners(),
     getCurrentEventConfig(),
+    getFundraisingImpactStats(),
+    getJournalEntries(),
   ]);
   const allocationBreakdown = await getAllocationBreakdown(campaign);
   const why22 = findAboutSubsection("why-22");
   const showEventPromo = currentEvent && isEventPromoWindowNow(currentEvent.starts_at, currentEvent.ends_at);
 
+  const roadMilestones = getJournalMilestonesWithStatus(allEntries);
+  const latestEntries = await getLatestJournalEntries(3);
+
+  const bikeBuildOverview = getBikeBuildStatusOverview();
+  const bikeBuildContributorNames = BIKE_BUILD_CONFIRMED_CONTRIBUTORS.slice(0, 3).map((c) => c.name);
+
+  const generalPartners = missionPartners.filter((p) => p.partner_type !== "giveaway-supporter");
+  const presentingPartners = generalPartners.filter((p) => p.tier === "presenting-partner");
+  const otherPartners = generalPartners.filter((p) => p.tier !== "presenting-partner");
+
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(CAMPAIGN_WEBSITE_JSON_LD).replace(/</g, "\\u003c"),
-        }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(CAMPAIGN_WEBSITE_JSON_LD)} />
       <MerchTicker />
 
-      {/* 1. Hero — real HTML facts (not baked into the banner image), plus the countdown and both primary CTAs. */}
+      {/* 1. Hero */}
       <section className="relative overflow-hidden bg-ink text-off-white">
         <div
           className="absolute inset-0 bg-cover bg-center opacity-25"
@@ -123,24 +191,28 @@ export default async function CampaignHomePage() {
 
         <Container className="relative grid gap-10 py-16 sm:py-24 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:gap-16">
           <div>
-            <h1 className="text-balance font-display text-[clamp(2.25rem,7vw,4.5rem)] font-bold uppercase leading-[0.95] tracking-tight">
-              {CAMPAIGN_NAME}
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-bronze-light">{CAMPAIGN_NAME}</p>
+            <h1 className="mt-2 text-balance font-display text-[clamp(2.25rem,7vw,4.5rem)] font-bold uppercase leading-[0.95] tracking-tight">
+              {HERO_HEADLINE}
             </h1>
 
             <p className="mt-4 text-lg font-semibold uppercase tracking-wide text-bronze-light sm:text-xl">
-              {CURRENT_CAMPAIGN.event} &middot; May 16, 2027 &middot; {RACE_INFO.raceLocation}
+              {CURRENT_CAMPAIGN.event}
+              {RACE_INFO.raceDate && <> &middot; {formatDateLong(RACE_INFO.raceDate)}</>}
+              {RACE_INFO.raceLocation && <> &middot; {RACE_INFO.raceLocation}</>}
             </p>
 
-            <p className="mt-4 max-w-xl text-base leading-relaxed text-off-white/80">{HERO_EXPLAINER}</p>
+            <p className="mt-4 max-w-xl text-base leading-relaxed text-off-white/80">
+              Raising funds and awareness for veterans, first responders, and their families.
+            </p>
 
-            <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
-              <Link
-                href={DONATE_LINK.href}
-                data-analytics-event="donate_click"
-                className="rounded-sm bg-bronze px-8 py-4 text-base font-semibold uppercase tracking-wide text-off-white shadow-sm transition-colors hover:bg-bronze-light"
-              >
-                {DONATE_LINK.label}
-              </Link>
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <CTAButton href={DONATE_LINK.href} size="lg">
+                Support the Mission
+              </CTAButton>
+              <CTAButton href="/journal" variant="secondary" tone="dark" size="lg">
+                Follow the Journey
+              </CTAButton>
             </div>
           </div>
 
@@ -165,49 +237,114 @@ export default async function CampaignHomePage() {
         </Container>
       </section>
 
-      {/* Conditional 6th section — see this page's doc comment. */}
+      {/* Conditional section — see this page's doc comment. */}
       {showEventPromo && currentEvent && <EventPromoSection event={currentEvent} />}
 
-      {/* 2. Why 22 — the veteran suicide-awareness meaning behind the number, for a visitor arriving on the campaign subdomain with no prior context. */}
-      {why22 && (
-        <section className="border-b border-ink/10 bg-ink py-16 text-off-white sm:py-20">
-          <Container className="max-w-2xl">
-            <span
-              aria-hidden="true"
-              className="font-display text-6xl font-bold leading-none text-bronze-light sm:text-7xl"
-            >
-              22
-            </span>
-            <div className="mt-6 space-y-4">
-              {why22.body.map((paragraph, i) => (
-                <p key={i} className="text-base leading-relaxed text-off-white/75">
-                  {paragraph}
-                </p>
-              ))}
-            </div>
-          </Container>
-        </section>
-      )}
+      {/* 2. Live Campaign Status */}
+      <CampaignStatusBar
+        amountRaised={fundraisingStats.amountRaised}
+        goal={fundraisingStats.fundraisingGoal}
+        partnerCount={fundraisingStats.partnerCount}
+        daysToRace={getDaysToRace()}
+      />
 
-      {/* 3. Campaign concept — trimmed "why 70 miles", not the full mission page. */}
-      <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
+      {/* 3. Mission */}
+      <section className="border-b border-ink/10 bg-ink py-16 text-off-white sm:py-20">
         <Container className="max-w-2xl">
-          <SectionHeading eyebrow="The Concept" title={`Why ${RACE_TOTAL_DISTANCE} Miles?`} />
-          <p className="mt-5 text-base leading-relaxed text-charcoal-light">
+          {why22 && (
+            <>
+              <span
+                aria-hidden="true"
+                className="font-display text-6xl font-bold leading-none text-bronze-light sm:text-7xl"
+              >
+                22
+              </span>
+              <div className="mt-6 space-y-4">
+                {why22.body.map((paragraph, i) => (
+                  <p key={i} className="text-base leading-relaxed text-off-white/75">
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+            </>
+          )}
+
+          <p className="mt-6 text-base leading-relaxed text-off-white/75">
             {CAMPAIGN_NAME} pairs a {RACE_TOTAL_DISTANCE}-mile {CURRENT_CAMPAIGN.event} with a{" "}
-            {formatCurrency(70_000)} fundraising goal, going to {CURRENT_CAMPAIGN.beneficiaries.join(" and ")}.
+            {formatCurrency(FUNDRAISING_GOAL)} fundraising goal for {CURRENT_CAMPAIGN.beneficiaries.join(" and ")}
+            {" "}— and the mission continues beyond Chattanooga.
           </p>
+
+          <p className="mt-8 font-display text-2xl font-bold uppercase tracking-tight text-bronze-light sm:text-3xl">
+            Because 22 &ne; 0.
+          </p>
+
           <Link
             href="/the-mission"
-            className="mt-5 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+            className="mt-5 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze-light hover:text-off-white"
           >
-            Read the Full Campaign Story &rarr;
+            Read the Mission &rarr;
           </Link>
         </Container>
       </section>
 
-      {/* 4. Beneficiary summary — compact cards, full bios live on /beneficiaries. */}
-      <section className="py-16 sm:py-20">
+      {/* 4. Road to Chattanooga */}
+      <section className="border-b border-ink/10 py-16 sm:py-20">
+        <Container>
+          <SectionHeading
+            eyebrow="Movement Creates Momentum"
+            title="Road to Chattanooga"
+            description="Every milestone here is real — derived from what's actually happened, not a hand-set schedule."
+          />
+          <div className="mt-8">
+            <RoadSoFar milestones={roadMilestones} />
+          </div>
+        </Container>
+      </section>
+
+      {/* 5. Latest From the Road */}
+      <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
+        <Container>
+          <SectionHeading eyebrow="Follow Along" title="Latest From the Road" />
+          <div className="mt-8">
+            {latestEntries.length > 0 ? (
+              <div className="grid gap-6 sm:grid-cols-3">
+                {latestEntries.map((entry, i) => (
+                  <JournalCard key={entry.id} entry={entry} isLatest={i === 0} />
+                ))}
+              </div>
+            ) : (
+              <EmptyState
+                title="Journal updates are coming soon."
+                description="Training, campaign, and bike-build updates will appear here as they're published."
+              />
+            )}
+          </div>
+          <Link
+            href="/journal"
+            className="mt-8 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+          >
+            View the Journal &rarr;
+          </Link>
+        </Container>
+      </section>
+
+      {/* 6. Building the Bike */}
+      <section className="border-b border-ink/10 py-16 sm:py-20">
+        <Container>
+          <SectionHeading eyebrow="The Build" title="Building the Bike" />
+          <div className="mt-8">
+            <BikeBuildStatusPreview
+              overview={bikeBuildOverview}
+              photo={BIKE_BUILD_HERO_PHOTO}
+              contributorNames={bikeBuildContributorNames}
+            />
+          </div>
+        </Container>
+      </section>
+
+      {/* 7. Beneficiaries */}
+      <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container>
           <SectionHeading
             eyebrow="Who It Supports"
@@ -240,63 +377,69 @@ export default async function CampaignHomePage() {
         </Container>
       </section>
 
-      {/* 5. Shop teaser — category-level snippet (no per-item catalog exists locally; Bonfire is fully external), linking out to the full store. */}
-      <section className="border-t border-ink/10 bg-sand-light py-16 sm:py-20">
+      {/* 8. Campaign Partners */}
+      <section className="border-b border-ink/10 py-16 sm:py-20">
         <Container>
           <SectionHeading
-            eyebrow="Shop"
-            title="Wear The Mission"
-            description="Merch is sold through Bonfire — 100% of net profit goes directly to veteran-focused nonprofit organizations."
+            eyebrow="Campaign Partners"
+            title="Parts of the Mission"
+            description="These aren't logos on a page. They're parts of the mission."
           />
-
-          <div className="mt-8 grid grid-cols-2 gap-4 sm:max-w-xl">
-            <div className="relative aspect-[3/4] overflow-hidden rounded-sm border border-ink/10">
-              <Image
-                src="/shop/merch-shirt-front.jpg"
-                alt="Cody wearing the For The 22 campaign tee"
-                fill
-                className="object-cover"
-                sizes="(min-width: 640px) 300px, 50vw"
-              />
-            </div>
-            <div className="relative aspect-[3/4] overflow-hidden rounded-sm border border-ink/10">
-              <Image
-                src="/shop/merch-shirt-back.jpg"
-                alt="Back of the tee, reading 'Because 22 does not equal 0' above a QR code linking to the campaign"
-                fill
-                className="object-cover"
-                sizes="(min-width: 640px) 300px, 50vw"
-              />
-            </div>
+          <div className="mt-8">
+            <PartnerLogoWall presentingPartners={presentingPartners} otherPartners={otherPartners} />
           </div>
-
-          <div className="mt-8 grid gap-4 sm:grid-cols-3">
-            {SHOP_CATEGORIES.map((category) => (
-              <a
-                key={category.label}
-                href={MERCH_STORE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex flex-col rounded-sm border border-ink/10 bg-off-white p-6 transition-colors hover:border-bronze"
-              >
-                <ShoppingBag size={22} strokeWidth={1.5} className="text-bronze" aria-hidden="true" />
-                <p className="mt-4 font-display text-base font-bold uppercase tracking-wide text-ink">
-                  {category.label}
-                </p>
-                <p className="mt-1 text-sm leading-relaxed text-charcoal-light">{category.description}</p>
-              </a>
-            ))}
-          </div>
-          <a
-            href={MERCH_STORE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-8 inline-flex items-center gap-2 rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light"
+          <Link
+            href="/sponsors#become-a-partner"
+            className="mt-8 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
           >
-            Shop on Bonfire <ExternalLink size={14} aria-hidden />
-          </a>
+            Become a Partner &rarr;
+          </Link>
         </Container>
       </section>
+
+      {/* 9. Choose Your Role */}
+      <section className="border-b border-ink/10 bg-ink py-16 text-off-white sm:py-20">
+        <Container>
+          <SectionHeading eyebrow="Get Involved" title="Choose Your Role" tone="dark" />
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+            {ROLE_CTAS.map((role) => (
+              <div key={role.title} className="flex flex-col rounded-sm border border-off-white/15 bg-off-white/5 p-6">
+                <role.icon size={26} className="text-bronze-light" aria-hidden />
+                <h3 className="mt-4 font-display text-lg font-semibold uppercase tracking-wide">{role.title}</h3>
+                <p className="mt-2 flex-1 text-sm text-off-white/75">{role.description}</p>
+                <Link
+                  href={role.href}
+                  className="mt-5 text-sm font-semibold uppercase tracking-wide text-bronze-light hover:text-off-white"
+                >
+                  {role.ctaLabel} &rarr;
+                </Link>
+              </div>
+            ))}
+
+            <div className="flex flex-col rounded-sm border border-off-white/15 bg-off-white/5 p-6">
+              <Share2 size={26} className="text-bronze-light" aria-hidden />
+              <h3 className="mt-4 font-display text-lg font-semibold uppercase tracking-wide">Share the Mission</h3>
+              <p className="mt-2 flex-1 text-sm text-off-white/75">
+                Help carry the mission further — share it with someone who&apos;d want to be part of it.
+              </p>
+              <div className="mt-5">
+                <ShareButtons
+                  url={CAMPAIGN_URL}
+                  title={`I'm supporting ${CAMPAIGN_NAME} — ${formatCurrency(FUNDRAISING_GOAL)} for veterans, first responders, and their families.`}
+                />
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* 10. Final CTA */}
+      <CTASection
+        eyebrow="Join the Mission"
+        title="Every Mile, Every Dollar, Moves This Forward"
+        description="Chattanooga is getting closer. Be part of it."
+        buttons={[{ label: "Support the Mission", href: DONATE_LINK.href }]}
+      />
     </>
   );
 }

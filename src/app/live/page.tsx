@@ -11,6 +11,7 @@ import { Countdown } from "@/components/shared/countdown";
 import { formatCurrency, formatDateLong, formatNumber, percentFunded } from "@/lib/utils";
 import { CAMPAIGN_URL, DONATE_LINK, RACE_INFO } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
+import { breadcrumbJsonLd, CAMPAIGN_HOME_CRUMB, jsonLdScriptProps } from "@/lib/json-ld";
 import { isRaceDayModeEnabled } from "@/lib/race-day-mode";
 
 export const metadata = pageMetadata({
@@ -18,6 +19,8 @@ export const metadata = pageMetadata({
   description: "Live race-day status and fundraising progress for Tri For The 22.",
   canonical: `${CAMPAIGN_URL}/live`,
 });
+
+const BREADCRUMB_JSON_LD = breadcrumbJsonLd([CAMPAIGN_HOME_CRUMB, { name: "Race Day Live", url: `${CAMPAIGN_URL}/live` }]);
 
 const DISCIPLINE_LABEL: Record<"swim" | "bike" | "run" | "finished", string> = {
   swim: "swimming",
@@ -29,28 +32,31 @@ const DISCIPLINE_LABEL: Record<"swim" | "bike" | "run" | "finished", string> = {
 /** Shown until RACE_DAY_MODE is turned on — see isRaceDayModeEnabled(). No live dashboard, map, or splits before then; just the confirmed date and a countdown back to /the-race. */
 function RaceDayNotActivated() {
   return (
-    <section className="border-b border-ink/10 bg-ink py-16 text-off-white sm:py-24">
-      <Container className="max-w-xl">
-        <p className="text-sm font-semibold uppercase tracking-[0.3em] text-bronze-light">Race Day</p>
-        <h1 className="mt-4 text-balance font-display text-4xl font-bold uppercase tracking-tight sm:text-5xl">
-          Race Day Live Isn&apos;t Active Yet
-        </h1>
-        <p className="mt-3 text-base text-off-white/75">
-          Live race-day tracking turns on during race week. Until then, here&apos;s the countdown.
-        </p>
-        {RACE_INFO.raceDate && (
-          <div className="mt-8">
-            <Countdown targetIso={RACE_INFO.raceDate} />
-          </div>
-        )}
-        <a
-          href="/the-race"
-          className="mt-8 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze-light hover:underline"
-        >
-          &larr; Back to The Race
-        </a>
-      </Container>
-    </section>
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
+      <section className="border-b border-ink/10 bg-ink py-16 text-off-white sm:py-24">
+        <Container className="max-w-xl">
+          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-bronze-light">Race Day</p>
+          <h1 className="mt-4 text-balance font-display text-4xl font-bold uppercase tracking-tight sm:text-5xl">
+            Race Day Live Isn&apos;t Active Yet
+          </h1>
+          <p className="mt-3 text-base text-off-white/75">
+            Live race-day tracking turns on during race week. Until then, here&apos;s the countdown.
+          </p>
+          {RACE_INFO.raceDate && (
+            <div className="mt-8">
+              <Countdown targetIso={RACE_INFO.raceDate} />
+            </div>
+          )}
+          <a
+            href="/the-race"
+            className="mt-8 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze-light hover:underline"
+          >
+            &larr; Back to The Race
+          </a>
+        </Container>
+      </section>
+    </>
   );
 }
 
@@ -70,6 +76,7 @@ export default async function LivePage() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
       <section className="border-b border-ink/10 bg-ink py-16 text-off-white sm:py-20">
         <Container>
           <p className="text-sm font-semibold uppercase tracking-[0.3em] text-bronze-light">

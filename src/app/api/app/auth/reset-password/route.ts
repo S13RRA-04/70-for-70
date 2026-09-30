@@ -1,13 +1,9 @@
 import { NextResponse } from "next/server";
+import { getClientIp } from "@/lib/client-ip";
 import { createClient } from "@/lib/supabase/server";
 import { isRateLimited } from "@/lib/rate-limit";
 import { requestPasswordResetSchema } from "@/lib/validation/app-auth";
 import { APP_URL } from "@/lib/constants";
-
-function getClientIp(request: Request): string {
-  const forwardedFor = request.headers.get("x-forwarded-for");
-  return forwardedFor?.split(",")[0]?.trim() ?? "unknown";
-}
 
 /** Always responds { ok: true } regardless of whether the email matches an account — never reveal account existence via response differences. */
 export async function POST(request: Request) {

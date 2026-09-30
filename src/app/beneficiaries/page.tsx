@@ -7,12 +7,18 @@ import { PartnerCard } from "@/components/partners/partner-card";
 import { CTAButton } from "@/components/shared/cta-button";
 import { CAMPAIGN_NAME, CAMPAIGN_URL, DONATE_LINK, PERSONAL_PROJECT_DISCLOSURE } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
+import { breadcrumbJsonLd, CAMPAIGN_HOME_CRUMB, jsonLdScriptProps } from "@/lib/json-ld";
 
 export const metadata = pageMetadata({
   title: "Beneficiaries",
   description: "The confirmed nonprofit organizations Tri For The 22 raises funds for.",
   canonical: `${CAMPAIGN_URL}/beneficiaries`,
 });
+
+const BENEFICIARIES_BREADCRUMB_JSON_LD = breadcrumbJsonLd([
+  CAMPAIGN_HOME_CRUMB,
+  { name: "Beneficiaries", url: `${CAMPAIGN_URL}/beneficiaries` },
+]);
 
 /**
  * The nonprofit fundraising beneficiaries — split out from the former
@@ -26,6 +32,7 @@ export default async function BeneficiariesPage() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BENEFICIARIES_BREADCRUMB_JSON_LD)} />
       <CampaignPageHero>
         <SectionHeading
           as="h1"

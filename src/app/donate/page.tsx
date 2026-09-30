@@ -11,6 +11,7 @@ import { CampaignAllocation } from "@/components/campaign/campaign-allocation";
 import { GivingLevels } from "@/components/campaign/giving-levels";
 import { CAMPAIGN_NAME, CAMPAIGN_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
+import { breadcrumbJsonLd, CAMPAIGN_HOME_CRUMB, jsonLdScriptProps } from "@/lib/json-ld";
 
 export const metadata = pageMetadata({
   title: "Support Tri For The 22",
@@ -18,6 +19,8 @@ export const metadata = pageMetadata({
     "Support Tri For The 22 through an authorized partner donation platform — funding veteran-focused nonprofit organizations.",
   canonical: `${CAMPAIGN_URL}/donate`,
 });
+
+const BREADCRUMB_JSON_LD = breadcrumbJsonLd([CAMPAIGN_HOME_CRUMB, { name: "Donate", url: `${CAMPAIGN_URL}/donate` }]);
 
 export default async function DonatePage() {
   const [partners, campaign, supporters] = await Promise.all([
@@ -29,6 +32,7 @@ export default async function DonatePage() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
       <CampaignPageHero>
         <SectionHeading
           as="h1"

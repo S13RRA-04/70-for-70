@@ -1,4 +1,4 @@
-import type { NavLink } from "@/types/content";
+import type { NavLink, NavEntry } from "@/types/content";
 import type { CampaignSlug } from "@/lib/site-mode";
 
 /** The project's name — used in the header, footer, legal copy, and site-wide metadata. Not an organization name; see PROJECT_POSITIONING. */
@@ -208,23 +208,63 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 /**
- * 7 links + the header's separate Donate CTA button (see DONATE_LINK).
- * Sponsors (gear/resource campaign sponsors, see src/app/sponsors/page.tsx)
- * is also cross-linked from Beneficiaries and the footer. Get Involved lives
- * here (rather than the footer) so it's reachable from the header nav. 22
- * For the 22 deliberately does NOT appear here — it moved to its own
+ * Grouped desktop/mobile nav for Tri — 4 dropdown groups (Mission, Journey,
+ * Get Involved, Partners) + a direct Shop link, plus the header's separate
+ * Donate CTA button (see DONATE_LINK). Replaces the former flat
+ * CAMPAIGN_NAV_LINKS list; Header renders a NavDropdown for each NavGroup
+ * and a plain link for a bare NavLink (see src/types/content.ts's NavEntry).
+ *
+ * "About Cody" points at /the-mission for now — there's no dedicated
+ * founder page yet (see AGENTS.md's "About Cody" phase); repoint once one
+ * ships. "Road to Chattanooga" and "Training" both link into /the-race,
+ * which already has sections literally titled "Road to Chattanooga"
+ * (id="road-to-chattanooga") and "Current Training Status"
+ * (id="training-status"). "Become a Partner" and "Volunteer" link to
+ * existing sections on /sponsors and /get-involved rather than new pages —
+ * splitting those into dedicated pages is later redesign work.
+ *
+ * 22 For the 22 deliberately does NOT appear here — it moved to its own
  * subdomain (EVENT22_CAMPAIGN_URL) and is listed as its own campaign on the
- * org site's /campaigns page (MOVEMENT_CAMPAIGNS) instead of Tri's nav.
+ * org site's /campaigns page (MOVEMENT_CAMPAIGNS) instead of Tri's nav, but
+ * is still reachable from the Get Involved dropdown below.
  */
-export const CAMPAIGN_NAV_LINKS: NavLink[] = [
-  { label: "About", href: "/the-mission" },
-  { label: "Race", href: "/the-race" },
-  { label: "Journal", href: "/journal" },
-  { label: "Beneficiaries", href: "/beneficiaries" },
-  { label: "Sponsors", href: "/sponsors" },
+export const CAMPAIGN_NAV_GROUPS: NavEntry[] = [
+  {
+    label: "Mission",
+    children: [
+      { label: "The Mission / Why 22", href: "/the-mission" },
+      { label: "Beneficiaries", href: "/beneficiaries" },
+      { label: "About Cody", href: "/the-mission" },
+    ],
+  },
+  {
+    label: "Journey",
+    children: [
+      { label: "Road to Chattanooga", href: "/the-race#road-to-chattanooga" },
+      { label: "Training", href: "/the-race#training-status" },
+      { label: "Building the Bike", href: "/journal/building-the-bike" },
+      { label: "Journal", href: "/journal" },
+    ],
+  },
+  {
+    label: "Get Involved",
+    children: [
+      { label: "Join the Team", href: "/get-involved/triathlon-team" },
+      { label: "22 For the 22", href: EVENT22_CAMPAIGN_URL },
+      { label: "Volunteer", href: "/get-involved#roles" },
+      { label: "Messages of Support", href: "/messages" },
+    ],
+  },
+  {
+    label: "Partners",
+    children: [
+      { label: "Partners & Sponsors", href: "/sponsors" },
+      { label: "Become a Partner", href: "/sponsors#become-a-partner" },
+      { label: "Press & Media", href: "/press" },
+      { label: "Financial Transparency", href: "/financial-transparency" },
+    ],
+  },
   { label: "Shop", href: "/shop" },
-  { label: "Messages", href: "/messages" },
-  { label: "Get Involved", href: "/get-involved" },
 ];
 
 /**
@@ -698,7 +738,7 @@ export const CAMPAIGNS: Record<
     tagline: string;
     /** One sentence, used as the app shell's default meta description. */
     description: string;
-    navLinks: NavLink[];
+    navLinks: NavEntry[];
     logoLight: string;
     logoDark: string;
     primaryCta: NavLink & { external?: boolean };
@@ -711,7 +751,7 @@ export const CAMPAIGNS: Record<
     url: CAMPAIGN_URL,
     tagline: SITE_TAGLINE,
     description: `${CAMPAIGN_NAME} — ${SITE_TAGLINE}`,
-    navLinks: CAMPAIGN_NAV_LINKS,
+    navLinks: CAMPAIGN_NAV_GROUPS,
     logoLight: "/campaign-logo.png",
     logoDark: "/campaign-logo-white.png",
     primaryCta: DONATE_LINK,

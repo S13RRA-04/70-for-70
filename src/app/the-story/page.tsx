@@ -11,8 +11,9 @@ import {
   STORY_TAGLINE,
   WHY_ENDURANCE,
 } from "@/lib/content/the-story";
-import { CAMPAIGN_NAME, DONATE_LINK } from "@/lib/constants";
+import { CAMPAIGN_NAME, CAMPAIGN_URL, DONATE_LINK } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
+import { breadcrumbJsonLd, CAMPAIGN_HOME_CRUMB, jsonLdScriptProps } from "@/lib/json-ld";
 
 export const metadata = pageMetadata({
   title: "The Story",
@@ -20,9 +21,12 @@ export const metadata = pageMetadata({
   canonical: "/the-story",
 });
 
+const BREADCRUMB_JSON_LD = breadcrumbJsonLd([CAMPAIGN_HOME_CRUMB, { name: "The Story", url: `${CAMPAIGN_URL}/the-story` }]);
+
 export default function TheStoryPage() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container className="max-w-2xl">
           <SectionHeading

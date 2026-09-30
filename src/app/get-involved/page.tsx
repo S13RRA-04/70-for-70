@@ -22,6 +22,7 @@ import {
 } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
 import { pageMetadata } from "@/lib/metadata";
+import { breadcrumbJsonLd, CAMPAIGN_HOME_CRUMB, jsonLdScriptProps } from "@/lib/json-ld";
 
 export const metadata = pageMetadata({
   title: "Get Involved",
@@ -29,6 +30,9 @@ export const metadata = pageMetadata({
     "Join the Tri For The 22 Triathlon Team, support the campaign, become a partner, or help spread the word — and find race weekend lodging in Chattanooga.",
   canonical: `${CAMPAIGN_URL}/get-involved`,
 });
+
+const GET_INVOLVED_CRUMB = { name: "Get Involved", url: `${CAMPAIGN_URL}/get-involved` };
+const BREADCRUMB_JSON_LD = breadcrumbJsonLd([CAMPAIGN_HOME_CRUMB, GET_INVOLVED_CRUMB]);
 
 interface HelpPathway {
   title: string;
@@ -81,6 +85,7 @@ export default async function GetInvolvedPage() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
       <CampaignPageHero>
         <SectionHeading
           as="h1"

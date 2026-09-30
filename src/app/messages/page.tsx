@@ -7,6 +7,7 @@ import { MessageForm } from "@/components/forms/message-form";
 import { CAMPAIGN_NAME, CAMPAIGN_URL } from "@/lib/constants";
 import { formatDateLong } from "@/lib/utils";
 import { pageMetadata } from "@/lib/metadata";
+import { breadcrumbJsonLd, CAMPAIGN_HOME_CRUMB, jsonLdScriptProps } from "@/lib/json-ld";
 
 export const metadata = pageMetadata({
   title: "Messages of Support",
@@ -14,11 +15,14 @@ export const metadata = pageMetadata({
   canonical: `${CAMPAIGN_URL}/messages`,
 });
 
+const BREADCRUMB_JSON_LD = breadcrumbJsonLd([CAMPAIGN_HOME_CRUMB, { name: "Messages", url: `${CAMPAIGN_URL}/messages` }]);
+
 export default async function MessagesPage() {
   const messages = await getApprovedMessages();
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
       <CampaignPageHero>
         <SectionHeading
           as="h1"

@@ -19,6 +19,7 @@ import {
 } from "@/components/layout/mobile-conversion-bar";
 import { getSiteMode, getActiveCampaignSlug } from "@/lib/site-mode";
 import { isSuicidePreventionMonth } from "@/lib/awareness-month";
+import { FOUNDER_PERSON_JSON_LD, jsonLdScriptProps } from "@/lib/json-ld";
 import "./globals.css";
 
 const oswald = Oswald({
@@ -95,6 +96,7 @@ const ORGANIZATION_JSON_LD = {
   url: SITE_URL,
   description: ORG_SUPPORTING_STATEMENT,
   logo: `${SITE_URL}/logo.png`,
+  founder: FOUNDER_PERSON_JSON_LD,
   ...(SOCIAL_LINKS.length > 0 && { sameAs: SOCIAL_LINKS.map((link) => link.url) }),
   ...(CONTACT_EMAIL && {
     contactPoint: {
@@ -117,12 +119,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       className={`${oswald.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-off-white text-ink">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(ORGANIZATION_JSON_LD).replace(/</g, "\\u003c"),
-          }}
-        />
+        <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(ORGANIZATION_JSON_LD)} />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-4 focus:rounded focus:bg-ink focus:px-4 focus:py-2 focus:text-off-white"

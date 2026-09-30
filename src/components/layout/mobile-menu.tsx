@@ -3,26 +3,15 @@
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { CAMPAIGN_HOME_LINK, CAMPAIGNS, DONATE_LINK, GET_INVOLVED_LINK } from "@/lib/constants";
+import { CAMPAIGN_HOME_LINK, CAMPAIGNS } from "@/lib/constants";
 import type { CampaignSlug } from "@/lib/site-mode";
-import type { NavLink } from "@/types/content";
+import { isNavGroup, type NavEntry, type NavLink } from "@/types/content";
 import { cn } from "@/lib/utils";
-
-/** Tri's mobile menu groups — see AGENTS.md's "Mobile navigation" section. Explore omits Shop (grouped under Support instead). */
-const TRI_EXPLORE_LINKS: NavLink[] = [
-  { label: "About", href: "/the-mission" },
-  { label: "Race", href: "/the-race" },
-  { label: "Journal", href: "/journal" },
-  { label: "Beneficiaries", href: "/beneficiaries" },
-  { label: "Sponsors", href: "/sponsors" },
-  { label: "Messages", href: "/messages" },
-];
-const TRI_SUPPORT_LINKS: NavLink[] = [DONATE_LINK, { label: "Shop", href: "/shop" }, GET_INVOLVED_LINK];
 
 interface MobileMenuProps {
   open: boolean;
   onClose: () => void;
-  navLinks: NavLink[];
+  navLinks: NavEntry[];
   pathname: string;
   /** Which campaign's menu to show — omit/null for the org menu. */
   campaignSlug?: CampaignSlug | null;
@@ -104,14 +93,48 @@ export function MobileMenu({ open, onClose, navLinks, pathname, campaignSlug, tr
         className="absolute inset-y-0 right-0 flex w-full max-w-sm flex-col overflow-y-auto bg-off-white shadow-xl"
       >
         <nav aria-label="Mobile" className="flex flex-1 flex-col px-4 py-4 sm:px-6">
-          {campaignSlug === "tri" ? (
+          {campaignSlug === "tri" && campaign ? (
             <>
-              <MobileNavGroup label="Explore" links={TRI_EXPLORE_LINKS} pathname={pathname} />
-              <MobileNavGroup label="Support" links={TRI_SUPPORT_LINKS} pathname={pathname} className="mt-5 border-t border-ink/10 pt-5" />
+              {campaign.navLinks.filter(isNavGroup).map((group, i) => (
+                <MobileNavGroup
+                  key={group.label}
+                  label={group.label}
+                  links={group.children}
+                  pathname={pathname}
+                  className={i > 0 ? "mt-5 border-t border-ink/10 pt-5" : undefined}
+                />
+              ))}
+              <div className="mt-5 flex flex-col gap-1 border-t border-ink/10 pt-5">
+                {campaign.navLinks
+                  .filter((entry): entry is NavLink => !isNavGroup(entry))
+                  .map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className={cn(
+                        "block rounded-sm px-3 py-3 text-base font-medium uppercase tracking-wide text-charcoal hover:bg-sand-light",
+                        pathname === link.href && "text-bronze",
+                      )}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                <a
+                  href={campaign.primaryCta.href}
+                  {...(campaign.primaryCta.external && { target: "_blank", rel: "noopener noreferrer" })}
+                  className="mt-2 block rounded-sm bg-bronze px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
+                >
+                  {campaign.primaryCta.label}
+                </a>
+              </div>
             </>
           ) : (campaignSlug === "ruck" || campaignSlug === "22") && campaign ? (
             <>
-              <MobileNavGroup label="Explore" links={campaign.navLinks} pathname={pathname} />
+              <MobileNavGroup
+                label="Explore"
+                links={campaign.navLinks.filter((entry): entry is NavLink => !isNavGroup(entry))}
+                pathname={pathname}
+              />
               <div className="mt-5 border-t border-ink/10 pt-5">
                 <a
                   href={campaign.primaryCta.href}
@@ -127,7 +150,7 @@ export function MobileMenu({ open, onClose, navLinks, pathname, campaignSlug, tr
           ) : (
             <>
               <ul className="flex flex-col gap-1">
-                {navLinks.map((link) => (
+                {navLinks.filter((entry): entry is NavLink => !isNavGroup(entry)).map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}

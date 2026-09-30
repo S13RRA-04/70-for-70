@@ -64,6 +64,7 @@ function buildEntryPatch(formData: FormData) {
     body: str(formData, "body"),
     featured: formData.get("featured") === "on",
     image_url: optionalStr(formData, "image_url"),
+    image_alt: optionalStr(formData, "image_alt"),
     gallery: parseGallery(formData),
     video_url: videoUrl,
     video_provider: parsedVideo?.provider ?? null,

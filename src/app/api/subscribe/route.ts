@@ -1,14 +1,10 @@
 import { NextResponse } from "next/server";
+import { getClientIp } from "@/lib/client-ip";
 import { isRateLimited } from "@/lib/rate-limit";
 import { subscribeToUpdates } from "@/lib/email-list";
 import { emailSignupSchema } from "@/lib/validation/email-signup";
 
 const MIN_FILL_TIME_MS = 1_500;
-
-function getClientIp(request: Request): string {
-  const forwardedFor = request.headers.get("x-forwarded-for");
-  return forwardedFor?.split(",")[0]?.trim() ?? "unknown";
-}
 
 export async function POST(request: Request) {
   const ip = getClientIp(request);

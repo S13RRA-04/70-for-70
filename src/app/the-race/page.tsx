@@ -13,12 +13,14 @@ import { TrainingTimeline } from "@/components/campaign/training-timeline";
 import { CampaignPhaseBanner } from "@/components/campaign/campaign-phase-banner";
 import { MissionFinale } from "@/components/campaign/mission-finale";
 import { BikeBuildTeaser } from "@/components/journal/bike-build/bike-build-teaser";
+import { GearJourneyTeaser } from "@/components/journal/gear-journey/gear-journey-teaser";
 import { TrainingSnapshot } from "@/components/training/training-snapshot";
 import { TrainingStatusSnapshot } from "@/components/training/training-status-snapshot";
 import { PerformanceMetricsPanel } from "@/components/training/performance-metrics-panel";
 import { TrainingObjectivesChecklist } from "@/components/training/training-objectives-checklist";
 import { PerformanceTrendChart } from "@/components/training/performance-trend-chart";
 import { getBikeBuildTeaser } from "@/lib/content/building-the-bike";
+import { getGearJourneyTeaser } from "@/lib/content/gear-journey";
 import { getJournalEntries } from "@/lib/data/journal";
 import { getTrainingSnapshot } from "@/lib/whoop/client";
 import { getTrainingObjectives } from "@/lib/data/training-objectives";
@@ -29,6 +31,7 @@ import { formatDateLong } from "@/lib/utils";
 import { getCampaignPhase, getCurrentTrainingPhaseIndex } from "@/lib/campaign-phase";
 import { CAMPAIGN_URL, RACE_INFO } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
+import { breadcrumbJsonLd, CAMPAIGN_HOME_CRUMB, jsonLdScriptProps } from "@/lib/json-ld";
 import { isRaceDayModeEnabled } from "@/lib/race-day-mode";
 
 export const metadata = pageMetadata({
@@ -37,6 +40,11 @@ export const metadata = pageMetadata({
     "Training toward IRONMAN 70.3 Chattanooga on May 16, 2027 — a 1.2-mile swim, 56-mile bike, and 13.1-mile run as the physical anchor of the Tri For The 22 veteran fundraiser.",
   canonical: `${CAMPAIGN_URL}/the-race`,
 });
+
+const RACE_BREADCRUMB_JSON_LD = breadcrumbJsonLd([
+  CAMPAIGN_HOME_CRUMB,
+  { name: "The Race", url: `${CAMPAIGN_URL}/the-race` },
+]);
 
 /** The 4 trend metrics shown in "The Work Is Working" — one representative benchmark per discipline, plus the supporting VO2 Max indicator. */
 const TREND_METRICS = [
@@ -73,6 +81,13 @@ export default async function RacePage() {
   const milestoneEntries = entries
     .filter((e) => e.primary_category === "Milestones")
     .slice(0, 3);
+  // Surfaces the Journal's own Training/Race Prep entries directly on the
+  // page a "IRONMAN 70.3 Chattanooga training" search lands on, instead of
+  // requiring a click through to /journal first — the internal-linking
+  // topic cluster a race-specific hub page needs to actually rank.
+  const trainingJournalEntries = entries
+    .filter((e) => e.primary_category === "Training" || e.primary_category === "Race Prep")
+    .slice(0, 3);
   const phase = getCampaignPhase();
   const showRaceDayLive = phase !== "active" && isRaceDayModeEnabled();
 
@@ -90,6 +105,8 @@ export default async function RacePage() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(RACE_BREADCRUMB_JSON_LD)} />
+
       {/* 1. THE RACE — cinematic hero, event identity */}
       <RaceHero />
 
@@ -145,11 +162,31 @@ export default async function RacePage() {
           </div>
 
           {/* 5. THE PLAN */}
-          <div className="mt-16">
+          <div id="road-to-chattanooga" className="mt-16 scroll-mt-24">
             <SectionHeading eyebrow="The Plan" title="Road to Chattanooga" />
             <div className="mt-6">
               <TrainingTimeline currentIndex={getCurrentTrainingPhaseIndex()} raceDateLabel={raceDateLabel} />
             </div>
+
+            {trainingJournalEntries.length > 0 && (
+              <div className="mt-8 grid gap-4 sm:grid-cols-3">
+                {trainingJournalEntries.map((entry) => (
+                  <a
+                    key={entry.id}
+                    href={`/journal/${entry.slug}`}
+                    className="block rounded-sm border border-ink/10 bg-off-white p-5 transition-colors hover:border-bronze"
+                  >
+                    <p className="text-xs font-semibold uppercase tracking-widest text-bronze">
+                      {entry.primary_category}
+                    </p>
+                    <p className="mt-1 font-display text-sm font-semibold uppercase tracking-wide text-ink">
+                      {entry.title}
+                    </p>
+                    <p className="mt-1 text-sm text-charcoal-light">{entry.summary}</p>
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Current Training Status — a snapshot, with the full training dashboard behind a disclosure */}
@@ -290,15 +327,17 @@ export default async function RacePage() {
             </div>
           </div>
 
-          {/* Bike Build — a compact teaser only; the full story lives in the Journal. */}
+          {/* Equipment — compact teasers only; the full stories live in the Journal. */}
           <div className="mt-16">
-            <SectionHeading eyebrow="On the Bike" title="Building the Race Bike" />
+            <SectionHeading eyebrow="The Equipment" title="Building the Bike, Dialing In the Gear" />
             <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
-              Cycling is the newest discipline here, and it started without a bike at all. The full story of
-              getting one — and getting it race-ready — lives in its own ongoing series in the Journal.
+              Cycling is the newest discipline here, and it started without a bike at all. The full stories of
+              getting one race-ready — and everything else in the kit, from wetsuit to running shoes — live in
+              their own ongoing series in the Journal.
             </p>
-            <div className="mt-6">
-              <BikeBuildTeaser teaser={getBikeBuildTeaser()} className="max-w-2xl" />
+            <div className="mt-6 grid gap-6 sm:grid-cols-2">
+              <BikeBuildTeaser teaser={getBikeBuildTeaser()} />
+              <GearJourneyTeaser teaser={getGearJourneyTeaser()} />
             </div>
           </div>
         </Container>

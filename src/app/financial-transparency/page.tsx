@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
-import { CAMPAIGN_NAME, MERCH_BENEFICIARIES } from "@/lib/constants";
+import { CAMPAIGN_NAME, CAMPAIGN_URL, MERCH_BENEFICIARIES } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
+import { breadcrumbJsonLd, CAMPAIGN_HOME_CRUMB, jsonLdScriptProps } from "@/lib/json-ld";
 
 export const metadata = pageMetadata({
   title: "Financial Transparency",
@@ -10,9 +11,15 @@ export const metadata = pageMetadata({
   canonical: "/financial-transparency",
 });
 
+const BREADCRUMB_JSON_LD = breadcrumbJsonLd([
+  CAMPAIGN_HOME_CRUMB,
+  { name: "Financial Transparency", url: `${CAMPAIGN_URL}/financial-transparency` },
+]);
+
 export default function FinancialTransparencyPage() {
   return (
     <section className="py-16 sm:py-20">
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
       <Container className="max-w-2xl">
         <SectionHeading as="h1" eyebrow="Financial Transparency" title="How Donations Work" />
 

@@ -14,6 +14,7 @@ import {
 } from "@/lib/constants";
 import { Container } from "@/components/shared/container";
 import { SocialLinks } from "@/components/shared/social-links";
+import { isNavGroup, type NavLink } from "@/types/content";
 import type { CampaignSlug, SiteMode } from "@/lib/site-mode";
 import { isRaceDayModeEnabled } from "@/lib/race-day-mode";
 
@@ -199,7 +200,7 @@ export function Footer({
                 Event
               </p>
               <ul className="mt-4 space-y-2 text-sm text-off-white/70">
-                {campaign.navLinks.map((link) => (
+                {campaign.navLinks.filter((entry): entry is NavLink => !isNavGroup(entry)).map((link) => (
                   <li key={link.href}>
                     <a href={link.href} className="transition-colors hover:text-off-white">
                       {link.label}
@@ -254,7 +255,7 @@ export function Footer({
                 Event
               </p>
               <ul className="mt-4 space-y-2 text-sm text-off-white/70">
-                {campaign.navLinks.map((link) => (
+                {campaign.navLinks.filter((entry): entry is NavLink => !isNavGroup(entry)).map((link) => (
                   <li key={link.href}>
                     <Link href={link.href} className="transition-colors hover:text-off-white">
                       {link.label}

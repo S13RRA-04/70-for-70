@@ -3,10 +3,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useRef, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ChevronDown, Menu, X } from "lucide-react";
 import { CAMPAIGNS, ORG_NAV_LINKS, SITE_NAME } from "@/lib/constants";
 import type { CampaignSlug, SiteMode } from "@/lib/site-mode";
+import { isNavGroup, type NavGroup } from "@/types/content";
 import { cn } from "@/lib/utils";
 import { MobileMenu } from "@/components/layout/mobile-menu";
 import { Container } from "@/components/shared/container";
@@ -65,29 +66,33 @@ export function Header({
             </a>
           )}
           <nav aria-label="Primary" className="flex items-center gap-6">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={cn(
-                  "whitespace-nowrap border-b-2 border-transparent pb-0.5 text-sm font-medium uppercase tracking-wide text-charcoal transition-colors hover:text-bronze",
-                  pathname === link.href && "border-bronze text-bronze",
-                )}
-                aria-current={pathname === link.href ? "page" : undefined}
-              >
-                {link.label}
-                {awarenessMonth && link.href === "/crisis" && (
-                  <span
-                    aria-hidden="true"
-                    className="ml-1.5 inline-block h-2 w-2 rounded-full align-middle"
-                    style={{
-                      background:
-                        "linear-gradient(135deg, var(--color-awareness-teal), var(--color-awareness-purple))",
-                    }}
-                  />
-                )}
-              </Link>
-            ))}
+            {navLinks.map((entry) =>
+              isNavGroup(entry) ? (
+                <NavDropdown key={entry.label} group={entry} pathname={pathname} />
+              ) : (
+                <Link
+                  key={entry.href}
+                  href={entry.href}
+                  className={cn(
+                    "whitespace-nowrap border-b-2 border-transparent pb-0.5 text-sm font-medium uppercase tracking-wide text-charcoal transition-colors hover:text-bronze",
+                    pathname === entry.href && "border-bronze text-bronze",
+                  )}
+                  aria-current={pathname === entry.href ? "page" : undefined}
+                >
+                  {entry.label}
+                  {awarenessMonth && entry.href === "/crisis" && (
+                    <span
+                      aria-hidden="true"
+                      className="ml-1.5 inline-block h-2 w-2 rounded-full align-middle"
+                      style={{
+                        background:
+                          "linear-gradient(135deg, var(--color-awareness-teal), var(--color-awareness-purple))",
+                      }}
+                    />
+                  )}
+                </Link>
+              ),
+            )}
           </nav>
 
           {campaign && (
@@ -132,5 +137,86 @@ export function Header({
         triggerRef={menuButtonRef}
       />
     </header>
+  );
+}
+
+/**
+ * A desktop nav dropdown — button + panel disclosure (not a full ARIA menu;
+ * each item is a plain link, so this only needs disclosure semantics).
+ * Closes on Escape, outside click, and navigation (the parent Header's
+ * pathname-change effect unmounts/remounts nothing here, so this tracks
+ * pathname itself to close on route change).
+ */
+function NavDropdown({ group, pathname }: { group: NavGroup; pathname: string }) {
+  const [open, setOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isActive = group.children.some((link) => pathname === link.href);
+
+  useEffect(() => {
+    if (!open) return;
+
+    function onPointerDown(e: PointerEvent) {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpen(false);
+    }
+
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open]);
+
+  // Close on route change.
+  const [lastPathname, setLastPathname] = useState(pathname);
+  if (pathname !== lastPathname) {
+    setLastPathname(pathname);
+    if (open) setOpen(false);
+  }
+
+  return (
+    <div ref={containerRef} className="relative">
+      <button
+        type="button"
+        aria-haspopup="true"
+        aria-expanded={open}
+        onClick={() => setOpen((v) => !v)}
+        className={cn(
+          "flex items-center gap-1 whitespace-nowrap border-b-2 border-transparent pb-0.5 text-sm font-medium uppercase tracking-wide text-charcoal transition-colors hover:text-bronze",
+          (isActive || open) && "border-bronze text-bronze",
+        )}
+      >
+        {group.label}
+        <ChevronDown size={14} aria-hidden className={cn("transition-transform", open && "rotate-180")} />
+      </button>
+
+      {open && (
+        <div
+          role="menu"
+          aria-label={group.label}
+          className="absolute left-0 top-full z-50 mt-3 w-56 rounded-sm border border-ink/10 bg-off-white py-2 shadow-lg"
+        >
+          {group.children.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              role="menuitem"
+              className={cn(
+                "block px-4 py-2 text-sm font-medium uppercase tracking-wide text-charcoal transition-colors hover:bg-sand-light hover:text-bronze",
+                pathname === link.href && "text-bronze",
+              )}
+              onClick={() => setOpen(false)}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }

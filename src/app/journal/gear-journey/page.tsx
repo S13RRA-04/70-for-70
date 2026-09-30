@@ -11,8 +11,9 @@ import {
   getGearJourneyLastUpdated,
 } from "@/lib/content/gear-journey";
 import { formatDateLong } from "@/lib/utils";
-import { CAMPAIGN_NAME, CAMPAIGN_URL, SITE_NAME, SITE_URL } from "@/lib/constants";
+import { CAMPAIGN_URL, SITE_NAME, SITE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
+import { breadcrumbJsonLd, CAMPAIGN_HOME_CRUMB, FOUNDER_PERSON_JSON_LD, jsonLdScriptProps } from "@/lib/json-ld";
 
 const PAGE_TITLE = GEAR_JOURNEY_OPENING_POST.title;
 const PAGE_DESCRIPTION =
@@ -37,10 +38,16 @@ function buildJsonLd() {
     mainEntityOfPage: CANONICAL_URL,
     datePublished: GEAR_JOURNEY_OPENING_POST.date,
     dateModified: lastUpdated,
-    author: { "@type": "Organization", name: CAMPAIGN_NAME, url: CAMPAIGN_URL },
+    author: FOUNDER_PERSON_JSON_LD,
     publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
   };
 }
+
+const GEAR_JOURNEY_BREADCRUMB_JSON_LD = breadcrumbJsonLd([
+  CAMPAIGN_HOME_CRUMB,
+  { name: "Journal", url: `${CAMPAIGN_URL}/journal` },
+  { name: "Gear Journey", url: CANONICAL_URL },
+]);
 
 /**
  * The living "gear journey" feature — a standalone content page inside the
@@ -64,10 +71,8 @@ export default function GearJourneyPage() {
 
   return (
     <article>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(buildJsonLd()).replace(/</g, "\\u003c") }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(buildJsonLd())} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(GEAR_JOURNEY_BREADCRUMB_JSON_LD)} />
 
       <CampaignPageHero>
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">

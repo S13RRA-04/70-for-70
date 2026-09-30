@@ -1,13 +1,9 @@
 import { NextResponse } from "next/server";
+import { getClientIp } from "@/lib/client-ip";
 import { createClient } from "@/lib/supabase/server";
 import { isRateLimited } from "@/lib/rate-limit";
 import { signupSchema } from "@/lib/validation/app-auth";
 import { APP_URL } from "@/lib/constants";
-
-function getClientIp(request: Request): string {
-  const forwardedFor = request.headers.get("x-forwarded-for");
-  return forwardedFor?.split(",")[0]?.trim() ?? "unknown";
-}
 
 /**
  * Creates the auth.users row via Supabase Auth — public.profiles is

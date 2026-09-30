@@ -224,6 +224,8 @@ export interface JournalEntryRow {
   scheduled_for: string | null;
   featured: boolean;
   image_url: string | null;
+  /** Descriptive alt text for image_url, not a restatement of the title. Null falls back to the entry title at render time. */
+  image_alt: string | null;
   /** Null/omitted when there are no gallery images — never an empty array. */
   gallery: JournalGalleryImage[] | null;
   video_url: string | null;

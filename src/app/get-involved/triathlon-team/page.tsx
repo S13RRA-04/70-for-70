@@ -7,6 +7,7 @@ import { CTAButton } from "@/components/shared/cta-button";
 import { getMissionPartners } from "@/lib/data/mission-partners";
 import { CAMPAIGN_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
+import { breadcrumbJsonLd, CAMPAIGN_HOME_CRUMB, jsonLdScriptProps } from "@/lib/json-ld";
 
 export const metadata = pageMetadata({
   title: "Join the Triathlon Team",
@@ -15,12 +16,19 @@ export const metadata = pageMetadata({
   canonical: `${CAMPAIGN_URL}/get-involved/triathlon-team`,
 });
 
+const BREADCRUMB_JSON_LD = breadcrumbJsonLd([
+  CAMPAIGN_HOME_CRUMB,
+  { name: "Get Involved", url: `${CAMPAIGN_URL}/get-involved` },
+  { name: "Join the Triathlon Team", url: `${CAMPAIGN_URL}/get-involved/triathlon-team` },
+]);
+
 export default async function TriathlonTeamPage() {
   const partners = await getMissionPartners();
   const teamBenefitPartner = partners.find((p) => p.partner_type === "team-benefit-partner");
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
       <CampaignPageHero>
         <SectionHeading
           as="h1"

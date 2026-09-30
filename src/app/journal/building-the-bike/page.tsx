@@ -25,6 +25,7 @@ import {
 import { formatDateLong } from "@/lib/utils";
 import { CAMPAIGN_NAME, CAMPAIGN_URL, RACE_INFO, SITE_NAME, SITE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
+import { breadcrumbJsonLd, CAMPAIGN_HOME_CRUMB, FOUNDER_PERSON_JSON_LD, jsonLdScriptProps } from "@/lib/json-ld";
 
 const PAGE_TITLE = "Building the Bike: The Long Road to the Starting Line";
 const PAGE_DESCRIPTION =
@@ -51,10 +52,16 @@ function buildJsonLd() {
     datePublished: BIKE_BUILD_TIMELINE[0].date,
     dateModified: lastUpdated,
     image: `${CAMPAIGN_URL}${BIKE_BUILD_HERO_PHOTO.src}`,
-    author: { "@type": "Organization", name: CAMPAIGN_NAME, url: CAMPAIGN_URL },
+    author: FOUNDER_PERSON_JSON_LD,
     publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
   };
 }
+
+const BIKE_BUILD_BREADCRUMB_JSON_LD = breadcrumbJsonLd([
+  CAMPAIGN_HOME_CRUMB,
+  { name: "Journal", url: `${CAMPAIGN_URL}/journal` },
+  { name: "Building the Bike", url: CANONICAL_URL },
+]);
 
 /**
  * The living "bike-build adventure" feature — a standalone content page
@@ -82,10 +89,8 @@ export default function BuildingTheBikePage() {
 
   return (
     <article>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(buildJsonLd()).replace(/</g, "\\u003c") }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(buildJsonLd())} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BIKE_BUILD_BREADCRUMB_JSON_LD)} />
 
       <CampaignPageHero>
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">

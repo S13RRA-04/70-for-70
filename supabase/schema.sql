@@ -381,6 +381,13 @@ create table if not exists public.journal_entries (
   featured boolean not null default false,
 
   image_url text,
+  -- Descriptive alt text for image_url (e.g. "Cody assembling the race bike
+  -- frame on a stand"), not a restatement of the title — see
+  -- src/lib/json-ld.ts's doc comments for why journal images need real,
+  -- specific alt text rather than duplicating on-page copy. Null falls back
+  -- to the entry title at render time (see journal-card.tsx,
+  -- journal/[slug]/page.tsx) for entries saved before this column existed.
+  image_alt text,
   -- [{ url, alt }, ...]. Null/omitted when there are no gallery images —
   -- never an empty array. See the "hide, don't fake" convention used
   -- throughout this file for optional media.

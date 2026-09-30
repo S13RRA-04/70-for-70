@@ -25,7 +25,13 @@ import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
 import { getCampaignPhase } from "@/lib/campaign-phase";
 import { CAMPAIGN_URL, DONATE_LINK } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
+import { breadcrumbJsonLd, CAMPAIGN_HOME_CRUMB, jsonLdScriptProps } from "@/lib/json-ld";
 import type { JournalEntryRow, JournalPrimaryCategory } from "@/types/database";
+
+const JOURNAL_BREADCRUMB_JSON_LD = breadcrumbJsonLd([
+  CAMPAIGN_HOME_CRUMB,
+  { name: "Journal", url: `${CAMPAIGN_URL}/journal` },
+]);
 
 /** Filtering only earns its keep once there's enough volume to actually sort through — see AGENTS.md's Journal spec. */
 const MIN_ENTRIES_FOR_FILTERS = 6;
@@ -146,12 +152,8 @@ export default async function JournalPage(props: PageProps<"/journal">) {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(journalCollectionJsonLd(allEntries)).replace(/</g, "\\u003c"),
-        }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(journalCollectionJsonLd(allEntries))} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(JOURNAL_BREADCRUMB_JSON_LD)} />
 
       {/* 1. Hero — editorial and restrained: one status line, two CTAs, no stat-card grid. */}
       <CampaignPageHero>

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getClientIp } from "@/lib/client-ip";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { isRateLimited } from "@/lib/rate-limit";
@@ -10,11 +11,6 @@ const MIN_FILL_TIME_MS = 1_500;
 
 /** Postgres unique_violation — the event_registrations_event_email_idx unique index tripped. */
 const POSTGRES_UNIQUE_VIOLATION = "23505";
-
-function getClientIp(request: Request): string {
-  const forwardedFor = request.headers.get("x-forwarded-for");
-  return forwardedFor?.split(",")[0]?.trim() ?? "unknown";
-}
 
 export async function POST(request: Request) {
   const ip = getClientIp(request);

@@ -29,6 +29,45 @@ const nextConfig: NextConfig = {
     NEXT_PUBLIC_RUCK_URL: "https://ruck.forthe22.org",
     NEXT_PUBLIC_APP_URL: "https://app.forthe22.org",
   },
+  // Static security headers on every response. The Content-Security-Policy is
+  // deliberately NOT here: it needs a per-request nonce, so it's built and set
+  // in src/middleware.ts instead. These are the headers that need no per-request
+  // state and would otherwise ship with nothing but Next's defaults.
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          // Cloudflare already terminates TLS for every hostname on the zone.
+          // No `preload` yet — that commits every current and future subdomain
+          // to HTTPS-only and should be a deliberate, separate decision.
+          { key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains" },
+          // Blocks MIME sniffing on every served file. Doesn't break the
+          // Supabase-hosted journal images (their own response headers) or the
+          // Next image optimizer (correct image/* content types).
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          // Defense in depth alongside CSP's frame-ancestors 'none', for the
+          // user agents that predate CSP2.
+          { key: "X-Frame-Options", value: "DENY" },
+          // The site is deliberately link-heavy to off-site donation and
+          // sponsor pages; don't leak full URLs (donor/mile query params) to
+          // those third parties.
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          // `fullscreen` is intentionally NOT disabled — the Journal's
+          // YouTube/Vimeo embed facade offers a fullscreen button
+          // (src/components/journal/journal-video-embed.tsx).
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=(), payment=(), usb=()",
+          },
+          // Tabnabbing protection without breaking any auth flow: this app has
+          // no popup-based OAuth, but 'same-origin' would also sever
+          // window.opener for future ones, so allow popups explicitly.
+          { key: "Cross-Origin-Opener-Policy", value: "same-origin-allow-popups" },
+        ],
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       // Journal image uploads — see the "journal-media" Storage bucket in supabase/schema.sql.
