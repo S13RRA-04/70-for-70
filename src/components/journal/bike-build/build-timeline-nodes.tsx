@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Camera } from "lucide-react";
+import { Camera, Link2, ZoomIn } from "lucide-react";
 import { PhotoLightbox } from "@/components/shared/photo-lightbox";
 import type { BikeBuildTimelineNode } from "@/lib/content/building-the-bike";
+import type { BikeBuildTimelineEntry } from "@/types/bike-build";
 import { cn, formatDateShort } from "@/lib/utils";
 
 function Node({
@@ -69,15 +70,178 @@ function Node({
   );
 }
 
+/** Full entry content — body, technical details, cost table, photos, contributors, related links. Same shape the old flat "How We Got Here" list used to render, now living inside a node's expanded panel. */
+function EntryDetail({ entry }: { entry: BikeBuildTimelineEntry }) {
+  return (
+    <div id={entry.id} className="scroll-mt-24">
+      <h3 className="flex items-center gap-2 font-display text-lg font-semibold uppercase tracking-wide text-ink sm:text-xl">
+        {entry.title}
+        <a
+          href={`#${entry.id}`}
+          aria-label={`Link to this update: ${entry.title}`}
+          className="text-charcoal-light/40 hover:text-bronze"
+        >
+          <Link2 size={15} aria-hidden="true" />
+        </a>
+      </h3>
+      <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-bronze">{entry.status}</p>
+
+      <div className="mt-3 space-y-3">
+        {entry.body.map((paragraph, i) => (
+          <p key={i} className="leading-relaxed text-charcoal-light">
+            {paragraph}
+          </p>
+        ))}
+      </div>
+
+      {entry.technicalDetails && (
+        <div className="mt-5 rounded-sm border border-ink/10 bg-off-white p-4">
+          <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+            {entry.technicalDetails.heading}
+          </p>
+          {entry.technicalDetails.note && (
+            <p className="mt-1 text-xs text-charcoal-light/80">{entry.technicalDetails.note}</p>
+          )}
+          <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 sm:grid-cols-3">
+            {entry.technicalDetails.items.map((item) => (
+              <div key={item.label}>
+                <dt className="text-[11px] font-semibold uppercase tracking-wide text-charcoal-light/70">
+                  {item.label}
+                </dt>
+                <dd className="text-sm text-ink">{item.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      )}
+
+      {entry.costTable && (
+        <div className="mt-5">
+          <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+            {entry.costTable.heading}
+          </p>
+          {entry.costTable.note && (
+            <p className="mt-1 text-xs text-charcoal-light/80">{entry.costTable.note}</p>
+          )}
+          <div className="mt-3 overflow-x-auto rounded-sm border border-ink/10">
+            <table className="w-full min-w-[420px] border-collapse text-left text-sm">
+              <thead>
+                <tr className="border-b border-ink/10 bg-sand-light">
+                  <th scope="col" className="px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                    Part
+                  </th>
+                  <th scope="col" className="px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                    Estimated Cost
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {entry.costTable.rows.map((row) => (
+                  <tr key={row.part} className="border-b border-ink/10 bg-off-white last:border-0">
+                    <td className="px-4 py-2.5 align-top text-ink">{row.part}</td>
+                    <td className="px-4 py-2.5 align-top text-charcoal-light">{row.cost}</td>
+                  </tr>
+                ))}
+                <tr className="bg-bronze/5">
+                  <td className="px-4 py-2.5 font-semibold text-ink">{entry.costTable.totalLabel}</td>
+                  <td className="px-4 py-2.5 font-semibold text-ink">{entry.costTable.totalValue}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {entry.photos && entry.photos.length > 0 && (
+        <div className="mt-5 grid gap-4 sm:grid-cols-2">
+          {entry.photos.map((photo) => (
+            <figure key={photo.src} className="overflow-hidden rounded-sm border border-ink/10">
+              <PhotoLightbox src={photo.src} alt={photo.alt} caption={photo.caption} width={photo.width} height={photo.height}>
+                <div className="relative aspect-[4/3] w-full bg-sand-light">
+                  <Image
+                    src={photo.src}
+                    alt={photo.alt}
+                    fill
+                    loading="lazy"
+                    sizes="(min-width: 640px) 50vw, 100vw"
+                    className="object-cover transition-transform duration-200 group-hover:scale-[1.03]"
+                  />
+                  <span className="absolute right-2 top-2 rounded-full bg-ink/60 p-1.5 text-off-white opacity-0 transition-opacity group-hover:opacity-100">
+                    <ZoomIn size={14} aria-hidden />
+                  </span>
+                </div>
+              </PhotoLightbox>
+              <figcaption className="bg-off-white px-3 py-2 text-xs text-charcoal-light">
+                {photo.isEstimate && <span className="font-semibold text-bronze">Approximate: </span>}
+                {photo.caption}
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      )}
+
+      {entry.contributors && entry.contributors.length > 0 && (
+        <p className="mt-5 text-sm text-charcoal-light">
+          <span className="font-semibold text-ink">With thanks to:</span> {entry.contributors.join(", ")}
+        </p>
+      )}
+
+      {entry.relatedLinks && entry.relatedLinks.length > 0 && (
+        <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm">
+          {entry.relatedLinks.map((link) => (
+            <li key={link.href}>
+              <a href={link.href} className="font-semibold text-bronze hover:text-bronze-light">
+                {link.label} &rarr;
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
 /**
- * Interactive build timeline — one node per calendar date something
- * happened, oldest first. Hovering (desktop) previews that date's update(s)
- * in a tooltip; clicking any node expands a panel below with the full
- * synopsis and that date's photos (each opening full-size via the existing
- * PhotoLightbox). Replaces the earlier auto-scrolling photo marquee.
+ * The build timeline — one node per calendar date something happened,
+ * oldest first. This *is* "How We Got Here" now: hovering a node (desktop)
+ * previews that date's update(s) in a tooltip; clicking expands the node
+ * into the full entry (or entries, if more than one happened that day),
+ * body text, technical details, and photos included — the same content the
+ * earlier flat, always-expanded list used to render.
+ *
+ * Opens on the node containing the featured/latest entry by default. Also
+ * restores state from a URL fragment on mount (e.g. a shared
+ * #entry-id permalink from before this became node-based), so old links
+ * into specific updates keep working.
  */
 export function BuildTimelineNodes({ nodes }: { nodes: BikeBuildTimelineNode[] }) {
-  const [activeDate, setActiveDate] = useState<string | null>(null);
+  // The truly latest node, not "any node with a featured entry" — several
+  // older entries still carry featured: true from when each was the
+  // newest at the time, and BIKE_BUILD_TIMELINE never goes back to clear
+  // it off the previous one. `nodes` is oldest-first, so the last node is
+  // unambiguously current, matching getLatestBikeBuildEntry()'s own logic.
+  const [activeDate, setActiveDate] = useState<string | null>(() => nodes.at(-1)?.date ?? null);
+
+  useEffect(() => {
+    // window.location isn't available during SSR, so the featured-entry
+    // default above is what the server renders; this corrects it on the
+    // client to whichever node a shared #entry-id permalink points at. A
+    // genuine "sync from an external system" case, not derivable from
+    // props/state alone — the two-pass (SSR default, client corrects) is
+    // the intended, hydration-safe pattern here.
+    const hash = window.location.hash.replace("#", "");
+    if (!hash) return;
+    const match = nodes.find((node) => node.entries.some((entry) => entry.id === hash));
+    if (!match) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setActiveDate(match.date);
+    requestAnimationFrame(() => {
+      document.getElementById(hash)?.scrollIntoView({ block: "start" });
+    });
+    // Only ever run once, on mount — nodes is static content, not reactive state.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const active = nodes.find((node) => node.date === activeDate) ?? null;
 
   if (nodes.length === 0) return null;
@@ -97,44 +261,12 @@ export function BuildTimelineNodes({ nodes }: { nodes: BikeBuildTimelineNode[] }
       </ol>
 
       {active && (
-        <div className="mt-6 rounded-sm border border-bronze/30 bg-bronze/5 p-5 sm:p-6">
-          <p className="text-xs font-semibold uppercase tracking-widest text-bronze">{active.displayDate}</p>
-          <div className="mt-3 space-y-3">
-            {active.entries.map((entry) => (
-              <div key={entry.id}>
-                <p className="font-display text-sm font-semibold uppercase tracking-wide text-ink">{entry.title}</p>
-                <p className="mt-0.5 text-sm leading-relaxed text-charcoal-light">{entry.summary}</p>
-              </div>
-            ))}
-          </div>
-
-          {active.photos.length > 0 ? (
-            <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
-              {active.photos.map((photo) => (
-                <PhotoLightbox
-                  key={photo.src}
-                  src={photo.src}
-                  alt={photo.alt}
-                  caption={photo.caption}
-                  width={photo.width}
-                  height={photo.height}
-                >
-                  <div className="relative aspect-square w-full overflow-hidden rounded-sm border border-ink/10 bg-off-white">
-                    <Image
-                      src={photo.src}
-                      alt={photo.alt}
-                      fill
-                      loading="lazy"
-                      sizes="(min-width: 768px) 22vw, 45vw"
-                      className="object-cover transition-transform duration-200 group-hover:scale-[1.03]"
-                    />
-                  </div>
-                </PhotoLightbox>
-              ))}
+        <div className="mt-6 divide-y divide-ink/10 rounded-sm border border-bronze/30 bg-bronze/5">
+          {active.entries.map((entry) => (
+            <div key={entry.id} className="p-5 sm:p-6">
+              <EntryDetail entry={entry} />
             </div>
-          ) : (
-            <p className="mt-4 text-sm italic text-charcoal-light/70">No photos from this update.</p>
-          )}
+          ))}
         </div>
       )}
     </div>

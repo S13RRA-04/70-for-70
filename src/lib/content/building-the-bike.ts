@@ -337,9 +337,7 @@ export const BIKE_BUILD_CONVERSATIONS_IN_PROGRESS: BikeBuildContributor[] = [
  * Move an item out of this list once a real photo exists for it.
  */
 export const BIKE_BUILD_PHOTO_ROADMAP: { label: string; description: string }[] = [
-  { label: "Components as They Arrive", description: "Aerobars and the rest of the drivetrain as they're sourced." },
   { label: "The Mechanic's Inspection", description: "Bruce evaluating the frame and components in person." },
-  { label: "Assembly Progress", description: "The build coming together, piece by piece." },
   { label: "First Completed Bike", description: "Only once it's actually assembled — not before." },
   { label: "First Outdoor Ride", description: "The first time this bike actually goes anywhere." },
   { label: "Final Race Configuration", description: "The bike as it lines up at IRONMAN 70.3 Chattanooga." },
@@ -1327,19 +1325,12 @@ export function getAllBikeBuildPhotos(): BikeBuildGalleryPhoto[] {
   return photos;
 }
 
-export interface BikeBuildTimelineNodeEntry {
-  id: string;
-  title: string;
-  summary: string;
-  status: string;
-}
-
 export interface BikeBuildTimelineNode {
   date: string;
   displayDate: string;
-  /** One or more timeline entries that share this date, oldest-listed first. */
-  entries: BikeBuildTimelineNodeEntry[];
-  /** Every photo from any entry dated this day — empty when nothing was photographed that day. */
+  /** One or more full timeline entries that share this date, oldest-listed first — the node's expanded view renders each in full (body, technical details, photos, etc.), same content the old flat list used to render. */
+  entries: BikeBuildTimelineEntry[];
+  /** Every photo from any entry dated this day, flattened for the node's photo-count badge — empty when nothing was photographed that day. */
   photos: BikeBuildGalleryPhoto[];
 }
 
@@ -1347,8 +1338,9 @@ export interface BikeBuildTimelineNode {
  * BIKE_BUILD_TIMELINE, regrouped by calendar date — one node per day
  * something happened, oldest first. Powers the interactive timeline on
  * /journal/building-the-bike: hovering a node previews that day's update(s),
- * clicking expands the photos (if any exist for that day). Purely derived;
- * add/edit an entry above and this regroups automatically.
+ * clicking expands the node into the full entry (or entries) for that date —
+ * this *is* the timeline now, not a separate photo-only supplement. Purely
+ * derived; add/edit an entry above and this regroups automatically.
  */
 export function getBikeBuildTimelineNodes(): BikeBuildTimelineNode[] {
   const byDate = new Map<string, BikeBuildTimelineNode>();
@@ -1363,13 +1355,13 @@ export function getBikeBuildTimelineNodes(): BikeBuildTimelineNode[] {
 
     const existing = byDate.get(entry.date);
     if (existing) {
-      existing.entries.push({ id: entry.id, title: entry.title, summary: entry.summary, status: entry.status });
+      existing.entries.push(entry);
       existing.photos.push(...entryPhotos);
     } else {
       byDate.set(entry.date, {
         date: entry.date,
         displayDate: entry.displayDate,
-        entries: [{ id: entry.id, title: entry.title, summary: entry.summary, status: entry.status }],
+        entries: [entry],
         photos: entryPhotos,
       });
     }

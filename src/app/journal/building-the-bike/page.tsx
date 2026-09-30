@@ -4,7 +4,6 @@ import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
 import { BuildStatusPanel } from "@/components/journal/bike-build/build-status-panel";
-import { BuildTimeline } from "@/components/journal/bike-build/build-timeline";
 import { BuildTimelineNodes } from "@/components/journal/bike-build/build-timeline-nodes";
 import { BuildBeforeAfter } from "@/components/journal/bike-build/build-before-after";
 import { ComponentStatusBoard } from "@/components/journal/bike-build/component-status-board";
@@ -80,7 +79,6 @@ function buildJsonLd() {
 export default function BuildingTheBikePage() {
   const lastUpdated = getBikeBuildLastUpdated();
   const timelineNodes = getBikeBuildTimelineNodes();
-  const hasPhotos = timelineNodes.some((node) => node.photos.length > 0);
 
   return (
     <article>
@@ -146,14 +144,14 @@ export default function BuildingTheBikePage() {
       </section>
 
       <section className="border-b border-ink/10 py-16 sm:py-20">
-        <Container className="max-w-3xl">
+        <Container>
           <SectionHeading
             eyebrow="The Living Timeline"
             title="How We Got Here"
-            description="Every update, from the first search for a bike to the newest development below. Each entry has its own link — click a title's link icon to share that specific update."
+            description="One node per date something happened, from the first search for a bike to the newest development. Hover a node for a quick synopsis; click it to open the full update — body, photos, and all."
           />
           <div className="mt-10">
-            <BuildTimeline entries={BIKE_BUILD_TIMELINE} />
+            <BuildTimelineNodes nodes={timelineNodes} />
           </div>
         </Container>
       </section>
@@ -170,21 +168,6 @@ export default function BuildingTheBikePage() {
           </div>
         </Container>
       </section>
-
-      {hasPhotos && (
-        <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
-          <Container>
-            <SectionHeading
-              eyebrow="Photography"
-              title="The Build, Day by Day"
-              description="One node per date something happened. Hover a node for a quick synopsis; click it to open that day's photos."
-            />
-            <div className="mt-10">
-              <BuildTimelineNodes nodes={timelineNodes} />
-            </div>
-          </Container>
-        </section>
-      )}
 
       <section className="border-b border-ink/10 py-16 sm:py-20">
         <Container>
@@ -215,10 +198,43 @@ export default function BuildingTheBikePage() {
         </Container>
       </section>
 
-      <section className="border-b border-ink/10 py-16 sm:py-20">
+      <section className="border-b border-ink/10 bg-ink py-20 text-off-white sm:py-28">
         <Container className="max-w-3xl">
-          <SectionHeading eyebrow="Why It Matters" title="More Than a Bike" />
-          <div className="mt-4 space-y-4 text-base leading-relaxed text-charcoal-light">
+          <p className="text-center text-xs font-semibold uppercase tracking-[0.3em] text-bronze-light">
+            Why It Matters
+          </p>
+          <h2 className="mt-3 text-center text-balance font-display text-4xl font-bold uppercase leading-[0.95] tracking-tight sm:text-5xl">
+            More Than a Bike
+          </h2>
+
+          <div className="mx-auto mt-10 max-w-2xl space-y-5 text-lg leading-relaxed text-off-white/85">
+            <p>I got this bike as a collection of parts.</p>
+            <p>
+              Over the course of months, I worked with different groups and organizations — brainstorming ideas,
+              chasing down support, sourcing components one at a time. The pile of parts kept growing. A crankset
+              here. A saddle there. A stand to work on it. With each new part, a little more got added to the bike.
+            </p>
+            <p>Now, nearly at the finish of the build, it&apos;s become something more than a bike.</p>
+            <p>
+              It represents rebuilding ourselves into something capable of carrying us through the challenges of
+              life. We can&apos;t do that if we&apos;re missing pieces of ourselves.
+            </p>
+            <p>
+              Sometimes that means getting new parts for ourselves — techniques to cope with stress, outlets that
+              keep our minds and bodies strong. Sometimes it means repairing and refining what&apos;s already there.
+            </p>
+            <p>
+              Either way, the goal is the same: putting something together that&apos;s more powerful and more
+              meaningful than just the sum of its parts.
+            </p>
+          </div>
+
+          <blockquote className="mx-auto mt-10 max-w-xl border-l-2 border-bronze pl-5 text-lg italic text-off-white/90">
+            Progress rarely arrives fully assembled. Sometimes it appears as a bare frame, a box of parts, a few
+            people willing to help, and the decision to keep moving.
+          </blockquote>
+
+          <div className="mx-auto mt-10 max-w-2xl border-t border-off-white/15 pt-8 text-sm leading-relaxed text-off-white/70">
             <p>
               {CAMPAIGN_NAME} connects veterans and first responders with resources that can help them confront
               mental and physical barriers, while raising public awareness and funds for charitable organizations
@@ -227,29 +243,26 @@ export default function BuildingTheBikePage() {
               data (2023) puts the daily average at 17.5 Veterans lost to suicide, and law enforcement faces a
               version of the same crisis, with far less complete reporting, roughly every 2 to 3 days.
             </p>
-            <blockquote className="border-l-2 border-bronze pl-4 italic text-ink">
-              Progress rarely arrives fully assembled. Sometimes it appears as a bare frame, a box of parts, a few
-              people willing to help, and the decision to keep moving.
-            </blockquote>
           </div>
-          <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+
+          <ul className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm">
             <li>
-              <Link href="/the-mission" className="font-semibold text-bronze hover:text-bronze-light">
+              <Link href="/the-mission" className="font-semibold text-bronze-light hover:text-off-white">
                 The Campaign Mission &rarr;
               </Link>
             </li>
             <li>
-              <Link href="/donate" className="font-semibold text-bronze hover:text-bronze-light">
+              <Link href="/donate" className="font-semibold text-bronze-light hover:text-off-white">
                 Donate &rarr;
               </Link>
             </li>
             <li>
-              <Link href="/beneficiaries" className="font-semibold text-bronze hover:text-bronze-light">
+              <Link href="/beneficiaries" className="font-semibold text-bronze-light hover:text-off-white">
                 Beneficiary Organizations &rarr;
               </Link>
             </li>
             <li>
-              <Link href="/journal" className="font-semibold text-bronze hover:text-bronze-light">
+              <Link href="/journal" className="font-semibold text-bronze-light hover:text-off-white">
                 The Journal &rarr;
               </Link>
             </li>
