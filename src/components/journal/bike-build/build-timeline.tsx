@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Link2, ZoomIn } from "lucide-react";
+import { ChevronDown, Link2, ZoomIn } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PhotoLightbox } from "@/components/shared/photo-lightbox";
 import type { BikeBuildTimelineEntry } from "@/types/bike-build";
@@ -9,10 +9,18 @@ import type { BikeBuildTimelineEntry } from "@/types/bike-build";
  * given — the content module keeps them oldest-first, so this component
  * never sorts or filters. Adding an update is purely a content-file change
  * (see src/lib/content/building-the-bike.ts); nothing here needs editing.
+ *
+ * Each entry is a native <details>/<summary> — collapsed by default except
+ * the featured (latest) entry, so the newest update is visible on load
+ * without every other entry pushing the page long. The chevron uses a
+ * *named* group (group/entry) rather than the plain .group PhotoLightbox
+ * uses internally for its own hover-zoom state — nesting an unnamed group
+ * here would make hovering anywhere in an expanded entry also trigger every
+ * photo thumbnail's hover effect, since :hover cascades to all ancestors.
  */
 export function BuildTimeline({ entries }: { entries: BikeBuildTimelineEntry[] }) {
   return (
-    <ol className="space-y-10">
+    <ol className="space-y-6">
       {entries.map((entry) => (
         <li
           key={entry.id}
@@ -30,35 +38,50 @@ export function BuildTimeline({ entries }: { entries: BikeBuildTimelineEntry[] }
             )}
           />
 
-          <div
+          <details
+            open={entry.featured || undefined}
             className={cn(
-              "rounded-sm border p-5 sm:p-6",
+              "group/entry rounded-sm border p-5 sm:p-6",
               entry.featured ? "border-bronze/40 bg-bronze/5" : "border-ink/10 bg-off-white",
             )}
           >
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-semibold uppercase tracking-widest text-bronze">
-              <time dateTime={entry.date}>{entry.displayDate}</time>
-              <span aria-hidden="true" className="text-charcoal-light/40">
-                &middot;
-              </span>
-              <span className="text-charcoal-light">{entry.status}</span>
-              {entry.featured && (
-                <span className="rounded-full bg-bronze px-2.5 py-0.5 text-[10px] text-off-white">Latest Update</span>
-              )}
-            </div>
+            <summary className="flex cursor-pointer list-none items-start justify-between gap-3 [&::-webkit-details-marker]:hidden">
+              <div className="min-w-0">
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-semibold uppercase tracking-widest text-bronze">
+                  <time dateTime={entry.date}>{entry.displayDate}</time>
+                  <span aria-hidden="true" className="text-charcoal-light/40">
+                    &middot;
+                  </span>
+                  <span className="text-charcoal-light">{entry.status}</span>
+                  {entry.featured && (
+                    <span className="rounded-full bg-bronze px-2.5 py-0.5 text-[10px] text-off-white">Latest Update</span>
+                  )}
+                </div>
 
-            <h3 className="mt-2 flex items-center gap-2 font-display text-xl font-semibold uppercase tracking-wide text-ink sm:text-2xl">
-              {entry.title}
-              <a
-                href={`#${entry.id}`}
-                aria-label={`Link to this update: ${entry.title}`}
-                className="text-charcoal-light/40 hover:text-bronze"
-              >
-                <Link2 size={16} aria-hidden="true" />
-              </a>
-            </h3>
+                <h3 className="mt-2 flex items-center gap-2 font-display text-xl font-semibold uppercase tracking-wide text-ink sm:text-2xl">
+                  {entry.title}
+                  <a
+                    href={`#${entry.id}`}
+                    aria-label={`Link to this update: ${entry.title}`}
+                    className="text-charcoal-light/40 hover:text-bronze"
+                  >
+                    <Link2 size={16} aria-hidden="true" />
+                  </a>
+                </h3>
 
-            <div className="mt-3 space-y-3">
+                <p className="mt-2 text-sm leading-relaxed text-charcoal-light group-open/entry:hidden">
+                  {entry.summary}
+                </p>
+              </div>
+
+              <ChevronDown
+                size={20}
+                className="mt-1 shrink-0 text-charcoal-light/50 transition-transform group-open/entry:rotate-180"
+                aria-hidden
+              />
+            </summary>
+
+            <div className="mt-4 space-y-3">
               {entry.body.map((paragraph, i) => (
                 <p key={i} className="leading-relaxed text-charcoal-light">
                   {paragraph}
@@ -175,7 +198,7 @@ export function BuildTimeline({ entries }: { entries: BikeBuildTimelineEntry[] }
                 ))}
               </ul>
             )}
-          </div>
+          </details>
         </li>
       ))}
 
