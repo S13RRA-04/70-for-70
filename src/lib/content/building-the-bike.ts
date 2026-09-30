@@ -1327,6 +1327,57 @@ export function getAllBikeBuildPhotos(): BikeBuildGalleryPhoto[] {
   return photos;
 }
 
+export interface BikeBuildTimelineNodeEntry {
+  id: string;
+  title: string;
+  summary: string;
+  status: string;
+}
+
+export interface BikeBuildTimelineNode {
+  date: string;
+  displayDate: string;
+  /** One or more timeline entries that share this date, oldest-listed first. */
+  entries: BikeBuildTimelineNodeEntry[];
+  /** Every photo from any entry dated this day — empty when nothing was photographed that day. */
+  photos: BikeBuildGalleryPhoto[];
+}
+
+/**
+ * BIKE_BUILD_TIMELINE, regrouped by calendar date — one node per day
+ * something happened, oldest first. Powers the interactive timeline on
+ * /journal/building-the-bike: hovering a node previews that day's update(s),
+ * clicking expands the photos (if any exist for that day). Purely derived;
+ * add/edit an entry above and this regroups automatically.
+ */
+export function getBikeBuildTimelineNodes(): BikeBuildTimelineNode[] {
+  const byDate = new Map<string, BikeBuildTimelineNode>();
+
+  for (const entry of BIKE_BUILD_TIMELINE) {
+    const entryPhotos: BikeBuildGalleryPhoto[] = (entry.photos ?? []).map((photo) => ({
+      ...photo,
+      entryId: entry.id,
+      entryTitle: entry.title,
+      date: entry.date,
+    }));
+
+    const existing = byDate.get(entry.date);
+    if (existing) {
+      existing.entries.push({ id: entry.id, title: entry.title, summary: entry.summary, status: entry.status });
+      existing.photos.push(...entryPhotos);
+    } else {
+      byDate.set(entry.date, {
+        date: entry.date,
+        displayDate: entry.displayDate,
+        entries: [{ id: entry.id, title: entry.title, summary: entry.summary, status: entry.status }],
+        photos: entryPhotos,
+      });
+    }
+  }
+
+  return [...byDate.values()].sort((a, b) => a.date.localeCompare(b.date));
+}
+
 /**
  * The gallery's closing before/after pair — hand-picked, not derived, so an
  * incidental close-up (a brake caliper, a spacer stack) never accidentally

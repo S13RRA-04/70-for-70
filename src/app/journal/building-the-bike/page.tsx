@@ -8,7 +8,7 @@ import { CTASection } from "@/components/shared/cta-section";
 import { PhotoLightbox } from "@/components/shared/photo-lightbox";
 import { BuildStatusPanel } from "@/components/journal/bike-build/build-status-panel";
 import { BuildTimeline } from "@/components/journal/bike-build/build-timeline";
-import { BuildPhotoGallery } from "@/components/journal/bike-build/build-photo-gallery";
+import { BuildTimelineNodes } from "@/components/journal/bike-build/build-timeline-nodes";
 import { BuildBeforeAfter } from "@/components/journal/bike-build/build-before-after";
 import { ComponentStatusBoard } from "@/components/journal/bike-build/component-status-board";
 import { ContributorsSection } from "@/components/journal/bike-build/contributors-section";
@@ -23,8 +23,8 @@ import {
   BIKE_BUILD_PHOTO_ROADMAP,
   BIKE_BUILD_STATUS_SUMMARY,
   BIKE_BUILD_TIMELINE,
-  getAllBikeBuildPhotos,
   getBikeBuildLastUpdated,
+  getBikeBuildTimelineNodes,
 } from "@/lib/content/building-the-bike";
 import { formatDateLong } from "@/lib/utils";
 import { CAMPAIGN_NAME, CAMPAIGN_URL, RACE_INFO, SITE_NAME, SITE_URL } from "@/lib/constants";
@@ -82,7 +82,8 @@ function buildJsonLd() {
  */
 export default function BuildingTheBikePage() {
   const lastUpdated = getBikeBuildLastUpdated();
-  const allPhotos = getAllBikeBuildPhotos();
+  const timelineNodes = getBikeBuildTimelineNodes();
+  const hasPhotos = timelineNodes.some((node) => node.photos.length > 0);
 
   return (
     <article>
@@ -191,25 +192,25 @@ export default function BuildingTheBikePage() {
         </Container>
       </section>
 
-      {allPhotos.length > 0 && (
+      {hasPhotos && (
         <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
           <Container>
             <SectionHeading
               eyebrow="Photography"
-              title="The Build in Photos"
-              description="Every real photo from this page, in the order it happened — one component at a time. Click any photo for a closer look; hover to pause."
+              title="The Build, Day by Day"
+              description="One node per date something happened. Hover a node for a quick synopsis; click it to open that day's photos."
             />
-          </Container>
-          <div className="mt-8">
-            <BuildPhotoGallery photos={allPhotos} />
-          </div>
+            <div className="mt-10">
+              <BuildTimelineNodes nodes={timelineNodes} />
+            </div>
 
-          <Container className="mt-12">
-            <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-              Then and Now
-            </p>
-            <div className="mt-4">
-              <BuildBeforeAfter before={BIKE_BUILD_BEFORE_AFTER.before} after={BIKE_BUILD_BEFORE_AFTER.after} />
+            <div className="mt-14">
+              <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                Then and Now
+              </p>
+              <div className="mt-4">
+                <BuildBeforeAfter before={BIKE_BUILD_BEFORE_AFTER.before} after={BIKE_BUILD_BEFORE_AFTER.after} />
+              </div>
             </div>
           </Container>
         </section>

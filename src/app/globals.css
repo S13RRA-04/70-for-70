@@ -145,9 +145,4 @@ body {
   .animate-marquee {
     animation: marquee 26s linear infinite;
   }
-
-  /* Same loop as .animate-marquee, paced for a long strip of photo thumbnails (BuildPhotoGallery) rather than a short text ticker — slow enough to actually look at, not just read past. */
-  .animate-marquee-slow {
-    animation: marquee 90s linear infinite;
-  }
 }

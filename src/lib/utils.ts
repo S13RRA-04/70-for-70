@@ -34,6 +34,15 @@ export function formatDateLong(date: string | Date) {
   }).format(d);
 }
 
+/** Compact form for tight UI (timeline node labels, chart axes) — e.g. "Sep 30". */
+export function formatDateShort(date: string | Date) {
+  const d = typeof date === "string" ? new Date(date) : date;
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+  }).format(d);
+}
+
 /** Whole weeks between two ISO timestamps, floored, never negative. */
 export function weeksBetween(fromIso: string, toIso: string): number {
   const ms = new Date(toIso).getTime() - new Date(fromIso).getTime();
