@@ -255,18 +255,33 @@ export function BuildTimelineNodes({ nodes }: { nodes: BikeBuildTimelineNode[] }
   // it off the previous one. `nodes` is oldest-first, so the last node is
   // unambiguously current, matching getLatestBikeBuildEntry()'s own logic.
   const [activeDate, setActiveDate] = useState<string | null>(() => nodes.at(-1)?.date ?? null);
-  const [preview, setPreview] = useState<{ node: BikeBuildTimelineNode; left: number; top: number } | null>(null);
+  const [preview, setPreview] = useState<{ node: BikeBuildTimelineNode; left: number; top: number; arrowOffset: number } | null>(
+    null,
+  );
   const wrapperRef = useRef<HTMLDivElement>(null);
+
+  // Tooltip is w-56 (224px); clamped so it never runs off the wrapper's
+  // edges for the first/last few nodes in the row, with the arrow nudged
+  // back toward the actual node so it still visually points at it.
+  const TOOLTIP_WIDTH = 224;
+  const TOOLTIP_MARGIN = 8;
 
   function handlePreview(node: BikeBuildTimelineNode, target: HTMLElement) {
     const wrapper = wrapperRef.current;
     if (!wrapper) return;
     const wrapperRect = wrapper.getBoundingClientRect();
     const targetRect = target.getBoundingClientRect();
+    const rawCenter = targetRect.left - wrapperRect.left + targetRect.width / 2;
+    const halfWidth = TOOLTIP_WIDTH / 2;
+    const clampedCenter = Math.min(
+      Math.max(rawCenter, halfWidth + TOOLTIP_MARGIN),
+      wrapperRect.width - halfWidth - TOOLTIP_MARGIN,
+    );
     setPreview({
       node,
-      left: targetRect.left - wrapperRect.left + targetRect.width / 2,
+      left: clampedCenter,
       top: targetRect.top - wrapperRect.top - 14,
+      arrowOffset: Math.min(Math.max(rawCenter - clampedCenter, -(halfWidth - 16)), halfWidth - 16),
     });
   }
 
@@ -351,7 +366,8 @@ export function BuildTimelineNodes({ nodes }: { nodes: BikeBuildTimelineNode[] }
             </div>
             <span
               aria-hidden="true"
-              className="absolute left-1/2 top-full h-2 w-2 -translate-x-1/2 -translate-y-1 rotate-45 bg-ink"
+              style={{ left: `calc(50% + ${preview.arrowOffset}px)` }}
+              className="absolute top-full h-2 w-2 -translate-x-1/2 -translate-y-1 rotate-45 bg-ink"
             />
           </div>
         )}
