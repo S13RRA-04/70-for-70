@@ -132,6 +132,15 @@ body {
     font-variant-numeric: tabular-nums;
   }
 
+  /* Hides the scrollbar on an overflow-x-auto container (e.g. BuildTimelineNodes) while keeping it drag/swipe/arrow-key scrollable — used where a custom connecting line already communicates the scroll track, so a second native bar right below it would just be visual clutter. */
+  .scrollbar-hide {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
   /* MerchTicker's scrolling track — moves exactly one (of two duplicated) copies' width so the loop is seamless. Respects the global prefers-reduced-motion rule above, which forces animation-duration to 0.01ms. */
   @keyframes marquee {
     from {

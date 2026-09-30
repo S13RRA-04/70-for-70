@@ -6,25 +6,63 @@ import { Camera, Link2, ZoomIn } from "lucide-react";
 import { PhotoLightbox } from "@/components/shared/photo-lightbox";
 import type { BikeBuildTimelineNode } from "@/lib/content/building-the-bike";
 import type { BikeBuildTimelineEntry } from "@/types/bike-build";
-import { cn, formatDateShort } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+
+/**
+ * node.date is a date-only string (e.g. "2026-09-30"), which `new Date()`
+ * parses as UTC midnight — formatting that without an explicit timeZone
+ * rolls the displayed date back a day in any timezone behind UTC (this ran
+ * in a US timezone and showed "Aug 1" as "Jul 31"). Same fix as
+ * performance-trend-chart.tsx's formatRecordedOn, applied locally rather
+ * than in the shared formatDateLong utility, which is used broadly enough
+ * elsewhere (real timestamps, not just calendar dates) that changing its
+ * default timezone behavior is a separate, wider-blast-radius decision.
+ */
+function formatNodeDate(dateOnly: string, opts: { month: "short" | "long" }): string {
+  return new Intl.DateTimeFormat("en-US", { month: opts.month, day: "numeric", timeZone: "UTC" }).format(
+    new Date(dateOnly),
+  );
+}
+
+function nodeMonthKey(dateOnly: string): string {
+  return dateOnly.slice(0, 7); // "2026-09-30" -> "2026-09"
+}
 
 function Node({
   node,
   isActive,
+  isPast,
   isLast,
+  monthLabel,
   onToggle,
 }: {
   node: BikeBuildTimelineNode;
   isActive: boolean;
+  /** This node or an earlier one is the active one — colors the line segment leading into it to trace progress through the story. */
+  isPast: boolean;
   isLast: boolean;
+  /** Set only on the first node of a new month, so a label can introduce that cluster of dates. */
+  monthLabel: string | null;
   onToggle: () => void;
 }) {
   const hasPhotos = node.photos.length > 0;
 
   return (
-    <li className="group relative flex shrink-0 flex-col items-center">
+    <li className="group relative flex shrink-0 scroll-mx-4 snap-center flex-col items-center pt-6">
+      {monthLabel && (
+        <span className="absolute -top-0.5 left-0 whitespace-nowrap text-[10px] font-bold uppercase tracking-[0.2em] text-charcoal-light/50">
+          {monthLabel}
+        </span>
+      )}
+
       {!isLast && (
-        <span aria-hidden="true" className="absolute left-1/2 top-4 h-0.5 w-10 bg-ink/10 sm:w-14" />
+        <span
+          aria-hidden="true"
+          className={cn(
+            "absolute left-1/2 top-[26px] h-0.5 w-12 transition-colors sm:w-16",
+            isPast ? "bg-bronze/40" : "bg-ink/10",
+          )}
+        />
       )}
 
       <button
@@ -33,21 +71,21 @@ function Node({
         aria-expanded={isActive}
         aria-label={`${node.displayDate}: ${node.entries.map((e) => e.title).join(", ")}`}
         className={cn(
-          "relative z-10 flex h-8 w-8 items-center justify-center rounded-full border-2 text-[11px] font-bold transition-colors",
+          "relative z-10 flex h-9 w-9 items-center justify-center rounded-full border-2 text-xs font-bold shadow-sm transition-all duration-150",
           isActive
-            ? "border-bronze bg-bronze text-off-white"
+            ? "scale-110 border-bronze bg-bronze text-off-white shadow-md"
             : hasPhotos
-              ? "border-bronze/50 bg-off-white text-bronze hover:border-bronze"
-              : "border-ink/20 bg-off-white text-charcoal-light/60 hover:border-ink/40",
+              ? "border-bronze/50 bg-off-white text-bronze hover:scale-105 hover:border-bronze"
+              : "border-ink/20 bg-off-white text-charcoal-light/60 hover:scale-105 hover:border-ink/40",
         )}
       >
-        {hasPhotos ? node.photos.length : <Camera size={12} className="opacity-30" aria-hidden />}
+        {hasPhotos ? node.photos.length : <Camera size={13} className="opacity-30" aria-hidden />}
       </button>
 
       {/* Hover/focus preview — desktop only; touch users get the same info by tapping (which opens the panel below). */}
       <div
         role="tooltip"
-        className="pointer-events-none absolute bottom-full left-1/2 z-20 mb-2 hidden w-56 -translate-x-1/2 rounded-sm border border-ink/10 bg-ink px-3 py-2.5 text-off-white opacity-0 shadow-lg transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100 sm:block"
+        className="pointer-events-none absolute bottom-full left-1/2 z-20 mb-2.5 hidden w-56 -translate-x-1/2 rounded-sm border border-ink/10 bg-ink px-3 py-2.5 text-off-white opacity-0 shadow-lg transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100 sm:block"
       >
         <p className="text-[10px] font-semibold uppercase tracking-widest text-bronze-light">{node.displayDate}</p>
         <div className="mt-1 space-y-1">
@@ -63,8 +101,14 @@ function Node({
         />
       </div>
 
-      <time dateTime={node.date} className="mt-2 whitespace-nowrap text-[11px] font-semibold uppercase tracking-wide text-charcoal-light">
-        {formatDateShort(node.date)}
+      <time
+        dateTime={node.date}
+        className={cn(
+          "mt-2.5 whitespace-nowrap text-[11px] font-semibold uppercase tracking-wide transition-colors",
+          isActive ? "text-bronze" : "text-charcoal-light",
+        )}
+      >
+        {formatNodeDate(node.date, { month: "short" })}
       </time>
     </li>
   );
@@ -243,22 +287,36 @@ export function BuildTimelineNodes({ nodes }: { nodes: BikeBuildTimelineNode[] }
   }, []);
 
   const active = nodes.find((node) => node.date === activeDate) ?? null;
+  const activeIndex = nodes.findIndex((node) => node.date === activeDate);
 
   if (nodes.length === 0) return null;
 
   return (
     <div>
-      <ol className="flex items-start gap-8 overflow-x-auto px-1 pb-2 pt-2 sm:gap-10">
-        {nodes.map((node, i) => (
-          <Node
-            key={node.date}
-            node={node}
-            isActive={node.date === activeDate}
-            isLast={i === nodes.length - 1}
-            onToggle={() => setActiveDate((current) => (current === node.date ? null : node.date))}
-          />
-        ))}
-      </ol>
+      <div className="relative">
+        {/* Edge fade masks hint that the row scrolls — same technique MerchTicker uses for its marquee edges. */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-gradient-to-r from-off-white to-transparent sm:w-12" aria-hidden="true" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-gradient-to-l from-off-white to-transparent sm:w-12" aria-hidden="true" />
+        <ol className="scrollbar-hide flex snap-x snap-proximity items-start gap-8 overflow-x-auto px-4 pb-3 pt-2 sm:gap-10">
+          {nodes.map((node, i) => {
+            const monthLabel =
+              i === 0 || nodeMonthKey(node.date) !== nodeMonthKey(nodes[i - 1].date)
+                ? formatNodeDate(node.date, { month: "long" }).split(" ")[0]
+                : null;
+            return (
+              <Node
+                key={node.date}
+                node={node}
+                isActive={node.date === activeDate}
+                isPast={activeIndex >= 0 && i <= activeIndex}
+                isLast={i === nodes.length - 1}
+                monthLabel={monthLabel}
+                onToggle={() => setActiveDate((current) => (current === node.date ? null : node.date))}
+              />
+            );
+          })}
+        </ol>
+      </div>
 
       {active && (
         <div className="mt-6 divide-y divide-ink/10 rounded-sm border border-bronze/30 bg-bronze/5">
