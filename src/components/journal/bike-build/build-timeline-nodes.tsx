@@ -190,7 +190,14 @@ function EntryDetail({ entry }: { entry: BikeBuildTimelineEntry }) {
         <div className="mt-5 grid gap-4 sm:grid-cols-2">
           {entry.photos.map((photo) => (
             <figure key={photo.src} className="overflow-hidden rounded-sm border border-ink/10">
-              <PhotoLightbox src={photo.src} alt={photo.alt} caption={photo.caption} width={photo.width} height={photo.height}>
+              <PhotoLightbox
+                src={photo.src}
+                alt={photo.alt}
+                caption={photo.caption}
+                width={photo.width}
+                height={photo.height}
+                gallery={entry.photos}
+              >
                 <div className="relative aspect-[4/3] w-full bg-sand-light">
                   <Image
                     src={photo.src}

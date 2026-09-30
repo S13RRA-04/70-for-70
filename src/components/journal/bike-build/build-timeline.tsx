@@ -157,6 +157,7 @@ export function BuildTimeline({ entries }: { entries: BikeBuildTimelineEntry[] }
                       caption={photo.caption}
                       width={photo.width}
                       height={photo.height}
+                      gallery={entry.photos}
                     >
                       <div className="relative aspect-[4/3] w-full bg-sand-light">
                         <Image
