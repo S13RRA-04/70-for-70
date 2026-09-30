@@ -116,7 +116,7 @@ const ROLE_CTAS: RoleCta[] = [
     title: "Partner",
     description: "Provide financial, in-kind, promotional, or organizational support.",
     ctaLabel: "Become a Partner",
-    href: "/sponsors#become-a-partner",
+    href: "/become-a-partner",
     icon: Handshake,
   },
   {
@@ -389,7 +389,7 @@ export default async function CampaignHomePage() {
             <PartnerLogoWall presentingPartners={presentingPartners} otherPartners={otherPartners} />
           </div>
           <Link
-            href="/sponsors#become-a-partner"
+            href="/become-a-partner"
             className="mt-8 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
           >
             Become a Partner &rarr;

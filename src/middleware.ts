@@ -295,6 +295,7 @@ const CAMPAIGN_PATH_PREFIXES = [
   "/shop",
   "/messages",
   "/get-involved",
+  "/become-a-partner",
 ];
 
 /**

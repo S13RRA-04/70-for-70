@@ -10,9 +10,6 @@ import { SponsorSection } from "@/components/partners/sponsor-section";
 import { PresentingPartnerFeature, PresentingPartnerPlaceholder } from "@/components/partners/presenting-partner-feature";
 import { TeamBenefitPartnerFeature } from "@/components/partners/team-benefit-partner-feature";
 import { PartnershipStoryBreak } from "@/components/sponsors/partnership-story-break";
-import { SponsorshipProgression } from "@/components/sponsors/sponsorship-progression";
-import { DonateVsPartner } from "@/components/sponsors/donate-vs-partner";
-import { CurrentGearNeeds } from "@/components/sponsors/current-gear-needs";
 import { EventGiveawaySection } from "@/components/22-for-the-22/event-giveaway-section";
 import { CTAButton } from "@/components/shared/cta-button";
 import { EmptyState } from "@/components/shared/empty-state";
@@ -60,7 +57,10 @@ const OFFICIAL_BICYCLE_SUPPORT_DESIGNATION = "Official Bicycle Support Partner";
  * page distinct from the nonprofit beneficiaries (see
  * src/app/beneficiaries/page.tsx). Tiers reflect the cumulative
  * fair-market value of cash + in-kind support a partner has provided, not
- * cash alone (see the sponsorship-progression section below).
+ * cash alone. This page is recognition-only — prospective-sponsor sales
+ * material (value props, the tier progression ladder, in-kind categories,
+ * current gear needs) lives on /become-a-partner instead, so confirmed
+ * partners never have to scroll through a pitch to find their own listing.
  *
  * Distinct from the separate, still-dormant dollar-application pipeline
  * (public.sponsors table, SponsorWall, sponsorship_requests, /admin/sponsorships,
@@ -79,12 +79,10 @@ const OFFICIAL_BICYCLE_SUPPORT_DESIGNATION = "Official Bicycle Support Partner";
  * already has, never as their own separate tier/section (see
  * PartnerRoleBadge and MissionPartnerRow.designation's doc comment).
  *
- * Section order keeps the tier hierarchy and its value-range explanation
- * together and uninterrupted (tiers → untiered campaign partners → the
- * recruitment ladder), then the rest of the page's supporting sections
- * (a team-benefit spotlight, the 22 For the 22 giveaway, a story break,
- * the donate-vs-partner explainer, and the current gear-needs tracker)
- * follow after, in that order.
+ * Section order: tier hierarchy → untiered campaign partners → a
+ * team-benefit spotlight → the 22 For the 22 giveaway → a closing story
+ * break → final CTA (which points to /become-a-partner for anyone wanting
+ * to join this list, not a sales pitch on this page itself).
  */
 export default async function SponsorsPage() {
   const [partners, currentEvent] = await Promise.all([getMissionPartners(), getCurrentEventConfig()]);
@@ -204,35 +202,6 @@ export default async function SponsorsPage() {
             </section>
           )}
 
-          {/* Become a Partner — kept immediately after the tier hierarchy, not buried below other sections. */}
-          <section id="become-a-partner" className="scroll-mt-24 border-t border-ink/10 py-16 sm:py-20">
-            <Container className="max-w-3xl">
-              <SectionHeading
-                align="center"
-                eyebrow="Support the Campaign"
-                title="Become a Tri For the 22 Partner"
-                description="Tri For the 22 is being built with the help of businesses and organizations providing equipment, services, expertise, and financial support. Partnership opportunities recognize the organizations helping get the campaign to the starting line while keeping fundraising for the beneficiary organizations separate."
-              />
-            </Container>
-          </section>
-
-          <section className="border-b border-ink/10 py-4 sm:py-8">
-            <Container>
-              <SponsorshipProgression />
-
-              <div className="mx-auto mt-10 max-w-3xl space-y-3 text-sm leading-relaxed text-charcoal-light">
-                <p>
-                  Support doesn&apos;t have to come in the form of a check. Tri For the 22 recognizes qualifying
-                  contributions of equipment, products, printing, professional services, and other campaign needs
-                  toward partnership levels based on their fair-market value.
-                </p>
-                <p>
-                  Partnership levels may reflect the cumulative value of qualifying support provided during the
-                  campaign.
-                </p>
-              </div>
-            </Container>
-          </section>
         </>
       )}
 
@@ -264,27 +233,6 @@ export default async function SponsorsPage() {
 
       <PartnershipStoryBreak />
 
-      {/* Donate vs. Partner — kept explicit; sponsorship money is never routed to beneficiaries. */}
-      <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container className="max-w-4xl">
-          <DonateVsPartner />
-        </Container>
-      </section>
-
-      {/* Current Gear & Support Needs — reframed as actionable opportunities. */}
-      <section className="border-b border-ink/10 py-16 sm:py-20">
-        <Container>
-          <SectionHeading
-            eyebrow="Current Campaign Needs"
-            title="Want to Help in a Specific Way?"
-            description="These are the equipment, services, and resources still needed on the road to Chattanooga."
-          />
-          <div className="mt-8">
-            <CurrentGearNeeds partners={generalPartners} />
-          </div>
-        </Container>
-      </section>
-
       {/* Final CTA */}
       <section className="border-b border-ink/10 bg-ink py-16 text-center sm:py-20">
         <Container className="max-w-2xl">
@@ -297,7 +245,7 @@ export default async function SponsorsPage() {
             Chattanooga? Let&apos;s talk.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <CTAButton href="/contact?item=Campaign%20Partnership" tone="dark">
+            <CTAButton href="/become-a-partner" tone="dark">
               Become a Partner
             </CTAButton>
             <CTAButton href="/the-mission" variant="secondary" tone="dark">

@@ -1,4 +1,4 @@
-import { ExternalLink, Waves, HandCoins, Handshake, Timer, type LucideIcon } from "lucide-react";
+import { ExternalLink, Waves, HandHelping, Handshake, HandCoins, Share2, type LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { getCampaign } from "@/lib/data/campaign";
 import { Container } from "@/components/shared/container";
@@ -7,7 +7,6 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { CTAButton } from "@/components/shared/cta-button";
 import { GetInvolvedForm } from "@/components/forms/get-involved-form";
 import { RoleDetailDialog } from "@/components/get-involved/role-detail-dialog";
-import { OutOfPocketExpenses } from "@/components/get-involved/out-of-pocket-expenses";
 import { CampaignProgress } from "@/components/campaign/campaign-progress";
 import { ShareButtons } from "@/components/shared/share-buttons";
 import { EmailSignupForm } from "@/components/forms/email-signup-form";
@@ -16,10 +15,10 @@ import {
   CAMPAIGN_URL,
   CHATTANOOGAN_HOTEL_BLOCK_URL,
   DONATE_LINK,
-  EVENT22_CAMPAIGN_URL,
   GET_INVOLVED_ROLES,
   RACE_INFO,
 } from "@/lib/constants";
+import { TOTAL_OUT_OF_POCKET } from "@/lib/content/out-of-pocket-expenses";
 import { formatCurrency } from "@/lib/utils";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, CAMPAIGN_HOME_CRUMB, jsonLdScriptProps } from "@/lib/json-ld";
@@ -43,40 +42,42 @@ interface HelpPathway {
 }
 
 /**
- * The four primary "do something" pathways — deliberately equal weight
- * (same card treatment, same row) rather than singling any one out in its
- * own oversized hero band. Volunteer/spread-the-word lives in its own
- * section below (see id="roles") instead of a fifth card here, since that
- * section's own eyebrow already covers it.
+ * The five primary "do something" pathways — deliberately equal weight
+ * (same card treatment, same row), matching AGENTS.md's Get Involved brief
+ * exactly: Race With Us, Volunteer, Partner, Donate, Share. "Share the
+ * Mission" isn't a plain link like the other four — it renders ShareButtons
+ * directly in its card (same technique the homepage's "Choose Your Role"
+ * section uses) — so it's handled separately in the JSX below, not in this
+ * array.
  */
 const HELP_PATHWAYS: HelpPathway[] = [
   {
-    title: "Join the Triathlon Team",
+    title: "Race With Us",
     description: "Train, race, and fundraise under the Tri For The 22 banner.",
     ctaLabel: "Apply as a Triathlete →",
     href: "/get-involved/triathlon-team",
     icon: Waves,
   },
   {
-    title: "Join 22 For the 22",
-    description: "22 sessions. 22 minutes each. Move your way in support of the mission — free to join.",
-    ctaLabel: "Register Free →",
-    href: EVENT22_CAMPAIGN_URL,
-    icon: Timer,
+    title: "Volunteer",
+    description: "Help on the ground race weekend in Chattanooga, or spread the word from anywhere.",
+    ctaLabel: "See Volunteer Roles →",
+    href: "#roles",
+    icon: HandHelping,
   },
   {
-    title: "Support the Campaign",
-    description: "Donate or help fund the mission.",
+    title: "Partner",
+    description: "Provide financial, in-kind, promotional, or organizational support.",
+    ctaLabel: "Become a Partner →",
+    href: "/become-a-partner",
+    icon: Handshake,
+  },
+  {
+    title: "Donate",
+    description: "Fund the mission directly — every dollar moves the campaign toward its goal.",
     ctaLabel: "Support the Mission →",
     href: DONATE_LINK.href,
     icon: HandCoins,
-  },
-  {
-    title: "Become a Partner",
-    description: "Provide financial, in-kind, promotional, or organizational support.",
-    ctaLabel: "Partner With Us →",
-    href: "/sponsors",
-    icon: Handshake,
   },
 ];
 
@@ -96,11 +97,11 @@ export default async function GetInvolvedPage() {
         />
       </CampaignPageHero>
 
-      {/* Choose how to help — four equal-weight pathways, none singled out in its own oversized band. */}
+      {/* Choose how to help — five equal-weight pathways, none singled out in its own oversized band. */}
       <section className="border-b border-ink/10 bg-ink py-16 text-off-white sm:py-20">
         <Container>
           <SectionHeading eyebrow="Ways To Help" title="Choose How You Want to Help" tone="dark" />
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
             {HELP_PATHWAYS.map((pathway) => (
               <div
                 key={pathway.title}
@@ -119,6 +120,20 @@ export default async function GetInvolvedPage() {
                 </Link>
               </div>
             ))}
+
+            <div className="flex flex-col rounded-sm border border-off-white/15 bg-off-white/5 p-6">
+              <Share2 size={26} className="text-bronze-light" aria-hidden />
+              <h3 className="mt-4 font-display text-lg font-semibold uppercase tracking-wide">Share the Mission</h3>
+              <p className="mt-2 flex-1 text-sm text-off-white/75">
+                Help carry the mission further — share it with someone who&apos;d want to be part of it.
+              </p>
+              <div className="mt-5">
+                <ShareButtons
+                  url={CAMPAIGN_URL}
+                  title={`I'm helping move ${CAMPAIGN_NAME} closer to its ${formatCurrency(campaign.fundraising_goal)} goal for veterans.`}
+                />
+              </div>
+            </div>
           </div>
         </Container>
       </section>
@@ -172,15 +187,21 @@ export default async function GetInvolvedPage() {
         </Container>
       </section>
 
-      <section className="border-t border-ink/10 py-16 sm:py-20">
+      <section className="border-t border-ink/10 py-10 sm:py-12">
         <Container className="max-w-2xl">
-          <SectionHeading
-            eyebrow="The Real Cost"
-            title="Out-of-Pocket So Far"
-            description="Cody has personally covered the gap between what's been donated and what a race-ready bike and a season of training actually require. This is his own money, not campaign funds — a plain accounting of what this has cost so far."
-          />
-          <div className="mt-8">
-            <OutOfPocketExpenses />
+          <div className="rounded-sm border border-ink/10 bg-sand-light p-6 text-center sm:p-8">
+            <p className="font-display text-2xl font-bold tabular-nums text-ink">
+              Personally invested in the mission: {formatCurrency(TOTAL_OUT_OF_POCKET, { cents: true })}
+            </p>
+            <p className="mt-2 text-sm text-charcoal-light">
+              Campaign expenses, donated equipment, and financial activity are publicly documented.
+            </p>
+            <Link
+              href="/financial-transparency"
+              className="mt-4 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+            >
+              View Financial Transparency &rarr;
+            </Link>
           </div>
         </Container>
       </section>

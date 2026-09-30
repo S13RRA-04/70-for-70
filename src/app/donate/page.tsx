@@ -3,13 +3,16 @@ import { getPartners } from "@/lib/data/partners";
 import { getCampaign } from "@/lib/data/campaign";
 import { getAllocationBreakdown } from "@/lib/data/allocation";
 import { getPublicSupporterWall } from "@/lib/donor-tiers";
+import { getMilesFundedMetric } from "@/lib/miles-funded";
 import { Container } from "@/components/shared/container";
 import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { PartnerCard } from "@/components/partners/partner-card";
+import { CampaignProgress } from "@/components/campaign/campaign-progress";
 import { CampaignAllocation } from "@/components/campaign/campaign-allocation";
 import { GivingLevels } from "@/components/campaign/giving-levels";
 import { CAMPAIGN_NAME, CAMPAIGN_URL } from "@/lib/constants";
+import { formatNumber } from "@/lib/utils";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, CAMPAIGN_HOME_CRUMB, jsonLdScriptProps } from "@/lib/json-ld";
 
@@ -29,20 +32,39 @@ export default async function DonatePage() {
     getPublicSupporterWall(),
   ]);
   const allocationBreakdown = await getAllocationBreakdown(campaign);
+  const miles = getMilesFundedMetric(campaign.amount_raised, campaign.fundraising_goal);
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
       <CampaignPageHero>
-        <SectionHeading
-          as="h1"
-          tone="dark"
-          title="Choose a Beneficiary"
-          description="Your gift will be processed on that organization's authorized donation platform."
-        />
+        <SectionHeading as="h1" tone="dark" eyebrow="Fund the 70.3" title="Fund the Mission" />
+        <div className="mt-8 max-w-xl">
+          <CampaignProgress
+            totalRaised={campaign.amount_raised}
+            goal={campaign.fundraising_goal}
+            showStats={false}
+            tone="dark"
+            breakdown={allocationBreakdown}
+          />
+          <p className="mt-4 text-sm font-semibold uppercase tracking-widest text-bronze-light">
+            {formatNumber(miles.milesFunded, 2)} of {miles.totalDistance} Miles Funded
+          </p>
+        </div>
       </CampaignPageHero>
 
       <section className="py-16 sm:py-20">
+        <Container>
+          <SectionHeading eyebrow="Your Gift" title="Choose Where Your Gift Goes" />
+          <div className="mt-8 flex flex-col gap-6">
+            {partners.map((partner) => (
+              <PartnerCard key={partner.id} partner={partner} />
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      <section className="border-t border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container>
           <SectionHeading
             title="Giving Levels"
@@ -54,17 +76,7 @@ export default async function DonatePage() {
         </Container>
       </section>
 
-      <section className="border-t border-ink/10 py-16 sm:py-20">
-        <Container>
-          <div className="flex flex-col gap-6">
-            {partners.map((partner) => (
-              <PartnerCard key={partner.id} partner={partner} />
-            ))}
-          </div>
-        </Container>
-      </section>
-
-      <section className="border-t border-ink/10 bg-sand-light py-10 sm:py-12">
+      <section className="border-t border-ink/10 py-10 sm:py-12">
         <Container className="max-w-3xl">
           <details className="group rounded-sm border border-ink/10 bg-off-white p-5">
             <summary className="cursor-pointer text-sm font-semibold uppercase tracking-wide text-ink marker:content-none">

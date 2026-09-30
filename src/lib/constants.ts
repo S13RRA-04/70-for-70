@@ -219,9 +219,11 @@ if (process.env.NODE_ENV !== "production") {
  * ships. "Road to Chattanooga" and "Training" both link into /the-race,
  * which already has sections literally titled "Road to Chattanooga"
  * (id="road-to-chattanooga") and "Current Training Status"
- * (id="training-status"). "Become a Partner" and "Volunteer" link to
- * existing sections on /sponsors and /get-involved rather than new pages —
- * splitting those into dedicated pages is later redesign work.
+ * (id="training-status"). "Become a Partner" is its own page
+ * (src/app/become-a-partner/page.tsx), split out of /sponsors so confirmed
+ * partners aren't sent through sponsorship sales material to find their own
+ * listing. "Volunteer" links to an existing section on /get-involved rather
+ * than a new page.
  *
  * 22 For the 22 deliberately does NOT appear here — it moved to its own
  * subdomain (EVENT22_CAMPAIGN_URL) and is listed as its own campaign on the
@@ -259,7 +261,7 @@ export const CAMPAIGN_NAV_GROUPS: NavEntry[] = [
     label: "Partners",
     children: [
       { label: "Partners & Sponsors", href: "/sponsors" },
-      { label: "Become a Partner", href: "/sponsors#become-a-partner" },
+      { label: "Become a Partner", href: "/become-a-partner" },
       { label: "Press & Media", href: "/press" },
       { label: "Financial Transparency", href: "/financial-transparency" },
     ],

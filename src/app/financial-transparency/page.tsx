@@ -1,6 +1,9 @@
 import Link from "next/link";
+import { getCampaign } from "@/lib/data/campaign";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
+import { CampaignProgress } from "@/components/campaign/campaign-progress";
+import { OutOfPocketExpenses } from "@/components/get-involved/out-of-pocket-expenses";
 import { CAMPAIGN_NAME, CAMPAIGN_URL, MERCH_BENEFICIARIES } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, CAMPAIGN_HOME_CRUMB, jsonLdScriptProps } from "@/lib/json-ld";
@@ -16,14 +19,33 @@ const BREADCRUMB_JSON_LD = breadcrumbJsonLd([
   { name: "Financial Transparency", url: `${CAMPAIGN_URL}/financial-transparency` },
 ]);
 
-export default function FinancialTransparencyPage() {
+export default async function FinancialTransparencyPage() {
+  const campaign = await getCampaign();
+
   return (
     <section className="py-16 sm:py-20">
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
       <Container className="max-w-2xl">
         <SectionHeading as="h1" eyebrow="Financial Transparency" title="How Donations Work" />
 
-        <div className="mt-8 space-y-5 text-base leading-relaxed text-charcoal-light">
+        <div className="mt-10">
+          <SectionHeading title="Campaign Totals" />
+          <div className="mt-6">
+            <CampaignProgress totalRaised={campaign.amount_raised} goal={campaign.fundraising_goal} />
+          </div>
+        </div>
+
+        <div className="mt-12">
+          <SectionHeading
+            title="Personal Out-of-Pocket Spending"
+            description="Cody has personally covered the gap between what's been donated and what a race-ready bike and a season of training actually require. This is his own money, not campaign funds — a plain accounting of what this has cost so far."
+          />
+          <div className="mt-6">
+            <OutOfPocketExpenses />
+          </div>
+        </div>
+
+        <div className="mt-12 space-y-5 text-base leading-relaxed text-charcoal-light">
           <p>
             {CAMPAIGN_NAME} does not collect or process charitable donations. Donation links send
             visitors directly to the independent nonprofit organization selected by the donor.
