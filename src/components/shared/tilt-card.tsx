@@ -25,6 +25,12 @@ import { usePointerMotionEnabled } from "@/components/shared/use-media-query";
  *   children (menus, tooltips) — a transformed ancestor becomes their
  *   containing block and they'd be positioned against the card instead of the
  *   viewport.
+ *
+ * - rx/ry/mx/my glide toward the pointer-derived target by a fraction each
+ *   frame (lerp) rather than snapping straight to it. Raw mousemove samples
+ *   are noisy enough on their own, and the 900px perspective amplifies that
+ *   noise into visible rotation jitter — easing toward the target is what
+ *   makes this read as a card gliding rather than twitching.
  */
 export function TiltCard({
   children,
@@ -48,16 +54,41 @@ export function TiltCard({
     if (!el) return;
 
     let frame = 0;
+    // Current (eased) values the element actually renders at.
     let rx = 0;
     let ry = 0;
     let mx = 50;
     let my = 50;
+    // Where the pointer wants rx/ry/mx/my to be — `settle` chases this each
+    // frame instead of jumping straight to it.
+    let targetRx = 0;
+    let targetRy = 0;
+    let targetMx = 50;
+    let targetMy = 50;
 
-    const apply = () => {
-      frame = 0;
+    const settle = () => {
+      // Fraction of the remaining distance closed per frame. Low enough to
+      // smooth out raw mousemove noise, high enough that it still reads as
+      // responsive rather than laggy.
+      const ease = 0.18;
+      rx += (targetRx - rx) * ease;
+      ry += (targetRy - ry) * ease;
+      mx += (targetMx - mx) * ease;
+      my += (targetMy - my) * ease;
+
       el.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg)`;
       el.style.setProperty("--mx", `${mx}%`);
       el.style.setProperty("--my", `${my}%`);
+
+      // Keep gliding until close enough to the target that another frame
+      // wouldn't be visible — otherwise this would run forever at a
+      // vanishingly small distance.
+      const settled =
+        Math.abs(targetRx - rx) < 0.01 &&
+        Math.abs(targetRy - ry) < 0.01 &&
+        Math.abs(targetMx - mx) < 0.05 &&
+        Math.abs(targetMy - my) < 0.05;
+      frame = settled ? 0 : requestAnimationFrame(settle);
     };
 
     const onMove = (event: PointerEvent) => {
@@ -65,22 +96,22 @@ export function TiltCard({
       // Normalize to -0.5..0.5 from the card's centre.
       const px = (event.clientX - rect.left) / rect.width;
       const py = (event.clientY - rect.top) / rect.height;
-      mx = px * 100;
-      my = py * 100;
+      targetMx = px * 100;
+      targetMy = py * 100;
       // Invert Y so moving the cursor up tips the top of the card away.
-      ry = (px - 0.5) * rotate * 2;
-      rx = -(py - 0.5) * rotate * 2;
-      if (!frame) frame = requestAnimationFrame(apply);
+      targetRy = (px - 0.5) * rotate * 2;
+      targetRx = -(py - 0.5) * rotate * 2;
+      if (!frame) frame = requestAnimationFrame(settle);
     };
 
     const onEnter = () => setActive(true);
     const onLeave = () => {
       setActive(false);
-      rx = 0;
-      ry = 0;
-      mx = 50;
-      my = 50;
-      if (!frame) frame = requestAnimationFrame(apply);
+      targetRx = 0;
+      targetRy = 0;
+      targetMx = 50;
+      targetMy = 50;
+      if (!frame) frame = requestAnimationFrame(settle);
     };
 
     el.addEventListener("pointermove", onMove, { passive: true });
