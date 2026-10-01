@@ -90,7 +90,7 @@ export default function GearJourneyPage() {
         />
 
         <div className="mt-5 flex flex-wrap items-center gap-3">
-          <span className="rounded-full bg-bronze px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-off-white">
+          <span className="rounded-full bg-bronze px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-ink">
             Ongoing Series
           </span>
           <p className="text-sm text-off-white/70">
@@ -122,7 +122,7 @@ export default function GearJourneyPage() {
                   <p className="mt-4">
                     <Link
                       href="/journal/building-the-bike"
-                      className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+                      className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
                     >
                       Read the Full Bike-Build Story &rarr;
                     </Link>
@@ -158,7 +158,7 @@ export default function GearJourneyPage() {
       />
 
       <Container className="max-w-3xl py-10">
-        <Link href="/journal" className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light">
+        <Link href="/journal" className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark">
           &larr; Back to the Journal
         </Link>
       </Container>

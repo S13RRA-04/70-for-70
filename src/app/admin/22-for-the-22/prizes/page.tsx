@@ -151,7 +151,7 @@ export default async function GiveawayPrizesAdminPage() {
         {prizes.length > 0 && (
           <button
             type="submit"
-            className="rounded-sm bg-bronze px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
+            className="rounded-sm bg-bronze-text px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
           >
             Save All
           </button>

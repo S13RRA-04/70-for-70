@@ -120,7 +120,7 @@ export function SessionTracker() {
               className={cn(
                 "flex min-h-[44px] items-center justify-center rounded-sm border font-display text-sm font-semibold tabular-nums transition-colors",
                 isDone
-                  ? "border-bronze bg-bronze text-off-white"
+                  ? "border-bronze bg-bronze-text text-off-white"
                   : "border-ink/20 bg-off-white text-ink hover:border-bronze/50",
               )}
             >

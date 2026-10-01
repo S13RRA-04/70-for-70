@@ -146,7 +146,7 @@ export function GetInvolvedForm({ defaultInterest, idPrefix = "" }: GetInvolvedF
         type="submit"
         disabled={submitDisabled}
         data-analytics-event="get_involved_signup"
-        className="w-full rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light disabled:opacity-60 sm:w-auto"
+        className="w-full rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-dark disabled:opacity-60 sm:w-auto"
       >
         {status === "submitting" ? "Sending..." : "Count Me In"}
       </button>

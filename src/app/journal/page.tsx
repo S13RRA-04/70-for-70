@@ -175,7 +175,7 @@ export default async function JournalPage(props: PageProps<"/journal">) {
             Training Dashboard
           </CTAButton>
         </div>
-        <CampaignPhaseBanner phase={phase} />
+        <CampaignPhaseBanner phase={phase} tone="dark" />
       </CampaignPageHero>
 
       {/* 2. Featured / latest entry, paired with a compact live Campaign Status panel — makes use of the widened container instead of a single narrow column. */}
@@ -217,7 +217,7 @@ export default async function JournalPage(props: PageProps<"/journal">) {
                 </div>
                 <Link
                   href="/the-race"
-                  className="mt-6 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+                  className="mt-6 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
                 >
                   See Full Training Dashboard &rarr;
                 </Link>
@@ -305,7 +305,7 @@ export default async function JournalPage(props: PageProps<"/journal">) {
           </div>
           <Link
             href="/the-race"
-            className="mt-6 inline-block text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+            className="mt-6 inline-block text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
           >
             See Full Training Dashboard &rarr;
           </Link>
@@ -313,7 +313,7 @@ export default async function JournalPage(props: PageProps<"/journal">) {
           <div className="mt-6 rounded-sm border border-bronze/30 bg-bronze/5 px-5 py-4">
             <p className="text-sm text-charcoal-light">
               Want to race for the mission?{" "}
-              <Link href="/get-involved/triathlon-team" className="font-semibold text-bronze hover:text-bronze-light">
+              <Link href="/get-involved/triathlon-team" className="font-semibold text-bronze hover:text-bronze-dark">
                 Join the Triathlon Team &rarr;
               </Link>
             </p>

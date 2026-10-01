@@ -116,7 +116,7 @@ export function ExternalDonateButton({
         onClick={() => dialogRef.current?.showModal()}
         data-analytics-event="donate_click"
         className={cn(
-          "inline-flex items-center gap-1.5 rounded-sm bg-bronze px-4 py-2 text-xs font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light",
+          "inline-flex items-center gap-1.5 rounded-sm bg-bronze-text px-4 py-2 text-xs font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark",
           className,
         )}
       >
@@ -154,7 +154,7 @@ export function ExternalDonateButton({
                 dialogRef.current?.close();
               }}
               data-analytics-event="beneficiary_selected"
-              className="inline-flex items-center gap-1.5 rounded-sm bg-bronze px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
+              className="inline-flex items-center gap-1.5 rounded-sm bg-bronze-text px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
             >
               Continue to {orgName}
               <ExternalLink size={13} aria-hidden />
@@ -258,7 +258,7 @@ export function ExternalDonateButton({
                   type="submit"
                   disabled={submitDisabled || !amountValid}
                   data-analytics-event="donation_reported"
-                  className="inline-flex items-center gap-1.5 rounded-sm bg-bronze px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light disabled:opacity-60"
+                  className="inline-flex items-center gap-1.5 rounded-sm bg-bronze-text px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark disabled:opacity-60"
                 >
                   {status === "submitting" ? "Submitting..." : "Submit"}
                 </button>

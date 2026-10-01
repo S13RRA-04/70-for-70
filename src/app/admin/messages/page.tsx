@@ -109,7 +109,7 @@ export default async function MessagesAdminPage(props: PageProps<"/admin/message
                   <input type="hidden" name="id" value={message.id} />
                   <button
                     type="submit"
-                    className="rounded-sm bg-bronze px-4 py-2 text-xs font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
+                    className="rounded-sm bg-bronze-text px-4 py-2 text-xs font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
                   >
                     Approve
                   </button>

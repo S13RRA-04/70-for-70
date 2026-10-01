@@ -119,7 +119,7 @@ export function InstallPrompt() {
           type="button"
           onClick={handleAndroidInstall}
           data-analytics-event="pwa_install_prompt_shown"
-          className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-sm bg-bronze px-4 py-2.5 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
+          className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-sm bg-bronze-text px-4 py-2.5 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
         >
           <Download size={16} aria-hidden />
           Install For the 22

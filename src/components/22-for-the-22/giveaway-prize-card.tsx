@@ -16,7 +16,7 @@ export function GiveawayPrizeCard({ prize, partner }: { prize: GiveawayPrizeRow;
   return (
     <div className="flex flex-col rounded-sm border border-ink/10 bg-off-white p-6">
       <div className="flex items-start justify-between gap-3">
-        <span className="inline-flex items-center rounded-full bg-bronze px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-off-white">
+        <span className="inline-flex items-center rounded-full bg-bronze-text px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-off-white">
           Confirmed Giveaway Supporter
         </span>
         {prize.featured && (
@@ -84,7 +84,7 @@ export function GiveawayPrizeCard({ prize, partner }: { prize: GiveawayPrizeRow;
           href={(prize.website_url ?? partner?.website_url)!}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-4 inline-flex w-fit items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+          className="mt-4 inline-flex w-fit items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
         >
           Visit {displayName} <ExternalLink size={13} aria-hidden />
         </Link>

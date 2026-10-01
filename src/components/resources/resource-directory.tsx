@@ -167,7 +167,7 @@ export function ResourceDirectory() {
             <button
               type="button"
               onClick={() => setStateFilter(null)}
-              className="text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+              className="text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
             >
               {stateFilter} &middot; Clear
             </button>

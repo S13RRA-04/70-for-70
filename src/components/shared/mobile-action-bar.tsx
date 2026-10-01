@@ -27,7 +27,7 @@ export function MobileActionBar({
       </a>
       <a
         href={primary.href}
-        className="flex-1 bg-bronze px-4 py-3.5 text-center text-sm font-semibold uppercase tracking-wide text-off-white"
+        className="flex-1 bg-bronze-text px-4 py-3.5 text-center text-sm font-semibold uppercase tracking-wide text-off-white"
       >
         {primary.label}
       </a>

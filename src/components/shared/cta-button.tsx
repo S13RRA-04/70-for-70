@@ -41,7 +41,9 @@ export function CTAButton({
     variant === "primary" &&
       (accent === "black"
         ? "bg-anchor text-off-white hover:bg-anchor-light"
-        : "bg-bronze text-off-white hover:bg-bronze-light"),
+        : tone === "dark"
+          ? "bg-bronze text-ink hover:bg-bronze-light"
+          : "bg-bronze-text text-off-white hover:bg-bronze-dark"),
     variant === "secondary" &&
       (tone === "dark"
         ? "border border-off-white/40 text-off-white hover:bg-off-white/10"

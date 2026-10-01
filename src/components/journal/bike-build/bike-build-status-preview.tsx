@@ -39,7 +39,7 @@ export function BikeBuildStatusPreview({ overview, photo, contributorNames }: Bi
 
         <Link
           href="/journal/building-the-bike"
-          className="mt-6 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+          className="mt-6 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
         >
           See the Full Build &rarr;
         </Link>

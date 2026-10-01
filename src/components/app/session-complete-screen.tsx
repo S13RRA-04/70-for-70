@@ -74,7 +74,7 @@ export function SessionCompleteScreen({
         <div className="mt-6 flex flex-col gap-3">
           <Link
             href={shareHref}
-            className="flex min-h-[44px] w-full items-center justify-center rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
+            className="flex min-h-[44px] w-full items-center justify-center rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-ink hover:bg-bronze-light"
           >
             Share My Finish
           </Link>
@@ -108,7 +108,7 @@ export function SessionCompleteScreen({
       <div className="mt-6 flex flex-col gap-3 sm:flex-row">
         <Link
           href={shareHref}
-          className="flex min-h-[44px] w-full items-center justify-center rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light sm:w-auto sm:flex-1"
+          className="flex min-h-[44px] w-full items-center justify-center rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark sm:w-auto sm:flex-1"
         >
           Share This
         </Link>

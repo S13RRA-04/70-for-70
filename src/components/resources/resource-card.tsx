@@ -72,7 +72,7 @@ export function ResourceCard({ resource }: { resource: Resource }) {
           <span className="mx-1.5 text-ink/20">·</span>
           {resource.geographicScope}
         </div>
-        <span className="inline-flex shrink-0 items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-bronze group-hover:text-bronze-light">
+        <span className="inline-flex shrink-0 items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-bronze group-hover:text-bronze-dark">
           Visit
           <ExternalLink size={12} aria-hidden="true" />
         </span>

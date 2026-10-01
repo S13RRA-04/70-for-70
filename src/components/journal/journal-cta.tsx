@@ -19,7 +19,7 @@ export function JournalCta({ category }: { category: JournalPrimaryCategory }) {
   return (
     <Link
       href={cta.href}
-      className="mt-8 inline-flex rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
+      className="mt-8 inline-flex rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
     >
       {cta.label}
     </Link>

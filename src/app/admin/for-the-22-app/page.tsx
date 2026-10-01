@@ -200,7 +200,7 @@ export default async function ForThe22AppAdminPage(props: PageProps<"/admin/for-
 
         <button
           type="submit"
-          className="rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
+          className="rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
         >
           Save Settings
         </button>

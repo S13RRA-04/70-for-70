@@ -122,7 +122,7 @@ export function MobileMenu({ open, onClose, navLinks, pathname, campaignSlug, tr
                 <a
                   href={campaign.primaryCta.href}
                   {...(campaign.primaryCta.external && { target: "_blank", rel: "noopener noreferrer" })}
-                  className="mt-2 block rounded-sm bg-bronze px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
+                  className="mt-2 block rounded-sm bg-bronze-text px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
                 >
                   {campaign.primaryCta.label}
                 </a>
@@ -139,7 +139,7 @@ export function MobileMenu({ open, onClose, navLinks, pathname, campaignSlug, tr
                 <a
                   href={campaign.primaryCta.href}
                   {...(campaign.primaryCta.external && { target: "_blank", rel: "noopener noreferrer" })}
-                  className="block rounded-sm bg-bronze px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
+                  className="block rounded-sm bg-bronze-text px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
                 >
                   {campaign.primaryCta.label}
                   {campaign.primaryCta.external && <span aria-hidden="true"> &#8599;</span>}

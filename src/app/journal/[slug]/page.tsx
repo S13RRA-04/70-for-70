@@ -184,7 +184,7 @@ export default async function JournalEntryPage(props: PageProps<"/journal/[slug]
             )}
           </div>
           <div className="text-center">
-            <Link href="/journal" className="font-semibold text-bronze hover:text-bronze-light">
+            <Link href="/journal" className="font-semibold text-bronze hover:text-bronze-dark">
               Back to Journal
             </Link>
           </div>

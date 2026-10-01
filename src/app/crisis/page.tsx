@@ -21,7 +21,7 @@ function CrisisResourceCard({ resource }: { resource: Resource }) {
       <p className="mt-1.5 text-sm leading-relaxed text-charcoal-light">{resource.description}</p>
       <div className="mt-4 flex flex-wrap gap-2.5">
         {resource.phone && (
-          <a href={`tel:${resource.phone}`} className={`${LINK_CLASSES} bg-bronze text-off-white hover:bg-bronze-light`}>
+          <a href={`tel:${resource.phone}`} className={`${LINK_CLASSES} bg-bronze-text text-off-white hover:bg-bronze-dark`}>
             <Phone size={14} aria-hidden="true" />
             Call {resource.phone}
           </a>
@@ -108,7 +108,7 @@ export default function CrisisPage() {
           </p>
           <a
             href="tel:911"
-            className={`${LINK_CLASSES} mt-5 bg-bronze text-off-white hover:bg-bronze-light`}
+            className={`${LINK_CLASSES} mt-5 bg-bronze text-ink hover:bg-bronze-light`}
           >
             <Phone size={14} aria-hidden="true" />
             Call 911

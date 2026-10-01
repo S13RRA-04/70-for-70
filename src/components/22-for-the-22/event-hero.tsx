@@ -53,7 +53,7 @@ export function EventHero({
               <Link
                 href={registerHref}
                 data-analytics-event="22_register_click"
-                className="rounded-sm bg-bronze px-8 py-4 text-base font-semibold uppercase tracking-wide text-off-white shadow-sm transition-colors hover:bg-bronze-light"
+                className="rounded-sm bg-bronze px-8 py-4 text-base font-semibold uppercase tracking-wide text-ink shadow-sm transition-colors hover:bg-bronze-light"
               >
                 {EVENT_HERO_CONTENT.primaryCta}
               </Link>

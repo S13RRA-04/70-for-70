@@ -49,7 +49,7 @@ export function LinkRegistrationPrompt({
         type="button"
         onClick={handleLink}
         disabled={status === "submitting"}
-        className="mt-4 flex min-h-[44px] w-full items-center justify-center rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light disabled:opacity-60 sm:w-auto"
+        className="mt-4 flex min-h-[44px] w-full items-center justify-center rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark disabled:opacity-60 sm:w-auto"
       >
         {status === "submitting" ? "Linking..." : "Link Registration"}
       </button>

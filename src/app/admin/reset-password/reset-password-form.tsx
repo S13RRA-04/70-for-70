@@ -56,7 +56,7 @@ export function ResetPasswordForm() {
         <button
           type="button"
           onClick={() => router.push("/admin")}
-          className="mt-6 w-full rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light"
+          className="mt-6 w-full rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-dark"
         >
           Go to Admin
         </button>
@@ -110,7 +110,7 @@ export function ResetPasswordForm() {
         <button
           type="submit"
           disabled={pending}
-          className="w-full rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light disabled:opacity-60"
+          className="w-full rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-dark disabled:opacity-60"
         >
           {pending ? "Updating..." : "Update Password"}
         </button>

@@ -265,7 +265,7 @@ export default async function SponsorsPage() {
           </p>
           <p className="mt-4 max-w-2xl text-sm text-charcoal-light">
             Looking for who the campaign raises money for, not who supports it?{" "}
-            <Link href="/beneficiaries" className="font-semibold text-bronze hover:text-bronze-light">
+            <Link href="/beneficiaries" className="font-semibold text-bronze hover:text-bronze-dark">
               See Beneficiaries &rarr;
             </Link>
           </p>

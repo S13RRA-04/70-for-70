@@ -35,7 +35,7 @@ export function ResetPasswordForm() {
         <p className="mt-2 text-sm text-charcoal-light">
           If an account exists for that email, a password reset link is on its way.
         </p>
-        <Link href="/app/login" className="mt-4 inline-block text-sm font-semibold text-bronze hover:text-bronze-light">
+        <Link href="/app/login" className="mt-4 inline-block text-sm font-semibold text-bronze hover:text-bronze-dark">
           Back to Log In
         </Link>
       </div>
@@ -62,14 +62,14 @@ export function ResetPasswordForm() {
         <button
           type="submit"
           disabled={status === "submitting"}
-          className="flex min-h-[44px] w-full items-center justify-center rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light disabled:opacity-60"
+          className="flex min-h-[44px] w-full items-center justify-center rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-dark disabled:opacity-60"
         >
           {status === "submitting" ? "Sending..." : "Send Reset Link"}
         </button>
       </form>
 
       <p className="mt-4 text-center text-sm">
-        <Link href="/app/login" className="text-bronze hover:text-bronze-light">
+        <Link href="/app/login" className="text-bronze hover:text-bronze-dark">
           Back to Log In
         </Link>
       </p>

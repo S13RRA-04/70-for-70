@@ -61,7 +61,7 @@ export function PresentingPartnerFeature({
                 href={partner.website_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex w-fit items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-bronze-light hover:text-bronze focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bronze-light"
+                className="inline-flex w-fit items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-bronze-light hover:text-off-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bronze-light"
               >
                 Visit {partner.name}
                 <ExternalLink size={14} aria-hidden />

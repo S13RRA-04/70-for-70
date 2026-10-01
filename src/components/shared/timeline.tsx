@@ -31,7 +31,7 @@ export function Timeline({ entries }: { entries: TimelineEntry[] }) {
                 href={entry.resultsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-1 inline-block text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+                className="mt-1 inline-block text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
               >
                 See Results &rarr;
               </a>

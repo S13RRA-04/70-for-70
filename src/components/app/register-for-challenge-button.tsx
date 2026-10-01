@@ -69,7 +69,7 @@ export function RegisterForChallengeButton({ eventId, slug }: { eventId: string;
         onClick={handleRegister}
         disabled={status === "submitting" || (participationType === "team" && !teamName.trim())}
         data-analytics-event="event_registered"
-        className="mt-4 flex min-h-[44px] w-full items-center justify-center rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light disabled:opacity-60"
+        className="mt-4 flex min-h-[44px] w-full items-center justify-center rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-dark disabled:opacity-60"
       >
         {status === "submitting" ? "Registering..." : "Register Free"}
       </button>

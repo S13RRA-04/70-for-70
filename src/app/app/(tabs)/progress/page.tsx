@@ -89,7 +89,7 @@ export default async function ProgressPage() {
                 )}
 
                 <div className="mt-4">
-                  <Link href={`/app/challenges/${event.slug}`} className="text-sm font-semibold text-bronze hover:text-bronze-light">
+                  <Link href={`/app/challenges/${event.slug}`} className="text-sm font-semibold text-bronze hover:text-bronze-dark">
                     View Challenge &rarr;
                   </Link>
                 </div>

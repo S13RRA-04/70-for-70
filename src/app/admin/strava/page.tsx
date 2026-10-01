@@ -81,7 +81,7 @@ export default async function StravaAdminPage(props: PageProps<"/admin/strava">)
             <p className="text-sm text-charcoal-light">Not connected yet.</p>
             <a
               href="/api/strava/authorize"
-              className="mt-4 inline-flex rounded-sm bg-bronze px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
+              className="mt-4 inline-flex rounded-sm bg-bronze-text px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
             >
               Connect Strava Account
             </a>

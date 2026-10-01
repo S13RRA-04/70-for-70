@@ -61,7 +61,7 @@ export default async function StateResourcesPage({
           />
           <Link
             href={`/resources?state=${encodeURIComponent(state.name)}`}
-            className="mt-6 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+            className="mt-6 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
           >
             Search &amp; Filter All Resources &rarr;
           </Link>

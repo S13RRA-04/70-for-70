@@ -74,7 +74,7 @@ function ObjectiveRow({ objective }: { objective: TrainingObjectiveRow }) {
           </span>
           {objective.tag &&
             (isStretchTarget ? (
-              <span className="inline-flex items-center gap-1 rounded-full bg-bronze px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-off-white">
+              <span className="inline-flex items-center gap-1 rounded-full bg-bronze-text px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-off-white">
                 <Trophy size={10} aria-hidden="true" />
                 {objective.tag}
               </span>

@@ -60,7 +60,7 @@ export default function MissionPage() {
                   {section.link && (
                     <Link
                       href={section.link.href}
-                      className="mt-3 inline-block text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+                      className="mt-3 inline-block text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
                     >
                       {section.link.label} &rarr;
                     </Link>

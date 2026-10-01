@@ -179,7 +179,7 @@ export function EventRegistrationForm() {
         type="submit"
         disabled={submitDisabled}
         data-analytics-event="22_register_click"
-        className="w-full rounded-sm bg-bronze px-6 py-3.5 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light disabled:opacity-60 sm:w-auto"
+        className="w-full rounded-sm bg-bronze-text px-6 py-3.5 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-dark disabled:opacity-60 sm:w-auto"
       >
         {status === "submitting" ? "Submitting..." : "Register Free"}
       </button>

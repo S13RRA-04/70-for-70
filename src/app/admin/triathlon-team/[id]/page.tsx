@@ -121,7 +121,7 @@ export default async function TriathlonTeamDetailPage(props: PageProps<"/admin/t
               </select>
               <button
                 type="submit"
-                className="w-full rounded-sm bg-bronze px-4 py-2.5 text-xs font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
+                className="w-full rounded-sm bg-bronze-text px-4 py-2.5 text-xs font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
               >
                 Update Status
               </button>

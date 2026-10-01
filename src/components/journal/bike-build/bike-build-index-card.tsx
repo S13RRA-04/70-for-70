@@ -29,7 +29,7 @@ export function BikeBuildIndexCard({ lastUpdated }: { lastUpdated: string }) {
           sizes="(min-width: 640px) 50vw, 100vw"
         />
         <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
-          <span className="rounded-full bg-bronze px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-off-white">
+          <span className="rounded-full bg-bronze-text px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-off-white">
             Ongoing Series
           </span>
           <span className="rounded-full bg-ink px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-off-white">

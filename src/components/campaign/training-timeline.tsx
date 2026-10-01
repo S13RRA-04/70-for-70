@@ -41,7 +41,7 @@ export function TrainingTimeline({
                 className={cn(
                   "flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 font-display text-sm font-bold",
                   isCurrent
-                    ? "border-bronze bg-bronze text-off-white"
+                    ? "border-bronze bg-bronze-text text-off-white"
                     : isPast
                       ? "border-ink/20 bg-ink/5 text-charcoal-light/50"
                       : "border-ink/20 bg-off-white text-charcoal-light",

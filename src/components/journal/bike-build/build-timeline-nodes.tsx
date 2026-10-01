@@ -82,7 +82,7 @@ function Node({
         className={cn(
           "relative z-10 flex h-9 w-9 items-center justify-center rounded-full border-2 text-xs font-bold shadow-sm transition-all duration-150",
           isActive
-            ? "scale-110 border-bronze bg-bronze text-off-white shadow-md"
+            ? "scale-110 border-bronze bg-bronze-text text-off-white shadow-md"
             : hasPhotos
               ? "border-bronze/50 bg-off-white text-bronze hover:scale-105 hover:border-bronze"
               : "border-ink/20 bg-off-white text-charcoal-light/60 hover:scale-105 hover:border-ink/40",
@@ -231,7 +231,7 @@ function EntryDetail({ entry }: { entry: BikeBuildTimelineEntry }) {
         <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm">
           {entry.relatedLinks.map((link) => (
             <li key={link.href}>
-              <a href={link.href} className="font-semibold text-bronze hover:text-bronze-light">
+              <a href={link.href} className="font-semibold text-bronze hover:text-bronze-dark">
                 {link.label} &rarr;
               </a>
             </li>

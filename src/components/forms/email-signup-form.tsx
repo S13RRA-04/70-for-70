@@ -4,7 +4,14 @@ import { FormError, HoneypotField } from "@/components/forms/form-parts";
 import { TurnstileWidget } from "@/components/forms/turnstile-widget";
 import { useFormSubmit } from "@/components/forms/use-form-submit";
 
-export function EmailSignupForm() {
+/**
+ * `tone` describes the surface this form is embedded in, not the button. The
+ * submit fill has to differ per surface: on light backgrounds the fill is
+ * darkened so off-white label text clears 4.5:1, while on dark backgrounds the
+ * fill keeps its lighter bronze and the label switches to ink, because a
+ * darkened fill would fall below the 3:1 boundary against the dark band.
+ */
+export function EmailSignupForm({ tone = "light" }: { tone?: "dark" | "light" }) {
   const { status, errorMessage, setTurnstileToken, turnstileRef, handleSubmit, submitDisabled } = useFormSubmit({
     endpoint: "/api/subscribe",
     buildPayload: (data) => ({
@@ -60,7 +67,11 @@ export function EmailSignupForm() {
         type="submit"
         disabled={submitDisabled}
         data-analytics-event="mailing_list_signup"
-        className="rounded-sm bg-bronze px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light disabled:opacity-60"
+        className={
+          tone === "dark"
+            ? "rounded-sm bg-bronze px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-ink hover:bg-bronze-light disabled:opacity-60"
+            : "rounded-sm bg-bronze-text px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark disabled:opacity-60"
+        }
       >
         {status === "submitting" ? "Submitting..." : "Follow Campaign Updates"}
       </button>

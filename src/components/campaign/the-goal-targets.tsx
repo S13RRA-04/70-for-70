@@ -27,7 +27,7 @@ export function TheGoalTargets() {
       </p>
 
       <details className="mt-6">
-        <summary className="cursor-pointer text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light">
+        <summary className="cursor-pointer text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark">
           See the Benchmark Data
         </summary>
         <div className="mt-6 space-y-6">

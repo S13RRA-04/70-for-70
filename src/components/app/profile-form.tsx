@@ -136,7 +136,7 @@ export function ProfileForm({ profile, email }: { profile: ProfileRow; email: st
         <button
           type="submit"
           disabled={status === "submitting"}
-          className="flex min-h-[44px] w-full items-center justify-center rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light disabled:opacity-60"
+          className="flex min-h-[44px] w-full items-center justify-center rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-dark disabled:opacity-60"
         >
           {status === "submitting" ? "Saving..." : "Save Profile"}
         </button>

@@ -196,7 +196,7 @@ export default async function RuckHomePage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 data-analytics-event="ruck_register_click"
-                className="inline-flex items-center gap-1.5 rounded-sm bg-bronze px-8 py-4 text-base font-semibold uppercase tracking-wide text-off-white shadow-sm transition-colors hover:bg-bronze-light"
+                className="inline-flex items-center gap-1.5 rounded-sm bg-bronze px-8 py-4 text-base font-semibold uppercase tracking-wide text-ink shadow-sm transition-colors hover:bg-bronze-light"
               >
                 {RUCK.primaryCta.label} on Eventbee
                 <ExternalLink size={16} aria-hidden />
@@ -272,7 +272,7 @@ export default async function RuckHomePage() {
             href={RUCK.primaryCta.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-8 inline-flex items-center gap-1.5 rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light"
+            className="mt-8 inline-flex items-center gap-1.5 rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-dark"
           >
             Register on Eventbee
             <ExternalLink size={14} aria-hidden />

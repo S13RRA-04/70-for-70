@@ -57,7 +57,7 @@ export default async function AppHomePage() {
 
           <Link
             href={`/app/challenges/${activeEvent.slug}`}
-            className="mt-4 inline-flex min-h-[44px] items-center justify-center rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
+            className="mt-4 inline-flex min-h-[44px] items-center justify-center rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
           >
             Continue Challenge
           </Link>
@@ -74,7 +74,7 @@ export default async function AppHomePage() {
           <p className="text-sm text-charcoal-light">You&apos;re not registered for a challenge yet.</p>
           <Link
             href="/app/challenges"
-            className="mt-4 inline-flex min-h-[44px] items-center justify-center rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
+            className="mt-4 inline-flex min-h-[44px] items-center justify-center rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
           >
             Explore Challenges
           </Link>

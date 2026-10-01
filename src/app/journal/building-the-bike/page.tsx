@@ -114,7 +114,7 @@ export default async function BuildingTheBikePage() {
         />
 
         <div className="mt-5 flex flex-wrap items-center gap-3">
-          <span className="rounded-full bg-bronze px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-off-white">
+          <span className="rounded-full bg-bronze px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-ink">
             Build In Progress
           </span>
           <p className="text-sm text-off-white/70">
@@ -309,7 +309,7 @@ export default async function BuildingTheBikePage() {
       />
 
       <Container className="max-w-3xl py-10">
-        <Link href="/journal" className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light">
+        <Link href="/journal" className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark">
           &larr; Back to the Journal
         </Link>
       </Container>

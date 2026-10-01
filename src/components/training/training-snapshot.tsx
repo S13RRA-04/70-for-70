@@ -114,7 +114,7 @@ export function TrainingSnapshot({
 
       {compact && remainingWorkouts.length > 0 && (
         <details className="mt-3">
-          <summary className="cursor-pointer text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light">
+          <summary className="cursor-pointer text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark">
             View Training Details ↓
           </summary>
           <div className="mt-2">

@@ -13,6 +13,46 @@
   --color-bronze-light: #c99a6c;
 
   /*
+   * The bronze scale has FOUR steps, and which one is correct depends entirely
+   * on the surface behind it. Getting this wrong is invisible in code review
+   * and fails WCAG AA, so the roles are spelled out here.
+   *
+   * Note the asymmetry: TEXT wants the DARK end of the scale on light
+   * surfaces, but FILLS want the LIGHT end on dark surfaces. A single fill
+   * token cannot serve both, which is why CTAButton, EmailSignupForm and
+   * CampaignPhaseBanner take a `tone` prop instead of hardcoding one fill.
+   *
+   *   bronze       #a97a4c  FILLS + decoration on DARK surfaces, and text on
+   *                          ink/charcoal (4.86:1). On light surfaces use it
+   *                          for border-bronze rules and bg-bronze/10 chips
+   *                          only — off-white text on it is 3.39:1, which
+   *                          passes the 3:1 large-text bar and FAILS 4.5:1.
+   *   bronze-light #c99a6c  TEXT on ink/charcoal/anchor only (7.26:1). It is
+   *                          LIGHTER than bronze, so on off-white it drops to
+   *                          2.27:1 — it must never appear on a light surface.
+   *   bronze-text  #744d24  TEXT and FILLS on the light surfaces
+   *                          (off-white 6.69:1, sand-light 5.91:1,
+   *                          sand 4.68:1). This is the default button fill
+   *                          wherever the page is light.
+   *   bronze-dark  #5a3a1a  hover/active on a light surface. Hover must go
+   *                          DARKER, never lighter: bronze-light on hover is
+   *                          the inverted-hover bug, and it was the single
+   *                          most replicated defect on the site.
+   *
+   * bronze-text is 2.47:1 against ink, so a darkened fill placed on a DARK
+   * band drops below the 3:1 UI-boundary bar and the button disappears. Dark
+   * surfaces therefore keep `bg-bronze` and switch the LABEL to `text-ink`
+   * (4.86:1) and the hover to `hover:bg-bronze-light`. Light surfaces use
+   * `bg-bronze-text` with `text-off-white` and `hover:bg-bronze-dark`.
+   *
+   * bronze and bronze-light are deliberately NOT changed — ~380 text-bronze
+   * and ~100 bg-bronze call sites depend on their current values, and
+   * darkening bronze in place would break the dark bands that use it.
+   */
+  --color-bronze-text: #744d24;
+  --color-bronze-dark: #5a3a1a;
+
+  /*
    * Foundation-rebuild tokens (additive). The ink/charcoal/olive/sand/bronze
    * scale above still powers every page that hasn't been rebuilt yet — do
    * not remove those. These new tokens are the "black anchor + neutral
@@ -62,6 +102,8 @@
   --color-off-white: var(--color-off-white);
   --color-bronze: var(--color-bronze);
   --color-bronze-light: var(--color-bronze-light);
+  --color-bronze-text: var(--color-bronze-text);
+  --color-bronze-dark: var(--color-bronze-dark);
 
   --color-anchor: var(--color-anchor);
   --color-anchor-light: var(--color-anchor-light);

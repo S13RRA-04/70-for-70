@@ -172,7 +172,7 @@ export function SignupForm() {
         <button
           type="submit"
           disabled={status === "submitting"}
-          className="flex min-h-[44px] w-full items-center justify-center rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light disabled:opacity-60"
+          className="flex min-h-[44px] w-full items-center justify-center rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-dark disabled:opacity-60"
         >
           {status === "submitting" ? "Creating Account..." : "Create Account"}
         </button>
@@ -180,7 +180,7 @@ export function SignupForm() {
 
       <p className="mt-4 text-center text-sm text-charcoal-light">
         Already have an account?{" "}
-        <Link href="/app/login" className="font-semibold text-bronze hover:text-bronze-light">
+        <Link href="/app/login" className="font-semibold text-bronze hover:text-bronze-dark">
           Log in
         </Link>
       </p>

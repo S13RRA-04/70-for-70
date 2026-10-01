@@ -54,7 +54,7 @@ export function BuildTimeline({ entries }: { entries: BikeBuildTimelineEntry[] }
                   </span>
                   <span className="text-charcoal-light">{entry.status}</span>
                   {entry.featured && (
-                    <span className="rounded-full bg-bronze px-2.5 py-0.5 text-[10px] text-off-white">Latest Update</span>
+                    <span className="rounded-full bg-bronze-text px-2.5 py-0.5 text-[10px] text-off-white">Latest Update</span>
                   )}
                 </div>
 
@@ -192,7 +192,7 @@ export function BuildTimeline({ entries }: { entries: BikeBuildTimelineEntry[] }
               <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm">
                 {entry.relatedLinks.map((link) => (
                   <li key={link.href}>
-                    <a href={link.href} className="font-semibold text-bronze hover:text-bronze-light">
+                    <a href={link.href} className="font-semibold text-bronze hover:text-bronze-dark">
                       {link.label} &rarr;
                     </a>
                   </li>

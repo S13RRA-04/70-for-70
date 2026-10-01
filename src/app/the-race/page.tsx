@@ -200,7 +200,7 @@ export default async function RacePage() {
             </div>
 
             <details className="mt-10">
-              <summary className="cursor-pointer text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light">
+              <summary className="cursor-pointer text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark">
                 See Full Training Data
               </summary>
 

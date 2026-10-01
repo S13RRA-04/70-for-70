@@ -338,7 +338,7 @@ export default async function CampaignHomePage() {
           </div>
           <Link
             href="/journal"
-            className="mt-8 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+            className="mt-8 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
           >
             View the Journal &rarr;
           </Link>
@@ -383,7 +383,7 @@ export default async function CampaignHomePage() {
                 </p>
                 <Link
                   href="/beneficiaries"
-                  className="mt-4 inline-flex w-fit text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+                  className="mt-4 inline-flex w-fit text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
                 >
                   Learn More &rarr;
                 </Link>
@@ -406,7 +406,7 @@ export default async function CampaignHomePage() {
           </div>
           <Link
             href="/become-a-partner"
-            className="mt-8 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+            className="mt-8 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
           >
             Become a Partner &rarr;
           </Link>

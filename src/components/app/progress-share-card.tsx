@@ -172,7 +172,7 @@ export function ProgressShareCard(props: ProgressShareCardProps) {
             type="button"
             onClick={handleShare}
             data-analytics-event="share_clicked"
-            className="flex min-h-[44px] items-center gap-2 rounded-sm bg-bronze px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
+            className="flex min-h-[44px] items-center gap-2 rounded-sm bg-bronze-text px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
           >
             <Share2 size={16} aria-hidden />
             Share

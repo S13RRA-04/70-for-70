@@ -62,7 +62,7 @@ export default async function SharePage(props: PageProps<"/app/share">) {
           target="_blank"
           rel="noopener noreferrer"
           data-analytics-event="promo_asset_downloaded"
-          className="mt-4 inline-flex min-h-[44px] items-center justify-center rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
+          className="mt-4 inline-flex min-h-[44px] items-center justify-center rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
         >
           Open Promo Kit
         </a>

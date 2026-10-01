@@ -59,7 +59,7 @@ export function JournalCard({
           )}
 
           {entry.featured ? (
-            <span className="absolute left-3 top-3 rounded-full bg-bronze px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-off-white">
+            <span className="absolute left-3 top-3 rounded-full bg-bronze-text px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-off-white">
               Featured
             </span>
           ) : (

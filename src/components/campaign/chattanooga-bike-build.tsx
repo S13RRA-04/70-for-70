@@ -198,7 +198,7 @@ export function ChattanoogaBikeBuild() {
             href={RACE_INFO.courseInfoUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
           >
             Explore the Bike Course
             <ExternalLink size={14} aria-hidden />

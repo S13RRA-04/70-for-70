@@ -56,7 +56,7 @@ export default function PromoKitPage() {
             href={PROMO_KIT_ZIP_PATH}
             download={PROMO_KIT_ZIP_FILENAME}
             data-analytics-event="promokit_zip_download"
-            className="inline-flex min-h-[44px] items-center gap-2 rounded-sm bg-bronze px-6 py-3.5 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light"
+            className="inline-flex min-h-[44px] items-center gap-2 rounded-sm bg-bronze px-6 py-3.5 text-sm font-semibold uppercase tracking-wide text-ink transition-colors hover:bg-bronze-light"
           >
             <Download size={16} aria-hidden />
             Download Full Promo Kit (ZIP)
@@ -157,7 +157,7 @@ export default function PromoKitPage() {
               <li key={link.href}>
                 <a
                   href={link.href}
-                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-bronze hover:text-bronze-light hover:underline"
+                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-bronze hover:text-bronze-dark hover:underline"
                 >
                   {link.label} — {link.href}
                 </a>
@@ -195,7 +195,7 @@ export default function PromoKitPage() {
             href={PROMO_KIT_ZIP_PATH}
             download={PROMO_KIT_ZIP_FILENAME}
             data-analytics-event="promokit_zip_download"
-            className="mt-6 inline-flex min-h-[44px] items-center gap-2 rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
+            className="mt-6 inline-flex min-h-[44px] items-center gap-2 rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-ink hover:bg-bronze-light"
           >
             <Download size={16} aria-hidden />
             Download Full Promo Kit

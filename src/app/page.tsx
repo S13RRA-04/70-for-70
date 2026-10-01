@@ -269,7 +269,7 @@ export default function HomePage() {
                   </blockquote>
                   <Link
                     href="/about#my-story"
-                    className="mt-6 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze transition-colors hover:text-bronze-light"
+                    className="mt-6 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze transition-colors hover:text-bronze-dark"
                   >
                     Read My Story &rarr;
                   </Link>

@@ -36,7 +36,7 @@ export function EventSupporterCard({ partner }: { partner: MissionPartnerRow }) 
           href={partner.website_url}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-4 inline-flex w-fit items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+          className="mt-4 inline-flex w-fit items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
         >
           Visit Website
           <ExternalLink size={13} aria-hidden />

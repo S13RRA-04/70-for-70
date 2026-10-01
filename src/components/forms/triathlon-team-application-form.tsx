@@ -406,7 +406,7 @@ export function TriathlonTeamApplicationForm() {
         type="submit"
         disabled={submitDisabled}
         data-analytics-event="triathlon_team_application_submit"
-        className="w-full rounded-sm bg-bronze px-6 py-3.5 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light disabled:opacity-60 sm:w-auto"
+        className="w-full rounded-sm bg-bronze-text px-6 py-3.5 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-dark disabled:opacity-60 sm:w-auto"
       >
         {status === "submitting" ? "Submitting..." : "Submit Application"}
       </button>

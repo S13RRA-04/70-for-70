@@ -26,7 +26,10 @@ export function SectionHeading({
         <p
           className={cn(
             "mb-2 text-sm font-semibold uppercase tracking-[0.2em]",
-            isDark ? "text-bronze-light" : "text-bronze",
+            // bronze-text, not bronze: an eyebrow is 14px semibold, so it's
+            // "normal text" for WCAG and needs 4.5:1 — bronze only reaches 3.39
+            // on off-white. See the bronze scale's roles in globals.css.
+            isDark ? "text-bronze-light" : "text-bronze-text",
           )}
         >
           {eyebrow}

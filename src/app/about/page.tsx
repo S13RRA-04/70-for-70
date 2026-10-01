@@ -96,7 +96,7 @@ export default function AboutPage() {
                 href="https://news.va.gov/91792/veteranoftheday-navy-veteran-cody-hitson/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-6 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+                className="mt-6 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
               >
                 Featured as VA&apos;s #VeteranOfTheDay &rarr;
               </a>
@@ -167,7 +167,7 @@ export default function AboutPage() {
           </blockquote>
           <a
             href={`${CAMPAIGN_URL}/the-story`}
-            className="mt-6 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+            className="mt-6 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
           >
             Read the full athletic story at Tri For The 22 &rarr;
           </a>

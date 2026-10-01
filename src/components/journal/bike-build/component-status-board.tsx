@@ -65,7 +65,7 @@ export function ComponentStatusBoard({
                 <td className="px-4 py-3 align-top">
                   <Link
                     href={actionHref(row)}
-                    className="whitespace-nowrap text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+                    className="whitespace-nowrap text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
                   >
                     {actionLabel} &rarr;
                   </Link>

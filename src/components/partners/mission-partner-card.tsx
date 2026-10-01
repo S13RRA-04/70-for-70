@@ -90,7 +90,7 @@ export function MissionPartnerCard({
           href={partner.website_url}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-5 inline-flex w-fit items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bronze"
+          className="mt-5 inline-flex w-fit items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bronze"
         >
           Visit Partner
           <ExternalLink size={13} aria-hidden />

@@ -21,7 +21,7 @@ export function ResourceCategoryCard({ category }: { category: ResourceCategory 
         {category.title}
       </h3>
       <p className="mt-2 flex-1 text-sm leading-relaxed text-charcoal-light">{category.description}</p>
-      <span className="mt-4 inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-bronze transition-colors group-hover:text-bronze-light">
+      <span className="mt-4 inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-bronze transition-colors group-hover:text-bronze-dark">
         Explore <span aria-hidden="true">&rarr;</span>
       </span>
     </Link>

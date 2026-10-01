@@ -39,7 +39,7 @@ export function MobileConversionBar({ mode, campaignSlug }: { mode: SiteMode; ca
         <Link
           href="/#register"
           data-analytics-event="22_register_click"
-          className="block rounded-sm bg-bronze px-4 py-3 text-center text-sm font-semibold uppercase tracking-wide text-off-white shadow-sm hover:bg-bronze-light"
+          className="block rounded-sm bg-bronze-text px-4 py-3 text-center text-sm font-semibold uppercase tracking-wide text-off-white shadow-sm hover:bg-bronze-dark"
         >
           Register Free
         </Link>
@@ -55,7 +55,7 @@ export function MobileConversionBar({ mode, campaignSlug }: { mode: SiteMode; ca
           href={campaign.primaryCta.href}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex-1 rounded-sm bg-bronze px-4 py-3 text-center text-sm font-semibold uppercase tracking-wide text-off-white shadow-sm hover:bg-bronze-light"
+          className="flex-1 rounded-sm bg-bronze-text px-4 py-3 text-center text-sm font-semibold uppercase tracking-wide text-off-white shadow-sm hover:bg-bronze-dark"
         >
           {campaign.primaryCta.label}
         </a>
@@ -74,7 +74,7 @@ export function MobileConversionBar({ mode, campaignSlug }: { mode: SiteMode; ca
       <Link
         href={DONATE_LINK.href}
         data-analytics-event="donate_click"
-        className="block rounded-sm bg-bronze px-4 py-3 text-center text-sm font-semibold uppercase tracking-wide text-off-white shadow-sm hover:bg-bronze-light"
+        className="block rounded-sm bg-bronze-text px-4 py-3 text-center text-sm font-semibold uppercase tracking-wide text-off-white shadow-sm hover:bg-bronze-dark"
       >
         {DONATE_LINK.label}
       </Link>

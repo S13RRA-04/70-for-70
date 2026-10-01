@@ -122,7 +122,7 @@ export function ChallengeSessionPanel({
       <button
         type="button"
         onClick={() => setView("logging")}
-        className="mt-6 flex min-h-[44px] w-full items-center justify-center rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
+        className="mt-6 flex min-h-[44px] w-full items-center justify-center rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
       >
         Log a Session
       </button>

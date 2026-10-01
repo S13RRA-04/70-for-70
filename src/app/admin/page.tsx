@@ -111,7 +111,7 @@ export default async function AdminPage() {
         </div>
         <Link
           href="/admin/sponsorships"
-          className="rounded-sm bg-bronze px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
+          className="rounded-sm bg-bronze-text px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
         >
           Open Queue
         </Link>

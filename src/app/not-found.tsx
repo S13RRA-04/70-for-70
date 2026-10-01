@@ -32,7 +32,7 @@ export default function NotFound() {
         </div>
         <a
           href="/crisis"
-          className="mt-8 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+          className="mt-8 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
         >
           Need help now? Crisis support &rarr;
         </a>

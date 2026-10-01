@@ -99,7 +99,7 @@ export function Header({
             <a
               href={campaign.primaryCta.href}
               {...(campaign.primaryCta.external && { target: "_blank", rel: "noopener noreferrer" })}
-              className="rounded-sm bg-bronze px-5 py-2 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light"
+              className="rounded-sm bg-bronze-text px-5 py-2 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-dark"
             >
               {campaign.primaryCta.label}
             </a>

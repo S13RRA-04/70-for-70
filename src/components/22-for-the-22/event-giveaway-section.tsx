@@ -17,7 +17,7 @@ function GiveawayMoreComingCard() {
       <p className="mt-3 text-sm font-medium text-ink">Want your brand included?</p>
       <Link
         href="/contact?item=22+For+the+22+Giveaway+Prize"
-        className="mx-auto mt-4 inline-flex w-fit items-center text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+        className="mx-auto mt-4 inline-flex w-fit items-center text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
       >
         Donate a Giveaway Prize &rarr;
       </Link>

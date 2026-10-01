@@ -21,7 +21,7 @@ export function SessionTrackerGrid({ completed, total }: { completed: number; to
             aria-label={`Session ${session} of ${total}, ${isDone ? "complete" : "not complete"}`}
             className={cn(
               "flex min-h-[44px] items-center justify-center rounded-sm border font-display text-sm font-semibold tabular-nums",
-              isDone ? "border-bronze bg-bronze text-off-white" : "border-ink/20 bg-off-white text-ink",
+              isDone ? "border-bronze bg-bronze-text text-off-white" : "border-ink/20 bg-off-white text-ink",
             )}
           >
             {String(session).padStart(2, "0")}

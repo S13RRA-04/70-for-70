@@ -11,7 +11,7 @@ const components: Components = {
   ),
   p: ({ ...props }) => <p className="mt-4 leading-relaxed text-charcoal-light" {...props} />,
   a: ({ ...props }) => (
-    <a className="font-semibold text-bronze underline underline-offset-2 hover:text-bronze-light" {...props} />
+    <a className="font-semibold text-bronze underline underline-offset-2 hover:text-bronze-dark" {...props} />
   ),
   ul: ({ ...props }) => <ul className="mt-4 list-disc space-y-1.5 pl-5 text-charcoal-light" {...props} />,
   ol: ({ ...props }) => <ol className="mt-4 list-decimal space-y-1.5 pl-5 text-charcoal-light" {...props} />,

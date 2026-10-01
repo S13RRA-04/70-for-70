@@ -89,19 +89,19 @@ export function LoginForm() {
         <button
           type="submit"
           disabled={status === "submitting"}
-          className="flex min-h-[44px] w-full items-center justify-center rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light disabled:opacity-60"
+          className="flex min-h-[44px] w-full items-center justify-center rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-dark disabled:opacity-60"
         >
           {status === "submitting" ? "Logging In..." : "Log In"}
         </button>
       </form>
 
       <div className="mt-4 flex flex-col items-center gap-2 text-sm">
-        <Link href="/app/reset-password" className="text-bronze hover:text-bronze-light">
+        <Link href="/app/reset-password" className="text-bronze hover:text-bronze-dark">
           Forgot your password?
         </Link>
         <p className="text-charcoal-light">
           New here?{" "}
-          <Link href="/app/signup" className="font-semibold text-bronze hover:text-bronze-light">
+          <Link href="/app/signup" className="font-semibold text-bronze hover:text-bronze-dark">
             Create an account
           </Link>
         </p>

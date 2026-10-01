@@ -25,7 +25,7 @@ export default async function AppRootPage() {
       <div className="mt-8 flex w-full max-w-xs flex-col gap-3">
         <Link
           href="/app/signup"
-          className="flex min-h-[44px] w-full items-center justify-center rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
+          className="flex min-h-[44px] w-full items-center justify-center rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
         >
           Join 22 For the 22
         </Link>
@@ -39,7 +39,7 @@ export default async function AppRootPage() {
 
       <p className="mt-6 text-sm text-charcoal-light">
         Already have an account?{" "}
-        <Link href="/app/login" className="font-semibold text-bronze hover:text-bronze-light">
+        <Link href="/app/login" className="font-semibold text-bronze hover:text-bronze-dark">
           Log in
         </Link>
       </p>

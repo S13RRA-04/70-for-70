@@ -65,14 +65,14 @@ export default async function FinancialTransparencyPage() {
             {MERCH_BENEFICIARIES[0]} or {MERCH_BENEFICIARIES[1]} — 100% of net proceeds go
             directly toward the campaign&apos;s own mission costs (equipment, training, and race
             expenses) instead. See{" "}
-            <Link href="/shop" className="font-semibold text-bronze hover:text-bronze-light">
+            <Link href="/shop" className="font-semibold text-bronze hover:text-bronze-dark">
               Shop
             </Link>{" "}
             for both stores.
           </p>
           <p>
             Campaign sponsorship and in-kind athlete support (see{" "}
-            <Link href="/sponsors" className="font-semibold text-bronze hover:text-bronze-light">
+            <Link href="/sponsors" className="font-semibold text-bronze hover:text-bronze-dark">
               Partners &amp; Supporters
             </Link>
             ) are separate from charitable fundraising. A sponsorship or in-kind contribution

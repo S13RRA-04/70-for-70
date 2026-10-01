@@ -129,7 +129,7 @@ export default async function EventPage() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="inline-block text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+                className="inline-block text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
               >
                 {link.label} &rarr;
               </Link>
@@ -237,7 +237,7 @@ export default async function EventPage() {
               target="_blank"
               rel="noopener noreferrer"
               data-analytics-event="22_app_click"
-              className="mt-4 inline-flex min-h-[44px] items-center justify-center rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
+              className="mt-4 inline-flex min-h-[44px] items-center justify-center rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
             >
               Open the For the 22 App
             </a>
@@ -262,7 +262,7 @@ export default async function EventPage() {
               target="_blank"
               rel="noopener noreferrer"
               data-analytics-event="22_merch_click"
-              className="mt-6 inline-flex rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
+              className="mt-6 inline-flex rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
             >
               Get the Event Shirt
             </a>
@@ -284,7 +284,7 @@ export default async function EventPage() {
           <Link
             href={event.donate_url ?? `${CAMPAIGN_URL}${DONATE_LINK.href}`}
             data-analytics-event="22_donate_click"
-            className="mt-6 inline-flex rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
+            className="mt-6 inline-flex rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
           >
             Support the Mission
           </Link>

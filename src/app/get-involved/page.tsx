@@ -198,7 +198,7 @@ export default async function GetInvolvedPage() {
             </p>
             <Link
               href="/financial-transparency"
-              className="mt-4 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+              className="mt-4 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
             >
               View Financial Transparency &rarr;
             </Link>

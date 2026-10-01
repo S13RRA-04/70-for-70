@@ -52,7 +52,7 @@ export default function ShopPage() {
             href={MERCH_STORE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-8 inline-flex items-center gap-2 rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light"
+            className="mt-8 inline-flex items-center gap-2 rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-dark"
           >
             Shop on Bonfire <span aria-hidden="true">&#8599;</span>
           </a>
@@ -81,7 +81,7 @@ export default function ShopPage() {
             href={MISSION_STORE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-8 inline-flex items-center gap-2 rounded-sm border border-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-bronze transition-colors hover:bg-bronze hover:text-off-white"
+            className="mt-8 inline-flex items-center gap-2 rounded-sm border border-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-bronze transition-colors hover:bg-bronze-text hover:text-off-white"
           >
             Shop on Exray <span aria-hidden="true">&#8599;</span>
           </a>

@@ -39,7 +39,7 @@ export function RegistrationSuccess() {
         <Link
           href="/#tracker"
           data-analytics-event="tracker_view_click"
-          className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-sm bg-bronze px-6 py-3.5 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light sm:w-auto"
+          className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-sm bg-bronze-text px-6 py-3.5 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-dark sm:w-auto"
         >
           <ListChecks size={16} aria-hidden />
           {REGISTRATION_SUCCESS_CONTENT.primaryCta}

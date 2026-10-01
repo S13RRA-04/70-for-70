@@ -125,7 +125,7 @@ export default function AdvocacyPage() {
                 </p>
                 <Link
                   href="/crisis"
-                  className="mt-4 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-light"
+                  className="mt-4 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
                 >
                   Get Crisis Support &rarr;
                 </Link>

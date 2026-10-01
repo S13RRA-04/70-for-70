@@ -40,7 +40,7 @@ export function LiveEventPanel({
             <Link
               href={event.donate_url ?? DONATE_LINK.href}
               data-analytics-event="22_donate_click"
-              className="mt-4 inline-flex rounded-sm bg-bronze px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
+              className="mt-4 inline-flex rounded-sm bg-bronze-text px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
             >
               Support the Mission
             </Link>

@@ -496,7 +496,7 @@ export function JournalEntryForm({
               type="submit"
               name="intent"
               value="schedule"
-              className="rounded-sm bg-bronze px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
+              className="rounded-sm bg-bronze-text px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
             >
               Schedule
             </button>
@@ -505,7 +505,7 @@ export function JournalEntryForm({
               type="submit"
               name="intent"
               value="publish"
-              className="rounded-sm bg-bronze px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light"
+              className="rounded-sm bg-bronze-text px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
             >
               Publish Now
             </button>

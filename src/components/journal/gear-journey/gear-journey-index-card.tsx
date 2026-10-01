@@ -26,7 +26,7 @@ export function GearJourneyIndexCard({ lastUpdated }: { lastUpdated: string }) {
           className="object-contain p-6"
           sizes="(min-width: 640px) 50vw, 100vw"
         />
-        <span className="absolute left-3 top-3 rounded-full bg-bronze px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-off-white">
+        <span className="absolute left-3 top-3 rounded-full bg-bronze-text px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-off-white">
           Ongoing Series
         </span>
       </div>

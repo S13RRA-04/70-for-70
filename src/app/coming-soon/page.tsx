@@ -75,7 +75,7 @@ export default async function ComingSoonPage(props: PageProps<"/coming-soon">) {
             <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-off-white/60">
               Follow the Road to {RACE_TOTAL_DISTANCE}
             </p>
-            <EmailSignupForm />
+            <EmailSignupForm tone="dark" />
           </div>
         )}
 

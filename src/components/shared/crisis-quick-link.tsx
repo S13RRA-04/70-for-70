@@ -65,7 +65,7 @@ export function CrisisQuickLink() {
         </p>
         <Link
           href="/crisis#first-responders"
-          className="mt-3 inline-flex w-fit items-center gap-1 text-xs font-semibold uppercase tracking-wide text-bronze-light transition-colors hover:text-bronze"
+          className="mt-3 inline-flex w-fit items-center gap-1 text-xs font-semibold uppercase tracking-wide text-bronze-light transition-colors hover:text-off-white"
         >
           View Support <span aria-hidden="true">&rarr;</span>
         </Link>

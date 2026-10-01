@@ -117,7 +117,7 @@ export function SponsorInquiryForm({ prefillItem }: { prefillItem?: string }) {
         type="submit"
         disabled={submitDisabled}
         data-analytics-event="sponsor_inquiry"
-        className="w-full rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light disabled:opacity-60 sm:w-auto"
+        className="w-full rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-dark disabled:opacity-60 sm:w-auto"
       >
         {status === "submitting" ? "Sending..." : "Send Inquiry"}
       </button>
