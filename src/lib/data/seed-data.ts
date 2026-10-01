@@ -296,6 +296,33 @@ export const SEED_MISSION_PARTNERS: MissionPartnerRow[] = [
     designation: "Official Bicycle Support Partner",
   },
   {
+    id: "seed-mission-partner-stradalli",
+    name: "Stradalli Carbon Sports",
+    relationship_label: "Cycling Sponsor",
+    description:
+      "Stradalli Carbon Sports is the official cycling sponsor of Tri For The 22 — the donated Stradalli Sorrento carbon frame and fork are the foundation of Cody's IRONMAN 70.3 race bike build.",
+    // Logo is a light/transparent mark — needs a dark container everywhere
+    // it renders (see logo_background below and PartnerLogo's doc comment
+    // on the near-white-logo-on-white-page bug this guards against).
+    logo_url: "/partners/stradalli-logo.png",
+    logo_light_url: "/partners/stradalli-logo.png",
+    logo_dark_url: null,
+    logo_background: "dark",
+    website_url: "https://www.stradalli.com/",
+    support_type: "Carbon race frame & fork",
+    geographic_scope: null,
+    active: true,
+    display_order: 25,
+    agreement_status: null,
+    logo_permission: true,
+    relationship_start: null,
+    relationship_end: null,
+    associated_campaigns: null,
+    partner_type: "gear-partner",
+    tier: "presenting-partner",
+    designation: "Official Cycling Sponsor",
+  },
+  {
     id: "seed-mission-partner-minuteman-press",
     name: "Minuteman Press",
     relationship_label: "Print Partner",
