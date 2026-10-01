@@ -36,7 +36,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/react-simple-maps": "^3.0.6",
-    "eslint": "^9",
+    "eslint": "^10",
     "eslint-config-next": "16.3.8",
     "supabase": "^2.115.0",
     "tailwindcss": "^4",
