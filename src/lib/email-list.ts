@@ -1,6 +1,7 @@
 import "server-only";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { logServerWarn } from "@/lib/log";
 
 /**
  * Provider-abstracted signup capture. No email-sending infrastructure is
@@ -11,7 +12,7 @@ import { isSupabaseConfigured } from "@/lib/supabase/config";
  */
 export async function subscribeToUpdates(firstName: string, email: string): Promise<void> {
   if (!isSupabaseConfigured()) {
-    console.warn("Email signup received but Supabase is not configured; not persisted:", email);
+    logServerWarn("email-list: not persisted (Supabase not configured)", { email });
     return;
   }
 

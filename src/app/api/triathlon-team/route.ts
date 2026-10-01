@@ -5,13 +5,15 @@ import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { isRateLimited } from "@/lib/rate-limit";
 import { triathlonTeamApplicationSchema } from "@/lib/validation/triathlon-team";
 import { notifyTriathlonTeamApplicationSubmitted } from "@/lib/notifications";
+import { verifyTurnstileToken } from "@/lib/turnstile";
+import { logServerError, logServerWarn } from "@/lib/log";
 
 const MIN_FILL_TIME_MS = 1_500;
 
 export async function POST(request: Request) {
   const ip = getClientIp(request);
 
-  if (isRateLimited(`triathlon-team:${ip}`, { limit: 5, windowMs: 10 * 60_000 })) {
+  if (await isRateLimited(`triathlon-team:${ip}`, { limit: 5, windowMs: 10 * 60_000, binding: "RATE_LIMITER_FORMS" })) {
     return NextResponse.json(
       { ok: false, error: "Too many requests. Please try again later." },
       { status: 429 },
@@ -35,7 +37,10 @@ export async function POST(request: Request) {
 
   const data = parsed.data;
 
-  const isBot = Boolean(data.companyWebsite) || Date.now() - data.renderedAt < MIN_FILL_TIME_MS;
+  const isBot =
+    Boolean(data.companyWebsite) ||
+    Date.now() - data.renderedAt < MIN_FILL_TIME_MS ||
+    !(await verifyTurnstileToken(data.turnstileToken, "triathlon_team", ip));
   if (isBot) {
     // Respond as if successful so bots don't learn which check tripped.
     return NextResponse.json({ ok: true });
@@ -79,7 +84,7 @@ export async function POST(request: Request) {
   };
 
   if (!isSupabaseConfigured()) {
-    console.warn("Triathlon Team application received but Supabase is not configured; not persisted:", row);
+    logServerWarn("triathlon-team: not persisted (Supabase not configured)", row);
     return NextResponse.json({ ok: true });
   }
 
@@ -92,7 +97,7 @@ export async function POST(request: Request) {
       .single();
 
     if (error || !inserted) {
-      console.error("Failed to insert Triathlon Team application:", error);
+      logServerError("triathlon-team: insert failed", error);
       return NextResponse.json(
         { ok: false, error: "Something went wrong. Please try again." },
         { status: 500 },
@@ -107,7 +112,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ ok: true });
   } catch (error) {
-    console.error("Triathlon Team application submission failed:", error);
+    logServerError("triathlon-team: submission failed", error);
     return NextResponse.json(
       { ok: false, error: "Something went wrong. Please try again." },
       { status: 500 },

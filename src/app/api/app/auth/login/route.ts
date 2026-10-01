@@ -6,7 +6,7 @@ import { loginSchema } from "@/lib/validation/app-auth";
 
 export async function POST(request: Request) {
   const ip = getClientIp(request);
-  if (isRateLimited(`app-login:${ip}`, { limit: 10, windowMs: 10 * 60_000 })) {
+  if (await isRateLimited(`app-login:${ip}`, { limit: 10, windowMs: 10 * 60_000, binding: "RATE_LIMITER_AUTH" })) {
     return NextResponse.json({ ok: false, error: "Too many attempts. Please try again later." }, { status: 429 });
   }
 

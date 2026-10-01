@@ -3,13 +3,15 @@ import { getClientIp } from "@/lib/client-ip";
 import { isRateLimited } from "@/lib/rate-limit";
 import { subscribeToUpdates } from "@/lib/email-list";
 import { emailSignupSchema } from "@/lib/validation/email-signup";
+import { verifyTurnstileToken } from "@/lib/turnstile";
+import { logServerError } from "@/lib/log";
 
 const MIN_FILL_TIME_MS = 1_500;
 
 export async function POST(request: Request) {
   const ip = getClientIp(request);
 
-  if (isRateLimited(`subscribe:${ip}`, { limit: 5, windowMs: 10 * 60_000 })) {
+  if (await isRateLimited(`subscribe:${ip}`, { limit: 5, windowMs: 10 * 60_000, binding: "RATE_LIMITER_FORMS" })) {
     return NextResponse.json(
       { ok: false, error: "Too many requests. Please try again later." },
       { status: 429 },
@@ -31,8 +33,11 @@ export async function POST(request: Request) {
     );
   }
 
-  const { companyWebsite, renderedAt, firstName, email } = parsed.data;
-  const isBot = Boolean(companyWebsite) || Date.now() - renderedAt < MIN_FILL_TIME_MS;
+  const { companyWebsite, renderedAt, firstName, email, turnstileToken } = parsed.data;
+  const isBot =
+    Boolean(companyWebsite) ||
+    Date.now() - renderedAt < MIN_FILL_TIME_MS ||
+    !(await verifyTurnstileToken(turnstileToken, "email_signup", ip));
 
   if (isBot) {
     return NextResponse.json({ ok: true });
@@ -42,7 +47,7 @@ export async function POST(request: Request) {
     await subscribeToUpdates(firstName, email);
     return NextResponse.json({ ok: true });
   } catch (error) {
-    console.error("Email signup failed:", error);
+    logServerError("subscribe: failed", error);
     return NextResponse.json(
       { ok: false, error: "Something went wrong. Please try again." },
       { status: 500 },

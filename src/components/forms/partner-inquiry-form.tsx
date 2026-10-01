@@ -2,12 +2,19 @@
 
 import { useEffect, useRef, useState } from "react";
 import { PARTNER_INQUIRY_INTERESTS } from "@/lib/validation/inquiry";
+import {
+  TurnstileWidget,
+  isTurnstileEnabled,
+  type TurnstileWidgetHandle,
+} from "@/components/forms/turnstile-widget";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
 export function PartnerInquiryForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const turnstileRef = useRef<TurnstileWidgetHandle>(null);
   const renderedAtRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -31,6 +38,7 @@ export function PartnerInquiryForm() {
       message: String(data.get("message") ?? ""),
       companyWebsite: String(data.get("companyWebsite") ?? ""),
       renderedAt: renderedAtRef.current ?? Date.now(),
+      turnstileToken,
     };
 
     try {
@@ -52,6 +60,9 @@ export function PartnerInquiryForm() {
     } catch {
       setStatus("error");
       setErrorMessage("Something went wrong. Please try again.");
+    } finally {
+      turnstileRef.current?.reset();
+      setTurnstileToken("");
     }
   }
 
@@ -163,6 +174,8 @@ export function PartnerInquiryForm() {
         />
       </div>
 
+      <TurnstileWidget ref={turnstileRef} action="inquiry" onToken={setTurnstileToken} />
+
       {status === "error" && errorMessage && (
         <p role="alert" className="text-sm font-medium text-red-700">
           {errorMessage}
@@ -171,7 +184,7 @@ export function PartnerInquiryForm() {
 
       <button
         type="submit"
-        disabled={status === "submitting"}
+        disabled={status === "submitting" || (isTurnstileEnabled && !turnstileToken)}
         data-analytics-event="partner_inquiry"
         className="w-full rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light disabled:opacity-60 sm:w-auto"
       >

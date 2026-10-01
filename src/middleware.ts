@@ -4,8 +4,18 @@ import { updateSupabaseSession } from "@/lib/supabase/proxy-session";
 import { getPreviewToken, isCampaignLive, isOrgLive, PREVIEW_COOKIE_NAME } from "@/lib/launch-gate";
 import { getCampaignSlug, isAppHost, type CampaignSlug } from "@/lib/site-mode";
 import { CAMPAIGN_URL, EVENT22_CAMPAIGN_URL, SITE_URL } from "@/lib/constants";
+import { assertValidRuntimeConfig } from "@/lib/config-validation";
 
-const PREVIEW_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 180; // 180 days
+/**
+ * How long a `?preview=<token>` unlock lasts. Deliberately short: the cookie
+ * is a bearer credential that bypasses the pre-launch gate for its host, so a
+ * leaked cookie (shared browser, backup, devtools export) should expire
+ * quickly. 30 days is long enough for a review cycle, short enough that a
+ * stale link isn't a six-month hole. Rotate PREVIEW_ACCESS_TOKEN if a link is
+ * ever exposed. The cookie is httpOnly + Secure + SameSite=Lax + Path=/
+ * (set in applyLaunchGate below).
+ */
+const PREVIEW_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 30; // 30 days
 
 /**
  * Deliberately kept on the deprecated `middleware.ts` convention (not
@@ -18,6 +28,10 @@ const PREVIEW_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 180; // 180 days
  * middleware support — see https://github.com/cloudflare/workers-sdk/issues/13755
  */
 export async function middleware(request: NextRequest) {
+  // Fails the whole request (500) if the multi-domain URL config is missing
+  // or malformed — see src/lib/config-validation.ts. Memoized per isolate.
+  assertValidRuntimeConfig();
+
   const nonce = btoa(crypto.randomUUID());
   const csp = buildContentSecurityPolicy(nonce);
 
@@ -31,6 +45,16 @@ export async function middleware(request: NextRequest) {
   const renderHeaders = new Headers(request.headers);
   renderHeaders.set("x-nonce", nonce);
   renderHeaders.set("Content-Security-Policy", csp);
+
+  // API routes are same-origin only. Rejecting cross-site mutations here is a
+  // single choke point for CSRF-style abuse of the public form/auth endpoints
+  // (none of which use a CSRF token) — see isCrossSiteApiRequest below.
+  if (isCrossSiteApiRequest(request)) {
+    return applyCsp(
+      NextResponse.json({ error: "Cross-site requests are not allowed." }, { status: 403 }),
+      csp,
+    );
+  }
 
   const strayDomainResponse = applyStrayDomainRedirect(request);
   if (strayDomainResponse) return applyCsp(strayDomainResponse, csp);
@@ -94,14 +118,17 @@ function buildContentSecurityPolicy(nonce: string): string {
 
   const directives = [
     "default-src 'self'",
-    `script-src 'self' 'nonce-${nonce}'${isDev ? " 'unsafe-eval'" : ""}`,
+    // challenges.cloudflare.com is Cloudflare Turnstile, loaded by the public
+    // forms (src/components/forms/turnstile-widget.tsx). External origins are
+    // allowlisted by host, so no nonce is needed for its script.
+    `script-src 'self' https://challenges.cloudflare.com 'nonce-${nonce}'${isDev ? " 'unsafe-eval'" : ""}`,
     "style-src 'self' 'unsafe-inline'",
     `img-src 'self' data: blob:${supabaseOrigin ? ` ${supabaseOrigin}` : ""} https://img.youtube.com`,
     "font-src 'self' data:",
-    `connect-src 'self'${supabaseOrigin ? ` ${supabaseOrigin} ${supabaseOrigin.replace("https://", "wss://")}` : ""}`,
-    // The Journal's click-to-play video facade is the only iframe on the site
-    // (src/lib/video-url.ts).
-    "frame-src https://www.youtube.com https://player.vimeo.com",
+    `connect-src 'self'${supabaseOrigin ? ` ${supabaseOrigin} ${supabaseOrigin.replace("https://", "wss://")}` : ""} https://challenges.cloudflare.com`,
+    // The Journal's click-to-play video facade (src/lib/video-url.ts), plus the
+    // Turnstile challenge iframe on the public forms.
+    "frame-src https://www.youtube.com https://player.vimeo.com https://challenges.cloudflare.com",
     // The participant app registers its own service worker (/sw.js).
     "worker-src 'self'",
     "manifest-src 'self'",
@@ -119,6 +146,51 @@ function buildContentSecurityPolicy(nonce: string): string {
 function applyCsp(response: Response, csp: string): Response {
   response.headers.set("Content-Security-Policy", csp);
   return response;
+}
+
+const MUTATING_METHODS = new Set(["POST", "PUT", "PATCH", "DELETE"]);
+
+/**
+ * True when a state-changing /api/* request did not come from this site.
+ *
+ * No API route here uses a CSRF token, and the public form/auth endpoints are
+ * exactly the kind of thing a hostile page would POST to on a visitor's
+ * behalf. SameSite cookies already blunt the cookie-bearing cases; this is
+ * the explicit origin check for the rest (and for cookie-less service-role
+ * writes, which have no cookie protection at all).
+ *
+ * `Sec-Fetch-Site` is the primary signal (browsers set it; scripts can't
+ * forge it cross-site). When it's absent (older Safari, non-browser clients),
+ * fall back to comparing `Origin` against the request host, allowing any
+ * `*.forthe22.org` / `*.localhost` host so legitimate same-site
+ * cross-subdomain calls aren't blocked. No Origin at all is allowed — that's
+ * a non-browser caller which the honeypot + rate limits handle.
+ */
+function isCrossSiteApiRequest(request: NextRequest): boolean {
+  if (!MUTATING_METHODS.has(request.method)) return false;
+  if (!request.nextUrl.pathname.startsWith("/api/")) return false;
+
+  const secFetchSite = request.headers.get("sec-fetch-site");
+  if (secFetchSite === "cross-site") return true;
+
+  const origin = request.headers.get("origin");
+  if (!origin || origin === "null") return false;
+
+  try {
+    const originHost = new URL(origin).host;
+    const requestHost = request.headers.get("host") ?? request.nextUrl.host;
+    if (originHost === requestHost) return false;
+
+    const hostname = new URL(origin).hostname;
+    return !(
+      hostname === "forthe22.org" ||
+      hostname.endsWith(".forthe22.org") ||
+      hostname === "localhost" ||
+      hostname.endsWith(".localhost")
+    );
+  } catch {
+    return true;
+  }
 }
 
 /**

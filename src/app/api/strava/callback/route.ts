@@ -4,6 +4,7 @@ import { requireAdminUser } from "@/lib/supabase/require-admin";
 import { exchangeAuthorizationCode, saveStravaTokens } from "@/lib/strava/tokens";
 import { getStravaAthlete } from "@/lib/strava/client";
 import { STRAVA_STATE_COOKIE } from "@/lib/strava/config";
+import { logServerError } from "@/lib/log";
 
 function redirectToAdmin(request: Request, error?: string) {
   const url = new URL("/admin/strava", request.url);
@@ -37,7 +38,7 @@ export async function GET(request: Request) {
     const athlete = await getStravaAthlete(tokens.access_token);
     await saveStravaTokens(String(athlete.id), tokens, scope ?? "");
   } catch (error) {
-    console.error("Strava OAuth callback failed:", error);
+    logServerError("strava: OAuth callback failed", error);
     return redirectToAdmin(request, "Failed to connect Strava. Please try again.");
   }
 

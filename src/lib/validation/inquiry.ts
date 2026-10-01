@@ -83,6 +83,9 @@ export const inquirySchema = z.object({
   // Client-render timestamp (ms epoch); submissions faster than a human
   // can plausibly fill the form are treated as bots.
   renderedAt: z.number(),
+  // Optional Turnstile token — only enforced once TURNSTILE_SECRET_KEY is set
+  // (see src/lib/turnstile.ts).
+  turnstileToken: z.string().max(4096).optional(),
 });
 
 export type InquiryInput = z.infer<typeof inquirySchema>;

@@ -4,13 +4,15 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { isRateLimited } from "@/lib/rate-limit";
 import { messageSchema } from "@/lib/validation/message";
+import { verifyTurnstileToken } from "@/lib/turnstile";
+import { logServerError, logServerWarn } from "@/lib/log";
 
 const MIN_FILL_TIME_MS = 1_500;
 
 export async function POST(request: Request) {
   const ip = getClientIp(request);
 
-  if (isRateLimited(`message:${ip}`, { limit: 5, windowMs: 10 * 60_000 })) {
+  if (await isRateLimited(`message:${ip}`, { limit: 5, windowMs: 10 * 60_000, binding: "RATE_LIMITER_FORMS" })) {
     return NextResponse.json(
       { ok: false, error: "Too many requests. Please try again later." },
       { status: 429 },
@@ -29,15 +31,18 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: "Please check the form and try again." }, { status: 400 });
   }
 
-  const { companyWebsite, renderedAt, ...rest } = parsed.data;
-  const isBot = Boolean(companyWebsite) || Date.now() - renderedAt < MIN_FILL_TIME_MS;
+  const { companyWebsite, renderedAt, turnstileToken, ...rest } = parsed.data;
+  const isBot =
+    Boolean(companyWebsite) ||
+    Date.now() - renderedAt < MIN_FILL_TIME_MS ||
+    !(await verifyTurnstileToken(turnstileToken, "message", ip));
   if (isBot) {
     // Respond as if successful so bots don't learn which check tripped.
     return NextResponse.json({ ok: true });
   }
 
   if (!isSupabaseConfigured()) {
-    console.warn("Message received but Supabase is not configured; not persisted:", rest);
+    logServerWarn("messages: not persisted (Supabase not configured)", rest);
     return NextResponse.json({ ok: true });
   }
 
@@ -45,12 +50,12 @@ export async function POST(request: Request) {
     const supabase = createAdminClient();
     const { error } = await supabase.from("messages").insert({ ...rest, approved: false });
     if (error) {
-      console.error("Failed to insert message:", error);
+      logServerError("messages: insert failed", error);
       return NextResponse.json({ ok: false, error: "Something went wrong. Please try again." }, { status: 500 });
     }
     return NextResponse.json({ ok: true });
   } catch (error) {
-    console.error("Message submission failed:", error);
+    logServerError("messages: submission failed", error);
     return NextResponse.json({ ok: false, error: "Something went wrong. Please try again." }, { status: 500 });
   }
 }

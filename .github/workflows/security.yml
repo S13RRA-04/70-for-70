@@ -1,0 +1,33 @@
+name: Security audit
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  schedule:
+    # Weekly, so a newly-published advisory against an unchanged lockfile is
+    # still surfaced.
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+jobs:
+  npm-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Production dependencies only — dev/build-toolchain advisories
+      # (wrangler, miniflare, sharp, …) don't ship to the Worker but would
+      # otherwise fail every run. continue-on-error keeps this advisory until
+      # the tree is clean; it still shows red in the Actions UI and annotations.
+      - name: Audit production dependencies
+        continue-on-error: true
+        run: npm audit --omit=dev --audit-level=high

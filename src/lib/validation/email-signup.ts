@@ -6,4 +6,7 @@ export const emailSignupSchema = z.object({
   // Honeypot + timing bot mitigation, same pattern as the other forms.
   companyWebsite: z.string().max(0, "").optional().or(z.literal("")),
   renderedAt: z.number(),
+  // Optional Turnstile token — only enforced once TURNSTILE_SECRET_KEY is set
+  // (see src/lib/turnstile.ts).
+  turnstileToken: z.string().max(4096).optional(),
 });

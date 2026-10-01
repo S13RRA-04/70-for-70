@@ -1,0 +1,24 @@
+version: 2
+updates:
+  # Keep the runtime + build toolchain current. This repo has no test suite,
+  # so the deploy/verify pipeline is the safety net — grouped minor/patch
+  # bumps land as a single reviewable PR instead of a dozen.
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      npm-minor-patch:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
+
+  # Actions are pinned by major tag; keep them moving deliberately.
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5

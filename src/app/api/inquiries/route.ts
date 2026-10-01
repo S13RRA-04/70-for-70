@@ -4,13 +4,15 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { isRateLimited } from "@/lib/rate-limit";
 import { inquirySchema } from "@/lib/validation/inquiry";
+import { verifyTurnstileToken } from "@/lib/turnstile";
+import { logServerError, logServerWarn } from "@/lib/log";
 
 const MIN_FILL_TIME_MS = 1_500;
 
 export async function POST(request: Request) {
   const ip = getClientIp(request);
 
-  if (isRateLimited(`inquiry:${ip}`, { limit: 5, windowMs: 10 * 60_000 })) {
+  if (await isRateLimited(`inquiry:${ip}`, { limit: 5, windowMs: 10 * 60_000, binding: "RATE_LIMITER_FORMS" })) {
     return NextResponse.json(
       { ok: false, error: "Too many requests. Please try again later." },
       { status: 429 },
@@ -32,10 +34,13 @@ export async function POST(request: Request) {
     );
   }
 
-  const { companyWebsite, renderedAt, organization, phone, website, ...rest } = parsed.data;
+  const { companyWebsite, renderedAt, organization, phone, website, turnstileToken, ...rest } =
+    parsed.data;
 
   const isBot =
-    Boolean(companyWebsite) || Date.now() - renderedAt < MIN_FILL_TIME_MS;
+    Boolean(companyWebsite) ||
+    Date.now() - renderedAt < MIN_FILL_TIME_MS ||
+    !(await verifyTurnstileToken(turnstileToken, "inquiry", ip));
 
   if (isBot) {
     // Respond as if successful so bots don't learn which check tripped.
@@ -43,7 +48,7 @@ export async function POST(request: Request) {
   }
 
   if (!isSupabaseConfigured()) {
-    console.warn("Inquiry received but Supabase is not configured; not persisted:", rest);
+    logServerWarn("inquiries: not persisted (Supabase not configured)", rest);
     return NextResponse.json({ ok: true });
   }
 
@@ -58,7 +63,7 @@ export async function POST(request: Request) {
     });
 
     if (error) {
-      console.error("Failed to insert inquiry:", error);
+      logServerError("inquiries: insert failed", error);
       return NextResponse.json(
         { ok: false, error: "Something went wrong. Please try again." },
         { status: 500 },
@@ -67,7 +72,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ ok: true });
   } catch (error) {
-    console.error("Inquiry submission failed:", error);
+    logServerError("inquiries: submission failed", error);
     return NextResponse.json(
       { ok: false, error: "Something went wrong. Please try again." },
       { status: 500 },

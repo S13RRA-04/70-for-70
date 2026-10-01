@@ -1,12 +1,19 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import {
+  TurnstileWidget,
+  isTurnstileEnabled,
+  type TurnstileWidgetHandle,
+} from "@/components/forms/turnstile-widget";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
 export function EmailSignupForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const turnstileRef = useRef<TurnstileWidgetHandle>(null);
   const renderedAtRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -26,6 +33,7 @@ export function EmailSignupForm() {
       email: String(data.get("email") ?? ""),
       companyWebsite: String(data.get("companyWebsite") ?? ""),
       renderedAt: renderedAtRef.current ?? Date.now(),
+      turnstileToken,
     };
 
     try {
@@ -47,6 +55,10 @@ export function EmailSignupForm() {
     } catch {
       setStatus("error");
       setErrorMessage("Something went wrong. Please try again.");
+    } finally {
+      // Turnstile tokens are single-use — re-arm for any retry.
+      turnstileRef.current?.reset();
+      setTurnstileToken("");
     }
   }
 
@@ -95,9 +107,16 @@ export function EmailSignupForm() {
         className="w-52 rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
       />
 
+      <TurnstileWidget
+        ref={turnstileRef}
+        action="email_signup"
+        onToken={setTurnstileToken}
+        className="min-w-0"
+      />
+
       <button
         type="submit"
-        disabled={status === "submitting"}
+        disabled={status === "submitting" || (isTurnstileEnabled && !turnstileToken)}
         data-analytics-event="mailing_list_signup"
         className="rounded-sm bg-bronze px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light disabled:opacity-60"
       >

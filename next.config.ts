@@ -28,6 +28,11 @@ const nextConfig: NextConfig = {
     NEXT_PUBLIC_CAMPAIGN_URL: "https://tri.forthe22.org",
     NEXT_PUBLIC_RUCK_URL: "https://ruck.forthe22.org",
     NEXT_PUBLIC_APP_URL: "https://app.forthe22.org",
+    // Turnstile *site* key — public by design (it ships in the client bundle
+    // and is visible in the widget request). Hardcoded for the same
+    // build-time-inlining reliability reason as the URLs above. The matching
+    // secret is a Worker secret, not here. See src/lib/turnstile.ts.
+    NEXT_PUBLIC_TURNSTILE_SITE_KEY: "0x4AAAAAAFLIyPD7lrYMh9Ie",
   },
   // Static security headers on every response. The Content-Security-Policy is
   // deliberately NOT here: it needs a per-request nonce, so it's built and set

@@ -6,6 +6,8 @@ import { isRateLimited } from "@/lib/rate-limit";
 import { eventRegistrationSchema } from "@/lib/validation/event-registration";
 import { notifyEventRegistrationSubmitted } from "@/lib/notifications";
 import { CURRENT_EVENT_SLUG } from "@/lib/content/22-for-the-22";
+import { verifyTurnstileToken } from "@/lib/turnstile";
+import { logServerError, logServerWarn } from "@/lib/log";
 
 const MIN_FILL_TIME_MS = 1_500;
 
@@ -15,7 +17,7 @@ const POSTGRES_UNIQUE_VIOLATION = "23505";
 export async function POST(request: Request) {
   const ip = getClientIp(request);
 
-  if (isRateLimited(`22-for-the-22-register:${ip}`, { limit: 5, windowMs: 10 * 60_000 })) {
+  if (await isRateLimited(`22-for-the-22-register:${ip}`, { limit: 5, windowMs: 10 * 60_000, binding: "RATE_LIMITER_FORMS" })) {
     return NextResponse.json(
       { ok: false, error: "Too many requests. Please try again later." },
       { status: 429 },
@@ -39,7 +41,10 @@ export async function POST(request: Request) {
 
   const data = parsed.data;
 
-  const isBot = Boolean(data.companyWebsite) || Date.now() - data.renderedAt < MIN_FILL_TIME_MS;
+  const isBot =
+    Boolean(data.companyWebsite) ||
+    Date.now() - data.renderedAt < MIN_FILL_TIME_MS ||
+    !(await verifyTurnstileToken(data.turnstileToken, "event_registration", ip));
   if (isBot) {
     // Respond as if successful so bots don't learn which check tripped.
     return NextResponse.json({ ok: true });
@@ -68,7 +73,7 @@ export async function POST(request: Request) {
   };
 
   if (!isSupabaseConfigured()) {
-    console.warn("22 For the 22 registration received but Supabase is not configured; not persisted:", row);
+    logServerWarn("22-for-the-22: not persisted (Supabase not configured)", row);
     return NextResponse.json({ ok: true });
   }
 
@@ -82,7 +87,7 @@ export async function POST(request: Request) {
       .maybeSingle();
 
     if (eventError || !event) {
-      console.error("Failed to look up event_config for registration:", eventError);
+      logServerError("22-for-the-22: event_config lookup failed", eventError);
       return NextResponse.json(
         { ok: false, error: "Something went wrong. Please try again." },
         { status: 500 },
@@ -103,7 +108,7 @@ export async function POST(request: Request) {
         );
       }
 
-      console.error("Failed to insert 22 For the 22 registration:", error);
+      logServerError("22-for-the-22: insert failed", error);
       return NextResponse.json(
         { ok: false, error: "Something went wrong. Please try again." },
         { status: 500 },
@@ -119,7 +124,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ ok: true });
   } catch (error) {
-    console.error("22 For the 22 registration submission failed:", error);
+    logServerError("22-for-the-22: submission failed", error);
     return NextResponse.json(
       { ok: false, error: "Something went wrong. Please try again." },
       { status: 500 },

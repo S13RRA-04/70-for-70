@@ -19,7 +19,7 @@ async function getClientIp(): Promise<string> {
 export async function signInAction(_prevState: LoginState, formData: FormData): Promise<LoginState> {
   const ip = await getClientIp();
 
-  if (isRateLimited(`admin-login:${ip}`, { limit: 5, windowMs: 15 * 60_000 })) {
+  if (await isRateLimited(`admin-login:${ip}`, { limit: 5, windowMs: 15 * 60_000, binding: "RATE_LIMITER_ADMIN" })) {
     return { error: "Too many sign-in attempts. Please wait a few minutes and try again." };
   }
 

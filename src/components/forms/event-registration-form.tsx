@@ -4,6 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import { EVENT_DISCIPLINES } from "@/lib/validation/event-registration";
 import { EVENT_DISCIPLINE_LABELS, GIVEAWAY_ODDS_DISCLOSURE } from "@/lib/content/22-for-the-22";
 import { RegistrationSuccess } from "@/components/22-for-the-22/registration-success";
+import {
+  TurnstileWidget,
+  isTurnstileEnabled,
+  type TurnstileWidgetHandle,
+} from "@/components/forms/turnstile-widget";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -47,6 +52,8 @@ function Field({
 export function EventRegistrationForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const turnstileRef = useRef<TurnstileWidgetHandle>(null);
   const renderedAtRef = useRef<number | null>(null);
 
   const [participationType, setParticipationType] = useState<"solo" | "team">("solo");
@@ -90,6 +97,7 @@ export function EventRegistrationForm() {
 
       companyWebsite: str("companyWebsite"),
       renderedAt: renderedAtRef.current ?? Date.now(),
+      turnstileToken,
     };
 
     try {
@@ -110,6 +118,9 @@ export function EventRegistrationForm() {
     } catch {
       setStatus("error");
       setErrorMessage("Something went wrong. Please try again.");
+    } finally {
+      turnstileRef.current?.reset();
+      setTurnstileToken("");
     }
   }
 
@@ -237,6 +248,8 @@ export function EventRegistrationForm() {
         </label>
       </div>
 
+      <TurnstileWidget ref={turnstileRef} action="event_registration" onToken={setTurnstileToken} />
+
       {status === "error" && errorMessage && (
         <p role="alert" className="text-sm font-medium text-red-700">
           {errorMessage}
@@ -245,7 +258,7 @@ export function EventRegistrationForm() {
 
       <button
         type="submit"
-        disabled={status === "submitting"}
+        disabled={status === "submitting" || (isTurnstileEnabled && !turnstileToken)}
         data-analytics-event="22_register_click"
         className="w-full rounded-sm bg-bronze px-6 py-3.5 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light disabled:opacity-60 sm:w-auto"
       >

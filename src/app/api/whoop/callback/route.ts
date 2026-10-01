@@ -4,6 +4,7 @@ import { requireAdminUser } from "@/lib/supabase/require-admin";
 import { exchangeAuthorizationCode, saveWhoopTokens } from "@/lib/whoop/tokens";
 import { getWhoopProfile } from "@/lib/whoop/client";
 import { WHOOP_STATE_COOKIE } from "@/lib/whoop/config";
+import { logServerError } from "@/lib/log";
 
 function redirectToAdmin(request: Request, error?: string) {
   const url = new URL("/admin/whoop", request.url);
@@ -36,7 +37,7 @@ export async function GET(request: Request) {
     const profile = await getWhoopProfile(tokens.access_token);
     await saveWhoopTokens(String(profile.userId), tokens);
   } catch (error) {
-    console.error("WHOOP OAuth callback failed:", error);
+    logServerError("whoop: OAuth callback failed", error);
     return redirectToAdmin(request, "Failed to connect WHOOP. Please try again.");
   }
 

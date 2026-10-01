@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { isRateLimited } from "@/lib/rate-limit";
 import { signupSchema } from "@/lib/validation/app-auth";
 import { APP_URL } from "@/lib/constants";
+import { logServerError } from "@/lib/log";
 
 /**
  * Creates the auth.users row via Supabase Auth — public.profiles is
@@ -15,7 +16,7 @@ import { APP_URL } from "@/lib/constants";
  */
 export async function POST(request: Request) {
   const ip = getClientIp(request);
-  if (isRateLimited(`app-signup:${ip}`, { limit: 5, windowMs: 10 * 60_000 })) {
+  if (await isRateLimited(`app-signup:${ip}`, { limit: 5, windowMs: 10 * 60_000, binding: "RATE_LIMITER_AUTH" })) {
     return NextResponse.json({ ok: false, error: "Too many requests. Please try again later." }, { status: 429 });
   }
 
@@ -52,7 +53,11 @@ export async function POST(request: Request) {
   });
 
   if (error) {
-    console.error("Signup failed:", error.status, error.message, error.code);
+    logServerError("app-signup: failed", {
+      status: error.status,
+      message: error.message,
+      code: error.code,
+    });
     const message = error.message.toLowerCase().includes("already registered")
       ? "An account with this email already exists. Try logging in instead."
       : "Something went wrong creating your account. Please try again.";

@@ -8,7 +8,7 @@ import { APP_URL } from "@/lib/constants";
 /** Always responds { ok: true } regardless of whether the email matches an account — never reveal account existence via response differences. */
 export async function POST(request: Request) {
   const ip = getClientIp(request);
-  if (isRateLimited(`app-reset-password:${ip}`, { limit: 5, windowMs: 10 * 60_000 })) {
+  if (await isRateLimited(`app-reset-password:${ip}`, { limit: 5, windowMs: 10 * 60_000, binding: "RATE_LIMITER_AUTH" })) {
     return NextResponse.json({ ok: true });
   }
 

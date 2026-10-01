@@ -1,6 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import {
+  TurnstileWidget,
+  isTurnstileEnabled,
+  type TurnstileWidgetHandle,
+} from "@/components/forms/turnstile-widget";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -15,6 +20,8 @@ const MESSAGE_MAX_LENGTH = 500;
 export function MessageForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const turnstileRef = useRef<TurnstileWidgetHandle>(null);
   const renderedAtRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -35,6 +42,7 @@ export function MessageForm() {
       message: String(data.get("message") ?? ""),
       companyWebsite: String(data.get("companyWebsite") ?? ""),
       renderedAt: renderedAtRef.current ?? Date.now(),
+      turnstileToken,
     };
 
     try {
@@ -56,6 +64,9 @@ export function MessageForm() {
     } catch {
       setStatus("error");
       setErrorMessage("Something went wrong. Please try again.");
+    } finally {
+      turnstileRef.current?.reset();
+      setTurnstileToken("");
     }
   }
 
@@ -124,6 +135,8 @@ export function MessageForm() {
         />
       </div>
 
+      <TurnstileWidget ref={turnstileRef} action="message" onToken={setTurnstileToken} />
+
       {status === "error" && errorMessage && (
         <p role="alert" className="text-sm font-medium text-red-700">
           {errorMessage}
@@ -132,7 +145,7 @@ export function MessageForm() {
 
       <button
         type="submit"
-        disabled={status === "submitting"}
+        disabled={status === "submitting" || (isTurnstileEnabled && !turnstileToken)}
         data-analytics-event="message_board_submit"
         className="w-full rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light disabled:opacity-60 sm:w-auto"
       >

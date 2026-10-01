@@ -6,6 +6,11 @@ import {
   FUNDRAISING_GOAL_PRESETS,
   TRIATHLON_EXPERIENCE_LEVELS,
 } from "@/lib/validation/triathlon-team";
+import {
+  TurnstileWidget,
+  isTurnstileEnabled,
+  type TurnstileWidgetHandle,
+} from "@/components/forms/turnstile-widget";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -84,6 +89,8 @@ function YesNoGroup({
 export function TriathlonTeamApplicationForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const turnstileRef = useRef<TurnstileWidgetHandle>(null);
   const renderedAtRef = useRef<number | null>(null);
 
   const [registeredForRace, setRegisteredForRace] = useState<"yes" | "no" | "">("");
@@ -143,6 +150,7 @@ export function TriathlonTeamApplicationForm() {
 
       companyWebsite: str("companyWebsite"),
       renderedAt: renderedAtRef.current ?? Date.now(),
+      turnstileToken,
     };
 
     try {
@@ -163,6 +171,9 @@ export function TriathlonTeamApplicationForm() {
     } catch {
       setStatus("error");
       setErrorMessage("Something went wrong. Please try again.");
+    } finally {
+      turnstileRef.current?.reset();
+      setTurnstileToken("");
     }
   }
 
@@ -465,6 +476,8 @@ export function TriathlonTeamApplicationForm() {
         </label>
       </div>
 
+      <TurnstileWidget ref={turnstileRef} action="triathlon_team" onToken={setTurnstileToken} />
+
       {status === "error" && errorMessage && (
         <p role="alert" className="text-sm font-medium text-red-700">
           {errorMessage}
@@ -473,7 +486,7 @@ export function TriathlonTeamApplicationForm() {
 
       <button
         type="submit"
-        disabled={status === "submitting"}
+        disabled={status === "submitting" || (isTurnstileEnabled && !turnstileToken)}
         data-analytics-event="triathlon_team_application_submit"
         className="w-full rounded-sm bg-bronze px-6 py-3.5 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light disabled:opacity-60 sm:w-auto"
       >

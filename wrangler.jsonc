@@ -20,6 +20,20 @@
     }
   ],
   /**
+   * Distributed burst protection for the public write endpoints (forms,
+   * app auth, admin sign-in). Counters are shared across isolates within a
+   * Cloudflare location, so this closes the "one Map per isolate" gap in
+   * src/lib/rate-limit.ts. The binding window can only be 10s or 60s, which
+   * is why the in-memory limiter still enforces the longer per-route window
+   * on top. namespace_id values are arbitrary but must stay stable and unique
+   * per binding — changing one resets that binding's counters.
+   */
+  "ratelimits": [
+    { "name": "RATE_LIMITER_FORMS", "namespace_id": "1001", "simple": { "limit": 5, "period": 60 } },
+    { "name": "RATE_LIMITER_AUTH", "namespace_id": "1002", "simple": { "limit": 10, "period": 60 } },
+    { "name": "RATE_LIMITER_ADMIN", "namespace_id": "1003", "simple": { "limit": 5, "period": 60 } }
+  ],
+  /**
    * Non-secret runtime vars — see src/lib/launch-gate.ts and README's
    * "Pre-Launch Gate" section. Committed here (not just set via the
    * Cloudflare dashboard) because `wrangler deploy`/`opennextjs-cloudflare
@@ -92,6 +106,8 @@
     "NEXT_PUBLIC_RUCK_URL": "https://ruck.forthe22.org",
     "NEXT_PUBLIC_APP_URL": "https://app.forthe22.org",
     "NEXT_PUBLIC_EVENT22_URL": "https://22.forthe22.org",
+    "NEXT_PUBLIC_TURNSTILE_SITE_KEY": "0x4AAAAAAFLIyPD7lrYMh9Ie",
+    "TURNSTILE_HOSTNAMES": "forthe22.org,tri.forthe22.org,ruck.forthe22.org,22.forthe22.org,app.forthe22.org",
     "NEXT_PUBLIC_SUPABASE_URL": "https://wjwgzphvpulkofvuksko.supabase.co",
     "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indqd2d6cGh2cHVsa29mdnVrc2tvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcwODM4MzIsImV4cCI6MjEwMjY1OTgzMn0.jCX3-IkuI4JMrehYWA0Hx_qkB0kHWmJg1IiqgMQwE2w"
   }

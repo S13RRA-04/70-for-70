@@ -3,6 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import { ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
+import {
+  TurnstileWidget,
+  isTurnstileEnabled,
+  type TurnstileWidgetHandle,
+} from "@/components/forms/turnstile-widget";
 
 /** Ignore an immediate refocus (e.g. an accidental click-away) — only prompt after a real trip out. */
 const MIN_AWAY_MS = 5_000;
@@ -43,6 +48,9 @@ export function ExternalDonateButton({
   const [anonymous, setAnonymous] = useState(false);
   const [renderedAt, setRenderedAt] = useState(0);
   const [status, setStatus] = useState<"idle" | "submitting" | "done">("idle");
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [reportOpen, setReportOpen] = useState(false);
+  const turnstileRef = useRef<TurnstileWidgetHandle>(null);
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -69,12 +77,23 @@ export function ExternalDonateButton({
         setDonorEmail("");
         setAnonymous(false);
         setRenderedAt(Date.now());
+        setTurnstileToken("");
+        // Mount the widget only once the dialog is open — the button can
+        // appear many times per page, and Turnstile in a closed <dialog>
+        // (display:none) is both unreliable and wasteful.
+        setReportOpen(true);
         reportDialogRef.current?.showModal();
       }
     }
     document.addEventListener("visibilitychange", onVisibilityChange);
     return () => document.removeEventListener("visibilitychange", onVisibilityChange);
   }, []);
+
+  function closeReportDialog() {
+    setReportOpen(false);
+    setTurnstileToken("");
+    reportDialogRef.current?.close();
+  }
 
   async function handleReportSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -95,14 +114,18 @@ export function ExternalDonateButton({
           mileNumber,
           companyWebsite: "",
           renderedAt,
+          turnstileToken,
         }),
       });
       if (!response.ok) throw new Error("Request failed");
       setStatus("done");
-      setTimeout(() => reportDialogRef.current?.close(), 2_500);
+      setTimeout(closeReportDialog, 2_500);
     } catch {
       // Supplementary capture, not a blocking flow — fail soft.
-      reportDialogRef.current?.close();
+      closeReportDialog();
+    } finally {
+      turnstileRef.current?.reset();
+      setTurnstileToken("");
     }
   }
 
@@ -169,8 +192,12 @@ export function ExternalDonateButton({
 
       <dialog
         ref={reportDialogRef}
+        onClose={() => {
+          setReportOpen(false);
+          setTurnstileToken("");
+        }}
         onClick={(e) => {
-          if (e.target === reportDialogRef.current) reportDialogRef.current?.close();
+          if (e.target === reportDialogRef.current) closeReportDialog();
         }}
         aria-labelledby="donate-report-heading"
         className="m-auto w-[min(28rem,calc(100vw-2rem))] rounded-sm border border-ink/10 bg-off-white p-0 text-ink shadow-xl backdrop:bg-ink/60"
@@ -237,10 +264,19 @@ export function ExternalDonateButton({
                 Give anonymously
               </label>
 
+              {reportOpen && (
+                <TurnstileWidget
+                  ref={turnstileRef}
+                  action="donation_report"
+                  onToken={setTurnstileToken}
+                  className="mt-4"
+                />
+              )}
+
               <div className="mt-6 flex flex-wrap gap-3">
                 <button
                   type="submit"
-                  disabled={status === "submitting"}
+                  disabled={status === "submitting" || (isTurnstileEnabled && !turnstileToken)}
                   data-analytics-event="donation_reported"
                   className="inline-flex items-center gap-1.5 rounded-sm bg-bronze px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light disabled:opacity-60"
                 >
@@ -248,7 +284,7 @@ export function ExternalDonateButton({
                 </button>
                 <button
                   type="button"
-                  onClick={() => reportDialogRef.current?.close()}
+                  onClick={closeReportDialog}
                   className="rounded-sm border border-ink/20 px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
                 >
                   Skip
