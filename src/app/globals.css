@@ -196,4 +196,145 @@ body {
   .animate-marquee {
     animation: marquee 26s linear infinite;
   }
+
+  /*
+   * Scroll-reveal primitive. RevealOnScroll (src/components/shared/reveal-on-scroll.tsx)
+   * toggles `data-reveal="visible"` on the element once it enters the viewport.
+   * The resting hidden state lives in CSS rather than in JS classNames so the
+   * initial paint is correct before hydration — an un-hydrated element must
+   * already be hidden, otherwise it flashes visible then jumps away.
+   *
+   * Travel distance is deliberately short (8px, not the 16px a typical
+   * reveal uses) and duration is 600ms. Longer travel reads as "template";
+   * at this distance it reads as material settling into place.
+   */
+  [data-reveal] {
+    opacity: 0;
+    transition:
+      opacity 600ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
+
+  [data-reveal="visible"] {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Variants. `rise` is the default and covers most content. */
+  [data-reveal="rise"] {
+    transform: translateY(8px);
+  }
+  [data-reveal="scale"] {
+    transform: scale(0.985);
+  }
+  [data-reveal="left"] {
+    transform: translateX(-8px);
+  }
+
+  /*
+   * `will-change` promotes a layer permanently, which is wasteful for a
+   * one-shot reveal that only runs once. Clear it once visible so the element
+   * returns to normal compositing.
+   */
+  [data-reveal="visible"] {
+    will-change: auto;
+  }
+
+  /*
+   * Stagger for grids/lists. The container is tagged by useRevealGroup, which
+   * sets data-reveal-group="pending" then flips it to "visible" once the grid
+   * scrolls in. Children are styled here rather than via an inserted wrapper
+   * div, so `sm:grid-cols-*` and `h-full` card fills keep working.
+   *
+   * The per-child delay comes from --reveal-step, which the hook sets inline,
+   * multiplied by the child's position via nth-child. The chain is capped at
+   * 8 steps so a 40-card grid doesn't leave the last card waiting 4.5s — the
+   * overflow children all share the 8th step and animate together.
+   */
+  [data-reveal-group="pending"] > * {
+    opacity: 0;
+    transition:
+      opacity 600ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  [data-reveal-group="pending"][data-reveal-variant="rise"] > * {
+    transform: translateY(8px);
+  }
+  [data-reveal-group="pending"][data-reveal-variant="scale"] > * {
+    transform: scale(0.985);
+  }
+  [data-reveal-group="pending"][data-reveal-variant="left"] > * {
+    transform: translateX(-8px);
+  }
+
+  [data-reveal-group="visible"] > * {
+    opacity: 1;
+    transform: none;
+  }
+
+  [data-reveal-group="pending"] > *:nth-child(1) { transition-delay: calc(var(--reveal-step, 70ms) * 0); }
+  [data-reveal-group="pending"] > *:nth-child(2) { transition-delay: calc(var(--reveal-step, 70ms) * 1); }
+  [data-reveal-group="pending"] > *:nth-child(3) { transition-delay: calc(var(--reveal-step, 70ms) * 2); }
+  [data-reveal-group="pending"] > *:nth-child(4) { transition-delay: calc(var(--reveal-step, 70ms) * 3); }
+  [data-reveal-group="pending"] > *:nth-child(5) { transition-delay: calc(var(--reveal-step, 70ms) * 4); }
+  [data-reveal-group="pending"] > *:nth-child(6) { transition-delay: calc(var(--reveal-step, 70ms) * 5); }
+  [data-reveal-group="pending"] > *:nth-child(7) { transition-delay: calc(var(--reveal-step, 70ms) * 6); }
+  [data-reveal-group="pending"] > *:nth-child(n + 8) { transition-delay: calc(var(--reveal-step, 70ms) * 7); }
+
+  /*
+   * Hero image drift. A ~2% scale over 24s on the org home's topo-map layer.
+   * Runs on the compositor only (transform), so it stays off the main thread.
+   * The global reduced-motion block above collapses this to 0.01ms.
+   *
+   * It scales UP from 1, and the parent section is overflow-hidden, so no
+   * uncovered edge is ever visible. `will-change: transform` is set because
+   * this animation is indefinite (unlike the one-shot reveals above, where
+   * it would be wasteful to keep the promotion after the first play).
+   */
+  @keyframes hero-drift {
+    from {
+      transform: scale(1) translate3d(0, 0, 0);
+    }
+    to {
+      transform: scale(1.02) translate3d(0.4%, -0.6%, 0);
+    }
+  }
+
+  .animate-hero-drift {
+    animation: hero-drift 24s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+
+  /*
+   * Card hover lift. 1px, no shadow blur on most cards — a real drop shadow
+   * on a flat editorial grid reads as dated. Paired with a border-colour shift
+   * so the lift is legible even where a shadow wouldn't show.
+   */
+  .hover-lift {
+    transition:
+      transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 200ms ease-out;
+  }
+
+  @media (hover: hover) {
+    .hover-lift:hover {
+      transform: translateY(-1px);
+    }
+  }
+
+  /*
+   * Safety net: reveal elements must never be left permanently invisible. If
+   * scripting is unavailable the observer never runs and data-reveal stays on
+   * its hidden variant, so the content would never appear. `scripting: none`
+   * handles this in pure CSS — no blocking inline script to flip a class on
+   * <html>, which would cost render time on every page and fight hydration.
+   */
+  @media (scripting: none) {
+    [data-reveal] {
+      opacity: 1;
+      transform: none;
+    }
+  }
 }

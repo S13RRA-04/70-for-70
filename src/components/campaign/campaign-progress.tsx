@@ -1,5 +1,6 @@
 import { formatCurrency, percentFunded } from "@/lib/utils";
 import { StatCard } from "@/components/shared/stat-card";
+import { CountUpNumber } from "@/components/shared/count-up-number";
 import { cn } from "@/lib/utils";
 import type { AllocationBreakdown } from "@/lib/data/allocation";
 
@@ -104,7 +105,7 @@ export function CampaignProgress({
             isDark ? "text-off-white" : "text-ink",
           )}
         >
-          {formatCurrency(totalRaised)}{" "}
+          <CountUpNumber value={totalRaised} formatter={formatCurrency} />{" "}
           <span className={cn("text-base font-medium", isDark ? "text-off-white/70" : "text-charcoal-light")}>
             raised
           </span>

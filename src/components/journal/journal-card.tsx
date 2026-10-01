@@ -31,7 +31,7 @@ export function JournalCard({
       <Link
         href={`/journal/${entry.slug}`}
         className={cn(
-          "group flex flex-col overflow-hidden rounded-sm border border-ink/10 bg-off-white transition-shadow hover:shadow-md",
+          "hover-lift group flex flex-col overflow-hidden rounded-sm border border-ink/10 bg-off-white",
           featured && "sm:flex-row",
           className,
         )}

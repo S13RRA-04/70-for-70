@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getJournalEntries, groupByMonth } from "@/lib/data/journal";
 import { Container } from "@/components/shared/container";
+import { RevealGrid } from "@/components/shared/reveal-on-scroll";
 import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
@@ -231,10 +232,12 @@ export default async function JournalPage(props: PageProps<"/journal">) {
       <section className="border-t border-ink/10 bg-sand-light py-14 sm:py-16">
         <Container>
           <SectionHeading eyebrow="The Campaign" title="Ongoing Stories" />
-          <div className="mt-6 grid gap-6 lg:grid-cols-2">
-            <BikeBuildIndexCard lastUpdated={getBikeBuildLastUpdated()} />
-            <GearJourneyIndexCard lastUpdated={getGearJourneyLastUpdated()} />
-          </div>
+          <RevealGrid>
+            <div className="mt-6 grid gap-6 lg:grid-cols-2">
+              <BikeBuildIndexCard lastUpdated={getBikeBuildLastUpdated()} />
+              <GearJourneyIndexCard lastUpdated={getGearJourneyLastUpdated()} />
+            </div>
+          </RevealGrid>
         </Container>
       </section>
 

@@ -44,6 +44,7 @@ import {
   RACE_TOTAL_DISTANCE,
 } from "@/lib/constants";
 import { formatCurrency, formatDateLong } from "@/lib/utils";
+import { RevealGrid } from "@/components/shared/reveal-on-scroll";
 import { pageMetadata } from "@/lib/metadata";
 import { jsonLdScriptProps } from "@/lib/json-ld";
 
@@ -324,16 +325,20 @@ export default async function CampaignHomePage() {
           <SectionHeading eyebrow="Follow Along" title="Latest From the Road" />
           <div className="mt-8">
             {latestEntries.length > 0 ? (
-              <div className="grid gap-6 sm:grid-cols-3">
-                {latestEntries.map((entry, i) => (
-                  <JournalCard key={entry.id} entry={entry} isLatest={i === 0} />
-                ))}
-              </div>
+              <RevealGrid>
+                <div className="mt-8 grid gap-6 sm:grid-cols-3">
+                  {latestEntries.map((entry, i) => (
+                    <JournalCard key={entry.id} entry={entry} isLatest={i === 0} />
+                  ))}
+                </div>
+              </RevealGrid>
             ) : (
-              <EmptyState
-                title="Journal updates are coming soon."
-                description="Training, campaign, and bike-build updates will appear here as they're published."
-              />
+              <div className="mt-8">
+                <EmptyState
+                  title="Journal updates are coming soon."
+                  description="Training, campaign, and bike-build updates will appear here as they're published."
+                />
+              </div>
             )}
           </div>
           <Link
@@ -367,9 +372,10 @@ export default async function CampaignHomePage() {
             title="Beneficiary Organizations"
             description={`${CAMPAIGN_NAME} raises funds in support of veteran-focused nonprofit organizations.`}
           />
-          <div className="mt-8 grid gap-6 sm:grid-cols-2">
-            {partners.map((partner) => (
-              <div key={partner.id} className="flex flex-col rounded-sm border border-ink/10 bg-off-white p-6">
+          <RevealGrid>
+            <div className="mt-8 grid gap-6 sm:grid-cols-2">
+              {partners.map((partner) => (
+                <div key={partner.id} className="hover-lift flex flex-col rounded-sm border border-ink/10 bg-off-white p-6">
                 <PartnerLogo
                   name={partner.name}
                   logoUrl={partner.logo_url}
@@ -387,9 +393,10 @@ export default async function CampaignHomePage() {
                 >
                   Learn More &rarr;
                 </Link>
-              </div>
-            ))}
-          </div>
+                </div>
+              ))}
+            </div>
+          </RevealGrid>
         </Container>
       </section>
 

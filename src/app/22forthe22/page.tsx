@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { RevealGrid } from "@/components/shared/reveal-on-scroll";
 import { getCurrentEventConfig } from "@/lib/data/event-config";
 import { getGiveawayPrizes } from "@/lib/data/giveaway-prizes";
 import { getEventActivityLog } from "@/lib/data/event-activity-log";
@@ -296,11 +297,13 @@ export default async function EventPage() {
         <section className="border-t border-ink/10 bg-sand-light py-16 sm:py-20">
           <Container>
             <SectionHeading eyebrow="With Thanks To" title="22 For the 22 Supporters" />
-            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-              {giveawaySupporters.map((partner) => (
-                <EventSupporterCard key={partner.id} partner={partner} />
-              ))}
-            </div>
+            <RevealGrid>
+              <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+                {giveawaySupporters.map((partner) => (
+                  <EventSupporterCard key={partner.id} partner={partner} />
+                ))}
+              </div>
+            </RevealGrid>
           </Container>
         </section>
       )}

@@ -22,7 +22,7 @@ export function ResourceCard({ resource }: { resource: Resource }) {
       target="_blank"
       rel="noopener noreferrer"
       data-analytics-event="resource_click"
-      className="group flex flex-col rounded-sm border border-ink/10 bg-off-white p-5 transition-colors hover:border-bronze/40"
+      className="hover-lift group flex flex-col rounded-sm border border-ink/10 bg-off-white p-5 transition-colors hover:border-bronze/40"
     >
       <div className="flex items-start gap-3">
         <span

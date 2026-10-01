@@ -1,4 +1,5 @@
 import { Container } from "@/components/shared/container";
+import { RevealGrid } from "@/components/shared/reveal-on-scroll";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
 import { StravaFollowBadge } from "@/components/shared/strava-follow-badge";
@@ -169,13 +170,14 @@ export default async function RacePage() {
             </div>
 
             {trainingJournalEntries.length > 0 && (
-              <div className="mt-8 grid gap-4 sm:grid-cols-3">
-                {trainingJournalEntries.map((entry) => (
-                  <a
-                    key={entry.id}
-                    href={`/journal/${entry.slug}`}
-                    className="block rounded-sm border border-ink/10 bg-off-white p-5 transition-colors hover:border-bronze"
-                  >
+              <RevealGrid>
+                <div className="mt-8 grid gap-4 sm:grid-cols-3">
+                  {trainingJournalEntries.map((entry) => (
+                    <a
+                      key={entry.id}
+                      href={`/journal/${entry.slug}`}
+                      className="hover-lift block rounded-sm border border-ink/10 bg-off-white p-5 transition-colors hover:border-bronze"
+                    >
                     <p className="text-xs font-semibold uppercase tracking-widest text-bronze">
                       {entry.primary_category}
                     </p>
@@ -184,8 +186,9 @@ export default async function RacePage() {
                     </p>
                     <p className="mt-1 text-sm text-charcoal-light">{entry.summary}</p>
                   </a>
-                ))}
-              </div>
+                  ))}
+                </div>
+              </RevealGrid>
             )}
           </div>
 

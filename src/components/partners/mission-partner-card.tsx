@@ -37,7 +37,9 @@ export function MissionPartnerCard({
   const nameSize = theme?.nameSize ?? UNTIERED_CARD.nameSize;
 
   return (
-    <div className={`flex flex-col rounded-sm ${background} ${padding} ${border} ${theme?.accentBar ?? ""}`}>
+    <div
+      className={`hover-lift flex flex-col rounded-sm ${background} ${padding} ${border} ${theme?.accentBar ?? ""}`}
+    >
       <PartnerLogo
         name={partner.name}
         logoUrl={partner.logo_url}

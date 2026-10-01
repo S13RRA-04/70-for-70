@@ -16,6 +16,7 @@ import { EmptyState } from "@/components/shared/empty-state";
 import { CAMPAIGN_NAME, CAMPAIGN_URL, EVENT22_CAMPAIGN_URL, MISSION_PARTNER_TIERS } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, CAMPAIGN_HOME_CRUMB, jsonLdScriptProps } from "@/lib/json-ld";
+import { RevealGrid } from "@/components/shared/reveal-on-scroll";
 import type { MissionPartnerRow, PartnerType } from "@/types/database";
 
 export const metadata = pageMetadata({
@@ -187,17 +188,19 @@ export default async function SponsorsPage() {
                   Organizations supporting the campaign through gear, services, and expertise outside the formal
                   sponsorship tiers above.
                 </p>
-                <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-                  {campaignPartnersAndServices.map((partner) => (
-                    <MissionPartnerCard
-                      key={partner.id}
-                      partner={partner}
-                      categoryLabel={
-                        partner.partner_type ? PARTNER_TYPE_CATEGORY_LABEL[partner.partner_type] : undefined
-                      }
-                    />
-                  ))}
-                </div>
+                <RevealGrid step={45}>
+                  <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+                    {campaignPartnersAndServices.map((partner) => (
+                      <MissionPartnerCard
+                        key={partner.id}
+                        partner={partner}
+                        categoryLabel={
+                          partner.partner_type ? PARTNER_TYPE_CATEGORY_LABEL[partner.partner_type] : undefined
+                        }
+                      />
+                    ))}
+                  </div>
+                </RevealGrid>
               </Container>
             </section>
           )}
