@@ -1,3 +1,5 @@
+"use client";
+
 import { formatCurrency, percentFunded } from "@/lib/utils";
 import { StatCard } from "@/components/shared/stat-card";
 import { CountUpNumber } from "@/components/shared/count-up-number";

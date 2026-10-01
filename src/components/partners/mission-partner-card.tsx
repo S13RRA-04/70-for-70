@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
 import { PartnerLogo } from "@/components/shared/partner-logo";
+import { TiltCard } from "@/components/shared/tilt-card";
 import { PartnerRoleBadge } from "@/components/partners/partner-role-badge";
 import { TeamBenefitBadge } from "@/components/partners/team-benefit-badge";
 import { TIER_THEME } from "@/lib/tier-theme";
@@ -37,9 +38,10 @@ export function MissionPartnerCard({
   const nameSize = theme?.nameSize ?? UNTIERED_CARD.nameSize;
 
   return (
-    <div
-      className={`hover-lift flex flex-col rounded-sm ${background} ${padding} ${border} ${theme?.accentBar ?? ""}`}
-    >
+    <TiltCard>
+      <div
+        className={`relative flex h-full flex-col rounded-sm ${background} ${padding} ${border} ${theme?.accentBar ?? ""}`}
+      >
       <PartnerLogo
         name={partner.name}
         logoUrl={partner.logo_url}
@@ -98,6 +100,7 @@ export function MissionPartnerCard({
           <ExternalLink size={13} aria-hidden />
         </Link>
       )}
-    </div>
+      </div>
+    </TiltCard>
   );
 }

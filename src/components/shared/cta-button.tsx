@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { Magnetic } from "@/components/shared/magnetic";
 
 interface CTAButtonProps {
   href: string;
@@ -17,6 +18,14 @@ interface CTAButtonProps {
   accent?: "bronze" | "black";
   /** Renders a plain <a> instead of next/link — for cross-domain links (see CAMPAIGN_HOME_LINK) where client-side routing doesn't apply. */
   external?: boolean;
+  /**
+   * Opt in to the magnetic hover (see src/components/shared/magnetic.tsx).
+   * Intentionally off by default — the effect only reads as responsive on the
+   * one or two highest-intent actions per page, and on a button repeated down
+   * a column it reads as jitter. Primary variant only; ignored otherwise so a
+   * call site can't accidentally get a magnetic ghost link.
+   */
+  magnetic?: boolean;
   className?: string;
 }
 
@@ -33,6 +42,7 @@ export function CTAButton({
   size = "md",
   accent = "bronze",
   external = false,
+  magnetic = false,
   className,
 }: CTAButtonProps) {
   const classes = cn(
@@ -55,17 +65,18 @@ export function CTAButton({
     className,
   );
 
-  if (external) {
-    return (
-      <a href={href} className={classes}>
-        {children}
-      </a>
-    );
-  }
-
-  return (
+  const button = external ? (
+    <a href={href} className={classes}>
+      {children}
+    </a>
+  ) : (
     <Link href={href} className={classes}>
       {children}
     </Link>
   );
+
+  if (magnetic && variant === "primary") {
+    return <Magnetic>{button}</Magnetic>;
+  }
+  return button;
 }

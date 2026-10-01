@@ -336,5 +336,16 @@ body {
       opacity: 1;
       transform: none;
     }
+
+    /*
+     * The journey route draws itself from a scroll listener in JS. Server-side
+     * it renders undrawn (dash offset == dash length), so with no scripting the
+     * only thing visible would be the faint base route. Show it fully drawn —
+     * a complete static map is the honest fallback, and the mileage readout
+     * beside it is real text either way.
+     */
+    [data-route-line] {
+      stroke-dashoffset: 0 !important;
+    }
   }
 }

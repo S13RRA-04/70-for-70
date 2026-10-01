@@ -32,6 +32,8 @@ import { CTASection } from "@/components/shared/cta-section";
 import { EmptyState } from "@/components/shared/empty-state";
 import { JournalCard } from "@/components/journal/journal-card";
 import { RoadSoFar } from "@/components/journal/road-so-far";
+import { JourneyMap } from "@/components/campaign/journey-map";
+import { getMiles } from "@/lib/data/miles";
 import { BikeBuildStatusPreview } from "@/components/journal/bike-build/bike-build-status-preview";
 import { ShareButtons } from "@/components/shared/share-buttons";
 import {
@@ -165,6 +167,20 @@ export default async function CampaignHomePage() {
   const roadMilestones = getJournalMilestonesWithStatus(allEntries);
   const latestEntries = await getLatestJournalEntries(3);
 
+  // JourneyMap route points, derived from real mile records. Position along
+  // the route is even spacing by mile number — the curve is a point-to-point
+  // triathlon shape, not a literal geo trace, so a proportional x/y is the
+  // honest representation. See JourneyMap's ROUTE_D doc comment.
+  const allMiles = await getMiles();
+  const journeyMiles = allMiles.map((mile) => ({
+    number: mile.mile_number,
+    at: (mile.mile_number - 1) / Math.max(allMiles.length - 1, 1),
+    raised: mile.amount_funded,
+    goal: mile.goal_amount,
+    status: mile.status,
+    dedication: mile.dedication,
+  }));
+
   const bikeBuildOverview = getBikeBuildStatusOverview();
   const bikeBuildContributorNames = BIKE_BUILD_CONFIRMED_CONTRIBUTORS.slice(0, 3).map((c) => c.name);
 
@@ -209,7 +225,7 @@ export default async function CampaignHomePage() {
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              <CTAButton href={DONATE_LINK.href} size="lg">
+              <CTAButton href={DONATE_LINK.href} size="lg" magnetic>
                 Support the Mission
               </CTAButton>
               <CTAButton href="/journal" variant="secondary" tone="dark" size="lg">
@@ -304,6 +320,14 @@ export default async function CampaignHomePage() {
           </div>
         </Container>
       </section>
+
+      {/* 3.5. Journey map — scroll to ride the route; sits between the
+          mission/progress sections and the milestone detail timeline. */}
+      <JourneyMap
+        miles={journeyMiles}
+        totalRaised={campaign.amount_raised}
+        goal={campaign.fundraising_goal}
+      />
 
       {/* 4. Road to Chattanooga */}
       <section className="border-b border-ink/10 py-16 sm:py-20">
