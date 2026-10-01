@@ -7,6 +7,7 @@ import { getMilesFundedMetric } from "@/lib/miles-funded";
 import { Container } from "@/components/shared/container";
 import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
+import { RevealGrid, RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import { PartnerCard } from "@/components/partners/partner-card";
 import { CampaignProgress } from "@/components/campaign/campaign-progress";
 import { CampaignAllocation } from "@/components/campaign/campaign-allocation";
@@ -56,11 +57,13 @@ export default async function DonatePage() {
       <section className="py-16 sm:py-20">
         <Container>
           <SectionHeading eyebrow="Your Gift" title="Choose Where Your Gift Goes" />
-          <div className="mt-8 flex flex-col gap-6">
-            {partners.map((partner) => (
-              <PartnerCard key={partner.id} partner={partner} />
-            ))}
-          </div>
+          <RevealGrid>
+            <div className="mt-8 flex flex-col gap-6">
+              {partners.map((partner) => (
+                <PartnerCard key={partner.id} partner={partner} />
+              ))}
+            </div>
+          </RevealGrid>
         </Container>
       </section>
 
@@ -70,9 +73,9 @@ export default async function DonatePage() {
             title="Giving Levels"
             description="Cumulative giving across both organizations, tracked by donor once a gift is verified. What each level provides is something I can offer directly — recognition, not goods or services — since the campaign never receives or processes your donation itself."
           />
-          <div className="mt-8">
+          <RevealOnScroll className="mt-8">
             <GivingLevels supporters={supporters} />
-          </div>
+          </RevealOnScroll>
         </Container>
       </section>
 

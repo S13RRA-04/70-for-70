@@ -3,6 +3,7 @@ import { getPartners } from "@/lib/data/partners";
 import { Container } from "@/components/shared/container";
 import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
+import { RevealGrid } from "@/components/shared/reveal-on-scroll";
 import { PartnerCard } from "@/components/partners/partner-card";
 import { CTAButton } from "@/components/shared/cta-button";
 import { CAMPAIGN_NAME, CAMPAIGN_URL, DONATE_LINK, PERSONAL_PROJECT_DISCLOSURE } from "@/lib/constants";
@@ -50,11 +51,13 @@ export default async function BeneficiariesPage() {
 
       <section className="py-16 sm:py-20">
         <Container>
-          <div className="flex flex-col gap-6">
-            {partners.map((partner) => (
-              <PartnerCard key={partner.id} partner={partner} />
-            ))}
-          </div>
+          <RevealGrid>
+            <div className="flex flex-col gap-6">
+              {partners.map((partner) => (
+                <PartnerCard key={partner.id} partner={partner} />
+              ))}
+            </div>
+          </RevealGrid>
           <p className="mt-10 max-w-2xl text-sm text-charcoal-light">
             Donations are made directly through each independent nonprofit organization&apos;s
             authorized donation platform. {CAMPAIGN_NAME} does not receive, process, or take

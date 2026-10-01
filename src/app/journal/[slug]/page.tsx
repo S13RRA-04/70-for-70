@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getAdjacentJournalEntries, getJournalEntries, getJournalEntryBySlug } from "@/lib/data/journal";
 import { Container } from "@/components/shared/container";
+import { RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import { ShareButtons } from "@/components/shared/share-buttons";
 import { JournalMarkdown } from "@/components/journal/journal-markdown";
 import { JournalVideoEmbed } from "@/components/journal/journal-video-embed";
@@ -160,9 +161,9 @@ export default async function JournalEntryPage(props: PageProps<"/journal/[slug]
         {entry.post_type === "milestone" && <MilestoneHeadline entry={entry} />}
         <TrainingMetricsPanel entry={entry} />
 
-        <div className="mt-8 max-w-none">
+        <RevealOnScroll className="mt-8 max-w-none">
           <JournalMarkdown body={entry.body} />
-        </div>
+        </RevealOnScroll>
 
         <PartnerMentionsFooter partnerMentions={entry.partnerMentions} beneficiaryMentions={entry.beneficiaryMentions} />
 
@@ -173,7 +174,11 @@ export default async function JournalEntryPage(props: PageProps<"/journal/[slug]
 
         <JournalCta category={entry.primary_category} />
 
-        <RelatedEntries entries={relatedEntries} />
+        {relatedEntries.length > 0 && (
+          <RevealOnScroll as="section">
+            <RelatedEntries entries={relatedEntries} />
+          </RevealOnScroll>
+        )}
 
         <div className="mt-10 grid grid-cols-3 items-center border-t border-ink/10 pt-6 text-sm">
           <div className="text-left">
