@@ -56,6 +56,14 @@ export const MOVEMENT_TIMELINE = [
 export const BENEFICIARY_EXPLANATION =
   "Tri For The 22 raises funds for confirmed nonprofit beneficiaries — organizations already doing this work, not a fund Cody administers himself. See the Beneficiaries page for who's currently confirmed and how donations reach them directly.";
 
+export const BEYOND_CHATTANOOGA = {
+  heading: "Beyond Chattanooga",
+  body: [
+    "Chattanooga is the finish line for this race — not for the mission. Crossing it doesn't end the work; it's one measurable step in a longer effort to support veterans, first responders, and their families.",
+    "Whatever comes after this race, the same questions will still be in front of me: who still needs support, and what's the next way to move toward them.",
+  ],
+};
+
 export const REMEMBRANCE_STATEMENT =
   "We remember those we have lost—and keep showing up for those who are still here.";
 

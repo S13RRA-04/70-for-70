@@ -9,6 +9,7 @@ import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
 import { getJournalEntries, getLatestJournalEntries } from "@/lib/data/journal";
 import { getJournalMilestonesWithStatus } from "@/lib/data/journal-milestones";
 import { findAboutSubsection } from "@/lib/content/about";
+import { HOW_THIS_BEGAN } from "@/lib/content/the-story";
 import {
   BIKE_BUILD_CONFIRMED_CONTRIBUTORS,
   BIKE_BUILD_HERO_PHOTO,
@@ -285,6 +286,21 @@ export default async function CampaignHomePage() {
           >
             Read the Mission &rarr;
           </Link>
+
+          <div className="mt-10 border-t border-off-white/15 pt-8">
+            <p className="text-xs font-semibold uppercase tracking-widest text-off-white/60">
+              Why I&apos;m Doing This
+            </p>
+            <p className="mt-2 max-w-xl text-base leading-relaxed text-off-white/75">
+              {HOW_THIS_BEGAN.body[1]}
+            </p>
+            <Link
+              href="/the-story"
+              className="mt-3 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze-light hover:text-off-white"
+            >
+              Read My Story &rarr;
+            </Link>
+          </div>
         </Container>
       </section>
 

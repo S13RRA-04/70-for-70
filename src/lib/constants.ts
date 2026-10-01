@@ -214,9 +214,10 @@ if (process.env.NODE_ENV !== "production") {
  * CAMPAIGN_NAV_LINKS list; Header renders a NavDropdown for each NavGroup
  * and a plain link for a bare NavLink (see src/types/content.ts's NavEntry).
  *
- * "About Cody" points at /the-mission for now — there's no dedicated
- * founder page yet (see AGENTS.md's "About Cody" phase); repoint once one
- * ships. "Road to Chattanooga" and "Training" both link into /the-race,
+ * "About Cody" points at /the-story — Cody's campaign-origin/endurance
+ * narrative page, extended with a personal-bio opener and a "why this
+ * continues beyond the race" closer so it covers what a founder page needs.
+ * "Road to Chattanooga" and "Training" both link into /the-race,
  * which already has sections literally titled "Road to Chattanooga"
  * (id="road-to-chattanooga") and "Current Training Status"
  * (id="training-status"). "Become a Partner" is its own page
@@ -236,7 +237,7 @@ export const CAMPAIGN_NAV_GROUPS: NavEntry[] = [
     children: [
       { label: "The Mission / Why 22", href: "/the-mission" },
       { label: "Beneficiaries", href: "/beneficiaries" },
-      { label: "About Cody", href: "/the-mission" },
+      { label: "About Cody", href: "/the-story" },
     ],
   },
   {

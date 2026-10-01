@@ -20,8 +20,11 @@ import {
   BIKE_BUILD_STATUS_SUMMARY,
   BIKE_BUILD_TIMELINE,
   getBikeBuildLastUpdated,
+  getBikeBuildStatusOverview,
   getBikeBuildTimelineNodes,
 } from "@/lib/content/building-the-bike";
+import { getMissionPartners } from "@/lib/data/mission-partners";
+import { findProvidingPartner } from "@/lib/partner-matching";
 import { formatDateLong } from "@/lib/utils";
 import { CAMPAIGN_NAME, CAMPAIGN_URL, RACE_INFO, SITE_NAME, SITE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
@@ -83,9 +86,12 @@ const BIKE_BUILD_BREADCRUMB_JSON_LD = breadcrumbJsonLd([
  * actually say so — see the project README's "Bike Build Journal Content"
  * section before editing.
  */
-export default function BuildingTheBikePage() {
+export default async function BuildingTheBikePage() {
   const lastUpdated = getBikeBuildLastUpdated();
   const timelineNodes = getBikeBuildTimelineNodes();
+  const statusOverview = getBikeBuildStatusOverview();
+  const buildPercent = Math.round((statusOverview.confirmedCount / statusOverview.totalCount) * 100);
+  const partners = await getMissionPartners();
 
   return (
     <article>
@@ -142,6 +148,12 @@ export default function BuildingTheBikePage() {
             title="Current Status"
             description="A snapshot, not a finish line. Nothing below is marked done until it actually is — see the full timeline and component board further down for the details behind each line."
           />
+          <div className="mt-8 flex flex-wrap items-baseline gap-3">
+            <p className="font-display text-5xl font-bold tabular-nums text-ink sm:text-6xl">{buildPercent}%</p>
+            <p className="text-sm font-semibold uppercase tracking-widest text-charcoal-light">
+              Build Status — {statusOverview.confirmedCount} of {statusOverview.totalCount} components confirmed
+            </p>
+          </div>
           <div className="mt-8">
             <BuildStatusPanel items={BIKE_BUILD_STATUS_SUMMARY} />
           </div>
@@ -169,7 +181,18 @@ export default function BuildingTheBikePage() {
             description="What's confirmed, what's offered, what's still needed — updated as the build's status actually changes."
           />
           <div className="mt-8">
-            <ComponentStatusBoard rows={BIKE_BUILD_COMPONENT_STATUS} />
+            <ComponentStatusBoard
+              rows={BIKE_BUILD_COMPONENT_STATUS}
+              rowExtra={(row) => {
+                const provider = findProvidingPartner(row, partners);
+                if (!provider) return null;
+                return (
+                  <span className="mt-1 block text-xs font-semibold uppercase tracking-wide text-bronze">
+                    &mdash; {provider.name} &#10003;
+                  </span>
+                );
+              }}
+            />
           </div>
         </Container>
       </section>

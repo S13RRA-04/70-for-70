@@ -289,7 +289,7 @@ export default async function JournalPage(props: PageProps<"/journal">) {
       {/* 5. Road So Far — narrative timeline, moved below the archive. */}
       <section className="border-t border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container>
-          <SectionHeading eyebrow="The Campaign" title="The Road So Far" />
+          <SectionHeading eyebrow="The Campaign" title="Road to Chattanooga" />
           <div className="mt-6">
             <RoadSoFar milestones={milestones} />
           </div>

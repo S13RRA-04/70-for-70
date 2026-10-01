@@ -3,8 +3,8 @@ import { ChevronDown } from "lucide-react";
 import { ComponentStatusBoard } from "@/components/journal/bike-build/component-status-board";
 import { StatusBadge } from "@/components/journal/bike-build/status-badge";
 import { GEAR_NEEDS_CATEGORIES } from "@/lib/content/gear-needs";
+import { findProvidingPartner } from "@/lib/partner-matching";
 import type { MissionPartnerRow } from "@/types/database";
-import type { BikeBuildComponentRow } from "@/types/bike-build";
 
 /**
  * Prominent, above-the-fold callout on /sponsors — the exact gear still
@@ -19,17 +19,6 @@ import type { BikeBuildComponentRow } from "@/types/bike-build";
  * closed pending written federal ethics approval (see
  * GEAR_NEEDS_CATEGORIES's doc comment and SPONSOR_INQUIRY_INTERESTS).
  */
-/**
- * Best-effort match of a confirmed row to the partner who provided it, by
- * scanning the row's free-text notes for a known partner name — there's no
- * structured link between GEAR_NEEDS_CATEGORIES and mission_partners.
- * Returns null for anything not confirmed or with no matching partner.
- */
-function findProvidingPartner(row: BikeBuildComponentRow, partners: MissionPartnerRow[]): MissionPartnerRow | null {
-  if (row.status !== "confirmed") return null;
-  const notes = row.notes?.toLowerCase() ?? "";
-  return partners.find((p) => p.name.length > 2 && notes.includes(p.name.toLowerCase())) ?? null;
-}
 
 export function CurrentGearNeeds({ partners = [] }: { partners?: MissionPartnerRow[] }) {
   return (

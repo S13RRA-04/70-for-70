@@ -48,8 +48,8 @@ export default async function MessagesPage() {
           {messages.length === 0 ? (
             <div className="mt-8">
               <EmptyState
-                title="No messages yet."
-                description="Be the first to leave a word of encouragement."
+                title="Leave a Word of Encouragement"
+                description="Messages of support show up here as they come in."
               />
             </div>
           ) : (

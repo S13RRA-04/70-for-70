@@ -2,9 +2,11 @@ import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
 import { Timeline } from "@/components/shared/timeline";
-import { ABOUT_CONTENT } from "@/lib/content/about";
+import { ImageTextRow } from "@/components/about/image-text-row";
+import { ABOUT_CONTENT, findAboutSubsection } from "@/lib/content/about";
 import {
   BENEFICIARY_EXPLANATION,
+  BEYOND_CHATTANOOGA,
   HOW_THIS_BEGAN,
   MOVEMENT_TIMELINE,
   REMEMBRANCE_STATEMENT,
@@ -23,6 +25,9 @@ export const metadata = pageMetadata({
 
 const BREADCRUMB_JSON_LD = breadcrumbJsonLd([CAMPAIGN_HOME_CRUMB, { name: "The Story", url: `${CAMPAIGN_URL}/the-story` }]);
 
+/** Already public on the org domain (src/app/about/page.tsx) — reused here, not duplicated, same pattern the homepage uses for findAboutSubsection("why-22"). */
+const myStory = findAboutSubsection("my-story")!;
+
 export default function TheStoryPage() {
   return (
     <>
@@ -38,7 +43,20 @@ export default function TheStoryPage() {
         </Container>
       </section>
 
+      {/* Who I Am — the personal-bio opener the campaign-domain story was missing. */}
       <section className="py-16 sm:py-24">
+        <Container>
+          <ImageTextRow image={myStory.image!} eyebrow="Who I Am" heading={myStory.heading}>
+            {myStory.body.map((paragraph, i) => (
+              <p key={i} className="text-base leading-relaxed text-charcoal-light">
+                {paragraph}
+              </p>
+            ))}
+          </ImageTextRow>
+        </Container>
+      </section>
+
+      <section className="border-t border-ink/10 py-16 sm:py-24">
         <Container className="max-w-2xl">
           <h2 className="font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
             {HOW_THIS_BEGAN.heading}
@@ -86,6 +104,19 @@ export default function TheStoryPage() {
           </p>
         </Container>
       </div>
+
+      <section className="border-t border-ink/10 py-16 sm:py-24">
+        <Container className="max-w-2xl">
+          <h2 className="font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
+            {BEYOND_CHATTANOOGA.heading}
+          </h2>
+          <div className="mt-5 space-y-4 text-base leading-relaxed text-charcoal-light">
+            {BEYOND_CHATTANOOGA.body.map((paragraph, i) => (
+              <p key={i}>{paragraph}</p>
+            ))}
+          </div>
+        </Container>
+      </section>
 
       <CTASection
         title="Help Fund the Mission"
