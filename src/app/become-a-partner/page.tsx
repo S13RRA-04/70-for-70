@@ -2,6 +2,7 @@ import { getMissionPartners } from "@/lib/data/mission-partners";
 import { Container } from "@/components/shared/container";
 import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
+import { RevealGrid } from "@/components/shared/reveal-on-scroll";
 import { CTAButton } from "@/components/shared/cta-button";
 import { SponsorshipProgression } from "@/components/sponsors/sponsorship-progression";
 import { DonateVsPartner } from "@/components/sponsors/donate-vs-partner";
@@ -52,14 +53,16 @@ export default async function BecomeAPartnerPage() {
       <section className="py-16 sm:py-20">
         <Container>
           <SectionHeading eyebrow="Why Partner" title="What Your Support Makes Possible" />
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {SPONSOR_VALUE_PROPS.map((prop) => (
-              <div key={prop.id} className="rounded-sm border border-ink/10 bg-off-white p-6">
-                <h3 className="font-display text-base font-bold uppercase tracking-wide text-ink">{prop.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-charcoal-light">{prop.body}</p>
-              </div>
-            ))}
-          </div>
+          <RevealGrid>
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {SPONSOR_VALUE_PROPS.map((prop) => (
+                <div key={prop.id} className="rounded-sm border border-ink/10 bg-off-white p-6">
+                  <h3 className="font-display text-base font-bold uppercase tracking-wide text-ink">{prop.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-charcoal-light">{prop.body}</p>
+                </div>
+              ))}
+            </div>
+          </RevealGrid>
         </Container>
       </section>
 
@@ -126,7 +129,7 @@ export default async function BecomeAPartnerPage() {
             Chattanooga? Let&apos;s talk.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <CTAButton href="/contact?item=Campaign%20Partnership" tone="dark">
+            <CTAButton href="/contact?item=Campaign%20Partnership" tone="dark" magnetic>
               Contact the Campaign
             </CTAButton>
             <CTAButton href="/sponsors" variant="secondary" tone="dark">

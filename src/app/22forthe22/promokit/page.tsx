@@ -4,6 +4,7 @@ import { Download } from "lucide-react";
 import { Container } from "@/components/shared/container";
 import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
+import { RevealGrid } from "@/components/shared/reveal-on-scroll";
 import { ShareButtons } from "@/components/shared/share-buttons";
 import { AssetDownloadCard } from "@/components/22-for-the-22/promokit/asset-download-card";
 import { PhotoFrameCard } from "@/components/22-for-the-22/promokit/photo-frame-card";
@@ -76,11 +77,13 @@ export default function PromoKitPage() {
       <section className="py-16 sm:py-20">
         <Container>
           <SectionHeading eyebrow="Social Posts" title="Square Feed Graphics" description="Ready-to-post square graphics for Instagram, Facebook, and LinkedIn feeds." />
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {PROMO_KIT_SOCIAL_POSTS.map((asset) => (
-              <AssetDownloadCard key={asset.id} asset={asset} />
-            ))}
-          </div>
+          <RevealGrid>
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {PROMO_KIT_SOCIAL_POSTS.map((asset) => (
+                <AssetDownloadCard key={asset.id} asset={asset} />
+              ))}
+            </div>
+          </RevealGrid>
         </Container>
       </section>
 
@@ -92,11 +95,13 @@ export default function PromoKitPage() {
             title="Instagram & Facebook Stories"
             description="Vertical graphics sized for Stories and other full-screen mobile placements."
           />
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {PROMO_KIT_STORY_GRAPHICS.map((asset) => (
-              <AssetDownloadCard key={asset.id} asset={asset} />
-            ))}
-          </div>
+          <RevealGrid>
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {PROMO_KIT_STORY_GRAPHICS.map((asset) => (
+                <AssetDownloadCard key={asset.id} asset={asset} />
+              ))}
+            </div>
+          </RevealGrid>
         </Container>
       </section>
 
@@ -108,11 +113,13 @@ export default function PromoKitPage() {
             title="Overlay Your Own Photo"
             description="Transparent PNG frames — layer one over your own photo in any photo or Story editor."
           />
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {PROMO_KIT_PHOTO_FRAMES.map((asset) => (
-              <PhotoFrameCard key={asset.id} asset={asset} />
-            ))}
-          </div>
+          <RevealGrid>
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {PROMO_KIT_PHOTO_FRAMES.map((asset) => (
+                <PhotoFrameCard key={asset.id} asset={asset} />
+              ))}
+            </div>
+          </RevealGrid>
         </Container>
       </section>
 
@@ -130,11 +137,13 @@ export default function PromoKitPage() {
       <section className="border-t border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container>
           <SectionHeading eyebrow="Suggested Captions" title="Copy & Paste Ready" />
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {PROMO_KIT_CAPTIONS.map((caption) => (
-              <CaptionCard key={caption.id} caption={caption} />
-            ))}
-          </div>
+          <RevealGrid>
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {PROMO_KIT_CAPTIONS.map((caption) => (
+                <CaptionCard key={caption.id} caption={caption} />
+              ))}
+            </div>
+          </RevealGrid>
         </Container>
       </section>
 

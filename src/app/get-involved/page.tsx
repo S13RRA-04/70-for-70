@@ -213,7 +213,7 @@ export default async function GetInvolvedPage() {
             <CampaignProgress totalRaised={campaign.amount_raised} goal={campaign.fundraising_goal} showStats={false} />
           </div>
           <div className="mt-8 flex flex-wrap gap-4">
-            <CTAButton href={DONATE_LINK.href}>{DONATE_LINK.label}</CTAButton>
+            <CTAButton href={DONATE_LINK.href} magnetic>{DONATE_LINK.label}</CTAButton>
           </div>
 
           <div className="mt-10 flex flex-col gap-6 border-t border-ink/10 pt-8 sm:flex-row sm:items-center sm:justify-between">

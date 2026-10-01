@@ -3,6 +3,7 @@ import { Container } from "@/components/shared/container";
 import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
+import { FocusScrollSection } from "@/components/shared/focus-scroll-section";
 import { BuildTimeline } from "@/components/journal/bike-build/build-timeline";
 import {
   GEAR_JOURNEY_INTRO,
@@ -105,7 +106,7 @@ export default function GearJourneyPage() {
         <Container className="max-w-3xl">
           <div className="space-y-10">
             {GEAR_JOURNEY_OPENING_POST.sections.map((section, i) => (
-              <div key={section.heading ?? `intro-${i}`}>
+              <FocusScrollSection key={section.heading ?? `intro-${i}`}>
                 {section.heading && (
                   <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink sm:text-2xl">
                     {section.heading}
@@ -128,7 +129,7 @@ export default function GearJourneyPage() {
                     </Link>
                   </p>
                 )}
-              </div>
+              </FocusScrollSection>
             ))}
           </div>
         </Container>

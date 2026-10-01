@@ -1,4 +1,5 @@
 import { Container } from "@/components/shared/container";
+import { RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import { CAMPAIGN_NAME, CAMPAIGN_URL, MERCH_BENEFICIARIES, MERCH_STORE_URL, MISSION_STORE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, CAMPAIGN_HOME_CRUMB, jsonLdScriptProps } from "@/lib/json-ld";
@@ -32,59 +33,63 @@ export default function ShopPage() {
 
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container className="max-w-2xl">
-          <p className="text-xs font-semibold uppercase tracking-widest text-bronze">
-            Beneficiary Store
-          </p>
-          <h2 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
-            Bonfire
-          </h2>
-          <p className="mt-4 max-w-lg text-base leading-relaxed text-charcoal-light">
-            Merchandise is sold through Bonfire, an independent third-party store. 100% of net
-            profit from every sale is paid by Bonfire directly to {MERCH_BENEFICIARIES[0]} or{" "}
-            {MERCH_BENEFICIARIES[1]} — Bonfire notes which beneficiary each item supports on its
-            product listing.
-          </p>
-          <p className="mt-3 max-w-lg text-base leading-relaxed text-charcoal-light">
-            {CAMPAIGN_NAME} does not take possession of merchandise proceeds; Bonfire handles all
-            orders, sizing, shipping, and payment on its own platform.
-          </p>
-          <a
-            href={MERCH_STORE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-8 inline-flex items-center gap-2 rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-dark"
-          >
-            Shop on Bonfire <span aria-hidden="true">&#8599;</span>
-          </a>
+          <RevealOnScroll>
+            <p className="text-xs font-semibold uppercase tracking-widest text-bronze">
+              Beneficiary Store
+            </p>
+            <h2 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
+              Bonfire
+            </h2>
+            <p className="mt-4 max-w-lg text-base leading-relaxed text-charcoal-light">
+              Merchandise is sold through Bonfire, an independent third-party store. 100% of net
+              profit from every sale is paid by Bonfire directly to {MERCH_BENEFICIARIES[0]} or{" "}
+              {MERCH_BENEFICIARIES[1]} — Bonfire notes which beneficiary each item supports on its
+              product listing.
+            </p>
+            <p className="mt-3 max-w-lg text-base leading-relaxed text-charcoal-light">
+              {CAMPAIGN_NAME} does not take possession of merchandise proceeds; Bonfire handles all
+              orders, sizing, shipping, and payment on its own platform.
+            </p>
+            <a
+              href={MERCH_STORE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-8 inline-flex items-center gap-2 rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-dark"
+            >
+              Shop on Bonfire <span aria-hidden="true">&#8599;</span>
+            </a>
+          </RevealOnScroll>
         </Container>
       </section>
 
       <section className="py-16 sm:py-20">
         <Container className="max-w-2xl">
-          <p className="text-xs font-semibold uppercase tracking-widest text-bronze">
-            Mission Store — Not a Fundraiser
-          </p>
-          <h2 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
-            Exray
-          </h2>
-          <p className="mt-4 max-w-lg text-base leading-relaxed text-charcoal-light">
-            A second, separate store, sold through Exray. This one isn&apos;t a fundraiser for{" "}
-            {MERCH_BENEFICIARIES[0]} or {MERCH_BENEFICIARIES[1]} — 100% of net proceeds go
-            directly toward the campaign&apos;s own mission costs instead: equipment, training,
-            and race expenses.
-          </p>
-          <p className="mt-3 max-w-lg text-base leading-relaxed text-charcoal-light">
-            {CAMPAIGN_NAME} does not take possession of merchandise proceeds; Exray handles all
-            orders, sizing, shipping, and payment on its own platform.
-          </p>
-          <a
-            href={MISSION_STORE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-8 inline-flex items-center gap-2 rounded-sm border border-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-bronze transition-colors hover:bg-bronze-text hover:text-off-white"
-          >
-            Shop on Exray <span aria-hidden="true">&#8599;</span>
-          </a>
+          <RevealOnScroll>
+            <p className="text-xs font-semibold uppercase tracking-widest text-bronze">
+              Mission Store — Not a Fundraiser
+            </p>
+            <h2 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
+              Exray
+            </h2>
+            <p className="mt-4 max-w-lg text-base leading-relaxed text-charcoal-light">
+              A second, separate store, sold through Exray. This one isn&apos;t a fundraiser for{" "}
+              {MERCH_BENEFICIARIES[0]} or {MERCH_BENEFICIARIES[1]} — 100% of net proceeds go
+              directly toward the campaign&apos;s own mission costs instead: equipment, training,
+              and race expenses.
+            </p>
+            <p className="mt-3 max-w-lg text-base leading-relaxed text-charcoal-light">
+              {CAMPAIGN_NAME} does not take possession of merchandise proceeds; Exray handles all
+              orders, sizing, shipping, and payment on its own platform.
+            </p>
+            <a
+              href={MISSION_STORE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-8 inline-flex items-center gap-2 rounded-sm border border-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-bronze transition-colors hover:bg-bronze-text hover:text-off-white"
+            >
+              Shop on Exray <span aria-hidden="true">&#8599;</span>
+            </a>
+          </RevealOnScroll>
         </Container>
       </section>
     </>

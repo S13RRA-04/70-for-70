@@ -47,12 +47,16 @@ export function CTASection({
           </p>
         )}
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-          {buttons.map((button) => (
+          {buttons.map((button, i) => (
             <CTAButton
               key={button.href}
               href={button.href}
               variant={button.variant ?? "primary"}
               tone={tone}
+              // Only the first (highest-intent) button gets the magnetic
+              // hover — see CTAButton's doc comment on why it's never
+              // more than one or two per page.
+              magnetic={i === 0}
             >
               {button.label}
             </CTAButton>

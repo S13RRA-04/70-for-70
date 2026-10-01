@@ -2,6 +2,7 @@ import { ExternalLink, ShieldCheck } from "lucide-react";
 import { getPartners } from "@/lib/data/partners";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
+import { RevealGrid } from "@/components/shared/reveal-on-scroll";
 import { Countdown } from "@/components/shared/countdown";
 import { PartnerLogo } from "@/components/shared/partner-logo";
 import { ExternalDonateButton } from "@/components/shared/external-donate-button";
@@ -288,22 +289,24 @@ export default async function RuckHomePage() {
             title="RuckUp22's Beneficiaries"
             description={`Registration and ticket proceeds for ${RUCK_EVENT_INFO.name}, organized by ${RUCK_EVENT_ORGANIZER.name} (EIN ${RUCK_EVENT_ORGANIZER.ein}), support these organizations.`}
           />
-          <div className="mt-8 flex flex-col gap-6">
-            {RUCK_EVENT_BENEFICIARIES.map((b) => (
-              <BeneficiaryCard
-                key={b.name}
-                eyebrow="RuckUp22 Beneficiary"
-                data={{
-                  name: b.name,
-                  description: b.description,
-                  websiteUrl: b.websiteUrl,
-                  donationUrl: b.donationUrl,
-                  ein: b.ein,
-                  verified: true,
-                }}
-              />
-            ))}
-          </div>
+          <RevealGrid>
+            <div className="mt-8 flex flex-col gap-6">
+              {RUCK_EVENT_BENEFICIARIES.map((b) => (
+                <BeneficiaryCard
+                  key={b.name}
+                  eyebrow="RuckUp22 Beneficiary"
+                  data={{
+                    name: b.name,
+                    description: b.description,
+                    websiteUrl: b.websiteUrl,
+                    donationUrl: b.donationUrl,
+                    ein: b.ein,
+                    verified: true,
+                  }}
+                />
+              ))}
+            </div>
+          </RevealGrid>
 
           {campaignBeneficiaries.length > 0 && (
             <div className="mt-14">
@@ -312,29 +315,31 @@ export default async function RuckHomePage() {
                 title="Ruck For The 22 Also Supports"
                 description={`Alongside RuckUp22 itself, Cody's own Ruck For The 22 effort supports the same causes as ${CAMPAIGNS.tri.name}.`}
               />
-              <div className="mt-8 flex flex-col gap-6">
-                {campaignBeneficiaries.map((partner) => (
-                  <BeneficiaryCard
-                    key={partner.id}
-                    eyebrow="Ruck For The 22 Beneficiary"
-                    data={{
-                      name: partner.name,
-                      description: partner.what_they_do,
-                      websiteUrl: partner.website_url,
-                      donationUrl: partner.donation_url,
-                      ein: partner.ein,
-                      verified: partner.nonprofit_status_verified,
-                      logo: {
-                        url: partner.logo_url,
-                        lightUrl: partner.logo_light_url,
-                        darkUrl: partner.logo_dark_url,
-                        background: partner.logo_background,
-                      },
-                    }}
-                    trackingCode={partner.requires_donation_note ? RUCK_DONATION_TRACKING_CODE : undefined}
-                  />
-                ))}
-              </div>
+              <RevealGrid>
+                <div className="mt-8 flex flex-col gap-6">
+                  {campaignBeneficiaries.map((partner) => (
+                    <BeneficiaryCard
+                      key={partner.id}
+                      eyebrow="Ruck For The 22 Beneficiary"
+                      data={{
+                        name: partner.name,
+                        description: partner.what_they_do,
+                        websiteUrl: partner.website_url,
+                        donationUrl: partner.donation_url,
+                        ein: partner.ein,
+                        verified: partner.nonprofit_status_verified,
+                        logo: {
+                          url: partner.logo_url,
+                          lightUrl: partner.logo_light_url,
+                          darkUrl: partner.logo_dark_url,
+                          background: partner.logo_background,
+                        },
+                      }}
+                      trackingCode={partner.requires_donation_note ? RUCK_DONATION_TRACKING_CODE : undefined}
+                    />
+                  ))}
+                </div>
+              </RevealGrid>
             </div>
           )}
 

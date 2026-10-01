@@ -3,6 +3,8 @@ import { Container } from "@/components/shared/container";
 import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
+import { FocusScrollSection } from "@/components/shared/focus-scroll-section";
+import { PercentCountUp } from "@/components/shared/percent-count-up";
 import { BuildStatusPanel } from "@/components/journal/bike-build/build-status-panel";
 import { BuildTimelineNodes } from "@/components/journal/bike-build/build-timeline-nodes";
 import { BuildBeforeAfter } from "@/components/journal/bike-build/build-before-after";
@@ -149,7 +151,9 @@ export default async function BuildingTheBikePage() {
             description="A snapshot, not a finish line. Nothing below is marked done until it actually is — see the full timeline and component board further down for the details behind each line."
           />
           <div className="mt-8 flex flex-wrap items-baseline gap-3">
-            <p className="font-display text-5xl font-bold tabular-nums text-ink sm:text-6xl">{buildPercent}%</p>
+            <p className="font-display text-5xl font-bold tabular-nums text-ink sm:text-6xl">
+              <PercentCountUp value={buildPercent} />
+            </p>
             <p className="text-sm font-semibold uppercase tracking-widest text-charcoal-light">
               Build Status — {statusOverview.confirmedCount} of {statusOverview.totalCount} components confirmed
             </p>
@@ -235,32 +239,34 @@ export default async function BuildingTheBikePage() {
             More Than a Bike
           </h2>
 
-          <div className="mx-auto mt-10 max-w-2xl space-y-5 text-lg leading-relaxed text-off-white/85">
-            <p>I got this bike as a collection of parts.</p>
-            <p>
-              Over the course of months, I worked with different groups and organizations — brainstorming ideas,
-              chasing down support, sourcing components one at a time. The pile of parts kept growing. A crankset
-              here. A saddle there. A stand to work on it. With each new part, a little more got added to the bike.
-            </p>
-            <p>Now, nearly at the finish of the build, it&apos;s become something more than a bike.</p>
-            <p>
-              It represents rebuilding ourselves into something capable of carrying us through the challenges of
-              life. We can&apos;t do that if we&apos;re missing pieces of ourselves.
-            </p>
-            <p>
-              Sometimes that means getting new parts for ourselves — techniques to cope with stress, outlets that
-              keep our minds and bodies strong. Sometimes it means repairing and refining what&apos;s already there.
-            </p>
-            <p>
-              Either way, the goal is the same: putting something together that&apos;s more powerful and more
-              meaningful than just the sum of its parts.
-            </p>
-          </div>
+          <FocusScrollSection>
+            <div className="mx-auto mt-10 max-w-2xl space-y-5 text-lg leading-relaxed text-off-white/85">
+              <p>I got this bike as a collection of parts.</p>
+              <p>
+                Over the course of months, I worked with different groups and organizations — brainstorming ideas,
+                chasing down support, sourcing components one at a time. The pile of parts kept growing. A crankset
+                here. A saddle there. A stand to work on it. With each new part, a little more got added to the bike.
+              </p>
+              <p>Now, nearly at the finish of the build, it&apos;s become something more than a bike.</p>
+              <p>
+                It represents rebuilding ourselves into something capable of carrying us through the challenges of
+                life. We can&apos;t do that if we&apos;re missing pieces of ourselves.
+              </p>
+              <p>
+                Sometimes that means getting new parts for ourselves — techniques to cope with stress, outlets that
+                keep our minds and bodies strong. Sometimes it means repairing and refining what&apos;s already there.
+              </p>
+              <p>
+                Either way, the goal is the same: putting something together that&apos;s more powerful and more
+                meaningful than just the sum of its parts.
+              </p>
+            </div>
 
-          <blockquote className="mx-auto mt-10 max-w-xl border-l-2 border-bronze pl-5 text-lg italic text-off-white/90">
-            Progress rarely arrives fully assembled. Sometimes it appears as a bare frame, a box of parts, a few
-            people willing to help, and the decision to keep moving.
-          </blockquote>
+            <blockquote className="mx-auto mt-10 max-w-xl border-l-2 border-bronze pl-5 text-lg italic text-off-white/90">
+              Progress rarely arrives fully assembled. Sometimes it appears as a bare frame, a box of parts, a few
+              people willing to help, and the decision to keep moving.
+            </blockquote>
+          </FocusScrollSection>
 
           <div className="mx-auto mt-10 max-w-2xl border-t border-off-white/15 pt-8 text-sm leading-relaxed text-off-white/70">
             <p>
