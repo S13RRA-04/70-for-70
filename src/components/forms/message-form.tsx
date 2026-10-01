@@ -1,13 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import {
-  TurnstileWidget,
-  isTurnstileEnabled,
-  type TurnstileWidgetHandle,
-} from "@/components/forms/turnstile-widget";
-
-type Status = "idle" | "submitting" | "success" | "error";
+import { FormError, HoneypotField } from "@/components/forms/form-parts";
+import { TurnstileWidget } from "@/components/forms/turnstile-widget";
+import { useFormSubmit } from "@/components/forms/use-form-submit";
 
 const MESSAGE_MAX_LENGTH = 500;
 
@@ -15,60 +10,17 @@ const MESSAGE_MAX_LENGTH = 500;
  * The /messages cheer-board submission form. Posts to /api/messages, which
  * inserts with approved: false — a message only appears on the public board
  * once reviewed at /admin/messages. Same anti-spam stack (honeypot, minimum
- * fill time, per-IP rate limit) as every other public form on this site.
+ * fill time, per-IP rate limit, Turnstile) as every other public form.
  */
 export function MessageForm() {
-  const [status, setStatus] = useState<Status>("idle");
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [turnstileToken, setTurnstileToken] = useState("");
-  const turnstileRef = useRef<TurnstileWidgetHandle>(null);
-  const renderedAtRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    renderedAtRef.current = Date.now();
-  }, []);
-
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setStatus("submitting");
-    setErrorMessage(null);
-
-    const form = e.currentTarget;
-    const data = new FormData(form);
-
-    const payload = {
+  const { status, errorMessage, setTurnstileToken, turnstileRef, handleSubmit, submitDisabled } = useFormSubmit({
+    endpoint: "/api/messages",
+    buildPayload: (data) => ({
       name: String(data.get("name") ?? ""),
       anonymous: data.get("anonymous") === "on",
       message: String(data.get("message") ?? ""),
-      companyWebsite: String(data.get("companyWebsite") ?? ""),
-      renderedAt: renderedAtRef.current ?? Date.now(),
-      turnstileToken,
-    };
-
-    try {
-      const res = await fetch("/api/messages", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const json = await res.json();
-
-      if (!res.ok || !json.ok) {
-        setStatus("error");
-        setErrorMessage(json.error ?? "Something went wrong. Please try again.");
-        return;
-      }
-
-      setStatus("success");
-      form.reset();
-    } catch {
-      setStatus("error");
-      setErrorMessage("Something went wrong. Please try again.");
-    } finally {
-      turnstileRef.current?.reset();
-      setTurnstileToken("");
-    }
-  }
+    }),
+  });
 
   if (status === "success") {
     return (
@@ -85,17 +37,7 @@ export function MessageForm() {
 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-5" aria-busy={status === "submitting"}>
-      {/* Honeypot field — hidden from sighted users, left blank by real people. */}
-      <div className="absolute left-[-9999px]" aria-hidden="true">
-        <label htmlFor="message-companyWebsite">Leave this field blank</label>
-        <input
-          type="text"
-          id="message-companyWebsite"
-          name="companyWebsite"
-          tabIndex={-1}
-          autoComplete="off"
-        />
-      </div>
+      <HoneypotField id="message-companyWebsite" />
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
@@ -137,15 +79,11 @@ export function MessageForm() {
 
       <TurnstileWidget ref={turnstileRef} action="message" onToken={setTurnstileToken} />
 
-      {status === "error" && errorMessage && (
-        <p role="alert" className="text-sm font-medium text-red-700">
-          {errorMessage}
-        </p>
-      )}
+      <FormError message={status === "error" ? errorMessage : null} />
 
       <button
         type="submit"
-        disabled={status === "submitting" || (isTurnstileEnabled && !turnstileToken)}
+        disabled={submitDisabled}
         data-analytics-event="message_board_submit"
         className="w-full rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light disabled:opacity-60 sm:w-auto"
       >

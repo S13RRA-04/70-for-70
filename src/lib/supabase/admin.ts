@@ -1,6 +1,6 @@
 import "server-only";
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
-import { SUPABASE_URL } from "./config";
+import { requireAdminConfig } from "./config";
 
 /**
  * Service-role client. Bypasses RLS — never import this from a Client
@@ -8,15 +8,9 @@ import { SUPABASE_URL } from "./config";
  * Used only by trusted server code, e.g. the inquiries API route.
  */
 export function createAdminClient() {
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const { url, serviceRoleKey } = requireAdminConfig();
 
-  if (!SUPABASE_URL || !serviceRoleKey) {
-    throw new Error(
-      "Supabase admin client requires NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.",
-    );
-  }
-
-  return createSupabaseClient(SUPABASE_URL, serviceRoleKey, {
+  return createSupabaseClient(url, serviceRoleKey, {
     auth: { autoRefreshToken: false, persistSession: false },
   });
 }

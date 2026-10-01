@@ -1,4 +1,5 @@
 import { createPublicClient } from "@/lib/supabase/public";
+import { logServerError } from "@/lib/log";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { SEED_PARTNERS } from "./seed-data";
 import type { PartnerRow } from "@/types/database";
@@ -16,7 +17,7 @@ export async function getPartners(): Promise<PartnerRow[]> {
     .order("name", { ascending: true });
 
   if (error || !data) {
-    console.error("Failed to load partners, falling back to seed data:", error);
+    logServerError("data.partners: load failed, using seed", error);
     return SEED_PARTNERS.filter((p) => p.active);
   }
 

@@ -1,4 +1,5 @@
 import { createPublicClient } from "@/lib/supabase/public";
+import { logServerError } from "@/lib/log";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import type { AllocationPolicy, CampaignRow } from "@/types/database";
 
@@ -27,7 +28,7 @@ export async function getAllocationBreakdown(
     .not("organization_benefited", "is", null);
 
   if (error || !data) {
-    console.error("Failed to load allocation breakdown:", error);
+    logServerError("data.allocation: load breakdown failed", error);
     return null;
   }
 

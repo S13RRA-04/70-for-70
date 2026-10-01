@@ -1,4 +1,5 @@
 import "server-only";
+import { logServerError } from "@/lib/log";
 import { createClient } from "@/lib/supabase/server";
 import { isAppEventRegistrationOpen } from "@/lib/data/app/events";
 import type { AppRegistrationRow, RegistrationType } from "@/types/app";
@@ -19,7 +20,7 @@ export async function getMyRegistration(eventId: string): Promise<AppRegistratio
     .maybeSingle();
 
   if (error) {
-    console.error("Failed to load registration:", error);
+    logServerError("data.app.registrations: load failed", error);
     return null;
   }
   return data;
@@ -49,7 +50,7 @@ export async function registerForAppEvent(input: {
 
   if (error) {
     if (error.code === "23505") return { ok: false, error: "You're already registered for this event." };
-    console.error("Failed to register for app event:", error);
+    logServerError("data.app.registrations: register failed", error);
     return { ok: false, error: "Something went wrong. Please try again." };
   }
 

@@ -1,13 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
-import {
-  TurnstileWidget,
-  isTurnstileEnabled,
-  type TurnstileWidgetHandle,
-} from "@/components/forms/turnstile-widget";
+import { FormError, HoneypotField } from "@/components/forms/form-parts";
+import { TurnstileWidget } from "@/components/forms/turnstile-widget";
+import { useFormSubmit } from "@/components/forms/use-form-submit";
 
 /** Ignore an immediate refocus (e.g. an accidental click-away) — only prompt after a real trip out. */
 const MIN_AWAY_MS = 5_000;
@@ -41,16 +39,35 @@ export function ExternalDonateButton({
   const reportDialogRef = useRef<HTMLDialogElement>(null);
   const awaitingReturnRef = useRef(false);
   const clickedAtRef = useRef(0);
+  // This button can appear many times per page, so the honeypot's id has to be
+  // per-instance rather than the fixed prefix every other form uses.
+  const honeypotId = useId();
 
   const [amount, setAmount] = useState("");
   const [donorName, setDonorName] = useState("");
   const [donorEmail, setDonorEmail] = useState("");
   const [anonymous, setAnonymous] = useState(false);
-  const [renderedAt, setRenderedAt] = useState(0);
-  const [status, setStatus] = useState<"idle" | "submitting" | "done">("idle");
-  const [turnstileToken, setTurnstileToken] = useState("");
   const [reportOpen, setReportOpen] = useState(false);
-  const turnstileRef = useRef<TurnstileWidgetHandle>(null);
+
+  const parsedAmount = Number(amount);
+  const amountValid = Number.isFinite(parsedAmount) && parsedAmount > 0;
+
+  const { status, errorMessage, setTurnstileToken, turnstileRef, handleSubmit, reset, submitDisabled } = useFormSubmit({
+    endpoint: "/api/donations",
+    // The fields here are controlled, so the payload is built from component
+    // state rather than the FormData the other forms read.
+    buildPayload: () => ({
+      amount: parsedAmount,
+      donorName,
+      donorEmail,
+      anonymous,
+      organizationBenefited: orgName,
+      mileNumber,
+    }),
+    onSuccess: () => {
+      setTimeout(closeReportDialog, 2_500);
+    },
+  });
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -71,13 +88,11 @@ export function ExternalDonateButton({
         Date.now() - clickedAtRef.current > MIN_AWAY_MS
       ) {
         awaitingReturnRef.current = false;
-        setStatus("idle");
+        reset();
         setAmount("");
         setDonorName("");
         setDonorEmail("");
         setAnonymous(false);
-        setRenderedAt(Date.now());
-        setTurnstileToken("");
         // Mount the widget only once the dialog is open — the button can
         // appear many times per page, and Turnstile in a closed <dialog>
         // (display:none) is both unreliable and wasteful.
@@ -87,46 +102,11 @@ export function ExternalDonateButton({
     }
     document.addEventListener("visibilitychange", onVisibilityChange);
     return () => document.removeEventListener("visibilitychange", onVisibilityChange);
-  }, []);
+  }, [reset]);
 
   function closeReportDialog() {
     setReportOpen(false);
-    setTurnstileToken("");
     reportDialogRef.current?.close();
-  }
-
-  async function handleReportSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const parsedAmount = Number(amount);
-    if (!Number.isFinite(parsedAmount) || parsedAmount <= 0) return;
-
-    setStatus("submitting");
-    try {
-      const response = await fetch("/api/donations", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          amount: parsedAmount,
-          donorName,
-          donorEmail,
-          anonymous,
-          organizationBenefited: orgName,
-          mileNumber,
-          companyWebsite: "",
-          renderedAt,
-          turnstileToken,
-        }),
-      });
-      if (!response.ok) throw new Error("Request failed");
-      setStatus("done");
-      setTimeout(closeReportDialog, 2_500);
-    } catch {
-      // Supplementary capture, not a blocking flow — fail soft.
-      closeReportDialog();
-    } finally {
-      turnstileRef.current?.reset();
-      setTurnstileToken("");
-    }
   }
 
   return (
@@ -192,10 +172,7 @@ export function ExternalDonateButton({
 
       <dialog
         ref={reportDialogRef}
-        onClose={() => {
-          setReportOpen(false);
-          setTurnstileToken("");
-        }}
+        onClose={() => setReportOpen(false)}
         onClick={(e) => {
           if (e.target === reportDialogRef.current) closeReportDialog();
         }}
@@ -203,12 +180,13 @@ export function ExternalDonateButton({
         className="m-auto w-[min(28rem,calc(100vw-2rem))] rounded-sm border border-ink/10 bg-off-white p-0 text-ink shadow-xl backdrop:bg-ink/60"
       >
         <div className="p-6">
-          {status === "done" ? (
+          {status === "success" ? (
             <p className="text-sm font-medium text-ink">
               Thanks — we&apos;ll verify and credit this gift shortly.
             </p>
           ) : (
-            <form onSubmit={handleReportSubmit}>
+            <form onSubmit={handleSubmit}>
+              <HoneypotField id={honeypotId} />
               <h3
                 id="donate-report-heading"
                 className="font-display text-lg font-semibold uppercase tracking-wide"
@@ -273,10 +251,12 @@ export function ExternalDonateButton({
                 />
               )}
 
+              <FormError message={status === "error" ? errorMessage : null} />
+
               <div className="mt-6 flex flex-wrap gap-3">
                 <button
                   type="submit"
-                  disabled={status === "submitting" || (isTurnstileEnabled && !turnstileToken)}
+                  disabled={submitDisabled || !amountValid}
                   data-analytics-event="donation_reported"
                   className="inline-flex items-center gap-1.5 rounded-sm bg-bronze px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-light disabled:opacity-60"
                 >

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { botCheckFields } from "./bot-check";
 
 export const TRIATHLON_EXPERIENCE_LEVELS = [
   "First-time triathlete",
@@ -55,16 +56,8 @@ export const triathlonTeamApplicationSchema = z
     ackCosts: z.literal(true, { message: "This acknowledgment is required" }),
     ackSafety: z.literal(true, { message: "This acknowledgment is required" }),
     ackConduct: z.literal(true, { message: "This acknowledgment is required" }),
-
-    // Honeypot: real users never fill this hidden field.
-    companyWebsite: z.string().max(0, "").optional().or(z.literal("")),
-    // Client-render timestamp (ms epoch); submissions faster than a human
-    // can plausibly fill the form are treated as bots.
-    renderedAt: z.number(),
-    // Optional Turnstile token — only enforced once TURNSTILE_SECRET_KEY is
-    // set (see src/lib/turnstile.ts).
-    turnstileToken: z.string().max(4096).optional(),
   })
+  .extend(botCheckFields)
   .superRefine((data, ctx) => {
     if (data.registeredForRace === "yes" && !data.raceName?.trim()) {
       ctx.addIssue({ code: "custom", path: ["raceName"], message: "Race name is required" });

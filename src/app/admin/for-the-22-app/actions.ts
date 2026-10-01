@@ -4,8 +4,13 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { requireAdminUser } from "@/lib/supabase/require-admin";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { logServerError } from "@/lib/log";
 
 const DASHBOARD_PATH = "/admin/for-the-22-app";
+
+function withError(message: string) {
+  return `${DASHBOARD_PATH}?error=${encodeURIComponent(message)}`;
+}
 
 export async function updateAppEventAction(formData: FormData) {
   await requireAdminUser();
@@ -46,7 +51,10 @@ export async function updateAppEventAction(formData: FormData) {
     })
     .eq("id", id);
 
-  if (error) console.error("Failed to update app event:", error);
+  if (error) {
+    logServerError("for-the-22-app: failed to update app event", error);
+    redirect(withError("Failed to update event settings."));
+  }
 
   revalidatePath(DASHBOARD_PATH);
   redirect(DASHBOARD_PATH);

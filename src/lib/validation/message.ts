@@ -1,17 +1,12 @@
 import { z } from "zod";
+import { botCheckFields } from "./bot-check";
 
-export const messageSchema = z.object({
-  name: z.string().trim().min(1, "Name is required").max(100),
-  anonymous: z.boolean().optional().default(false),
-  message: z.string().trim().min(1, "Message is required").max(500),
-  // Honeypot: real users never fill this hidden field.
-  companyWebsite: z.string().max(0, "").optional().or(z.literal("")),
-  // Client-render timestamp (ms epoch); submissions faster than a human
-  // can plausibly fill the form are treated as bots.
-  renderedAt: z.number(),
-  // Optional Turnstile token — only enforced once TURNSTILE_SECRET_KEY is set
-  // (see src/lib/turnstile.ts).
-  turnstileToken: z.string().max(4096).optional(),
-});
+export const messageSchema = z
+  .object({
+    name: z.string().trim().min(1, "Name is required").max(100),
+    anonymous: z.boolean().optional().default(false),
+    message: z.string().trim().min(1, "Message is required").max(500),
+  })
+  .extend(botCheckFields);
 
 export type MessageInput = z.infer<typeof messageSchema>;

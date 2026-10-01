@@ -1,4 +1,5 @@
 import { createPublicClient } from "@/lib/supabase/public";
+import { logServerError } from "@/lib/log";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { SEED_GIVEAWAY_PRIZES } from "./seed-data";
 import type { GiveawayPrizeRow } from "@/types/database";
@@ -18,7 +19,7 @@ export async function getGiveawayPrizes(eventId: string): Promise<GiveawayPrizeR
     .order("display_order", { ascending: true });
 
   if (error || !data) {
-    console.error("Failed to load giveaway prizes, falling back to seed data:", error);
+    logServerError("data.giveaway-prizes: load failed, using seed", error);
     return SEED_GIVEAWAY_PRIZES.filter((item) => item.event_id === eventId).sort(
       (a, b) => a.display_order - b.display_order,
     );

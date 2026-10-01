@@ -1,14 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { GET_INVOLVED_INTEREST_TYPES } from "@/lib/validation/inquiry";
-import {
-  TurnstileWidget,
-  isTurnstileEnabled,
-  type TurnstileWidgetHandle,
-} from "@/components/forms/turnstile-widget";
-
-type Status = "idle" | "submitting" | "success" | "error";
+import { FormError, HoneypotField, FORM_CONTROL_CLASS_COMPACT } from "@/components/forms/form-parts";
+import { TurnstileWidget } from "@/components/forms/turnstile-widget";
+import { useFormSubmit } from "@/components/forms/use-form-submit";
 
 interface GetInvolvedFormProps {
   /**
@@ -32,60 +27,18 @@ interface GetInvolvedFormProps {
  * GET_INVOLVED_INTEREST_TYPES.
  */
 export function GetInvolvedForm({ defaultInterest, idPrefix = "" }: GetInvolvedFormProps = {}) {
-  const [status, setStatus] = useState<Status>("idle");
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [turnstileToken, setTurnstileToken] = useState("");
-  const turnstileRef = useRef<TurnstileWidgetHandle>(null);
-  const renderedAtRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    renderedAtRef.current = Date.now();
-  }, []);
-
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setStatus("submitting");
-    setErrorMessage(null);
-
-    const form = e.currentTarget;
-    const data = new FormData(form);
-
-    const payload = {
+  const { status, errorMessage, setTurnstileToken, turnstileRef, handleSubmit, submitDisabled } = useFormSubmit({
+    endpoint: "/api/inquiries",
+    buildPayload: (data) => ({
       name: String(data.get("name") ?? ""),
       organization: "",
       email: String(data.get("email") ?? ""),
       phone: String(data.get("phone") ?? ""),
+      // Falls back to the prop only when the select isn't rendered at all.
       interest: String(data.get("interest") ?? defaultInterest ?? ""),
       message: String(data.get("message") ?? ""),
-      companyWebsite: String(data.get("companyWebsite") ?? ""),
-      renderedAt: renderedAtRef.current ?? Date.now(),
-      turnstileToken,
-    };
-
-    try {
-      const res = await fetch("/api/inquiries", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const json = await res.json();
-
-      if (!res.ok || !json.ok) {
-        setStatus("error");
-        setErrorMessage(json.error ?? "Something went wrong. Please try again.");
-        return;
-      }
-
-      setStatus("success");
-      form.reset();
-    } catch {
-      setStatus("error");
-      setErrorMessage("Something went wrong. Please try again.");
-    } finally {
-      turnstileRef.current?.reset();
-      setTurnstileToken("");
-    }
-  }
+    }),
+  });
 
   if (status === "success") {
     return (
@@ -104,17 +57,7 @@ export function GetInvolvedForm({ defaultInterest, idPrefix = "" }: GetInvolvedF
 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-5" aria-busy={status === "submitting"}>
-      {/* Honeypot field — hidden from sighted users, left blank by real people. */}
-      <div className="absolute left-[-9999px]" aria-hidden="true">
-        <label htmlFor={`${idPrefix}involved-companyWebsite`}>Leave this field blank</label>
-        <input
-          type="text"
-          id={`${idPrefix}involved-companyWebsite`}
-          name="companyWebsite"
-          tabIndex={-1}
-          autoComplete="off"
-        />
-      </div>
+      <HoneypotField id={`${idPrefix}involved-companyWebsite`} />
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
@@ -126,7 +69,7 @@ export function GetInvolvedForm({ defaultInterest, idPrefix = "" }: GetInvolvedF
             name="name"
             type="text"
             required
-            className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
+            className={FORM_CONTROL_CLASS_COMPACT}
           />
         </div>
 
@@ -139,7 +82,7 @@ export function GetInvolvedForm({ defaultInterest, idPrefix = "" }: GetInvolvedF
             name="email"
             type="email"
             required
-            className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
+            className={FORM_CONTROL_CLASS_COMPACT}
           />
         </div>
 
@@ -151,7 +94,7 @@ export function GetInvolvedForm({ defaultInterest, idPrefix = "" }: GetInvolvedF
             id={`${idPrefix}involved-phone`}
             name="phone"
             type="tel"
-            className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
+            className={FORM_CONTROL_CLASS_COMPACT}
           />
         </div>
 
@@ -167,7 +110,7 @@ export function GetInvolvedForm({ defaultInterest, idPrefix = "" }: GetInvolvedF
               name="interest"
               required
               defaultValue=""
-              className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
+              className={FORM_CONTROL_CLASS_COMPACT}
             >
               <option value="" disabled>
                 Select an option
@@ -191,21 +134,17 @@ export function GetInvolvedForm({ defaultInterest, idPrefix = "" }: GetInvolvedF
           name="message"
           required
           rows={4}
-          className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
+          className={FORM_CONTROL_CLASS_COMPACT}
         />
       </div>
 
       <TurnstileWidget ref={turnstileRef} action="inquiry" onToken={setTurnstileToken} />
 
-      {status === "error" && errorMessage && (
-        <p role="alert" className="text-sm font-medium text-red-700">
-          {errorMessage}
-        </p>
-      )}
+      <FormError message={status === "error" ? errorMessage : null} />
 
       <button
         type="submit"
-        disabled={status === "submitting" || (isTurnstileEnabled && !turnstileToken)}
+        disabled={submitDisabled}
         data-analytics-event="get_involved_signup"
         className="w-full rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light disabled:opacity-60 sm:w-auto"
       >

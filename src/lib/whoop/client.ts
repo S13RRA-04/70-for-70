@@ -1,4 +1,6 @@
 import "server-only";
+import { logServerError } from "@/lib/log";
+import { providerFetch } from "@/lib/oauth";
 import { getValidAccessToken } from "./tokens";
 import { WHOOP_API_BASE_URL, isWhoopConfigured } from "./config";
 import type { WhoopProfile, WhoopTrainingSnapshot, WhoopWorkoutSummary } from "@/types/whoop";
@@ -6,17 +8,8 @@ import type { WhoopProfile, WhoopTrainingSnapshot, WhoopWorkoutSummary } from "@
 /** How long a fetched WHOOP snapshot is reused before hitting the API again. */
 const SNAPSHOT_REVALIDATE_SECONDS = 30 * 60;
 
-async function whoopFetch<T>(path: string, accessToken: string): Promise<T> {
-  const res = await fetch(`${WHOOP_API_BASE_URL}${path}`, {
-    headers: { Authorization: `Bearer ${accessToken}` },
-    next: { revalidate: SNAPSHOT_REVALIDATE_SECONDS },
-  });
-
-  if (!res.ok) {
-    throw new Error(`WHOOP API request failed (${path}): ${res.status}`);
-  }
-
-  return res.json();
+function whoopFetch<T>(path: string, accessToken: string): Promise<T> {
+  return providerFetch<T>("WHOOP", WHOOP_API_BASE_URL, path, accessToken, SNAPSHOT_REVALIDATE_SECONDS);
 }
 
 interface WhoopCollection<T> {
@@ -114,7 +107,7 @@ export async function getTrainingSnapshot(): Promise<WhoopTrainingSnapshot | nul
       recentWorkouts,
     };
   } catch (error) {
-    console.error("Failed to fetch WHOOP training snapshot:", error);
+    logServerError("whoop.client: fetch snapshot failed", error);
     return null;
   }
 }

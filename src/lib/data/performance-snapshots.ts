@@ -1,4 +1,5 @@
 import { createPublicClient } from "@/lib/supabase/public";
+import { logServerError } from "@/lib/log";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { SEED_PERFORMANCE_SNAPSHOTS } from "./seed-data";
 import type { PerformanceMetricCategory, PerformanceSnapshotRow } from "@/types/database";
@@ -25,7 +26,7 @@ async function getAllPerformanceSnapshots(): Promise<PerformanceSnapshotRow[]> {
     .order("recorded_on", { ascending: false });
 
   if (error || !data) {
-    console.error("Failed to load performance snapshots, falling back to seed data:", error);
+    logServerError("data.performance-snapshots: load failed, using seed", error);
     return [...SEED_PERFORMANCE_SNAPSHOTS];
   }
 

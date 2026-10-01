@@ -1,11 +1,12 @@
 import { createPublicClient } from "@/lib/supabase/public";
+import { logServerError } from "@/lib/log";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { SEED_CAMPAIGN } from "./seed-data";
 import type { CampaignRow } from "@/types/database";
 
 export async function getCampaign(): Promise<CampaignRow> {
   if (!isSupabaseConfigured()) {
-    return SEED_CAMPAIGN;
+    return { ...SEED_CAMPAIGN };
   }
 
   const supabase = createPublicClient();
@@ -16,8 +17,8 @@ export async function getCampaign(): Promise<CampaignRow> {
     .single();
 
   if (error || !data) {
-    console.error("Failed to load campaign, falling back to seed data:", error);
-    return SEED_CAMPAIGN;
+    logServerError("data.campaign: load failed, using seed", error);
+    return { ...SEED_CAMPAIGN };
   }
 
   return data;

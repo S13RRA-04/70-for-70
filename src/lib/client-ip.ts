@@ -17,12 +17,21 @@ import "server-only";
  * `next dev`), then to a single shared bucket, which fails closed — a burst
  * from many unidentified callers gets throttled together rather than not at all.
  */
-export function getClientIp(request: Request): string {
-  const cloudflareIp = request.headers.get("cf-connecting-ip")?.trim();
+function pickClientIp(headerList: { get(name: string): string | null }): string {
+  const cloudflareIp = headerList.get("cf-connecting-ip")?.trim();
   if (cloudflareIp) return cloudflareIp;
 
-  const forwardedFor = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
+  const forwardedFor = headerList.get("x-forwarded-for")?.split(",")[0]?.trim();
   if (forwardedFor) return forwardedFor;
 
   return "unknown";
+}
+
+export function getClientIp(request: Request): string {
+  return pickClientIp(request.headers);
+}
+
+/** Same logic as {@link getClientIp}, for server actions that only have the `headers()` store rather than a `Request`. */
+export function getClientIpFromHeaders(headerList: Headers): string {
+  return pickClientIp(headerList);
 }

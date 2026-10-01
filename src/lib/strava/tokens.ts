@@ -1,55 +1,44 @@
 import "server-only";
+import { logServerError } from "@/lib/log";
+import { ensureFreshToken, requestTokenGrant, type OAuthTokenResponse } from "@/lib/oauth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { STRAVA_CLIENT_ID, STRAVA_CLIENT_SECRET, STRAVA_TOKEN_URL } from "./config";
 import type { StravaTokenRow } from "@/types/strava";
 
-interface StravaTokenResponse {
-  access_token: string;
-  refresh_token: string;
-  /** Unix seconds — Strava returns an absolute expiry, not a duration. */
+/** Strava's grant is absolute, and returns no scope — that comes off the authorize redirect. */
+interface StravaTokenResponse extends OAuthTokenResponse {
   expires_at: number;
-  token_type: string;
 }
 
-/** Refresh a bit early so a request never races an about-to-expire token. */
-const EXPIRY_BUFFER_MS = 60_000;
+/** The table holds exactly one row; this id never exists, so `.neq("id", …)` means "all of them". */
+const NO_ROW = "00000000-0000-0000-0000-000000000000";
 
 export async function exchangeAuthorizationCode(code: string): Promise<StravaTokenResponse> {
-  const res = await fetch(STRAVA_TOKEN_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({
+  return requestTokenGrant<StravaTokenResponse>(
+    "Strava",
+    "exchange",
+    STRAVA_TOKEN_URL,
+    STRAVA_CLIENT_ID,
+    STRAVA_CLIENT_SECRET,
+    {
       grant_type: "authorization_code",
       code,
-      client_id: STRAVA_CLIENT_ID ?? "",
-      client_secret: STRAVA_CLIENT_SECRET ?? "",
-    }),
-  });
-
-  if (!res.ok) {
-    throw new Error(`Strava token exchange failed: ${res.status} ${await res.text()}`);
-  }
-
-  return res.json();
+    },
+  );
 }
 
 async function refreshAccessToken(refreshToken: string): Promise<StravaTokenResponse> {
-  const res = await fetch(STRAVA_TOKEN_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({
+  return requestTokenGrant<StravaTokenResponse>(
+    "Strava",
+    "refresh",
+    STRAVA_TOKEN_URL,
+    STRAVA_CLIENT_ID,
+    STRAVA_CLIENT_SECRET,
+    {
       grant_type: "refresh_token",
       refresh_token: refreshToken,
-      client_id: STRAVA_CLIENT_ID ?? "",
-      client_secret: STRAVA_CLIENT_SECRET ?? "",
-    }),
-  });
-
-  if (!res.ok) {
-    throw new Error(`Strava token refresh failed: ${res.status} ${await res.text()}`);
-  }
-
-  return res.json();
+    },
+  );
 }
 
 /** Stores tokens as the single strava_tokens row, replacing any existing one. */
@@ -61,24 +50,26 @@ export async function saveStravaTokens(
   const admin = createAdminClient();
   const expiresAt = new Date(tokens.expires_at * 1000).toISOString();
 
-  await admin.from("strava_tokens").delete().neq("id", "00000000-0000-0000-0000-000000000000");
-  await admin.from("strava_tokens").insert({
+  const { error: deleteError } = await admin.from("strava_tokens").delete().neq("id", NO_ROW);
+  if (deleteError) logServerError("strava: clear previous tokens failed", deleteError);
+
+  const { error: insertError } = await admin.from("strava_tokens").insert({
     strava_athlete_id: stravaAthleteId,
     access_token: tokens.access_token,
     refresh_token: tokens.refresh_token,
     scope,
     expires_at: expiresAt,
   });
+  if (insertError) logServerError("strava: store tokens failed", insertError);
 }
 
 export async function disconnectStrava(): Promise<void> {
-  const admin = createAdminClient();
-  await admin.from("strava_tokens").delete().neq("id", "00000000-0000-0000-0000-000000000000");
+  const { error } = await createAdminClient().from("strava_tokens").delete().neq("id", NO_ROW);
+  if (error) logServerError("strava: disconnect failed", error);
 }
 
 export async function getStravaConnection(): Promise<StravaTokenRow | null> {
-  const admin = createAdminClient();
-  const { data } = await admin.from("strava_tokens").select("*").maybeSingle();
+  const { data } = await createAdminClient().from("strava_tokens").select("*").maybeSingle();
   return (data as StravaTokenRow | null) ?? null;
 }
 
@@ -89,14 +80,10 @@ export async function getStravaConnection(): Promise<StravaTokenRow | null> {
  */
 export async function getValidAccessToken(): Promise<string | null> {
   const row = await getStravaConnection();
-  if (!row) return null;
 
-  const expiresAt = new Date(row.expires_at).getTime();
-  if (expiresAt - EXPIRY_BUFFER_MS > Date.now()) {
-    return row.access_token;
-  }
-
-  const refreshed = await refreshAccessToken(row.refresh_token);
-  await saveStravaTokens(row.strava_athlete_id, refreshed, row.scope);
-  return refreshed.access_token;
+  return ensureFreshToken(row, async (stored) => {
+    const refreshed = await refreshAccessToken(stored.refresh_token);
+    await saveStravaTokens(stored.strava_athlete_id, refreshed, stored.scope);
+    return refreshed.access_token;
+  });
 }

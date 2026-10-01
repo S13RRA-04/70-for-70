@@ -1,4 +1,5 @@
 import "server-only";
+import { logServerError } from "@/lib/log";
 import { createClient } from "@/lib/supabase/server";
 import { createActivitySchema, type CreateActivityInput } from "@/lib/validation/activity";
 import type { ActivityRow } from "@/types/app";
@@ -20,7 +21,7 @@ export async function getMyActivities(eventId: string): Promise<ActivityRow[]> {
     .order("created_at", { ascending: true });
 
   if (error) {
-    console.error("Failed to load activities:", error);
+    logServerError("data.app.activities: load failed", error);
     return [];
   }
   return data;
@@ -107,7 +108,7 @@ export async function createActivity(
     .single();
 
   if (error || !inserted) {
-    console.error("Failed to insert activity:", error);
+    logServerError("data.app.activities: insert failed", error);
     return { ok: false, error: "Something went wrong. Please try again." };
   }
 
@@ -118,7 +119,7 @@ export async function deleteActivity(activityId: string): Promise<{ ok: true } |
   const supabase = await createClient();
   const { error } = await supabase.from("activities").delete().eq("id", activityId);
   if (error) {
-    console.error("Failed to delete activity:", error);
+    logServerError("data.app.activities: delete failed", error);
     return { ok: false, error: "Something went wrong. Please try again." };
   }
   return { ok: true };

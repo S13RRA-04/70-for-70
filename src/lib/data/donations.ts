@@ -1,8 +1,17 @@
 import { createPublicClient } from "@/lib/supabase/public";
+import { logServerError } from "@/lib/log";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { SEED_DONATIONS } from "./seed-data";
 import { PUBLIC_DONATION_COLUMNS } from "./donation-columns";
 import type { DonationWithMile } from "@/types/database";
+
+/** Shared by the not-configured and query-error paths so a broken query looks like the seed site rather than an empty wall. */
+function seedRecentDonations(limit: number): DonationWithMile[] {
+  return [...SEED_DONATIONS]
+    .sort((a, b) => b.date.localeCompare(a.date))
+    .slice(0, limit)
+    .map((donation) => ({ ...donation, mile_number: null }));
+}
 
 /** Count of publicly visible (verified) donations — see donations' RLS policy in schema.sql, the same "verified is the only thing that makes a donation public" rule getRecentDonations relies on. */
 export async function getVerifiedDonationCount(): Promise<number> {
@@ -17,8 +26,8 @@ export async function getVerifiedDonationCount(): Promise<number> {
     .eq("verified", true);
 
   if (error || count === null) {
-    console.error("Failed to count verified donations:", error);
-    return 0;
+    logServerError("data.donations: count verified failed, using seed", error);
+    return SEED_DONATIONS.length;
   }
 
   return count;
@@ -26,10 +35,7 @@ export async function getVerifiedDonationCount(): Promise<number> {
 
 export async function getRecentDonations(limit = 5): Promise<DonationWithMile[]> {
   if (!isSupabaseConfigured()) {
-    return [...SEED_DONATIONS]
-      .sort((a, b) => b.date.localeCompare(a.date))
-      .slice(0, limit)
-      .map((donation) => ({ ...donation, mile_number: null }));
+    return seedRecentDonations(limit);
   }
 
   const supabase = createPublicClient();
@@ -41,8 +47,8 @@ export async function getRecentDonations(limit = 5): Promise<DonationWithMile[]>
     .limit(limit);
 
   if (error || !data) {
-    console.error("Failed to load recent donations:", error);
-    return [];
+    logServerError("data.donations: load recent failed, using seed", error);
+    return seedRecentDonations(limit);
   }
 
   return data.map(({ miles, ...donation }) => ({

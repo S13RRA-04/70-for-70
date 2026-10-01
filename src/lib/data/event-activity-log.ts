@@ -1,4 +1,5 @@
 import { createPublicClient } from "@/lib/supabase/public";
+import { logServerError } from "@/lib/log";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { SEED_EVENT_ACTIVITY_LOG } from "./seed-data";
 import type { EventActivityLogRow } from "@/types/database";
@@ -18,7 +19,7 @@ export async function getEventActivityLog(eventId: string): Promise<EventActivit
     .order("display_order", { ascending: true });
 
   if (error || !data) {
-    console.error("Failed to load event activity log, falling back to seed data:", error);
+    logServerError("data.event-activity-log: load failed, using seed", error);
     return SEED_EVENT_ACTIVITY_LOG.filter((entry) => entry.event_id === eventId).sort(
       (a, b) => a.display_order - b.display_order,
     );

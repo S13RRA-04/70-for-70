@@ -1,10 +1,9 @@
 import { NextResponse } from "next/server";
-import { getClientIp } from "@/lib/client-ip";
-import { createClient } from "@/lib/supabase/server";
-import { isRateLimited } from "@/lib/rate-limit";
-import { signupSchema } from "@/lib/validation/app-auth";
+import { readRateLimitedJson } from "@/lib/api-request";
 import { APP_URL } from "@/lib/constants";
 import { logServerError } from "@/lib/log";
+import { createClient } from "@/lib/supabase/server";
+import { signupSchema } from "@/lib/validation/app-auth";
 
 /**
  * Creates the auth.users row via Supabase Auth — public.profiles is
@@ -15,25 +14,18 @@ import { logServerError } from "@/lib/log";
  * app has no visibility into from here — both outcomes are handled below.
  */
 export async function POST(request: Request) {
-  const ip = getClientIp(request);
-  if (await isRateLimited(`app-signup:${ip}`, { limit: 5, windowMs: 10 * 60_000, binding: "RATE_LIMITER_AUTH" })) {
-    return NextResponse.json({ ok: false, error: "Too many requests. Please try again later." }, { status: 429 });
-  }
+  const outcome = await readRateLimitedJson(
+    request,
+    {
+      rateLimitKey: "signup",
+      schema: signupSchema,
+      invalidError: (error) => error.issues[0]?.message ?? "Please check the form and try again.",
+    },
+    () => NextResponse.json({ ok: false, error: "Too many requests. Please try again later." }, { status: 429 }),
+  );
+  if ("response" in outcome) return outcome.response;
 
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return NextResponse.json({ ok: false, error: "Invalid request body." }, { status: 400 });
-  }
-
-  const parsed = signupSchema.safeParse(body);
-  if (!parsed.success) {
-    const firstIssue = parsed.error.issues[0];
-    return NextResponse.json({ ok: false, error: firstIssue?.message ?? "Please check the form and try again." }, { status: 400 });
-  }
-
-  const data = parsed.data;
+  const data = outcome.data;
   const supabase = await createClient();
 
   const { data: signUpData, error } = await supabase.auth.signUp({

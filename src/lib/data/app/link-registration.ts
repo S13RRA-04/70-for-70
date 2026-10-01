@@ -1,4 +1,5 @@
 import "server-only";
+import { logServerError } from "@/lib/log";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { CURRENT_EVENT_SLUG } from "@/lib/content/22-for-the-22";
@@ -101,7 +102,7 @@ export async function linkExistingRegistration(
 
   if (error) {
     if (error.code === "23505") return { ok: false, error: "You're already registered for this event." };
-    console.error("Failed to link existing registration:", error);
+    logServerError("data.app.link-registration: link failed", error);
     return { ok: false, error: "Something went wrong. Please try again." };
   }
 

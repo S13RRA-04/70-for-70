@@ -1,4 +1,5 @@
 import "server-only";
+import { logServerError } from "@/lib/log";
 import { createClient } from "@/lib/supabase/server";
 import type { ProfileRow, ProfileVisibility } from "@/types/app";
 
@@ -11,7 +12,7 @@ export async function getMyProfile(): Promise<ProfileRow | null> {
 
   const { data, error } = await supabase.from("profiles").select("*").eq("id", user.id).maybeSingle();
   if (error) {
-    console.error("Failed to load profile:", error);
+    logServerError("data.app.profiles: load failed", error);
     return null;
   }
   return data;
@@ -47,7 +48,7 @@ export async function updateMyProfile(input: {
     .eq("id", user.id);
 
   if (error) {
-    console.error("Failed to update profile:", error);
+    logServerError("data.app.profiles: update failed", error);
     return { ok: false, error: "Something went wrong. Please try again." };
   }
 

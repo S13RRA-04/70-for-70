@@ -13,8 +13,10 @@ function toDatetimeLocal(iso: string): string {
   return iso.slice(0, 16);
 }
 
-export default async function ForThe22AppAdminPage() {
+export default async function ForThe22AppAdminPage(props: PageProps<"/admin/for-the-22-app">) {
   await requireAdminUser();
+  const searchParams = await props.searchParams;
+  const errorParam = Array.isArray(searchParams.error) ? searchParams.error[0] : searchParams.error;
   const admin = createAdminClient();
 
   const { data: event } = await admin
@@ -43,6 +45,12 @@ export default async function ForThe22AppAdminPage() {
         </Link>
       </div>
       <p className="mt-1 text-sm text-charcoal-light">{event.name} — app.forthe22.org</p>
+
+      {errorParam && (
+        <p role="alert" className="mt-4 rounded-sm border border-red-300 bg-red-50 px-4 py-3 text-sm font-medium text-red-800">
+          {errorParam}
+        </p>
+      )}
 
       <div className="mt-6 flex flex-wrap gap-3">
         <Link

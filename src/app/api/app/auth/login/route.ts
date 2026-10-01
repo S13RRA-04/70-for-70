@@ -1,31 +1,28 @@
 import { NextResponse } from "next/server";
-import { getClientIp } from "@/lib/client-ip";
+import { readRateLimitedJson } from "@/lib/api-request";
+import { logServerError } from "@/lib/log";
 import { createClient } from "@/lib/supabase/server";
-import { isRateLimited } from "@/lib/rate-limit";
 import { loginSchema } from "@/lib/validation/app-auth";
 
 export async function POST(request: Request) {
-  const ip = getClientIp(request);
-  if (await isRateLimited(`app-login:${ip}`, { limit: 10, windowMs: 10 * 60_000, binding: "RATE_LIMITER_AUTH" })) {
-    return NextResponse.json({ ok: false, error: "Too many attempts. Please try again later." }, { status: 429 });
-  }
-
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return NextResponse.json({ ok: false, error: "Invalid request body." }, { status: 400 });
-  }
-
-  const parsed = loginSchema.safeParse(body);
-  if (!parsed.success) {
-    return NextResponse.json({ ok: false, error: "Enter your email and password." }, { status: 400 });
-  }
+  const outcome = await readRateLimitedJson(
+    request,
+    { rateLimitKey: "login", schema: loginSchema, invalidError: "Enter your email and password." },
+    () => NextResponse.json({ ok: false, error: "Too many attempts. Please try again later." }, { status: 429 }),
+  );
+  if ("response" in outcome) return outcome.response;
 
   const supabase = await createClient();
-  const { error } = await supabase.auth.signInWithPassword(parsed.data);
+  const { error } = await supabase.auth.signInWithPassword(outcome.data);
 
   if (error) {
+    // Status/code only — never the submitted address, and redact() scrubs any
+    // email Supabase echoed back inside the message.
+    logServerError("app-login: sign in failed", {
+      status: error.status,
+      message: error.message,
+      code: error.code,
+    });
     return NextResponse.json({ ok: false, error: "Incorrect email or password." }, { status: 401 });
   }
 

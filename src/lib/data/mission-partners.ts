@@ -1,4 +1,5 @@
 import { createPublicClient } from "@/lib/supabase/public";
+import { logServerError } from "@/lib/log";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { SEED_MISSION_PARTNERS } from "./seed-data";
 import type { MissionPartnerRow } from "@/types/database";
@@ -31,7 +32,7 @@ export async function getMissionPartners(): Promise<MissionPartnerRow[]> {
     .order("display_order", { ascending: true });
 
   if (error || !data) {
-    console.error("Failed to load mission partners, falling back to seed data:", error);
+    logServerError("data.mission-partners: load failed, using seed", error);
     return [...SEED_MISSION_PARTNERS]
       .filter(isPubliclyEligible)
       .sort((a, b) => a.display_order - b.display_order);

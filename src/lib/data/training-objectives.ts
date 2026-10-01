@@ -1,4 +1,5 @@
 import { createPublicClient } from "@/lib/supabase/public";
+import { logServerError } from "@/lib/log";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { SEED_TRAINING_OBJECTIVES } from "./seed-data";
 import type { TrainingObjectiveCategory, TrainingObjectiveRow } from "@/types/database";
@@ -18,7 +19,7 @@ export async function getTrainingObjectives(): Promise<TrainingObjectiveRow[]> {
     .order("display_order", { ascending: true });
 
   if (error || !data) {
-    console.error("Failed to load training objectives, falling back to seed data:", error);
+    logServerError("data.training-objectives: load failed, using seed", error);
     return [...SEED_TRAINING_OBJECTIVES].sort(
       (a, b) => a.category.localeCompare(b.category) || a.display_order - b.display_order,
     );

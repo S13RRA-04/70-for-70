@@ -1,4 +1,6 @@
+import "server-only";
 import { createClient } from "@/lib/supabase/server";
+import { logServerError } from "@/lib/log";
 import type { AppEventRow } from "@/types/app";
 
 /**
@@ -17,7 +19,7 @@ export async function getAppEvents(): Promise<AppEventRow[]> {
   const supabase = await createClient();
   const { data, error } = await supabase.from("events").select("*").order("start_at", { ascending: false });
   if (error || !data) {
-    console.error("Failed to load app events:", error);
+    logServerError("data.app.events: load failed", error);
     return [];
   }
   return data;
@@ -27,7 +29,7 @@ export async function getAppEventBySlug(slug: string): Promise<AppEventRow | nul
   const supabase = await createClient();
   const { data, error } = await supabase.from("events").select("*").eq("slug", slug).maybeSingle();
   if (error) {
-    console.error(`Failed to load app event "${slug}":`, error);
+    logServerError("data.app.events: load by slug failed", error, { slug });
     return null;
   }
   return data;

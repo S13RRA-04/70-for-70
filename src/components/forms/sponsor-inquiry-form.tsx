@@ -1,70 +1,22 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { SPONSOR_INQUIRY_INTERESTS } from "@/lib/validation/inquiry";
-import {
-  TurnstileWidget,
-  isTurnstileEnabled,
-  type TurnstileWidgetHandle,
-} from "@/components/forms/turnstile-widget";
-
-type Status = "idle" | "submitting" | "success" | "error";
+import { FormError, HoneypotField, FORM_CONTROL_CLASS_COMPACT } from "@/components/forms/form-parts";
+import { TurnstileWidget } from "@/components/forms/turnstile-widget";
+import { useFormSubmit } from "@/components/forms/use-form-submit";
 
 export function SponsorInquiryForm({ prefillItem }: { prefillItem?: string }) {
-  const [status, setStatus] = useState<Status>("idle");
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [turnstileToken, setTurnstileToken] = useState("");
-  const turnstileRef = useRef<TurnstileWidgetHandle>(null);
-  const renderedAtRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    renderedAtRef.current = Date.now();
-  }, []);
-
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setStatus("submitting");
-    setErrorMessage(null);
-
-    const form = e.currentTarget;
-    const data = new FormData(form);
-
-    const payload = {
+  const { status, errorMessage, setTurnstileToken, turnstileRef, handleSubmit, submitDisabled } = useFormSubmit({
+    endpoint: "/api/inquiries",
+    buildPayload: (data) => ({
       name: String(data.get("name") ?? ""),
       organization: String(data.get("organization") ?? ""),
       email: String(data.get("email") ?? ""),
       phone: String(data.get("phone") ?? ""),
       interest: String(data.get("interest") ?? ""),
       message: String(data.get("message") ?? ""),
-      companyWebsite: String(data.get("companyWebsite") ?? ""),
-      renderedAt: renderedAtRef.current ?? Date.now(),
-      turnstileToken,
-    };
-
-    try {
-      const res = await fetch("/api/inquiries", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const json = await res.json();
-
-      if (!res.ok || !json.ok) {
-        setStatus("error");
-        setErrorMessage(json.error ?? "Something went wrong. Please try again.");
-        return;
-      }
-
-      setStatus("success");
-      form.reset();
-    } catch {
-      setStatus("error");
-      setErrorMessage("Something went wrong. Please try again.");
-    } finally {
-      turnstileRef.current?.reset();
-      setTurnstileToken("");
-    }
-  }
+    }),
+  });
 
   if (status === "success") {
     return (
@@ -89,67 +41,35 @@ export function SponsorInquiryForm({ prefillItem }: { prefillItem?: string }) {
           Reaching out about: <span className="font-semibold text-ink">{prefillItem}</span>
         </p>
       )}
-      {/* Honeypot field — hidden from sighted users, left blank by real people. */}
-      <div className="absolute left-[-9999px]" aria-hidden="true">
-        <label htmlFor="companyWebsite">Leave this field blank</label>
-        <input
-          type="text"
-          id="companyWebsite"
-          name="companyWebsite"
-          tabIndex={-1}
-          autoComplete="off"
-        />
-      </div>
+      <HoneypotField id="companyWebsite" />
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor="name" className="text-sm font-medium text-ink">
             Name <span aria-hidden="true">*</span>
           </label>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            required
-            className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
-          />
+          <input id="name" name="name" type="text" required className={FORM_CONTROL_CLASS_COMPACT} />
         </div>
 
         <div>
           <label htmlFor="organization" className="text-sm font-medium text-ink">
             Organization
           </label>
-          <input
-            id="organization"
-            name="organization"
-            type="text"
-            className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
-          />
+          <input id="organization" name="organization" type="text" className={FORM_CONTROL_CLASS_COMPACT} />
         </div>
 
         <div>
           <label htmlFor="email" className="text-sm font-medium text-ink">
             Email <span aria-hidden="true">*</span>
           </label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            required
-            className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
-          />
+          <input id="email" name="email" type="email" required className={FORM_CONTROL_CLASS_COMPACT} />
         </div>
 
         <div>
           <label htmlFor="phone" className="text-sm font-medium text-ink">
             Phone <span className="text-charcoal-light">(optional)</span>
           </label>
-          <input
-            id="phone"
-            name="phone"
-            type="tel"
-            className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
-          />
+          <input id="phone" name="phone" type="tel" className={FORM_CONTROL_CLASS_COMPACT} />
         </div>
       </div>
 
@@ -162,7 +82,7 @@ export function SponsorInquiryForm({ prefillItem }: { prefillItem?: string }) {
           name="interest"
           required
           defaultValue={prefillItem ? "Other" : ""}
-          className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
+          className={FORM_CONTROL_CLASS_COMPACT}
         >
           <option value="" disabled>
             Select an option
@@ -185,21 +105,17 @@ export function SponsorInquiryForm({ prefillItem }: { prefillItem?: string }) {
           required
           rows={5}
           defaultValue={prefillItem ? `I'd like to help with: ${prefillItem}\n\n` : undefined}
-          className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
+          className={FORM_CONTROL_CLASS_COMPACT}
         />
       </div>
 
       <TurnstileWidget ref={turnstileRef} action="inquiry" onToken={setTurnstileToken} />
 
-      {status === "error" && errorMessage && (
-        <p role="alert" className="text-sm font-medium text-red-700">
-          {errorMessage}
-        </p>
-      )}
+      <FormError message={status === "error" ? errorMessage : null} />
 
       <button
         type="submit"
-        disabled={status === "submitting" || (isTurnstileEnabled && !turnstileToken)}
+        disabled={submitDisabled}
         data-analytics-event="sponsor_inquiry"
         className="w-full rounded-sm bg-bronze px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light disabled:opacity-60 sm:w-auto"
       >

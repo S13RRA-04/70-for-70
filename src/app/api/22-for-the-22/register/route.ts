@@ -1,133 +1,95 @@
 import { NextResponse } from "next/server";
-import { getClientIp } from "@/lib/client-ip";
-import { createAdminClient } from "@/lib/supabase/admin";
-import { isSupabaseConfigured } from "@/lib/supabase/config";
-import { isRateLimited } from "@/lib/rate-limit";
-import { eventRegistrationSchema } from "@/lib/validation/event-registration";
-import { notifyEventRegistrationSubmitted } from "@/lib/notifications";
 import { CURRENT_EVENT_SLUG } from "@/lib/content/22-for-the-22";
-import { verifyTurnstileToken } from "@/lib/turnstile";
-import { logServerError, logServerWarn } from "@/lib/log";
-
-const MIN_FILL_TIME_MS = 1_500;
+import { notifyEventRegistrationSubmitted } from "@/lib/notifications";
+import {
+  handlePublicForm,
+  serverError,
+  skipWhenSupabaseUnconfigured,
+} from "@/lib/public-write";
+import { createAdminClient } from "@/lib/supabase/admin";
+import { eventRegistrationSchema } from "@/lib/validation/event-registration";
 
 /** Postgres unique_violation — the event_registrations_event_email_idx unique index tripped. */
 const POSTGRES_UNIQUE_VIOLATION = "23505";
 
 export async function POST(request: Request) {
-  const ip = getClientIp(request);
+  return handlePublicForm(
+    request,
+    {
+      rateLimitKey: "22-for-the-22-register",
+      binding: "RATE_LIMITER_FORMS",
+      schema: eventRegistrationSchema,
+      turnstileAction: "event_registration",
+    },
+    "22-for-the-22",
+    async (data) => {
+      const row = {
+        first_name: data.firstName,
+        last_name: data.lastName,
+        email: data.email,
+        city: data.city,
+        state: data.state,
+        phone: data.phone || null,
 
-  if (await isRateLimited(`22-for-the-22-register:${ip}`, { limit: 5, windowMs: 10 * 60_000, binding: "RATE_LIMITER_FORMS" })) {
-    return NextResponse.json(
-      { ok: false, error: "Too many requests. Please try again later." },
-      { status: 429 },
-    );
-  }
+        participation_type: data.participationType,
+        team_name: data.participationType === "team" ? data.teamName || null : null,
+        team_captain: data.participationType === "team" ? data.teamCaptain : false,
 
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return NextResponse.json({ ok: false, error: "Invalid request body." }, { status: 400 });
-  }
+        disciplines: data.disciplines,
+        discipline_other_note: data.disciplines.includes("other") ? data.disciplineOtherNote || null : null,
+        participation_reason: data.participationReason || null,
 
-  const parsed = eventRegistrationSchema.safeParse(body);
-  if (!parsed.success) {
-    return NextResponse.json(
-      { ok: false, error: "Please check the form and try again." },
-      { status: 400 },
-    );
-  }
+        waiver_accepted: data.waiverAccepted,
+        email_consent: data.emailConsent,
 
-  const data = parsed.data;
+        status: "confirmed",
+      };
 
-  const isBot =
-    Boolean(data.companyWebsite) ||
-    Date.now() - data.renderedAt < MIN_FILL_TIME_MS ||
-    !(await verifyTurnstileToken(data.turnstileToken, "event_registration", ip));
-  if (isBot) {
-    // Respond as if successful so bots don't learn which check tripped.
-    return NextResponse.json({ ok: true });
-  }
+      const unconfigured = skipWhenSupabaseUnconfigured("22-for-the-22", row);
+      if (unconfigured) return unconfigured;
 
-  const row = {
-    first_name: data.firstName,
-    last_name: data.lastName,
-    email: data.email,
-    city: data.city,
-    state: data.state,
-    phone: data.phone || null,
+      const supabase = createAdminClient();
 
-    participation_type: data.participationType,
-    team_name: data.participationType === "team" ? data.teamName || null : null,
-    team_captain: data.participationType === "team" ? data.teamCaptain : false,
+      const { data: event, error: eventError } = await supabase
+        .from("event_config")
+        .select("id")
+        .eq("event_slug", CURRENT_EVENT_SLUG)
+        .maybeSingle();
 
-    disciplines: data.disciplines,
-    discipline_other_note: data.disciplines.includes("other") ? data.disciplineOtherNote || null : null,
-    participation_reason: data.participationReason || null,
-
-    waiver_accepted: data.waiverAccepted,
-    email_consent: data.emailConsent,
-
-    status: "confirmed",
-  };
-
-  if (!isSupabaseConfigured()) {
-    logServerWarn("22-for-the-22: not persisted (Supabase not configured)", row);
-    return NextResponse.json({ ok: true });
-  }
-
-  try {
-    const supabase = createAdminClient();
-
-    const { data: event, error: eventError } = await supabase
-      .from("event_config")
-      .select("id")
-      .eq("event_slug", CURRENT_EVENT_SLUG)
-      .maybeSingle();
-
-    if (eventError || !event) {
-      logServerError("22-for-the-22: event_config lookup failed", eventError);
-      return NextResponse.json(
-        { ok: false, error: "Something went wrong. Please try again." },
-        { status: 500 },
-      );
-    }
-
-    const { data: inserted, error } = await supabase
-      .from("event_registrations")
-      .insert({ ...row, event_id: event.id })
-      .select("id")
-      .single();
-
-    if (error || !inserted) {
-      if (error?.code === POSTGRES_UNIQUE_VIOLATION) {
-        return NextResponse.json(
-          { ok: false, error: "This email is already registered for 22 For the 22." },
-          { status: 409 },
+      if (eventError || !event) {
+        return serverError(
+          "22-for-the-22: event_config lookup failed",
+          eventError ?? "no event_config row for the current slug",
         );
       }
 
-      logServerError("22-for-the-22: insert failed", error);
-      return NextResponse.json(
-        { ok: false, error: "Something went wrong. Please try again." },
-        { status: 500 },
-      );
-    }
+      const { data: inserted, error } = await supabase
+        .from("event_registrations")
+        .insert({ ...row, event_id: event.id })
+        .select("id")
+        .single();
 
-    await notifyEventRegistrationSubmitted({
-      registrationId: inserted.id,
-      firstName: data.firstName,
-      lastName: data.lastName,
-      email: data.email,
-    });
+      if (error || !inserted) {
+        // A repeat signup is a real answer for the visitor, not a server fault —
+        // it gets its own 409 rather than the generic 500.
+        if (error?.code === POSTGRES_UNIQUE_VIOLATION) {
+          return NextResponse.json(
+            { ok: false, error: "This email is already registered for 22 For the 22." },
+            { status: 409 },
+          );
+        }
 
-    return NextResponse.json({ ok: true });
-  } catch (error) {
-    logServerError("22-for-the-22: submission failed", error);
-    return NextResponse.json(
-      { ok: false, error: "Something went wrong. Please try again." },
-      { status: 500 },
-    );
-  }
+        return serverError("22-for-the-22: insert failed", error ?? "insert returned no row");
+      }
+
+      await notifyEventRegistrationSubmitted({
+        registrationId: inserted.id,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+      });
+
+      return NextResponse.json({ ok: true });
+    },
+  );
 }

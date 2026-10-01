@@ -1,4 +1,5 @@
 import { createPublicClient } from "@/lib/supabase/public";
+import { logServerError } from "@/lib/log";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { SEED_SPONSORS } from "./seed-data";
 import type { SponsorRow } from "@/types/database";
@@ -25,7 +26,7 @@ export async function getSponsors(): Promise<SponsorRow[]> {
     .order("display_order", { ascending: true });
 
   if (error || !data) {
-    console.error("Failed to load sponsors, falling back to seed data:", error);
+    logServerError("data.sponsors: load failed, using seed", error);
     return [...SEED_SPONSORS]
       .filter((s) => s.active && s.ethics_cleared)
       .sort((a, b) => a.display_order - b.display_order);

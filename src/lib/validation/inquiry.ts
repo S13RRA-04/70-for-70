@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { botCheckFields } from "./bot-check";
 
 /**
  * /contact's general-inquiry categories, rendered directly in
@@ -19,42 +20,6 @@ export const SPONSOR_INQUIRY_INTERESTS = [
 ] as const;
 
 /**
- * "Join the Movement" athlete interest (/join) categories — kept exported
- * only so its now-orphaned form component (unreachable: the page redirects
- * before rendering) still typechecks. Deliberately excluded from
- * INQUIRY_INTERESTS below, so a submission using one of these categories is
- * rejected by validation — /join is retired, public athlete intake is
- * closed pending written federal ethics approval. Existing `inquiries` rows
- * under these categories are preserved in the database.
- */
-export const JOIN_INTEREST_TYPES = [
-  "Veteran Athlete",
-  "First Responder Athlete",
-  "Civilian Supporter",
-  "Local Chapter/Event Interest",
-] as const;
-
-/**
- * The former /partners/inquire form's full category list — kept exported
- * only so that now-orphaned form component (unreachable: the page
- * redirects before rendering) still typechecks. "Beneficiary Organization"
- * and "Community Collaboration" remain excluded from INQUIRY_INTERESTS
- * below — beneficiary intake is a separate, more sensitive vetting
- * workflow not covered by the 2026-09-14 sponsorship-approval, so
- * /partners/inquire stays retired. The other 3 values are superseded by
- * SPONSOR_INQUIRY_INTERESTS above, which is what /contact's live form
- * actually renders. Existing `inquiries` rows under any of these
- * categories are preserved in the database.
- */
-export const PARTNER_INQUIRY_INTERESTS = [
-  "Beneficiary Organization",
-  "Mission Partnership",
-  "Sponsorship",
-  "In-Kind Support",
-  "Community Collaboration",
-] as const;
-
-/**
  * /get-involved's volunteer categories — this recruitment has written
  * federal ethics approval, so it's included in INQUIRY_INTERESTS below and
  * the page is live, not redirected.
@@ -67,25 +32,33 @@ export const GET_INVOLVED_INTEREST_TYPES = [
   "Invite For The 22",
 ] as const;
 
-/** /contact's and /get-involved's categories are accepted — see the comments above. */
+/**
+ * /contact's and /get-involved's categories are accepted.
+ *
+ * Deliberately absent, so a submission using one of them is rejected: the
+ * former /join "Join the Movement" athlete categories (Veteran Athlete,
+ * First Responder Athlete, Civilian Supporter, Local Chapter/Event Interest)
+ * and the former /partners/inquire "Beneficiary Organization" / "Community
+ * Collaboration" categories. Both pages redirect to /sponsors — public
+ * athlete intake and beneficiary vetting are closed pending written federal
+ * ethics approval, and beneficiary intake is a more sensitive vetting
+ * workflow than the 2026-09-14 sponsorship approval covers. Existing
+ * `inquiries` rows under any retired category are preserved in the database,
+ * as are `sponsorship_requests` rows and their admin review queue
+ * (/admin/sponsorships).
+ */
 export const INQUIRY_INTERESTS = [...SPONSOR_INQUIRY_INTERESTS, ...GET_INVOLVED_INTEREST_TYPES] as const;
 
-export const inquirySchema = z.object({
-  name: z.string().trim().min(1, "Name is required").max(200),
-  organization: z.string().trim().max(200).optional().or(z.literal("")),
-  email: z.string().trim().email("Enter a valid email address").max(320),
-  phone: z.string().trim().max(40).optional().or(z.literal("")),
-  website: z.string().trim().max(300).optional().or(z.literal("")),
-  interest: z.enum(INQUIRY_INTERESTS),
-  message: z.string().trim().min(1, "Message is required").max(5000),
-  // Honeypot: real users never fill this hidden field.
-  companyWebsite: z.string().max(0, "").optional().or(z.literal("")),
-  // Client-render timestamp (ms epoch); submissions faster than a human
-  // can plausibly fill the form are treated as bots.
-  renderedAt: z.number(),
-  // Optional Turnstile token — only enforced once TURNSTILE_SECRET_KEY is set
-  // (see src/lib/turnstile.ts).
-  turnstileToken: z.string().max(4096).optional(),
-});
+export const inquirySchema = z
+  .object({
+    name: z.string().trim().min(1, "Name is required").max(200),
+    organization: z.string().trim().max(200).optional().or(z.literal("")),
+    email: z.string().trim().email("Enter a valid email address").max(320),
+    phone: z.string().trim().max(40).optional().or(z.literal("")),
+    website: z.string().trim().max(300).optional().or(z.literal("")),
+    interest: z.enum(INQUIRY_INTERESTS),
+    message: z.string().trim().min(1, "Message is required").max(5000),
+  })
+  .extend(botCheckFields);
 
 export type InquiryInput = z.infer<typeof inquirySchema>;

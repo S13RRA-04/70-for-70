@@ -6,8 +6,10 @@ import { CURRENT_APP_EVENT_SLUG } from "@/lib/data/app/events";
 import { updateMilestoneAction } from "./actions";
 import type { MilestoneRow } from "@/types/app";
 
-export default async function ForThe22AppMilestonesPage() {
+export default async function ForThe22AppMilestonesPage(props: PageProps<"/admin/for-the-22-app/milestones">) {
   await requireAdminUser();
+  const searchParams = await props.searchParams;
+  const errorParam = Array.isArray(searchParams.error) ? searchParams.error[0] : searchParams.error;
   const admin = createAdminClient();
 
   const { data: event } = await admin.from("events").select("id").eq("slug", CURRENT_APP_EVENT_SLUG).maybeSingle();
@@ -34,6 +36,12 @@ export default async function ForThe22AppMilestonesPage() {
           Back
         </Link>
       </div>
+
+      {errorParam && (
+        <p role="alert" className="mt-4 rounded-sm border border-red-300 bg-red-50 px-4 py-3 text-sm font-medium text-red-800">
+          {errorParam}
+        </p>
+      )}
 
       <div className="mt-6 space-y-6">
         {(milestones ?? []).map((milestone) => (

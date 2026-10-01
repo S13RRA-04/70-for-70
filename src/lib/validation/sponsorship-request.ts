@@ -1,4 +1,13 @@
-import { z } from "zod";
+/**
+ * Sponsorship taxonomy shared by the admin review queue
+ * (/admin/sponsorships) and its detail pages.
+ *
+ * There is deliberately no intake schema here: public sponsorship submissions
+ * are closed pending written federal ethics approval, /sponsors/request
+ * redirects to /sponsors, and /api/sponsorship-requests answers 410. The
+ * prior schema, form, and route are preserved in git history. The
+ * `sponsorship_requests` table and its history table are untouched.
+ */
 
 export const PROPOSED_TIERS = ["mile", "supporting", "mission", "presenting", "unsure"] as const;
 
@@ -29,32 +38,3 @@ export const PROPOSED_TIER_LABELS: Record<(typeof PROPOSED_TIERS)[number], strin
   presenting: "Presenting Sponsor ($10,000+)",
   unsure: "Not sure yet",
 };
-
-export const sponsorshipRequestSchema = z.object({
-  contactName: z.string().trim().min(1, "Contact name is required").max(200),
-  organizationName: z.string().trim().min(1, "Organization name is required").max(200),
-  email: z.string().trim().email("Enter a valid email address").max(320),
-  phone: z.string().trim().max(40).optional().or(z.literal("")),
-  website: z.string().trim().max(300).optional().or(z.literal("")),
-  industry: z.string().trim().max(200).optional().or(z.literal("")),
-
-  proposedTier: z.enum(PROPOSED_TIERS).optional(),
-  cashValue: z.coerce.number().min(0).optional(),
-  inKindValue: z.coerce.number().min(0).optional(),
-  supportType: z.array(z.enum(SUPPORT_TYPES)).min(1, "Select at least one type of support"),
-  description: z.string().trim().min(1, "Please describe the proposed support").max(5000),
-  requestedBenefits: z.string().trim().max(2000).optional().or(z.literal("")),
-  requestedMileNumber: z.coerce.number().int().min(1).max(70).optional(),
-  referralSource: z.string().trim().max(300).optional().or(z.literal("")),
-  message: z.string().trim().max(5000).optional().or(z.literal("")),
-
-  acknowledgedPendingReview: z.literal(true, {
-    message: "You must acknowledge that this is a request, not an acceptance.",
-  }),
-
-  // Honeypot + timing bot mitigation, same pattern as the general inquiry form.
-  companyWebsite: z.string().max(0, "").optional().or(z.literal("")),
-  renderedAt: z.number(),
-});
-
-export type SponsorshipRequestInput = z.infer<typeof sponsorshipRequestSchema>;

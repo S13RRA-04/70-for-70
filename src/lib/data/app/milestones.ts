@@ -1,4 +1,5 @@
 import "server-only";
+import { logServerError } from "@/lib/log";
 import { createClient } from "@/lib/supabase/server";
 import type { MilestoneCompletionRow, MilestoneRow } from "@/types/app";
 
@@ -10,7 +11,7 @@ export async function getMilestonesForEvent(eventId: string): Promise<MilestoneR
     .eq("event_id", eventId)
     .order("display_order", { ascending: true });
   if (error) {
-    console.error("Failed to load milestones:", error);
+    logServerError("data.app.milestones: load failed", error);
     return [];
   }
   return data;
@@ -31,7 +32,7 @@ export async function getMyMilestoneCompletions(eventId: string): Promise<Milest
     .eq("milestones.event_id", eventId);
 
   if (error) {
-    console.error("Failed to load milestone completions:", error);
+    logServerError("data.app.milestones: load completions failed", error);
     return [];
   }
   return data;

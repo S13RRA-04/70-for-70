@@ -1,4 +1,6 @@
 import "server-only";
+import { logServerError } from "@/lib/log";
+import { providerFetch } from "@/lib/oauth";
 import { getValidAccessToken } from "./tokens";
 import { STRAVA_API_BASE_URL, isStravaConfigured } from "./config";
 import type { StravaActivitySummary, StravaAthlete, StravaTrainingSnapshot } from "@/types/strava";
@@ -8,17 +10,8 @@ const SNAPSHOT_REVALIDATE_SECONDS = 30 * 60;
 
 const RECENT_ACTIVITY_COUNT = 5;
 
-async function stravaFetch<T>(path: string, accessToken: string): Promise<T> {
-  const res = await fetch(`${STRAVA_API_BASE_URL}${path}`, {
-    headers: { Authorization: `Bearer ${accessToken}` },
-    next: { revalidate: SNAPSHOT_REVALIDATE_SECONDS },
-  });
-
-  if (!res.ok) {
-    throw new Error(`Strava API request failed (${path}): ${res.status}`);
-  }
-
-  return res.json();
+function stravaFetch<T>(path: string, accessToken: string): Promise<T> {
+  return providerFetch<T>("Strava", STRAVA_API_BASE_URL, path, accessToken, SNAPSHOT_REVALIDATE_SECONDS);
 }
 
 interface StravaAthleteResponse {
@@ -88,7 +81,7 @@ export async function getStravaTrainingSnapshot(): Promise<StravaTrainingSnapsho
       recentActivities,
     };
   } catch (error) {
-    console.error("Failed to fetch Strava training snapshot:", error);
+    logServerError("strava.client: fetch snapshot failed", error);
     return null;
   }
 }

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { botCheckFields } from "./bot-check";
 
 export const EVENT_DISCIPLINES = [
   "run",
@@ -44,16 +45,8 @@ export const eventRegistrationSchema = z
     // giveaway-entry consent — registering for the free event IS the entry.
     waiverAccepted: z.literal(true, { message: "This agreement is required" }),
     emailConsent: z.boolean().default(false),
-
-    // Honeypot: real users never fill this hidden field.
-    companyWebsite: z.string().max(0, "").optional().or(z.literal("")),
-    // Client-render timestamp (ms epoch); submissions faster than a human
-    // can plausibly fill the form are treated as bots.
-    renderedAt: z.number(),
-    // Optional Turnstile token — only enforced once TURNSTILE_SECRET_KEY is
-    // set (see src/lib/turnstile.ts).
-    turnstileToken: z.string().max(4096).optional(),
   })
+  .extend(botCheckFields)
   .superRefine((data, ctx) => {
     if (data.participationType === "team" && !data.teamName?.trim()) {
       ctx.addIssue({ code: "custom", path: ["teamName"], message: "Team name is required" });

@@ -1,4 +1,5 @@
 import "server-only";
+import { logServerError } from "@/lib/log";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 export interface AppEventAdminStats {
@@ -21,16 +22,29 @@ export interface AppEventAdminStats {
 export async function getAppEventAdminStats(eventId: string): Promise<AppEventAdminStats> {
   const admin = createAdminClient();
 
-  const [{ count: totalRegistered }, { data: registrations }, { data: activities }, { data: milestoneCompletions }] =
-    await Promise.all([
-      admin.from("registrations").select("*", { count: "exact", head: true }).eq("event_id", eventId),
-      admin.from("registrations").select("user_id, team_name").eq("event_id", eventId),
-      admin.from("activities").select("user_id, duration_minutes, activity_type").eq("event_id", eventId),
-      admin
-        .from("milestone_completions")
-        .select("user_id, milestones!inner(event_id, threshold)")
-        .eq("milestones.event_id", eventId),
-    ]);
+  const [
+    { count: totalRegistered, error: countError },
+    { data: registrations, error: registrationsError },
+    { data: activities, error: activitiesError },
+    { data: milestoneCompletions, error: milestoneError },
+  ] = await Promise.all([
+    admin.from("registrations").select("*", { count: "exact", head: true }).eq("event_id", eventId),
+    admin.from("registrations").select("user_id, team_name").eq("event_id", eventId),
+    admin.from("activities").select("user_id, duration_minutes, activity_type").eq("event_id", eventId),
+    admin
+      .from("milestone_completions")
+      .select("user_id, milestones!inner(event_id, threshold)")
+      .eq("milestones.event_id", eventId),
+  ]);
+
+  if (countError || registrationsError || activitiesError || milestoneError) {
+    logServerError("data.app.admin-stats: load aggregates failed", {
+      countError,
+      registrationsError,
+      activitiesError,
+      milestoneError,
+    });
+  }
 
   const activeParticipantIds = new Set((activities ?? []).map((a) => a.user_id));
   const teamNames = new Set((registrations ?? []).map((r) => r.team_name).filter((t): t is string => Boolean(t)));
@@ -42,7 +56,12 @@ export async function getAppEventAdminStats(eventId: string): Promise<AppEventAd
     activityBreakdown[activity.activity_type] = (activityBreakdown[activity.activity_type] ?? 0) + 1;
   }
 
-  const { data: event } = await admin.from("events").select("required_sessions").eq("id", eventId).maybeSingle();
+  const { data: event, error: eventError } = await admin
+    .from("events")
+    .select("required_sessions")
+    .eq("id", eventId)
+    .maybeSingle();
+  if (eventError) logServerError("data.app.admin-stats: load event failed", eventError);
   const finisherIds = new Set(
     (milestoneCompletions ?? [])
       .filter((c) => (c.milestones as unknown as { threshold: number }).threshold === event?.required_sessions)
@@ -85,15 +104,19 @@ export async function getAppEventRegistrationsForAdmin(eventId: string): Promise
     .order("created_at", { ascending: false });
 
   if (error || !registrations) {
-    console.error("Failed to load registrations for admin:", error);
+    logServerError("data.app.admin-stats: load registrations failed", error);
     return [];
   }
 
   const userIds = registrations.map((r) => r.user_id);
-  const [{ data: profiles }, { data: activities }] = await Promise.all([
+  const [{ data: profiles, error: profilesError }, { data: activities, error: activitiesError }] = await Promise.all([
     admin.from("profiles").select("id, first_name, last_name, city, state").in("id", userIds),
     admin.from("activities").select("user_id, duration_minutes").eq("event_id", eventId).in("user_id", userIds),
   ]);
+
+  if (profilesError || activitiesError) {
+    logServerError("data.app.admin-stats: load participant detail failed", { profilesError, activitiesError });
+  }
 
   const profileById = new Map((profiles ?? []).map((p) => [p.id, p]));
   const sessionCountByUser = new Map<string, number>();
@@ -106,7 +129,8 @@ export async function getAppEventRegistrationsForAdmin(eventId: string): Promise
   const emailByUserId = new Map<string, string | null>();
   await Promise.all(
     userIds.map(async (id) => {
-      const { data } = await admin.auth.admin.getUserById(id);
+      const { data, error } = await admin.auth.admin.getUserById(id);
+      if (error) logServerError("data.app.admin-stats: get user email failed", error);
       emailByUserId.set(id, data.user?.email ?? null);
     }),
   );

@@ -1,105 +1,51 @@
 import { NextResponse } from "next/server";
-import { getClientIp } from "@/lib/client-ip";
+import { handlePublicForm, insertionFailed, skipWhenSupabaseUnconfigured } from "@/lib/public-write";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { isSupabaseConfigured } from "@/lib/supabase/config";
-import { isRateLimited } from "@/lib/rate-limit";
 import { donationReportSchema } from "@/lib/validation/donation-report";
-import { verifyTurnstileToken } from "@/lib/turnstile";
-import { logServerError, logServerWarn } from "@/lib/log";
 
-const MIN_FILL_TIME_MS = 1_500;
+/** Marks a row as self-reported rather than reconciled against a payment processor. */
 const SELF_REPORTED_REFERENCE = "Self-reported on site";
 
 export async function POST(request: Request) {
-  const ip = getClientIp(request);
+  return handlePublicForm(
+    request,
+    {
+      rateLimitKey: "donation-report",
+      binding: "RATE_LIMITER_FORMS",
+      schema: donationReportSchema,
+      turnstileAction: "donation_report",
+    },
+    "donations",
+    async ({ donorName, donorEmail, anonymous, organizationBenefited, mileNumber, amount }) => {
+      const unconfigured = skipWhenSupabaseUnconfigured("donations");
+      if (unconfigured) return unconfigured;
 
-  if (await isRateLimited(`donation-report:${ip}`, { limit: 5, windowMs: 10 * 60_000, binding: "RATE_LIMITER_FORMS" })) {
-    return NextResponse.json(
-      { ok: false, error: "Too many requests. Please try again later." },
-      { status: 429 },
-    );
-  }
+      const admin = createAdminClient();
+      let mileId: string | null = null;
 
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return NextResponse.json({ ok: false, error: "Invalid request body." }, { status: 400 });
-  }
+      if (mileNumber) {
+        const { data: mile } = await admin
+          .from("miles")
+          .select("id")
+          .eq("mile_number", mileNumber)
+          .single();
+        mileId = mile?.id ?? null;
+      }
 
-  const parsed = donationReportSchema.safeParse(body);
-  if (!parsed.success) {
-    return NextResponse.json(
-      { ok: false, error: "Please check the form and try again." },
-      { status: 400 },
-    );
-  }
+      // Unverified until an admin confirms it at /admin/donations — the same
+      // gate a phoned/emailed-in gift goes through.
+      const { error } = await admin.from("donations").insert({
+        donor_name: donorName || "Anonymous",
+        donor_email: donorEmail || null,
+        amount,
+        organization_benefited: organizationBenefited,
+        anonymous,
+        mile_id: mileId,
+        verified: false,
+        external_reference: SELF_REPORTED_REFERENCE,
+      });
 
-  const {
-    companyWebsite,
-    renderedAt,
-    donorName,
-    donorEmail,
-    anonymous,
-    organizationBenefited,
-    mileNumber,
-    amount,
-    turnstileToken,
-  } = parsed.data;
-
-  const isBot =
-    Boolean(companyWebsite) ||
-    Date.now() - renderedAt < MIN_FILL_TIME_MS ||
-    !(await verifyTurnstileToken(turnstileToken, "donation_report", ip));
-
-  if (isBot) {
-    // Respond as if successful so bots don't learn which check tripped.
-    return NextResponse.json({ ok: true });
-  }
-
-  if (!isSupabaseConfigured()) {
-    logServerWarn("donations: not persisted (Supabase not configured)");
-    return NextResponse.json({ ok: true });
-  }
-
-  try {
-    const admin = createAdminClient();
-    let mileId: string | null = null;
-
-    if (mileNumber) {
-      const { data: mile } = await admin
-        .from("miles")
-        .select("id")
-        .eq("mile_number", mileNumber)
-        .single();
-      mileId = mile?.id ?? null;
-    }
-
-    const { error } = await admin.from("donations").insert({
-      donor_name: donorName || "Anonymous",
-      donor_email: donorEmail || null,
-      amount,
-      organization_benefited: organizationBenefited,
-      anonymous,
-      mile_id: mileId,
-      verified: false,
-      external_reference: SELF_REPORTED_REFERENCE,
-    });
-
-    if (error) {
-      logServerError("donations: insert failed", error);
-      return NextResponse.json(
-        { ok: false, error: "Something went wrong. Please try again." },
-        { status: 500 },
-      );
-    }
-
-    return NextResponse.json({ ok: true });
-  } catch (error) {
-    logServerError("donations: submission failed", error);
-    return NextResponse.json(
-      { ok: false, error: "Something went wrong. Please try again." },
-      { status: 500 },
-    );
-  }
+      return insertionFailed("donations", error) ?? NextResponse.json({ ok: true });
+    },
+  );
 }

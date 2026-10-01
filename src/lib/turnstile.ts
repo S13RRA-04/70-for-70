@@ -40,10 +40,6 @@ const DEFAULT_HOSTNAMES = [
   "app.forthe22.org",
 ];
 
-export function isTurnstileConfigured(): boolean {
-  return Boolean(process.env.TURNSTILE_SECRET_KEY);
-}
-
 /**
  * Production allowlist comes from `TURNSTILE_HOSTNAMES` (wrangler.jsonc `vars`);
  * dev additionally accepts localhost aliases so `*.localhost` host testing

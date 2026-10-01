@@ -1,4 +1,5 @@
 import { cache } from "react";
+import { logServerError } from "@/lib/log";
 import { createPublicClient } from "@/lib/supabase/public";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { SEED_JOURNAL_ENTRIES } from "./seed-data";
@@ -35,7 +36,7 @@ export const getJournalEntries = cache(async (): Promise<JournalEntryRow[]> => {
     .order("published_at", { ascending: false, nullsFirst: false });
 
   if (error || !data) {
-    console.error("Failed to load journal entries, falling back to seed data:", error);
+    logServerError("data.journal: load failed, using seed", error);
     return sortByPublishedDesc(SEED_JOURNAL_ENTRIES.filter((e) => isPubliclyVisible(e, nowIso)));
   }
 

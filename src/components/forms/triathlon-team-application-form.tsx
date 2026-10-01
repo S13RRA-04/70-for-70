@@ -1,47 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import {
   APPAREL_SIZES,
   FUNDRAISING_GOAL_PRESETS,
   TRIATHLON_EXPERIENCE_LEVELS,
 } from "@/lib/validation/triathlon-team";
-import {
-  TurnstileWidget,
-  isTurnstileEnabled,
-  type TurnstileWidgetHandle,
-} from "@/components/forms/turnstile-widget";
-
-type Status = "idle" | "submitting" | "success" | "error";
-
-const inputClass =
-  "mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-base text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40 sm:text-sm";
-
-function Field({
-  id,
-  label,
-  optional,
-  children,
-}: {
-  id: string;
-  label: string;
-  optional?: boolean;
-  children: React.ReactNode;
-}) {
-  return (
-    <div>
-      <label htmlFor={id} className="text-sm font-medium text-ink">
-        {label}{" "}
-        {optional ? (
-          <span className="text-charcoal-light">(optional)</span>
-        ) : (
-          <span aria-hidden="true">*</span>
-        )}
-      </label>
-      {children}
-    </div>
-  );
-}
+import { Field, FormError, HoneypotField, FORM_CONTROL_CLASS } from "@/components/forms/form-parts";
+import { TurnstileWidget } from "@/components/forms/turnstile-widget";
+import { useFormSubmit } from "@/components/forms/use-form-submit";
 
 function YesNoGroup({
   legend,
@@ -87,95 +54,54 @@ function YesNoGroup({
  * route rather than email-only delivery.
  */
 export function TriathlonTeamApplicationForm() {
-  const [status, setStatus] = useState<Status>("idle");
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [turnstileToken, setTurnstileToken] = useState("");
-  const turnstileRef = useRef<TurnstileWidgetHandle>(null);
-  const renderedAtRef = useRef<number | null>(null);
-
   const [registeredForRace, setRegisteredForRace] = useState<"yes" | "no" | "">("");
   const [needsRaceHelp, setNeedsRaceHelp] = useState<"yes" | "no" | "">("");
   const [fundraisingExperience, setFundraisingExperience] = useState<"yes" | "no" | "">("");
   const [goalPreset, setGoalPreset] = useState<string>("");
   const [customGoal, setCustomGoal] = useState("");
 
-  useEffect(() => {
-    renderedAtRef.current = Date.now();
-  }, []);
+  const { status, errorMessage, setTurnstileToken, turnstileRef, handleSubmit, submitDisabled } = useFormSubmit({
+    endpoint: "/api/triathlon-team",
+    buildPayload: (data) => {
+      const str = (key: string) => String(data.get(key) ?? "").trim();
+      const fundraisingGoal = goalPreset === "Other" ? customGoal.trim() : goalPreset;
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setStatus("submitting");
-    setErrorMessage(null);
+      return {
+        fullName: str("fullName"),
+        email: str("email"),
+        phone: str("phone"),
+        city: str("city"),
+        state: str("state"),
 
-    const form = e.currentTarget;
-    const data = new FormData(form);
-    const str = (key: string) => String(data.get(key) ?? "").trim();
+        experienceLevel: str("experienceLevel"),
+        yearsInTriathlon: str("yearsInTriathlon"),
+        preferredDistance: str("preferredDistance"),
 
-    const fundraisingGoal = goalPreset === "Other" ? customGoal.trim() : goalPreset;
+        registeredForRace,
+        raceName: str("raceName"),
+        raceDate: str("raceDate"),
+        raceDistance: str("raceDistance"),
+        raceLocation: str("raceLocation"),
+        needsRaceHelp,
 
-    const payload = {
-      fullName: str("fullName"),
-      email: str("email"),
-      phone: str("phone"),
-      city: str("city"),
-      state: str("state"),
+        missionReason: str("missionReason"),
 
-      experienceLevel: str("experienceLevel"),
-      yearsInTriathlon: str("yearsInTriathlon"),
-      preferredDistance: str("preferredDistance"),
+        fundraisingExperience,
+        fundraisingGoal,
 
-      registeredForRace,
-      raceName: str("raceName"),
-      raceDate: str("raceDate"),
-      raceDistance: str("raceDistance"),
-      raceLocation: str("raceLocation"),
-      needsRaceHelp,
+        instagram: str("instagram"),
+        facebook: str("facebook"),
+        strava: str("strava"),
+        otherSocial: str("otherSocial"),
 
-      missionReason: str("missionReason"),
+        apparelSize: str("apparelSize"),
 
-      fundraisingExperience,
-      fundraisingGoal,
-
-      instagram: str("instagram"),
-      facebook: str("facebook"),
-      strava: str("strava"),
-      otherSocial: str("otherSocial"),
-
-      apparelSize: str("apparelSize"),
-
-      ackCosts: data.get("ackCosts") === "on",
-      ackSafety: data.get("ackSafety") === "on",
-      ackConduct: data.get("ackConduct") === "on",
-
-      companyWebsite: str("companyWebsite"),
-      renderedAt: renderedAtRef.current ?? Date.now(),
-      turnstileToken,
-    };
-
-    try {
-      const res = await fetch("/api/triathlon-team", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const json = await res.json();
-
-      if (!res.ok || !json.ok) {
-        setStatus("error");
-        setErrorMessage(json.error ?? "Something went wrong. Please try again.");
-        return;
-      }
-
-      setStatus("success");
-    } catch {
-      setStatus("error");
-      setErrorMessage("Something went wrong. Please try again.");
-    } finally {
-      turnstileRef.current?.reset();
-      setTurnstileToken("");
-    }
-  }
+        ackCosts: data.get("ackCosts") === "on",
+        ackSafety: data.get("ackSafety") === "on",
+        ackConduct: data.get("ackConduct") === "on",
+      };
+    },
+  });
 
   if (status === "success") {
     return (
@@ -198,11 +124,7 @@ export function TriathlonTeamApplicationForm() {
 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-10" aria-busy={status === "submitting"}>
-      {/* Honeypot field — hidden from sighted users, left blank by real people. */}
-      <div className="absolute left-[-9999px]" aria-hidden="true">
-        <label htmlFor="tta-companyWebsite">Leave this field blank</label>
-        <input type="text" id="tta-companyWebsite" name="companyWebsite" tabIndex={-1} autoComplete="off" />
-      </div>
+      <HoneypotField id="tta-companyWebsite" />
 
       {/* Personal Information */}
       <div>
@@ -211,20 +133,20 @@ export function TriathlonTeamApplicationForm() {
         </h2>
         <div className="mt-4 grid gap-5 sm:grid-cols-2">
           <Field id="tta-fullName" label="Full Name">
-            <input id="tta-fullName" name="fullName" type="text" required className={inputClass} />
+            <input id="tta-fullName" name="fullName" type="text" required className={FORM_CONTROL_CLASS} />
           </Field>
           <Field id="tta-email" label="Email">
-            <input id="tta-email" name="email" type="email" required className={inputClass} />
+            <input id="tta-email" name="email" type="email" required className={FORM_CONTROL_CLASS} />
           </Field>
           <Field id="tta-phone" label="Phone">
-            <input id="tta-phone" name="phone" type="tel" required className={inputClass} />
+            <input id="tta-phone" name="phone" type="tel" required className={FORM_CONTROL_CLASS} />
           </Field>
           <div className="grid grid-cols-2 gap-5">
             <Field id="tta-city" label="City">
-              <input id="tta-city" name="city" type="text" required className={inputClass} />
+              <input id="tta-city" name="city" type="text" required className={FORM_CONTROL_CLASS} />
             </Field>
             <Field id="tta-state" label="State">
-              <input id="tta-state" name="state" type="text" required className={inputClass} />
+              <input id="tta-state" name="state" type="text" required className={FORM_CONTROL_CLASS} />
             </Field>
           </div>
         </div>
@@ -264,7 +186,7 @@ export function TriathlonTeamApplicationForm() {
                 type="text"
                 placeholder="e.g. 2 years"
                 required
-                className={inputClass}
+                className={FORM_CONTROL_CLASS}
               />
             </Field>
             <Field id="tta-preferredDistance" label="Preferred Race Distance">
@@ -274,7 +196,7 @@ export function TriathlonTeamApplicationForm() {
                 type="text"
                 placeholder="e.g. 70.3"
                 required
-                className={inputClass}
+                className={FORM_CONTROL_CLASS}
               />
             </Field>
           </div>
@@ -297,10 +219,10 @@ export function TriathlonTeamApplicationForm() {
           {registeredForRace === "yes" && (
             <div className="grid gap-5 border-l-2 border-bronze/30 pl-4 sm:grid-cols-2">
               <Field id="tta-raceName" label="Race Name">
-                <input id="tta-raceName" name="raceName" type="text" required className={inputClass} />
+                <input id="tta-raceName" name="raceName" type="text" required className={FORM_CONTROL_CLASS} />
               </Field>
               <Field id="tta-raceDate" label="Race Date">
-                <input id="tta-raceDate" name="raceDate" type="date" required className={inputClass} />
+                <input id="tta-raceDate" name="raceDate" type="date" required className={FORM_CONTROL_CLASS} />
               </Field>
               <Field id="tta-raceDistance" label="Race Distance">
                 <input
@@ -309,11 +231,11 @@ export function TriathlonTeamApplicationForm() {
                   type="text"
                   placeholder="e.g. Sprint, Olympic, 70.3, IRONMAN"
                   required
-                  className={inputClass}
+                  className={FORM_CONTROL_CLASS}
                 />
               </Field>
               <Field id="tta-raceLocation" label="Race Location">
-                <input id="tta-raceLocation" name="raceLocation" type="text" required className={inputClass} />
+                <input id="tta-raceLocation" name="raceLocation" type="text" required className={FORM_CONTROL_CLASS} />
               </Field>
             </div>
           )}
@@ -341,7 +263,7 @@ export function TriathlonTeamApplicationForm() {
               name="missionReason"
               required
               rows={5}
-              className={inputClass}
+              className={FORM_CONTROL_CLASS}
             />
           </Field>
         </div>
@@ -389,7 +311,7 @@ export function TriathlonTeamApplicationForm() {
                 value={customGoal}
                 onChange={(e) => setCustomGoal(e.target.value)}
                 required
-                className={`${inputClass} max-w-xs`}
+                className={`${FORM_CONTROL_CLASS} max-w-xs`}
               />
             )}
           </fieldset>
@@ -404,16 +326,16 @@ export function TriathlonTeamApplicationForm() {
         <p className="mt-1 text-sm text-charcoal-light">All optional.</p>
         <div className="mt-4 grid gap-5 sm:grid-cols-2">
           <Field id="tta-instagram" label="Instagram" optional>
-            <input id="tta-instagram" name="instagram" type="text" placeholder="@handle" className={inputClass} />
+            <input id="tta-instagram" name="instagram" type="text" placeholder="@handle" className={FORM_CONTROL_CLASS} />
           </Field>
           <Field id="tta-facebook" label="Facebook" optional>
-            <input id="tta-facebook" name="facebook" type="text" className={inputClass} />
+            <input id="tta-facebook" name="facebook" type="text" className={FORM_CONTROL_CLASS} />
           </Field>
           <Field id="tta-strava" label="Strava" optional>
-            <input id="tta-strava" name="strava" type="text" className={inputClass} />
+            <input id="tta-strava" name="strava" type="text" className={FORM_CONTROL_CLASS} />
           </Field>
           <Field id="tta-otherSocial" label="Other Link" optional>
-            <input id="tta-otherSocial" name="otherSocial" type="text" className={inputClass} />
+            <input id="tta-otherSocial" name="otherSocial" type="text" className={FORM_CONTROL_CLASS} />
           </Field>
         </div>
       </div>
@@ -423,7 +345,7 @@ export function TriathlonTeamApplicationForm() {
         <h2 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">Apparel</h2>
         <div className="mt-4 max-w-xs">
           <Field id="tta-apparelSize" label="Shirt / Tri Apparel Size">
-            <select id="tta-apparelSize" name="apparelSize" required defaultValue="" className={inputClass}>
+            <select id="tta-apparelSize" name="apparelSize" required defaultValue="" className={FORM_CONTROL_CLASS}>
               <option value="" disabled>
                 Select a size
               </option>
@@ -478,15 +400,11 @@ export function TriathlonTeamApplicationForm() {
 
       <TurnstileWidget ref={turnstileRef} action="triathlon_team" onToken={setTurnstileToken} />
 
-      {status === "error" && errorMessage && (
-        <p role="alert" className="text-sm font-medium text-red-700">
-          {errorMessage}
-        </p>
-      )}
+      <FormError message={status === "error" ? errorMessage : null} />
 
       <button
         type="submit"
-        disabled={status === "submitting" || (isTurnstileEnabled && !turnstileToken)}
+        disabled={submitDisabled}
         data-analytics-event="triathlon_team_application_submit"
         className="w-full rounded-sm bg-bronze px-6 py-3.5 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-light disabled:opacity-60 sm:w-auto"
       >
