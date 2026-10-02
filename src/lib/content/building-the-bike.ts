@@ -773,6 +773,22 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "Feedback Sports has provided a Pro Mechanic 2.0 repair stand — the tool that turns a garage floor into an actual workspace between now and race day.",
     status: "Mechanic stand secured",
     contributors: ["Feedback Sports"],
+    photos: [
+      {
+        src: "/journal/building-the-bike/feedback-sports-stand-shipping-box.jpeg",
+        alt: "A shipping box printed with 'Sport Mechanic 2.0 [Bike Repair Stand]' and a Feedback Sports shipping label addressed to Cody Hitson.",
+        caption: "The Pro Mechanic 2.0 repair stand, fresh off the truck from Feedback Sports.",
+        width: 2142,
+        height: 2856,
+      },
+      {
+        src: "/journal/building-the-bike/feedback-sports-stand-assembled.jpeg",
+        alt: "A Feedback Sports repair stand assembled and standing on a garage floor, its clamp arm extended and empty, ready for a bike.",
+        caption: "Assembled and ready to hold the frame through everything left in this build.",
+        width: 2142,
+        height: 2856,
+      },
+    ],
     body: [
       "Somewhere between a bare frame and a race-ready bicycle, a bike needs a place to actually be worked on — something better than a kickstand and a hopeful attitude.",
       "Feedback Sports solved that problem with a donated Pro Mechanic 2.0 repair stand. It isn't a component of the bike itself, but it's about to become one of the most-used tools in this entire build — holding the frame steady through inventory, installation, adjustments, and whatever else turns up between now and Chattanooga.",
