@@ -12,6 +12,7 @@ import { TrainingMetricsPanel } from "@/components/journal/training-metrics-pane
 import { MilestoneHeadline } from "@/components/journal/milestone-headline";
 import { SponsorDisclosureBanner } from "@/components/journal/sponsor-disclosure-banner";
 import { PartnerMentionsFooter } from "@/components/journal/partner-mentions-footer";
+import { JournalGallery } from "@/components/journal/journal-gallery";
 import { RelatedEntries } from "@/components/journal/related-entries";
 import { JournalCta } from "@/components/journal/journal-cta";
 import { formatDateLong } from "@/lib/utils";
@@ -157,6 +158,8 @@ export default async function JournalEntryPage(props: PageProps<"/journal/[slug]
             />
           </div>
         )}
+
+        <JournalGallery images={entry.gallery} />
 
         {entry.post_type === "milestone" && <MilestoneHeadline entry={entry} />}
         <TrainingMetricsPanel entry={entry} />
