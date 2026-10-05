@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Camera, Link2, ZoomIn } from "lucide-react";
 import { PhotoLightbox } from "@/components/shared/photo-lightbox";
+import { usePointerMotionEnabled } from "@/components/shared/use-media-query";
 import type { BikeBuildTimelineNode } from "@/lib/content/building-the-bike";
 import type { BikeBuildTimelineEntry } from "@/types/bike-build";
 import { cn } from "@/lib/utils";
@@ -266,6 +267,8 @@ export function BuildTimelineNodes({ nodes }: { nodes: BikeBuildTimelineNode[] }
     null,
   );
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const scrollerRef = useRef<HTMLOListElement>(null);
+  const pointerMotionEnabled = usePointerMotionEnabled();
 
   // Tooltip is w-56 (224px); clamped so it never runs off the wrapper's
   // edges for the first/last few nodes in the row, with the arrow nudged
@@ -312,6 +315,60 @@ export function BuildTimelineNodes({ nodes }: { nodes: BikeBuildTimelineNode[] }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Edge panning: holding the pointer near either end of the scrollable row
+  // auto-scrolls that direction, so the nodes it hides aren't reachable only
+  // by an explicit drag/scroll gesture. Pointer-only and off under
+  // prefers-reduced-motion, same gating as Magnetic/TiltCard.
+  useEffect(() => {
+    if (!pointerMotionEnabled) return;
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+
+    // How close to an edge (in px) panning starts, and the fastest it goes
+    // right at the edge — scaled linearly in between so it reads as easing
+    // in, not an on/off toggle.
+    const EDGE_ZONE = 72;
+    const MAX_SPEED = 8;
+
+    let frame = 0;
+    let speed = 0;
+
+    const tick = () => {
+      frame = 0;
+      if (speed === 0) return;
+      scroller.scrollLeft += speed;
+      frame = requestAnimationFrame(tick);
+    };
+
+    const onMove = (event: PointerEvent) => {
+      const rect = scroller.getBoundingClientRect();
+      const fromLeft = event.clientX - rect.left;
+      const fromRight = rect.width - fromLeft;
+
+      if (fromLeft < EDGE_ZONE && scroller.scrollLeft > 0) {
+        speed = -MAX_SPEED * (1 - Math.max(fromLeft, 0) / EDGE_ZONE);
+      } else if (fromRight < EDGE_ZONE && scroller.scrollLeft < scroller.scrollWidth - scroller.clientWidth - 1) {
+        speed = MAX_SPEED * (1 - Math.max(fromRight, 0) / EDGE_ZONE);
+      } else {
+        speed = 0;
+      }
+
+      if (speed !== 0 && !frame) frame = requestAnimationFrame(tick);
+    };
+
+    const onLeave = () => {
+      speed = 0;
+    };
+
+    scroller.addEventListener("pointermove", onMove, { passive: true });
+    scroller.addEventListener("pointerleave", onLeave);
+    return () => {
+      if (frame) cancelAnimationFrame(frame);
+      scroller.removeEventListener("pointermove", onMove);
+      scroller.removeEventListener("pointerleave", onLeave);
+    };
+  }, [pointerMotionEnabled]);
+
   const active = nodes.find((node) => node.date === activeDate) ?? null;
   const activeIndex = nodes.findIndex((node) => node.date === activeDate);
 
@@ -323,7 +380,10 @@ export function BuildTimelineNodes({ nodes }: { nodes: BikeBuildTimelineNode[] }
         {/* Edge fade masks hint that the row scrolls — same technique MerchTicker uses for its marquee edges. */}
         <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-gradient-to-r from-off-white to-transparent sm:w-12" aria-hidden="true" />
         <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-gradient-to-l from-off-white to-transparent sm:w-12" aria-hidden="true" />
-        <ol className="scrollbar-hide flex snap-x snap-proximity items-start gap-8 overflow-x-auto px-4 pb-3 pt-2 sm:gap-10">
+        <ol
+          ref={scrollerRef}
+          className="scrollbar-hide flex snap-x snap-proximity items-start gap-8 overflow-x-auto px-4 pb-3 pt-2 sm:gap-10"
+        >
           {nodes.map((node, i) => {
             const monthLabel =
               i === 0 || nodeMonthKey(node.date) !== nodeMonthKey(nodes[i - 1].date)
