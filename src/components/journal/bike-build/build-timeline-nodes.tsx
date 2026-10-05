@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { Camera, Link2, ZoomIn } from "lucide-react";
+import { Camera, ChevronLeft, ChevronRight, Link2, ZoomIn } from "lucide-react";
 import { PhotoLightbox } from "@/components/shared/photo-lightbox";
 import { usePointerMotionEnabled } from "@/components/shared/use-media-query";
 import type { BikeBuildTimelineNode } from "@/lib/content/building-the-bike";
@@ -269,6 +269,12 @@ export function BuildTimelineNodes({ nodes }: { nodes: BikeBuildTimelineNode[] }
   const wrapperRef = useRef<HTMLDivElement>(null);
   const scrollerRef = useRef<HTMLOListElement>(null);
   const pointerMotionEnabled = usePointerMotionEnabled();
+  // Drives the prev/next scroll buttons' disabled state — kept in sync with
+  // the row's actual scroll position (see the effect below), not assumed
+  // from activeDate, since the row can be scrolled independently of which
+  // node is expanded.
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
 
   // Tooltip is w-56 (224px); clamped so it never runs off the wrapper's
   // edges for the first/last few nodes in the row, with the arrow nudged
@@ -369,6 +375,35 @@ export function BuildTimelineNodes({ nodes }: { nodes: BikeBuildTimelineNode[] }
     };
   }, [pointerMotionEnabled]);
 
+  // Keeps the prev/next buttons' enabled state in sync with the row's
+  // actual scroll position — both the edge-pan effect above and native
+  // drag/swipe/wheel scrolling can move it, so this has to watch `scroll`
+  // directly rather than only reacting to the buttons' own clicks.
+  useEffect(() => {
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+
+    const update = () => {
+      setCanScrollLeft(scroller.scrollLeft > 1);
+      setCanScrollRight(scroller.scrollLeft < scroller.scrollWidth - scroller.clientWidth - 1);
+    };
+
+    update();
+    scroller.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    return () => {
+      scroller.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, []);
+
+  /** Scrolls roughly one "page" of nodes at a time — not a fixed node count, so it scales with however many fit at the current width. */
+  function scrollByPage(direction: -1 | 1) {
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+    scroller.scrollBy({ left: direction * scroller.clientWidth * 0.75, behavior: "smooth" });
+  }
+
   const active = nodes.find((node) => node.date === activeDate) ?? null;
   const activeIndex = nodes.findIndex((node) => node.date === activeDate);
 
@@ -380,6 +415,32 @@ export function BuildTimelineNodes({ nodes }: { nodes: BikeBuildTimelineNode[] }
         {/* Edge fade masks hint that the row scrolls — same technique MerchTicker uses for its marquee edges. */}
         <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-gradient-to-r from-off-white to-transparent sm:w-12" aria-hidden="true" />
         <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-gradient-to-l from-off-white to-transparent sm:w-12" aria-hidden="true" />
+
+        {/* Manual scroll controls — the row also edge-pans on hover and
+            drag/swipes natively, but neither of those is discoverable by
+            looking at it, and edge-panning is pointer-only (see the effect
+            above). Hidden entirely rather than shown disabled once there's
+            nothing further in that direction. */}
+        {canScrollLeft && (
+          <button
+            type="button"
+            onClick={() => scrollByPage(-1)}
+            aria-label="Scroll timeline left, to earlier updates"
+            className="absolute left-1 top-1/2 z-20 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-ink/15 bg-off-white text-charcoal-light shadow-sm transition-colors hover:border-bronze hover:text-bronze sm:left-2"
+          >
+            <ChevronLeft size={16} aria-hidden />
+          </button>
+        )}
+        {canScrollRight && (
+          <button
+            type="button"
+            onClick={() => scrollByPage(1)}
+            aria-label="Scroll timeline right, to later updates"
+            className="absolute right-1 top-1/2 z-20 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-ink/15 bg-off-white text-charcoal-light shadow-sm transition-colors hover:border-bronze hover:text-bronze sm:right-2"
+          >
+            <ChevronRight size={16} aria-hidden />
+          </button>
+        )}
         <ol
           ref={scrollerRef}
           className="scrollbar-hide flex snap-x snap-proximity items-start gap-8 overflow-x-auto px-4 pb-3 pt-2 sm:gap-10"
