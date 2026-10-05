@@ -667,6 +667,17 @@ export interface MessageRow {
   approved_at: string | null;
 }
 
+/** A visitor comment on a journal entry — see supabase/schema.sql's public.journal_comments. */
+export interface JournalCommentRow {
+  id: string;
+  journal_entry_id: string;
+  name: string;
+  body: string;
+  approved: boolean;
+  submitted_at: string;
+  approved_at: string | null;
+}
+
 export interface MessageInsert {
   name: string;
   anonymous?: boolean;

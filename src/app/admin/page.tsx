@@ -32,6 +32,7 @@ export default async function AdminPage() {
     { count: publishedJournalEntries },
     { count: draftJournalEntries },
     { count: pendingMessages },
+    { count: pendingJournalComments },
     { count: newTriathlonTeamApplications },
     currentEvent,
   ] = await Promise.all([
@@ -49,6 +50,7 @@ export default async function AdminPage() {
     admin.from("journal_entries").select("*", { count: "exact", head: true }).eq("status", "published"),
     admin.from("journal_entries").select("*", { count: "exact", head: true }).eq("status", "draft"),
     admin.from("messages").select("*", { count: "exact", head: true }).eq("approved", false),
+    admin.from("journal_comments").select("*", { count: "exact", head: true }).eq("approved", false),
     admin.from("triathlon_team_applications").select("*", { count: "exact", head: true }).eq("status", "new"),
     getCurrentEventConfig(),
   ]);
@@ -199,6 +201,23 @@ export default async function AdminPage() {
         </div>
         <Link
           href="/admin/messages"
+          className="rounded-sm border border-ink/20 px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
+        >
+          Manage
+        </Link>
+      </div>
+
+      <div className="mt-6 flex items-center justify-between rounded-sm border border-ink/10 bg-off-white p-6">
+        <div>
+          <p className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+            Journal Comments
+          </p>
+          <p className="mt-1 text-sm text-charcoal-light">
+            {pendingJournalComments ?? 0} comment(s) awaiting review before they appear on their post.
+          </p>
+        </div>
+        <Link
+          href="/admin/journal-comments"
           className="rounded-sm border border-ink/20 px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
         >
           Manage

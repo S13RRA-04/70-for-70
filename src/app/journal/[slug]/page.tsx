@@ -13,6 +13,8 @@ import { MilestoneHeadline } from "@/components/journal/milestone-headline";
 import { SponsorDisclosureBanner } from "@/components/journal/sponsor-disclosure-banner";
 import { PartnerMentionsFooter } from "@/components/journal/partner-mentions-footer";
 import { JournalGallery } from "@/components/journal/journal-gallery";
+import { JournalComments } from "@/components/journal/journal-comments";
+import { getApprovedJournalComments } from "@/lib/data/journal-comments";
 import { RelatedEntries } from "@/components/journal/related-entries";
 import { JournalCta } from "@/components/journal/journal-cta";
 import { formatDateLong } from "@/lib/utils";
@@ -102,6 +104,7 @@ export default async function JournalEntryPage(props: PageProps<"/journal/[slug]
 
   if (!entry) notFound();
 
+  const comments = await getApprovedJournalComments(entry.id);
   const video = entry.video_url ? parseVideoUrl(entry.video_url) : null;
   const hasPhoto = Boolean(entry.image_url);
   const relatedEntries = allEntries
@@ -182,6 +185,10 @@ export default async function JournalEntryPage(props: PageProps<"/journal/[slug]
             <RelatedEntries entries={relatedEntries} />
           </RevealOnScroll>
         )}
+
+        <RevealOnScroll as="section">
+          <JournalComments journalEntryId={entry.id} comments={comments} />
+        </RevealOnScroll>
 
         <div className="mt-10 grid grid-cols-3 items-center border-t border-ink/10 pt-6 text-sm">
           <div className="text-left">

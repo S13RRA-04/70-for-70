@@ -463,6 +463,32 @@ create table if not exists public.journal_entry_beneficiary_mentions (
 );
 
 -- ---------------------------------------------------------------------------
+-- journal_comments
+--
+-- Visitor comments on individual journal entries. Submitted through
+-- /journal/[slug] (JournalCommentForm), written via /api/journal-comments
+-- using the service-role key (same trust model as every other public-form
+-- table in this file), and reviewed at /admin/journal-comments before
+-- becoming publicly visible — same approve-before-it's-public pattern as
+-- public.messages, just scoped to a specific entry instead of one shared
+-- board.
+-- ---------------------------------------------------------------------------
+create table if not exists public.journal_comments (
+  id uuid primary key default gen_random_uuid(),
+  journal_entry_id uuid not null references public.journal_entries (id) on delete cascade,
+  name text not null,
+  -- Collected for moderation/spam-tracing only — never shown publicly.
+  email text,
+  body text not null,
+  approved boolean not null default false,
+  submitted_at timestamptz not null default now(),
+  approved_at timestamptz
+);
+
+create index if not exists journal_comments_entry_idx on public.journal_comments (journal_entry_id, submitted_at);
+create index if not exists journal_comments_approved_idx on public.journal_comments (approved);
+
+-- ---------------------------------------------------------------------------
 -- training_objectives
 --
 -- The full benchmark ladder the athlete climbs while training toward the
@@ -1083,6 +1109,7 @@ alter table public.posts enable row level security;
 alter table public.journal_entries enable row level security;
 alter table public.journal_entry_partner_mentions enable row level security;
 alter table public.journal_entry_beneficiary_mentions enable row level security;
+alter table public.journal_comments enable row level security;
 alter table public.partners enable row level security;
 alter table public.mission_partners enable row level security;
 alter table public.raffle_items enable row level security;
@@ -1253,6 +1280,17 @@ create policy "approved messages are publicly readable"
 -- /api/messages using the service-role key, same pattern as
 -- inquiries/donations/email_subscribers — never a client-issued insert
 -- policy. Moderation (approve/delete) happens at /admin/messages.
+
+drop policy if exists "approved journal comments are publicly readable" on public.journal_comments;
+create policy "approved journal comments are publicly readable"
+  on public.journal_comments for select
+  to anon, authenticated
+  using (approved = true);
+
+-- No insert policy on public.journal_comments: submissions are written by
+-- /api/journal-comments using the service-role key, same pattern as
+-- public.messages. Moderation (approve/delete) happens at
+-- /admin/journal-comments.
 
 drop policy if exists "event config is publicly readable" on public.event_config;
 create policy "event config is publicly readable"
