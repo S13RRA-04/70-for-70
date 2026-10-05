@@ -19,8 +19,8 @@ import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, CAMPAIGN_HOME_CRUMB, jsonLdScriptProps } from "@/lib/json-ld";
 
 export const metadata = pageMetadata({
-  title: "The Story",
-  description: `The athletic story behind ${CAMPAIGN_NAME} — training, the road to race day, and why it's run in memory of the 22.`,
+  title: "Cody Hitson's Story",
+  description: `Cody Hitson's athletic story behind ${CAMPAIGN_NAME} — training, the road to race day, and why it's run in memory of the 22.`,
   canonical: "/the-story",
 });
 

@@ -57,7 +57,7 @@ const HERO_HEADLINE = `${RACE_TOTAL_DISTANCE} MILES. ${formatCurrency(FUNDRAISIN
  * see the campaign name lead the title, unlike every other page where it
  * trails as the site identifier.
  */
-const HOMEPAGE_TITLE = `${CAMPAIGN_NAME} | Veteran & First Responder Triathlon Campaign`;
+const HOMEPAGE_TITLE = `${CAMPAIGN_NAME} | Cody Hitson's IRONMAN 70.3 Campaign`;
 const HOMEPAGE_DESCRIPTION =
   "Tri For The 22 follows Cody Hitson's road to IRONMAN 70.3 Chattanooga while raising awareness and support for veterans, first responders, and their families.";
 

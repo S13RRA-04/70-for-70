@@ -12,12 +12,27 @@ import {
 } from "@/lib/content/about";
 import { CAMPAIGN_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
+import { FOUNDER_PERSON_JSON_LD, jsonLdScriptProps } from "@/lib/json-ld";
 
 export const metadata = pageMetadata({
-  title: "About",
-  description: "Why For The 22 exists — service, struggle, recovery, and the mission that came after.",
+  title: "About Cody Hitson",
+  description:
+    "Cody Hitson — veteran, husband, father — on why For The 22 exists: service, struggle, recovery, and the mission that came after.",
   canonical: "/about",
 });
+
+/**
+ * Standalone Person entity for this page specifically — distinct from
+ * FOUNDER_PERSON_JSON_LD's other use nested inside the root layout's
+ * Organization.founder (every page, same generic object). This is his own
+ * bio page, so it gets its own top-level Person record with @context, which
+ * carries more weight for a personal-name search than a nested reference.
+ */
+const ABOUT_PERSON_JSON_LD = {
+  "@context": "https://schema.org",
+  ...FOUNDER_PERSON_JSON_LD,
+  description: ABOUT_CONTENT.tagline,
+};
 
 const READING_COLUMN = "max-w-[46rem]";
 
@@ -32,6 +47,7 @@ const whyBlack = findAboutSubsection("why-black")!;
 export default function AboutPage() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(ABOUT_PERSON_JSON_LD)} />
       {/* 1. Opening statement */}
       <section className="relative min-h-[80vh] border-b border-ink/10 bg-sand-light">
         <Container className="grid min-h-[80vh] items-center gap-10 py-20 sm:grid-cols-[minmax(0,22rem)_1fr] sm:gap-16">
