@@ -82,7 +82,7 @@ export const BIKE_BUILD_STATUS_SUMMARY: BikeBuildStatusSummaryItem[] = [
     label: "Final Assembly",
     status: "pending",
     statusLabel: "Nearly Complete",
-    detail: "As of September 30, 2026, the training tires and tubes are mounted, alongside everything installed earlier. What's left: the front derailleur (still awaiting delivery) and the chain — then tuning and a first shakedown ride.",
+    detail: "As of October 5, 2026, everything but the front derailleur and chain is installed. The front derailleur didn't arrive over the weekend as expected and is now on hold again, with delivery expected today — once it's in hand, it's installation, tuning, and a first shakedown ride.",
   },
   {
     label: "First Outdoor Ride",
@@ -1274,7 +1274,6 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
     summary:
       "The Vittoria training tires and tubes are mounted. All that's left is the front derailleur — once it arrives, it's the chain, final adjustments, and a first test ride.",
     status: "Tires and tubes installed",
-    featured: true,
     photos: [
       {
         src: "/journal/building-the-bike/tires-and-tubes-installed.jpeg",
@@ -1297,6 +1296,28 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "Once it does, I'll install it and the chain, make some adjustments, and take it out for a test ride. From there, make some adjustments and dial everything in so it's ready for training next week.",
     ],
     relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+  },
+  {
+    id: "another-setback",
+    date: "2026-10-05",
+    displayDate: "October 5, 2026",
+    title: "Another Setback",
+    summary:
+      "The front derailleur didn't make it through the mail this past weekend, so final assembly is still on hold — it's expected to arrive today.",
+    status: "Front derailleur delayed again",
+    technicalDetails: {
+      heading: "Status",
+      items: [
+        { label: "Front Derailleur", value: "Delayed — delivery expected today" },
+        { label: "If It Arrives", value: "Install today, target a training ride Wednesday" },
+      ],
+    },
+    body: [
+      "Well, the final bike part didn't make it through the mail this past weekend, so the final build is still on hold.",
+      "I'm expecting the front derailleur to be delivered today. If it shows up, I'll get it installed and try to get the Stradalli road-worthy in time for a training ride on Wednesday.",
+    ],
+    relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+    featured: true,
   },
 ];
 
