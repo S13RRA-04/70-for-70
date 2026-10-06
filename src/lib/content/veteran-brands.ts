@@ -261,4 +261,100 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
       "Founded by a firefighter/paramedic with nearly 18 years on the job, roasting fresh the day each order is placed. Donates 10% of profits to the Leary Firefighters Foundation, which provides life-saving equipment, training, and resources to fire departments across the country.",
     categoryIds: ["first-responder-owned", "gives-back"],
   },
+  {
+    name: "Jocko Fuel",
+    url: "https://jockofuel.com",
+    product: "Protein, supplements & energy drinks",
+    description:
+      "Founded by Jocko Willink, retired U.S. Navy SEAL commander of SEAL Team Three's Task Unit Bruiser and co-author of Extreme Ownership. Built around clean-label standards — no heavy metals, no junk ingredients — and made in the U.S., with the brand's origin story and veteran founder documented on its own site.",
+    categoryIds: ["veteran-owned"],
+  },
+  {
+    name: "Star Spangled Tea & Coffee Co.",
+    url: "https://starspangledtea.com",
+    product: "Coffee & loose-leaf tea",
+    description:
+      "A service-disabled, veteran-owned small business (SDVOSB) founded in Columbus, Georgia by Iraq War veteran Roger Owens of the 3rd Infantry Division and his wife, Aimee. Blends tied to American history and landmarks, with a stated mission to support communities, veterans, and national parks — including a portion of proceeds returned to veteran service organizations and first responders.",
+    categoryIds: ["veteran-owned", "gives-back"],
+  },
+  {
+    name: "Counter Strike Coffee Company",
+    url: "https://counterstrikecoffeecompany.com",
+    product: "Coffee",
+    description:
+      "A veteran-owned, farm-to-cup Texas roaster founded in 2015 by Brandon Buttrey, a U.S. Navy FMF Hospital Corpsman and 10-year combat veteran. A portion of proceeds is donated to charitable veterans organizations, alongside support for the family-owned El Salvador farms where its coffee is grown.",
+    categoryIds: ["veteran-owned", "gives-back"],
+  },
+  {
+    name: "Heroes Rise Coffee Company",
+    url: "https://heroesrisecoffee.com",
+    product: "Coffee & apparel",
+    description:
+      "A first-responder-owned and operated roaster whose family lineage runs through a small-town police chief who also volunteered as a firefighter and first responder. Donates coffee to first responders across the U.S. and runs partnerships, fundraising programs, and community events supporting veterans, military families, and local organizations.",
+    categoryIds: ["first-responder-owned", "gives-back"],
+  },
+  {
+    name: "First Responder's Coffee Company (FRCC)",
+    url: "https://frccoffee.com",
+    product: "Coffee, cigars & apparel",
+    description:
+      "Founded in November 2022 by Brent Tucker, an Army Green Beret and Delta Force veteran and Purple Heart recipient, around a simple rule: portions of every sale fund first-responder equipment, training, mental health, and family support. Its CAT II Foundation passes 100% of donations to first responders in need, having given hundreds of thousands of dollars since inception.",
+    categoryIds: ["veteran-owned", "gives-back"],
+  },
+  {
+    name: "FyrFytr Coffee Co.",
+    url: "https://fyrfytrcoffee.com",
+    product: "Coffee",
+    description:
+      "Donates a portion of proceeds to local nonprofit organizations that benefit first responders, with named partners such as Virginia First Responder Support Services, which provides confidential mental health and peer-support services to first responders at no cost.",
+    categoryIds: ["gives-back"],
+  },
+  {
+    name: "GORUCK",
+    url: "https://www.goruck.com",
+    product: "Rucksacks, footwear & training gear",
+    description:
+      "Founded in 2008 by Jason McCarthy, a 10th Special Forces Group Green Beret, and his wife Emily — built to Special Forces gear standards and made in the USA with a lifetime guarantee. Backs its '1% for Those Who Serve' commitment by raising six figures for the Green Beret Foundation and donating rucksacks to its Casualty Support Program.",
+    categoryIds: ["veteran-owned", "gives-back"],
+  },
+  {
+    name: "Frontier Coffee Company",
+    url: "https://www.frontiercoffee.com",
+    product: "Coffee & candles",
+    description:
+      "A veteran- and family-owned craft roastery in the Smoky Mountain foothills of East Tennessee, founded in 2017 by Jennifer Dressel and Nate Dressel, a former Special Forces operator with 19 years of combat training experience. Fresh-roasted weekly and built around employing and creating opportunities for veterans.",
+    categoryIds: ["veteran-owned"],
+  },
+  {
+    name: "Munition Apparel",
+    url: "https://munitionapparel.com",
+    product: "Military apparel & accessories",
+    description:
+      "A veteran-owned family business producing high-quality apparel and accessories, plus custom orders for military and veteran organizations — with a standing commitment that a portion of all profits always goes to support a veteran or military organization.",
+    categoryIds: ["veteran-owned", "gives-back"],
+  },
+  {
+    name: "1765 Apparel Co.",
+    url: "https://1765apparelco.com",
+    product: "American-made apparel",
+    description:
+      "Veteran-owned and operated by founder William Hawn, a UH-60 Blackhawk crew chief who flew two combat tours in Iraq. American-made from cotton grown, spun, knit, and sewn on U.S. soil and printed to order, with apparel built around faith and country.",
+    categoryIds: ["veteran-owned"],
+  },
+  {
+    name: "Fire Grounds Coffee Co.",
+    url: "https://www.firegroundscoffeecompany.com",
+    product: "Coffee",
+    description:
+      "Founded by Paul Clarke, a Dallas firefighter/paramedic and former Marine Corps officer who deployed to Iraq, and run with president Kyle, a Dallas Fire & Rescue lieutenant. Started on a 2 a.m. ambulance call because first responders deserved better than station coffee — now roasted for first responders nationwide.",
+    categoryIds: ["first-responder-owned"],
+  },
+  {
+    name: "Warriors & Whiskey",
+    url: "https://warriorsandwhiskey.com",
+    product: "Whiskey & gear",
+    description:
+      "A veteran-owned whiskey and gear company founded in December 2020 by veterans of combat and military service, built to cultivate community among those who served — one sip at a time — with limited-run whiskey drops and apparel.",
+    categoryIds: ["veteran-owned"],
+  },
 ];
