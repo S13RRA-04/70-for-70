@@ -1,16 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import {
-  Ambulance,
   ChevronDown,
-  Flame,
   Handshake,
   HeartHandshake,
-  Lock,
-  Radio,
   Share2,
-  Shield,
-  Star,
   Footprints,
 } from "lucide-react";
 import { Container } from "@/components/shared/container";
@@ -20,56 +14,36 @@ import { CrisisQuickLink } from "@/components/shared/crisis-quick-link";
 import { ScrollProgressRail } from "@/components/shared/scroll-progress-rail";
 import { RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import { ResourceCategoryGrid } from "@/components/home/resource-category-grid";
+import { MissionProgress } from "@/components/campaign/mission-progress";
 import { ABOUT_CONTENT, findAboutSubsection } from "@/lib/content/about";
 import { OUTER_RING_COLORS } from "@/lib/ring-colors";
 import { getMissionMetrics } from "@/lib/data/mission-metrics";
+import { getPartners } from "@/lib/data/partners";
 import {
   CAMPAIGN_URL,
+  MISSION_NAME,
+  MISSION_SUPPORTING_LINE,
   ORG_SUPPORTING_STATEMENT,
   ORG_TAGLINE,
   PERSONAL_PROJECT_DISCLOSURE,
   SITE_NAME,
 } from "@/lib/constants";
 
-/** The four areas of support the resource directory covers — physical health includes sports/fitness programs, but that's one entry among equals, not the site's emphasis. */
-const AREAS_OF_SUPPORT = [
-  {
-    title: "Mental Health",
-    description:
-      "Counseling, therapy access, and peer support for PTSD, anxiety, depression, and the invisible weight of service.",
-  },
-  {
-    title: "Physical Health",
-    description:
-      "Adaptive fitness, recovery, medical support, and athletic programs — including sports and fitness resources built for veterans and first responders.",
-  },
-  {
-    title: "Emotional Wellness",
-    description:
-      "Family support, relationship resources, and community connection for those adjusting to life after service.",
-  },
-  {
-    title: "Spiritual Health & Purpose",
-    description:
-      "Faith-based support, purpose-finding programs, and communities that help people rebuild direction.",
-  },
-] as const;
-
+/** Who the directory serves — a quiet inline line under the resource categories, not a repeated icon grid (the categories above already show "what you need"; this just confirms "who this is for"). */
 const WHO_WE_SERVE = [
-  { label: "Veterans", icon: Star },
-  { label: "Law Enforcement", icon: Shield },
-  { label: "Fire", icon: Flame },
-  { label: "EMS", icon: Ambulance },
-  { label: "Dispatch", icon: Radio },
-  { label: "Corrections", icon: Lock },
-  { label: "Families & Caregivers", icon: HeartHandshake },
+  "Veterans",
+  "Law Enforcement",
+  "Fire",
+  "EMS",
+  "Dispatch",
+  "Corrections",
+  "Families & Caregivers",
 ] as const;
 
 const RAIL_SECTIONS = [
   { id: "resources", label: "Resources" },
-  { id: "support-areas", label: "Support" },
-  { id: "who-we-serve", label: "Who We Serve" },
   { id: "why-22", label: "Meaning" },
+  { id: "mission", label: "The Mission" },
   { id: "story", label: "Story" },
 ];
 
@@ -120,7 +94,7 @@ const GET_INVOLVED_OPTIONS = [
 export default async function HomePage() {
   const why22 = findAboutSubsection("why-22");
   const theIdea = findAboutSubsection("the-idea");
-  const metrics = await getMissionMetrics();
+  const [metrics, beneficiaries] = await Promise.all([getMissionMetrics(), getPartners()]);
 
   const networkStats = [
     { value: metrics.resources, label: "Resources" },
@@ -200,7 +174,11 @@ export default async function HomePage() {
               <div className="lg:col-span-8 xl:col-span-9">
                 <ResourceCategoryGrid />
 
-                <p className="mt-8 max-w-xl text-sm leading-relaxed text-charcoal-light">
+                <p className="mt-6 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                  Built for {WHO_WE_SERVE.join(" · ")}
+                </p>
+
+                <p className="mt-6 max-w-xl text-sm leading-relaxed text-charcoal-light">
                   Not sure where to start? Browse all available resources or search by service type.
                 </p>
                 <div className="mt-4 flex flex-wrap items-center gap-4">
@@ -216,87 +194,6 @@ export default async function HomePage() {
                 <CrisisQuickLink />
               </div>
             </div>
-          </RevealOnScroll>
-        </Container>
-      </section>
-
-      {/* Compact parent-mission bridge after the primary resource journey —
-          the site's CONNECT/MOBILIZE/SUPPORT identity, bold and minimal. */}
-      <section className="border-b border-ink/10 bg-off-white py-14 sm:py-16">
-        <Container>
-          <RevealOnScroll>
-            <SectionHeading eyebrow="One Permanent Mission" title="Connect. Mobilize. Support." />
-          </RevealOnScroll>
-          <RevealOnScroll className="mt-8">
-            <div className="grid gap-4 md:grid-cols-3">
-              <div className="border border-ink/10 bg-sand-light/50 p-6 sm:p-8">
-                <HeartHandshake className="h-6 w-6 text-bronze" aria-hidden="true" />
-                <h2 className="mt-4 font-display text-xl font-bold uppercase tracking-tight text-ink">Connect</h2>
-                <p className="mt-3 text-sm leading-relaxed text-charcoal-light">
-                  Find trusted programs and resources serving veterans, first responders, and their families.
-                </p>
-                <CTAButton href="/resources" className="mt-5">Explore Resources</CTAButton>
-              </div>
-              <div className="border border-ink/10 bg-sand-light/50 p-6 sm:p-8">
-                <Footprints className="h-6 w-6 text-bronze" aria-hidden="true" />
-                <h2 className="mt-4 font-display text-xl font-bold uppercase tracking-tight text-ink">Mobilize</h2>
-                <p className="mt-3 text-sm leading-relaxed text-charcoal-light">
-                  Join campaigns, events, partnerships, and community efforts that build momentum around the mission.
-                </p>
-                <CTAButton href="/campaigns" variant="secondary" className="mt-5">Explore Campaigns</CTAButton>
-              </div>
-              <div className="border border-ink/10 bg-sand-light/50 p-6 sm:p-8">
-                <Handshake className="h-6 w-6 text-bronze" aria-hidden="true" />
-                <h2 className="mt-4 font-display text-xl font-bold uppercase tracking-tight text-ink">Support</h2>
-                <p className="mt-3 text-sm leading-relaxed text-charcoal-light">
-                  Drive attention and funding toward organizations already doing the work, through The $70K Mission.
-                </p>
-                <CTAButton href="/70k" variant="secondary" className="mt-5">Explore the Mission</CTAButton>
-              </div>
-            </div>
-          </RevealOnScroll>
-        </Container>
-      </section>
-
-      {/* Areas of Support — the four pillars of the core mission, equal weight, no sport-specific emphasis */}
-      <section id="support-areas" className="scroll-mt-20 bg-off-white py-16 sm:py-24">
-        <Container>
-          <RevealOnScroll>
-            <SectionHeading eyebrow="How We Help" title="Areas of Support" />
-          </RevealOnScroll>
-          <RevealOnScroll className="mt-10">
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {AREAS_OF_SUPPORT.map((area) => (
-                <div key={area.title} className="flex flex-col border border-ink/10 bg-sand-light/40 p-6">
-                  <h3 className="font-display text-lg font-bold uppercase tracking-tight text-ink">
-                    {area.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-charcoal-light">{area.description}</p>
-                </div>
-              ))}
-            </div>
-          </RevealOnScroll>
-        </Container>
-      </section>
-
-      {/* Who the Directory Serves */}
-      <section id="who-we-serve" className="scroll-mt-20 bg-sand-light py-16 sm:py-24">
-        <Container>
-          <RevealOnScroll>
-            <SectionHeading eyebrow="Built For" title="Who the Directory Serves" />
-          </RevealOnScroll>
-          <RevealOnScroll className="mt-10">
-            <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7">
-              {WHO_WE_SERVE.map(({ label, icon: Icon }) => (
-                <li
-                  key={label}
-                  className="flex flex-col items-center gap-2.5 border border-ink/10 bg-off-white px-4 py-6 text-center"
-                >
-                  <Icon size={24} strokeWidth={1.5} className="text-bronze" aria-hidden="true" />
-                  <span className="text-sm font-semibold uppercase tracking-wide text-ink">{label}</span>
-                </li>
-              ))}
-            </ul>
           </RevealOnScroll>
         </Container>
       </section>
@@ -381,6 +278,31 @@ export default async function HomePage() {
                 ))}
               </dl>
             </div>
+          </RevealOnScroll>
+        </Container>
+      </section>
+
+      {/* $70K Mission — the one active initiative, not the org's identity.
+          Beneficiary names come from real data (getPartners()), never
+          invented; the progress bar reads the same canonical campaign
+          total every other money-displaying page on the site reads. */}
+      <section id="mission" className="scroll-mt-20 border-t border-ink/10 bg-sand-light py-16 sm:py-20">
+        <Container className="max-w-2xl">
+          <RevealOnScroll>
+            <SectionHeading eyebrow={MISSION_NAME} title={MISSION_SUPPORTING_LINE} />
+            {beneficiaries.length > 0 && (
+              <p className="mt-3 text-sm text-charcoal-light">
+                Supporting {beneficiaries.map((p) => p.name).join(" and ")}.
+              </p>
+            )}
+            <div className="mt-8 rounded-sm border border-ink/10 bg-off-white p-6 sm:p-8">
+              {metrics.totalRaised !== null && metrics.fundraisingGoal !== null && (
+                <MissionProgress totalRaised={metrics.totalRaised} goal={metrics.fundraisingGoal} showStats={false} />
+              )}
+            </div>
+            <CTAButton href="/70k" className="mt-6">
+              Explore The $70K Mission &rarr;
+            </CTAButton>
           </RevealOnScroll>
         </Container>
       </section>
