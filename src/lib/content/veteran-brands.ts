@@ -13,6 +13,11 @@
  * a roundup article turned out to have closed — see git history). A brand
  * can carry multiple categories (e.g. veteran-owned AND donates a cut of
  * profits) — category is about how the purchase helps, not a ranking.
+ *
+ * Stores are additionally separated by the goods/services they provide:
+ * every brand carries exactly one typeId (its primary product line) and
+ * the page renders one section per entry in SERVICE_BRAND_TYPES. Hybrid
+ * shops (e.g. apparel + coffee) go where their lead product sits.
  */
 
 export interface ServiceBrandCategory {
@@ -26,8 +31,51 @@ export const SERVICE_BRAND_CATEGORIES: ServiceBrandCategory[] = [
   { id: "gives-back", label: "Gives Back" },
 ];
 
+/** Store sections on the page, ordered as displayed — not alphabetical, so the biggest and most-shopped sections lead. */
+export interface ServiceBrandType {
+  id: "coffee-tea" | "apparel" | "food-drink" | "nutrition" | "gear" | "personal-care";
+  label: string;
+  /** One line under the section heading describing what belongs here. */
+  description: string;
+}
+
+export const SERVICE_BRAND_TYPES: ServiceBrandType[] = [
+  {
+    id: "coffee-tea",
+    label: "Coffee & Tea",
+    description: "Roasters and tea blenders — whole bean, ground, subscriptions, and station-ready brews.",
+  },
+  {
+    id: "apparel",
+    label: "Apparel & Footwear",
+    description: "T-shirts, hoodies, socks, flip flops, and custom printing for men and women.",
+  },
+  {
+    id: "food-drink",
+    label: "Food & Drink",
+    description: "Hot sauce, seasonings, and spirits worth putting on the table.",
+  },
+  {
+    id: "nutrition",
+    label: "Nutrition & Supplements",
+    description: "Protein, pre-workout, and clean energy drinks.",
+  },
+  {
+    id: "gear",
+    label: "Gear & Accessories",
+    description: "Rucksacks, camp coffee kits, and everyday carry made to last.",
+  },
+  {
+    id: "personal-care",
+    label: "Personal Care",
+    description: "Soap and grooming goods, made small-batch.",
+  },
+];
+
 export interface ServiceBrand {
   name: string;
+  /** Which store section this brand sits under — exactly one primary goods/services type. */
+  typeId: ServiceBrandType["id"];
   url: string;
   /** What they sell, in a few words — grounds the card before the mission copy. */
   product: string;
@@ -39,6 +87,7 @@ export interface ServiceBrand {
 export const SERVICE_BRANDS: ServiceBrand[] = [
   {
     name: "Rags of Honor",
+    typeId: "apparel",
     url: "https://www.ragsofhonor.us",
     product: "Custom apparel & screen printing",
     description:
@@ -47,6 +96,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "Veteran Roasters",
+    typeId: "coffee-tea",
     url: "https://veteranroasters.com",
     product: "Coffee",
     description:
@@ -55,6 +105,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "Bombs & Blades Hot Sauce",
+    typeId: "food-drink",
     url: "https://bombsandblades.com",
     product: "Hot sauce",
     description:
@@ -63,6 +114,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "Grunt Style",
+    typeId: "apparel",
     url: "https://www.gruntstyle.com",
     product: "Patriotic apparel",
     description:
@@ -71,6 +123,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "Nine Line Apparel",
+    typeId: "apparel",
     url: "https://www.ninelineapparel.com",
     product: "Patriotic & military-themed apparel",
     description:
@@ -79,6 +132,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "Hero Soap Company",
+    typeId: "personal-care",
     url: "https://herosoapcompany.com",
     product: "Handmade soap",
     description:
@@ -87,6 +141,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "Black Rifle Coffee Company",
+    typeId: "coffee-tea",
     url: "https://www.blackriflecoffee.com",
     product: "Coffee",
     description:
@@ -95,6 +150,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "Bottle Breacher",
+    typeId: "gear",
     url: "https://bottlebreacher.com",
     product: "Bottle openers & accessories made from spent ammunition",
     description:
@@ -103,6 +159,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "Fire Department Coffee",
+    typeId: "coffee-tea",
     url: "https://www.firedeptcoffee.com",
     product: "Coffee",
     description:
@@ -111,6 +168,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "ReLEntless Defender Apparel",
+    typeId: "apparel",
     url: "https://relentlessdefender.com",
     product: "Law enforcement & Thin Blue Line apparel",
     description:
@@ -119,6 +177,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "13 Fifty Apparel",
+    typeId: "apparel",
     url: "https://thirteenfiftyapparel.com",
     product: "First responder apparel",
     description:
@@ -127,6 +186,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "Kill Cliff",
+    typeId: "nutrition",
     url: "https://killcliff.com",
     product: "Energy & recovery drinks",
     description:
@@ -135,6 +195,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "Ranger Up",
+    typeId: "apparel",
     url: "https://rangerup.com",
     product: "Military & patriotic apparel",
     description:
@@ -143,6 +204,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "Silencio Coffee",
+    typeId: "coffee-tea",
     url: "https://silenciocoffee.com",
     product: "Coffee & apparel",
     description:
@@ -151,6 +213,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "Muertos Coffee Co. (Duty to Act)",
+    typeId: "coffee-tea",
     url: "https://muertoscoffeeco.com",
     product: "Coffee & first-responder merch",
     description:
@@ -159,6 +222,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "Hero Forge Apparel & Coffee",
+    typeId: "apparel",
     url: "https://heroforgeapparel.com",
     product: "Apparel & coffee",
     description:
@@ -167,6 +231,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "Combat Flip Flops",
+    typeId: "apparel",
     url: "https://www.combatflipflops.com",
     product: "Footwear, shemaghs & accessories",
     description:
@@ -175,6 +240,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "Boldfoot Socks",
+    typeId: "apparel",
     url: "https://boldfoot.com",
     product: "American-made socks",
     description:
@@ -183,6 +249,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "Frag Out Flavor",
+    typeId: "food-drink",
     url: "https://fragoutflavor.com",
     product: "Seasonings & spice rubs",
     description:
@@ -191,6 +258,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "Livefire Coffee Co.",
+    typeId: "coffee-tea",
     url: "https://livefirecoffeeco.com",
     product: "Coffee & tea",
     description:
@@ -199,6 +267,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "Firemans Brew",
+    typeId: "coffee-tea",
     url: "https://firemansbrew.com",
     product: "Coffee",
     description:
@@ -207,6 +276,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "First Responder Coffee Co",
+    typeId: "coffee-tea",
     url: "https://firstrespondercoffees.com",
     product: "Coffee & drinkware",
     description:
@@ -215,6 +285,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "Got Your Six Coffee Co.",
+    typeId: "coffee-tea",
     url: "https://gotyoursixcoffee.com",
     product: "Coffee",
     description:
@@ -223,6 +294,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "22 Sierra Coffee Co.",
+    typeId: "coffee-tea",
     url: "https://22sierracoffee.com",
     product: "Coffee",
     description:
@@ -231,6 +303,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "Vets 4 Vets Apparel",
+    typeId: "apparel",
     url: "https://vets4vetsapparel.com",
     product: "Veteran apparel",
     description:
@@ -239,6 +312,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "Fit2Fight Apparel",
+    typeId: "apparel",
     url: "https://fitiifightapparel.com",
     product: "Athletic & casual apparel",
     description:
@@ -247,6 +321,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "COLETTI",
+    typeId: "gear",
     url: "https://coletticoffee.com",
     product: "Stainless steel camping coffee gear",
     description:
@@ -255,6 +330,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "Fire & Ice Coffee Company",
+    typeId: "coffee-tea",
     url: "https://fireicecoffeeco.com",
     product: "Coffee",
     description:
@@ -263,6 +339,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "Jocko Fuel",
+    typeId: "nutrition",
     url: "https://jockofuel.com",
     product: "Protein, supplements & energy drinks",
     description:
@@ -271,6 +348,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "Star Spangled Tea & Coffee Co.",
+    typeId: "coffee-tea",
     url: "https://starspangledtea.com",
     product: "Coffee & loose-leaf tea",
     description:
@@ -279,6 +357,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "Counter Strike Coffee Company",
+    typeId: "coffee-tea",
     url: "https://counterstrikecoffeecompany.com",
     product: "Coffee",
     description:
@@ -287,6 +366,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "Heroes Rise Coffee Company",
+    typeId: "coffee-tea",
     url: "https://heroesrisecoffee.com",
     product: "Coffee & apparel",
     description:
@@ -295,6 +375,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "First Responder's Coffee Company (FRCC)",
+    typeId: "coffee-tea",
     url: "https://frccoffee.com",
     product: "Coffee, cigars & apparel",
     description:
@@ -303,6 +384,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "FyrFytr Coffee Co.",
+    typeId: "coffee-tea",
     url: "https://fyrfytrcoffee.com",
     product: "Coffee",
     description:
@@ -311,6 +393,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "GORUCK",
+    typeId: "gear",
     url: "https://www.goruck.com",
     product: "Rucksacks, footwear & training gear",
     description:
@@ -319,6 +402,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "Frontier Coffee Company",
+    typeId: "coffee-tea",
     url: "https://www.frontiercoffee.com",
     product: "Coffee & candles",
     description:
@@ -327,6 +411,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "Munition Apparel",
+    typeId: "apparel",
     url: "https://munitionapparel.com",
     product: "Military apparel & accessories",
     description:
@@ -335,6 +420,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "1765 Apparel Co.",
+    typeId: "apparel",
     url: "https://1765apparelco.com",
     product: "American-made apparel",
     description:
@@ -343,6 +429,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "Fire Grounds Coffee Co.",
+    typeId: "coffee-tea",
     url: "https://www.firegroundscoffeecompany.com",
     product: "Coffee",
     description:
@@ -351,6 +438,7 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
   },
   {
     name: "Warriors & Whiskey",
+    typeId: "food-drink",
     url: "https://warriorsandwhiskey.com",
     product: "Whiskey & gear",
     description:
