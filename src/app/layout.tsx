@@ -13,6 +13,7 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { AwarenessBanner } from "@/components/layout/awareness-banner";
 import { EventAnnouncementBanner } from "@/components/layout/event-announcement-banner";
+import { MissionRelationshipBanner } from "@/components/layout/mission-relationship-banner";
 import {
   MobileConversionBar,
   MobileConversionBarSpacer,
@@ -137,6 +138,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         ) : (
           <>
             <AwarenessBanner />
+            {campaignSlug === "tri" && <MissionRelationshipBanner />}
             <EventAnnouncementBanner campaignSlug={campaignSlug} />
             <Header mode={mode} campaignSlug={campaignSlug} awarenessMonth={awarenessMonth} />
             <main id="main-content" className="flex-1">

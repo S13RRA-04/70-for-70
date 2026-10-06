@@ -72,4 +72,13 @@ export const MISSION_SECTIONS: MissionSection[] = [
       "Every donation counts toward that single goal, whatever the amount. Corporate sponsorships are handled separately through the sponsorship review process.",
     ],
   },
+  {
+    id: "the-mission-continues",
+    heading: "One Campaign, A Larger Mission",
+    body: [
+      "Tri For The 22 is one campaign under the broader For The 22 mission — the permanent resource and movement serving veterans, first responders, and their families beyond any single race.",
+      "The campaign may have finish lines. The mission does not.",
+    ],
+    link: { label: "Visit ForThe22.org", href: SITE_URL },
+  },
 ];

@@ -236,7 +236,7 @@ export const CAMPAIGN_NAV_GROUPS: NavEntry[] = [
     label: "Mission",
     children: [
       { label: "The Mission / Why 22", href: "/the-mission" },
-      { label: "Beneficiaries", href: "/beneficiaries" },
+      { label: "Who We Support", href: "/beneficiaries" },
       { label: "About Cody", href: "/the-story" },
     ],
   },
@@ -293,7 +293,7 @@ export const CAMPAIGN_HOME_LINK: NavLink = { label: CAMPAIGN_NAME, href: CAMPAIG
 /** Campaign header → org subdomain, styled as a CTA. */
 export const ORG_HOME_LINK: NavLink = { label: SITE_NAME, href: SITE_URL };
 
-export const DONATE_LINK: NavLink = { label: "Donate Now", href: "/donate" };
+export const DONATE_LINK: NavLink = { label: "Support the Mission", href: "/donate" };
 /** Distinct parent-site text link in the campaign header (the logo/title still link to the campaign home). */
 export const PARENT_INITIATIVE_LINK: NavLink = { label: "A For The 22 campaign", href: SITE_URL };
 /** 22 For the 22's header/footer backlink to the fundraiser it promotes — see CAMPAIGNS["22"].parentLink. */
@@ -421,13 +421,13 @@ export const MISSION_PARTNER_TIERS = [
       "Featured recognition leading into IRONMAN 70.3 Chattanooga",
       "Race-day and post-race recognition",
       "Logo placement on Cody's race kit for IRONMAN 70.3 Chattanooga",
-      "Everything included at Mission Sponsor level",
+      "Everything included at Campaign Partner level",
     ],
     note: "Race-kit placement is reserved for Presenting Partners and is subject to available space, artwork/production deadlines, and applicable event rules. Presenting Partner opportunities may be limited.",
   },
   {
     id: "mission-sponsor" as const,
-    name: "Mission Sponsor",
+    name: "Campaign Partner",
     range: "$2,500–$4,999",
     benefits: [
       "Priority website placement",
@@ -435,33 +435,33 @@ export const MISSION_PARTNER_TIERS = [
       "Logo on campaign event signage/banners",
       "Multiple dedicated social features",
       "Recognition in appropriate campaign/community outreach",
-      "Everything included at Mission Partner level",
+      "Everything included at Supporting Partner level",
     ],
   },
   {
     id: "mission-partner" as const,
-    name: "Mission Partner",
+    name: "Supporting Partner",
     range: "$1,000–$2,499",
     benefits: [
       "Prominent website logo placement",
       "Logo on select printed campaign collateral",
       "Dedicated social-media sponsor spotlight",
-      "Everything included at Advocate level",
+      "Everything included at In-Kind Partner level",
     ],
   },
   {
     id: "advocate" as const,
-    name: "Advocate",
+    name: "In-Kind Partner",
     range: "$500–$999",
     benefits: [
       "Enhanced/prominent website recognition",
       "Recurring sponsor recognition",
-      "Everything included at Ally level",
+      "Everything included at Community Partner level",
     ],
   },
   {
     id: "ally" as const,
-    name: "Ally",
+    name: "Community Partner",
     range: "$250–$499",
     benefits: ["Website logo/name recognition", "Social-media acknowledgment"],
   },
@@ -758,6 +758,7 @@ export const CAMPAIGNS: Record<
     logoLight: "/campaign-logo.png",
     logoDark: "/campaign-logo-white.png",
     primaryCta: DONATE_LINK,
+    parentLink: PARENT_INITIATIVE_LINK,
   },
   ruck: {
     name: RUCK_CAMPAIGN_NAME,

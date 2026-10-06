@@ -13,8 +13,9 @@ import type { MissionPartnerTier } from "@/types/database";
  * Built only from the existing distressed/military palette
  * (bronze/olive/sand/ink) rather than a gold/silver/bronze medal scheme —
  * the escalation is opacity/weight/scale within that palette, plus a
- * deliberate color shift to olive at Mission Partner and a shift to dark
- * ink at Mission Sponsor, not a rainbow of tier colors. Presenting Partner
+ * deliberate color shift to olive at Supporting Partner (id: mission-partner)
+ * and a shift to dark ink at Campaign Partner (id: mission-sponsor), not a
+ * rainbow of tier colors. Presenting Partner
  * isn't here: it already gets a fully bespoke dark treatment via
  * PresentingPartnerFeature, the natural next step up from Mission
  * Sponsor's ink-badge accent below.

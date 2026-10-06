@@ -168,7 +168,7 @@ export default async function SponsorsPage() {
             </Container>
           </section>
 
-          {/* Mission Sponsor → Mission Partner → Advocate → Ally → Campaign Supporter, decreasing prominence. */}
+          {/* Campaign Partner → Supporting Partner → In-Kind Partner → Community Partner → Campaign Supporter, decreasing prominence. */}
           {TIERED_ORDER.map((tierId) => (
             <SponsorSection
               key={tierId}
@@ -185,8 +185,8 @@ export default async function SponsorsPage() {
                   Campaign Partners &amp; Services
                 </h2>
                 <p className="mt-1 max-w-2xl text-sm text-charcoal-light">
-                  Organizations supporting the campaign through gear, services, and expertise outside the formal
-                  sponsorship tiers above.
+                  Organizations standing with the mission through gear, services, and expertise — contributions
+                  that move the campaign forward just as much as the formal tiers above, outside a dollar figure.
                 </p>
                 <RevealGrid step={45}>
                   <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">

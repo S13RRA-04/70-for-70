@@ -89,6 +89,22 @@ export function Footer({
 
         {campaignSlug === "tri" ? (
           <>
+            <div className="sm:col-span-2 lg:col-span-6">
+              <p className="font-display text-lg font-semibold uppercase tracking-wide text-off-white">
+                The campaign is temporary. The mission isn&apos;t.
+              </p>
+              <p className="mt-2 max-w-2xl text-sm text-off-white/70">
+                For The 22 exists to help veterans, first responders, and their families connect with trusted
+                resources, community, purpose, and support.
+              </p>
+              <a
+                href={SITE_URL}
+                className="mt-3 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze-light hover:text-off-white"
+              >
+                Visit ForThe22.org <span aria-hidden="true">&#8599;</span>
+              </a>
+            </div>
+
             <div>
               <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
                 About
@@ -434,16 +450,22 @@ export function Footer({
       <div className="relative border-t border-off-white/10 py-5">
         <Container>
           {campaignSlug === "tri" ? (
-            <p className="max-w-3xl text-xs text-off-white/60">
-              Personal, off-duty project. No employer or government affiliation.{" "}
-              <a
-                href="/campaign-terms#trademarks-and-endorsement"
-                className="underline-offset-2 hover:text-off-white/80 hover:underline"
-              >
-                Full legal disclosure
-              </a>
-              .
-            </p>
+            <>
+              <p className="max-w-3xl text-xs text-off-white/60">
+                Tri For The 22 is an independent fundraising campaign supporting Mighty Oaks Warrior Programs and
+                Veterans and Athletes United.
+              </p>
+              <p className="mt-2 max-w-3xl text-xs text-off-white/60">
+                Personal, off-duty project. No employer or government affiliation.{" "}
+                <a
+                  href="/campaign-terms#trademarks-and-endorsement"
+                  className="underline-offset-2 hover:text-off-white/80 hover:underline"
+                >
+                  Full legal disclosure
+                </a>
+                .
+              </p>
+            </>
           ) : (
             <p className="max-w-3xl text-xs text-off-white/60">{PERSONAL_PROJECT_DISCLOSURE}</p>
           )}

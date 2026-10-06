@@ -51,14 +51,22 @@ export default async function BeneficiariesPage() {
 
       <section className="py-16 sm:py-20">
         <Container>
+          <p className="max-w-2xl text-sm text-charcoal-light">
+            Each organization below was chosen for the specific, confirmed impact it already has in the veteran
+            and first-responder community — not added to pad a list.
+          </p>
           <RevealGrid>
-            <div className="flex flex-col gap-6">
+            <div className="mt-8 flex flex-col gap-6">
               {partners.map((partner) => (
                 <PartnerCard key={partner.id} partner={partner} />
               ))}
             </div>
           </RevealGrid>
           <p className="mt-10 max-w-2xl text-sm text-charcoal-light">
+            {CAMPAIGN_NAME} supports these organizations through fundraising, awareness, community outreach, and
+            campaign partnerships.
+          </p>
+          <p className="mt-4 max-w-2xl text-sm text-charcoal-light">
             Donations are made directly through each independent nonprofit organization&apos;s
             authorized donation platform. {CAMPAIGN_NAME} does not receive, process, or take
             possession of charitable contributions and does not issue tax receipts.

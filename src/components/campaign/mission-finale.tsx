@@ -8,8 +8,8 @@ import { formatDateLong } from "@/lib/utils";
  * benchmark data. Reconnects the race back to the fundraiser it's the
  * physical anchor of. `totalRaised`/`goal` come from the live
  * public.campaign row (getCampaign(), src/lib/data/campaign.ts) passed in
- * by the page — never hardcoded here. "Donate Now" routes to the real,
- * live /donate route (DONATE_LINK) — NOT the retired /fund-a-mile stub,
+ * by the page — never hardcoded here. DONATE_LINK routes to the real,
+ * live /donate route — NOT the retired /fund-a-mile stub,
  * which no longer represents how this campaign frames giving (see
  * src/app/fund-a-mile/page.tsx's own doc comment).
  */
