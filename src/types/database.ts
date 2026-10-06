@@ -477,9 +477,6 @@ export interface EventConfigRow {
   ends_at: string;
   status_override: EventLiveStatus | null;
   registration_open: boolean;
-  fundraising_goal: number;
-  /** Hand-updated by an admin — no per-event donation tagging exists yet. See EventConfigRow's comment in schema.sql. */
-  amount_raised: number;
   merch_url: string | null;
   donate_url: string | null;
   /** Markdown. When set, overrides the hardcoded placeholder scaffold on /22forthe22/rules. */
@@ -548,6 +545,58 @@ export interface EventActivityLogRow {
   hour_label: string;
   activity_label: string;
   note: string | null;
+  display_order: number;
+}
+
+/** Real, non-financial 22 For the 22 stats — see public.event_registration_stats (a view) in schema.sql, replacing the old event_config.fundraising_goal/amount_raised columns. */
+export interface EventRegistrationStatsRow {
+  event_id: string;
+  total_participants: number;
+  team_count: number;
+}
+
+/** One concert date in the For The 22: Live series — see public.live_events in schema.sql. */
+export interface LiveEventRow {
+  id: string;
+  slug: string;
+  title: string;
+  tagline: string | null;
+  venue_name: string | null;
+  venue_city: string | null;
+  venue_state: string | null;
+  starts_at: string | null;
+  ends_at: string | null;
+  /** Markdown, rendered the same way journal_entries.body is. */
+  description: string | null;
+  hero_image_url: string | null;
+  ticket_url: string | null;
+  published: boolean;
+  display_order: number;
+  updated_at: string;
+  created_at: string;
+}
+
+export interface LivePerformerRow {
+  id: string;
+  event_id: string;
+  name: string;
+  billing: string | null;
+  bio: string | null;
+  image_url: string | null;
+  display_order: number;
+}
+
+export type LiveAuctionItemStatus = "open" | "closed";
+
+export interface LiveAuctionItemRow {
+  id: string;
+  event_id: string;
+  title: string;
+  description: string | null;
+  image_url: string | null;
+  starting_bid: number | null;
+  bidding_url: string | null;
+  status: LiveAuctionItemStatus;
   display_order: number;
 }
 

@@ -5,15 +5,15 @@ import { CAMPAIGN_URL, SITE_URL, SOCIAL_LINKS, STRAVA_PROFILE_URL } from "@/lib/
  * "@context" so it can be embedded directly as the `author`/`founder` field
  * of another JSON-LD object (a nested type inherits the parent's context)
  * instead of forcing a second top-level <script> per page. His full bio
- * lives at SITE_URL/about (org domain) regardless of which host a page
- * embedding this is served from. `sameAs` reuses the same real,
- * confirmed-only accounts as SOCIAL_LINKS/STRAVA_PROFILE_URL — never a
- * fabricated profile.
+ * lives in SITE_URL/mission's "Founder's Story" section (org domain)
+ * regardless of which host a page embedding this is served from. `sameAs`
+ * reuses the same real, confirmed-only accounts as
+ * SOCIAL_LINKS/STRAVA_PROFILE_URL — never a fabricated profile.
  */
 export const FOUNDER_PERSON_JSON_LD = {
   "@type": "Person",
   name: "Cody Hitson",
-  url: `${SITE_URL}/about`,
+  url: `${SITE_URL}/mission#founders-story`,
   sameAs: [...SOCIAL_LINKS.map((link) => link.url), STRAVA_PROFILE_URL],
 };
 

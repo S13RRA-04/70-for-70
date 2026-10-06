@@ -10,12 +10,20 @@ export const ORG_TAGLINE = "For Those Who Serve. For What Comes Next.";
 /**
  * The org's one-sentence core mission statement — the non-negotiable
  * definition of what For The 22 is, used verbatim in the homepage hero,
- * /mission, and press copy. Deliberately contains no campaign-specific
- * language (Tri For The 22, fundraising, race goals, beneficiaries) —
- * that content lives on the campaign subdomain, never here.
+ * /mission, and press copy. Two arms of the same mission: the resource
+ * directory (connect) and the campaigns (mobilize). Campaign names, race
+ * goals, and beneficiaries stay out of it — this names the function, not
+ * the current vehicles.
  */
 export const ORG_SUPPORTING_STATEMENT =
-  "For The 22 connects veterans and first responders with trusted programs, services, and communities that support their mental, physical, emotional, and spiritual health.";
+  "For The 22 connects veterans, first responders, and their families with trusted resources—and mobilizes communities through campaigns that support the organizations serving them.";
+/**
+ * Short supporting organizational line — where a compact three-beat
+ * summary fits (mission page's Connect/Mobilize section, press copy,
+ * network page). Pairs with ORG_TAGLINE; never a replacement for the
+ * full supporting statement above.
+ */
+export const ORG_SUPPORTING_LINE = "Connect people. Mobilize communities. Support the organizations doing the work.";
 /**
  * Shown prominently on the homepage, donation pages, and in the footer —
  * required disclosure while ethics approval is pending. Do not remove or
@@ -31,7 +39,23 @@ export const PERSONAL_PROJECT_DISCLOSURE =
  * organization) is being named.
  */
 export const CAMPAIGN_NAME = "Tri For The 22";
-export const SITE_TAGLINE = "70.3 miles. $70,000. One mission for veterans.";
+export const SITE_TAGLINE = "70.3 miles. One campaign in For The 22's shared $70,000 mission.";
+
+/**
+ * Unified mission branding — the $70,000 goal belongs to For The 22 (the
+ * org), not to any single campaign. Tri For The 22 inspired the number via
+ * its 70.3-mile distance, but Tri, Ruck For The 22, For The 22: Live, 22 For
+ * the 22, auctions, merchandise, sponsorships, and direct giving are all
+ * framed as mechanisms contributing to this one shared goal — never as
+ * owners of their own separate fundraising target. See /70k, the
+ * authoritative page for this framing, and CONTRIBUTION_MECHANISMS in
+ * src/lib/content/mission-70k.ts for the full list of contributing campaigns.
+ */
+export const MISSION_NAME = "The $70K Mission";
+export const MISSION_SUPPORTING_LINE = "One Goal. Multiple Campaigns. One Mission.";
+export const MISSION_ORIGIN_LINE = "70.3 miles inspired the number. A community will reach it.";
+export const MISSION_MOTION_LINE = "Movement Creates Momentum.";
+export const MISSION_FORWARD_LINE = "Every campaign moves the mission forward.";
 
 /**
  * Fixed note donors add to a gift on a beneficiary platform that has no
@@ -103,39 +127,56 @@ export const EVENT22_CAMPAIGN_NAME = "22 For the 22";
 export const JOURNAL_PLACEHOLDER_IMAGE = "/journal/placeholder.png";
 
 /**
- * Naming ideas Cody may take on personally if Tri For The 22 goes well —
- * powers the "[Mission] For The 22" explainer on /the-mission and the org
- * site's /campaigns landing page. Only Tri is real/active; the rest are
- * just a naming convention for possible future personal challenges, not
- * commitments with dates or a managed program — labeled "Future" rather
- * than implying a timeline or an institution. `description`/`url` are only
- * set for active campaigns — /campaigns deliberately renders future
- * entries without invented copy or a link (see README's "Eliminating
- * Placeholder Content").
+ * Every campaign currently contributing to MISSION_NAME (The $70K Mission),
+ * plus naming ideas Cody may take on personally if Tri goes well — powers
+ * the "[Mission] For The 22" explainer on /the-mission and the org site's
+ * /campaigns landing page. `description`/`url` are only set for active
+ * campaigns — /campaigns deliberately renders future entries without
+ * invented copy or a link (see README's "Eliminating Placeholder Content").
+ * `url` is same-site (a relative path, e.g. For The 22: Live) for a campaign
+ * that lives on this domain, or cross-domain (an absolute CAMPAIGN_URL-style
+ * constant) for one on its own subdomain — /campaigns/page.tsx infers which
+ * by checking whether `url` starts with "/". `statusLabel`/`statusNote`
+ * carry the per-campaign status shown on /campaigns (Active / Upcoming /
+ * In Development, plus a date when one exists) so status text lives with
+ * the campaign data instead of being retyped per card.
  */
 export const MOVEMENT_CAMPAIGNS = [
   {
     name: "Tri For The 22",
     discipline: "Triathlon",
     status: "current" as const,
+    statusLabel: "Active",
     description:
-      "A 70.3-mile triathlon paired with a $70,000 fundraising goal, in support of confirmed veteran-focused nonprofit beneficiaries.",
+      "A 70.3-mile triathlon that inspired The $70K Mission — now one of several campaigns contributing to it, in support of confirmed veteran-focused nonprofit beneficiaries.",
     url: CAMPAIGN_URL,
   },
   {
     name: RUCK_CAMPAIGN_NAME,
     discipline: "Rucking",
     status: "current" as const,
+    statusLabel: "Active",
     description:
-      "A community rucking event in Huntsville, Alabama — ruck the full 22 miles or walk any distance with family and friends to raise awareness, in support of confirmed veteran-focused nonprofit beneficiaries.",
+      "A community rucking event in Huntsville, Alabama — ruck the full 22 miles or walk any distance with family and friends to raise awareness and contribute to The $70K Mission, in support of confirmed veteran-focused nonprofit beneficiaries.",
     url: RUCK_CAMPAIGN_URL,
+  },
+  {
+    name: "For The 22: Live",
+    discipline: "Benefit Concert Series",
+    status: "current" as const,
+    statusLabel: "In Development",
+    description:
+      "A benefit concert series bringing together artists, veterans, first responders, families, and supporters — ticket proceeds, sponsorships, silent auctions, and merchandise all contribute to The $70K Mission.",
+    url: "/campaigns/live",
   },
   {
     name: EVENT22_CAMPAIGN_NAME,
     discipline: "Movement Challenge",
     status: "current" as const,
+    statusLabel: "Upcoming",
+    statusNote: "November 21–22, 2026",
     description:
-      "22 sessions of 22 minutes of movement, completed at your own pace across a 22-hour event window — raising public awareness of the veteran and first responder mental health crisis, and doubling as an awareness campaign for Tri For The 22.",
+      "22 sessions of 22 minutes of movement, completed at your own pace across a 22-hour event window — raising public awareness of the veteran and first responder mental health crisis, and contributing to The $70K Mission.",
     url: EVENT22_CAMPAIGN_URL,
   },
   { name: "Run For The 22", discipline: "Running", status: "future" as const },
@@ -159,9 +200,8 @@ export const MOVEMENT_CAMPAIGNS = [
 export const ORG_NAV_LINKS: NavEntry[] = [
   { label: "Resources", href: "/resources" },
   { label: "Mission", href: "/mission" },
-  { label: "Why It Matters", href: "/advocacy" },
-  { label: "About", href: "/about" },
   { label: "Campaigns", href: "/campaigns" },
+  { label: MISSION_NAME, href: "/70k" },
   {
     label: "Shop",
     children: [
@@ -202,6 +242,7 @@ export const CAMPAIGN_NAV_GROUPS: NavEntry[] = [
     label: "Mission",
     children: [
       { label: "The Mission / Why 22", href: "/the-mission" },
+      { label: MISSION_NAME, href: `${SITE_URL}/70k` },
       { label: "Who We Support", href: "/beneficiaries" },
       { label: "About Cody", href: "/the-story" },
     ],

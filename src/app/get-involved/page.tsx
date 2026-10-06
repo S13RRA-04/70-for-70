@@ -7,7 +7,7 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { CTAButton } from "@/components/shared/cta-button";
 import { GetInvolvedForm } from "@/components/forms/get-involved-form";
 import { RoleDetailDialog } from "@/components/get-involved/role-detail-dialog";
-import { CampaignProgress } from "@/components/campaign/campaign-progress";
+import { MissionProgress } from "@/components/campaign/mission-progress";
 import { ShareButtons } from "@/components/shared/share-buttons";
 import { EmailSignupForm } from "@/components/forms/email-signup-form";
 import {
@@ -210,7 +210,7 @@ export default async function GetInvolvedPage() {
         <Container className="max-w-2xl">
           <SectionHeading eyebrow="Support the Mission" title="Every Dollar Counts" />
           <div className="mt-8">
-            <CampaignProgress totalRaised={campaign.amount_raised} goal={campaign.fundraising_goal} showStats={false} />
+            <MissionProgress totalRaised={campaign.amount_raised} goal={campaign.fundraising_goal} showStats={false} />
           </div>
           <div className="mt-8 flex flex-wrap gap-4">
             <CTAButton href={DONATE_LINK.href} magnetic>{DONATE_LINK.label}</CTAButton>

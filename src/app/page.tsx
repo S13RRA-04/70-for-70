@@ -1,6 +1,18 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Ambulance, ChevronDown, Flame, HeartHandshake, Lock, Radio, Shield, Star } from "lucide-react";
+import {
+  Ambulance,
+  ChevronDown,
+  Flame,
+  Handshake,
+  HeartHandshake,
+  Lock,
+  Radio,
+  Share2,
+  Shield,
+  Star,
+  Footprints,
+} from "lucide-react";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTAButton } from "@/components/shared/cta-button";
@@ -10,7 +22,11 @@ import { RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import { ResourceCategoryGrid } from "@/components/home/resource-category-grid";
 import { ABOUT_CONTENT, findAboutSubsection } from "@/lib/content/about";
 import { OUTER_RING_COLORS } from "@/lib/ring-colors";
+import { RESOURCES } from "@/lib/content/resources";
+import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
 import {
+  CAMPAIGN_URL,
+  MOVEMENT_CAMPAIGNS,
   ORG_SUPPORTING_STATEMENT,
   ORG_TAGLINE,
   PERSONAL_PROJECT_DISCLOSURE,
@@ -59,9 +75,62 @@ const RAIL_SECTIONS = [
   { id: "story", label: "Story" },
 ];
 
-export default function HomePage() {
+/**
+ * Homepage "Get Involved" options (secondary path for visitors who arrive
+ * wanting to help — see the credibility plan's §21). Deliberately routed
+ * through existing destinations: participate → /campaigns, partner → Tri's
+ * partnership form (absolute URL, org host would 308 a relative link),
+ * support → Tri's donate page, share → /resources. Resource discovery
+ * stays the primary CTA elsewhere on the page; this section renders after
+ * it and uses secondary-weight styling.
+ */
+const GET_INVOLVED_OPTIONS = [
+  {
+    icon: Footprints,
+    title: "Participate",
+    body: "Join an active challenge or event.",
+    href: "/campaigns",
+    cta: "See the Campaigns",
+    external: false,
+  },
+  {
+    icon: Handshake,
+    title: "Partner",
+    body: "Businesses and organizations can contribute equipment, services, funding, expertise, or reach.",
+    href: `${CAMPAIGN_URL}/become-a-partner`,
+    cta: "Become a Partner",
+    external: true,
+  },
+  {
+    icon: HeartHandshake,
+    title: "Support",
+    body: "Donate through a current beneficiary campaign.",
+    href: `${CAMPAIGN_URL}/donate`,
+    cta: "Donate",
+    external: true,
+  },
+  {
+    icon: Share2,
+    title: "Share",
+    body: "Help get trusted resources in front of the people who need them.",
+    href: "/resources",
+    cta: "Find Resources to Share",
+    external: false,
+  },
+] as const;
+
+export default async function HomePage() {
   const why22 = findAboutSubsection("why-22");
   const theIdea = findAboutSubsection("the-idea");
+  const stats = await getFundraisingImpactStats();
+  const activeCampaignCount = MOVEMENT_CAMPAIGNS.filter((c) => c.status === "current").length;
+
+  const networkStats = [
+    { value: String(RESOURCES.length), label: "Resources" },
+    { value: String(stats.beneficiaryCount), label: "Current Beneficiaries" },
+    { value: String(stats.partnerCount), label: "Campaign Partners" },
+    { value: String(activeCampaignCount), label: "Active Campaigns" },
+  ];
 
   return (
     <>
@@ -231,7 +300,7 @@ export default function HomePage() {
                     who are no longer here.
                   </p>
                   <Link
-                    href="/about#why-black"
+                    href="/mission#why-black"
                     className="mt-5 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze-light transition-colors hover:text-bronze"
                   >
                     Why We Wear Black &rarr;
@@ -243,7 +312,45 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* Why I Started This — Tier 2: shrunk founder teaser, one image/paragraph/pull-quote, pointing to the full story on /about rather than retelling it here */}
+      {/* Network Snapshot — compact live stats linking to /network; placed
+          before the founder story so the ecosystem reads before the personal
+          narrative. Values from getFundraisingImpactStats()/RESOURCES, never
+          hardcoded (credibility plan §5). */}
+      <section id="network" className="scroll-mt-20 bg-off-white py-16 sm:py-20">
+        <Container>
+          <RevealOnScroll>
+            <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
+              <div className="lg:col-span-5">
+                <SectionHeading
+                  eyebrow="The Ecosystem"
+                  title="A Growing Network Behind the Mission"
+                  description="Resources, beneficiaries, campaign partners, and active campaigns — one organization, not separate projects."
+                />
+                <CTAButton href="/network" variant="secondary" className="mt-6">
+                  Explore the Network &rarr;
+                </CTAButton>
+              </div>
+              <dl className="grid grid-cols-2 gap-4 lg:col-span-7 sm:grid-cols-4">
+                {networkStats.map((stat) => (
+                  <div
+                    key={stat.label}
+                    className="rounded-sm border border-ink/10 bg-sand-light/60 p-5 text-center"
+                  >
+                    <dd className="font-display text-3xl font-semibold text-ink sm:text-4xl">
+                      {stat.value}
+                    </dd>
+                    <dt className="mt-1 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                      {stat.label}
+                    </dt>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </RevealOnScroll>
+        </Container>
+      </section>
+
+      {/* Why I Started This — Tier 2: shrunk founder teaser, one image/paragraph/pull-quote, pointing to the full story on /mission rather than retelling it here */}
       {theIdea && (
         <section id="story" className="scroll-mt-20 bg-sand-light py-16 sm:py-24">
           <Container>
@@ -268,7 +375,7 @@ export default function HomePage() {
                     Another who needs a mission. Another who needs a team.
                   </blockquote>
                   <Link
-                    href="/about#my-story"
+                    href="/mission#my-story"
                     className="mt-6 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze transition-colors hover:text-bronze-dark"
                   >
                     Read My Story &rarr;
@@ -279,6 +386,58 @@ export default function HomePage() {
           </Container>
         </section>
       )}
+
+      {/* Get Involved — secondary path for visitors who arrive wanting to
+          help (credibility plan §21). Placed after the primary resource
+          journey and the story so it never competes with Find Resources;
+          the final CTA below still closes on resource discovery. */}
+      <section id="get-involved" className="scroll-mt-20 bg-sand-light py-16 sm:py-20">
+        <Container>
+          <RevealOnScroll>
+            <SectionHeading
+              eyebrow="Get Involved"
+              title="Want to Move the Mission Forward?"
+              description="Not everyone who lands here is looking for help. If you're here to give it, four ways in:"
+            />
+          </RevealOnScroll>
+          <RevealOnScroll className="mt-10">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {GET_INVOLVED_OPTIONS.map((option) => (
+                <div key={option.title} className="flex flex-col border border-ink/10 bg-off-white p-6">
+                  <option.icon className="h-6 w-6 text-bronze" aria-hidden="true" />
+                  <h3 className="mt-4 font-display text-lg font-bold uppercase tracking-tight text-ink">
+                    {option.title}
+                  </h3>
+                  <p className="mt-2 flex-1 text-sm leading-relaxed text-charcoal-light">
+                    {option.body}
+                  </p>
+                  {option.external ? (
+                    <a
+                      href={option.href}
+                      className="mt-4 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze transition-colors hover:text-bronze-dark"
+                    >
+                      {option.cta} &rarr;
+                    </a>
+                  ) : (
+                    <Link
+                      href={option.href}
+                      className="mt-4 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze transition-colors hover:text-bronze-dark"
+                    >
+                      {option.cta} &rarr;
+                    </Link>
+                  )}
+                </div>
+              ))}
+            </div>
+            <p className="mt-8 text-center text-sm text-charcoal-light">
+              Curious what all of this adds up to?{" "}
+              <Link href="/impact" className="font-semibold text-bronze hover:text-bronze-dark">
+                See the impact &rarr;
+              </Link>
+            </p>
+          </RevealOnScroll>
+        </Container>
+      </section>
 
       {/* Final CTA — Tier 1: closing call to action, resource-finding stays the point to the last line */}
       <section id="find-resources" className="scroll-mt-20 bg-ink py-20 text-off-white sm:py-28">

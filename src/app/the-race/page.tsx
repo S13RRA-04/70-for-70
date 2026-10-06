@@ -30,7 +30,7 @@ import { getCampaign } from "@/lib/data/campaign";
 import { getTrainingStats } from "@/lib/training-stats";
 import { formatDateLong } from "@/lib/utils";
 import { getCampaignPhase, getCurrentTrainingPhaseIndex } from "@/lib/campaign-phase";
-import { CAMPAIGN_URL, RACE_INFO } from "@/lib/constants";
+import { CAMPAIGN_URL, MISSION_NAME, RACE_INFO, SITE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, CAMPAIGN_HOME_CRUMB, jsonLdScriptProps } from "@/lib/json-ld";
 import { isRaceDayModeEnabled } from "@/lib/race-day-mode";
@@ -114,6 +114,21 @@ export default async function RacePage() {
       <section className="border-b border-ink/10 bg-sand-light py-12 sm:py-16">
         <Container>
           <RaceAtAGlance />
+        </Container>
+      </section>
+
+      {/* This race is one part of a larger shared goal — distinct from MissionFinale's full progress bar at the very end of this page, not a duplicate. */}
+      <section className="border-b border-ink/10 bg-ink py-6 text-off-white">
+        <Container className="flex flex-wrap items-center justify-between gap-3">
+          <p className="text-sm font-medium text-off-white/85">
+            This race is one part of <span className="font-semibold text-bronze-light">{MISSION_NAME}</span>.
+          </p>
+          <a
+            href={`${SITE_URL}/70k`}
+            className="text-sm font-semibold uppercase tracking-wide text-bronze-light hover:text-off-white"
+          >
+            See the Bigger Mission &rarr;
+          </a>
         </Container>
       </section>
 

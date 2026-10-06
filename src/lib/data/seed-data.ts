@@ -14,8 +14,10 @@ import type {
   DonationRow,
   EventActivityLogRow,
   EventConfigRow,
+  EventRegistrationStatsRow,
   GiveawayPrizeRow,
   JournalEntryRow,
+  LiveEventRow,
   MessageRow,
   MileRow,
   MissionPartnerRow,
@@ -558,8 +560,6 @@ export const SEED_EVENT_CONFIG: EventConfigRow = {
   ends_at: "2026-11-22T14:00:00Z",
   status_override: null,
   registration_open: true,
-  fundraising_goal: 22_000,
-  amount_raised: 0,
   merch_url: "https://www.bonfire.com/22-for-the-22/",
   donate_url: null,
   official_rules_body: null,
@@ -567,6 +567,20 @@ export const SEED_EVENT_CONFIG: EventConfigRow = {
   updated_at: now,
   created_at: now,
 };
+
+// Non-financial replacement for the old event_config.fundraising_goal/
+// amount_raised fields — see public.event_registration_stats in schema.sql.
+export const SEED_EVENT_REGISTRATION_STATS: EventRegistrationStatsRow = {
+  event_id: SEED_EVENT_CONFIG.id,
+  total_participants: 0,
+  team_count: 0,
+};
+
+// Empty, not fabricated — no real "For The 22: Live" show has been
+// announced yet. /campaigns/live/events renders a real EmptyState for this
+// case rather than invented event copy. See README's "Eliminating
+// Placeholder Content".
+export const SEED_LIVE_EVENTS: LiveEventRow[] = [];
 
 // Mirrors the two real confirmed giveaway prizes in production.
 export const SEED_GIVEAWAY_PRIZES: GiveawayPrizeRow[] = [

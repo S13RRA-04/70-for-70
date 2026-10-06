@@ -6,6 +6,7 @@ import {
   CAMPAIGNS,
   CONTACT_EMAIL,
   DONATE_LINK,
+  MISSION_NAME,
   ORG_HOME_LINK,
   ORG_TAGLINE,
   PERSONAL_PROJECT_DISCLOSURE,
@@ -152,6 +153,11 @@ export function Footer({
                   <Link href="/shop" className="transition-colors hover:text-off-white">
                     Shop
                   </Link>
+                </li>
+                <li>
+                  <a href={`${SITE_URL}/70k`} className="transition-colors hover:text-off-white">
+                    {MISSION_NAME} <span aria-hidden="true">&#8599;</span>
+                  </a>
                 </li>
               </ul>
             </div>
@@ -340,6 +346,21 @@ export function Footer({
                   </Link>
                 </li>
                 <li>
+                  <Link href="/network" className="transition-colors hover:text-off-white">
+                    Network
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/impact" className="transition-colors hover:text-off-white">
+                    Impact
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/standards" className="transition-colors hover:text-off-white">
+                    Resource Standards
+                  </Link>
+                </li>
+                <li>
                   <Link href="/store" className="transition-colors hover:text-off-white">
                     For The 22 Store
                   </Link>
@@ -347,11 +368,6 @@ export function Footer({
                 <li>
                   <Link href="/veteran-brands" className="transition-colors hover:text-off-white">
                     Shop With Purpose
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/about" className="transition-colors hover:text-off-white">
-                    About
                   </Link>
                 </li>
               </ul>
@@ -362,6 +378,11 @@ export function Footer({
                 Campaigns
               </p>
               <ul className="mt-4 space-y-2 text-sm text-off-white/70">
+                <li>
+                  <Link href="/70k" className="transition-colors hover:text-off-white">
+                    {MISSION_NAME}
+                  </Link>
+                </li>
                 <li>
                   <a href={CAMPAIGN_HOME_LINK.href} className="transition-colors hover:text-off-white">
                     {CAMPAIGN_HOME_LINK.label} <span aria-hidden="true">&#8599;</span>

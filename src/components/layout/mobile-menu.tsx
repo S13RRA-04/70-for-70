@@ -127,6 +127,7 @@ export function MobileMenu({ open, onClose, navLinks, pathname, campaignSlug, tr
                   {campaign.primaryCta.label}
                 </a>
               </div>
+              {campaign.parentLink && <ParentInitiativeGroup link={campaign.parentLink} />}
             </>
           ) : (campaignSlug === "ruck" || campaignSlug === "22") && campaign ? (
             <>

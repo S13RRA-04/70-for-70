@@ -108,6 +108,21 @@ const ORGANIZATION_JSON_LD = {
   }),
 };
 
+/**
+ * The org's WebSite record, paired with ORGANIZATION_JSON_LD on every route
+ * (credibility plan §25). Distinct from campaign-home's own WebSite JSON-LD,
+ * which identifies tri.forthe22.org as a separate site — both can coexist in
+ * search results. `publisher` ties it back to the org without re-declaring
+ * the full Organization object inline.
+ */
+const ORG_WEBSITE_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: SITE_NAME,
+  url: SITE_URL,
+  publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+};
+
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   const mode = await getSiteMode();
   const campaignSlug = await getActiveCampaignSlug();
@@ -121,6 +136,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col bg-off-white text-ink">
         <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(ORGANIZATION_JSON_LD)} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(ORG_WEBSITE_JSON_LD)} />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-4 focus:rounded focus:bg-ink focus:px-4 focus:py-2 focus:text-off-white"

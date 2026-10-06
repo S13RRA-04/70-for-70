@@ -3,11 +3,12 @@
  * hard-coded JSX so copy can be revised without touching components.
  *
  * Deliberately organizational, not personal — anything about Cody himself
- * lives only on /about#founders-story (see src/lib/content/about.ts); this
- * page links there rather than re-narrating any of it. This page lives on
- * the campaign domain but /about is org-only, so that link uses the full
- * SITE_URL rather than a relative path — see README's "Movement/Campaign
- * Domain Split".
+ * lives only on /mission#founders-story (the org's Mission page, see
+ * src/lib/content/about.ts for the underlying data); this page links there
+ * rather than re-narrating any of it. This page lives on the campaign
+ * domain but /mission is org-only, so that link uses the full SITE_URL
+ * rather than a relative path — see README's "Movement/Campaign Domain
+ * Split".
  */
 
 import { SITE_URL } from "@/lib/constants";
@@ -24,8 +25,8 @@ export const MISSION_SECTIONS: MissionSection[] = [
     id: "the-challenge",
     heading: "The Challenge",
     body: [
-      "Tri For The 22 pairs a 70.3-mile triathlon — a 1.2-mile swim, 56-mile bike, and 13.1-mile run — with a $70,000 fundraising goal.",
-      "The race itself is the vehicle, not the point. The training, the setbacks, the early mornings, and the finish line all become part of something larger than one race.",
+      "Tri For The 22 pairs a 70.3-mile triathlon — a 1.2-mile swim, 56-mile bike, and 13.1-mile run — with For The 22's broader $70,000 fundraising mission. The triathlon inspired the original target — roughly $1,000 for every mile.",
+      "But the mission has grown beyond one athlete and one race. Rucks, concerts, community challenges, auctions, partnerships, merchandise, sponsorships, and direct donations all contribute toward the same shared goal. 70.3 miles inspired the number. A community will reach it.",
     ],
   },
   {
@@ -35,7 +36,7 @@ export const MISSION_SECTIONS: MissionSection[] = [
       "There's a veteran or first responder out there right now trying to figure out what comes next — and a family trying to understand why the person who came home feels different from the person who left.",
       "Every mile of this campaign is aimed at closing that gap: connecting people to the resources, community, and support that make that transition survivable, not just endurable.",
     ],
-    link: { label: "Read the Founder's Story", href: `${SITE_URL}/about#founders-story` },
+    link: { label: "Read the Founder's Story", href: `${SITE_URL}/mission#founders-story` },
   },
   {
     id: "why-first-responders",
@@ -68,8 +69,8 @@ export const MISSION_SECTIONS: MissionSection[] = [
     id: "the-goal",
     heading: "The Goal",
     body: [
-      "The goal is simple: $70,000 raised in support of the beneficiary organizations, alongside the 70.3-mile race itself.",
-      "Every donation counts toward that single goal, whatever the amount. Corporate sponsorships are handled separately through the sponsorship review process.",
+      "For The 22 is working toward one shared $70,000 fundraising goal in support of the beneficiary organizations — not a goal that belongs to Tri For The 22 alone.",
+      "Every donation counts toward that single goal, whatever the amount, and however it arrives — through Tri, Ruck For The 22, For The 22: Live, 22 For the 22, an auction, merchandise, or a direct gift. Corporate sponsorships are handled separately through the sponsorship review process.",
     ],
   },
   {

@@ -1,5 +1,6 @@
 import { ExternalLink, ShieldCheck } from "lucide-react";
 import { getPartners } from "@/lib/data/partners";
+import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { RevealGrid } from "@/components/shared/reveal-on-scroll";
@@ -7,6 +8,7 @@ import { Countdown } from "@/components/shared/countdown";
 import { PartnerLogo } from "@/components/shared/partner-logo";
 import { ExternalDonateButton } from "@/components/shared/external-donate-button";
 import { DonationTrackingNote } from "@/components/shared/donation-tracking-note";
+import { MissionProgress } from "@/components/campaign/mission-progress";
 import {
   CAMPAIGNS,
   ORG_HOME_LINK,
@@ -148,7 +150,7 @@ function BeneficiaryCard({
  * redirects back here (see applyRuckSingleHomeGuard in src/middleware.ts).
  */
 export default async function RuckHomePage() {
-  const allPartners = await getPartners();
+  const [allPartners, fundraisingStats] = await Promise.all([getPartners(), getFundraisingImpactStats()]);
   const campaignBeneficiaries = allPartners.filter((p) =>
     (RUCK_EVENT_INFO.beneficiaries as readonly string[]).includes(p.name),
   );
@@ -313,8 +315,15 @@ export default async function RuckHomePage() {
               <SectionHeading
                 eyebrow="Also"
                 title="Ruck For The 22 Also Supports"
-                description={`Alongside RuckUp22 itself, Cody's own Ruck For The 22 effort supports the same causes as ${CAMPAIGNS.tri.name}.`}
+                description={`Alongside RuckUp22 itself, Cody's own Ruck For The 22 effort supports the same causes as ${CAMPAIGNS.tri.name} — and contributes to For The 22's shared $70,000 mission goal.`}
               />
+              <div className="mt-6 max-w-xl rounded-sm border border-ink/10 bg-sand-light p-6">
+                <MissionProgress totalRaised={fundraisingStats.amountRaised} goal={fundraisingStats.fundraisingGoal} showStats={false} />
+                <p className="mt-4 text-xs text-charcoal-light">
+                  This reflects Cody&apos;s own Ruck For The 22 fundraising, not RuckUp22 Huntsville&apos;s
+                  registration/ticket proceeds — those go directly to RuckUp22&apos;s own event beneficiaries above.
+                </p>
+              </div>
               <RevealGrid>
                 <div className="mt-8 flex flex-col gap-6">
                   {campaignBeneficiaries.map((partner) => (

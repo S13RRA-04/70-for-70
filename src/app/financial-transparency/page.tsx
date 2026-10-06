@@ -2,7 +2,7 @@ import Link from "next/link";
 import { getCampaign } from "@/lib/data/campaign";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
-import { CampaignProgress } from "@/components/campaign/campaign-progress";
+import { MissionProgress } from "@/components/campaign/mission-progress";
 import { OutOfPocketExpenses } from "@/components/get-involved/out-of-pocket-expenses";
 import { CAMPAIGN_NAME, CAMPAIGN_URL, MERCH_BENEFICIARIES, SITE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
@@ -31,7 +31,7 @@ export default async function FinancialTransparencyPage() {
         <div className="mt-10">
           <SectionHeading title="Campaign Totals" />
           <div className="mt-6">
-            <CampaignProgress totalRaised={campaign.amount_raised} goal={campaign.fundraising_goal} />
+            <MissionProgress totalRaised={campaign.amount_raised} goal={campaign.fundraising_goal} />
           </div>
         </div>
 

@@ -32,6 +32,12 @@ export default function ResourcesPage() {
           <Suspense fallback={null}>
             <ResourceDirectory />
           </Suspense>
+          <p className="mt-10 text-center text-sm text-charcoal-light">
+            Every listing is reviewed before it goes live.{" "}
+            <a href="/standards" className="font-semibold text-bronze hover:text-bronze-dark">
+              How Resources Are Reviewed &rarr;
+            </a>
+          </p>
         </Container>
       </section>
 

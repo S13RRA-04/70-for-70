@@ -9,7 +9,7 @@ import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { RevealGrid, RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import { PartnerCard } from "@/components/partners/partner-card";
-import { CampaignProgress } from "@/components/campaign/campaign-progress";
+import { MissionProgress } from "@/components/campaign/mission-progress";
 import { CampaignAllocation } from "@/components/campaign/campaign-allocation";
 import { GivingLevels } from "@/components/campaign/giving-levels";
 import { CAMPAIGN_NAME, CAMPAIGN_URL } from "@/lib/constants";
@@ -39,9 +39,9 @@ export default async function DonatePage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
       <CampaignPageHero>
-        <SectionHeading as="h1" tone="dark" eyebrow="Fund the 70.3" title="Fund the Mission" />
+        <SectionHeading as="h1" tone="dark" eyebrow="Support The $70K Mission" title="Fund the Mission" />
         <div className="mt-8 max-w-xl">
-          <CampaignProgress
+          <MissionProgress
             totalRaised={campaign.amount_raised}
             goal={campaign.fundraising_goal}
             showStats={false}

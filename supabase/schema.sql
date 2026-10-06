@@ -816,14 +816,6 @@ create table if not exists public.event_config (
 
   registration_open boolean not null default true,
 
-  fundraising_goal numeric(12, 2) not null default 0 check (fundraising_goal >= 0),
-  -- Hand-updated by an admin via the settings editor — this event has no
-  -- donation-tagging column of its own on public.donations, so this is a
-  -- manually maintained counter, same trust model as agreement_status
-  -- elsewhere in this file (free text/numbers filled in by hand, never
-  -- inferred).
-  amount_raised numeric(12, 2) not null default 0 check (amount_raised >= 0),
-
   merch_url text,
   donate_url text,
 
@@ -913,6 +905,22 @@ create index if not exists event_registrations_created_at_idx on public.event_re
 create unique index if not exists event_registrations_event_email_idx
   on public.event_registrations (event_id, lower(email));
 
+-- Real, non-financial 22 For the 22 stats (participants/teams), replacing
+-- the old independent event_config.fundraising_goal/amount_raised columns —
+-- see getEventRegistrationStats() in src/lib/data/event-registration-stats.ts.
+-- Runs as the view owner (service role), so it can read
+-- event_registrations (default-deny RLS otherwise) while only ever exposing
+-- an aggregate count, never a registrant's own row.
+create or replace view public.event_registration_stats as
+  select
+    event_id,
+    count(*) filter (where status = 'confirmed') as total_participants,
+    count(distinct team_name) filter (where status = 'confirmed' and participation_type = 'team') as team_count
+  from public.event_registrations
+  group by event_id;
+
+grant select on public.event_registration_stats to anon, authenticated;
+
 -- ---------------------------------------------------------------------------
 -- event_activity_log
 --
@@ -932,6 +940,75 @@ create table if not exists public.event_activity_log (
 );
 
 create index if not exists event_activity_log_event_id_idx on public.event_activity_log (event_id, display_order);
+
+-- ---------------------------------------------------------------------------
+-- live_events / live_performers / live_auction_items
+--
+-- "For The 22: Live" — a recurring benefit concert series, one row per
+-- concert date (same "row per instance" shape as event_config, but a
+-- genuinely separate series — see src/lib/data/live-events.ts). Sponsors for
+-- a given show are mission_partners rows tagged "live" in
+-- associated_campaigns (same reuse pattern 22 For the 22 already uses for
+-- "22-for-the-22" — see src/app/22forthe22/page.tsx's giveawaySupporters),
+-- not a separate sponsor table. Written entirely through /admin/live via the
+-- service-role key, same trust model as every other table in this file.
+-- ---------------------------------------------------------------------------
+create table if not exists public.live_events (
+  id uuid primary key default gen_random_uuid(),
+  slug text not null unique,
+  title text not null,
+  tagline text,
+  venue_name text,
+  venue_city text,
+  venue_state text,
+  starts_at timestamptz,
+  ends_at timestamptz,
+  -- Markdown source, rendered the same way journal_entries.body is.
+  description text,
+  hero_image_url text,
+  ticket_url text,
+  -- Unpublished rows exist so an admin can draft a show before announcing it
+  -- — see the "hide, don't fake" convention: /campaigns/live/events renders
+  -- a real EmptyState while this is empty or every row unpublished, never
+  -- fabricated event copy.
+  published boolean not null default false,
+  display_order integer not null default 0,
+  updated_at timestamptz not null default now(),
+  created_at timestamptz not null default now()
+);
+
+create unique index if not exists live_events_slug_idx on public.live_events (slug);
+create index if not exists live_events_published_idx on public.live_events (published, starts_at);
+
+create table if not exists public.live_performers (
+  id uuid primary key default gen_random_uuid(),
+  event_id uuid not null references public.live_events (id) on delete cascade,
+  name text not null,
+  -- e.g. "Headliner", "Support" — free text, not an enum, since billing
+  -- language varies show to show.
+  billing text,
+  bio text,
+  image_url text,
+  display_order integer not null default 0
+);
+
+create index if not exists live_performers_event_id_idx on public.live_performers (event_id, display_order);
+
+create table if not exists public.live_auction_items (
+  id uuid primary key default gen_random_uuid(),
+  event_id uuid not null references public.live_events (id) on delete cascade,
+  title text not null,
+  description text,
+  image_url text,
+  starting_bid numeric(10, 2),
+  -- External bidding platform link — same "no in-app payment processing"
+  -- model as partners.donation_url elsewhere in this file.
+  bidding_url text,
+  status text not null default 'open' check (status in ('open', 'closed')),
+  display_order integer not null default 0
+);
+
+create index if not exists live_auction_items_event_id_idx on public.live_auction_items (event_id, display_order);
 
 -- ---------------------------------------------------------------------------
 -- giveaway_prizes
@@ -1126,6 +1203,9 @@ alter table public.messages enable row level security;
 alter table public.event_config enable row level security;
 alter table public.event_registrations enable row level security;
 alter table public.event_activity_log enable row level security;
+alter table public.live_events enable row level security;
+alter table public.live_performers enable row level security;
+alter table public.live_auction_items enable row level security;
 alter table public.giveaway_prizes enable row level security;
 
 drop policy if exists "campaign is publicly readable" on public.campaign;
@@ -1297,6 +1377,24 @@ create policy "event config is publicly readable"
   on public.event_config for select
   to anon, authenticated
   using (true);
+
+drop policy if exists "published live events are publicly readable" on public.live_events;
+create policy "published live events are publicly readable"
+  on public.live_events for select
+  to anon, authenticated
+  using (published = true);
+
+drop policy if exists "performers for published live events are publicly readable" on public.live_performers;
+create policy "performers for published live events are publicly readable"
+  on public.live_performers for select
+  to anon, authenticated
+  using (exists (select 1 from public.live_events e where e.id = event_id and e.published = true));
+
+drop policy if exists "auction items for published live events are publicly readable" on public.live_auction_items;
+create policy "auction items for published live events are publicly readable"
+  on public.live_auction_items for select
+  to anon, authenticated
+  using (exists (select 1 from public.live_events e where e.id = event_id and e.published = true));
 
 drop policy if exists "event activity log is publicly readable" on public.event_activity_log;
 create policy "event activity log is publicly readable"

@@ -13,7 +13,7 @@ import { GearJourneyIndexCard } from "@/components/journal/gear-journey/gear-jou
 import { JournalStatusStrip } from "@/components/journal/journal-status-strip";
 import { RoadSoFar } from "@/components/journal/road-so-far";
 import { CurrentTrainingSummary } from "@/components/training/current-training-summary";
-import { CampaignProgress } from "@/components/campaign/campaign-progress";
+import { MissionProgress } from "@/components/campaign/mission-progress";
 import { FundraisingImpactStrip } from "@/components/campaign/fundraising-impact-strip";
 import { CampaignPhaseBanner } from "@/components/campaign/campaign-phase-banner";
 import { EmptyState } from "@/components/shared/empty-state";
@@ -179,7 +179,7 @@ export default async function JournalPage(props: PageProps<"/journal">) {
         <CampaignPhaseBanner phase={phase} tone="dark" />
       </CampaignPageHero>
 
-      {/* 2. Featured / latest entry, paired with a compact live Campaign Status panel — makes use of the widened container instead of a single narrow column. */}
+      {/* 2. Featured / latest entry, paired with a compact live For The 22 Mission Status panel — makes use of the widened container instead of a single narrow column. */}
       {featuredEntry && (
         <section className="py-14 sm:py-16">
           <Container>
@@ -190,9 +190,11 @@ export default async function JournalPage(props: PageProps<"/journal">) {
               </div>
 
               <div className="rounded-sm border border-ink/10 bg-sand-light p-6">
-                <p className="text-xs font-semibold uppercase tracking-widest text-bronze">Campaign Status</p>
+                <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                  For The 22 Mission Status
+                </p>
                 <div className="mt-4">
-                  <CampaignProgress
+                  <MissionProgress
                     totalRaised={fundraisingStats.amountRaised}
                     goal={fundraisingStats.fundraisingGoal}
                     showStats={false}

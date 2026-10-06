@@ -8,8 +8,7 @@ import { getMissionPartners } from "@/lib/data/mission-partners";
 import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
 import { getLatestJournalEntries } from "@/lib/data/journal";
 import { HOW_THIS_BEGAN } from "@/lib/content/the-story";
-import { getDaysToRace } from "@/lib/campaign-phase";
-import { CampaignProgress } from "@/components/campaign/campaign-progress";
+import { MissionProgress } from "@/components/campaign/mission-progress";
 import { CampaignStatusBar } from "@/components/campaign/campaign-status-bar";
 import { MerchTicker } from "@/components/campaign/merch-ticker";
 import { EventPromoSection } from "@/components/campaign/event-promo-section";
@@ -32,7 +31,8 @@ import {
   DONATE_LINK,
   EVENT22_CAMPAIGN_NAME,
   EVENT22_CAMPAIGN_URL,
-  FUNDRAISING_GOAL,
+  MISSION_NAME,
+  MISSION_SUPPORTING_LINE,
   RACE_INFO,
   RACE_TOTAL_DISTANCE,
   RUCK_CAMPAIGN_NAME,
@@ -146,6 +146,12 @@ const MISSION_CAMPAIGN_CARDS: MissionCampaignCard[] = [
     external: true,
   },
   {
+    name: "For The 22: Live",
+    description: "Music moves the mission — a benefit concert series supporting the same shared goal.",
+    href: `${SITE_URL}/campaigns/live`,
+    external: true,
+  },
+  {
     name: SITE_NAME,
     description: "The permanent resource and mission hub serving veterans, first responders, and their families.",
     href: SITE_URL,
@@ -190,7 +196,7 @@ export default async function CampaignHomePage() {
   const presentingPartners = generalPartners.filter((p) => p.tier === "presenting-partner");
   const otherPartners = generalPartners.filter((p) => p.tier !== "presenting-partner");
 
-  const shareTitle = `I'm supporting ${CAMPAIGN_NAME} — ${formatCurrency(FUNDRAISING_GOAL)} for veterans, first responders, and their families.`;
+  const shareTitle = `I'm supporting ${CAMPAIGN_NAME} — ${formatCurrency(fundraisingStats.fundraisingGoal)} for veterans, first responders, and their families.`;
 
   return (
     <>
@@ -257,7 +263,7 @@ export default async function CampaignHomePage() {
         amountRaised={fundraisingStats.amountRaised}
         goal={fundraisingStats.fundraisingGoal}
         partnerCount={fundraisingStats.partnerCount}
-        daysToRace={getDaysToRace()}
+        daysToRace={fundraisingStats.daysToRace}
       />
 
       {/* 2. Who Your Support Helps — moved directly under the hero, ahead of
@@ -355,7 +361,7 @@ export default async function CampaignHomePage() {
             </div>
             <div>
               <dt className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">Goal</dt>
-              <dd className="font-display text-2xl font-bold tabular-nums text-ink">{formatCurrency(FUNDRAISING_GOAL)}</dd>
+              <dd className="font-display text-2xl font-bold tabular-nums text-ink">{formatCurrency(fundraisingStats.fundraisingGoal)}</dd>
             </div>
             <div>
               <dt className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">Beneficiaries</dt>
@@ -381,19 +387,20 @@ export default async function CampaignHomePage() {
         </Container>
       </section>
 
-      {/* 5. $70,000 fundraising goal */}
+      {/* 5. The $70K Mission */}
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container className="max-w-2xl">
-          <SectionHeading eyebrow="Fund the Mission" title="$70,000 for Organizations Serving Veterans" />
+          <SectionHeading eyebrow="Fund the Mission" title="For The 22's Shared $70,000 Mission Goal" />
           <p className="mt-5 text-base leading-relaxed text-charcoal-light">
-            The current goal is {formatCurrency(FUNDRAISING_GOAL)} — approximately $1,000 for every mile of{" "}
-            {CURRENT_CAMPAIGN.event}. The number creates the challenge. The organizations create the impact.
+            The current goal is {formatCurrency(fundraisingStats.fundraisingGoal)} — roughly $1,000 for every mile of{" "}
+            {CURRENT_CAMPAIGN.event}, the race that inspired the number. But {CAMPAIGN_NAME} doesn&apos;t have to
+            raise it alone — every For The 22 campaign moves the mission forward.
           </p>
 
           <div className="mt-8 rounded-sm border border-ink/10 bg-off-white p-6 sm:p-8">
-            <CampaignProgress
-              totalRaised={campaign.amount_raised}
-              goal={campaign.fundraising_goal}
+            <MissionProgress
+              totalRaised={fundraisingStats.amountRaised}
+              goal={fundraisingStats.fundraisingGoal}
               breakdown={allocationBreakdown}
             />
           </div>
@@ -413,7 +420,7 @@ export default async function CampaignHomePage() {
       {/* 6. Mission in Action */}
       <section className="border-b border-ink/10 py-16 sm:py-20">
         <Container>
-          <SectionHeading eyebrow="One Mission" title="One Mission. Multiple Ways to Move It Forward." />
+          <SectionHeading eyebrow={MISSION_NAME} title={MISSION_SUPPORTING_LINE} />
           <RevealGrid>
             <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {MISSION_CAMPAIGN_CARDS.map((card, i) => (

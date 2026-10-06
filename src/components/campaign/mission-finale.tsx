@@ -1,4 +1,4 @@
-import { CampaignProgress } from "@/components/campaign/campaign-progress";
+import { MissionProgress } from "@/components/campaign/mission-progress";
 import { CTAButton } from "@/components/shared/cta-button";
 import { DONATE_LINK, RACE_INFO, RACE_TOTAL_DISTANCE } from "@/lib/constants";
 import { formatDateLong } from "@/lib/utils";
@@ -24,7 +24,7 @@ export function MissionFinale({ totalRaised, goal }: { totalRaised: number; goal
         </p>
 
         <div className="mt-10 rounded-sm border border-off-white/15 bg-off-white/5 p-8 text-left">
-          <CampaignProgress totalRaised={totalRaised} goal={goal} tone="dark" showStats={false} />
+          <MissionProgress totalRaised={totalRaised} goal={goal} tone="dark" showStats={false} />
           <p className="mt-6 text-center text-sm text-off-white/70">
             {RACE_TOTAL_DISTANCE} miles
             {RACE_INFO.raceDate && ` · ${formatDateLong(RACE_INFO.raceDate)}`}
