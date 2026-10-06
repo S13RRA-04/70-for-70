@@ -9,7 +9,9 @@ interface FilterChipProps {
 }
 
 const SIZE_CLASSES = {
-  sm: "px-3 py-1 text-[11px]",
+  // py-1.5 (not smaller) even at "sm" — comfortable tap target despite the
+  // smaller type, with gap-2 between chips to avoid mis-taps.
+  sm: "px-3 py-1.5 text-[11px]",
   md: "px-4 py-2 text-xs",
 } as const;
 
