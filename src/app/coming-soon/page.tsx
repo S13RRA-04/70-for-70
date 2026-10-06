@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { SectionHeading } from "@/components/shared/section-heading";
 import { EmailSignupForm } from "@/components/forms/email-signup-form";
 import {
   CAMPAIGN_NAME,
@@ -44,6 +45,8 @@ export default async function ComingSoonPage(props: PageProps<"/coming-soon">) {
     return (
       <section className="flex min-h-[85vh] flex-col items-center justify-center bg-ink px-6 py-20 text-center text-off-white">
         <Image src="/campaign-logo-white.png" alt="" aria-hidden="true" width={64} height={64} priority />
+        {/* Oversized splash-screen hero, same reason the homepage hero bypasses
+            SectionHeading too — its fixed text-3xl/4xl scale would shrink this. */}
         <p className="mt-6 text-xs font-semibold uppercase tracking-[0.25em] text-bronze-light">
           {SITE_NAME} &middot; Current Campaign
         </p>
@@ -92,11 +95,9 @@ export default async function ComingSoonPage(props: PageProps<"/coming-soon">) {
   return (
     <section className="flex min-h-[70vh] flex-col items-center justify-center px-6 py-20 text-center">
       <Image src="/logo.png" alt="" aria-hidden="true" width={88} height={88} priority />
-      <p className="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-bronze">{SITE_NAME}</p>
-      <h1 className="mt-3 text-balance font-display text-3xl font-bold uppercase tracking-tight text-ink sm:text-4xl">
-        We&apos;re Getting Ready
-      </h1>
-      <p className="mt-4 max-w-md text-base text-charcoal-light">{ORG_TAGLINE}</p>
+      <div className="mt-6">
+        <SectionHeading as="h1" align="center" eyebrow={SITE_NAME} title="We're Getting Ready" description={ORG_TAGLINE} />
+      </div>
       <p className="mt-2 max-w-md text-sm text-charcoal-light">
         The site is being finalized and isn&apos;t open to the public yet. Check back soon.
       </p>

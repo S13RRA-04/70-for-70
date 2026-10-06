@@ -82,7 +82,7 @@ export default async function Mission70kPage() {
           />
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
             {participatingCampaigns.map((item) => (
-              <div key={item.id} className="border border-ink/10 bg-off-white p-6">
+              <div key={item.id} className="rounded-sm border border-ink/10 bg-off-white p-6">
                 <p className="text-xs font-semibold uppercase tracking-widest text-bronze">
                   {CAMPAIGN_STATUS_LABELS[item.status]} · {item.type}
                 </p>

@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Phone, MessageSquare, ExternalLink } from "lucide-react";
 import { Container } from "@/components/shared/container";
+import { SectionHeading } from "@/components/shared/section-heading";
+import { CTAButton } from "@/components/shared/cta-button";
 import { getCrisisResources, type Resource } from "@/lib/content/resources";
 import { SITE_NAME } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
@@ -11,9 +13,6 @@ export const metadata = pageMetadata({
   canonical: "/crisis",
 });
 
-const LINK_CLASSES =
-  "inline-flex items-center gap-1.5 rounded-sm px-4 py-2.5 text-sm font-semibold uppercase tracking-wide transition-colors";
-
 function CrisisResourceCard({ resource }: { resource: Resource }) {
   return (
     <div className="rounded-sm border border-ink/10 bg-off-white p-5 sm:p-6">
@@ -21,22 +20,23 @@ function CrisisResourceCard({ resource }: { resource: Resource }) {
       <p className="mt-1.5 text-sm leading-relaxed text-charcoal-light">{resource.description}</p>
       <div className="mt-4 flex flex-wrap gap-2.5">
         {resource.phone && (
-          <a href={`tel:${resource.phone}`} className={`${LINK_CLASSES} bg-bronze-text text-off-white hover:bg-bronze-dark`}>
+          <CTAButton href={`tel:${resource.phone}`} external size="md">
             <Phone size={14} aria-hidden="true" />
             Call {resource.phone}
-          </a>
+          </CTAButton>
         )}
         {resource.text && (
-          <a href={`sms:${resource.text}`} className={`${LINK_CLASSES} border border-ink/20 text-ink hover:bg-ink/5`}>
+          <CTAButton href={`sms:${resource.text}`} external variant="secondary" size="md">
             <MessageSquare size={14} aria-hidden="true" />
             Text {resource.text}
-          </a>
+          </CTAButton>
         )}
+        {/* Plain <a>, not CTAButton — needs target="_blank"/rel, which CTAButton doesn't support. */}
         <a
           href={resource.url}
           target="_blank"
           rel="noopener noreferrer"
-          className={`${LINK_CLASSES} border border-ink/20 text-ink hover:bg-ink/5`}
+          className="inline-flex items-center gap-1.5 rounded-sm border border-ink/20 px-4 py-2.5 text-sm font-semibold uppercase tracking-wide text-ink transition-colors hover:bg-ink/5"
         >
           Visit Site
           <ExternalLink size={12} aria-hidden="true" />
@@ -55,14 +55,12 @@ export default function CrisisPage() {
     <>
       <section className="border-b border-ink/10 bg-sand-light py-12 sm:py-16">
         <Container className="max-w-2xl">
-          <p className="text-xs font-semibold uppercase tracking-widest text-bronze">Need Help Now?</p>
-          <h1 className="mt-2 font-display text-3xl font-bold uppercase tracking-tight text-ink sm:text-4xl">
-            Crisis Support
-          </h1>
-          <p className="mt-3 text-base leading-relaxed text-charcoal-light">
-            {SITE_NAME} is not a crisis-response service. The organizations below are equipped to
-            provide immediate support, free and confidential.
-          </p>
+          <SectionHeading
+            as="h1"
+            eyebrow="Need Help Now?"
+            title="Crisis Support"
+            description={`${SITE_NAME} is not a crisis-response service. The organizations below are equipped to provide immediate support, free and confidential.`}
+          />
         </Container>
       </section>
 
@@ -106,13 +104,10 @@ export default function CrisisPage() {
             If there is an immediate threat to life or safety, call 911 or go to the nearest
             emergency room.
           </p>
-          <a
-            href="tel:911"
-            className={`${LINK_CLASSES} mt-5 bg-bronze text-ink hover:bg-bronze-light`}
-          >
+          <CTAButton href="tel:911" external accent="emergency" className="mt-5">
             <Phone size={14} aria-hidden="true" />
             Call 911
-          </a>
+          </CTAButton>
         </Container>
       </section>
 
