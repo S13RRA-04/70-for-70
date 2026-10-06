@@ -58,11 +58,27 @@ export const VETERAN_BRANDS: VeteranBrand[] = [
     categoryIds: ["veteran-owned"],
   },
   {
-    name: "Sword & Plough",
-    url: "https://www.swordandplough.com",
-    product: "Bags & accessories made from repurposed military surplus",
+    name: "Grunt Style",
+    url: "https://www.gruntstyle.com",
+    product: "Patriotic apparel",
     description:
-      "A veteran-owned company that donates 10% of net profits to veteran nonprofits like Team Red, White & Blue and the Pat Tillman Foundation — over $130,000 donated and 75 veteran jobs supported to date.",
+      "Founded in 2009 by a former Army Drill Sergeant; over 70% of its team is veterans. Funds the Grunt Style Foundation, a 501(c)(3) focused on veteran mental health, military transition, food insecurity, and homelessness.",
+    categoryIds: ["veteran-owned", "gives-back"],
+  },
+  {
+    name: "Nine Line Apparel",
+    url: "https://www.ninelineapparel.com",
+    product: "Patriotic & military-themed apparel",
+    description:
+      "Founded by former Army Captain Tyler Merritt, who formalized the company's giving after a West Point classmate lost three limbs in Afghanistan. A portion of every sale funds the Nine Line Foundation, which runs with zero overhead so donations go directly to wounded veterans.",
+    categoryIds: ["veteran-owned", "gives-back"],
+  },
+  {
+    name: "Hero Soap Company",
+    url: "https://herosoapcompany.com",
+    product: "Handmade soap",
+    description:
+      "A veteran-founded, small-batch soap maker in Phoenix, Arizona. A portion of every sale is donated to military/veteran/first-responder charities including the Gary Sinise Foundation and Operation Finally Home, and the company has shipped over 1,000 bars directly to deployed troops.",
     categoryIds: ["veteran-owned", "gives-back"],
   },
   {
