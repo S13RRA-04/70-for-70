@@ -192,14 +192,11 @@ the parent-site restructure (below), the split is not just "which pages
 render where" but a deliberate content firewall: **no 70.3 statistics,
 training content, campaign beneficiaries, fundraising mechanisms,
 campaign merchandise, sponsorship intake, or athlete-affiliation content
-renders on forthe22.org**, full stop. The one exception is `/store` — an
-org-only interstitial page (`ORG_PATH_PREFIXES`, mirroring the campaign's
-own `/shop`) that discloses `ORG_SHOP_ALLOCATION` before linking out to
-`ORG_SHOP_URL`, the org's own non-fundraising Fourthwall store
-(for-the-22-ohp-shop.fourthwall.com, both in `constants.ts`). It isn't part
-of the fundraising campaign and isn't gated by this split, unlike the
-campaign's separate `/shop` below (a different store, different
-allocation, different beneficiary).
+renders on forthe22.org**, except for the clearly disclosed `/store` index.
+That org-only page (`ORG_PATH_PREFIXES`) links separately to the organization's
+Exray store (`MISSION_STORE_URL`) for mission costs and Tri For The 22's
+Bonfire store (`MERCH_STORE_URL`) for beneficiary fundraising. The campaign&apos;s
+own `/shop` remains the detailed Bonfire disclosure page on the Tri host.
 
 - **forthe22.org** (org): home (a resource-connection mission — hero,
   resource finder, Areas of Support, Who We Serve, crisis strip, Why

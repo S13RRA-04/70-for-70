@@ -30,6 +30,7 @@ import { ImageTextRow } from "@/components/about/image-text-row";
 import { MarkDiagram } from "@/components/about/mark-diagram";
 import { ABOUT_CHAPTERS, ABOUT_CONTENT, findAboutSubsection } from "@/lib/content/about";
 import { CAMPAIGN_URL, ORG_SUPPORTING_LINE, ORG_SUPPORTING_STATEMENT, ORG_TAGLINE, SITE_NAME } from "@/lib/constants";
+import { INNER_RING_COLORS, OUTER_RING_COLORS } from "@/lib/ring-colors";
 import { pageMetadata } from "@/lib/metadata";
 import { FOUNDER_PERSON_JSON_LD, jsonLdScriptProps } from "@/lib/json-ld";
 
@@ -54,13 +55,13 @@ const ABOUT_PERSON_JSON_LD = {
 };
 
 const WHO_WE_SERVE = [
-  { label: "Veterans", icon: Star },
-  { label: "Law Enforcement", icon: Shield },
-  { label: "Fire", icon: Flame },
-  { label: "EMS", icon: Ambulance },
-  { label: "Dispatch", icon: Radio },
-  { label: "Corrections", icon: Lock },
-  { label: "Families & Caregivers", icon: HeartHandshake },
+  { label: "Veterans", icon: Star, color: OUTER_RING_COLORS[0], background: "#E8EDF2" },
+  { label: "Law Enforcement", icon: Shield, color: INNER_RING_COLORS[0], background: "#E8EFF5" },
+  { label: "Fire", icon: Flame, color: INNER_RING_COLORS[1], background: "#F9E7EA" },
+  { label: "EMS", icon: Ambulance, color: INNER_RING_COLORS[2], background: "#FFFFFF", iconColor: "#4B5563" },
+  { label: "Dispatch", icon: Radio, color: INNER_RING_COLORS[3], background: "#FFF8D6", iconColor: "#8A6500" },
+  { label: "Corrections", icon: Lock, color: INNER_RING_COLORS[5], background: "#F0F1F3", iconColor: "#59616D" },
+  { label: "Families & Caregivers", icon: HeartHandshake, color: OUTER_RING_COLORS[4], background: "#EEF0E5" },
 ] as const;
 
 const RESOURCE_AREAS = [
@@ -191,13 +192,22 @@ export default function MissionPage() {
         <Container>
           <SectionHeading eyebrow="Built For" title="Who We Serve" />
           <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7">
-            {WHO_WE_SERVE.map(({ label, icon: Icon }) => (
+            {WHO_WE_SERVE.map(({ label, icon: Icon, color, background, ...item }) => (
               <li
                 key={label}
-                className="flex flex-col items-center gap-2.5 border border-ink/10 bg-sand-light/60 px-4 py-6 text-center"
+                className="flex flex-col items-center gap-2.5 border border-ink/10 border-t-4 px-4 py-6 text-center"
+                style={{ backgroundColor: background, borderTopColor: color.hex }}
               >
-                <Icon size={24} strokeWidth={1.5} className="text-bronze" aria-hidden="true" />
+                <Icon
+                  size={24}
+                  strokeWidth={1.75}
+                  style={{ color: "iconColor" in item ? item.iconColor : color.hex }}
+                  aria-hidden="true"
+                />
                 <span className="text-sm font-semibold uppercase tracking-wide text-ink">{label}</span>
+                <span className="text-[10px] font-medium uppercase tracking-wider text-charcoal-light">
+                  {color.color}
+                </span>
               </li>
             ))}
           </ul>
