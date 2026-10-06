@@ -55,13 +55,18 @@ const ABOUT_PERSON_JSON_LD = {
 };
 
 const WHO_WE_SERVE = [
-  { label: "Veterans", icon: Star, color: OUTER_RING_COLORS[0], background: "#E8EDF2" },
+  { label: "Veterans", icon: Star, color: OUTER_RING_COLORS[4], background: "#EEF0E5" },
   { label: "Law Enforcement", icon: Shield, color: INNER_RING_COLORS[0], background: "#E8EFF5" },
   { label: "Fire", icon: Flame, color: INNER_RING_COLORS[1], background: "#F9E7EA" },
   { label: "EMS", icon: Ambulance, color: INNER_RING_COLORS[2], background: "#FFFFFF", iconColor: "#4B5563" },
   { label: "Dispatch", icon: Radio, color: INNER_RING_COLORS[3], background: "#FFF8D6", iconColor: "#8A6500" },
   { label: "Corrections", icon: Lock, color: INNER_RING_COLORS[5], background: "#F0F1F3", iconColor: "#59616D" },
-  { label: "Families & Caregivers", icon: HeartHandshake, color: OUTER_RING_COLORS[4], background: "#EEF0E5" },
+  {
+    label: "Families & Caregivers",
+    icon: HeartHandshake,
+    color: { color: "Purple Blend", hex: "#6D3F82" },
+    background: "#F1EAF4",
+  },
 ] as const;
 
 const RESOURCE_AREAS = [
