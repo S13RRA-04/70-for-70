@@ -380,7 +380,8 @@ export function Footer({
             </div>
 
             {/* Mission — the org's own mission content and the campaigns it
-                runs toward The $70K Mission. */}
+                runs toward The $70K Mission (reachable via Campaigns, not a
+                permanent top-level/footer link of its own). */}
             <div>
               <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
                 Mission
@@ -392,13 +393,13 @@ export function Footer({
                   </Link>
                 </li>
                 <li>
-                  <Link href="/mission#founders-story" className="transition-colors hover:text-off-white">
-                    About
+                  <Link href="/campaigns" className="transition-colors hover:text-off-white">
+                    Campaigns
                   </Link>
                 </li>
                 <li>
-                  <Link href="/campaigns" className="transition-colors hover:text-off-white">
-                    Campaigns
+                  <Link href="/network" className="transition-colors hover:text-off-white">
+                    Network
                   </Link>
                 </li>
                 <li>
@@ -407,24 +408,19 @@ export function Footer({
                   </Link>
                 </li>
                 <li>
-                  <Link href="/70k" className="transition-colors hover:text-off-white">
-                    {MISSION_NAME}
+                  <Link href="/about" className="transition-colors hover:text-off-white">
+                    About
                   </Link>
                 </li>
               </ul>
             </div>
 
-            {/* Connect — the network, press, contact, and shop touchpoints. */}
+            {/* Connect — press, contact, and shop touchpoints. */}
             <div>
               <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
                 Connect
               </p>
               <ul className="mt-4 space-y-2 text-sm text-off-white/70">
-                <li>
-                  <Link href="/network" className="transition-colors hover:text-off-white">
-                    Network
-                  </Link>
-                </li>
                 <li>
                   <Link href="/press" className="transition-colors hover:text-off-white">
                     Press &amp; Media

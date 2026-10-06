@@ -9,6 +9,7 @@ import { getMissionMetrics } from "@/lib/data/mission-metrics";
 import { getAllocationBreakdown } from "@/lib/data/allocation";
 import { getCampaign } from "@/lib/data/campaign";
 import { CAMPAIGN_URL, MISSION_NAME, SITE_NAME, SITE_URL } from "@/lib/constants";
+import { formatCurrency } from "@/lib/utils";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 
@@ -34,7 +35,7 @@ export default async function ImpactPage() {
   });
 
   const supportStats = [
-    { label: "Raised to Date", value: metrics.totalRaised === null ? null : `$${metrics.totalRaised.toLocaleString()}` },
+    { label: "Raised to Date", value: metrics.totalRaised === null ? null : formatCurrency(metrics.totalRaised) },
     { label: "Verified Supporters", value: metrics.supporters === null ? null : String(metrics.supporters) },
     { label: "Campaign Partners", value: metrics.campaignPartners === null ? null : String(metrics.campaignPartners) },
     { label: "Beneficiary Organizations", value: metrics.beneficiaries === null ? null : String(metrics.beneficiaries) },

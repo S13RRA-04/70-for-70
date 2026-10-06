@@ -127,19 +127,16 @@ export const EVENT22_CAMPAIGN_NAME = "22 For the 22";
 export const JOURNAL_PLACEHOLDER_IMAGE = "/journal/placeholder.png";
 
 /**
- * Every campaign currently contributing to MISSION_NAME (The $70K Mission),
- * plus naming ideas Cody may take on personally if Tri goes well — powers
- * the "[Mission] For The 22" explainer on /the-mission and the org site's
- * /campaigns landing page. `description`/`url` are only set for active
- * campaigns — /campaigns deliberately renders future entries without
- * invented copy or a link (see README's "Eliminating Placeholder Content").
- * `url` is same-site (a relative path, e.g. For The 22: Live) for a campaign
- * that lives on this domain, or cross-domain (an absolute CAMPAIGN_URL-style
- * constant) for one on its own subdomain — /campaigns/page.tsx infers which
- * by checking whether `url` starts with "/". `statusLabel`/`statusNote`
- * carry the per-campaign status shown on /campaigns (Active / Upcoming /
- * In Development, plus a date when one exists) so status text lives with
- * the campaign data instead of being retyped per card.
+ * Every campaign currently contributing to MISSION_NAME (The $70K Mission) —
+ * powers the "[Mission] For The 22" explainer on /the-mission and the org
+ * site's /campaigns landing page. `description`/`url` are only set for
+ * active campaigns. `url` is same-site (a relative path, e.g. For The 22:
+ * Live) for a campaign that lives on this domain, or cross-domain (an
+ * absolute CAMPAIGN_URL-style constant) for one on its own subdomain —
+ * /campaigns/page.tsx infers which by checking whether `url` starts with
+ * "/". `status` drives the label shown on /campaigns (Active / Upcoming /
+ * In Development) via CAMPAIGN_STATUS_LABELS, so status text lives with the
+ * campaign data instead of being retyped per card.
  */
 export const MOVEMENT_CAMPAIGNS: readonly MovementCampaign[] = [
   {
@@ -194,22 +191,6 @@ export const MOVEMENT_CAMPAIGNS: readonly MovementCampaign[] = [
     endDate: "2026-11-22",
     parentMission: MISSION_NAME,
     beneficiaries: ["Mighty Oaks Foundation", "Veterans and Athletes United"],
-  },
-  {
-    id: "run-for-the-22",
-    name: "Run For The 22",
-    slug: "run",
-    type: "Running",
-    status: "planned",
-    parentMission: MISSION_NAME,
-  },
-  {
-    id: "ride-for-the-22",
-    name: "Ride For The 22",
-    slug: "ride",
-    type: "Cycling",
-    status: "planned",
-    parentMission: MISSION_NAME,
   },
 ];
 

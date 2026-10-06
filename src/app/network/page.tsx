@@ -5,7 +5,7 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { CTAButton } from "@/components/shared/cta-button";
 import { CTASection } from "@/components/shared/cta-section";
 import { PartnerCard } from "@/components/partners/partner-card";
-import { MissionPartnerCard } from "@/components/partners/mission-partner-card";
+import { PartnerLogoWall } from "@/components/partners/partner-logo-wall";
 import { getPartners } from "@/lib/data/partners";
 import { getMissionPartners } from "@/lib/data/mission-partners";
 import { getMissionMetrics } from "@/lib/data/mission-metrics";
@@ -34,6 +34,8 @@ export default async function NetworkPage() {
   ]);
   const organizations = buildOrganizationNetwork(beneficiaries, missionPartners);
   const organizationByName = new Map(organizations.map((organization) => [organization.name, organization]));
+  const presentingPartners = missionPartners.filter((p) => p.tier === "presenting-partner");
+  const otherPartners = missionPartners.filter((p) => p.tier !== "presenting-partner");
 
   return (
     <>
@@ -135,13 +137,11 @@ export default async function NetworkPage() {
               Campaign partners sponsor events, supply gear, and back the work directly — the
               reason a campaign can promise 100% of proceeds to its beneficiaries.
             </p>
-            <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {missionPartners.map((partner) => (
-                <li key={partner.id}>
-                  <MissionPartnerCard partner={partner} categoryLabel={partner.relationship_label} />
-                </li>
-              ))}
-            </ul>
+
+            <div className="mt-6">
+              <PartnerLogoWall presentingPartners={presentingPartners} otherPartners={otherPartners} />
+            </div>
+
             <CTAButton href={`${CAMPAIGN_URL}/sponsors`} external variant="secondary" className="mt-6">
               See All Campaign Partners
             </CTAButton>
