@@ -3,7 +3,7 @@ import type { SponsorRow } from "@/types/database";
 
 export function SponsorCard({ sponsor }: { sponsor: SponsorRow }) {
   const logo = (
-    <div className="flex h-24 items-center justify-center rounded-sm border border-ink/10 bg-off-white p-4 transition-shadow hover:shadow-md">
+    <div className="hover-lift flex h-24 items-center justify-center rounded-sm border border-ink/10 bg-off-white p-4 hover:border-bronze/30">
       {sponsor.logo_url ? (
         <Image
           src={sponsor.logo_url}

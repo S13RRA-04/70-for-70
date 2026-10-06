@@ -71,7 +71,7 @@ export function LiveEventPanel({
                 <Link
                   key={entry.id}
                   href={`/journal/${entry.slug}`}
-                  className="rounded-sm border border-ink/10 bg-off-white p-5 transition-shadow hover:shadow-md"
+                  className="hover-lift rounded-sm border border-ink/10 bg-off-white p-5 hover:border-bronze/30"
                 >
                   <p className="text-sm font-semibold text-ink">{entry.title}</p>
                   <p className="mt-1 text-xs text-charcoal-light">{entry.summary}</p>

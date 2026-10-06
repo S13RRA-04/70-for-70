@@ -15,7 +15,7 @@ export function GearJourneyIndexCard({ lastUpdated }: { lastUpdated: string }) {
   return (
     <Link
       href="/journal/gear-journey"
-      className="group flex flex-col overflow-hidden rounded-sm border border-ink/10 bg-off-white transition-shadow hover:shadow-md sm:flex-row"
+      className="hover-lift group flex flex-col overflow-hidden rounded-sm border border-ink/10 bg-off-white hover:border-bronze/30 sm:flex-row"
     >
       <div className="relative aspect-[16/9] w-full shrink-0 bg-sand-light sm:w-1/2">
         <Image

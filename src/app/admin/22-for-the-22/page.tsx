@@ -119,7 +119,7 @@ export default async function EventRegistrationsAdminPage(props: PageProps<"/adm
           <Link
             key={r.id}
             href={`/admin/22-for-the-22/${r.id}`}
-            className="flex flex-wrap items-center justify-between gap-3 rounded-sm border border-ink/10 bg-off-white p-5 transition-shadow hover:shadow-md"
+            className="hover-lift flex flex-wrap items-center justify-between gap-3 rounded-sm border border-ink/10 bg-off-white p-5 hover:border-bronze/30"
           >
             <div>
               <p className="font-medium text-ink">

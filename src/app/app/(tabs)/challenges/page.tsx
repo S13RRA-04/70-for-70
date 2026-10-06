@@ -33,7 +33,7 @@ export default async function ChallengesPage() {
           <Link
             key={event.id}
             href={`/app/challenges/${event.slug}`}
-            className="block rounded-sm border border-ink/10 bg-off-white p-6 transition-shadow hover:shadow-md"
+            className="hover-lift block rounded-sm border border-ink/10 bg-off-white p-6 hover:border-bronze/30"
           >
             <p className="font-display text-xl font-semibold uppercase tracking-wide text-ink">{event.name}</p>
             {event.description && <p className="mt-2 text-sm text-charcoal-light">{event.description}</p>}

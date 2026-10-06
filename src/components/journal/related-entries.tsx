@@ -14,7 +14,7 @@ export function RelatedEntries({ entries }: { entries: JournalEntryRow[] }) {
           <li key={entry.id}>
             <Link
               href={`/journal/${entry.slug}`}
-              className="block rounded-sm border border-ink/10 bg-off-white p-4 transition-shadow hover:shadow-md"
+              className="hover-lift block rounded-sm border border-ink/10 bg-off-white p-4 hover:border-bronze/30"
             >
               <p className="text-xs font-semibold uppercase tracking-wide text-bronze">{entry.primary_category}</p>
               <h3 className="mt-1 font-display text-sm font-semibold uppercase tracking-wide text-ink">

@@ -76,7 +76,7 @@ export default async function TriathlonTeamAdminPage(props: PageProps<"/admin/tr
           <Link
             key={app.id}
             href={`/admin/triathlon-team/${app.id}`}
-            className="flex flex-wrap items-center justify-between gap-3 rounded-sm border border-ink/10 bg-off-white p-5 transition-shadow hover:shadow-md"
+            className="hover-lift flex flex-wrap items-center justify-between gap-3 rounded-sm border border-ink/10 bg-off-white p-5 hover:border-bronze/30"
           >
             <div>
               <p className="font-medium text-ink">{app.full_name}</p>
