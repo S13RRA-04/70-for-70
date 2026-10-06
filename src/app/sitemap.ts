@@ -3,6 +3,7 @@ import { getJournalEntries } from "@/lib/data/journal";
 import { getBikeBuildLastUpdated } from "@/lib/content/building-the-bike";
 import { getGearJourneyLastUpdated } from "@/lib/content/gear-journey";
 import { US_STATES_GRID } from "@/lib/content/us-states";
+import { getPublishedLiveEvents } from "@/lib/data/live-events";
 import { CAMPAIGN_URL, CAMPAIGNS, SITE_URL } from "@/lib/constants";
 import { getActiveCampaignSlug } from "@/lib/site-mode";
 
@@ -131,5 +132,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: new Date(),
   }));
 
-  return [...orgEntries, ...stateEntries];
+  const liveEvents = await getPublishedLiveEvents();
+  const liveEventEntries: MetadataRoute.Sitemap = liveEvents.map((event) => ({
+    url: `${SITE_URL}/campaigns/live/${event.slug}`,
+    lastModified: new Date(event.updated_at),
+  }));
+
+  return [...orgEntries, ...stateEntries, ...liveEventEntries];
 }

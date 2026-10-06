@@ -55,6 +55,11 @@ export default async function AdminPage() {
     getCurrentEventConfig(),
   ]);
 
+  const [{ count: publishedLiveEvents }, { count: draftLiveEvents }] = await Promise.all([
+    admin.from("live_events").select("*", { count: "exact", head: true }).eq("published", true),
+    admin.from("live_events").select("*", { count: "exact", head: true }).eq("published", false),
+  ]);
+
   const { count: eventRegistrationCount } = currentEvent
     ? await admin
         .from("event_registrations")
@@ -271,6 +276,21 @@ export default async function AdminPage() {
         </div>
         <Link
           href="/admin/journal"
+          className="rounded-sm border border-ink/20 px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
+        >
+          Manage
+        </Link>
+      </div>
+
+      <div className="mt-6 flex items-center justify-between rounded-sm border border-ink/10 bg-off-white p-6">
+        <div>
+          <p className="font-display text-lg font-semibold uppercase tracking-wide text-ink">For The 22: Live</p>
+          <p className="mt-1 text-sm text-charcoal-light">
+            {publishedLiveEvents ?? 0} published, {draftLiveEvents ?? 0} draft(s).
+          </p>
+        </div>
+        <Link
+          href="/admin/live"
           className="rounded-sm border border-ink/20 px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
         >
           Manage
