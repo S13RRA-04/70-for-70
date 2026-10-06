@@ -1,5 +1,5 @@
 import { ExternalLink } from "lucide-react";
-import { VETERAN_BRAND_CATEGORIES, type VeteranBrand } from "@/lib/content/veteran-brands";
+import { SERVICE_BRAND_CATEGORIES, type ServiceBrand } from "@/lib/content/veteran-brands";
 
 /** Deterministic accent per card so the grid isn't monochrome — not tied to category, purely visual rhythm. Same technique as ResourceCard. */
 const AVATAR_ACCENTS = [
@@ -13,7 +13,7 @@ function accentForName(name: string): string {
   return AVATAR_ACCENTS[sum % AVATAR_ACCENTS.length];
 }
 
-export function BrandCard({ brand }: { brand: VeteranBrand }) {
+export function BrandCard({ brand }: { brand: ServiceBrand }) {
   const initial = brand.name.trim().charAt(0).toUpperCase();
 
   return (
@@ -47,7 +47,7 @@ export function BrandCard({ brand }: { brand: VeteranBrand }) {
             key={id}
             className="rounded-full border border-ink/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-charcoal-light"
           >
-            {VETERAN_BRAND_CATEGORIES.find((c) => c.id === id)?.label}
+            {SERVICE_BRAND_CATEGORIES.find((c) => c.id === id)?.label}
           </span>
         ))}
       </div>

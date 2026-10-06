@@ -1,38 +1,42 @@
 /**
- * Curated directory of commercial brands whose purchases support veterans —
- * distinct from RESOURCES (src/lib/content/resources.ts), which is
- * explicitly nonprofit/government programs, not commercial products. Kept
- * as data rather than hard-coded JSX so entries can be revised without
- * touching the page, same pattern as resources.ts.
+ * Curated directory of commercial brands whose purchases support veterans
+ * and first responders — distinct from RESOURCES
+ * (src/lib/content/resources.ts), which is explicitly nonprofit/government
+ * programs, not commercial products. Kept as data rather than hard-coded
+ * JSX so entries can be revised without touching the page, same pattern as
+ * resources.ts.
  *
- * Every entry's veteran connection/giving claim was checked against the
- * brand's own site before being added here — never guessed or inferred from
- * a third-party roundup alone. A brand can carry both categories (e.g.
- * veteran-owned AND donates a cut of profits) — category is about how the
- * purchase helps, not a ranking.
+ * Every entry's ownership/giving claim was checked against the brand's own
+ * site before being added here — never guessed or inferred from a
+ * third-party roundup alone, and never added without confirming the
+ * business is still actually operating (a brand that looked legitimate in
+ * a roundup article turned out to have closed — see git history). A brand
+ * can carry multiple categories (e.g. veteran-owned AND donates a cut of
+ * profits) — category is about how the purchase helps, not a ranking.
  */
 
-export interface VeteranBrandCategory {
-  id: "veteran-owned" | "gives-back";
+export interface ServiceBrandCategory {
+  id: "veteran-owned" | "first-responder-owned" | "gives-back";
   label: string;
 }
 
-export const VETERAN_BRAND_CATEGORIES: VeteranBrandCategory[] = [
+export const SERVICE_BRAND_CATEGORIES: ServiceBrandCategory[] = [
   { id: "veteran-owned", label: "Veteran-Owned" },
+  { id: "first-responder-owned", label: "First Responder-Owned" },
   { id: "gives-back", label: "Gives Back" },
 ];
 
-export interface VeteranBrand {
+export interface ServiceBrand {
   name: string;
   url: string;
   /** What they sell, in a few words — grounds the card before the mission copy. */
   product: string;
-  /** How a purchase actually supports veterans — specific and sourced, never a vague "supports our troops." */
+  /** How a purchase actually supports veterans/first responders — specific and sourced, never a vague "supports our heroes." */
   description: string;
-  categoryIds: VeteranBrandCategory["id"][];
+  categoryIds: ServiceBrandCategory["id"][];
 }
 
-export const VETERAN_BRANDS: VeteranBrand[] = [
+export const SERVICE_BRANDS: ServiceBrand[] = [
   {
     name: "Rags of Honor",
     url: "https://www.ragsofhonor.us",
@@ -96,5 +100,29 @@ export const VETERAN_BRANDS: VeteranBrand[] = [
     description:
       "Founded by a Navy SEAL in 2012; its signature .50-caliber bottle opener is still handcrafted by military veterans at a 25% veteran hire rate. The company has given to more than 280 veteran events and organizations, including the Navy SEAL Foundation and Folds of Honor.",
     categoryIds: ["veteran-owned", "gives-back"],
+  },
+  {
+    name: "Fire Department Coffee",
+    url: "https://www.firedeptcoffee.com",
+    product: "Coffee",
+    description:
+      "Founded by a retired firefighter/paramedic and Navy veteran. Funds the Fire Department Coffee Foundation, a 501(c)(3) supporting firefighters injured on the job, physically or mentally — already a confirmed partner of this campaign's own 22 For the 22 giveaway.",
+    categoryIds: ["veteran-owned", "first-responder-owned", "gives-back"],
+  },
+  {
+    name: "ReLEntless Defender Apparel",
+    url: "https://relentlessdefender.com",
+    product: "Law enforcement & Thin Blue Line apparel",
+    description:
+      "Owned and operated by law enforcement veterans. Has donated more than $2.6 million to first-responder charities since 2015, including fundraiser runs for fallen and injured officers and their families.",
+    categoryIds: ["first-responder-owned", "gives-back"],
+  },
+  {
+    name: "13 Fifty Apparel",
+    url: "https://thirteenfiftyapparel.com",
+    product: "First responder apparel",
+    description:
+      "Founded in 2016 by a South Florida police officer. Its #OPERATIONRESPONDER program partners with first-responder charities nationwide, including Concerns of Police Survivors (C.O.P.S.) and the First Responders Children's Foundation.",
+    categoryIds: ["first-responder-owned", "gives-back"],
   },
 ];

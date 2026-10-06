@@ -336,7 +336,7 @@ export function Footer({
                 </li>
                 <li>
                   <Link href="/veteran-brands" className="transition-colors hover:text-off-white">
-                    Veteran Brands
+                    Shop With Purpose
                   </Link>
                 </li>
                 <li>
