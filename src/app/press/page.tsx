@@ -118,8 +118,8 @@ export default async function PressPage() {
             </div>
             <p className="mt-4 text-sm text-charcoal-light">
               The full story is published at{" "}
-              <Link href="/mission#founders-story" className="text-bronze hover:underline">
-                forthe22.org/mission
+              <Link href="/about" className="text-bronze hover:underline">
+                forthe22.org/about
               </Link>
               .
             </p>

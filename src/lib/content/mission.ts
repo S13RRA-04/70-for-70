@@ -3,12 +3,11 @@
  * hard-coded JSX so copy can be revised without touching components.
  *
  * Deliberately organizational, not personal — anything about Cody himself
- * lives only on /mission#founders-story (the org's Mission page, see
- * src/lib/content/about.ts for the underlying data); this page links there
- * rather than re-narrating any of it. This page lives on the campaign
- * domain but /mission is org-only, so that link uses the full SITE_URL
- * rather than a relative path — see README's "Movement/Campaign Domain
- * Split".
+ * lives only on /about (the org's About page, see src/lib/content/about.ts
+ * for the underlying data); this page links there rather than re-narrating
+ * any of it. This page lives on the campaign domain but /about is org-only,
+ * so that link uses the full SITE_URL rather than a relative path — see
+ * README's "Movement/Campaign Domain Split".
  */
 
 import { SITE_URL } from "@/lib/constants";
@@ -36,7 +35,7 @@ export const MISSION_SECTIONS: MissionSection[] = [
       "There's a veteran or first responder out there right now trying to figure out what comes next — and a family trying to understand why the person who came home feels different from the person who left.",
       "Every mile of this campaign is aimed at closing that gap: connecting people to the resources, community, and support that make that transition survivable, not just endurable.",
     ],
-    link: { label: "Read the Founder's Story", href: `${SITE_URL}/mission#founders-story` },
+    link: { label: "Read the Founder's Story", href: `${SITE_URL}/about#founders-story` },
   },
   {
     id: "why-first-responders",

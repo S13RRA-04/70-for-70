@@ -335,7 +335,7 @@ export default async function HomePage() {
                     who are no longer here.
                   </p>
                   <Link
-                    href="/mission#why-black"
+                    href="/about#why-black"
                     className="mt-5 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze-light transition-colors hover:text-bronze"
                   >
                     Why We Wear Black &rarr;
@@ -410,7 +410,7 @@ export default async function HomePage() {
                     Another who needs a mission. Another who needs a team.
                   </blockquote>
                   <Link
-                    href="/mission#my-story"
+                    href="/about#my-story"
                     className="mt-6 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze transition-colors hover:text-bronze-dark"
                   >
                     Read My Story &rarr;

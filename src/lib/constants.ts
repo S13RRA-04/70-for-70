@@ -237,7 +237,7 @@ export const ORG_NAV_LINKS: NavEntry[] = [
   { label: "Campaigns", href: "/campaigns" },
   { label: "Network", href: "/network" },
   { label: "Impact", href: "/impact" },
-  { label: "About", href: "/mission#founders-story" },
+  { label: "About", href: "/about" },
   {
     label: "Shop",
     children: [
