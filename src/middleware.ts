@@ -365,6 +365,7 @@ const CAMPAIGN_PATH_PREFIXES = [
   "/campaign-supporters",
   "/beneficiaries",
   "/financial-transparency",
+  "/shop",
   "/messages",
   "/get-involved",
   "/become-a-partner",

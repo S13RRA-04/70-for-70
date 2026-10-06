@@ -4,7 +4,7 @@ import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CampaignProgress } from "@/components/campaign/campaign-progress";
 import { OutOfPocketExpenses } from "@/components/get-involved/out-of-pocket-expenses";
-import { CAMPAIGN_NAME, CAMPAIGN_URL, MERCH_BENEFICIARIES } from "@/lib/constants";
+import { CAMPAIGN_NAME, CAMPAIGN_URL, MERCH_BENEFICIARIES, SITE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, CAMPAIGN_HOME_CRUMB, jsonLdScriptProps } from "@/lib/json-ld";
 
@@ -58,17 +58,24 @@ export default async function FinancialTransparencyPage() {
             Merchandise is sold through Bonfire, an independent third-party store — 100% of net
             profit is paid by Bonfire directly to {MERCH_BENEFICIARIES[0]} or{" "}
             {MERCH_BENEFICIARIES[1]}, with the specific beneficiary noted on each item in the
-            store.
-          </p>
-          <p>
-            A second, separate store is sold through Exray. This one is not a fundraiser for{" "}
-            {MERCH_BENEFICIARIES[0]} or {MERCH_BENEFICIARIES[1]} — 100% of net proceeds go
-            directly toward the campaign&apos;s own mission costs (equipment, training, and race
-            expenses) instead. See{" "}
+            store. See{" "}
             <Link href="/shop" className="font-semibold text-bronze hover:text-bronze-dark">
               Shop
             </Link>{" "}
-            for both stores.
+            for the store.
+          </p>
+          <p>
+            A separate, non-fundraising store is sold through Exray on For The 22&apos;s own site.
+            This one is not a fundraiser for {MERCH_BENEFICIARIES[0]} or {MERCH_BENEFICIARIES[1]}{" "}
+            — 100% of net proceeds go directly toward the mission&apos;s own costs (equipment,
+            training, and campaign expenses) instead. See{" "}
+            <a
+              href={`${SITE_URL}/store`}
+              className="font-semibold text-bronze hover:text-bronze-dark"
+            >
+              For The 22 Store
+            </a>{" "}
+            for that store.
           </p>
           <p>
             Campaign sponsorship and in-kind athlete support (see{" "}

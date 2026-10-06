@@ -152,8 +152,9 @@ export const MOVEMENT_CAMPAIGNS = [
  * tri.forthe22.org — and "Shop", which links to /store, an org-only
  * interstitial page that discloses how proceeds are used before sending
  * visitors out to the org's own non-fundraising Exray store (see
- * MISSION_STORE_URL). The campaign's own /shop (tri.forthe22.org) now just
- * redirects here — one org-wide store instead of a separate one per domain.
+ * MISSION_STORE_URL). Distinct from the campaign's own /shop
+ * (tri.forthe22.org only — see MERCH_STORE_URL), which is an actual
+ * fundraiser for named beneficiaries, not a mission-cost store.
  */
 export const ORG_NAV_LINKS: NavEntry[] = [
   { label: "Resources", href: "/resources" },
@@ -531,13 +532,14 @@ export const GET_INVOLVED_ROLES = [
 export const CHATTANOOGAN_HOTEL_BLOCK_URL: string | null = null;
 
 /**
- * Bonfire fundraising store — linked directly from the campaign homepage's
- * MerchTicker (src/components/campaign/merch-ticker.tsx). 100% of net profit
- * is paid by Bonfire directly to a recipient in MERCH_BENEFICIARIES; For The
- * 22 never takes possession of merchandise proceeds. Bonfire annotates which
- * of the two beneficiaries each individual item supports directly on the
- * product listing — this site doesn't track that split per item, only the
- * two organizations it can go to.
+ * Bonfire fundraising store — linked from the campaign's /shop and directly
+ * from the campaign homepage's MerchTicker
+ * (src/components/campaign/merch-ticker.tsx). 100% of net profit is paid by
+ * Bonfire directly to a recipient in MERCH_BENEFICIARIES; For The 22 never
+ * takes possession of merchandise proceeds. Bonfire annotates which of the
+ * two beneficiaries each individual item supports directly on the product
+ * listing — this site doesn't track that split per item, only the two
+ * organizations it can go to.
  */
 export const MERCH_STORE_URL = "https://www.bonfire.com/store/for-the-22/";
 
@@ -561,8 +563,8 @@ export const SHOP_CATEGORIES = [
  * MERCH_STORE_URL (the campaign's Bonfire store, which pays 100% of net
  * profit to MERCH_BENEFICIARIES). 100% of Exray proceeds go directly to
  * mission costs (equipment, training, campaign expenses) instead — never to
- * a named beneficiary. Linked from the org's /store page; the campaign's
- * own /shop retired in favor of this single org-wide store.
+ * a named beneficiary. Linked from the org's /store page only — the
+ * campaign's /shop is a real fundraiser (Bonfire) and doesn't carry this.
  */
 export const MISSION_STORE_URL = "https://exray.cc/collections/for-the-22-store?code=VTTAUZ7Y";
 
