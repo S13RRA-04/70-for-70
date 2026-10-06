@@ -2,31 +2,14 @@
 
 import { useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { RESOURCES } from "@/lib/content/resources";
+import { ChevronDown } from "lucide-react";
+import { NEED_CATEGORIES, RESOURCES } from "@/lib/content/resources";
 import { ResourceCard } from "@/components/resources/resource-card";
 import { StateMap } from "@/components/resources/state-map";
 import { EmptyState } from "@/components/shared/empty-state";
 import { FilterChip } from "@/components/shared/filter-chip";
 import { SearchField } from "@/components/shared/search-field";
-
-export interface NeedCategory {
-  id: string;
-  label: string;
-}
-
-/** "What do you need?" — the primary way this directory is organized; sport is one entry point among several. */
-export const NEED_CATEGORIES: NeedCategory[] = [
-  { id: "mental-health", label: "Mental Health" },
-  { id: "sports-fitness", label: "Sports & Fitness" },
-  { id: "equipment-grants", label: "Equipment & Grants" },
-  { id: "outdoor-programs", label: "Outdoor Programs" },
-  { id: "family-support", label: "Family Support" },
-  { id: "purpose-community", label: "Purpose & Community" },
-  { id: "career-education", label: "Career & Education" },
-  { id: "financial-assistance", label: "Financial Assistance" },
-  { id: "housing-transportation", label: "Housing & Transportation" },
-  { id: "legal-benefits", label: "Legal & Benefits" },
-];
+import { cn } from "@/lib/utils";
 
 /** "Who are you?" — the curated filter-row subset. Cards may show additional audience tags beyond this list. */
 export const PRIMARY_AUDIENCE_TAGS = [
@@ -54,24 +37,28 @@ function FilterRow({
   options,
   activeValues,
   onSelect,
+  chipSize = "md",
 }: {
   label: string;
   options: readonly string[];
   /** Every option currently applied — usually 0 or 1, but a gateway card can land here with several at once. */
   activeValues: readonly string[];
   onSelect: (value: string | null) => void;
+  /** "md" for the primary "What Do You Need?" row, "sm" for the secondary rows below it — a visual size step reinforces which filter matters most. */
+  chipSize?: "sm" | "md";
 }) {
   return (
     <div>
       <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">{label}</p>
       <div className="mt-2.5 flex flex-wrap gap-2">
-        <FilterChip label="All" active={activeValues.length === 0} onClick={() => onSelect(null)} />
+        <FilterChip label="All" active={activeValues.length === 0} onClick={() => onSelect(null)} size={chipSize} />
         {options.map((option) => (
           <FilterChip
             key={option}
             label={option}
             active={activeValues.includes(option)}
             onClick={() => onSelect(activeValues.length === 1 && activeValues.includes(option) ? null : option)}
+            size={chipSize}
           />
         ))}
       </div>
@@ -94,6 +81,13 @@ export function ResourceDirectory() {
   const [search, setSearch] = useState(() => params.get("q") ?? "");
   const [stateFilter, setStateFilter] = useState<string | null>(() => params.get("state"));
   const [scope, setScope] = useState<ResourceScope>(() => toResourceScope(params.get("scope")));
+  // Below `lg:`, the filter chip stack (3 groups, up to ~20 buttons total)
+  // starts collapsed so a mobile visitor reaches search + results without
+  // scrolling past it first — `lg:` always shows it regardless of this
+  // state (see the className below). Opens automatically once any filter
+  // is actually active, so a deep-linked/gateway-card visit doesn't hide
+  // the filters that are already applied.
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   // The lazy initializers above cover the normal case (a fresh page load,
   // filtered from the first server-rendered paint). This covers the one
@@ -154,6 +148,12 @@ export function ResourceDirectory() {
     });
   }, [needIds, audience, stateFilter, scope, search]);
 
+  const activeFilterCount = [needIds.length > 0, Boolean(audience), scope !== "all"].filter(Boolean).length;
+  // Auto-opens (without an extra effect) once a filter is already active —
+  // e.g. a homepage gateway card landing here pre-filtered — so the applied
+  // filter is never hidden behind a closed disclosure.
+  const showFilterPanel = filtersOpen || activeFilterCount > 0;
+
   return (
     <div>
       {/* Full-width on its own — a real US choropleth needs real room; small
@@ -183,7 +183,7 @@ export function ResourceDirectory() {
       </div>
 
       <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-6">
-        <div className="lg:sticky lg:top-24 lg:col-span-4 lg:max-h-[calc(100vh-7rem)] lg:space-y-5 lg:overflow-y-auto lg:pr-1 xl:col-span-3">
+        <div className="space-y-3 lg:sticky lg:top-24 lg:col-span-4 lg:max-h-[calc(100vh-7rem)] lg:space-y-5 lg:overflow-y-auto lg:pr-1 xl:col-span-3">
           <SearchField
             id="resource-search"
             value={search}
@@ -193,7 +193,17 @@ export function ResourceDirectory() {
             className="scroll-mt-20"
           />
 
-          <div className="space-y-5 rounded-sm border border-ink/10 bg-sand-light p-5">
+          <button
+            type="button"
+            onClick={() => setFiltersOpen((v) => !v)}
+            aria-expanded={showFilterPanel}
+            className="flex w-full items-center justify-between rounded-sm border border-ink/10 bg-sand-light px-4 py-3 text-xs font-semibold uppercase tracking-wide text-ink lg:hidden"
+          >
+            <span>Filters{activeFilterCount > 0 ? ` · ${activeFilterCount} Active` : ""}</span>
+            <ChevronDown size={14} aria-hidden="true" className={cn("transition-transform", showFilterPanel && "rotate-180")} />
+          </button>
+
+          <div className={cn("space-y-5 rounded-sm border border-ink/10 bg-sand-light p-5", showFilterPanel ? "block" : "hidden", "lg:block")}>
             <FilterRow
               label="What Do You Need?"
               options={NEED_CATEGORIES.map((c) => c.label)}
@@ -207,6 +217,7 @@ export function ResourceDirectory() {
               options={PRIMARY_AUDIENCE_TAGS}
               activeValues={audience ? [audience] : []}
               onSelect={setAudience}
+              chipSize="sm"
             />
             <FilterRow
               label="Coverage"
@@ -215,6 +226,7 @@ export function ResourceDirectory() {
               onSelect={(label) =>
                 setScope(label === SCOPE_LABELS.national ? "national" : label === SCOPE_LABELS.state ? "state" : "all")
               }
+              chipSize="sm"
             />
           </div>
         </div>

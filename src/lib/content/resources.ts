@@ -73,6 +73,31 @@ export interface Resource {
   availability?: string;
 }
 
+export interface NeedCategory {
+  id: string;
+  label: string;
+}
+
+/**
+ * "What do you need" — the primary way this directory is organized; sport
+ * is one entry point among several. Lives here (not in
+ * resource-directory.tsx, which renders it as filter chips) so
+ * resource-card.tsx can also import it, for the card's own category label,
+ * without an import cycle between the two components.
+ */
+export const NEED_CATEGORIES: NeedCategory[] = [
+  { id: "mental-health", label: "Mental Health" },
+  { id: "sports-fitness", label: "Sports & Fitness" },
+  { id: "equipment-grants", label: "Equipment & Grants" },
+  { id: "outdoor-programs", label: "Outdoor Programs" },
+  { id: "family-support", label: "Family Support" },
+  { id: "purpose-community", label: "Purpose & Community" },
+  { id: "career-education", label: "Career & Education" },
+  { id: "financial-assistance", label: "Financial Assistance" },
+  { id: "housing-transportation", label: "Housing & Transportation" },
+  { id: "legal-benefits", label: "Legal & Benefits" },
+];
+
 export const RESOURCES: Resource[] = [
   // ---------------------------------------------------------------------
   // Sports & Fitness

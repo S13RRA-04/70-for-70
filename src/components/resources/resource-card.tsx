@@ -1,5 +1,5 @@
 import { ExternalLink } from "lucide-react";
-import type { Resource } from "@/lib/content/resources";
+import { NEED_CATEGORIES, type Resource } from "@/lib/content/resources";
 
 /** Deterministic accent per card so the grid isn't monochrome — not tied to category, purely visual rhythm. */
 const AVATAR_ACCENTS = [
@@ -15,6 +15,9 @@ function accentForName(name: string): string {
 
 export function ResourceCard({ resource }: { resource: Resource }) {
   const initial = resource.name.trim().charAt(0).toUpperCase();
+  // Plain text, not another pill — audience tags already cover that
+  // treatment below, and giving every field its own pill reads as clutter.
+  const categoryLabel = NEED_CATEGORIES.find((c) => c.id === resource.needCategoryIds[0])?.label;
 
   return (
     <a
@@ -39,6 +42,10 @@ export function ResourceCard({ resource }: { resource: Resource }) {
       <p className="mt-3 flex-1 text-sm leading-relaxed text-charcoal-light">
         {resource.description}
       </p>
+
+      {categoryLabel && (
+        <p className="mt-2 text-[11px] font-semibold uppercase tracking-widest text-bronze-text">{categoryLabel}</p>
+      )}
 
       <div className="mt-3 flex flex-wrap gap-1.5">
         {resource.audienceTags.map((tag) => (
