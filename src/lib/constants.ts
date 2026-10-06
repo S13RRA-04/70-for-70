@@ -150,12 +150,10 @@ export const MOVEMENT_CAMPAIGNS = [
  * touchpoints are "Campaigns" — an org-owned editorial page (/campaigns)
  * listing what For The 22 is currently engaged in and linking out to
  * tri.forthe22.org — and "Shop", which links to /store, an org-only
- * interstitial page (mirroring the campaign's own /shop) that discloses how
- * proceeds are allocated before sending visitors out to the org's own
- * non-fundraising Fourthwall store (see ORG_SHOP_URL). Unlike the
- * campaign's /shop (fundraising merch tied to Tri For The 22, lives on
- * tri.forthe22.org only), this store isn't part of a fundraising mechanism
- * and isn't gated by the domain split's merchandise firewall.
+ * interstitial page that discloses how proceeds are used before sending
+ * visitors out to the org's own non-fundraising Exray store (see
+ * MISSION_STORE_URL). The campaign's own /shop (tri.forthe22.org) now just
+ * redirects here — one org-wide store instead of a separate one per domain.
  */
 export const ORG_NAV_LINKS: NavEntry[] = [
   { label: "Resources", href: "/resources" },
@@ -173,45 +171,6 @@ export const ORG_NAV_LINKS: NavEntry[] = [
   { label: "Contact", href: "/contact" },
   { label: "Need Help Now", href: "/crisis" },
 ];
-
-/**
- * The org's own merchandise store — a separate, non-fundraising Fourthwall
- * shop (distinct from MERCH_STORE_URL, the campaign's Bonfire store, which
- * pays 100% of net profit to a single named beneficiary). Linked from
- * /store, not directly from the header, so the allocation split below is
- * always disclosed first.
- */
-export const ORG_SHOP_URL = "https://for-the-22-ohp-shop.fourthwall.com/";
-
-/**
- * How proceeds from ORG_SHOP_URL are allocated, displayed on /store.
- * Percentages must sum to 100 — enforced by a dev-time assertion below
- * rather than trusted silently, since this is a public financial claim.
- */
-export const ORG_SHOP_ALLOCATION = [
-  {
-    percent: 22,
-    label: "Charitable Organizations",
-    description: "Returned directly to charitable organizations.",
-  },
-  {
-    percent: 58,
-    label: "For The 22 Campaign Efforts",
-    description: "Equipment, training, and other costs of running For The 22's campaigns.",
-  },
-  {
-    percent: 20,
-    label: "Reserve",
-    description: "Held in reserve for tax obligations and other holdings.",
-  },
-] as const;
-
-if (process.env.NODE_ENV !== "production") {
-  const total = ORG_SHOP_ALLOCATION.reduce((sum, row) => sum + row.percent, 0);
-  if (total !== 100) {
-    throw new Error(`ORG_SHOP_ALLOCATION percentages must sum to 100, got ${total}`);
-  }
-}
 
 /**
  * Grouped desktop/mobile nav for Tri — 4 dropdown groups (Mission, Journey,
@@ -572,12 +531,13 @@ export const GET_INVOLVED_ROLES = [
 export const CHATTANOOGAN_HOTEL_BLOCK_URL: string | null = null;
 
 /**
- * Bonfire fundraising store — live, linked from the campaign's /shop.
- * 100% of net profit is paid by Bonfire directly to a recipient in
- * MERCH_BENEFICIARIES; For The 22 never takes possession of merchandise
- * proceeds. Bonfire annotates which of the two beneficiaries each individual
- * item supports directly on the product listing — this site doesn't track
- * that split per item, only the two organizations it can go to.
+ * Bonfire fundraising store — linked directly from the campaign homepage's
+ * MerchTicker (src/components/campaign/merch-ticker.tsx). 100% of net profit
+ * is paid by Bonfire directly to a recipient in MERCH_BENEFICIARIES; For The
+ * 22 never takes possession of merchandise proceeds. Bonfire annotates which
+ * of the two beneficiaries each individual item supports directly on the
+ * product listing — this site doesn't track that split per item, only the
+ * two organizations it can go to.
  */
 export const MERCH_STORE_URL = "https://www.bonfire.com/store/for-the-22/";
 
@@ -597,12 +557,12 @@ export const SHOP_CATEGORIES = [
 ] as const;
 
 /**
- * The campaign's second, non-fundraising store — sold through Exray,
- * distinct from MERCH_STORE_URL (the Bonfire store, which pays 100% of net
+ * The org's own non-fundraising store — sold through Exray, distinct from
+ * MERCH_STORE_URL (the campaign's Bonfire store, which pays 100% of net
  * profit to MERCH_BENEFICIARIES). 100% of Exray proceeds go directly to
- * campaign/mission costs (equipment, training, race expenses) instead —
- * never to the beneficiary organizations. Linked from a clearly separated
- * second section on /shop, not folded into the Bonfire disclosure above it.
+ * mission costs (equipment, training, campaign expenses) instead — never to
+ * a named beneficiary. Linked from the org's /store page; the campaign's
+ * own /shop retired in favor of this single org-wide store.
  */
 export const MISSION_STORE_URL = "https://exray.cc/collections/for-the-22-store?code=VTTAUZ7Y";
 

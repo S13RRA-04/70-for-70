@@ -1,14 +1,13 @@
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { RevealOnScroll } from "@/components/shared/reveal-on-scroll";
-import { PercentCountUp } from "@/components/shared/percent-count-up";
 import { CTAButton } from "@/components/shared/cta-button";
-import { ORG_SHOP_ALLOCATION, ORG_SHOP_URL, SITE_NAME } from "@/lib/constants";
+import { MISSION_STORE_URL, SITE_NAME } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
   title: "Store",
-  description: `${SITE_NAME} merchandise, sold through Fourthwall — see how proceeds are allocated.`,
+  description: `${SITE_NAME} merchandise, sold through Exray — 100% of net proceeds go directly toward the mission's costs.`,
   canonical: "/store",
 });
 
@@ -20,35 +19,26 @@ export default function StorePage() {
           as="h1"
           eyebrow="Store"
           title={`${SITE_NAME} Store`}
-          description={`Merchandise is sold through Fourthwall, an independent third-party store. This shop is not a fundraising campaign — it's a separate way to support ${SITE_NAME}'s work through everyday purchases.`}
+          description={`Merchandise is sold through Exray, an independent third-party store. This isn't a fundraiser for a named beneficiary — it's a separate way to support ${SITE_NAME}'s own mission costs through everyday purchases.`}
         />
 
         <RevealOnScroll className="mt-10 border border-ink/10 bg-sand-light/40 p-6 sm:p-7">
           <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-            How Proceeds Are Allocated
+            How Proceeds Are Used
           </p>
-          <ul className="mt-4 space-y-4">
-            {ORG_SHOP_ALLOCATION.map((row) => (
-              <li key={row.label} className="flex items-baseline gap-4">
-                <span className="font-display text-2xl font-bold tabular-nums text-bronze">
-                  <PercentCountUp value={row.percent} />
-                </span>
-                <span>
-                  <span className="block text-sm font-semibold uppercase tracking-wide text-ink">{row.label}</span>
-                  <span className="mt-0.5 block text-sm leading-relaxed text-charcoal-light">{row.description}</span>
-                </span>
-              </li>
-            ))}
-          </ul>
+          <p className="mt-4 max-w-lg text-sm leading-relaxed text-charcoal-light">
+            100% of net proceeds go directly toward {SITE_NAME}&apos;s mission costs — equipment,
+            training, and campaign expenses — instead of to a named charitable beneficiary.
+          </p>
         </RevealOnScroll>
 
         <p className="mt-6 max-w-lg text-sm leading-relaxed text-charcoal-light">
-          Fourthwall handles all orders, sizing, shipping, and payment on its own platform;{" "}
+          Exray handles all orders, sizing, shipping, and payment on its own platform;{" "}
           {SITE_NAME} does not take possession of merchandise proceeds directly.
         </p>
 
-        <CTAButton href={ORG_SHOP_URL} external size="lg" magnetic className="mt-8">
-          Shop on Fourthwall <span aria-hidden="true">&#8599;</span>
+        <CTAButton href={MISSION_STORE_URL} external size="lg" magnetic className="mt-8">
+          Shop on Exray <span aria-hidden="true">&#8599;</span>
         </CTAButton>
       </Container>
     </section>
