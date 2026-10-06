@@ -157,14 +157,19 @@ export const MOVEMENT_CAMPAIGNS = [
  * tri.forthe22.org only), this store isn't part of a fundraising mechanism
  * and isn't gated by the domain split's merchandise firewall.
  */
-export const ORG_NAV_LINKS: NavLink[] = [
+export const ORG_NAV_LINKS: NavEntry[] = [
   { label: "Resources", href: "/resources" },
-  { label: "Shop With Purpose", href: "/veteran-brands" },
   { label: "Mission", href: "/mission" },
   { label: "Why It Matters", href: "/advocacy" },
   { label: "About", href: "/about" },
   { label: "Campaigns", href: "/campaigns" },
-  { label: "Shop", href: "/store" },
+  {
+    label: "Shop",
+    children: [
+      { label: "For The 22 Store", href: "/store" },
+      { label: "Shop With Purpose", href: "/veteran-brands" },
+    ],
+  },
   { label: "Contact", href: "/contact" },
   { label: "Need Help Now", href: "/crisis" },
 ];

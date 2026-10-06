@@ -165,6 +165,15 @@ export function MobileMenu({ open, onClose, navLinks, pathname, campaignSlug, tr
                   </li>
                 ))}
               </ul>
+              {navLinks.filter(isNavGroup).map((group) => (
+                <MobileNavGroup
+                  key={group.label}
+                  label={group.label}
+                  links={group.children}
+                  pathname={pathname}
+                  className="mt-5 border-t border-ink/10 pt-5"
+                />
+              ))}
               <div className="mt-auto border-t border-ink/10 pt-3">
                 <Link
                   href="/crisis"

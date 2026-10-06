@@ -335,13 +335,18 @@ export function Footer({
                   </Link>
                 </li>
                 <li>
-                  <Link href="/veteran-brands" className="transition-colors hover:text-off-white">
-                    Shop With Purpose
+                  <Link href="/mission" className="transition-colors hover:text-off-white">
+                    Mission
                   </Link>
                 </li>
                 <li>
-                  <Link href="/mission" className="transition-colors hover:text-off-white">
-                    Mission
+                  <Link href="/store" className="transition-colors hover:text-off-white">
+                    For The 22 Store
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/veteran-brands" className="transition-colors hover:text-off-white">
+                    Shop With Purpose
                   </Link>
                 </li>
                 <li>
