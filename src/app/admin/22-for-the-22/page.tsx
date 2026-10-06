@@ -2,6 +2,7 @@ import Link from "next/link";
 import { requireAdminUser } from "@/lib/supabase/require-admin";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentEventConfig } from "@/lib/data/event-config";
+import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
 import { Container } from "@/components/shared/container";
 import { StatCard } from "@/components/shared/stat-card";
 import { cn, formatDateLong } from "@/lib/utils";
@@ -24,7 +25,7 @@ export default async function EventRegistrationsAdminPage(props: PageProps<"/adm
   const filterParam = Array.isArray(searchParams.filter) ? searchParams.filter[0] : searchParams.filter;
   const activeFilter = (filterParam ?? "confirmed") as "all" | EventRegistrationStatus;
 
-  const event = await getCurrentEventConfig();
+  const [event, fundraisingStats] = await Promise.all([getCurrentEventConfig(), getFundraisingImpactStats()]);
   const admin = createAdminClient();
 
   if (!event) {
@@ -91,7 +92,7 @@ export default async function EventRegistrationsAdminPage(props: PageProps<"/adm
         <StatCard label="Confirmed" value={String(soloCount + teamCount)} />
         <StatCard label="Solo" value={String(soloCount)} />
         <StatCard label="Team" value={String(teamCount)} />
-        <StatCard label="Raised" value={`$${event.amount_raised.toLocaleString()}`} />
+        <StatCard label="Mission Raised" value={`$${fundraisingStats.amountRaised.toLocaleString()}`} />
       </div>
 
       <div className="mt-8 flex flex-wrap gap-2">

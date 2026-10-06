@@ -77,40 +77,6 @@ export default async function EventSettingsAdminPage(props: PageProps<"/admin/22
             Registration open
           </label>
 
-          <div className="grid gap-5 sm:grid-cols-2">
-            <div>
-              <label htmlFor="fundraisingGoal" className="text-sm font-medium text-ink">
-                Fundraising Goal ($)
-              </label>
-              <input
-                id="fundraisingGoal"
-                name="fundraisingGoal"
-                type="number"
-                step="1"
-                min="0"
-                defaultValue={event.fundraising_goal}
-                className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2 text-sm text-ink"
-              />
-            </div>
-            <div>
-              <label htmlFor="amountRaised" className="text-sm font-medium text-ink">
-                Amount Raised ($)
-              </label>
-              <input
-                id="amountRaised"
-                name="amountRaised"
-                type="number"
-                step="1"
-                min="0"
-                defaultValue={event.amount_raised}
-                className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2 text-sm text-ink"
-              />
-              <p className="mt-1 text-xs text-charcoal-light">
-                Hand-updated — there&apos;s no automatic donation tagging for this event yet.
-              </p>
-            </div>
-          </div>
-
           <div>
             <label htmlFor="merchUrl" className="text-sm font-medium text-ink">
               Merch (Bonfire) URL

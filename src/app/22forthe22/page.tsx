@@ -6,6 +6,8 @@ import { getGiveawayPrizes } from "@/lib/data/giveaway-prizes";
 import { getEventActivityLog } from "@/lib/data/event-activity-log";
 import { getMissionPartners } from "@/lib/data/mission-partners";
 import { getJournalEntriesByCategory } from "@/lib/data/journal";
+import { getEventRegistrationStats } from "@/lib/data/event-registration-stats";
+import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
 import { getCurrentEventStatus } from "@/lib/22-for-the-22/event-status";
 import {
   EVENT_ACCESSIBILITY_CONTENT,
@@ -26,8 +28,9 @@ import { EventSupporterCard } from "@/components/22-for-the-22/event-supporter-c
 import { EventRegistrationForm } from "@/components/forms/event-registration-form";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
-import { CampaignProgress } from "@/components/campaign/campaign-progress";
-import { APP_URL, CAMPAIGN_URL, DONATE_LINK, EVENT22_CAMPAIGN_URL } from "@/lib/constants";
+import { StatCard } from "@/components/shared/stat-card";
+import { MissionProgress } from "@/components/campaign/mission-progress";
+import { APP_URL, CAMPAIGN_URL, DONATE_LINK, EVENT22_CAMPAIGN_URL, MISSION_NAME } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = pageMetadata({
@@ -47,12 +50,15 @@ export default async function EventPage() {
     );
   }
 
-  const [prizes, activityLog, missionPartners, liveJournalEntries] = await Promise.all([
-    getGiveawayPrizes(event.id),
-    getEventActivityLog(event.id),
-    getMissionPartners(),
-    getJournalEntriesByCategory("22 For the 22"),
-  ]);
+  const [prizes, activityLog, missionPartners, liveJournalEntries, registrationStats, fundraisingStats] =
+    await Promise.all([
+      getGiveawayPrizes(event.id),
+      getEventActivityLog(event.id),
+      getMissionPartners(),
+      getJournalEntriesByCategory("22 For the 22"),
+      getEventRegistrationStats(event.id),
+      getFundraisingImpactStats(),
+    ]);
 
   const status = getCurrentEventStatus(event.starts_at, event.ends_at, event.status_override);
   const giveawaySupporters = missionPartners.filter((p) => p.associated_campaigns?.includes("22-for-the-22"));
@@ -79,7 +85,12 @@ export default async function EventPage() {
       <EventHero event={event} status={status} registerHref={event.registration_open ? "#register" : "#giveaway"} />
 
       {status === "live" && (
-        <LiveEventPanel event={event} activityLog={activityLog} latestJournalEntries={liveJournalEntries.slice(0, 3)} />
+        <LiveEventPanel
+          event={event}
+          fundraisingStats={fundraisingStats}
+          activityLog={activityLog}
+          latestJournalEntries={liveJournalEntries.slice(0, 3)}
+        />
       )}
 
       {status === "complete" && (
@@ -271,16 +282,23 @@ export default async function EventPage() {
         </section>
       )}
 
-      {/* Donation + Fundraising Goal */}
+      {/* Participation stats + shared mission progress — 22 For the 22 no
+          longer tracks its own hand-maintained goal (event_config's
+          fundraising columns were dropped); it shows real registration
+          counts plus the shared $70K Mission total every campaign feeds. */}
       <section className="py-16 sm:py-20">
         <Container className="max-w-2xl">
           <SectionHeading
             eyebrow="Support the Mission"
-            title="22 For the 22 Fundraising Goal"
-            description="Registration costs nothing. If you'd like to take the mission further, optional donations support the nonprofit organizations behind Tri For the 22."
+            title={`Move the ${MISSION_NAME}`}
+            description="Registration costs nothing. If you'd like to take the mission further, optional donations support the nonprofit organizations behind The $70K Mission — 22 For the 22 contributes toward the same shared goal as every For The 22 campaign."
           />
+          <div className="mt-8 grid grid-cols-2 gap-3">
+            <StatCard label="Participants" value={String(registrationStats.total_participants)} />
+            <StatCard label="Teams" value={String(registrationStats.team_count)} />
+          </div>
           <div className="mt-8">
-            <CampaignProgress totalRaised={event.amount_raised} goal={event.fundraising_goal} />
+            <MissionProgress totalRaised={fundraisingStats.amountRaised} goal={fundraisingStats.fundraisingGoal} />
           </div>
           <Link
             href={event.donate_url ?? `${CAMPAIGN_URL}${DONATE_LINK.href}`}

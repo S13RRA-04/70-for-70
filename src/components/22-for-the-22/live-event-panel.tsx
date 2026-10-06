@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { Container } from "@/components/shared/container";
 import { CurrentMovementLog } from "./current-movement-log";
-import { CampaignProgress } from "@/components/campaign/campaign-progress";
+import { MissionProgress } from "@/components/campaign/mission-progress";
 import { DONATE_LINK } from "@/lib/constants";
+import type { FundraisingImpactStats } from "@/lib/data/fundraising-impact";
 import type { EventActivityLogRow, EventConfigRow, JournalEntryRow } from "@/types/database";
 
 /**
@@ -14,10 +15,12 @@ import type { EventActivityLogRow, EventConfigRow, JournalEntryRow } from "@/typ
  */
 export function LiveEventPanel({
   event,
+  fundraisingStats,
   activityLog,
   latestJournalEntries,
 }: {
   event: EventConfigRow;
+  fundraisingStats: FundraisingImpactStats;
   activityLog: EventActivityLogRow[];
   latestJournalEntries: JournalEntryRow[];
 }) {
@@ -35,7 +38,11 @@ export function LiveEventPanel({
               Fundraising Progress
             </h3>
             <div className="mt-4">
-              <CampaignProgress totalRaised={event.amount_raised} goal={event.fundraising_goal} showStats={false} />
+              <MissionProgress
+                totalRaised={fundraisingStats.amountRaised}
+                goal={fundraisingStats.fundraisingGoal}
+                showStats={false}
+              />
             </div>
             <Link
               href={event.donate_url ?? DONATE_LINK.href}

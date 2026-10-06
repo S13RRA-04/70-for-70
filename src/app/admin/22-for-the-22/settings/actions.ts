@@ -19,8 +19,6 @@ export async function updateEventConfigAction(formData: FormData) {
       ? statusOverrideValue
       : null;
 
-  const fundraisingGoal = Number(formData.get("fundraisingGoal") ?? 0);
-  const amountRaised = Number(formData.get("amountRaised") ?? 0);
   const merchUrl = String(formData.get("merchUrl") ?? "").trim();
   const donateUrl = String(formData.get("donateUrl") ?? "").trim();
   const officialRulesBody = String(formData.get("officialRulesBody") ?? "").trim();
@@ -32,8 +30,6 @@ export async function updateEventConfigAction(formData: FormData) {
     .update({
       status_override: statusOverride,
       registration_open: formData.get("registrationOpen") === "on",
-      fundraising_goal: Number.isFinite(fundraisingGoal) ? fundraisingGoal : 0,
-      amount_raised: Number.isFinite(amountRaised) ? amountRaised : 0,
       merch_url: merchUrl || null,
       donate_url: donateUrl || null,
       official_rules_body: officialRulesBody || null,
