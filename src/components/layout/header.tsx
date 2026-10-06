@@ -11,6 +11,7 @@ import { isNavGroup, type NavGroup } from "@/types/content";
 import { cn } from "@/lib/utils";
 import { MobileMenu } from "@/components/layout/mobile-menu";
 import { Container } from "@/components/shared/container";
+import { CTAButton } from "@/components/shared/cta-button";
 
 export function Header({
   mode,
@@ -66,10 +67,41 @@ export function Header({
             </a>
           )}
           <nav aria-label="Primary" className="flex items-center gap-6">
-            {navLinks.map((entry) =>
-              isNavGroup(entry) ? (
-                <NavDropdown key={entry.label} group={entry} pathname={pathname} />
-              ) : (
+            {navLinks.map((entry) => {
+              if (isNavGroup(entry)) {
+                return <NavDropdown key={entry.label} group={entry} pathname={pathname} />;
+              }
+
+              // The two highest-intent org-nav actions get CTA treatment
+              // instead of a plain link, so they stand apart from the
+              // informational items between them — see ORG_NAV_LINKS' doc
+              // comment in src/lib/constants.ts.
+              if (entry.href === "/resources") {
+                return (
+                  <CTAButton key={entry.href} href={entry.href} size="md">
+                    {entry.label}
+                  </CTAButton>
+                );
+              }
+              if (entry.href === "/crisis") {
+                return (
+                  <CTAButton key={entry.href} href={entry.href} accent="emergency" size="md">
+                    {entry.label}
+                    {awarenessMonth && (
+                      <span
+                        aria-hidden="true"
+                        className="ml-1.5 inline-block h-2 w-2 rounded-full align-middle"
+                        style={{
+                          background:
+                            "linear-gradient(135deg, var(--color-awareness-teal), var(--color-awareness-purple))",
+                        }}
+                      />
+                    )}
+                  </CTAButton>
+                );
+              }
+
+              return (
                 <Link
                   key={entry.href}
                   href={entry.href}
@@ -80,19 +112,9 @@ export function Header({
                   aria-current={pathname === entry.href ? "page" : undefined}
                 >
                   {entry.label}
-                  {awarenessMonth && entry.href === "/crisis" && (
-                    <span
-                      aria-hidden="true"
-                      className="ml-1.5 inline-block h-2 w-2 rounded-full align-middle"
-                      style={{
-                        background:
-                          "linear-gradient(135deg, var(--color-awareness-teal), var(--color-awareness-purple))",
-                      }}
-                    />
-                  )}
                 </Link>
-              ),
-            )}
+              );
+            })}
           </nav>
 
           {campaign && (

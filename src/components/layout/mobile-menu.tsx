@@ -151,20 +151,26 @@ export function MobileMenu({ open, onClose, navLinks, pathname, campaignSlug, tr
           ) : (
             <>
               <ul className="flex flex-col gap-1">
-                {navLinks.filter((entry): entry is NavLink => !isNavGroup(entry)).map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className={cn(
-                        "block rounded-sm px-3 py-3 text-base font-medium uppercase tracking-wide text-charcoal hover:bg-sand-light",
-                        pathname === link.href && "text-bronze",
-                      )}
-                      aria-current={pathname === link.href ? "page" : undefined}
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
+                {navLinks
+                  .filter((entry): entry is NavLink => !isNavGroup(entry))
+                  // "/resources" and "/crisis" get dedicated CTA treatment
+                  // below instead of a plain row, matching the desktop header
+                  // — otherwise both would render twice.
+                  .filter((link) => link.href !== "/resources" && link.href !== "/crisis")
+                  .map((link) => (
+                    <li key={link.href}>
+                      <Link
+                        href={link.href}
+                        className={cn(
+                          "block rounded-sm px-3 py-3 text-base font-medium uppercase tracking-wide text-charcoal hover:bg-sand-light",
+                          pathname === link.href && "text-bronze",
+                        )}
+                        aria-current={pathname === link.href ? "page" : undefined}
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
               </ul>
               {navLinks.filter(isNavGroup).map((group) => (
                 <MobileNavGroup
@@ -175,16 +181,22 @@ export function MobileMenu({ open, onClose, navLinks, pathname, campaignSlug, tr
                   className="mt-5 border-t border-ink/10 pt-5"
                 />
               ))}
-              <div className="mt-auto border-t border-ink/10 pt-3">
+              <div className="mt-auto flex flex-col gap-2 border-t border-ink/10 pt-3">
+                <Link
+                  href="/resources"
+                  className="block rounded-sm bg-bronze-text px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
+                >
+                  Find Resources
+                </Link>
                 <Link
                   href="/crisis"
-                  className="block rounded-sm bg-anchor px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-off-white hover:bg-anchor-light"
+                  className="block rounded-sm bg-signal px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-off-white hover:bg-signal-dark"
                 >
                   Need Help Now
                 </Link>
                 <a
                   href={CAMPAIGN_HOME_LINK.href}
-                  className="mt-2 block rounded-sm px-3 py-3 text-center text-xs font-semibold uppercase tracking-wide text-charcoal-light hover:text-ink"
+                  className="mt-1 block rounded-sm px-3 py-3 text-center text-xs font-semibold uppercase tracking-wide text-charcoal-light hover:text-ink"
                 >
                   {CAMPAIGN_HOME_LINK.label} <span aria-hidden="true">&#8599;</span>
                 </a>

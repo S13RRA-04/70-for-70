@@ -340,86 +340,21 @@ export function Footer({
           </>
         ) : (
           <>
+            {/* Resources — the directory and its crisis pathways. Plain <a>,
+                not <Link>, for /crisis — on a campaign host it 308s
+                cross-origin to forthe22.org, and Next's client-side
+                fetch-based navigation gets CORS-blocked following that
+                redirect. A full page load handles it fine. */}
             <div>
               <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
-                Mission
+                Resources
               </p>
               <ul className="mt-4 space-y-2 text-sm text-off-white/70">
                 <li>
                   <Link href="/resources" className="transition-colors hover:text-off-white">
-                    Resources
+                    Find Resources
                   </Link>
                 </li>
-                <li>
-                  <Link href="/mission" className="transition-colors hover:text-off-white">
-                    Mission
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/network" className="transition-colors hover:text-off-white">
-                    Network
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/impact" className="transition-colors hover:text-off-white">
-                    Impact
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/standards" className="transition-colors hover:text-off-white">
-                    Resource Standards
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/store" className="transition-colors hover:text-off-white">
-                    For The 22 Store
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/veteran-brands" className="transition-colors hover:text-off-white">
-                    Shop With Purpose
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
-                Campaigns
-              </p>
-              <ul className="mt-4 space-y-2 text-sm text-off-white/70">
-                <li>
-                  <Link href="/campaigns" className="transition-colors hover:text-off-white">
-                    {MISSION_NAME}
-                  </Link>
-                </li>
-                <li>
-                  <a href={CAMPAIGN_HOME_LINK.href} className="transition-colors hover:text-off-white">
-                    {CAMPAIGN_HOME_LINK.label} <span aria-hidden="true">&#8599;</span>
-                  </a>
-                </li>
-                <li>
-                  <a href={CAMPAIGNS.ruck.url} className="transition-colors hover:text-off-white">
-                    {CAMPAIGNS.ruck.name} <span aria-hidden="true">&#8599;</span>
-                  </a>
-                </li>
-                <li>
-                  <a href={CAMPAIGNS["22"].url} className="transition-colors hover:text-off-white">
-                    {CAMPAIGNS["22"].name} <span aria-hidden="true">&#8599;</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
-                Support
-              </p>
-              {/* Plain <a>, not <Link> — on a campaign host /crisis 308s
-                  cross-origin to forthe22.org, and Next's client-side
-                  fetch-based navigation gets CORS-blocked following that
-                  redirect. A full page load handles it fine. */}
-              <ul className="mt-4 space-y-2 text-sm text-off-white/70">
                 <li>
                   <a href="/crisis" className="transition-colors hover:text-off-white">
                     Need Help Now
@@ -432,21 +367,64 @@ export function Footer({
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="/crisis#first-responders"
-                    className="transition-colors hover:text-off-white"
-                  >
+                  <a href="/crisis#first-responders" className="transition-colors hover:text-off-white">
                     First Responder Resources
                   </a>
+                </li>
+                <li>
+                  <Link href="/standards" className="transition-colors hover:text-off-white">
+                    Resource Standards
+                  </Link>
                 </li>
               </ul>
             </div>
 
+            {/* Mission — the org's own mission content and the campaigns it
+                runs toward The $70K Mission. */}
             <div>
               <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
-                Media
+                Mission
               </p>
               <ul className="mt-4 space-y-2 text-sm text-off-white/70">
+                <li>
+                  <Link href="/mission" className="transition-colors hover:text-off-white">
+                    Mission
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/mission#founders-story" className="transition-colors hover:text-off-white">
+                    About
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/campaigns" className="transition-colors hover:text-off-white">
+                    Campaigns
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/impact" className="transition-colors hover:text-off-white">
+                    Impact
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/70k" className="transition-colors hover:text-off-white">
+                    {MISSION_NAME}
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Connect — the network, press, contact, and shop touchpoints. */}
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
+                Connect
+              </p>
+              <ul className="mt-4 space-y-2 text-sm text-off-white/70">
+                <li>
+                  <Link href="/network" className="transition-colors hover:text-off-white">
+                    Network
+                  </Link>
+                </li>
                 <li>
                   <Link href="/press" className="transition-colors hover:text-off-white">
                     Press &amp; Media
@@ -463,10 +441,21 @@ export function Footer({
                     </Link>
                   )}
                 </li>
+                <li>
+                  <Link href="/store" className="transition-colors hover:text-off-white">
+                    Shop
+                  </Link>
+                </li>
+                <li>
+                  <a href={CAMPAIGN_HOME_LINK.href} className="transition-colors hover:text-off-white">
+                    {CAMPAIGN_HOME_LINK.label} <span aria-hidden="true">&#8599;</span>
+                  </a>
+                </li>
               </ul>
               <SocialLinks className="mt-4" />
             </div>
 
+            {/* Legal */}
             <div>
               <p className="text-sm font-semibold uppercase tracking-widest text-bronze-light">
                 Legal

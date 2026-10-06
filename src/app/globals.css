@@ -71,6 +71,20 @@
   --color-neutral-100: #eeeeee;
 
   /*
+   * Crisis/emergency CTA fill only (CTAButton's accent="emergency") — a
+   * single reserved color so "Need Help Now" reads as a distinct, recognized
+   * signal instead of competing with the bronze primary CTA or reusing the
+   * anchor-black secondary treatment. Deliberately a muted brick/rust, not a
+   * saturated alert red, to stay on-brand (see the spec's "avoid generic
+   * red/white/blue patriotism" direction) while still reading as reserved.
+   * off-white text on signal is 6.87:1 (verified); signal-dark is the
+   * hover/active state, darker per the same "hover must go darker" rule as
+   * the bronze scale above.
+   */
+  --color-signal: #8c3a2b;
+  --color-signal-dark: #6e2d22;
+
+  /*
    * National Suicide Prevention Month (September) identification accents —
    * sampled from public/spm-ribbon.png so the CSS matches the actual
    * artwork, only while isSuicidePreventionMonth() is true. Teal/purple are
@@ -112,6 +126,8 @@
   --color-neutral-500: var(--color-neutral-500);
   --color-neutral-300: var(--color-neutral-300);
   --color-neutral-100: var(--color-neutral-100);
+  --color-signal: var(--color-signal);
+  --color-signal-dark: var(--color-signal-dark);
 
   --color-awareness-teal: var(--color-awareness-teal);
   --color-awareness-purple: var(--color-awareness-purple);

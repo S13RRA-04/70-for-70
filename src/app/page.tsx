@@ -220,18 +220,18 @@ export default async function HomePage() {
         </Container>
       </section>
 
-      {/* Compact parent-mission bridge after the primary resource journey:
-          campaigns are the secondary mobilization arm. */}
+      {/* Compact parent-mission bridge after the primary resource journey —
+          the site's CONNECT/MOBILIZE/SUPPORT identity, bold and minimal. */}
       <section className="border-b border-ink/10 bg-off-white py-14 sm:py-16">
         <Container>
           <RevealOnScroll>
-            <SectionHeading eyebrow="One Permanent Mission" title="We Connect. We Mobilize." />
+            <SectionHeading eyebrow="One Permanent Mission" title="Connect. Mobilize. Support." />
           </RevealOnScroll>
           <RevealOnScroll className="mt-8">
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid gap-4 md:grid-cols-3">
               <div className="border border-ink/10 bg-sand-light/50 p-6 sm:p-8">
                 <HeartHandshake className="h-6 w-6 text-bronze" aria-hidden="true" />
-                <h2 className="mt-4 font-display text-xl font-bold uppercase tracking-tight text-ink">Need Support?</h2>
+                <h2 className="mt-4 font-display text-xl font-bold uppercase tracking-tight text-ink">Connect</h2>
                 <p className="mt-3 text-sm leading-relaxed text-charcoal-light">
                   Find trusted programs and resources serving veterans, first responders, and their families.
                 </p>
@@ -239,13 +239,19 @@ export default async function HomePage() {
               </div>
               <div className="border border-ink/10 bg-sand-light/50 p-6 sm:p-8">
                 <Footprints className="h-6 w-6 text-bronze" aria-hidden="true" />
-                <h2 className="mt-4 font-display text-xl font-bold uppercase tracking-tight text-ink">
-                  Want to Move the Mission Forward?
-                </h2>
+                <h2 className="mt-4 font-display text-xl font-bold uppercase tracking-tight text-ink">Mobilize</h2>
                 <p className="mt-3 text-sm leading-relaxed text-charcoal-light">
-                  Join campaigns, events, partnerships, and community efforts that support organizations already doing the work.
+                  Join campaigns, events, partnerships, and community efforts that build momentum around the mission.
                 </p>
                 <CTAButton href="/campaigns" variant="secondary" className="mt-5">Explore Campaigns</CTAButton>
+              </div>
+              <div className="border border-ink/10 bg-sand-light/50 p-6 sm:p-8">
+                <Handshake className="h-6 w-6 text-bronze" aria-hidden="true" />
+                <h2 className="mt-4 font-display text-xl font-bold uppercase tracking-tight text-ink">Support</h2>
+                <p className="mt-3 text-sm leading-relaxed text-charcoal-light">
+                  Drive attention and funding toward organizations already doing the work, through The $70K Mission.
+                </p>
+                <CTAButton href="/70k" variant="secondary" className="mt-5">Explore the Mission</CTAButton>
               </div>
             </div>
           </RevealOnScroll>

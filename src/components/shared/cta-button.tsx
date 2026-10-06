@@ -12,10 +12,13 @@ interface CTAButtonProps {
    * Primary-variant fill color. Defaults to "bronze" so every existing call
    * site is unaffected — "black" opts into the rebrand's anchor-black
    * accent and should only be used by components that have been migrated
-   * to the new foundation (nav, footer, mobile menu). Not meant to be
-   * applied retroactively across the site in one pass.
+   * to the new foundation (nav, footer, mobile menu). "emergency" is
+   * reserved for crisis CTAs ("Need Help Now") only — a fixed solid fill
+   * regardless of `tone`, so it reads the same reserved way everywhere it
+   * appears. Not meant to be applied retroactively across the site in one
+   * pass.
    */
-  accent?: "bronze" | "black";
+  accent?: "bronze" | "black" | "emergency";
   /** Renders a plain <a> instead of next/link — for cross-domain links (see CAMPAIGN_HOME_LINK) where client-side routing doesn't apply. */
   external?: boolean;
   /**
@@ -49,11 +52,13 @@ export function CTAButton({
     "inline-flex items-center gap-1.5 rounded-sm font-semibold uppercase tracking-wide transition-colors",
     SIZE_CLASSES[size],
     variant === "primary" &&
-      (accent === "black"
-        ? "bg-anchor text-off-white hover:bg-anchor-light"
-        : tone === "dark"
-          ? "bg-bronze text-ink hover:bg-bronze-light"
-          : "bg-bronze-text text-off-white hover:bg-bronze-dark"),
+      (accent === "emergency"
+        ? "bg-signal text-off-white hover:bg-signal-dark"
+        : accent === "black"
+          ? "bg-anchor text-off-white hover:bg-anchor-light"
+          : tone === "dark"
+            ? "bg-bronze text-ink hover:bg-bronze-light"
+            : "bg-bronze-text text-off-white hover:bg-bronze-dark"),
     variant === "secondary" &&
       (tone === "dark"
         ? "border border-off-white/40 text-off-white hover:bg-off-white/10"
