@@ -48,10 +48,8 @@ export const SITE_TAGLINE = "70.3 miles. One campaign in For The 22's shared $70
  * its 70.3-mile distance, but Tri, Ruck For The 22, For The 22: Live, 22 For
  * the 22, auctions, merchandise, sponsorships, and direct giving are all
  * framed as mechanisms contributing to this one shared goal — never as
- * owners of their own separate fundraising target. See /campaigns, the
- * authoritative page for this framing, and CONTRIBUTION_MECHANISMS in
- * src/lib/content/campaigns.ts for the giving channels beyond the campaign
- * cards themselves.
+ * owners of their own separate fundraising target. See /70k for the
+ * authoritative mission framing and /campaigns for the campaign ecosystem.
  */
 export const MISSION_NAME = "The $70K Mission";
 export const MISSION_SUPPORTING_LINE = "One Goal. Multiple Campaigns. One Mission.";
@@ -287,7 +285,7 @@ export const CAMPAIGN_NAV_GROUPS: NavEntry[] = [
     label: "Mission",
     children: [
       { label: "The Mission / Why 22", href: "/the-mission" },
-      { label: MISSION_NAME, href: `${SITE_URL}/campaigns` },
+      { label: MISSION_NAME, href: `${SITE_URL}/70k` },
       { label: "Who We Support", href: "/beneficiaries" },
       { label: "About Cody", href: "/the-story" },
     ],
