@@ -125,4 +125,140 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
       "Founded in 2016 by a South Florida police officer. Its #OPERATIONRESPONDER program partners with first-responder charities nationwide, including Concerns of Police Survivors (C.O.P.S.) and the First Responders Children's Foundation.",
     categoryIds: ["first-responder-owned", "gives-back"],
   },
+  {
+    name: "Kill Cliff",
+    url: "https://killcliff.com",
+    product: "Energy & recovery drinks",
+    description:
+      "Founded by former Navy SEAL Todd Ehrlich and stated on its own site as owned and operated by Navy SEALs. An official partner of the Navy SEAL Foundation since 2011, the company has helped raise and donate over $1 million to the Foundation for service members, veterans, and their families.",
+    categoryIds: ["veteran-owned", "gives-back"],
+  },
+  {
+    name: "Ranger Up",
+    url: "https://rangerup.com",
+    product: "Military & patriotic apparel",
+    description:
+      "Founded in 2006 by Nick Palmisciano, a former Army infantry officer — the original military apparel brand, now back under founder ownership after Palmisciano reacquired it. Has employed veterans throughout its history and created a vetrepreneur program that hired veterans and backed their own startups.",
+    categoryIds: ["veteran-owned"],
+  },
+  {
+    name: "Silencio Coffee",
+    url: "https://silenciocoffee.com",
+    product: "Coffee & apparel",
+    description:
+      "Founded in 2022 by two U.S. special-operations and Marine Corps veteran friends, with coffee roasted, ground, bagged, and shipped from within Virginia. Veteran-owned and operated, with apparel and gear alongside its 16 oz roasts.",
+    categoryIds: ["veteran-owned"],
+  },
+  {
+    name: "Muertos Coffee Co. (Duty to Act)",
+    url: "https://muertoscoffeeco.com",
+    product: "Coffee & first-responder merch",
+    description:
+      "Founded in 2020 by first-responder brothers Eli Held, a firefighter, and Max Held, a police officer. Through its Duty to Act mission the company directs 10% of every purchase to first responders in need and families affected by line-of-duty deaths, funding firefighter and police charities chosen by the customer at checkout.",
+    categoryIds: ["first-responder-owned", "gives-back"],
+  },
+  {
+    name: "Hero Forge Apparel & Coffee",
+    url: "https://heroforgeapparel.com",
+    product: "Apparel & coffee",
+    description:
+      "Founded by Angela Dellutri, whose father landed on Omaha Beach with the 745th Tank Battalion, and co-owned by her son Christopher, a Cook County Sheriff's Office deputy of more than 20 years. Honors veterans, first responders, and K-9 units, donating a portion of profits to the Gary Sinise Foundation.",
+    categoryIds: ["first-responder-owned", "gives-back"],
+  },
+  {
+    name: "Combat Flip Flops",
+    url: "https://www.combatflipflops.com",
+    product: "Footwear, shemaghs & accessories",
+    description:
+      "A veteran-owned cause brand that manufactures footwear in Colombia, shemaghs and jewelry in Afghanistan, and jewelry from cleared landmines in Laos. Every product sold funds a day of education for an Afghan girl or the clearance of landmines, and the company donates to veteran-support organizations including The Station Foundation and Team 5 Foundation.",
+    categoryIds: ["veteran-owned", "gives-back"],
+  },
+  {
+    name: "Boldfoot Socks",
+    url: "https://boldfoot.com",
+    product: "American-made socks",
+    description:
+      "A family- and veteran-owned company run by U.S. Army veteran Joshua Law, making socks from American-grown cotton sewn near Charlotte, NC. Donates 5% of profits to help U.S. military veterans in need of jobs, housing, and health support through Charity Navigator–rated nonprofits, with a no-questions-asked hole replacement guarantee.",
+    categoryIds: ["veteran-owned", "gives-back"],
+  },
+  {
+    name: "Frag Out Flavor",
+    url: "https://fragoutflavor.com",
+    product: "Seasonings & spice rubs",
+    description:
+      "A veteran-owned seasoning company blending its rubs in America. Its Flavor For Troops program ships product to troops deployed in combat zones, and it donates to 501(c)(3) organizations that directly serve veterans in need — combat wounded and families of fallen soldiers.",
+    categoryIds: ["veteran-owned", "gives-back"],
+  },
+  {
+    name: "Livefire Coffee Co.",
+    url: "https://livefirecoffeeco.com",
+    product: "Coffee & tea",
+    description:
+      "A veteran-owned coffee brand whose Fireteam Community Fund partners with a local veteran or first-responder organization each quarter, sending $1 from every bag sold straight to them — no middlemen, no bureaucracy.",
+    categoryIds: ["veteran-owned", "gives-back"],
+  },
+  {
+    name: "Firemans Brew",
+    url: "https://firemansbrew.com",
+    product: "Coffee",
+    description:
+      "Founded by retired Los Angeles County Fire Captain Rick Brandelli after 38 years of service, including multiple Valor commendations. A portion of every purchase funds its Giving Back Program, which provides firefighters in need with medical assistance, mental health services, and emergency financial support.",
+    categoryIds: ["first-responder-owned", "gives-back"],
+  },
+  {
+    name: "First Responder Coffee Co",
+    url: "https://firstrespondercoffees.com",
+    product: "Coffee & drinkware",
+    description:
+      "Founded and run by a full-time police officer who built the company around its 'putting first responders first' mission. A portion of every sale is directed to programs supporting first responders and their families, with roasts named for the thin blue line, the thin red line, and night shifts.",
+    categoryIds: ["first-responder-owned", "gives-back"],
+  },
+  {
+    name: "Got Your Six Coffee Co.",
+    url: "https://gotyoursixcoffee.com",
+    product: "Coffee",
+    description:
+      "A veteran-owned roaster whose founder, Eric Hadley, built the company on a standing pledge printed on every bag: 25% of net profit goes to first responders, veterans, and healthcare professionals — forever, not as a limited-time promotion. Roasted in-house in small batches, with documented donations to groups like Heroes and Horses.",
+    categoryIds: ["veteran-owned", "gives-back"],
+  },
+  {
+    name: "22 Sierra Coffee Co.",
+    url: "https://22sierracoffee.com",
+    product: "Coffee",
+    description:
+      "Founded in April 2020 by Air Force veterans Patrick Little and Joseph Kidwell, with the '22' in its name a constant reminder of the veteran suicide statistic. Donates $0.50 from every packaged coffee sold — treated as overhead, not leftover profit — to the Grunt Style Foundation, funding veteran and first-responder suicide prevention.",
+    categoryIds: ["veteran-owned", "gives-back"],
+  },
+  {
+    name: "Vets 4 Vets Apparel",
+    url: "https://vets4vetsapparel.com",
+    product: "Veteran apparel",
+    description:
+      "A veteran-owned and veteran-operated apparel company (est. 2019) built specifically to raise awareness for the 22-a-day veteran suicide statistic. A portion of all profits supports veterans, with designs and drops centered on keeping that number in front of the public.",
+    categoryIds: ["veteran-owned", "gives-back"],
+  },
+  {
+    name: "Fit2Fight Apparel",
+    url: "https://fitiifightapparel.com",
+    product: "Athletic & casual apparel",
+    description:
+      "A veteran-owned and veteran-operated apparel brand for the gym and everyday wear, created with a standing commitment to donate a portion of profits to Mission 22 — the nonprofit that provides treatment programs for veterans dealing with PTSD, TBI, and other service-related conditions.",
+    categoryIds: ["veteran-owned", "gives-back"],
+  },
+  {
+    name: "COLETTI",
+    url: "https://coletticoffee.com",
+    product: "Stainless steel camping coffee gear",
+    description:
+      "A California veteran-owned small business (VOSB) founded in 2015 that makes percolators, pour-overs, and grinders with no plastic, aluminum, or synthetics in the brew path. Has donated 10% of profits since day one to causes supporting veteran transition, service members, and religious freedom.",
+    categoryIds: ["veteran-owned", "gives-back"],
+  },
+  {
+    name: "Fire & Ice Coffee Company",
+    url: "https://fireicecoffeeco.com",
+    product: "Coffee",
+    description:
+      "Founded by a firefighter/paramedic with nearly 18 years on the job, roasting fresh the day each order is placed. Donates 10% of profits to the Leary Firefighters Foundation, which provides life-saving equipment, training, and resources to fire departments across the country.",
+    categoryIds: ["first-responder-owned", "gives-back"],
+  },
 ];
