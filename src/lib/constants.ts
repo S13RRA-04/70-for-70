@@ -159,6 +159,7 @@ export const MOVEMENT_CAMPAIGNS = [
  */
 export const ORG_NAV_LINKS: NavLink[] = [
   { label: "Resources", href: "/resources" },
+  { label: "Veteran Brands", href: "/veteran-brands" },
   { label: "Mission", href: "/mission" },
   { label: "Why It Matters", href: "/advocacy" },
   { label: "About", href: "/about" },
