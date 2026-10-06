@@ -4,9 +4,12 @@ import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTAButton } from "@/components/shared/cta-button";
 import { CTASection } from "@/components/shared/cta-section";
-import { RESOURCES } from "@/lib/content/resources";
+import { PartnerCard } from "@/components/partners/partner-card";
+import { MissionPartnerCard } from "@/components/partners/mission-partner-card";
 import { getPartners } from "@/lib/data/partners";
 import { getMissionPartners } from "@/lib/data/mission-partners";
+import { getMissionMetrics } from "@/lib/data/mission-metrics";
+import { buildOrganizationNetwork } from "@/lib/data/organization-network";
 import { CAMPAIGN_URL, ORG_SUPPORTING_LINE, SITE_NAME, SITE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
@@ -17,14 +20,20 @@ export const metadata = pageMetadata({
   canonical: "/network",
 });
 
-/** BreadcrumbList per credibility plan §25 — same Home→page shape as /70k. */
+/** BreadcrumbList per credibility plan §25 — Home→page shape. */
 const BREADCRUMB_JSON_LD = breadcrumbJsonLd([
   { name: "Home", url: SITE_URL },
   { name: "Network", url: `${SITE_URL}/network` },
 ]);
 
 export default async function NetworkPage() {
-  const [beneficiaries, missionPartners] = await Promise.all([getPartners(), getMissionPartners()]);
+  const [beneficiaries, missionPartners, metrics] = await Promise.all([
+    getPartners(),
+    getMissionPartners(),
+    getMissionMetrics(),
+  ]);
+  const organizations = buildOrganizationNetwork(beneficiaries, missionPartners);
+  const organizationByName = new Map(organizations.map((organization) => [organization.name, organization]));
 
   return (
     <>
@@ -61,11 +70,13 @@ export default async function NetworkPage() {
                 How resources are reviewed &rarr;
               </Link>
             </p>
-            <p className="mt-3 font-display text-xl font-semibold uppercase tracking-tight text-bronze">
-              {RESOURCES.length} resources and counting
-            </p>
+            {metrics.resources !== null && (
+              <p className="mt-3 font-display text-xl font-semibold uppercase tracking-tight text-bronze">
+                {metrics.resources} resources and counting
+              </p>
+            )}
             <CTAButton href="/resources" className="mt-6">
-              Explore {RESOURCES.length} Resources
+              Explore Resources
             </CTAButton>
           </div>
         </Container>
@@ -87,16 +98,17 @@ export default async function NetworkPage() {
               that mission reaches verified nonprofit organizations serving veterans, first
               responders, and their families.
             </p>
-            <ul className="mt-6 space-y-5">
+            <ul className="mt-6 space-y-6">
               {beneficiaries.map((partner) => (
-                <li key={partner.id} className="border-l-2 border-bronze/50 pl-4">
-                  <p className="font-display text-lg font-semibold uppercase tracking-tight text-ink">
-                    {partner.name}
-                  </p>
-                  {partner.what_they_do && (
-                    <p className="mt-1 text-sm leading-relaxed text-charcoal-light">
-                      {partner.what_they_do}
-                    </p>
+                <li key={partner.id}>
+                  <PartnerCard partner={partner} />
+                  {organizationByName.get(partner.name)?.relationships.includes("resource") && (
+                    <Link
+                      href={`/resources?q=${encodeURIComponent(partner.name)}`}
+                      className="mt-2 inline-flex text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
+                    >
+                      Find in the Resource Directory &rarr;
+                    </Link>
                   )}
                 </li>
               ))}
@@ -123,16 +135,10 @@ export default async function NetworkPage() {
               Campaign partners sponsor events, supply gear, and back the work directly — the
               reason a campaign can promise 100% of proceeds to its beneficiaries.
             </p>
-            <ul className="mt-6 flex flex-wrap gap-2">
+            <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {missionPartners.map((partner) => (
-                <li
-                  key={partner.id}
-                  className="rounded-full border border-ink/15 bg-sand-light/60 px-4 py-1.5 text-sm font-semibold uppercase tracking-wide text-ink"
-                >
-                  {partner.name}
-                  <span className="ml-2 font-normal normal-case tracking-normal text-charcoal-light">
-                    {partner.relationship_label}
-                  </span>
+                <li key={partner.id}>
+                  <MissionPartnerCard partner={partner} categoryLabel={partner.relationship_label} />
                 </li>
               ))}
             </ul>

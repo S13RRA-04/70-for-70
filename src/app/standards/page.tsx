@@ -23,7 +23,7 @@ export const metadata = pageMetadata({
   canonical: "/standards",
 });
 
-/** BreadcrumbList per credibility plan §25 — same Home→page shape as /70k. */
+/** BreadcrumbList per credibility plan §25 — Home→page shape. */
 const BREADCRUMB_JSON_LD = breadcrumbJsonLd([
   { name: "Home", url: SITE_URL },
   { name: "How Resources Are Reviewed", url: `${SITE_URL}/standards` },

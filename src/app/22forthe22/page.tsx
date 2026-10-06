@@ -30,7 +30,7 @@ import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { StatCard } from "@/components/shared/stat-card";
 import { MissionProgress } from "@/components/campaign/mission-progress";
-import { APP_URL, CAMPAIGN_URL, DONATE_LINK, EVENT22_CAMPAIGN_URL, MISSION_NAME } from "@/lib/constants";
+import { APP_URL, CAMPAIGN_URL, DONATE_LINK, EVENT22_CAMPAIGN_URL, MISSION_NAME, SITE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = pageMetadata({
@@ -307,6 +307,12 @@ export default async function EventPage() {
           >
             Support the Mission
           </Link>
+          <a
+            href={`${SITE_URL}/70k`}
+            className="ml-5 mt-6 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
+          >
+            Explore the Full $70K Mission &rarr;
+          </a>
         </Container>
       </section>
 

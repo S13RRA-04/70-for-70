@@ -253,6 +253,11 @@ export function Footer({
               </p>
               <ul className="mt-4 space-y-2 text-sm text-off-white/70">
                 <li>
+                  <a href={`${SITE_URL}/70k`} className="transition-colors hover:text-off-white">
+                    Learn about the full {MISSION_NAME} <span aria-hidden="true">&#8599;</span>
+                  </a>
+                </li>
+                <li>
                   <a href={`${legalBase}/privacy`} className="transition-colors hover:text-off-white">
                     Privacy
                   </a>
@@ -292,6 +297,11 @@ export function Footer({
                 Support
               </p>
               <ul className="mt-4 space-y-2 text-sm text-off-white/70">
+                <li>
+                  <a href={`${SITE_URL}/70k`} className="transition-colors hover:text-off-white">
+                    Learn about the full {MISSION_NAME} <span aria-hidden="true">&#8599;</span>
+                  </a>
+                </li>
                 <li>
                   <a href={CAMPAIGN_URL} className="transition-colors hover:text-off-white">
                     Visit Tri For The 22 <span aria-hidden="true">&#8599;</span>
@@ -379,7 +389,7 @@ export function Footer({
               </p>
               <ul className="mt-4 space-y-2 text-sm text-off-white/70">
                 <li>
-                  <Link href="/70k" className="transition-colors hover:text-off-white">
+                  <Link href="/campaigns" className="transition-colors hover:text-off-white">
                     {MISSION_NAME}
                   </Link>
                 </li>

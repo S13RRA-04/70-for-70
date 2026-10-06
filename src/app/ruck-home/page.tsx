@@ -17,6 +17,7 @@ import {
   RUCK_EVENT_INFO,
   RUCK_EVENT_ORGANIZER,
   SITE_NAME,
+  SITE_URL,
 } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import type { LogoBackground } from "@/types/database";
@@ -323,6 +324,12 @@ export default async function RuckHomePage() {
                   This reflects Cody&apos;s own Ruck For The 22 fundraising, not RuckUp22 Huntsville&apos;s
                   registration/ticket proceeds — those go directly to RuckUp22&apos;s own event beneficiaries above.
                 </p>
+                <a
+                  href={`${SITE_URL}/70k`}
+                  className="mt-5 inline-flex text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
+                >
+                  Explore the Full $70K Mission &rarr;
+                </a>
               </div>
               <RevealGrid>
                 <div className="mt-8 flex flex-col gap-6">

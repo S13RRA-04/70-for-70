@@ -5,8 +5,7 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { CTAButton } from "@/components/shared/cta-button";
 import { CTASection } from "@/components/shared/cta-section";
 import { MissionProgress } from "@/components/campaign/mission-progress";
-import { RESOURCES } from "@/lib/content/resources";
-import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
+import { getMissionMetrics } from "@/lib/data/mission-metrics";
 import { getAllocationBreakdown } from "@/lib/data/allocation";
 import { getCampaign } from "@/lib/data/campaign";
 import { CAMPAIGN_URL, MISSION_NAME, SITE_NAME, SITE_URL } from "@/lib/constants";
@@ -19,58 +18,34 @@ export const metadata = pageMetadata({
   canonical: "/impact",
 });
 
-/** BreadcrumbList per credibility plan §25 — same Home→page shape as /70k. */
+/** BreadcrumbList per credibility plan §25 — Home→page shape. */
 const BREADCRUMB_JSON_LD = breadcrumbJsonLd([
   { name: "Home", url: SITE_URL },
   { name: "Impact", url: `${SITE_URL}/impact` },
 ]);
 
-/**
- * Directory metrics derived from RESOURCES at render time — never hardcoded,
- * so the page can't drift from the directory itself. needCategoryIds /
- * audienceTags / state are the Resource interface's own fields (see
- * src/lib/content/resources.ts).
- */
-const RESOURCE_METRICS = (() => {
-  const needAreas = new Set<string>();
-  const audiences = new Set<string>();
-  const states = new Set<string>();
-  for (const resource of RESOURCES) {
-    for (const id of resource.needCategoryIds) needAreas.add(id);
-    for (const tag of resource.audienceTags) audiences.add(tag);
-    if (resource.state) states.add(resource.state);
-  }
-  return {
-    total: RESOURCES.length,
-    needAreas: needAreas.size,
-    audiences: audiences.size,
-    states: states.size,
-  };
-})();
-
 export default async function ImpactPage() {
-  const [fundraisingStats, campaign] = await Promise.all([
-    getFundraisingImpactStats(),
-    getCampaign(),
-  ]);
+  const [metrics, campaign] = await Promise.all([getMissionMetrics(), getCampaign()]);
   const allocationBreakdown = await getAllocationBreakdown(campaign);
 
-  const now = new Date();
-  const lastUpdated = now.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+  const lastUpdated = new Date(metrics.lastUpdated).toLocaleDateString("en-US", {
+    month: "long",
+    year: "numeric",
+  });
 
   const supportStats = [
-    { label: "Raised to Date", value: `$${fundraisingStats.amountRaised.toLocaleString()}` },
-    { label: "Verified Supporters", value: String(fundraisingStats.supporterCount) },
-    { label: "Campaign Partners", value: String(fundraisingStats.partnerCount) },
-    { label: "Beneficiary Organizations", value: String(fundraisingStats.beneficiaryCount) },
-  ];
+    { label: "Raised to Date", value: metrics.totalRaised === null ? null : `$${metrics.totalRaised.toLocaleString()}` },
+    { label: "Verified Supporters", value: metrics.supporters === null ? null : String(metrics.supporters) },
+    { label: "Campaign Partners", value: metrics.campaignPartners === null ? null : String(metrics.campaignPartners) },
+    { label: "Beneficiary Organizations", value: metrics.beneficiaries === null ? null : String(metrics.beneficiaries) },
+  ].filter((stat): stat is { label: string; value: string } => stat.value !== null);
 
   const connectStats = [
-    { label: "Resources Listed", value: String(RESOURCE_METRICS.total) },
-    { label: "Areas of Need", value: String(RESOURCE_METRICS.needAreas) },
-    { label: "States Covered", value: String(RESOURCE_METRICS.states) },
-    { label: "Audiences Served", value: String(RESOURCE_METRICS.audiences) },
-  ];
+    { label: "Resources Listed", value: metrics.resources === null ? null : String(metrics.resources) },
+    { label: "Areas of Need", value: metrics.resourceCategories === null ? null : String(metrics.resourceCategories) },
+    { label: "States Covered", value: metrics.statesRepresented === null ? null : String(metrics.statesRepresented) },
+    { label: "National Resources", value: metrics.nationalResources === null ? null : String(metrics.nationalResources) },
+  ].filter((stat): stat is { label: string; value: string } => stat.value !== null);
 
   return (
     <>
@@ -138,13 +113,15 @@ export default async function ImpactPage() {
               {MISSION_NAME}. Every figure below comes from the same verified-donation record
               every other page on this site reads — no separate totals, no rounding up.
             </p>
-            <div className="mt-6">
-              <MissionProgress
-                totalRaised={fundraisingStats.amountRaised}
-                goal={fundraisingStats.fundraisingGoal}
-                breakdown={allocationBreakdown}
-              />
-            </div>
+            {metrics.totalRaised !== null && metrics.fundraisingGoal !== null && (
+              <div className="mt-6">
+                <MissionProgress
+                  totalRaised={metrics.totalRaised}
+                  goal={metrics.fundraisingGoal}
+                  breakdown={allocationBreakdown}
+                />
+              </div>
+            )}
             <dl className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
               {supportStats.map((stat) => (
                 <div key={stat.label} className="rounded-sm border border-ink/10 bg-sand-light/60 p-4 text-center">
@@ -158,7 +135,7 @@ export default async function ImpactPage() {
               ))}
             </dl>
             <div className="mt-6 flex flex-wrap gap-3">
-              <CTAButton href="/70k" variant="secondary">
+              <CTAButton href="/campaigns" variant="secondary">
                 See {MISSION_NAME}
               </CTAButton>
               <CTAButton href={`${CAMPAIGN_URL}/donate`} external variant="secondary">

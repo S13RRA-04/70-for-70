@@ -41,6 +41,9 @@ export default async function LiveCampaignPage() {
             <CTAButton href={`${CAMPAIGN_URL}/donate`} external variant="secondary" tone="dark">
               Support the Mission
             </CTAButton>
+            <CTAButton href="/70k" variant="secondary" tone="dark">
+              Explore the Full $70K Mission
+            </CTAButton>
           </div>
         </Container>
       </section>

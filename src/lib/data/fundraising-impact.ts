@@ -9,7 +9,7 @@ import { getDaysToRace } from "../campaign-phase";
 /**
  * The single shared campaign-data source — the "triCampaign" object the
  * credibility plan calls for. Every public-facing campaign number
- * (homepage status bar, journal strip, /70k, /campaigns, /donate,
+ * (homepage status bar, journal strip, /campaigns, /donate,
  * /the-race, ruck-home, and the future Network/Impact/Press pages) must
  * read from this getter rather than re-deriving or hardcoding the same
  * figures in components, so one page can never show a different raised
@@ -48,6 +48,8 @@ export interface FundraisingImpactStats {
   daysToRace: number | null;
   milesFunded: number;
   milesTotal: number;
+  /** Timestamp of the canonical campaign totals used by organization-wide freshness labels. */
+  updatedAt: string;
 }
 
 export async function getFundraisingImpactStats(): Promise<FundraisingImpactStats> {
@@ -71,5 +73,6 @@ export async function getFundraisingImpactStats(): Promise<FundraisingImpactStat
     daysToRace: getDaysToRace(),
     milesFunded: miles.milesFunded,
     milesTotal: miles.totalDistance,
+    updatedAt: campaign.updated_at,
   };
 }

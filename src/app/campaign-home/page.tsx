@@ -412,6 +412,9 @@ export default async function CampaignHomePage() {
             <CTAButton href="/become-a-partner" variant="secondary">
               Become a Partner
             </CTAButton>
+            <CTAButton href={`${SITE_URL}/70k`} variant="secondary" external>
+              Explore the Full $70K Mission
+            </CTAButton>
             <ShareButtons url={CAMPAIGN_URL} title={shareTitle} />
           </div>
         </Container>

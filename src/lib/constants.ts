@@ -1,4 +1,5 @@
 import type { NavLink, NavEntry } from "@/types/content";
+import type { CampaignStatus, MovementCampaign } from "@/types/organization";
 import type { CampaignSlug } from "@/lib/site-mode";
 
 /** The project's name — used in the header, footer, legal copy, and site-wide metadata. Not an organization name; see PROJECT_POSITIONING. */
@@ -47,9 +48,10 @@ export const SITE_TAGLINE = "70.3 miles. One campaign in For The 22's shared $70
  * its 70.3-mile distance, but Tri, Ruck For The 22, For The 22: Live, 22 For
  * the 22, auctions, merchandise, sponsorships, and direct giving are all
  * framed as mechanisms contributing to this one shared goal — never as
- * owners of their own separate fundraising target. See /70k, the
+ * owners of their own separate fundraising target. See /campaigns, the
  * authoritative page for this framing, and CONTRIBUTION_MECHANISMS in
- * src/lib/content/mission-70k.ts for the full list of contributing campaigns.
+ * src/lib/content/campaigns.ts for the giving channels beyond the campaign
+ * cards themselves.
  */
 export const MISSION_NAME = "The $70K Mission";
 export const MISSION_SUPPORTING_LINE = "One Goal. Multiple Campaigns. One Mission.";
@@ -141,47 +143,91 @@ export const JOURNAL_PLACEHOLDER_IMAGE = "/journal/placeholder.png";
  * In Development, plus a date when one exists) so status text lives with
  * the campaign data instead of being retyped per card.
  */
-export const MOVEMENT_CAMPAIGNS = [
+export const MOVEMENT_CAMPAIGNS: readonly MovementCampaign[] = [
   {
+    id: "tri-for-the-22",
     name: "Tri For The 22",
-    discipline: "Triathlon",
-    status: "current" as const,
-    statusLabel: "Active",
+    slug: "tri",
+    type: "Triathlon",
+    status: "active",
     description:
       "A 70.3-mile triathlon that inspired The $70K Mission — now one of several campaigns contributing to it, in support of confirmed veteran-focused nonprofit beneficiaries.",
     url: CAMPAIGN_URL,
+    startDate: "2027-05-16",
+    location: "IRONMAN 70.3 Chattanooga",
+    parentMission: MISSION_NAME,
+    beneficiaries: ["Mighty Oaks Foundation", "Veterans and Athletes United"],
   },
   {
+    id: "ruck-for-the-22",
     name: RUCK_CAMPAIGN_NAME,
-    discipline: "Rucking",
-    status: "current" as const,
-    statusLabel: "Active",
+    slug: "ruck",
+    type: "Rucking",
+    status: "upcoming",
     description:
       "A community rucking event in Huntsville, Alabama — ruck the full 22 miles or walk any distance with family and friends to raise awareness and contribute to The $70K Mission, in support of confirmed veteran-focused nonprofit beneficiaries.",
     url: RUCK_CAMPAIGN_URL,
+    startDate: "2026-10-24",
+    location: "RuckUp22 Huntsville",
+    parentMission: MISSION_NAME,
+    beneficiaries: ["Mighty Oaks Foundation", "Veterans and Athletes United"],
   },
   {
+    id: "for-the-22-live",
     name: "For The 22: Live",
-    discipline: "Benefit Concert Series",
-    status: "current" as const,
-    statusLabel: "In Development",
+    slug: "live",
+    type: "Benefit Concert Series",
+    status: "in-development",
     description:
       "A benefit concert series bringing together artists, veterans, first responders, families, and supporters — ticket proceeds, sponsorships, silent auctions, and merchandise all contribute to The $70K Mission.",
     url: "/campaigns/live",
+    parentMission: MISSION_NAME,
   },
   {
+    id: "22-for-the-22",
     name: EVENT22_CAMPAIGN_NAME,
-    discipline: "Movement Challenge",
-    status: "current" as const,
-    statusLabel: "Upcoming",
-    statusNote: "November 21–22, 2026",
+    slug: "22",
+    type: "Movement Challenge",
+    status: "upcoming",
     description:
       "22 sessions of 22 minutes of movement, completed at your own pace across a 22-hour event window — raising public awareness of the veteran and first responder mental health crisis, and contributing to The $70K Mission.",
     url: EVENT22_CAMPAIGN_URL,
+    startDate: "2026-11-21",
+    endDate: "2026-11-22",
+    parentMission: MISSION_NAME,
+    beneficiaries: ["Mighty Oaks Foundation", "Veterans and Athletes United"],
   },
-  { name: "Run For The 22", discipline: "Running", status: "future" as const },
-  { name: "Ride For The 22", discipline: "Cycling", status: "future" as const },
-] as const;
+  {
+    id: "run-for-the-22",
+    name: "Run For The 22",
+    slug: "run",
+    type: "Running",
+    status: "planned",
+    parentMission: MISSION_NAME,
+  },
+  {
+    id: "ride-for-the-22",
+    name: "Ride For The 22",
+    slug: "ride",
+    type: "Cycling",
+    status: "planned",
+    parentMission: MISSION_NAME,
+  },
+];
+
+export const CAMPAIGN_STATUS_LABELS: Record<CampaignStatus, string> = {
+  planned: "Planned",
+  upcoming: "Upcoming",
+  active: "Active",
+  complete: "Complete",
+  "in-development": "In Development",
+};
+
+export function isCurrentCampaign(
+  campaign: MovementCampaign,
+): campaign is MovementCampaign & { url: string } {
+  return campaign.status !== "planned" && campaign.status !== "complete" && Boolean(campaign.url);
+}
 
 /**
  * Two separate nav sets, one per domain — see README's "Movement/Campaign
@@ -201,7 +247,6 @@ export const ORG_NAV_LINKS: NavEntry[] = [
   { label: "Resources", href: "/resources" },
   { label: "Mission", href: "/mission" },
   { label: "Campaigns", href: "/campaigns" },
-  { label: MISSION_NAME, href: "/70k" },
   {
     label: "Shop",
     children: [
@@ -242,7 +287,7 @@ export const CAMPAIGN_NAV_GROUPS: NavEntry[] = [
     label: "Mission",
     children: [
       { label: "The Mission / Why 22", href: "/the-mission" },
-      { label: MISSION_NAME, href: `${SITE_URL}/70k` },
+      { label: MISSION_NAME, href: `${SITE_URL}/campaigns` },
       { label: "Who We Support", href: "/beneficiaries" },
       { label: "About Cody", href: "/the-story" },
     ],
@@ -302,9 +347,8 @@ export const ORG_HOME_LINK: NavLink = { label: SITE_NAME, href: SITE_URL };
 
 export const DONATE_LINK: NavLink = { label: "Support the Mission", href: "/donate" };
 /** Distinct parent-site text link in the campaign header (the logo/title still link to the campaign home). */
-export const PARENT_INITIATIVE_LINK: NavLink = { label: "A For The 22 campaign", href: SITE_URL };
-/** 22 For the 22's header/footer backlink to the fundraiser it promotes — see CAMPAIGNS["22"].parentLink. */
-export const TRI_PARENT_LINK: NavLink = { label: "A Tri For The 22 Event", href: CAMPAIGN_URL };
+export const PARENT_INITIATIVE_LINK: NavLink = { label: "A For The 22 Campaign", href: SITE_URL };
+export const PARENT_EVENT_LINK: NavLink = { label: "A For The 22 Event", href: SITE_URL };
 
 export const FUNDRAISING_GOAL = 70_000;
 
@@ -754,7 +798,7 @@ export const CAMPAIGNS: Record<
     logoLight: string;
     logoDark: string;
     primaryCta: NavLink & { external?: boolean };
-    /** A small text link back to this campaign's own "parent" — the org for Ruck, Tri itself for 22 For the 22. Unset for Tri, which has no parent link of its own. Read by Header/MobileMenu instead of a hardcoded per-slug check. */
+    /** A small text link back to the permanent For The 22 parent mission. */
     parentLink?: NavLink;
   }
 > = {
@@ -792,6 +836,6 @@ export const CAMPAIGNS: Record<
     logoLight: "/logo.png",
     logoDark: "/22-for-the-22-logo-white.png",
     primaryCta: { label: "Register Free", href: "/#register" },
-    parentLink: TRI_PARENT_LINK,
+    parentLink: PARENT_EVENT_LINK,
   },
 };

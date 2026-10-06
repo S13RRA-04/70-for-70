@@ -22,11 +22,9 @@ import { RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import { ResourceCategoryGrid } from "@/components/home/resource-category-grid";
 import { ABOUT_CONTENT, findAboutSubsection } from "@/lib/content/about";
 import { OUTER_RING_COLORS } from "@/lib/ring-colors";
-import { RESOURCES } from "@/lib/content/resources";
-import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
+import { getMissionMetrics } from "@/lib/data/mission-metrics";
 import {
   CAMPAIGN_URL,
-  MOVEMENT_CAMPAIGNS,
   ORG_SUPPORTING_STATEMENT,
   ORG_TAGLINE,
   PERSONAL_PROJECT_DISCLOSURE,
@@ -122,15 +120,14 @@ const GET_INVOLVED_OPTIONS = [
 export default async function HomePage() {
   const why22 = findAboutSubsection("why-22");
   const theIdea = findAboutSubsection("the-idea");
-  const stats = await getFundraisingImpactStats();
-  const activeCampaignCount = MOVEMENT_CAMPAIGNS.filter((c) => c.status === "current").length;
+  const metrics = await getMissionMetrics();
 
   const networkStats = [
-    { value: String(RESOURCES.length), label: "Resources" },
-    { value: String(stats.beneficiaryCount), label: "Current Beneficiaries" },
-    { value: String(stats.partnerCount), label: "Campaign Partners" },
-    { value: String(activeCampaignCount), label: "Active Campaigns" },
-  ];
+    { value: metrics.resources, label: "Resources" },
+    { value: metrics.beneficiaries, label: "Current Beneficiaries" },
+    { value: metrics.campaignPartners, label: "Campaign Partners" },
+    { value: metrics.activeCampaigns, label: "Active Campaigns" },
+  ].filter((stat): stat is { value: number; label: string } => stat.value !== null);
 
   return (
     <>
@@ -217,6 +214,38 @@ export default async function HomePage() {
               </div>
               <div className="lg:col-span-4 xl:col-span-3">
                 <CrisisQuickLink />
+              </div>
+            </div>
+          </RevealOnScroll>
+        </Container>
+      </section>
+
+      {/* Compact parent-mission bridge after the primary resource journey:
+          campaigns are the secondary mobilization arm. */}
+      <section className="border-b border-ink/10 bg-off-white py-14 sm:py-16">
+        <Container>
+          <RevealOnScroll>
+            <SectionHeading eyebrow="One Permanent Mission" title="We Connect. We Mobilize." />
+          </RevealOnScroll>
+          <RevealOnScroll className="mt-8">
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="border border-ink/10 bg-sand-light/50 p-6 sm:p-8">
+                <HeartHandshake className="h-6 w-6 text-bronze" aria-hidden="true" />
+                <h2 className="mt-4 font-display text-xl font-bold uppercase tracking-tight text-ink">Need Support?</h2>
+                <p className="mt-3 text-sm leading-relaxed text-charcoal-light">
+                  Find trusted programs and resources serving veterans, first responders, and their families.
+                </p>
+                <CTAButton href="/resources" className="mt-5">Explore Resources</CTAButton>
+              </div>
+              <div className="border border-ink/10 bg-sand-light/50 p-6 sm:p-8">
+                <Footprints className="h-6 w-6 text-bronze" aria-hidden="true" />
+                <h2 className="mt-4 font-display text-xl font-bold uppercase tracking-tight text-ink">
+                  Want to Move the Mission Forward?
+                </h2>
+                <p className="mt-3 text-sm leading-relaxed text-charcoal-light">
+                  Join campaigns, events, partnerships, and community efforts that support organizations already doing the work.
+                </p>
+                <CTAButton href="/campaigns" variant="secondary" className="mt-5">Explore Campaigns</CTAButton>
               </div>
             </div>
           </RevealOnScroll>
@@ -337,7 +366,7 @@ export default async function HomePage() {
                     className="rounded-sm border border-ink/10 bg-sand-light/60 p-5 text-center"
                   >
                     <dd className="font-display text-3xl font-semibold text-ink sm:text-4xl">
-                      {stat.value}
+                      {String(stat.value)}
                     </dd>
                     <dt className="mt-1 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
                       {stat.label}

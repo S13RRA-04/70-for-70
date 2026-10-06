@@ -3,11 +3,11 @@ import Image from "next/image";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTAButton } from "@/components/shared/cta-button";
-import { RESOURCES } from "@/lib/content/resources";
-import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
 import { getPartners } from "@/lib/data/partners";
-import { getMissionPartners } from "@/lib/data/mission-partners";
+import { getMissionMetrics } from "@/lib/data/mission-metrics";
+import { FOUNDER_BIO_LONG, FOUNDER_BIO_SHORT, MEDIA_COVERAGE } from "@/lib/content/press";
 import {
+  CAMPAIGN_STATUS_LABELS,
   CAMPAIGN_URL,
   CONTACT_EMAIL,
   MOVEMENT_CAMPAIGNS,
@@ -16,6 +16,7 @@ import {
   ORG_TAGLINE,
   SITE_NAME,
   SITE_URL,
+  isCurrentCampaign,
 } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
@@ -26,51 +27,23 @@ export const metadata = pageMetadata({
   canonical: "/press",
 });
 
-/** BreadcrumbList per credibility plan §25 — same Home→page shape as /70k. */
+/** BreadcrumbList per credibility plan §25 — Home→page shape. */
 const BREADCRUMB_JSON_LD = breadcrumbJsonLd([
   { name: "Home", url: SITE_URL },
   { name: "Press & Media", url: `${SITE_URL}/press` },
 ]);
 
-/**
- * Founder bios — ~50-word and ~150-word lengths per the press-kit spec.
- * Every claim traces to source material that's already published elsewhere:
- * the /mission founder story (Navy service, 2011 deployment, 2016 surgery,
- * Mighty Oaks 2023) and MOVEMENT_CAMPAIGNS (campaign names). Keep them in
- * sync with /mission if any of those facts change.
- */
-const FOUNDER_BIO_SHORT =
-  "Cody Hitson is a Navy veteran, husband, and father who served seven years on active duty as a Mass Communication Specialist, including a 2011 deployment to Afghanistan as a combat journalist. He founded For The 22 to help veterans and first responders find trusted resources — and to mobilize communities behind the organizations serving them.";
-
-const FOUNDER_BIO_LONG = [
-  "Cody Hitson is a Navy veteran, husband, father, and endurance athlete who spent seven years on active duty as a Mass Communication Specialist, deploying to Afghanistan in 2011 in support of Operation Enduring Freedom as a combat journalist. After returning home, he spent years learning to function without dealing with what was underneath — a season that included major back surgery in 2016 and no clear sense of what came next. A 2023 retreat with the Mighty Oaks Warrior Program became a turning point, redirecting his recovery around faith, responsibility, and purpose.",
-  "Cody founded For The 22 to make that search easier for the next person: a directory of established programs, services, and communities serving veterans, first responders, and their families — paired with campaigns that mobilize communities and raise direct support for confirmed beneficiary organizations. He was featured as the VA's #VeteranOfTheDay.",
-];
-
-/** Real earned coverage only — add entries here only once the piece is live and verifiable. */
-const MEDIA_COVERAGE = [
-  {
-    outlet: "U.S. Department of Veterans Affairs",
-    title: "#VeteranOfTheDay — Navy Veteran Cody Hitson",
-    url: "https://news.va.gov/91792/veteranoftheday-navy-veteran-cody-hitson/",
-  },
-] as const;
-
 export default async function PressPage() {
-  const [fundraisingStats, beneficiaries, missionPartners] = await Promise.all([
-    getFundraisingImpactStats(),
-    getPartners(),
-    getMissionPartners(),
-  ]);
-  const currentCampaigns = MOVEMENT_CAMPAIGNS.filter((c) => c.status === "current");
+  const [metrics, beneficiaries] = await Promise.all([getMissionMetrics(), getPartners()]);
+  const currentCampaigns = MOVEMENT_CAMPAIGNS.filter(isCurrentCampaign);
 
   const keyNumbers = [
-    { label: "Resources Listed", value: String(RESOURCES.length) },
-    { label: "Current Campaigns", value: String(currentCampaigns.length) },
-    { label: "Beneficiaries", value: String(beneficiaries.length) },
-    { label: "Campaign Partners", value: String(missionPartners.length) },
-    { label: "Raised to Date", value: `$${fundraisingStats.amountRaised.toLocaleString()}` },
-  ];
+    { label: "Resources Listed", value: metrics.resources === null ? null : String(metrics.resources) },
+    { label: "Current Campaigns", value: metrics.activeCampaigns === null ? null : String(metrics.activeCampaigns) },
+    { label: "Beneficiaries", value: metrics.beneficiaries === null ? null : String(metrics.beneficiaries) },
+    { label: "Campaign Partners", value: metrics.campaignPartners === null ? null : String(metrics.campaignPartners) },
+    { label: "Raised to Date", value: metrics.totalRaised === null ? null : `$${metrics.totalRaised.toLocaleString()}` },
+  ].filter((stat): stat is { label: string; value: string } => stat.value !== null);
 
   return (
     <>
@@ -161,9 +134,9 @@ export default async function PressPage() {
               {currentCampaigns.map((campaign) => {
                 const isSameSite = "url" in campaign && campaign.url.startsWith("/");
                 const statusLine = [
-                  "statusLabel" in campaign ? campaign.statusLabel : "Active",
-                  campaign.discipline,
-                  "statusNote" in campaign ? campaign.statusNote : null,
+                  CAMPAIGN_STATUS_LABELS[campaign.status],
+                  campaign.type,
+                  campaign.location,
                 ]
                   .filter(Boolean)
                   .join(" · ");
@@ -250,7 +223,7 @@ export default async function PressPage() {
                       rel="noopener noreferrer"
                       className="mt-0.5 inline-flex text-sm font-semibold text-bronze hover:underline"
                     >
-                      {item.title} &rarr;
+                      {item.headline} &rarr;
                     </a>
                   </li>
                 ))}

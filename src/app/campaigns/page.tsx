@@ -5,12 +5,19 @@ import { RevealGrid } from "@/components/shared/reveal-on-scroll";
 import { CTAButton } from "@/components/shared/cta-button";
 import { MissionProgress } from "@/components/campaign/mission-progress";
 import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
+import { getAllocationBreakdown } from "@/lib/data/allocation";
+import { getCampaign } from "@/lib/data/campaign";
 import { getPartners } from "@/lib/data/partners";
+import { CONTRIBUTION_MECHANISMS } from "@/lib/content/campaigns";
 import {
+  CAMPAIGN_URL,
+  DONATE_LINK,
   MISSION_NAME,
   MISSION_ORIGIN_LINE,
   MISSION_SUPPORTING_LINE,
+  CAMPAIGN_STATUS_LABELS,
   MOVEMENT_CAMPAIGNS,
+  isCurrentCampaign,
   SITE_NAME,
   SITE_URL,
 } from "@/lib/constants";
@@ -35,7 +42,7 @@ const FUTURE_MISSION_AREAS = [
   "Families & Transition",
 ] as const;
 
-/** BreadcrumbList per credibility plan §25 — same Home→page shape as /70k. */
+/** BreadcrumbList per credibility plan §25 — Home→page shape. */
 const BREADCRUMB_JSON_LD = breadcrumbJsonLd([
   { name: "Home", url: SITE_URL },
   { name: "Campaigns", url: `${SITE_URL}/campaigns` },
@@ -48,13 +55,23 @@ function joinNames(names: string[]): string {
   return `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
 }
 
+function formatCampaignDate(value: string): string {
+  return new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(`${value}T12:00:00Z`));
+}
+
 export default async function CampaignsPage() {
-  const [fundraisingStats, beneficiaries] = await Promise.all([
+  const [fundraisingStats, beneficiaries, campaign] = await Promise.all([
     getFundraisingImpactStats(),
     getPartners(),
+    getCampaign(),
   ]);
-  const current = MOVEMENT_CAMPAIGNS.filter((c) => c.status === "current");
-  const future = MOVEMENT_CAMPAIGNS.filter((c) => c.status === "future");
+  const allocationBreakdown = await getAllocationBreakdown(campaign);
+  const current = MOVEMENT_CAMPAIGNS.filter(isCurrentCampaign);
   const beneficiaryNames = beneficiaries.map((b) => b.name);
 
   return (
@@ -73,7 +90,8 @@ export default async function CampaignsPage() {
         </Container>
       </section>
 
-      {/* Current Mission — the shared $70K goal every campaign feeds. */}
+      {/* Current Mission — a campaign-index summary of the shared goal.
+          /70k remains the authoritative mission overview. */}
       <section className="border-b border-ink/10 py-14 sm:py-16">
         <Container className="max-w-2xl">
           <SectionHeading
@@ -82,30 +100,48 @@ export default async function CampaignsPage() {
             description={`What began as a 70.3-mile triathlon challenge grew into something bigger. ${SITE_NAME} is working toward a shared $70,000 fundraising goal in support of ${joinNames(beneficiaryNames)}. Tri For The 22 inspired the number — but reaching it will take more than one athlete and one race. That's why every ${SITE_NAME} campaign contributes toward the same mission.`}
           />
           <div className="mt-8">
-            <MissionProgress totalRaised={fundraisingStats.amountRaised} goal={fundraisingStats.fundraisingGoal} />
+            <MissionProgress
+              totalRaised={fundraisingStats.amountRaised}
+              goal={fundraisingStats.fundraisingGoal}
+              breakdown={allocationBreakdown}
+            />
           </div>
           <p className="mt-4 text-sm text-charcoal-light">Every campaign below contributes toward this total.</p>
-          <p className="mt-3 text-sm text-charcoal-light">
-            See where the wider mission stands —{" "}
-            <Link href="/impact" className="font-semibold text-bronze hover:text-bronze-dark">
-              Mission in Motion &rarr;
+          <div className="mt-6 flex flex-wrap items-center gap-4">
+            <CTAButton href={`${CAMPAIGN_URL}${DONATE_LINK.href}`} external magnetic>
+              {DONATE_LINK.label}
+            </CTAButton>
+            <CTAButton href={`${CAMPAIGN_URL}/beneficiaries`} external variant="secondary">
+              Meet the Beneficiaries
+            </CTAButton>
+          </div>
+          <p className="mt-4 text-sm text-charcoal-light">
+            Read the authoritative mission overview —{" "}
+            <Link href="/70k" className="font-semibold text-bronze hover:text-bronze-dark">
+              Learn about the full {MISSION_NAME} &rarr;
             </Link>
           </p>
         </Container>
       </section>
 
-      {/* Current campaigns — per-campaign status comes from MOVEMENT_CAMPAIGNS
-          (statusLabel/statusNote), not hardcoded per card. */}
+      {/* Current campaigns — status, dates, location, and links all come from
+          the shared MovementCampaign records. */}
       <section className="py-16 sm:py-20">
         <Container className="max-w-3xl">
           <RevealGrid>
             <div className="space-y-8">
               {current.map((campaign) => {
                 const isSameSite = "url" in campaign && campaign.url.startsWith("/");
+                const dateLine = campaign.startDate
+                  ? campaign.endDate
+                    ? `${formatCampaignDate(campaign.startDate)}–${formatCampaignDate(campaign.endDate)}`
+                    : formatCampaignDate(campaign.startDate)
+                  : null;
                 const statusLine = [
-                  "statusLabel" in campaign ? campaign.statusLabel : "Active",
-                  campaign.discipline,
-                  "statusNote" in campaign ? campaign.statusNote : null,
+                  CAMPAIGN_STATUS_LABELS[campaign.status],
+                  campaign.type,
+                  campaign.location,
+                  dateLine,
                 ]
                   .filter(Boolean)
                   .join(" · ");
@@ -131,6 +167,35 @@ export default async function CampaignsPage() {
                   </div>
                 );
               })}
+            </div>
+          </RevealGrid>
+        </Container>
+      </section>
+
+      {/* Beyond the campaign cards — complementary contribution channels.
+          The canonical mission detail remains on /70k. */}
+      <section className="border-t border-ink/10 bg-sand-light py-16 sm:py-20">
+        <Container>
+          <SectionHeading
+            eyebrow="How the Mission Grows"
+            title="Beyond the Campaigns"
+            description="Auctions, merchandise, corporate sponsorships, and direct giving all feed the same shared goal — no single event carries it alone."
+          />
+          <RevealGrid>
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {CONTRIBUTION_MECHANISMS.map((mechanism) => (
+                <div key={mechanism.name} className="flex flex-col rounded-sm border border-ink/10 bg-off-white p-6">
+                  <h3 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+                    {mechanism.name}
+                  </h3>
+                  <p className="mt-2 flex-1 text-sm text-charcoal-light">{mechanism.description}</p>
+                  {mechanism.href && (
+                    <CTAButton href={mechanism.href} external={mechanism.external} variant="ghost" className="mt-4 px-0">
+                      Learn More &rarr;
+                    </CTAButton>
+                  )}
+                </div>
+              ))}
             </div>
           </RevealGrid>
         </Container>
@@ -180,32 +245,6 @@ export default async function CampaignsPage() {
         </Container>
       </section>
 
-      {future.length > 0 && (
-        <section className="bg-sand-light py-16 sm:py-20">
-          <Container className="max-w-3xl">
-            <SectionHeading
-              eyebrow="Future Campaigns"
-              title="Possible Future Campaigns"
-              description={`If ${current.map((c) => c.name).join(" or ") || "the current campaigns"} go well, future personal challenges may follow the same "[Mission] For The 22" naming idea — not a managed program or a commitment with dates, just a naming convention.`}
-            />
-            <RevealGrid>
-              <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3">
-                {future.map((campaign) => (
-                  <div key={campaign.name} className="rounded-sm border border-ink/10 bg-off-white p-4 text-center">
-                    <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light/80">
-                      Future
-                    </p>
-                    <p className="mt-1 font-display text-base font-semibold uppercase tracking-wide text-ink">
-                      {campaign.name}
-                    </p>
-                    <p className="mt-0.5 text-xs text-charcoal-light">{campaign.discipline}</p>
-                  </div>
-                ))}
-              </div>
-            </RevealGrid>
-          </Container>
-        </section>
-      )}
     </>
   );
 }

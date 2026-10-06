@@ -83,6 +83,14 @@ export function MissionPartnerCard({
         <p className="mt-3 text-sm leading-snug text-charcoal-light">{partner.support_type}</p>
       )}
 
+      <p className="mt-3 text-sm leading-relaxed text-charcoal-light">{partner.description}</p>
+
+      {partner.associated_campaigns && partner.associated_campaigns.length > 0 && (
+        <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-charcoal-light">
+          Supports: {partner.associated_campaigns.join(", ")}
+        </p>
+      )}
+
       {partner.partner_type === "team-benefit-partner" && (
         <div className="mt-3">
           <TeamBenefitBadge />
