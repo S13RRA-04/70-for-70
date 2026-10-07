@@ -30,6 +30,8 @@ interface CTAButtonProps {
    */
   magnetic?: boolean;
   className?: string;
+  /** Set when this CTA's own href is the current page — e.g. the nav's CTA-treated "Find Resources"/"Need Help Now" links, which otherwise get none of the plain nav links' active-page styling. */
+  "aria-current"?: "page";
 }
 
 const SIZE_CLASSES = {
@@ -47,6 +49,7 @@ export function CTAButton({
   external = false,
   magnetic = false,
   className,
+  "aria-current": ariaCurrent,
 }: CTAButtonProps) {
   const classes = cn(
     "inline-flex items-center gap-1.5 rounded-sm font-semibold uppercase tracking-wide transition-all duration-150 active:scale-[0.97]",
@@ -67,15 +70,16 @@ export function CTAButton({
       (tone === "dark"
         ? "text-off-white/70 hover:text-off-white"
         : "text-ink/70 hover:text-ink"),
+    ariaCurrent && "ring-2 ring-offset-2 ring-ink/40",
     className,
   );
 
   const button = external ? (
-    <a href={href} className={classes}>
+    <a href={href} className={classes} aria-current={ariaCurrent}>
       {children}
     </a>
   ) : (
-    <Link href={href} className={classes}>
+    <Link href={href} className={classes} aria-current={ariaCurrent}>
       {children}
     </Link>
   );
