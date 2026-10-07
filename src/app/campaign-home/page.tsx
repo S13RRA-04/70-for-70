@@ -278,7 +278,17 @@ export default async function CampaignHomePage() {
           <RevealGrid>
             <div className="mt-8 grid gap-6 sm:grid-cols-2">
               {partners.map((partner) => (
-                <div key={partner.id} className="hover-lift flex flex-col rounded-sm border border-ink/10 bg-off-white p-6">
+                // The whole card used to carry .hover-lift despite only the
+                // inner text link actually being clickable — a hover
+                // affordance with nothing behind it. Since every card leads
+                // to the same place anyway, making the whole thing a real
+                // link (matching JournalCard's pattern) completes that
+                // signal instead of stripping it.
+                <Link
+                  key={partner.id}
+                  href="/beneficiaries"
+                  className="hover-lift group flex flex-col rounded-sm border border-ink/10 bg-off-white p-6"
+                >
                   <PartnerLogo
                     name={partner.name}
                     logoUrl={partner.logo_url}
@@ -290,13 +300,10 @@ export default async function CampaignHomePage() {
                   <p className="mt-4 text-sm leading-relaxed text-charcoal-light">
                     {firstSentence(partner.description)}
                   </p>
-                  <Link
-                    href="/beneficiaries"
-                    className="mt-4 inline-flex w-fit text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
-                  >
+                  <span className="mt-4 inline-flex w-fit text-xs font-semibold uppercase tracking-wide text-bronze group-hover:text-bronze-dark">
                     Learn About {partner.name} &rarr;
-                  </Link>
-                </div>
+                  </span>
+                </Link>
               ))}
             </div>
           </RevealGrid>
@@ -493,21 +500,23 @@ export default async function CampaignHomePage() {
       <section className="border-b border-ink/10 bg-ink py-16 text-off-white sm:py-20">
         <Container>
           <SectionHeading eyebrow="Get Involved" title="Move the Mission Forward" tone="dark" />
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {INVOLVEMENT_CTAS.map((item) => (
-              <div key={item.title} className="flex flex-col rounded-sm border border-off-white/15 bg-off-white/5 p-6">
-                <item.icon size={26} className="text-bronze-light" aria-hidden />
-                <h3 className="mt-4 font-display text-lg font-semibold uppercase tracking-wide">{item.title}</h3>
-                <p className="mt-2 flex-1 text-sm text-off-white/75">{item.description}</p>
-                <Link
-                  href={item.href}
-                  className="mt-5 text-sm font-semibold uppercase tracking-wide text-bronze-light hover:text-off-white"
-                >
-                  {item.ctaLabel} &rarr;
-                </Link>
-              </div>
-            ))}
-          </div>
+          <RevealGrid>
+            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {INVOLVEMENT_CTAS.map((item) => (
+                <div key={item.title} className="flex flex-col rounded-sm border border-off-white/15 bg-off-white/5 p-6">
+                  <item.icon size={26} className="text-bronze-light" aria-hidden />
+                  <h3 className="mt-4 font-display text-lg font-semibold uppercase tracking-wide">{item.title}</h3>
+                  <p className="mt-2 flex-1 text-sm text-off-white/75">{item.description}</p>
+                  <Link
+                    href={item.href}
+                    className="mt-5 text-sm font-semibold uppercase tracking-wide text-bronze-light hover:text-off-white"
+                  >
+                    {item.ctaLabel} &rarr;
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </RevealGrid>
         </Container>
       </section>
 
@@ -563,11 +572,11 @@ export default async function CampaignHomePage() {
       </section>
 
       {/* 11. ForThe22.org cross-promo */}
-      <section className="border-b border-ink/10 bg-sand-light py-14 sm:py-16">
+      <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container className="max-w-2xl text-center">
-          <p className="font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
+          <h2 className="font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
             Need Support? Start Here.
-          </p>
+          </h2>
           <p className="mt-3 text-base leading-relaxed text-charcoal-light">
             For The 22 connects veterans, first responders, and their families with vetted resources across mental
             health, physical wellness, faith, family support, career development, financial assistance, community,
