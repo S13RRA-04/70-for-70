@@ -77,7 +77,7 @@ export function MobileMenu({ open, onClose, navLinks, pathname, campaignSlug, tr
   // "fixed inset-0" was sized against the header's own small bounding box
   // instead of the viewport, rendering as an unusable sliver.
   return createPortal(
-    <div className="fixed inset-0 z-50 lg:hidden">
+    <div className="fixed inset-0 z-50 xl:hidden">
       <button
         type="button"
         aria-hidden="true"
