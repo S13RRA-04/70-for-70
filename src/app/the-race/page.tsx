@@ -113,6 +113,13 @@ export default async function RacePage() {
 
       <section className="border-b border-ink/10 bg-sand-light py-12 sm:py-16">
         <Container>
+          {/* Light eyebrow, not a full SectionHeading — this strip is a
+              compressed restatement of data shown elsewhere on the page
+              (see RaceAtAGlance's own doc comment), not its own editorial
+              section. It previously had no framing at all. */}
+          <p className="mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-bronze-text">
+            Race at a Glance
+          </p>
           <RaceAtAGlance />
         </Container>
       </section>

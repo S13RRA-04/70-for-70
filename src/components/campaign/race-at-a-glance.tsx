@@ -16,7 +16,7 @@ export function RaceAtAGlance() {
   const mostRecentYear = RACE_AGE_GROUP_YEARLY.find((row) => row.finish && !row.note);
 
   return (
-    <div className="grid grid-cols-2 gap-4 lg:grid-cols-5">
+    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
       <RaceStatCard label="Race" value="IRONMAN 70.3 Chattanooga" detail={raceDateLabel ?? undefined} />
       <RaceStatCard label="Division" value={RACE_GOAL.ageGroup} />
       <RaceStatCard label="Primary Goal" value="Top 3 / Podium" accent />
