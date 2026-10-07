@@ -3,7 +3,7 @@
 import { useMemo, useState, type ReactNode } from "react";
 import { ArrowLeft, ArrowRight, RotateCcw, ShieldAlert } from "lucide-react";
 import { ResourceCard } from "@/components/resources/resource-card";
-import { RESOURCES } from "@/lib/content/resources";
+import type { Resource } from "@/lib/content/resources";
 import { NAVIGATOR_SITUATIONS, rankResources, resourceKey, type NavigatorAnswers } from "@/lib/resources/navigator";
 
 const AUDIENCES = ["Veteran", "Active Military", "National Guard / Reserve", "Law Enforcement", "Fire", "EMS", "Dispatch", "Corrections", "Family", "Caregiver"];
@@ -15,12 +15,12 @@ function Choice({ selected, children, onClick }: { selected: boolean; children: 
   return <button type="button" aria-pressed={selected} onClick={onClick} className={`rounded-sm border p-4 text-left text-sm font-semibold transition ${selected ? "border-bronze bg-bronze/10 text-ink" : "border-ink/15 bg-off-white text-charcoal-light hover:border-bronze/50"}`}>{children}</button>;
 }
 
-export function ResourceNavigator() {
+export function ResourceNavigator({ resources }: { resources: Resource[] }) {
   const [started, setStarted] = useState(false);
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState(INITIAL);
   const [visible, setVisible] = useState(5);
-  const results = useMemo(() => rankResources(RESOURCES, answers), [answers]);
+  const results = useMemo(() => rankResources(resources, answers), [resources, answers]);
   const toggle = (field: "audiences" | "situations" | "priorities", value: string) => setAnswers((a) => ({ ...a, [field]: a[field].includes(value) ? a[field].filter((v) => v !== value) : [...a[field], value] }));
   const restart = () => { setStarted(false); setStep(0); setAnswers(INITIAL); setVisible(5); };
 

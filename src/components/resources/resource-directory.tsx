@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChevronDown } from "lucide-react";
-import { NEED_CATEGORIES, RESOURCES } from "@/lib/content/resources";
+import { NEED_CATEGORIES, type Resource } from "@/lib/content/resources";
 import { ResourceCard } from "@/components/resources/resource-card";
 import { StateMap } from "@/components/resources/state-map";
 import { EmptyState } from "@/components/shared/empty-state";
@@ -67,7 +67,7 @@ function FilterRow({
   );
 }
 
-export function ResourceDirectory() {
+export function ResourceDirectory({ resources }: { resources: Resource[] }) {
   // Deep-link support so the homepage gateway (see ResourceCategoryGrid) can
   // land here pre-filtered via ?q=&need=&audience=. `need` may be a
   // comma-separated list of ids since a few gateway cards span more than
@@ -151,16 +151,16 @@ export function ResourceDirectory() {
 
   const activeStates = useMemo(() => {
     const states = new Set<string>();
-    for (const resource of RESOURCES) {
+    for (const resource of resources) {
       if (resource.state) states.add(resource.state);
     }
     return states;
-  }, []);
+  }, [resources]);
 
   const results = useMemo(() => {
     const query = search.trim().toLowerCase();
 
-    return RESOURCES.filter((resource) => {
+    return resources.filter((resource) => {
       const matchesNeed =
         needIds.length === 0 || resource.needCategoryIds.some((id) => needIds.includes(id));
       const matchesAudience = !audience || resource.audienceTags.includes(audience);
@@ -195,7 +195,7 @@ export function ResourceDirectory() {
 
       return matchesNeed && matchesAudience && matchesState && matchesScope && matchesAccess && matchesSearch;
     });
-  }, [needIds, audience, stateFilter, scope, accessFilters, search]);
+  }, [resources, needIds, audience, stateFilter, scope, accessFilters, search]);
 
   // Drives the collapsible chip panel's own auto-open — search and the
   // state map are always visible outside that panel, so they don't need to

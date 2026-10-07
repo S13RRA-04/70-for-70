@@ -31,7 +31,9 @@ export type TurnstileAction =
   | "message"
   | "triathlon_team"
   | "event_registration"
-  | "journal_comment";
+  | "journal_comment"
+  | "resource_navigation"
+  | "resource_feedback";
 
 const DEFAULT_HOSTNAMES = [
   "forthe22.org",
