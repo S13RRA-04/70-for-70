@@ -197,13 +197,17 @@ export function ResourceDirectory() {
             type="button"
             onClick={() => setFiltersOpen((v) => !v)}
             aria-expanded={showFilterPanel}
+            aria-controls="resource-filter-panel"
             className="flex w-full items-center justify-between rounded-sm border border-ink/10 bg-sand-light px-4 py-3 text-xs font-semibold uppercase tracking-wide text-ink lg:hidden"
           >
             <span>Filters{activeFilterCount > 0 ? ` · ${activeFilterCount} Active` : ""}</span>
             <ChevronDown size={14} aria-hidden="true" className={cn("transition-transform", showFilterPanel && "rotate-180")} />
           </button>
 
-          <div className={cn("space-y-5 rounded-sm border border-ink/10 bg-sand-light p-5", showFilterPanel ? "block" : "hidden", "lg:block")}>
+          <div
+            id="resource-filter-panel"
+            className={cn("space-y-5 rounded-sm border border-ink/10 bg-sand-light p-5", showFilterPanel ? "block" : "hidden", "lg:block")}
+          >
             <FilterRow
               label="What Do You Need?"
               options={NEED_CATEGORIES.map((c) => c.label)}

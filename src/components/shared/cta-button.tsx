@@ -49,7 +49,7 @@ export function CTAButton({
   className,
 }: CTAButtonProps) {
   const classes = cn(
-    "inline-flex items-center gap-1.5 rounded-sm font-semibold uppercase tracking-wide transition-colors",
+    "inline-flex items-center gap-1.5 rounded-sm font-semibold uppercase tracking-wide transition-all duration-150 active:scale-[0.97]",
     SIZE_CLASSES[size],
     variant === "primary" &&
       (accent === "emergency"
