@@ -65,8 +65,8 @@ export default async function CampaignPressPage() {
               Logo Downloads
             </h2>
             <p className="mt-1 text-sm text-charcoal-light">
-              The compact icon/mark is available below, shown on both light and dark backgrounds.
-              A horizontal lockup hasn&apos;t been produced yet.
+              The icon mark is available below, shown on both light and dark backgrounds. See
+              Wordmark Downloads below for the type-only version.
             </p>
             <div className="mt-3 flex flex-wrap gap-4">
               <div className="inline-flex flex-col items-start gap-3 rounded-sm border border-ink/10 bg-off-white p-6">
