@@ -165,6 +165,14 @@ export function MobileMenu({ open, onClose, navLinks, pathname, campaignSlug, tr
                 >
                   {campaign.primaryCta.label}
                 </a>
+                {campaign.crisisLink && (
+                  <a
+                    href={campaign.crisisLink.href}
+                    className="block rounded-sm bg-signal px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-off-white hover:bg-signal-dark"
+                  >
+                    {campaign.crisisLink.label}
+                  </a>
+                )}
               </div>
               {campaign.parentLink && <ParentInitiativeGroup link={campaign.parentLink} />}
             </>
@@ -184,6 +192,14 @@ export function MobileMenu({ open, onClose, navLinks, pathname, campaignSlug, tr
                   {campaign.primaryCta.label}
                   {campaign.primaryCta.external && <span aria-hidden="true"> &#8599;</span>}
                 </a>
+                {campaign.crisisLink && (
+                  <a
+                    href={campaign.crisisLink.href}
+                    className="mt-2 block rounded-sm bg-signal px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-off-white hover:bg-signal-dark"
+                  >
+                    {campaign.crisisLink.label}
+                  </a>
+                )}
               </div>
               {campaign.parentLink && <ParentInitiativeGroup link={campaign.parentLink} />}
             </>

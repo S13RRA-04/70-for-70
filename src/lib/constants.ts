@@ -344,6 +344,14 @@ export const DONATE_LINK: NavLink = { label: "Support the Mission", href: "/dona
 /** Distinct parent-site text link in the campaign header (the logo/title still link to the campaign home). */
 export const PARENT_INITIATIVE_LINK: NavLink = { label: "A For The 22 Campaign", href: SITE_URL };
 export const PARENT_EVENT_LINK: NavLink = { label: "A For The 22 Event", href: SITE_URL };
+/**
+ * /crisis is org-only (see ORG_PATH_PREFIXES in middleware.ts), so every
+ * campaign subdomain needs this as an absolute cross-domain link, same
+ * convention as PARENT_INITIATIVE_LINK above — never a relative <Link>.
+ * Added to every entry in CAMPAIGNS below; previously the crisis pathway
+ * had no presence at all on tri/ruck/22 (nav, mobile menu, or footer).
+ */
+export const CRISIS_LINK: NavLink = { label: "Need Help Now", href: `${SITE_URL}/crisis` };
 
 export const FUNDRAISING_GOAL = 70_000;
 
@@ -796,6 +804,8 @@ export const CAMPAIGNS: Record<
     primaryCta: NavLink & { external?: boolean };
     /** A small text link back to the permanent For The 22 parent mission. */
     parentLink?: NavLink;
+    /** Cross-domain link to the org's /crisis page — see CRISIS_LINK's doc comment above. Every campaign sets this to the same CRISIS_LINK constant. */
+    crisisLink?: NavLink;
   }
 > = {
   tri: {
@@ -808,6 +818,7 @@ export const CAMPAIGNS: Record<
     logoDark: "/campaign-logo-white.png",
     primaryCta: DONATE_LINK,
     parentLink: PARENT_INITIATIVE_LINK,
+    crisisLink: CRISIS_LINK,
   },
   ruck: {
     name: RUCK_CAMPAIGN_NAME,
@@ -819,6 +830,7 @@ export const CAMPAIGNS: Record<
     logoDark: "/ruck-logo-white.png",
     primaryCta: { ...RUCK_REGISTER_LINK, external: true },
     parentLink: PARENT_INITIATIVE_LINK,
+    crisisLink: CRISIS_LINK,
   },
   "22": {
     name: EVENT22_CAMPAIGN_NAME,
@@ -833,5 +845,6 @@ export const CAMPAIGNS: Record<
     logoDark: "/22-for-the-22-logo-white.png",
     primaryCta: { label: "Register Free", href: "/#register" },
     parentLink: PARENT_EVENT_LINK,
+    crisisLink: CRISIS_LINK,
   },
 };

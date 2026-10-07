@@ -167,6 +167,16 @@ export function Footer({
                 Organization
               </p>
               <ul className="mt-4 space-y-2 text-sm text-off-white/70">
+                {campaign?.crisisLink && (
+                  <li>
+                    <a
+                      href={campaign.crisisLink.href}
+                      className="font-semibold text-off-white transition-colors hover:text-bronze-light"
+                    >
+                      {campaign.crisisLink.label}
+                    </a>
+                  </li>
+                )}
                 <li>
                   <Link href="/beneficiaries" className="transition-colors hover:text-off-white">
                     Beneficiaries
@@ -257,6 +267,16 @@ export function Footer({
                 Organization
               </p>
               <ul className="mt-4 space-y-2 text-sm text-off-white/70">
+                {campaign.crisisLink && (
+                  <li>
+                    <a
+                      href={campaign.crisisLink.href}
+                      className="font-semibold text-off-white transition-colors hover:text-bronze-light"
+                    >
+                      {campaign.crisisLink.label}
+                    </a>
+                  </li>
+                )}
                 <li>
                   <a href={`${SITE_URL}/70k`} className="transition-colors hover:text-off-white">
                     Learn about the full {MISSION_NAME} <span aria-hidden="true">&#8599;</span>
@@ -330,6 +350,16 @@ export function Footer({
                 Organization
               </p>
               <ul className="mt-4 space-y-2 text-sm text-off-white/70">
+                {campaign.crisisLink && (
+                  <li>
+                    <a
+                      href={campaign.crisisLink.href}
+                      className="font-semibold text-off-white transition-colors hover:text-bronze-light"
+                    >
+                      {campaign.crisisLink.label}
+                    </a>
+                  </li>
+                )}
                 <li>
                   <a href={`${SITE_URL}/transparency`} className="transition-colors hover:text-off-white">
                     Transparency <span aria-hidden="true">&#8599;</span>
@@ -371,7 +401,10 @@ export function Footer({
                   </Link>
                 </li>
                 <li>
-                  <a href="/crisis" className="transition-colors hover:text-off-white">
+                  <a
+                    href="/crisis"
+                    className="font-semibold text-off-white transition-colors hover:text-bronze-light"
+                  >
                     Need Help Now
                     {awarenessDot}
                   </a>
