@@ -1,3 +1,5 @@
+import { LIVE_REGISTRATION_URL } from "@/lib/constants";
+
 /**
  * Evergreen "For The 22: Live" series copy — the stuff that's true whether
  * or not a specific concert is currently scheduled. Per-show details
@@ -20,8 +22,7 @@ export const UPCOMING_LIVE_PERFORMERS: UpcomingLivePerformer[] = [
     name: "Scooter Brown Band",
     details:
       "Featured in the first For The 22: LIVE virtual benefit concert. The event date and streaming details will be announced as they are confirmed.",
-    registrationUrl:
-      "https://www.zeffy.com/en-US/ticketing/for-the-22-presents-the-scooter-brown-band",
+    registrationUrl: LIVE_REGISTRATION_URL,
   },
 ];
 

@@ -37,6 +37,7 @@ const DEFAULT_HOSTNAMES = [
   "forthe22.org",
   "tri.forthe22.org",
   "ruck.forthe22.org",
+  "live.forthe22.org",
   "22.forthe22.org",
   "app.forthe22.org",
 ];

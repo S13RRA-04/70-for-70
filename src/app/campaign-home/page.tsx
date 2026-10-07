@@ -31,6 +31,7 @@ import {
   DONATE_LINK,
   EVENT22_CAMPAIGN_NAME,
   EVENT22_CAMPAIGN_URL,
+  LIVE_CAMPAIGN_URL,
   MISSION_NAME,
   MISSION_SUPPORTING_LINE,
   RACE_INFO,
@@ -148,7 +149,7 @@ const MISSION_CAMPAIGN_CARDS: MissionCampaignCard[] = [
   {
     name: "For The 22: Live",
     description: "Music moves the mission — a benefit concert series supporting the same shared goal.",
-    href: `${SITE_URL}/campaigns/live`,
+    href: LIVE_CAMPAIGN_URL,
     external: true,
   },
   {
