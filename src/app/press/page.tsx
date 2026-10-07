@@ -236,10 +236,9 @@ export default async function PressPage() {
               Organization Summary
             </h2>
             <p className="mt-3 text-base leading-relaxed text-charcoal-light">
-              For The 22 is an independent, veteran-founded initiative that connects veterans and
-              first responders to established programs, services, and communities supporting
-              mental, physical, emotional, and spiritual health, and mobilizes campaigns and
-              partners around that mission.
+              For The 22 is an independent veteran-founded initiative connecting veterans, first
+              responders, and their families with trusted resources while mobilizing communities
+              through campaigns that support established organizations serving them.
             </p>
           </div>
 

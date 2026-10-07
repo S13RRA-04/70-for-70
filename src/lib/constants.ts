@@ -34,7 +34,7 @@ export const ORG_SUPPORTING_LINE = "Connect people. Mobilize communities. Suppor
  * covering the change.
  */
 export const PERSONAL_PROJECT_DISCLOSURE =
-  "For The 22 is an independent initiative. It is not sponsored, endorsed, operated by, or affiliated with any government agency or employer. No government title, authority, time, equipment, contacts, or nonpublic information is used in its operation.";
+  "For The 22 is an independent initiative and is not sponsored, endorsed, operated by, or affiliated with any employer or government entity. No government authority, resources, or nonpublic information are used in its operation.";
 /**
  * The specific fundraising campaign/race effort — distinct from SITE_NAME.
  * Individual campaigns follow a "[Mission] For The 22" naming convention
