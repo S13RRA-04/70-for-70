@@ -13,9 +13,10 @@
  * entries here are free).
  *
  * Financial Assistance, Housing & Transportation, and Legal & Benefits were
- * originally held back nationally until a regional research pass could vet
- * state-specific entries — see the "<State> Regional" blocks below, now
- * covering all 50 states. Entries there carry a `state` and a
+ * originally held back nationally, but now carry national entries too — each
+ * one verified against the organization's own site in a dedicated national
+ * research pass. State-specific entries live in the "<State> Regional" blocks
+ * below, now covering all 50 states. Entries there carry a `state` and a
  * `verifiedDate`; a handful still have an inline TODO where the source
  * research flagged something to reconfirm (a specific URL, an active
  * chapter schedule) before treating it as fully production-checked the
@@ -211,6 +212,42 @@ export const RESOURCES: Resource[] = [
     audienceTags: ["Veteran", "First Responder", "Civilian Supporter"],
     cost: "Paid",
     geographicScope: "Nationwide / event-based",
+  },
+
+  {
+    name: "Warrior WOD",
+    url: "https://warriorwod.org/",
+    description:
+      "Six-month program pairing veterans with certified trainers and a peer support network across 38+ states, combining gym-based fitness with mental-health support and serving 100–120 veterans a year.",
+    needCategoryIds: ["sports-fitness", "mental-health"],
+    audienceTags: ["Veteran"],
+    cost: "Free — donor-funded; veterans pay nothing",
+    geographicScope: "Nationwide / 38+ states",
+    eligibility: "Application-based",
+  },
+  {
+    name: "Veteran Golfers Association",
+    url: "https://vgagolf.org/",
+    description:
+      "National 501(c)(3) supporting veteran golfers with local chapter events, tournaments, and national championships, bringing active-duty members, veterans, Guard/Reserve, retirees, and their families together through the game.",
+    needCategoryIds: ["sports-fitness", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family"],
+    cost: "Paid membership — about $76/year, plus $20 per tournament registration and greens fees of roughly $35–$55",
+    geographicScope: "Nationwide",
+    eligibility: "Active duty, Guard/Reserve, retirees, and honorably discharged veterans; spouses and dependents 18 and older",
+  },
+  {
+    // TODO(verify): participant travel/lodging cost is not stated on wintersportsclinic.org — confirm before publishing a firmer cost line.
+    name: "National Disabled Veterans Winter Sports Clinic",
+    url: "https://wintersportsclinic.org/",
+    description:
+      "Annual week-long adaptive skiing and rehabilitation clinic in Snowmass, Colorado, co-sponsored by the VA and DAV, serving nearly 400 profoundly disabled veterans each year with world-class instruction (2027 clinic: March 27–April 3).",
+    needCategoryIds: ["sports-fitness", "outdoor-programs"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Not stated on the clinic's own site — participation is by application",
+    geographicScope: "Nationwide / annual event in Colorado",
+    eligibility: "Veterans with spinal cord injuries, multiple sclerosis, traumatic brain injury, orthopedic amputations, visual impairments, or CVA with residual effects",
+    availability: "Annual — 2027 application posted on the site",
   },
 
   // ---------------------------------------------------------------------
@@ -563,6 +600,265 @@ export const RESOURCES: Resource[] = [
     phone: "703-203-1746",
   },
 
+  {
+    name: "Give an Hour",
+    url: "https://giveanhour.org/",
+    description:
+      "National network of volunteer licensed mental health professionals providing confidential, no-cost care to the military community through one-on-one counseling, peer support groups, and wellness training.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family", "Caregiver"],
+    cost: "Free — no-cost care from volunteer licensed clinicians",
+    geographicScope: "Nationwide",
+    eligibility: "Active duty, Reserve, Guard, and veterans; spouses and caregivers in certain programs",
+  },
+  {
+    name: "PsychArmor",
+    url: "https://psycharmor.org/",
+    description:
+      "Free, donor-funded online courses that teach people how to support service members, veterans, and their families — used by more than 500 organizations nationwide.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Veteran", "Active Military", "Family", "Caregiver", "Survivor"],
+    cost: "Free — donor-funded",
+    geographicScope: "Nationwide",
+  },
+  {
+    name: "Make the Connection",
+    url: "https://www.maketheconnection.net/",
+    description:
+      "VA-run site featuring thousands of veteran video stories alongside mental health information and a way to find local VA and community resources.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free — U.S. Department of Veterans Affairs resource",
+    geographicScope: "Nationwide",
+  },
+  {
+    name: "Military OneSource",
+    url: "https://www.militaryonesource.mil/",
+    description:
+      "The Department of Defense's free, confidential support for the entire military community — non-medical counseling, peer support, and referrals by phone (800-342-9647) or secure chat.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family", "Caregiver", "Survivor"],
+    cost: "Free",
+    geographicScope: "Nationwide",
+    eligibility: "Active duty, Guard/Reserve (including non-activated), families, wounded warriors, caregivers, and survivors; retirees and those within 365 days of separation",
+    availability: "24/7 — phone and secure chat",
+  },
+  {
+    name: "SAMHSA National Helpline",
+    url: "https://www.samhsa.gov/find-help/national-helpline",
+    description:
+      "Confidential treatment referral and information service for individuals and families facing mental health or substance use challenges — call 1-800-662-HELP (4357), TTY 1-800-487-4889.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Veteran", "Active Military", "Law Enforcement", "Fire", "EMS", "Dispatch", "Corrections", "Family"],
+    cost: "Free",
+    geographicScope: "Nationwide",
+    phone: "1-800-662-4357",
+    availability: "24/7 — call, 365 days a year",
+  },
+  {
+    name: "Crisis Text Line",
+    url: "https://www.crisistextline.org/",
+    description:
+      "Free, confidential 24/7 crisis support by text for anyone in emotional distress — text HOME to 741741 to reach a trained crisis counselor.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Veteran", "Active Military", "Law Enforcement", "Fire", "EMS", "Dispatch", "Corrections", "Family"],
+    cost: "Free",
+    geographicScope: "Nationwide",
+    crisisResource: true,
+    crisisAudience: "general",
+    text: "741741",
+    availability: "24/7 — text HOME to 741741",
+  },
+  {
+    name: "Disaster Distress Helpline",
+    url: "https://www.samhsa.gov/find-help/disaster-distress-helpline",
+    description:
+      "SAMHSA's national hotline for people experiencing distress related to disasters, serving survivors, first responders, rescue workers, and their families — call or text 1-800-985-5990.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Veteran", "Active Military", "Law Enforcement", "Fire", "EMS", "Dispatch", "Corrections", "Family"],
+    cost: "Free",
+    geographicScope: "Nationwide",
+    crisisResource: true,
+    crisisAudience: "general",
+    phone: "1-800-985-5990",
+    text: "1-800-985-5990",
+    availability: "24/7 — call or text",
+  },
+  {
+    // TODO(verify): VA.gov describes this support as free, but vets4warriors.com does not say so on its own pages — confirm "free" wording on the org's site before publishing a firmer cost claim.
+    name: "Vets4Warriors",
+    url: "https://vets4warriors.com/",
+    description:
+      "24/7 confidential peer support staffed by veterans for every member of the military community — call 855-838-8255, chat online, or request a call anytime.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family"],
+    cost: "Not stated on the org's own site — VA.gov describes the service as free",
+    geographicScope: "Nationwide",
+    availability: "24/7 — call, chat, or request a call",
+  },
+  {
+    // TODO(verify): goroger.org/our-services states "We're not a crisis line" while /get-help invites crisis calls 24/7 — confirm positioning before publishing crisis-resource flags.
+    name: "Stop Soldier Suicide — ROGER",
+    url: "https://goroger.org/",
+    description:
+      "Stop Soldier Suicide's ROGER service provides free virtual counseling, suicide prevention, and crisis intervention for U.S. veterans and service members — 100% free regardless of discharge status, age, or years of service.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "Free — 100% free to U.S. veterans and service members",
+    geographicScope: "Nationwide",
+    eligibility: "U.S. veterans and service members only — welcome regardless of discharge status",
+    phone: "833-697-6437",
+    availability: "24/7 — call",
+  },
+  {
+    name: "NAMI HelpLine",
+    url: "https://www.nami.org/nami-helpline/",
+    description:
+      "Free, confidential nationwide helpline offering one-on-one emotional support, mental health information, and referrals — call 1-800-950-6264 or text NAMI to 62640.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Veteran", "Active Military", "Family", "Caregiver"],
+    cost: "Free",
+    geographicScope: "Nationwide",
+    availability: "Monday–Friday, 10:00 AM – 10:00 PM ET (closed federal holidays)",
+  },
+  {
+    // TODO(verify): realwarriors.net blocks automated access (JS challenge); campaign confirmed active via health.mil publications updated Oct 2025 — recheck realwarriors.net in a browser before publishing.
+    name: "Real Warriors Campaign",
+    url: "https://www.health.mil/realwarriors",
+    description:
+      "Department of Defense public health campaign, established in 2009, that encourages help-seeking among service members, veterans, and military families; its Psychological Health Resource Center gives free, confidential 24/7 guidance at 866-966-1020.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family"],
+    cost: "Free",
+    geographicScope: "Nationwide",
+    availability: "24/7 — phone and live chat",
+  },
+  {
+    // TODO(verify): the site does not state that its online tools are free — confirm cost wording before publishing.
+    name: "Man Therapy",
+    url: "https://mantherapy.org/",
+    description:
+      "Evidence-based men's mental health campaign featuring the 20-Point Head Inspection self-assessment, plain-spoken topic guides, and a provider directory, with dedicated resources for military members and veterans.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Nationwide",
+  },
+  {
+    // TODO(verify): cost is not stated on codegreencampaign.org — confirm before publishing.
+    name: "Code Green Campaign",
+    url: "https://codegreencampaign.org/",
+    description:
+      "First responder mental health organization offering education, training, department consulting, and a national database of behavioral health resources for responders.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Dispatch", "Corrections"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Nationwide",
+  },
+  {
+    // TODO(verify): cost is not stated on allsecurefoundation.org — confirm before publishing. The site explicitly says it has no crisis call center, so this entry is not listed as a crisis resource.
+    name: "All Secure Foundation",
+    url: "https://allsecurefoundation.org/",
+    description:
+      "Programs for the special operations community, including one-on-one coaching, family retreats like Camp Homefront, and VIRAGO support for spouses — focused on military family wellness and transitions.",
+    needCategoryIds: ["mental-health", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "Family", "Caregiver"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Nationwide",
+    eligibility: "Special operations warriors and their families",
+  },
+  {
+    name: "NVFC Share the Load — First Responder Helpline",
+    url: "https://www.nvfc.org/programs/share-the-load-program/",
+    description:
+      "The NVFC's Share the Load program pairs a 24/7 First Responder Helpline (offered through Provident) with a Directory of Behavioral Health Professionals and toolkits for fire and EMS departments.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Fire", "EMS", "Family"],
+    cost: "Included with NVFC membership — complimentary membership available on request",
+    geographicScope: "Nationwide",
+    eligibility: "NVFC members and household family members; complimentary memberships available for those who cannot purchase one",
+    availability: "24/7 — helpline for NVFC members",
+  },
+  {
+    name: "IAFF Center of Excellence for Behavioral Health",
+    url: "https://www.iaff.org/center-of-excellence/",
+    description:
+      "Residential behavioral health treatment for IAFF members living with PTSD, addiction, depression, and anxiety — designed by firefighters, with 24/7 admissions and in-network coverage with most major insurers.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Fire"],
+    cost: "Paid through the member's health insurance — in network with most major plans",
+    geographicScope: "Nationwide (treatment center in Upper Marlboro, Maryland)",
+    eligibility: "Active and retired IAFF members across North America",
+    availability: "24/7 admissions — call 855-900-8437",
+  },
+  {
+    name: "Mission 22",
+    url: "https://mission22.org/",
+    description:
+      "National nonprofit offering no-cost recovery programs for veterans and families dealing with PTSD, TBI, MST and isolation — including Recovery + Resiliency coaching, family support, and a volunteer ambassador network; 6,222+ veterans and families served.",
+    needCategoryIds: ["mental-health", "family-support", "purpose-community", "sports-fitness"],
+    audienceTags: ["Veteran", "Military Spouse", "Family"],
+    cost: "Free — no-cost programs funded by donations",
+    geographicScope: "Nationwide — all 50 states plus virtual resources",
+    phone: "503-908-8505",
+  },
+  {
+    name: "Boot Campaign",
+    url: "https://bootcampaign.org/",
+    description:
+      "Dallas-based nonprofit providing individualized health-and-wellness care for the physical and emotional wounds of war — TBI, PTSD, insomnia, chronic pain — plus gift-box support through its Seasons of Service program; in 2025 it served 2,168 veterans and military family members in 47 states.",
+    needCategoryIds: ["mental-health", "family-support", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "Not stated on the org's own site — apply via the Get Help intake form",
+    geographicScope: "Nationwide",
+    eligibility: "Veterans and military family members, including active-duty families",
+  },
+  {
+    name: "Paws for Purple Hearts",
+    url: "https://pawsforpurplehearts.org/",
+    description:
+      "Places mobility and PTSD/TBI service dogs with veterans and active-duty service members and runs Canine-Assisted Warrior Therapy — 24,134 lives directly improved; facility dogs are also placed with counselors serving military-connected individuals.",
+    needCategoryIds: ["mental-health", "equipment-grants"],
+    audienceTags: ["Veteran", "Active Military", "Disabled"],
+    cost: "Free — recipients \"will never have to pay for any of our services\"",
+    geographicScope: "Nationwide — four U.S. service regions",
+    eligibility: "Service members and veterans with mobility issues or diagnosed PTSD or TBI; staff determine fit through an application process",
+    phone: "844-700-7297",
+  },
+  {
+    name: "Freedom Service Dogs of America",
+    url: "https://freedomservicedogs.org/",
+    description:
+      "Rescues and trains service dogs for veterans, active-duty military, and first responders living with PTSD, plus adults with mobility limitations and young adults with autism — hundreds of client-dog teams since 1987.",
+    needCategoryIds: ["mental-health", "equipment-grants"],
+    audienceTags: ["Veteran", "Active Military", "First Responder", "Disabled"],
+    cost: "Free — service dogs and lifetime client support are provided at no cost to those served",
+    geographicScope: "Nationwide (headquarters in Englewood, Colorado)",
+    eligibility: "Veterans, active-duty military, and first responders with PTSD; adults with mobility limitations; young adults with autism",
+    phone: "303-922-6231",
+  },
+  {
+    name: "Blue H.E.L.P.",
+    url: "https://bluehelp.org/",
+    description:
+      "National nonprofit that reduces mental health stigma in law enforcement through education, maintains the largest database of officers lost to suicide, and supports their families after a loss.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Law Enforcement", "Corrections", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Nationwide",
+  },
+  {
+    // NOTE: law-enforcement-specific; First H.E.L.P. is the all-discipline parent umbrella — kept as two entries because both orgs maintain distinct sites and programs.
+    name: "First H.E.L.P.",
+    url: "https://1sthelp.org/",
+    description:
+      "National 501(c)(3) that reduces first-responder mental-health stigma, supports families after a first-responder suicide, and maintains the largest known database of first responders lost to suicide — police and corrections since 2016, fire, EMS and dispatch since 2021. Runs the congressionally recognized National First Responder Suicide Awareness Days each September.",
+    needCategoryIds: ["mental-health", "family-support", "purpose-community"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Dispatch", "Corrections", "Family"],
+    cost: "Free — family support, honor walls and data are free; Camp April children's camp is cost-free for affected families",
+    geographicScope: "Nationwide",
+  },
+
   // ---------------------------------------------------------------------
   // Outdoor Programs
   // ---------------------------------------------------------------------
@@ -635,6 +931,39 @@ export const RESOURCES: Resource[] = [
     audienceTags: ["Veteran", "Disabled"],
     cost: "Free / sponsored",
     geographicScope: "Nationwide / destination",
+  },
+
+  {
+    name: "Sierra Club Military Outdoors",
+    url: "https://www.sierraclub.org/military-outdoors",
+    description:
+      "Sierra Club program running outdoor outings — camping, hiking, climbing, and paddling — for veterans, service members, and their families through local chapter events nationwide.",
+    needCategoryIds: ["outdoor-programs", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "Free — chapter-run outings are offered free of charge to veterans, service members, and families",
+    geographicScope: "Nationwide — Sierra Club chapter events",
+  },
+  {
+    // TODO(verify): confirm whether Military Families Outdoors participants pay anything — the program page does not state cost.
+    name: "Wilderness Inquiry — Military Families Outdoors",
+    url: "https://wildernessinquiry.org/",
+    description:
+      "Nonprofit behind the Military Families Outdoors program (launched 2024 with the Defense Health Agency, National Park Service, and Blue Star Families) that brings service members and their families to outdoor experiences at national parks — 9,000+ participants at 43 NPS sites in its pilot year.",
+    needCategoryIds: ["outdoor-programs", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "Not stated for the Military Families Outdoors program — general Wilderness Inquiry trips are paid (from about $65) with financial aid available",
+    geographicScope: "Nationwide — 40+ communities and national park sites",
+  },
+  {
+    // NOTE: national entry — four regional Team River Runner chapter entries (Kentucky Central, Fort Belvoir, Boise, Southern Maryland) already exist in the regional blocks below.
+    name: "Team River Runner",
+    url: "https://www.teamriverrunner.org/",
+    description:
+      "Largest adaptive and therapeutic paddling program in the nation for veterans, active duty, and their families — local chapters plus national and regional clinics, certification training, adaptive series, and virtual training.",
+    needCategoryIds: ["outdoor-programs", "mental-health"],
+    audienceTags: ["Veteran", "Active Military", "Family", "Disabled"],
+    cost: "Free — all programming is free of charge for veterans and service members",
+    geographicScope: "Nationwide — chapters, regional coordinators, and national clinics",
   },
 
   // ---------------------------------------------------------------------
@@ -741,6 +1070,173 @@ export const RESOURCES: Resource[] = [
     geographicScope: "Nationwide",
   },
 
+  {
+    name: "Our Military Kids",
+    url: "https://www.ourmilitarykids.org/",
+    description:
+      "National nonprofit that has awarded $38 million in extracurricular activity grants — 107,000 grants total — covering sports, arts, and tutoring for children ages 1–18 of deployed National Guard/Reserve members and of post-9/11 combat-wounded, ill, or injured veterans in treatment.",
+    needCategoryIds: ["family-support", "sports-fitness"],
+    audienceTags: ["Guard/Reserve", "Veteran", "Disabled", "Family"],
+    cost: "Free — extracurricular activity grants cover the child's program fees",
+    geographicScope: "Nationwide",
+    eligibility: "Children ages 1–18 of deployed National Guard or Reserve members, or of veterans receiving care for combat-related injuries or illnesses",
+  },
+  {
+    // TODO(verify): USO's own site frames support as donor-driven rather than explicitly stating "free" — confirm phrasing before publishing a firmer cost claim.
+    name: "USO",
+    url: "https://www.uso.org/",
+    description:
+      "Since 1941, the USO has supported service members and military families through a global network of 260+ centers, programs and 27,000 volunteers — from airport lounges and deployment support to one-on-one transition coaching; programs were used 11.7+ million times in 2025.",
+    needCategoryIds: ["family-support", "purpose-community", "career-education"],
+    audienceTags: ["Active Military", "Guard/Reserve", "Veteran", "Military Spouse", "Family", "Caregiver"],
+    cost: "Free to service members and military families — donor-funded",
+    geographicScope: "Nationwide and overseas (260+ centers at airports and military installations)",
+  },
+  {
+    // NOTE: national parent organization — a Blue Star Families — Maryland chapter entry is already listed in the regional blocks below.
+    name: "Blue Star Families",
+    url: "https://bluestarfam.org/",
+    description:
+      "Nationwide nonprofit building community for military and veteran families through local chapters, the Blue Star Neighborhood digital community, spouse career programs, caregiver and peer-support networks, and Blue Star Outdoors — 450,000+ members reaching 1.5 million military family members annually.",
+    needCategoryIds: ["family-support", "purpose-community", "career-education", "outdoor-programs"],
+    audienceTags: ["Active Military", "Veteran", "Military Spouse", "Family", "Caregiver", "Civilian Supporter"],
+    cost: "Free — membership is free and everyone is welcome",
+    geographicScope: "Nationwide — 16 local chapters plus a nationwide digital community",
+    phone: "202-630-2583",
+  },
+  {
+    name: "National Military Family Association",
+    url: "https://www.militaryfamily.org/",
+    description:
+      "Serving military families since 1969, runs the free Operation Purple summer camp for children ages 7–17, the Bloom military teen program, and military spouse scholarships of $500–$2,500, advocating for families across all uniformed services.",
+    needCategoryIds: ["family-support", "career-education"],
+    audienceTags: ["Active Military", "Guard/Reserve", "Military Spouse", "Family", "Veteran"],
+    cost: "Free — Operation Purple camp has no cost to families; spouse scholarships of $500–$2,500 are awarded",
+    geographicScope: "Nationwide",
+    eligibility: "Families of all uniformed services — Army, Navy, Air Force, Marine Corps, Coast Guard, Space Force, National Guard, Reserve, NOAA, and Public Health Service",
+    phone: "703-931-6632",
+  },
+  {
+    name: "Armed Services YMCA",
+    url: "https://www.asymca.org/",
+    description:
+      "Provides no- or low-cost programs for active-duty military families, especially junior enlisted ranks, including the free Operation Little Learners early-learning program, Operation Kid Comfort quilts, and food assistance.",
+    needCategoryIds: ["family-support", "financial-assistance"],
+    audienceTags: ["Active Military", "Guard/Reserve", "Family", "Military Spouse"],
+    cost: "Free / low-cost — programs are no- or low-cost, with some (like Operation Little Learners) free",
+    geographicScope: "Nationwide",
+  },
+  {
+    // TODO(verify): militarychild.org's home page 404'd on direct fetch during research; confirmed active via search snippets — recheck the URL before publishing.
+    name: "Military Child Education Coalition",
+    url: "https://www.militarychild.org/",
+    description:
+      "Serves the children of those who serve, connecting them to schools, organizations and resources so they can be college-, work- and life-ready, including free parent webinars.",
+    needCategoryIds: ["family-support"],
+    audienceTags: ["Family"],
+    cost: "Free — webinars and most resources are free",
+    geographicScope: "Nationwide",
+  },
+  {
+    name: "Operation Shower",
+    url: "https://www.operationshower.org/",
+    description:
+      "Hosts joyful group baby showers for military families nationwide, celebrating expectant moms and delivering community and support for families navigating pregnancy and parenthood while serving.",
+    needCategoryIds: ["family-support"],
+    audienceTags: ["Family", "Military Spouse", "Active Military", "Guard/Reserve"],
+    cost: "Free for participating families — donor-funded",
+    geographicScope: "Nationwide",
+  },
+  {
+    name: "United Through Reading",
+    url: "https://unitedthroughreading.org/",
+    description:
+      "Keeps military families connected during separation by recording deployed service members reading storybooks aloud for their children, supported by a free app and literacy resources.",
+    needCategoryIds: ["family-support"],
+    audienceTags: ["Family", "Active Military", "Guard/Reserve"],
+    cost: "Free for military families",
+    geographicScope: "Nationwide — recordings available worldwide",
+  },
+  {
+    name: "Sesame Street for Military Families",
+    url: "https://sesamestreetformilitaryfamilies.org/",
+    description:
+      "Free bilingual resources and videos from Sesame Workshop that help military and veteran families — especially young children — navigate deployments, homecomings, relocation, injuries and grief.",
+    needCategoryIds: ["family-support"],
+    audienceTags: ["Family"],
+    cost: "Free",
+    geographicScope: "Nationwide — online self-serve resources",
+  },
+  {
+    name: "The Comfort Crew for Military Kids",
+    url: "https://www.comfortcrew.org/",
+    description:
+      "Has impacted more than 1 million military children, delivering 450,000+ comfort kits and school presentations that help kids navigate deployments, moves and reintegration.",
+    needCategoryIds: ["family-support"],
+    audienceTags: ["Family"],
+    cost: "Free for military kids and families",
+    geographicScope: "Nationwide",
+  },
+  {
+    name: "Military Family Advisory Network",
+    url: "https://www.mfan.org/",
+    description:
+      "Researches military family needs and runs direct programs like PCS Pantry Restock, which sends grocery gift cards to families undergoing costly permanent-change-of-station moves to combat food insecurity.",
+    needCategoryIds: ["family-support", "financial-assistance"],
+    audienceTags: ["Family", "Active Military", "Guard/Reserve"],
+    cost: "Free for participating families",
+    geographicScope: "Nationwide",
+  },
+  {
+    // NOTE: program of the Gary Sinise Foundation — the foundation itself is listed under Housing & Transportation; kept separate because Snowball Express has its own eligibility and application.
+    name: "Snowball Express (Gary Sinise Foundation)",
+    url: "https://www.garysinisefoundation.org/snowball-express",
+    description:
+      "Five-day healing and remembrance experience for children and surviving spouses of fallen military and first-responder heroes at Walt Disney World Resort — 28,057 loved ones served to date.",
+    needCategoryIds: ["family-support"],
+    audienceTags: ["Family", "Gold Star", "Survivor", "Military Spouse"],
+    cost: "No cost to participating families — donor-funded",
+    geographicScope: "Nationwide — events at Walt Disney World Resort plus community events nationwide",
+    eligibility: "Families of a fallen military or first responder hero who served on or after 9/11",
+    phone: "888-708-7757",
+  },
+  {
+    // TODO(verify): membership dues amount (approximately $80/year from research notes) is not confirmed on goldstarwives.org — confirm before publishing.
+    name: "Gold Star Wives of America",
+    url: "https://www.goldstarwives.org/",
+    description:
+      "National membership organization supporting surviving spouses of fallen service members through advocacy, community and connection.",
+    needCategoryIds: ["family-support", "purpose-community"],
+    audienceTags: ["Gold Star", "Survivor", "Military Spouse"],
+    cost: "Membership-based — dues amount not confirmed on the org's own site",
+    geographicScope: "Nationwide",
+  },
+  {
+    name: "FOCUS",
+    url: "https://www.focusproject.org/",
+    description:
+      "Families OverComing Under Stress provides resilience training to military children, families and couples, teaching practical skills to communicate, adapt and thrive through stress and change.",
+    needCategoryIds: ["family-support", "mental-health"],
+    audienceTags: ["Family", "Active Military", "Guard/Reserve", "Veteran"],
+    cost: "Free — program of the DoD Office of Military Community & Family Policy",
+    geographicScope: "Nationwide — military installations and online",
+  },
+  {
+    // NOTE: national parent entry — a Folds of Honor — Iowa Chapter entry is already listed in the regional blocks below.
+    name: "Folds of Honor",
+    url: "https://foldsofhonor.org/",
+    description:
+      "Provides K-12 and higher-education scholarships to spouses and children of fallen or disabled U.S. service members and first responders — more than 73,000 scholarships awarded since 2007, based on unmet need.",
+    needCategoryIds: ["family-support", "career-education"],
+    audienceTags: ["Veteran", "Disabled", "First Responder", "Family", "Survivor", "Gold Star", "Military Spouse"],
+    cost: "Not applicable — scholarship funds are awarded based on unmet need; no cost to apply",
+    geographicScope: "Nationwide",
+    eligibility: "Spouses and/or dependents of fallen or disabled U.S. service members, or of fallen or catastrophically injured first responders; higher-education awards require a 2.0 term GPA",
+    availability: "Annual application window — February 1 through March 31; award notifications emailed by end of July",
+    phone: "918-274-4700",
+    hours: "Monday–Friday, 8 AM–5 PM Central",
+  },
+
   // ---------------------------------------------------------------------
   // Purpose & Community
   // ---------------------------------------------------------------------
@@ -785,6 +1281,110 @@ export const RESOURCES: Resource[] = [
     geographicScope: "Nationwide / city-based",
   },
 
+  {
+    name: "IAVA",
+    url: "https://www.iava.org/",
+    description:
+      "Founded in 2004, nonpartisan national organization supporting post-9/11 veterans through community and peer support, career programs and policy advocacy.",
+    needCategoryIds: ["purpose-community", "career-education"],
+    audienceTags: ["Veteran"],
+    cost: "Free to join",
+    geographicScope: "Nationwide",
+  },
+  {
+    // NOTE: merged from separate purpose and legal research passes — the Legion's accredited service officers, benefits help and Be The One mission are one organization-wide entry rather than near-duplicates.
+    name: "The American Legion",
+    url: "https://www.legion.org/",
+    description:
+      "Chartered in 1919 and the nation's largest veterans service organization, providing free help understanding and applying for benefits through accredited service officers and appeals representatives — $23 billion minimum in federal benefits secured for veterans in FY2025 — plus local posts and the \"Be The One\" suicide-prevention mission.",
+    needCategoryIds: ["purpose-community", "legal-benefits"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "Free — benefits assistance from accredited service officers; membership dues vary by post",
+    geographicScope: "Nationwide — local posts with a Find a Service Officer locator",
+  },
+  {
+    // NOTE: merged from separate purpose, legal and financial research passes — claims help, Unmet Needs grants and post-based community are one organization-wide entry.
+    name: "Veterans of Foreign Wars (VFW)",
+    url: "https://www.vfw.org/",
+    description:
+      "Chartered in 1899, the VFW provides emergency financial-assistance grants of up to $2,500 — paid directly to creditors, not loans — to eligible active-duty service members including activated Guard and Reserve, plus free VA-claims help through more than 2,200 accredited service officers and direct support through its posts.",
+    needCategoryIds: ["purpose-community", "legal-benefits", "financial-assistance"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family", "Survivor"],
+    cost: "Free — claims assistance is free of charge; Unmet Needs grants are paid directly to creditors (up to $2,500)",
+    geographicScope: "Nationwide — local posts and 2,200+ accredited service officers",
+    eligibility: "Financial assistance: active-duty service members, including activated National Guard and Reserve units; claims help is open to veterans, service members, families and survivors",
+  },
+  {
+    name: "AMVETS",
+    url: "https://www.amvets.org/",
+    description:
+      "Provides free assistance filing VA claims, plus career centers and programs supporting veterans' reintegration, delivered through local departments and posts nationwide.",
+    needCategoryIds: ["purpose-community", "legal-benefits", "career-education"],
+    audienceTags: ["Veteran"],
+    cost: "Free — VA claims assistance; membership-based organization",
+    geographicScope: "Nationwide",
+  },
+  {
+    name: "Vietnam Veterans of America",
+    url: "https://www.vva.org/",
+    description:
+      "Serves and advocates for Vietnam-era veterans, offering claims and benefit counseling, Agent Orange exposure support and outreach programs through chapters nationwide.",
+    needCategoryIds: ["purpose-community", "legal-benefits"],
+    audienceTags: ["Veteran"],
+    cost: "Membership-based — dues vary by chapter",
+    geographicScope: "Nationwide",
+  },
+  {
+    name: "RallyPoint",
+    url: "https://www.rallypoint.com/",
+    description:
+      "The military's largest social and professional network, with 2 million registered members — combining peer discussion of military life with a job board and veteran-recruiting marketplace.",
+    needCategoryIds: ["purpose-community", "career-education"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family", "Caregiver", "Military Spouse"],
+    cost: "Free to join",
+    geographicScope: "Nationwide — online",
+  },
+  {
+    name: "Together We Served",
+    url: "https://www.togetherweserved.com/",
+    description:
+      "Free-to-join online community of 2.6 million+ veteran members where veterans reconnect by unit, ship, squadron or era through unit pages, photo galleries and memorials.",
+    needCategoryIds: ["purpose-community"],
+    audienceTags: ["Veteran"],
+    cost: "Free to join",
+    geographicScope: "Nationwide — online",
+  },
+  {
+    name: "Operation Gratitude",
+    url: "https://www.operationgratitude.com/",
+    description:
+      "Has shipped 4 million+ care packages to service members, veterans and first responders over 23+ years, built by more than 250,000 volunteers each year.",
+    needCategoryIds: ["purpose-community", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "First Responder", "Family"],
+    cost: "Free for recipients — donation-funded",
+    geographicScope: "Nationwide",
+  },
+  {
+    name: "Soldiers' Angels",
+    url: "https://www.soldiersangels.org/",
+    description:
+      "Provides free support including food assistance, holiday adopt-a-family programs, deployed-soldier care packages and letters, caregiver aid and virtual baby showers for veteran families.",
+    needCategoryIds: ["purpose-community", "family-support", "financial-assistance"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family", "Caregiver"],
+    cost: "Free for those it serves",
+    geographicScope: "Nationwide",
+  },
+  {
+    name: "America's Warrior Partnership",
+    url: "https://www.americaswarriorpartnership.org/",
+    description:
+      "Partners with communities to improve and save veteran lives through one-size-fits-one support — Community Integration, the AWP Network and local Warrior Partnership branches — with 7,874 cases closed at an 84% success rate.",
+    needCategoryIds: ["purpose-community", "mental-health"],
+    audienceTags: ["Veteran", "Family", "Caregiver"],
+    cost: "Free for veterans and families — donor-funded",
+    geographicScope: "Nationwide — community branches",
+  },
+
   // ---------------------------------------------------------------------
   // Career & Education
   // ---------------------------------------------------------------------
@@ -827,6 +1427,553 @@ export const RESOURCES: Resource[] = [
     audienceTags: ["Veteran", "Active Military", "Military Spouse"],
     cost: "Free",
     geographicScope: "Nationwide",
+  },
+
+  {
+    name: "SkillBridge",
+    url: "https://skillbridge.osd.mil/",
+    description:
+      "Department of Defense program that lets service members in their final months of service work civilian jobs at approved industry partners as a full-time duty assignment during their last up to 180 days before separation, with hundreds of partner companies across career fields.",
+    needCategoryIds: ["career-education"],
+    audienceTags: ["Active Military"],
+    cost: "Free — DoD continues to pay military salary and benefits while the industry partner provides the on-the-job training",
+    geographicScope: "Nationwide — partner opportunities at duty stations across the U.S.",
+    eligibility: "Service members with 180 days or fewer remaining before separation, at least 180 continuous days of service, and commander approval",
+  },
+  {
+    name: "Helmets to Hardhats",
+    url: "https://helmetstohardhats.org/",
+    description:
+      "National program connecting veterans, transitioning service members, and Guard/Reserve members with registered apprenticeships and careers in the building trades — earn while you learn toward well-paid careers with wages, benefits, and GI Bill support usable during the apprenticeship.",
+    needCategoryIds: ["career-education"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve"],
+    cost: "Free — no cost to job seekers; apprenticeships are paid employment",
+    geographicScope: "Nationwide",
+  },
+  {
+    name: "FourBlock",
+    url: "https://fourblock.org/",
+    description:
+      "Nonprofit offering a free, ten-week Career Readiness Program that teaches veterans to build professional relationships and land meaningful careers, with spring and fall cohorts held both in person and online (serving veterans since 2010).",
+    needCategoryIds: ["career-education", "purpose-community"],
+    audienceTags: ["Veteran", "Military Spouse"],
+    cost: "Free",
+    geographicScope: "Nationwide — in-person and virtual cohorts",
+    availability: "Ten-week cohorts in spring and fall",
+  },
+  {
+    name: "VET TEC 2.0",
+    url: "https://www.va.gov/education/other-va-education-benefits/vet-tec-2/",
+    description:
+      "VA program that pays tuition and fees directly to approved technology-training providers (bootcamps, coding schools, certification courses) for eligible veterans and transitioning service members, plus a monthly housing allowance and book stipend — limited to 4,000 paid participants per fiscal year.",
+    needCategoryIds: ["career-education"],
+    audienceTags: ["Veteran", "Active Military"],
+    cost: "Free to participants — the VA pays tuition and fees directly and provides a monthly housing allowance and book stipend",
+    geographicScope: "Nationwide — online and in-person providers",
+    eligibility: "Veterans with other-than-dishonorable discharges or service members within 180 days of separating, with at least 36 months of active duty, and under age 62",
+  },
+  {
+    name: "Tillman Scholars",
+    url: "https://pattillmanfoundation.org/eligibility-and-compensation",
+    description:
+      "Merit-based scholarship covering full tuition, books, living expenses and more for military veterans, active-duty service members, Guard/Reserve members, and military spouses (including surviving spouses) pursuing full-time degrees — nearly 1,000 scholars supported to date, with up to 60 selected each year.",
+    needCategoryIds: ["career-education", "financial-assistance"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Military Spouse", "Survivor"],
+    cost: "Scholarship — covers tuition, books and living expenses; no cost to apply",
+    geographicScope: "Nationwide",
+    eligibility: "Veterans, active-duty and Guard/Reserve service members, and military spouses (including surviving spouses) enrolled full-time",
+    availability: "Annual selection cycle of up to 60 scholars",
+  },
+  {
+    name: "VetsinTech",
+    url: "https://vetsintech.org/",
+    description:
+      "National nonprofit connecting veterans, active-duty service members, and military spouses to technology careers through education (VIT Academy courses in cybersecurity, web development, data science, cloud, and AI), employment, and entrepreneurship — supported by 30+ local chapters.",
+    needCategoryIds: ["career-education"],
+    audienceTags: ["Veteran", "Active Military", "Military Spouse"],
+    cost: "Free — most classes and programs are offered at no cost to the military community",
+    geographicScope: "Nationwide — 30+ chapters",
+  },
+  {
+    name: "Operation Code",
+    url: "https://operationcode.org/",
+    description:
+      "Largest community of military veterans, service members, and spouses pursuing software development careers — 15,000+ members get mentorship, scholarships, and tech-partner connections through a members-only Slack community and local meetups.",
+    needCategoryIds: ["career-education", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "Military Spouse"],
+    cost: "Free — membership is free",
+    geographicScope: "Nationwide — online community with in-person meetups",
+  },
+  {
+    name: "Code Platoon",
+    url: "https://www.codeplatoon.org/",
+    description:
+      "Software engineering training for veterans, military spouses, and service members — a 15-week full-time immersive program or a 28-week evening/weekend program (fully remote options), plus a free self-paced intro-to-coding course.",
+    needCategoryIds: ["career-education"],
+    audienceTags: ["Veteran", "Active Military", "Military Spouse"],
+    cost: "Pay-What-You-Can scholarships cover up to 100% of tuition; VA education benefits accepted",
+    geographicScope: "Nationwide — remote and in-person formats",
+  },
+  {
+    name: "Post-9/11 GI Bill (Chapter 33)",
+    url: "https://www.va.gov/education/about-gi-bill-benefits/post-9-11/",
+    description:
+      "VA education benefit providing up to 36 months of tuition and fees (full in-state tuition at public schools), a monthly housing allowance, and a yearly book stipend for service members and veterans with qualifying post-9/11 active duty — benefits can be transferred to dependents.",
+    needCategoryIds: ["career-education", "financial-assistance"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "VA-funded benefit — no cost to recipients; the benefit level is a percentage based on length of qualifying service",
+    geographicScope: "Nationwide",
+    eligibility: "At least 90 days of aggregate active duty on or after September 11, 2001 (or a Purple Heart after 9/11 with any length of honorable service, or 30 continuous days discharged with a service-connected disability), or a dependent using transferred benefits",
+  },
+  {
+    // TODO(verify): job-seeker pricing (career-fair admission and profile costs) is not stated on recruitmilitary.com — confirm before publishing a firmer cost line.
+    name: "RecruitMilitary",
+    url: "https://recruitmilitary.com/",
+    description:
+      "Veteran-owned military-to-civilian recruiting company (30+ years) connecting veterans, transitioning service members, Guard/Reserve, and military spouses with employers through a job board, direct placement services, and more than 100 career fairs a year across 30+ cities, military bases, and virtual spaces.",
+    needCategoryIds: ["career-education"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Military Spouse"],
+    cost: "Not stated for job seekers on the org's own site — employers pay for recruiting, advertising, and career-fair services",
+    geographicScope: "Nationwide",
+  },
+  {
+    name: "Sentinels of Freedom",
+    url: "https://www.sentinelsoffreedom.org/",
+    description:
+      "Helps wounded and transitioning veterans rebuild their lives with comprehensive support — including the Bridge for Education Program, Veterans' Resource Centers, mentoring and STEM tutoring grants.",
+    needCategoryIds: ["career-education", "purpose-community"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free for served veterans",
+    geographicScope: "Nationwide",
+  },
+  {
+    name: "Student Veterans of America",
+    url: "https://studentveterans.org/",
+    description:
+      "National nonprofit helping veterans succeed in higher education through 1,500+ on-campus chapters, a free MySVA platform with 600,000+ peers, scholarships, career resources and an annual national conference.",
+    needCategoryIds: ["career-education", "purpose-community"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free — MySVA account and membership are free, including chapter tools, scholarships, and career benefits",
+    geographicScope: "Nationwide — campus chapters",
+  },
+  {
+    name: "Marine Corps Scholarship Foundation",
+    url: "https://www.mcsf.org/",
+    description:
+      "The nation's oldest and largest provider of need-based scholarships to military children, covering post-high school, undergraduate, and career/technical programs — more than $260 million awarded since 1962; Children of the Fallen receive a guaranteed $30,000 over four years.",
+    needCategoryIds: ["career-education", "family-support"],
+    audienceTags: ["Family", "Gold Star", "Active Military", "Guard/Reserve", "Veteran"],
+    cost: "Need-based scholarships of $2,500–$10,000 per academic year; no cost to apply",
+    geographicScope: "Nationwide",
+    eligibility: "Child or stepchild of an active, Reserve, or veteran Marine (honorable discharge) or Navy Corpsman/Chaplain/Religious Program Specialist attached to a Marine unit; minimum 2.00 GPA; family adjusted gross income of $134,000 or less (2025 tax year) for the 2027–2028 application",
+    availability: "Application opens January 1, deadline March 1; award decisions emailed by May 31. Career & Technical Education scholarships accepted year-round",
+    phone: "866-496-5462",
+    hours: "Weekdays 9:00 AM – 5:00 PM Eastern, excluding holidays",
+  },
+  {
+    name: "Military Officers Association of America (MOAA)",
+    url: "https://www.moaa.org/",
+    description:
+      "Country's largest uniformed-services officers' association, providing career-transition resources (career fairs, résumé critiques, seminars), one-on-one benefits counseling, legislative advocacy, and dependent college scholarships through local councils and chapters.",
+    needCategoryIds: ["career-education", "legal-benefits", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Survivor", "Military Spouse"],
+    cost: "Membership tiers — Basic free; Premium $66/year; life membership varies by age; many advocacy resources and newsletters are public",
+    geographicScope: "Nationwide — councils and chapters",
+    eligibility: "Open to active duty, former, retired, and National Guard/Reserve commissioned and warrant officers of the uniformed services, and their surviving spouses",
+    phone: "800-234-6622",
+  },
+  {
+    name: "Microsoft Software & Systems Academy (MSSA)",
+    url: "https://military.microsoft.com/mssa/",
+    description:
+      "Microsoft's full-time, 17-week technical training program in cloud development, cloud administration, and cybersecurity operations for transitioning service members and veterans, with mentorship and job-search support — 4,400 graduates and a 96% employment rate among graduates seeking employment.",
+    needCategoryIds: ["career-education"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Military Spouse"],
+    cost: "Free — fully funded by Microsoft since January 2021; participants keep their GI Bill funding",
+    geographicScope: "Nationwide — U.S. cohorts delivered remotely",
+    eligibility: "Military veterans and retirees, Coast Guard, National Guard and Reserve members, and U.S. or UK MoD service members within six months of separation or retirement; separate Military Spouse track",
+    availability: "Cohort windows published on site; monthly virtual briefings the first Tuesday of each month",
+  },
+  {
+    // NOTE: distinct from the general Fisher House Foundation lodging entry — this is a separate scholarship program administered by Scholarship Managers, not tied to Fisher House stays.
+    name: "Fisher House Foundation — Scholarships for Military Children",
+    url: "https://www.fisherhouse.org/programs/scholarship-programs/scholarships-for-military-children",
+    description:
+      "A minimum of one $2,000 scholarship is awarded at every commissary location receiving qualified applications — 500 scholarships in the most recent round — to unmarried military dependents under age 23; awards may run up to four years.",
+    needCategoryIds: ["career-education", "family-support"],
+    audienceTags: ["Family", "Gold Star", "Active Military", "Guard/Reserve", "Veteran"],
+    cost: "$2,000 scholarships funded by commissary business-partner donations; no cost to apply",
+    geographicScope: "Nationwide — awarded at commissary locations that receive qualified applications",
+    eligibility: "Unmarried dependents under age 23 with a valid USID card whose sponsor is active duty, reserve/guard, deceased, or retired; full-time undergraduate enrollment; not for U.S. Service Academy appointees or students holding a full scholarship",
+    availability: "Application period for 2027–2028 opens December 2026",
+    phone: "856-616-9311",
+  },
+  {
+    name: "Freedom Alliance",
+    url: "https://freedomalliance.org/",
+    description:
+      "Has awarded $33 million in college scholarships to 2,500 students over 36 years and supported 5,000 combat veterans since founding, plus mortgage-free Heroes to Homeowners homes, customized wheelchairs, non-emergency financial assistance, outdoor adventures, and caregiver retreats.",
+    needCategoryIds: ["career-education", "housing-transportation", "equipment-grants", "family-support"],
+    audienceTags: ["Veteran", "Disabled", "Family", "Caregiver"],
+    cost: "Not applicable — scholarships and grants are awarded to approved recipients",
+    geographicScope: "Nationwide",
+    eligibility: "Wounded service members, combat veterans, and military families; college scholarships go to the sons and daughters of military heroes",
+    availability: "Presents for Patriots application period: Oct. 9 – Nov. 9; other programs by application",
+    phone: "800-475-6620",
+  },
+  {
+    name: "Special Operations Warrior Foundation",
+    url: "https://specialops.org/",
+    description:
+      "Founded in 1980 after Operation Eagle Claw, funds the total cost of attendance at any accredited school for the children of fallen special operations forces and of all Medal of Honor recipients — no application required — supporting a USSOCOM community of roughly 70,000 service members.",
+    needCategoryIds: ["career-education", "family-support"],
+    audienceTags: ["Gold Star", "Survivor", "Family"],
+    cost: "Not applicable — grants cover the total cost of attendance; no application required",
+    geographicScope: "Nationwide",
+    eligibility: "Surviving children of fallen special operations forces and children of all Medal of Honor recipients",
+  },
+
+  // ---------------------------------------------------------------------
+  // Financial Assistance (national)
+  // ---------------------------------------------------------------------
+  {
+    name: "Army Emergency Relief",
+    url: "https://www.armyemergencyrelief.org/",
+    description:
+      "The U.S. Army's official nonprofit — supporting Soldiers and their families since 1942 — offering zero-interest emergency loans and grants for rent, utilities, car repairs, medical bills, and funeral expenses, plus college scholarships, applied for through an online portal.",
+    needCategoryIds: ["financial-assistance", "career-education"],
+    audienceTags: ["Active Military", "Guard/Reserve", "Family", "Military Spouse"],
+    cost: "Zero-interest loans (repayable) and grants — no interest charged",
+    geographicScope: "Nationwide — U.S. Army community",
+  },
+  {
+    // NOTE: national parent entry — a Navy-Marine Corps Relief Society — Pearl Harbor office is already listed in the regional blocks below.
+    name: "Navy-Marine Corps Relief Society",
+    url: "https://www.nmcrs.org/",
+    description:
+      "Founded in 1904 and staffed by roughly 90% volunteers, provides interest-free loans and scholarships to Navy and Marine Corps families — often disbursed the same day — along with emergency travel assistance, financial counseling, a visiting-nurse service, and nationwide thrift shops.",
+    needCategoryIds: ["financial-assistance", "career-education"],
+    audienceTags: ["Active Military", "Veteran", "Family", "Military Spouse"],
+    cost: "Interest-free loans (repayable) and scholarships — often disbursed the same day",
+    geographicScope: "Nationwide — offices on Navy and Marine Corps installations",
+    eligibility: "Active-duty and retired Navy and Marine Corps members and their families; clients meet with a local NMCRS office",
+  },
+  {
+    name: "Air & Space Forces Aid Society",
+    url: "https://afas.org/",
+    description:
+      "The official aid society of the U.S. Air Force and Space Force, providing no-interest emergency loans, grants, and education assistance — about $11.6 million in support across roughly 12,600 assists in 2025 — through an online Request Assistance portal.",
+    needCategoryIds: ["financial-assistance", "career-education"],
+    audienceTags: ["Active Military", "Guard/Reserve", "Family", "Military Spouse"],
+    cost: "No-interest loans (repayable) and grants",
+    geographicScope: "Nationwide — Air Force and Space Force community",
+  },
+  {
+    name: "Coast Guard Mutual Assistance",
+    url: "https://mycgma.org/",
+    description:
+      "The Coast Guard's official mutual-aid society — 100% donation-funded — offering interest-free loans and grants for emergencies, education, and everyday needs, with more than $260 million in assistance disbursed to date.",
+    needCategoryIds: ["financial-assistance", "career-education"],
+    audienceTags: ["Active Military", "Guard/Reserve", "Veteran", "Family", "Military Spouse"],
+    cost: "Interest-free loans (repayable) and grants — funded entirely by donations",
+    geographicScope: "Nationwide — Coast Guard community",
+    eligibility: "Active-duty and reserve Coast Guard members, retirees, spouses, surviving spouses, civilian employees, Auxiliary, chaplains, and PHS personnel",
+  },
+  {
+    // TODO(verify): the fetched page did not explicitly state free/no-charge wording — only a toll-free number and free-app references; confirm before publishing a firmer cost claim. The URL also returns 403 to automated fetches while browsers load it fine — recommend a manual spot-check.
+    name: "American Red Cross — Hero Care Network",
+    url: "https://www.redcross.org/get-help/military-families/hero-care-network/financial-assistance.html",
+    description:
+      "The only organization chartered by Congress to independently verify emergencies for the U.S. military, providing emergency communications, referrals, and financial-assistance facilitation through the military aid societies — more than 1,300 emergency communications a day across 380+ military installations.",
+    needCategoryIds: ["financial-assistance", "family-support"],
+    audienceTags: ["Active Military", "Guard/Reserve", "Family"],
+    cost: "Not stated on the org's own page — the Red Cross facilitates the transfer while the military aid societies determine the type and amount of aid",
+    geographicScope: "Nationwide and overseas military locations",
+    eligibility: "Active-duty members of all branches, activated National Guard/Reserve, their immediate family members, military retirees and their spouses/widow(er)s; veterans (unless medically retired) and non-activated Reserve/Guard are not eligible",
+    phone: "877-272-7337",
+  },
+  {
+    name: "Green Beret Foundation",
+    url: "https://greenberetfoundation.org/",
+    description:
+      "Supports pre- and post-9/11 Green Berets and their families with emergency financial assistance, scholarships, casualty support, and family programs — \"our programs and services are free of charge\" — having invested $28 million and served more than 26,000 members of the Special Forces community.",
+    needCategoryIds: ["financial-assistance", "family-support", "career-education"],
+    audienceTags: ["Veteran", "Active Military", "Disabled", "Family"],
+    cost: "Free — the org states \"our programs and services are free of charge\"",
+    geographicScope: "Nationwide",
+    eligibility: "Pre- and post-9/11 U.S. Army Special Forces soldiers (Green Berets) and their families",
+  },
+  {
+    name: "Operation First Response",
+    url: "https://www.operationfirstresponse.org/",
+    description:
+      "Provides emergency financial assistance to active-duty service members, active-duty first responders (law enforcement, firefighters, EMS, paramedics, 911 dispatchers), and Gold Star families — 45,611 served since 2004 — plus no-cost IT certification training and inpatient PTSD/substance-use treatment funding for qualifying veterans.",
+    needCategoryIds: ["financial-assistance", "career-education", "mental-health"],
+    audienceTags: ["Active Military", "First Responder", "Law Enforcement", "Fire", "EMS", "Dispatch", "Gold Star", "Veteran", "Family"],
+    cost: "Grant-based — emergency cases evaluated individually; Project Specialized Training is explicitly no cost to qualifying veterans",
+    geographicScope: "Nationwide",
+    eligibility: "Emergency program: active-duty service members (all branches), active-duty first responders, Gold Star families, and families of fallen active-duty first responders; veterans are served through the training and treatment programs",
+    availability: "By email to info@operationfirstresponse.org — inquiries evaluated individually",
+  },
+  {
+    // TODO(verify): cost to recipients is not stated on the org's own site — confirm before publishing a firmer cost claim.
+    name: "Coalition to Salute America's Heroes",
+    url: "https://saluteheroes.org/",
+    description:
+      "Founded in 2004 to rebuild the lives of severely wounded post-9/11 veterans, pays urgent expenses directly — utilities, rent, mortgage, auto loans, groceries — and runs the Veteran's Caregiver Alliance for primary caregivers.",
+    needCategoryIds: ["financial-assistance", "family-support", "career-education"],
+    audienceTags: ["Veteran", "Disabled", "Caregiver", "Family"],
+    cost: "Not stated on the org's own site — Emergency Financial Aid is provided to approved applicants after verification",
+    geographicScope: "Nationwide",
+    eligibility: "Post-9/11 disabled American veterans; Veteran's Caregiver Alliance membership requires a DoD/VA disability rating of 30% or greater from a single sustained injury and that the caregiver lives with the veteran",
+  },
+  {
+    // TODO(verify): cost to recipients is not stated on the Critical Financial Assistance page — confirm before publishing a firmer cost claim.
+    name: "Operation Homefront",
+    url: "https://operationhomefront.org/",
+    description:
+      "Provides short-term Critical Financial Assistance for overdue bills, home repairs, and other urgent family needs — nearly $50 million in assistance to military families since 2011 — plus mortgage-free homes through Permanent Homes for Veterans (700+ deeded since 2012), transitional housing, family events, and Military Child of the Year.",
+    needCategoryIds: ["financial-assistance", "housing-transportation", "family-support"],
+    audienceTags: ["Active Military", "Guard/Reserve", "Veteran", "Family", "Military Spouse"],
+    cost: "Grant-based — assistance provided upon application approval; housing programs are mortgage-free or rent-free for participants",
+    geographicScope: "Nationwide",
+    eligibility: "Military families experiencing financial hardship; documentation depends on category (deployment orders, line-of-duty records, or DD-214)",
+    availability: "Year-round — applications submitted online through the My Operation Homefront portal",
+    phone: "877-264-3968",
+  },
+
+  // ---------------------------------------------------------------------
+  // Housing & Transportation (national)
+  // ---------------------------------------------------------------------
+  {
+    // TODO(verify): NCHV's own site never states a cost for its helpline/referral — confirm before publishing a firmer cost claim.
+    name: "National Coalition for Homeless Veterans (NCHV)",
+    url: "https://nchv.org/",
+    description:
+      "The only national organization solely focused on ending veteran homelessness, operating a referral helpline (1-877-424-3838) that connects veterans to a national network of community providers — NCHV does not provide direct housing or case management itself.",
+    needCategoryIds: ["housing-transportation"],
+    audienceTags: ["Veteran"],
+    cost: "Not stated on the org's own site — referral and information service",
+    geographicScope: "Nationwide",
+    eligibility: "Veterans experiencing or at risk of homelessness, plus community partners seeking training and technical assistance",
+    phone: "1-877-424-3838",
+  },
+  {
+    // TODO(verify): the housing page gives no cost/rent framing — confirm emergency/transitional/permanent housing costs before publishing a firmer claim.
+    name: "U.S.VETS",
+    url: "https://usvets.org/how-we-serve/housing/",
+    description:
+      "Housing-first nonprofit operating emergency, transitional and permanent veteran housing across sites in California, Arizona, Hawaii, Nevada, Texas and Washington, D.C., with wraparound career, mental-health and case-management services.",
+    needCategoryIds: ["housing-transportation"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site — call to confirm current shelter and housing costs",
+    geographicScope: "Nationwide — multi-state",
+    eligibility: "Veterans and their families needing shelter; emergency beds are low-barrier",
+    availability: "Intake by phone; emergency, transitional and permanent housing at sites in seven locations",
+    phone: "877-548-7838",
+  },
+  {
+    name: "Homes For Our Troops",
+    url: "https://www.hfotusa.org/",
+    description:
+      "Builds and donates specially adapted custom homes nationwide for severely injured post-9/11 veterans — 448 homes completed and 63 projects underway, with no financial cost to the veteran.",
+    needCategoryIds: ["housing-transportation"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free — $0 cost to the veteran, stated on the org's own site",
+    geographicScope: "Nationwide",
+    eligibility: "Post-9/11 veterans with severe service-connected disabilities who are eligible for a VA Specially Adapted Housing (SAH/SHA) grant and will use the home as their primary residence",
+    phone: "866-787-6677",
+  },
+  {
+    name: "Veterans Community Project",
+    url: "https://vcp.org/",
+    description:
+      "Villages of tiny homes with full wraparound services for homeless veterans — seven villages in Dallas, Glendale, Kansas City, Longmont, Milwaukee, Sioux Falls and St. Louis — with a published 85% success rate and $0 rent for residents.",
+    needCategoryIds: ["housing-transportation"],
+    audienceTags: ["Veteran"],
+    cost: "Free — residents pay $0 in rent",
+    geographicScope: "Nationwide — multi-state",
+    eligibility: "Veterans experiencing homelessness",
+  },
+  {
+    name: "Habitat for Humanity — Veterans Build",
+    url: "https://www.habitat.org/volunteer/near-you/veterans-build",
+    description:
+      "Volunteer, homeownership, home-repair and employment program for U.S. veterans, service members and their families — 9,097+ veterans and families have partnered with Habitat since 2013 through 350+ participating affiliates.",
+    needCategoryIds: ["housing-transportation"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "Homebuyers pay an affordable mortgage; repair-program and volunteer costs vary by local affiliate",
+    geographicScope: "Nationwide — delivered through participating local Habitat affiliates",
+    eligibility: "U.S. veterans, active service members and their families",
+  },
+  {
+    // TODO(verify): cost to the veteran is never stated outright on the org's own site — confirm before publishing a firmer claim.
+    name: "Helping A Hero",
+    url: "https://helpingahero.org/",
+    description:
+      "Specially adapted homes for veterans severely injured in the post-9/11 war on terror — more than 100 homes awarded across 24 states, with developers donating lots and builders constructing at cost so the home fits the veteran's injuries. Also runs marriage and caregiver retreats.",
+    needCategoryIds: ["housing-transportation"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Not stated on the org's own site — homes are donor-funded (lot donated, built at cost)",
+    geographicScope: "Nationwide — multi-state (24 states)",
+    eligibility: "Veterans severely injured in the post-9/11 Global War on Terror; nomination or application through Helping A Hero",
+    phone: "888-786-9531",
+  },
+  {
+    name: "Operation Finally Home",
+    url: "https://www.operationfinallyhome.org/",
+    description:
+      "Builds mortgage-free homes and funds home modifications for veterans, first responders and surviving spouses — over 500 projects completed across 41+ states since 2005.",
+    needCategoryIds: ["housing-transportation"],
+    audienceTags: ["Veteran", "First Responder", "Survivor"],
+    cost: "Free — mortgage-free homes and no-cost home modifications, donation-funded",
+    geographicScope: "Nationwide",
+    eligibility: "Veterans, first responders and surviving spouses; application required",
+  },
+  {
+    name: "Tunnel to Towers Foundation",
+    url: "https://t2t.org/",
+    description:
+      "Provides mortgage-free homes to Gold Star and fallen-first-responder families, specially adapted smart homes for catastrophically injured veterans and first responders, and homeless-veteran housing services — more than 20,000 veterans housed and $1 billion+ committed to programs.",
+    needCategoryIds: ["housing-transportation", "family-support", "purpose-community"],
+    audienceTags: ["Veteran", "First Responder", "Gold Star", "Family", "Disabled", "Survivor"],
+    cost: "Free — homes are mortgage-free; explicit \"no cost to recipients\" wording not published",
+    geographicScope: "Nationwide",
+    eligibility: "Program-specific: smart homes for post-9/11 catastrophically injured veterans and first responders; mortgage-free homes for Gold Star families and families of fallen first responders; homeless-veteran services for veterans in need",
+  },
+  {
+    name: "VA Veterans Transportation Service",
+    url: "https://www.va.gov/healtheligibility/veteranstransportationservice/",
+    description:
+      "VA program offering free rides to and from VA-approved health appointments, reimbursement of mileage and other travel expenses, and special modes of transportation such as stretcher or wheelchair van service.",
+    needCategoryIds: ["housing-transportation"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free — rides for VA-enrolled veterans to VA-approved appointments; mileage and travel-expense reimbursement available",
+    geographicScope: "Nationwide",
+    eligibility: "Veterans enrolled in VA health care with a VA-approved health care appointment",
+  },
+  {
+    // NOTE: same organization as the DAV 5K event entry, but a distinct program — not a duplicate.
+    name: "DAV Transportation Network",
+    url: "https://www.dav.org/get-help-now/medical-transportation/",
+    description:
+      "Volunteer-staffed fleet providing free transportation to and from VA medical facilities for injured and ill veterans at more than 247 VA locations — DAV departments and chapters have donated 4,183 vehicles since 1987.",
+    needCategoryIds: ["housing-transportation"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free",
+    geographicScope: "Nationwide — 247+ VA locations",
+    eligibility: "Ill and injured veterans needing rides to and from VA medical facilities",
+  },
+  {
+    // TODO(verify): cost to recipients for the equipment-grant and modification programs is not stated outright on the org's own site — confirm before publishing a firmer claim.
+    name: "Gary Sinise Foundation",
+    url: "https://www.garysinisefoundation.org/",
+    description:
+      "National nonprofit honoring and serving veterans, active-duty service members, and first responders through 100% mortgage-free custom homebuilding for the severely wounded, home modifications, mobility devices, adapted vehicles, first-responder equipment grants, and mental-wellness retreats — 106 mortgage-free homes and 23,112 pieces of equipment donated since 2011.",
+    needCategoryIds: ["housing-transportation", "equipment-grants", "mental-health", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "First Responder", "Disabled", "Family", "Gold Star", "Caregiver"],
+    cost: "Free — homes are delivered 100% mortgage-free and retreats and concerts are offered free",
+    geographicScope: "Nationwide",
+    eligibility: "Severely wounded heroes, families of fallen military and first responders, first-responder communities, veterans of every conflict, and active-duty service members",
+    phone: "615-575-3500",
+  },
+  {
+    // NOTE: programs are delivered by state-level VOA affiliates — this is the national page, distinct from any state affiliate entry.
+    name: "Volunteers of America — Supportive Services for Veterans and Their Families",
+    url: "https://www.voa.org/services/supportive-services-for-veterans-and-their-families/",
+    description:
+      "National human-services nonprofit serving 27,000 veterans annually — including over 10,000 homeless veterans — through VA-funded SSVF outreach, case management and rapid rehousing, and DOL-funded Homeless Veterans Reintegration Program job services.",
+    needCategoryIds: ["housing-transportation", "career-education", "mental-health", "family-support"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free — services are funded by federal grants (VA SSVF, DOL HVRP); no fee stated for veterans",
+    geographicScope: "Nationwide — 47 states, the District of Columbia, and Puerto Rico; service areas are specific local offices",
+    eligibility: "SSVF: very low-income veteran families living in or transitioning to permanent housing. HVRP: homeless veterans seeking employment services",
+  },
+
+  // ---------------------------------------------------------------------
+  // Legal & Benefits (national)
+  // ---------------------------------------------------------------------
+  {
+    name: "National Veterans Legal Services Program (NVLSP)",
+    url: "https://nvlsp.org/",
+    description:
+      "National nonprofit law firm fighting for veterans' benefits — $7.2 billion in benefits delivered since 1981 and a 98%+ win rate in cases argued before the Court of Appeals for Veterans Claims.",
+    needCategoryIds: ["legal-benefits"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free — legal help at no cost to veterans and their families",
+    geographicScope: "Nationwide",
+  },
+  {
+    name: "ABA Military Pro Bono Project",
+    url: "https://www.militaryprobono.org/",
+    description:
+      "American Bar Association project that places civil legal cases for junior-enlisted active-duty servicemembers with volunteer attorneys, with referrals routed through military legal assistance offices. Also runs Operation Stand-By for attorney-to-attorney advice.",
+    needCategoryIds: ["legal-benefits"],
+    audienceTags: ["Active Military", "Family"],
+    cost: "Free — pro bono legal help",
+    geographicScope: "Nationwide",
+    eligibility: "Junior-enlisted active-duty servicemembers and their families; cases must be referred by a military legal assistance attorney",
+  },
+  {
+    name: "GI Rights Hotline",
+    url: "https://www.girightshotline.org/",
+    description:
+      "Free, confidential and accurate information on U.S. military regulations and discharges since 1994, for servicemembers, veterans, potential recruits and their families — call 1-877-447-4487. Staffed by a consortium of nonprofit counselors, including veterans and lawyers.",
+    needCategoryIds: ["legal-benefits"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "Free",
+    geographicScope: "Nationwide",
+    eligibility: "Servicemembers, veterans, potential recruits and their families — no membership or eligibility screening stated",
+    phone: "1-877-447-4487",
+  },
+  {
+    // NOTE: distinct from the existing DAV 5K event entry and the DAV Transportation Network entry — this is DAV's organization-wide claims, benefits and support entry.
+    name: "Disabled American Veterans (DAV) — VA Benefits Help",
+    url: "https://www.dav.org/get-help-now/va-benefits-help/",
+    description:
+      "DAV benefits experts located across the country help veterans file VA claims and appeals and counsel them through the process — all at no cost to the veteran — plus free medical transportation to VA appointments, transition and employment services, and caregiver support, helping more than a million veterans every year.",
+    needCategoryIds: ["legal-benefits", "career-education", "housing-transportation", "purpose-community"],
+    audienceTags: ["Veteran", "Disabled", "Family", "Caregiver", "Survivor"],
+    cost: "Free — stated as \"no cost to the veteran\" on dav.org",
+    geographicScope: "Nationwide — local offices and chapters",
+    eligibility: "Veterans of all generations, their families, and survivors",
+  },
+  {
+    name: "The Veterans Consortium Pro Bono Program",
+    url: "https://www.vetsprobono.org/",
+    description:
+      "National nonprofit founded in 1992 by the U.S. Court of Appeals for Veterans Claims, The American Legion, DAV, NVLSP and PVA that trains law-firm and corporate attorneys to represent veterans free of charge — 7,500+ attorneys trained, 89,000+ service members given free legal advice, and an 83% win rate through end of 2025.",
+    needCategoryIds: ["legal-benefits"],
+    audienceTags: ["Veteran", "Family", "Disabled"],
+    cost: "Free — pro bono representation and legal advice clinics",
+    geographicScope: "Nationwide — representation before the U.S. Court of Appeals for Veterans Claims; in-person clinics in DC/MD/VA plus wider virtual clinics",
+    eligibility: "Veterans with a final Board of Veterans Appeals decision (120-day CAVC window), OTH discharges linked to PTSD/TBI/MST, women veterans, and naturalization applicants",
+  },
+  {
+    name: "Blinded Veterans Association",
+    url: "https://bva.org/",
+    description:
+      "Congressionally chartered 501(c)(3) (est. 1946) serving veterans who are blind or have low vision; its Veterans Service Program uses VA-accredited National Service Officers for free claims help nationwide, plus VetTech and education support, scholarships, ambassador peer visits and regional groups. In 2026 BVA partnered with Meta to deliver Ray-Ban Meta AI glasses to 130,000 blinded veterans.",
+    needCategoryIds: ["legal-benefits", "equipment-grants", "career-education", "purpose-community"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free — VA claims assistance is provided at no cost to the veteran or their family; the glasses program is free to recipients (waitlisted)",
+    geographicScope: "Nationwide — regional groups and ambassadors across the U.S.",
+    eligibility: "Honorably discharged or active-duty service members who qualify for VA Blind Rehabilitation Service — legal blindness or low vision",
+    phone: "844-250-5180",
+    availability: "Monday–Friday, 9 AM – 7 PM ET (claims line)",
+  },
+  {
+    // NOTE: distinct national entry from the existing Paralyzed Veterans of America — Sports & Recreation entry — this covers PVA's claims, benefits, advocacy, career and caregiver services.
+    name: "Paralyzed Veterans of America — Benefits, Claims & Advocacy",
+    url: "https://pva.org/",
+    description:
+      "Congressionally chartered VSO providing free VA benefits help through accredited National Service Officers co-located at 25 SCI/D centers and 100+ VA medical centers, plus career counseling, caregiver support, accessible home-design assistance and federal disability advocacy — nearly 27,000 claims filed in FY25.",
+    needCategoryIds: ["legal-benefits", "career-education", "family-support", "housing-transportation"],
+    audienceTags: ["Veteran", "Disabled", "Family", "Caregiver"],
+    cost: "Free — \"we are here for you... free of charge\" per the org's site",
+    geographicScope: "Nationwide — NSOs at 25 SCI/D centers and 100+ VA medical centers",
+    eligibility: "NSO help open to all veterans and their families; specialized expertise in SCI, MS, ALS and other spinal cord disease/injury",
+    phone: "866-734-0857",
   },
 
   // ---------------------------------------------------------------------
