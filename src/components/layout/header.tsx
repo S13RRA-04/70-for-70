@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { CAMPAIGNS, ORG_NAV_LINKS, SITE_NAME } from "@/lib/constants";
 import type { CampaignSlug, SiteMode } from "@/lib/site-mode";
@@ -142,6 +142,7 @@ export function Header({
             type="button"
             className="inline-flex items-center justify-center rounded-sm p-2 text-ink"
             aria-expanded={open}
+            aria-controls="mobile-nav-panel"
             aria-label={open ? "Close menu" : "Open menu"}
             onClick={() => setOpen((v) => !v)}
           >
@@ -172,6 +173,7 @@ export function Header({
 function NavDropdown({ group, pathname }: { group: NavGroup; pathname: string }) {
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const panelId = useId();
   const isActive = group.children.some((link) => pathname === link.href);
 
   useEffect(() => {
@@ -207,6 +209,7 @@ function NavDropdown({ group, pathname }: { group: NavGroup; pathname: string })
         type="button"
         aria-haspopup="true"
         aria-expanded={open}
+        aria-controls={panelId}
         onClick={() => setOpen((v) => !v)}
         className={cn(
           "flex items-center gap-1 whitespace-nowrap border-b-2 border-transparent pb-0.5 text-sm font-medium uppercase tracking-wide text-charcoal transition-colors hover:text-bronze",
@@ -219,7 +222,7 @@ function NavDropdown({ group, pathname }: { group: NavGroup; pathname: string })
 
       {open && (
         <div
-          role="menu"
+          id={panelId}
           aria-label={group.label}
           className="absolute left-0 top-full z-50 mt-3 w-56 rounded-sm border border-ink/10 bg-off-white py-2 shadow-lg"
         >
@@ -227,7 +230,7 @@ function NavDropdown({ group, pathname }: { group: NavGroup; pathname: string })
             <Link
               key={link.href}
               href={link.href}
-              role="menuitem"
+              aria-current={pathname === link.href ? "page" : undefined}
               className={cn(
                 "block px-4 py-2 text-sm font-medium uppercase tracking-wide text-charcoal transition-colors hover:bg-sand-light hover:text-bronze",
                 pathname === link.href && "text-bronze",
