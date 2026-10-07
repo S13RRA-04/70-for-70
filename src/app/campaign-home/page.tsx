@@ -350,8 +350,7 @@ export default async function CampaignHomePage() {
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-charcoal-light">
             {CAMPAIGN_NAME} uses endurance sport as a platform for something larger. The goal is not simply to
             finish {RACE_TOTAL_DISTANCE} miles — it&apos;s to turn those miles into awareness, support,
-            partnerships, and funding for organizations serving veterans and their families. Chattanooga is the
-            current challenge — not the definition of the mission.
+            partnerships, and funding for organizations serving veterans and their families.
           </p>
 
           <dl className="mt-8 flex flex-wrap gap-x-10 gap-y-4">
@@ -393,8 +392,7 @@ export default async function CampaignHomePage() {
           <SectionHeading eyebrow="Fund the Mission" title="For The 22's Shared $70,000 Mission Goal" />
           <p className="mt-5 text-base leading-relaxed text-charcoal-light">
             The current goal is {formatCurrency(fundraisingStats.fundraisingGoal)} — roughly $1,000 for every mile of{" "}
-            {CURRENT_CAMPAIGN.event}, the race that inspired the number. But {CAMPAIGN_NAME} doesn&apos;t have to
-            raise it alone — every For The 22 campaign moves the mission forward.
+            {CURRENT_CAMPAIGN.event}, the race that inspired the number.
           </p>
 
           <div className="mt-8 rounded-sm border border-ink/10 bg-off-white p-6 sm:p-8">
