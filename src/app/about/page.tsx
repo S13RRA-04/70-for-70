@@ -241,6 +241,11 @@ export default function AboutPage() {
           <div className="mt-12">
             <MarkDiagram />
           </div>
+          <p className="mt-10 text-center text-sm text-charcoal-light">
+            <Link href="/press#brand-colors" className="font-semibold text-bronze hover:text-bronze-dark">
+              See the full color breakdown &rarr;
+            </Link>
+          </p>
         </Container>
       </section>
 
