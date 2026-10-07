@@ -36,7 +36,7 @@ export function FocusScrollSection({
     <div
       ref={ref}
       className={cn(
-        "transition-all duration-500 ease-out",
+        "transition-all duration-300 ease-out",
         focused ? "scale-100 opacity-100" : "scale-[0.97] opacity-40",
         className,
       )}
