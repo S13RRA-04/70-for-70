@@ -63,7 +63,7 @@ export function CampaignProgress({
               <div
                 key={row.organization}
                 className={cn(
-                  "h-full transition-[width] duration-700 ease-out",
+                  "h-full transition-[width] duration-600 ease-out",
                   ORG_BAR_COLORS[row.organization] ?? "bg-gradient-to-r from-olive to-bronze",
                 )}
                 style={{ width: `${row.widthPercent}%` }}
@@ -71,14 +71,14 @@ export function CampaignProgress({
             ))}
             {unallocatedWidthPercent > 0 && (
               <div
-                className="h-full bg-gradient-to-r from-olive to-bronze transition-[width] duration-700 ease-out"
+                className="h-full bg-gradient-to-r from-olive to-bronze transition-[width] duration-600 ease-out"
                 style={{ width: `${unallocatedWidthPercent}%` }}
               />
             )}
           </>
         ) : (
           <div
-            className="h-full rounded-full bg-gradient-to-r from-olive to-bronze transition-[width] duration-700 ease-out"
+            className="h-full rounded-full bg-gradient-to-r from-olive to-bronze transition-[width] duration-600 ease-out"
             style={{ width: `${percent}%` }}
           />
         )}
