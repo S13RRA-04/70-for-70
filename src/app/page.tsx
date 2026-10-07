@@ -137,7 +137,10 @@ export default async function HomePage() {
           </p>
 
           <div className="mt-10 flex flex-wrap items-center gap-4">
-            <CTAButton href="/resources" size="lg">
+            {/* Tri's hero CTA already opts into the magnetic hover as its
+                one highest-intent action per page; this hero's equivalent
+                button had no documented reason not to match. */}
+            <CTAButton href="/resources" size="lg" magnetic>
               Find Resources
             </CTAButton>
             <CTAButton href="/crisis" variant="secondary" tone="dark" size="lg">
