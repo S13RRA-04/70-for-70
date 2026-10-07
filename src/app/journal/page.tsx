@@ -262,7 +262,12 @@ export default async function JournalPage(props: PageProps<"/journal">) {
             ) : (
               <>
                 {monthGroups.map((group, i) => (
-                  <div key={group.label} className={i === 0 && !showFilters ? "" : "mt-10"}>
+                  <div
+                    key={group.label}
+                    className={
+                      i === 0 && !showFilters ? "" : "mt-10 border-t border-ink/10 pt-10"
+                    }
+                  >
                     <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
                       {group.label}
                     </h3>
@@ -279,7 +284,7 @@ export default async function JournalPage(props: PageProps<"/journal">) {
                     <Link
                       href={buildJournalHref({ category: activeCategory, page: page + 1 })}
                       scroll={false}
-                      className="inline-flex rounded-sm border border-ink/15 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-ink hover:border-ink/30"
+                      className="inline-flex items-center gap-1.5 rounded-sm border border-ink/20 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-ink transition-all duration-150 hover:bg-ink/5 active:scale-[0.97]"
                     >
                       Load More
                     </Link>

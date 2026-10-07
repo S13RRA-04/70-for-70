@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Play } from "lucide-react";
-import { cn, formatDateLong } from "@/lib/utils";
+import { cn, estimateReadingMinutes, formatDateLong } from "@/lib/utils";
 import { JournalCategoryPlaceholder } from "@/components/journal/journal-category-placeholder";
 import type { JournalEntryRow } from "@/types/database";
 
@@ -80,6 +80,8 @@ export function JournalCard({
                 <time dateTime={entry.published_at}>{formatDateLong(entry.published_at)}</time>
               </>
             )}
+            <span aria-hidden>&middot;</span>
+            <span>{estimateReadingMinutes(entry.body)} min read</span>
           </div>
           <h3
             className={cn(
