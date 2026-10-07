@@ -360,6 +360,46 @@ body {
   }
 
   /*
+   * Native <dialog> open/close transition — covers every <dialog> in the
+   * app (role-detail-dialog, photo-lightbox, external-donate-button's two
+   * dialogs) from one shared rule rather than per-component JS state. Relies
+   * on @starting-style + allow-discrete, which lets a browser that supports
+   * it animate the display:none <-> open transition; a browser that doesn't
+   * just keeps today's instant open/close — purely additive, no regression.
+   */
+  dialog {
+    transition:
+      opacity var(--duration-ui) var(--ease-standard),
+      transform var(--duration-ui) var(--ease-standard),
+      overlay var(--duration-ui) allow-discrete,
+      display var(--duration-ui) allow-discrete;
+    opacity: 1;
+    transform: scale(1);
+  }
+  dialog:not([open]) {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  @starting-style {
+    dialog[open] {
+      opacity: 0;
+      transform: scale(0.98);
+    }
+  }
+  dialog::backdrop {
+    transition: opacity var(--duration-ui) var(--ease-standard);
+    opacity: 1;
+  }
+  dialog:not([open])::backdrop {
+    opacity: 0;
+  }
+  @starting-style {
+    dialog[open]::backdrop {
+      opacity: 0;
+    }
+  }
+
+  /*
    * Safety net: reveal elements must never be left permanently invisible. If
    * scripting is unavailable the observer never runs and data-reveal stays on
    * its hidden variant, so the content would never appear. `scripting: none`

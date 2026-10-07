@@ -3,7 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { FormError, HoneypotField } from "@/components/forms/form-parts";
+import { FORM_CONTROL_CLASS_COMPACT, FormError, HoneypotField } from "@/components/forms/form-parts";
 import { TurnstileWidget } from "@/components/forms/turnstile-widget";
 import { useFormSubmit } from "@/components/forms/use-form-submit";
 
@@ -208,7 +208,7 @@ export function ExternalDonateButton({
                   required
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
-                  className="mt-1 block w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2 text-sm text-ink"
+                  className={FORM_CONTROL_CLASS_COMPACT}
                 />
               </label>
 
@@ -219,7 +219,7 @@ export function ExternalDonateButton({
                   value={donorName}
                   onChange={(e) => setDonorName(e.target.value)}
                   disabled={anonymous}
-                  className="mt-1 block w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2 text-sm text-ink disabled:opacity-50"
+                  className={cn(FORM_CONTROL_CLASS_COMPACT, "disabled:opacity-50")}
                 />
               </label>
 
@@ -229,7 +229,7 @@ export function ExternalDonateButton({
                   type="email"
                   value={donorEmail}
                   onChange={(e) => setDonorEmail(e.target.value)}
-                  className="mt-1 block w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2 text-sm text-ink"
+                  className={FORM_CONTROL_CLASS_COMPACT}
                 />
               </label>
 

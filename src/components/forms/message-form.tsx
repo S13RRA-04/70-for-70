@@ -1,6 +1,6 @@
 "use client";
 
-import { FormError, HoneypotField } from "@/components/forms/form-parts";
+import { FORM_CONTROL_CLASS_COMPACT, FormError, HoneypotField } from "@/components/forms/form-parts";
 import { TurnstileWidget } from "@/components/forms/turnstile-widget";
 import { useFormSubmit } from "@/components/forms/use-form-submit";
 
@@ -50,7 +50,7 @@ export function MessageForm() {
             type="text"
             required
             maxLength={100}
-            className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
+            className={FORM_CONTROL_CLASS_COMPACT}
           />
         </div>
 
@@ -73,7 +73,7 @@ export function MessageForm() {
           rows={4}
           maxLength={MESSAGE_MAX_LENGTH}
           placeholder="Cheer him on, share a quote, or leave a word of support..."
-          className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
+          className={FORM_CONTROL_CLASS_COMPACT}
         />
       </div>
 
