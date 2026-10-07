@@ -183,6 +183,11 @@ export function Footer({
                   </Link>
                 </li>
                 <li>
+                  <a href={`${SITE_URL}/transparency`} className="transition-colors hover:text-off-white">
+                    Transparency <span aria-hidden="true">&#8599;</span>
+                  </a>
+                </li>
+                <li>
                   <a href={`${legalBase}/privacy`} className="transition-colors hover:text-off-white">
                     Privacy
                   </a>
@@ -258,6 +263,11 @@ export function Footer({
                   </a>
                 </li>
                 <li>
+                  <a href={`${SITE_URL}/transparency`} className="transition-colors hover:text-off-white">
+                    Transparency <span aria-hidden="true">&#8599;</span>
+                  </a>
+                </li>
+                <li>
                   <a href={`${legalBase}/privacy`} className="transition-colors hover:text-off-white">
                     Privacy
                   </a>
@@ -320,6 +330,11 @@ export function Footer({
                 Organization
               </p>
               <ul className="mt-4 space-y-2 text-sm text-off-white/70">
+                <li>
+                  <a href={`${SITE_URL}/transparency`} className="transition-colors hover:text-off-white">
+                    Transparency <span aria-hidden="true">&#8599;</span>
+                  </a>
+                </li>
                 <li>
                   <a href={`${legalBase}/privacy`} className="transition-colors hover:text-off-white">
                     Privacy
@@ -457,6 +472,11 @@ export function Footer({
                 Legal
               </p>
               <ul className="mt-4 space-y-2 text-sm text-off-white/70">
+                <li>
+                  <Link href="/transparency" className="transition-colors hover:text-off-white">
+                    Transparency
+                  </Link>
+                </li>
                 <li>
                   <Link href="/terms" className="transition-colors hover:text-off-white">
                     Terms
