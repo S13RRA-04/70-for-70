@@ -125,6 +125,11 @@ export default async function AdminPage() {
       </div>
 
       <div className="mt-6 flex items-center justify-between rounded-sm border border-ink/10 bg-off-white p-6">
+        <div><p className="font-display text-lg font-semibold uppercase tracking-wide text-ink">Resource Navigation</p><p className="mt-1 text-sm text-charcoal-light">Manage flagship records, human-navigation requests, and private feedback.</p></div>
+        <Link href="/admin/resources" className="rounded-sm border border-ink/20 px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-ink hover:bg-ink/5">Manage</Link>
+      </div>
+
+      <div className="mt-6 flex items-center justify-between rounded-sm border border-ink/10 bg-off-white p-6">
         <div>
           <p className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
             Donations
