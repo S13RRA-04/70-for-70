@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChevronDown } from "lucide-react";
 import { NEED_CATEGORIES, RESOURCES } from "@/lib/content/resources";
 import { ResourceCard } from "@/components/resources/resource-card";
@@ -9,6 +9,7 @@ import { StateMap } from "@/components/resources/state-map";
 import { EmptyState } from "@/components/shared/empty-state";
 import { FilterChip } from "@/components/shared/filter-chip";
 import { SearchField } from "@/components/shared/search-field";
+import { RevealGrid } from "@/components/shared/reveal-on-scroll";
 import { cn } from "@/lib/utils";
 
 /** "Who are you?" — the curated filter-row subset. Cards may show additional audience tags beyond this list. */
@@ -73,6 +74,8 @@ export function ResourceDirectory() {
   // one taxonomy category; a single id (the only form older links use)
   // still works unchanged.
   const params = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
   const [needIds, setNeedIds] = useState<string[]>(() => {
     const raw = params.get("need");
     return raw ? raw.split(",").filter(Boolean) : [];
@@ -89,26 +92,61 @@ export function ResourceDirectory() {
   // the filters that are already applied.
   const [filtersOpen, setFiltersOpen] = useState(false);
 
+  // In-page filter changes now sync back to the URL (debounced below) so a
+  // filtered view is shareable/bookmarkable — it previously never touched
+  // the URL at all once mounted. That write is itself a URL change, which
+  // would otherwise be indistinguishable from someone landing via a new
+  // gateway-card link or hitting back/forward — both of which *should*
+  // reset local state from the URL. This flag marks "that next params
+  // change is one I just wrote myself," so the reset logic below only
+  // fires for real external navigation. State, not a ref, since it's read
+  // and set during render (same pattern as lastParamsKey just below) —
+  // React's hooks lint forbids reading/writing a ref's .current in render.
+  const [isSelfWrite, setIsSelfWrite] = useState(false);
+
   // The lazy initializers above cover the normal case (a fresh page load,
   // filtered from the first server-rendered paint). This covers the one
   // they can't: Next's client router reusing this already-mounted page
-  // instance when navigating from one gateway card to another, where only
-  // the query string changes and the initializers never re-run. Comparing
-  // during render (React's documented way to adjust state when a prop
-  // changes, rather than an Effect) lets us reset synchronously, before
-  // the stale-filter results ever paint. In-page filter-chip clicks don't
-  // touch the URL, so paramsKey stays put and they aren't overwritten.
+  // instance when navigating from one gateway card to another (or the user
+  // hitting back/forward), where only the query string changes and the
+  // initializers never re-run. Comparing during render (React's documented
+  // way to adjust state when a prop changes, rather than an Effect) lets us
+  // reset synchronously, before the stale-filter results ever paint.
   const paramsKey = params.toString();
   const [lastParamsKey, setLastParamsKey] = useState(paramsKey);
   if (paramsKey !== lastParamsKey) {
     setLastParamsKey(paramsKey);
-    const raw = params.get("need");
-    setNeedIds(raw ? raw.split(",").filter(Boolean) : []);
-    setAudience(params.get("audience"));
-    setSearch(params.get("q") ?? "");
-    setStateFilter(params.get("state"));
-    setScope(toResourceScope(params.get("scope")));
+    if (isSelfWrite) {
+      setIsSelfWrite(false);
+    } else {
+      const raw = params.get("need");
+      setNeedIds(raw ? raw.split(",").filter(Boolean) : []);
+      setAudience(params.get("audience"));
+      setSearch(params.get("q") ?? "");
+      setStateFilter(params.get("state"));
+      setScope(toResourceScope(params.get("scope")));
+    }
   }
+
+  // Debounced so typing a search query doesn't fire a navigation per
+  // keystroke — chip/map clicks already only fire a few times a session, so
+  // they don't need the delay, but share the same effect for one code path.
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      const next = new URLSearchParams();
+      if (needIds.length > 0) next.set("need", needIds.join(","));
+      if (audience) next.set("audience", audience);
+      if (search) next.set("q", search);
+      if (stateFilter) next.set("state", stateFilter);
+      if (scope !== "all") next.set("scope", scope);
+      const nextKey = next.toString();
+      if (nextKey === paramsKey) return;
+      setIsSelfWrite(true);
+      router.replace(nextKey ? `${pathname}?${nextKey}` : pathname, { scroll: false });
+    }, 300);
+    return () => clearTimeout(timeout);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [needIds, audience, search, stateFilter, scope]);
 
   const activeStates = useMemo(() => {
     const states = new Set<string>();
@@ -148,14 +186,41 @@ export function ResourceDirectory() {
     });
   }, [needIds, audience, stateFilter, scope, search]);
 
-  const activeFilterCount = [needIds.length > 0, Boolean(audience), scope !== "all"].filter(Boolean).length;
+  // Drives the collapsible chip panel's own auto-open — search and the
+  // state map are always visible outside that panel, so they don't need to
+  // force it open.
+  const chipFilterCount = [needIds.length > 0, Boolean(audience), scope !== "all"].filter(Boolean).length;
+  // Drives the toggle button's "N Active" badge and whether a "Clear all"
+  // control appears — this one DOES count search/state, since both are
+  // genuinely active filters even though they live outside the chip panel.
+  // Previously only chipFilterCount was shown here, so a visitor who'd only
+  // searched or only picked a state saw a bare "Filters" label that
+  // understated how filtered the view already was.
+  const totalActiveFilterCount = chipFilterCount + (search ? 1 : 0) + (stateFilter ? 1 : 0);
   // Auto-opens (without an extra effect) once a filter is already active —
   // e.g. a homepage gateway card landing here pre-filtered — so the applied
   // filter is never hidden behind a closed disclosure.
-  const showFilterPanel = filtersOpen || activeFilterCount > 0;
+  const showFilterPanel = filtersOpen || chipFilterCount > 0;
+
+  function clearAllFilters() {
+    setNeedIds([]);
+    setAudience(null);
+    setSearch("");
+    setStateFilter(null);
+    setScope("all");
+  }
 
   return (
     <div>
+      {/* Lets a keyboard user bypass ~50 individually-tabbable state shapes
+          to reach search/filters directly — sr-only until focused. */}
+      <a
+        href="#resource-search"
+        className="sr-only focus:not-sr-only focus:absolute focus:z-10 focus:rounded-sm focus:bg-ink focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:uppercase focus:tracking-wide focus:text-off-white"
+      >
+        Skip the map, go to search &amp; filters
+      </a>
+
       {/* Full-width on its own — a real US choropleth needs real room; small
           Northeast states are unusable squeezed into a sidebar column. */}
       <div className="rounded-sm border border-ink/10 bg-sand-light p-5 sm:p-6">
@@ -200,7 +265,7 @@ export function ResourceDirectory() {
             aria-controls="resource-filter-panel"
             className="flex w-full items-center justify-between rounded-sm border border-ink/10 bg-sand-light px-4 py-3 text-xs font-semibold uppercase tracking-wide text-ink lg:hidden"
           >
-            <span>Filters{activeFilterCount > 0 ? ` · ${activeFilterCount} Active` : ""}</span>
+            <span>Filters{totalActiveFilterCount > 0 ? ` · ${totalActiveFilterCount} Active` : ""}</span>
             <ChevronDown size={14} aria-hidden="true" className={cn("transition-transform", showFilterPanel && "rotate-180")} />
           </button>
 
@@ -236,25 +301,46 @@ export function ResourceDirectory() {
         </div>
 
         <div className="lg:col-span-8 xl:col-span-9">
-          <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-            {results.length} {results.length === 1 ? "resource" : "resources"}
-            {stateFilter && (scope === "state" ? ` in ${stateFilter} only` : ` in ${stateFilter} + nationwide`)}
-            {!stateFilter && scope !== "all" && ` · ${SCOPE_LABELS[scope]} only`}
-          </p>
+          <div className="flex flex-wrap items-baseline justify-between gap-3">
+            {/* aria-live so a screen-reader user hears the updated count after
+                a chip/search/map change, instead of having to re-navigate
+                here to discover the list changed at all. */}
+            <p aria-live="polite" className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+              {results.length} {results.length === 1 ? "resource" : "resources"}
+              {needIds.length > 0 &&
+                ` · ${needIds.map((id) => NEED_CATEGORIES.find((c) => c.id === id)?.label).filter(Boolean).join(", ")}`}
+              {audience && ` · ${audience}`}
+              {search && ` · matching "${search}"`}
+              {stateFilter && (scope === "state" ? ` in ${stateFilter} only` : ` in ${stateFilter} + nationwide`)}
+              {!stateFilter && scope !== "all" && ` · ${SCOPE_LABELS[scope]} only`}
+            </p>
+            {totalActiveFilterCount > 0 && (
+              <button
+                type="button"
+                onClick={clearAllFilters}
+                className="text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
+              >
+                Clear All Filters
+              </button>
+            )}
+          </div>
 
           {results.length === 0 ? (
             <div className="mt-4">
               <EmptyState
                 title="No resources match that combination yet."
-                description="Try a different search term or clearing one of the filters."
+                description="Try a different search term, or clear your filters to see everything."
+                onAction={{ label: "Clear All Filters", onClick: clearAllFilters }}
               />
             </div>
           ) : (
-            <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-              {results.map((resource) => (
-                <ResourceCard key={resource.name} resource={resource} />
-              ))}
-            </div>
+            <RevealGrid>
+              <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+                {results.map((resource) => (
+                  <ResourceCard key={resource.name} resource={resource} />
+                ))}
+              </div>
+            </RevealGrid>
           )}
         </div>
       </div>
