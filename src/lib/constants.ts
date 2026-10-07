@@ -98,6 +98,12 @@ export const CAMPAIGN_URL = process.env.NEXT_PUBLIC_CAMPAIGN_URL ?? "http://loca
 export const RUCK_CAMPAIGN_URL = process.env.NEXT_PUBLIC_RUCK_URL ?? "http://localhost:3000";
 export const RUCK_CAMPAIGN_NAME = "Ruck For The 22";
 
+/** For The 22: Live benefit-concert series — live.forthe22.org. */
+export const LIVE_CAMPAIGN_URL = process.env.NEXT_PUBLIC_LIVE_URL ?? "http://localhost:3000";
+export const LIVE_CAMPAIGN_NAME = "For The 22: Live";
+export const LIVE_REGISTRATION_URL =
+  "https://www.zeffy.com/en-US/ticketing/for-the-22-presents-the-scooter-brown-band";
+
 /**
  * The "For the 22" participant app — app.forthe22.org in production. A
  * different product surface from every campaign above: authenticated,
@@ -178,7 +184,7 @@ export const MOVEMENT_CAMPAIGNS: readonly MovementCampaign[] = [
     status: "in-development",
     description:
       "A benefit concert series bringing together artists, veterans, first responders, families, and supporters — ticket proceeds, sponsorships, silent auctions, and merchandise all contribute to The $70K Mission.",
-    url: "/campaigns/live",
+    url: LIVE_CAMPAIGN_URL,
     parentMission: MISSION_NAME,
   },
   {
@@ -328,6 +334,12 @@ export const EVENT22_NAV_LINKS: NavLink[] = [
   { label: "Register", href: "/#register" },
   { label: "Tracker", href: "/#tracker" },
   { label: "Rules", href: "/rules" },
+];
+
+export const LIVE_NAV_LINKS: NavLink[] = [
+  { label: "Home", href: "/" },
+  { label: "Performances", href: "/events" },
+  { label: "Silent Auction", href: "/auction" },
 ];
 
 /**
@@ -831,6 +843,18 @@ export const CAMPAIGNS: Record<
     primaryCta: { ...RUCK_REGISTER_LINK, external: true },
     parentLink: PARENT_INITIATIVE_LINK,
     crisisLink: CRISIS_LINK,
+  },
+  live: {
+    name: LIVE_CAMPAIGN_NAME,
+    url: LIVE_CAMPAIGN_URL,
+    tagline: "Music Moves the Mission.",
+    description:
+      "A virtual benefit concert series built around music, veteran stories, and direct support for organizations serving the veteran community.",
+    navLinks: LIVE_NAV_LINKS,
+    logoLight: "/logo.png",
+    logoDark: "/logo-white.png",
+    primaryCta: { label: "Register", href: LIVE_REGISTRATION_URL, external: true },
+    parentLink: PARENT_EVENT_LINK,
   },
   "22": {
     name: EVENT22_CAMPAIGN_NAME,

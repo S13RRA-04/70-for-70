@@ -3,20 +3,19 @@ import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTAButton } from "@/components/shared/cta-button";
 import { LIVE_AUCTION } from "@/lib/content/live-auction";
-import { SITE_URL } from "@/lib/constants";
+import { LIVE_CAMPAIGN_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 
 export const metadata = pageMetadata({
   title: `Online Silent Auction | ${LIVE_AUCTION.title}`,
   description: `${LIVE_AUCTION.description} Bidding opens ${LIVE_AUCTION.opensOn}.`,
-  canonical: "/campaigns/live/auction",
+  canonical: "/auction",
 });
 
 const BREADCRUMB_JSON_LD = breadcrumbJsonLd([
-  { name: "Campaigns", url: `${SITE_URL}/campaigns` },
-  { name: "For The 22: Live", url: `${SITE_URL}/campaigns/live` },
-  { name: "Online Silent Auction", url: `${SITE_URL}/campaigns/live/auction` },
+  { name: "For The 22: Live", url: LIVE_CAMPAIGN_URL },
+  { name: "Online Silent Auction", url: `${LIVE_CAMPAIGN_URL}/auction` },
 ]);
 
 export default function LiveAuctionPage() {
