@@ -7,19 +7,19 @@ import { getPublishedLiveEvents } from "@/lib/data/live-events";
 import { formatDateLong } from "@/lib/utils";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
-import { SITE_URL } from "@/lib/constants";
+import { LIVE_CAMPAIGN_URL } from "@/lib/constants";
 import { UPCOMING_LIVE_PERFORMERS } from "@/lib/content/live-campaign";
 import { CTAButton } from "@/components/shared/cta-button";
 
 export const metadata = pageMetadata({
   title: "For The 22: Live — Upcoming Shows",
   description: "Upcoming For The 22: Live benefit concerts — dates, venues, and ticket links.",
-  canonical: "/campaigns/live/events",
+  canonical: "/events",
 });
 
 const BREADCRUMB_JSON_LD = breadcrumbJsonLd([
-  { name: "For The 22: Live", url: `${SITE_URL}/campaigns/live` },
-  { name: "Shows", url: `${SITE_URL}/campaigns/live/events` },
+  { name: "For The 22: Live", url: LIVE_CAMPAIGN_URL },
+  { name: "Shows", url: `${LIVE_CAMPAIGN_URL}/events` },
 ]);
 
 export default async function LiveEventsPage() {
@@ -75,7 +75,7 @@ export default async function LiveEventsPage() {
                 {events.map((event) => (
                   <Link
                     key={event.id}
-                    href={`/campaigns/live/${event.slug}`}
+                    href={`/${event.slug}`}
                     className="hover-lift flex flex-col rounded-sm border border-ink/10 bg-off-white p-6"
                   >
                     {event.starts_at && (

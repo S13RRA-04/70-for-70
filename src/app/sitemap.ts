@@ -23,9 +23,6 @@ const ORG_ROUTES = [
   "/crisis",
   "/advocacy",
   "/campaigns",
-  "/campaigns/live",
-  "/campaigns/live/auction",
-  "/campaigns/live/events",
   "/network",
   "/impact",
   "/standards",
@@ -88,6 +85,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ];
   }
 
+  if (campaignSlug === "live") {
+    const base = CAMPAIGNS.live.url;
+    const liveEvents = await getPublishedLiveEvents();
+    return [
+      { url: `${base}/`, lastModified: new Date() },
+      { url: `${base}/events`, lastModified: new Date() },
+      { url: `${base}/auction`, lastModified: new Date() },
+      ...liveEvents.map((event) => ({
+        url: `${base}/${event.slug}`,
+        lastModified: new Date(event.updated_at),
+      })),
+    ];
+  }
+
   if (campaignSlug === "tri") {
     const entries = await getJournalEntries();
 
@@ -134,11 +145,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: new Date(),
   }));
 
-  const liveEvents = await getPublishedLiveEvents();
-  const liveEventEntries: MetadataRoute.Sitemap = liveEvents.map((event) => ({
-    url: `${SITE_URL}/campaigns/live/${event.slug}`,
-    lastModified: new Date(event.updated_at),
-  }));
-
-  return [...orgEntries, ...stateEntries, ...liveEventEntries];
+  return [...orgEntries, ...stateEntries];
 }

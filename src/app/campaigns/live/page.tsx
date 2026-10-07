@@ -7,19 +7,18 @@ import { MissionProgress } from "@/components/campaign/mission-progress";
 import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
 import { LIVE_CAMPAIGN_DESCRIPTION, LIVE_CAMPAIGN_TAGLINE, LIVE_CONTRIBUTION_METHODS } from "@/lib/content/live-campaign";
 import { LIVE_AUCTION } from "@/lib/content/live-auction";
-import { CAMPAIGN_URL, MISSION_NAME, SITE_URL } from "@/lib/constants";
+import { CAMPAIGN_URL, LIVE_CAMPAIGN_URL, MISSION_NAME } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 
 export const metadata = pageMetadata({
   title: `For The 22: Live | ${LIVE_CAMPAIGN_TAGLINE}`,
   description: LIVE_CAMPAIGN_DESCRIPTION,
-  canonical: "/campaigns/live",
+  canonical: "/",
 });
 
 const BREADCRUMB_JSON_LD = breadcrumbJsonLd([
-  { name: "Campaigns", url: `${SITE_URL}/campaigns` },
-  { name: "For The 22: Live", url: `${SITE_URL}/campaigns/live` },
+  { name: "For The 22: Live", url: LIVE_CAMPAIGN_URL },
 ]);
 
 export default async function LiveCampaignPage() {
@@ -36,7 +35,7 @@ export default async function LiveCampaignPage() {
             Contributes to {MISSION_NAME}
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-4">
-            <CTAButton href="/campaigns/live/events" tone="dark" magnetic>
+            <CTAButton href="/events" tone="dark" magnetic>
               See Upcoming Shows
             </CTAButton>
             <CTAButton href={`${CAMPAIGN_URL}/donate`} external variant="secondary" tone="dark">
@@ -45,7 +44,7 @@ export default async function LiveCampaignPage() {
             <CTAButton href="/70k" variant="secondary" tone="dark">
               Explore the Full $70K Mission
             </CTAButton>
-            <CTAButton href="/campaigns/live/auction" variant="secondary" tone="dark">
+            <CTAButton href="/auction" variant="secondary" tone="dark">
               Silent Auction
             </CTAButton>
           </div>
@@ -63,7 +62,7 @@ export default async function LiveCampaignPage() {
             {LIVE_AUCTION.description}
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
-            <CTAButton href="/campaigns/live/auction">Auction Details</CTAButton>
+            <CTAButton href="/auction">Auction Details</CTAButton>
             <CTAButton href={LIVE_AUCTION.biddingUrl} external variant="secondary">
               View on 32auctions
             </CTAButton>
@@ -102,7 +101,7 @@ export default async function LiveCampaignPage() {
       <CTASection
         title="See the Full Lineup"
         description="Upcoming shows, performers, and ticket links."
-        buttons={[{ label: "See Upcoming Shows", href: "/campaigns/live/events" }]}
+        buttons={[{ label: "See Upcoming Shows", href: "/events" }]}
       />
     </>
   );
