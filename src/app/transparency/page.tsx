@@ -8,6 +8,7 @@ import {
   ShieldCheck,
   Handshake,
   ListChecks,
+  ShoppingBag,
 } from "lucide-react";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
@@ -18,6 +19,7 @@ import { RESOURCES } from "@/lib/content/resources";
 import {
   CAMPAIGN_URL,
   CONTACT_EMAIL,
+  MERCH_BENEFICIARIES,
   PERSONAL_PROJECT_DISCLOSURE,
   SITE_NAME,
   SITE_URL,
@@ -232,12 +234,50 @@ export default async function TransparencyPage() {
         </Container>
       </section>
 
-      {/* Expenses */}
+      {/* Merchandise */}
       <section className="border-y border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container className="max-w-2xl">
           <div className="flex items-start gap-3">
+            <ShoppingBag className="mt-1 h-6 w-6 shrink-0 text-bronze" aria-hidden="true" />
+            <SectionHeading eyebrow="06 — Merchandise" title="Merchandise" />
+          </div>
+          <div className="mt-6 space-y-4 text-base leading-relaxed text-charcoal-light">
+            <p>
+              Campaign merchandise is sold through Bonfire, an independent third-party store —
+              {" "}{SITE_NAME} never takes possession of merchandise proceeds. 100% of net profit is
+              paid by Bonfire directly to {MERCH_BENEFICIARIES[0]} or {MERCH_BENEFICIARIES[1]},
+              with the specific beneficiary noted on each item.
+            </p>
+            <p>
+              A separate, non-fundraising store on {SITE_NAME}&apos;s own site is not a fundraiser
+              for either beneficiary — 100% of its net proceeds go toward the mission&apos;s own
+              operating costs instead (equipment, training, campaign expenses), which is disclosed
+              here rather than folded into the fundraising total above.
+            </p>
+          </div>
+          <div className="mt-4 flex flex-wrap gap-4">
+            <Link
+              href={`${CAMPAIGN_URL}/shop`}
+              className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
+            >
+              Shop (Beneficiary Fundraiser) &rarr;
+            </Link>
+            <Link
+              href="/store"
+              className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
+            >
+              For The 22 Store (Mission Costs) &rarr;
+            </Link>
+          </div>
+        </Container>
+      </section>
+
+      {/* Expenses */}
+      <section className="py-16 sm:py-20">
+        <Container className="max-w-2xl">
+          <div className="flex items-start gap-3">
             <Landmark className="mt-1 h-6 w-6 shrink-0 text-bronze" aria-hidden="true" />
-            <SectionHeading eyebrow="06 — Expenses" title="Expenses" />
+            <SectionHeading eyebrow="07 — Expenses" title="Expenses" />
           </div>
           <div className="mt-6 space-y-4 text-base leading-relaxed text-charcoal-light">
             <p>
@@ -262,11 +302,11 @@ export default async function TransparencyPage() {
       </section>
 
       {/* Organizational Status */}
-      <section className="py-16 sm:py-20">
+      <section className="border-y border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container className="max-w-2xl">
           <div className="flex items-start gap-3">
             <Building2 className="mt-1 h-6 w-6 shrink-0 text-bronze" aria-hidden="true" />
-            <SectionHeading eyebrow="07 — Status" title="Organizational Status" />
+            <SectionHeading eyebrow="08 — Status" title="Organizational Status" />
           </div>
           <div className="mt-6 space-y-4 text-base leading-relaxed text-charcoal-light">
             <p>
@@ -288,7 +328,7 @@ export default async function TransparencyPage() {
         <Container className="max-w-2xl">
           <div className="flex items-start gap-3">
             <ShieldCheck className="mt-1 h-6 w-6 shrink-0 text-bronze-light" aria-hidden="true" />
-            <SectionHeading tone="dark" eyebrow="08 — Independence" title="Independence Disclosure" />
+            <SectionHeading tone="dark" eyebrow="09 — Independence" title="Independence Disclosure" />
           </div>
           <p className="mt-6 text-base leading-relaxed text-off-white/80">{PERSONAL_PROJECT_DISCLOSURE}</p>
         </Container>
@@ -299,7 +339,7 @@ export default async function TransparencyPage() {
         <Container className="max-w-2xl">
           <div className="flex items-start gap-3">
             <Mail className="mt-1 h-6 w-6 shrink-0 text-bronze" aria-hidden="true" />
-            <SectionHeading eyebrow="09 — Contact" title="Questions About Any of This?" />
+            <SectionHeading eyebrow="10 — Contact" title="Questions About Any of This?" />
           </div>
           <p className="mt-6 text-base leading-relaxed text-charcoal-light">
             {CONTACT_EMAIL ? (
