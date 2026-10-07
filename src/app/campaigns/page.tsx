@@ -97,7 +97,7 @@ export default async function CampaignsPage() {
           <SectionHeading
             eyebrow="Current Mission"
             title={MISSION_NAME}
-            description={`What began as a 70.3-mile triathlon challenge grew into something bigger. ${SITE_NAME} is working toward a shared $70,000 fundraising goal in support of ${joinNames(beneficiaryNames)}. Tri For The 22 inspired the number — but reaching it will take more than one athlete and one race. That's why every ${SITE_NAME} campaign contributes toward the same mission.`}
+            description={`${SITE_NAME} is working toward a shared $70,000 fundraising goal in support of ${joinNames(beneficiaryNames)} — funded by every current campaign, not Tri alone.`}
           />
           <div className="mt-8">
             <MissionProgress
