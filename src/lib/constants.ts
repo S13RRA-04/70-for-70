@@ -26,12 +26,15 @@ export const ORG_SUPPORTING_STATEMENT =
  */
 export const ORG_SUPPORTING_LINE = "Connect people. Mobilize communities. Support the organizations doing the work.";
 /**
- * Shown prominently on the homepage, donation pages, and in the footer —
- * required disclosure while ethics approval is pending. Do not remove or
- * soften without written approval covering the change.
+ * Required employer/government independence disclosure — shown in the
+ * footer on every page, plus the legal/disclosure page. Reworded under
+ * written approval to drop "personal, off-duty project" framing (which read
+ * as a side-project disclaimer) while preserving the same substantive
+ * ethics content. Do not remove or further soften without written approval
+ * covering the change.
  */
 export const PERSONAL_PROJECT_DISCLOSURE =
-  "This is a personal, off-duty project. It is not sponsored, endorsed, or operated by any employer or government entity. No government title, authority, time, equipment, contacts, or nonpublic information is used.";
+  "For The 22 is an independent initiative and is not sponsored, endorsed, operated by, or affiliated with any employer or government entity. No government authority, resources, or nonpublic information are used in its operation.";
 /**
  * The specific fundraising campaign/race effort — distinct from SITE_NAME.
  * Individual campaigns follow a "[Mission] For The 22" naming convention
