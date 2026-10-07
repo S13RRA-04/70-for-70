@@ -1,8 +1,15 @@
 "use client";
 
-import { FORM_CONTROL_CLASS_COMPACT, FormError, HoneypotField } from "@/components/forms/form-parts";
+import {
+  controlClassName,
+  fieldA11yProps,
+  FORM_CONTROL_CLASS_COMPACT,
+  FormError,
+  HoneypotField,
+} from "@/components/forms/form-parts";
 import { TurnstileWidget } from "@/components/forms/turnstile-widget";
 import { useFormSubmit } from "@/components/forms/use-form-submit";
+import { messageSchema } from "@/lib/validation/message";
 
 const MESSAGE_MAX_LENGTH = 500;
 
@@ -13,14 +20,16 @@ const MESSAGE_MAX_LENGTH = 500;
  * fill time, per-IP rate limit, Turnstile) as every other public form.
  */
 export function MessageForm() {
-  const { status, errorMessage, setTurnstileToken, turnstileRef, handleSubmit, submitDisabled } = useFormSubmit({
-    endpoint: "/api/messages",
-    buildPayload: (data) => ({
-      name: String(data.get("name") ?? ""),
-      anonymous: data.get("anonymous") === "on",
-      message: String(data.get("message") ?? ""),
-    }),
-  });
+  const { status, errorMessage, fieldErrors, setTurnstileToken, turnstileRef, handleSubmit, submitDisabled } =
+    useFormSubmit({
+      endpoint: "/api/messages",
+      schema: messageSchema,
+      buildPayload: (data) => ({
+        name: String(data.get("name") ?? ""),
+        anonymous: data.get("anonymous") === "on",
+        message: String(data.get("message") ?? ""),
+      }),
+    });
 
   if (status === "success") {
     return (
@@ -50,8 +59,14 @@ export function MessageForm() {
             type="text"
             required
             maxLength={100}
-            className={FORM_CONTROL_CLASS_COMPACT}
+            className={controlClassName(FORM_CONTROL_CLASS_COMPACT, fieldErrors.name)}
+            {...fieldA11yProps("message-name", fieldErrors.name)}
           />
+          {fieldErrors.name && (
+            <p id="message-name-error" role="alert" className="mt-1 text-xs font-medium text-red-700">
+              {fieldErrors.name}
+            </p>
+          )}
         </div>
 
         <div className="flex items-end pb-2.5">
@@ -73,8 +88,14 @@ export function MessageForm() {
           rows={4}
           maxLength={MESSAGE_MAX_LENGTH}
           placeholder="Cheer him on, share a quote, or leave a word of support..."
-          className={FORM_CONTROL_CLASS_COMPACT}
+          className={controlClassName(FORM_CONTROL_CLASS_COMPACT, fieldErrors.message)}
+          {...fieldA11yProps("message-message", fieldErrors.message)}
         />
+        {fieldErrors.message && (
+          <p id="message-message-error" role="alert" className="mt-1 text-xs font-medium text-red-700">
+            {fieldErrors.message}
+          </p>
+        )}
       </div>
 
       <TurnstileWidget ref={turnstileRef} action="message" onToken={setTurnstileToken} />
