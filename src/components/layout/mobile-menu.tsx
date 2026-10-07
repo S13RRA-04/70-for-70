@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { CAMPAIGN_HOME_LINK, CAMPAIGNS } from "@/lib/constants";
 import type { CampaignSlug } from "@/lib/site-mode";
@@ -27,6 +27,38 @@ interface MobileMenuProps {
 export function MobileMenu({ open, onClose, navLinks, pathname, campaignSlug, triggerRef }: MobileMenuProps) {
   const panelRef = useRef<HTMLDivElement>(null);
   const campaign = campaignSlug ? CAMPAIGNS[campaignSlug] : null;
+
+  // Mount-then-animate / delay-unmount so the drawer can slide in and out
+  // instead of popping. `rendered` controls whether the portal exists at
+  // all; `visible` controls the transitioned classes. Mirroring `open` into
+  // these synchronously during render (not inside an effect) is the pattern
+  // this codebase already uses for this exact kind of derived state — see
+  // Header's pathname-change handling just below. Only the genuinely
+  // deferred parts (the next-frame flip to `visible`, and the delayed
+  // unmount) belong in an effect.
+  const [rendered, setRendered] = useState(open);
+  const [visible, setVisible] = useState(false);
+  const [prevOpen, setPrevOpen] = useState(open);
+  if (open !== prevOpen) {
+    setPrevOpen(open);
+    if (open) {
+      setRendered(true);
+    } else {
+      setVisible(false);
+    }
+  }
+
+  useEffect(() => {
+    if (!open) return;
+    const raf = requestAnimationFrame(() => setVisible(true));
+    return () => cancelAnimationFrame(raf);
+  }, [open]);
+
+  useEffect(() => {
+    if (open) return;
+    const timeout = setTimeout(() => setRendered(false), 300);
+    return () => clearTimeout(timeout);
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
@@ -68,7 +100,7 @@ export function MobileMenu({ open, onClose, navLinks, pathname, campaignSlug, tr
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
-  if (!open) return null;
+  if (!rendered) return null;
 
   // Portaled to document.body — the trigger button lives inside <header>,
   // which has backdrop-blur. backdrop-filter establishes a new containing
@@ -82,15 +114,22 @@ export function MobileMenu({ open, onClose, navLinks, pathname, campaignSlug, tr
         type="button"
         aria-hidden="true"
         tabIndex={-1}
-        className="absolute inset-0 bg-anchor/60"
+        className={cn(
+          "absolute inset-0 bg-anchor/60 transition-opacity duration-300 ease-out",
+          visible ? "opacity-100" : "opacity-0",
+        )}
         onClick={onClose}
       />
       <div
         ref={panelRef}
+        id="mobile-nav-panel"
         role="dialog"
         aria-modal="true"
         aria-label="Mobile navigation"
-        className="absolute inset-y-0 right-0 flex w-full max-w-sm flex-col overflow-y-auto bg-off-white shadow-xl"
+        className={cn(
+          "absolute inset-y-0 right-0 flex w-full max-w-sm flex-col overflow-y-auto bg-off-white shadow-xl transition-transform duration-300 ease-out",
+          visible ? "translate-x-0" : "translate-x-full",
+        )}
       >
         <nav aria-label="Mobile" className="flex flex-1 flex-col px-4 py-4 sm:px-6">
           {campaignSlug === "tri" && campaign ? (

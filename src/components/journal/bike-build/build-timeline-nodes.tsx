@@ -29,6 +29,9 @@ function nodeMonthKey(dateOnly: string): string {
   return dateOnly.slice(0, 7); // "2026-09-30" -> "2026-09"
 }
 
+/** Single shared id — only one node's entry panel can be expanded at a time, so every Node's aria-controls points at the same element. */
+const ACTIVE_PANEL_ID = "build-timeline-active-panel";
+
 function Node({
   node,
   isActive,
@@ -79,6 +82,7 @@ function Node({
         onFocus={(e) => onPreview(node, e.currentTarget)}
         onBlur={onPreviewEnd}
         aria-expanded={isActive}
+        aria-controls={ACTIVE_PANEL_ID}
         aria-label={`${node.displayDate}: ${node.entries.map((e) => e.title).join(", ")}`}
         className={cn(
           "relative z-10 flex h-9 w-9 items-center justify-center rounded-full border-2 text-xs font-bold shadow-sm transition-all duration-150",
@@ -502,7 +506,7 @@ export function BuildTimelineNodes({ nodes }: { nodes: BikeBuildTimelineNode[] }
       </div>
 
       {active && (
-        <div className="mt-6 divide-y divide-ink/10 rounded-sm border border-bronze/30 bg-bronze/5">
+        <div id={ACTIVE_PANEL_ID} className="mt-6 divide-y divide-ink/10 rounded-sm border border-bronze/30 bg-bronze/5">
           {active.entries.map((entry) => (
             <div key={entry.id} className="p-5 sm:p-6">
               <EntryDetail entry={entry} />
