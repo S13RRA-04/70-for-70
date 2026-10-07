@@ -38,24 +38,41 @@ export function CampaignPhaseBanner({
 
   const isDark = tone === "dark";
   const showLiveLink = phase === "race-week" || phase === "race-day";
+  // Three-tier escalation instead of identical styling for every phase:
+  // completed is the quietest (resolved, retrospective), race-week is the
+  // existing muted tint (building anticipation), race-day is the one solid
+  // fill (happening right now) — the highest-urgency moment previously
+  // looked no different from the other two. Stays within the existing
+  // bronze palette rather than reaching for `signal`, which is reserved for
+  // crisis/emergency CTAs only (see its own doc comment in globals.css).
+  const isRaceDay = phase === "race-day";
 
   return (
     <div
       className={cn(
         "mb-8 flex flex-wrap items-center justify-between gap-3 rounded-sm border px-5 py-4",
-        isDark ? "border-bronze/40 bg-bronze/15" : "border-bronze/40 bg-bronze/10",
+        isRaceDay
+          ? "border-bronze bg-bronze"
+          : isDark
+            ? "border-bronze/40 bg-bronze/15"
+            : "border-bronze/40 bg-bronze/10",
       )}
     >
       <div>
         <p
           className={cn(
             "text-xs font-semibold uppercase tracking-widest",
-            isDark ? "text-bronze-light" : "text-bronze-text",
+            isRaceDay ? "text-ink" : isDark ? "text-bronze-light" : "text-bronze-text",
           )}
         >
           {copy.label}
         </p>
-        <p className={cn("mt-1 text-sm", isDark ? "text-off-white/80" : "text-charcoal-light")}>
+        <p
+          className={cn(
+            "mt-1 text-sm",
+            isRaceDay ? "text-ink/80" : isDark ? "text-off-white/80" : "text-charcoal-light",
+          )}
+        >
           {copy.body}
         </p>
       </div>
@@ -64,9 +81,11 @@ export function CampaignPhaseBanner({
           href="/live"
           className={cn(
             "shrink-0 rounded-sm px-4 py-2 text-xs font-semibold uppercase tracking-wide transition-colors",
-            isDark
-              ? "bg-bronze text-ink hover:bg-bronze-light"
-              : "bg-bronze-text text-off-white hover:bg-bronze-dark",
+            isRaceDay
+              ? "bg-ink text-off-white hover:bg-anchor-light"
+              : isDark
+                ? "bg-bronze text-ink hover:bg-bronze-light"
+                : "bg-bronze-text text-off-white hover:bg-bronze-dark",
           )}
         >
           Race Day Live &rarr;

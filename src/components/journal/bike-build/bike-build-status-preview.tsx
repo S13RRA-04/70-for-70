@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { PercentCountUp } from "@/components/shared/percent-count-up";
 import type { BikeBuildStatusOverview } from "@/lib/content/building-the-bike";
 
 interface BikeBuildStatusPreviewProps {
@@ -27,7 +28,9 @@ export function BikeBuildStatusPreview({ overview, photo, contributorNames }: Bi
 
       <div>
         <p className="text-xs font-semibold uppercase tracking-widest text-bronze">{overview.badge}</p>
-        <p className="mt-2 font-display text-5xl font-bold tabular-nums text-ink sm:text-6xl">{percent}%</p>
+        <p className="mt-2 font-display text-5xl font-bold tabular-nums text-ink sm:text-6xl">
+          <PercentCountUp value={percent} />
+        </p>
         <p className="mt-1 text-sm font-semibold uppercase tracking-widest text-charcoal-light">Build Status</p>
 
         <p className="mt-4 text-base text-charcoal-light">
