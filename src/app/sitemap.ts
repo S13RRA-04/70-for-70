@@ -28,6 +28,7 @@ const ORG_ROUTES = [
   "/network",
   "/impact",
   "/standards",
+  "/transparency",
   "/70k",
   "/contact",
   "/privacy",

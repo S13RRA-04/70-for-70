@@ -352,6 +352,7 @@ const ORG_PATH_PREFIXES = [
   "/network",
   "/impact",
   "/standards",
+  "/transparency",
   "/70k",
   "/store",
 ];
