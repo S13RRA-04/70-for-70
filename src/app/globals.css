@@ -103,6 +103,25 @@
 
   --background: var(--color-off-white);
   --foreground: var(--color-ink);
+
+  /*
+   * Shared motion-timing system — three tiers, one shared easing curve.
+   * Introduced to collapse several near-duplicate ad hoc durations (150ms,
+   * 200ms, 300ms, 500ms, 700ms) that had each been picked independently per
+   * component into one small, named scale every future animation should
+   * reference instead of a new hardcoded ms value.
+   *
+   * - fast (micro): button/icon/hover/focus/chip feedback — something the
+   *   user just did, acknowledged instantly.
+   * - ui: filter transitions, menus, accordions, dialogs, card
+   *   expansion — a UI element changing shape/visibility.
+   * - narrative: section reveals, progress-bar fills, metric appearance —
+   *   used sparingly, for moments meant to be noticed.
+   */
+  --duration-fast: 150ms;
+  --duration-ui: 300ms;
+  --duration-narrative: 600ms;
+  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @theme inline {
@@ -227,8 +246,8 @@ body {
   [data-reveal] {
     opacity: 0;
     transition:
-      opacity 600ms cubic-bezier(0.16, 1, 0.3, 1),
-      transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+      opacity var(--duration-narrative) var(--ease-standard),
+      transform var(--duration-narrative) var(--ease-standard);
     will-change: opacity, transform;
   }
 
@@ -271,8 +290,8 @@ body {
   [data-reveal-group="pending"] > * {
     opacity: 0;
     transition:
-      opacity 600ms cubic-bezier(0.16, 1, 0.3, 1),
-      transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+      opacity var(--duration-narrative) var(--ease-standard),
+      transform var(--duration-narrative) var(--ease-standard);
   }
 
   [data-reveal-group="pending"][data-reveal-variant="rise"] > * {
@@ -330,8 +349,8 @@ body {
    */
   .hover-lift {
     transition:
-      transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
-      border-color 200ms ease-out;
+      transform var(--duration-fast) var(--ease-standard),
+      border-color var(--duration-fast) ease-out;
   }
 
   @media (hover: hover) {
