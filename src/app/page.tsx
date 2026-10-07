@@ -41,6 +41,7 @@ const WHO_WE_SERVE = [
 ] as const;
 
 const RAIL_SECTIONS = [
+  { id: "network", label: "Network" },
   { id: "resources", label: "Resources" },
   { id: "why-22", label: "Meaning" },
   { id: "mission", label: "The Mission" },
@@ -159,6 +160,45 @@ export default async function HomePage() {
         </Container>
       </section>
 
+      {/* Network Snapshot — Tier 2: a restrained institutional proof band
+          directly after the hero, before anything else, so a new visitor
+          sees evidence of a real organization before diving into either the
+          resource directory or the founder story. Values from
+          getMissionMetrics()/getFundraisingImpactStats(), never hardcoded. */}
+      <section id="network" className="scroll-mt-20 bg-off-white py-16 sm:py-20">
+        <Container>
+          <RevealOnScroll>
+            <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
+              <div className="lg:col-span-5">
+                <SectionHeading
+                  eyebrow="The Ecosystem"
+                  title="A Growing Network Behind the Mission"
+                  description="Resources, beneficiaries, campaign partners, and active campaigns — one organization, not separate projects."
+                />
+                <CTAButton href="/network" variant="secondary" className="mt-6">
+                  Explore the Network &rarr;
+                </CTAButton>
+              </div>
+              <dl className="grid grid-cols-2 gap-4 lg:col-span-7 sm:grid-cols-4">
+                {networkStats.map((stat) => (
+                  <div
+                    key={stat.label}
+                    className="rounded-sm border border-ink/10 bg-sand-light/60 p-5 text-center"
+                  >
+                    <dd className="font-display text-3xl font-semibold text-ink sm:text-4xl">
+                      {String(stat.value)}
+                    </dd>
+                    <dt className="mt-1 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                      {stat.label}
+                    </dt>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </RevealOnScroll>
+        </Container>
+      </section>
+
       {/* Find the Support You Need — Tier 2: gateway into the resource directory, crisis access integrated as a paired dark panel rather than its own full-width band */}
       <section id="resources" className="scroll-mt-20 bg-sand-light py-16 sm:py-24">
         <Container>
@@ -243,44 +283,6 @@ export default async function HomePage() {
           </Container>
         </section>
       )}
-
-      {/* Network Snapshot — compact live stats linking to /network; placed
-          before the founder story so the ecosystem reads before the personal
-          narrative. Values from getFundraisingImpactStats()/RESOURCES, never
-          hardcoded (credibility plan §5). */}
-      <section id="network" className="scroll-mt-20 bg-off-white py-16 sm:py-20">
-        <Container>
-          <RevealOnScroll>
-            <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
-              <div className="lg:col-span-5">
-                <SectionHeading
-                  eyebrow="The Ecosystem"
-                  title="A Growing Network Behind the Mission"
-                  description="Resources, beneficiaries, campaign partners, and active campaigns — one organization, not separate projects."
-                />
-                <CTAButton href="/network" variant="secondary" className="mt-6">
-                  Explore the Network &rarr;
-                </CTAButton>
-              </div>
-              <dl className="grid grid-cols-2 gap-4 lg:col-span-7 sm:grid-cols-4">
-                {networkStats.map((stat) => (
-                  <div
-                    key={stat.label}
-                    className="rounded-sm border border-ink/10 bg-sand-light/60 p-5 text-center"
-                  >
-                    <dd className="font-display text-3xl font-semibold text-ink sm:text-4xl">
-                      {String(stat.value)}
-                    </dd>
-                    <dt className="mt-1 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-                      {stat.label}
-                    </dt>
-                  </div>
-                ))}
-              </dl>
-            </div>
-          </RevealOnScroll>
-        </Container>
-      </section>
 
       {/* $70K Mission — the one active initiative, not the org's identity.
           Beneficiary names come from real data (getPartners()), never

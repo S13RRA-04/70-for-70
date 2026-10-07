@@ -167,13 +167,16 @@ const MISSION_CAMPAIGN_CARDS: MissionCampaignCard[] = [
  * Mission-first repositioning (see the approved plan in
  * .claude/plans — this page no longer leads with race mileage/date or
  * carries a permanent "Building the Bike" section): Hero, Who Your Support
- * Helps, What Is For The 22, Current Campaign, Fundraising Goal, Mission in
- * Action, Ways to Get Involved, Stories From the Mission, Organizations
- * Standing With the Mission, Why Cody Chose to Carry This Mission,
- * ForThe22.org CTA, Final CTA. Detailed follow-along content still lives on
- * its own pages (/journal, /the-race, /journal/building-the-bike, /sponsors,
- * /get-involved) — this page previews and links to them, it doesn't
- * duplicate them.
+ * Helps, What Is For The 22, Organizations Standing With the Mission,
+ * Current Campaign, Fundraising Goal, Mission in Action, Ways to Get
+ * Involved, Stories From the Mission, Why Cody Chose to Carry This Mission,
+ * ForThe22.org CTA, Final CTA. Organizations Standing With the Mission moved
+ * up from its former spot after Stories From the Mission — institutional
+ * proof (who stands with this) should read before the founder story, not
+ * sandwiched right in front of it. Detailed follow-along content still
+ * lives on its own pages (/journal, /the-race, /journal/building-the-bike,
+ * /sponsors, /get-involved) — this page previews and links to them, it
+ * doesn't duplicate them.
  *
  * A conditional section — EventPromoSection, between the hero and Live
  * Campaign Status — only renders during 22 For the 22's promo window (see
@@ -333,7 +336,29 @@ export default async function CampaignHomePage() {
         </Container>
       </section>
 
-      {/* 4. Current Campaign */}
+      {/* 4. Organizations Standing With the Mission — moved up from after
+          "Stories From the Mission" so institutional proof (who stands with
+          this) reads early, well before the founder story. */}
+      <section className="border-b border-ink/10 py-16 sm:py-20">
+        <Container>
+          <SectionHeading
+            eyebrow="Standing With the Mission"
+            title="Organizations Standing With the Mission"
+            description="These businesses, clubs, and organizations contribute equipment, services, expertise, visibility, financial support, or community reach to help For The 22 move forward."
+          />
+          <div className="mt-8">
+            <PartnerLogoWall presentingPartners={presentingPartners} otherPartners={otherPartners} />
+          </div>
+          <Link
+            href="/become-a-partner"
+            className="mt-8 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
+          >
+            Become a Partner &rarr;
+          </Link>
+        </Container>
+      </section>
+
+      {/* 5. Current Campaign */}
       <section className="border-b border-ink/10 py-16 sm:py-20">
         <Container>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze">Current Campaign</p>
@@ -387,7 +412,7 @@ export default async function CampaignHomePage() {
         </Container>
       </section>
 
-      {/* 5. The $70K Mission */}
+      {/* 6. The $70K Mission */}
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container className="max-w-2xl">
           <SectionHeading eyebrow="Fund the Mission" title="For The 22's Shared $70,000 Mission Goal" />
@@ -420,7 +445,7 @@ export default async function CampaignHomePage() {
         </Container>
       </section>
 
-      {/* 6. Mission in Action */}
+      {/* 7. Mission in Action */}
       <section className="border-b border-ink/10 py-16 sm:py-20">
         <Container>
           <SectionHeading eyebrow={MISSION_NAME} title={MISSION_SUPPORTING_LINE} />
@@ -471,7 +496,7 @@ export default async function CampaignHomePage() {
         </Container>
       </section>
 
-      {/* 7. Ways to Get Involved */}
+      {/* 8. Ways to Get Involved */}
       <section className="border-b border-ink/10 bg-ink py-16 text-off-white sm:py-20">
         <Container>
           <SectionHeading eyebrow="Get Involved" title="Move the Mission Forward" tone="dark" />
@@ -493,7 +518,7 @@ export default async function CampaignHomePage() {
         </Container>
       </section>
 
-      {/* 8. Stories From the Mission */}
+      {/* 9. Stories From the Mission */}
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container>
           <SectionHeading eyebrow="Follow Along" title="Stories From the Mission" />
@@ -520,26 +545,6 @@ export default async function CampaignHomePage() {
             className="mt-8 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
           >
             View the Journal &rarr;
-          </Link>
-        </Container>
-      </section>
-
-      {/* 9. Organizations Standing With the Mission */}
-      <section className="border-b border-ink/10 py-16 sm:py-20">
-        <Container>
-          <SectionHeading
-            eyebrow="Standing With the Mission"
-            title="Organizations Standing With the Mission"
-            description="These businesses, clubs, and organizations contribute equipment, services, expertise, visibility, financial support, or community reach to help For The 22 move forward."
-          />
-          <div className="mt-8">
-            <PartnerLogoWall presentingPartners={presentingPartners} otherPartners={otherPartners} />
-          </div>
-          <Link
-            href="/become-a-partner"
-            className="mt-8 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
-          >
-            Become a Partner &rarr;
           </Link>
         </Container>
       </section>
