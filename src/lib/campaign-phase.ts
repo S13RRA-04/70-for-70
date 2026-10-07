@@ -18,15 +18,25 @@ function toDateOnly(d: Date): Date {
   return new Date(d.getFullYear(), d.getMonth(), d.getDate());
 }
 
-export function getCampaignPhase(now: Date = new Date()): CampaignPhase {
+/**
+ * Whole calendar days between `now` and RACE_INFO.raceDate, or null if the
+ * date isn't confirmed or the race has already happened. The one place this
+ * diff is computed — getCampaignPhase, getDaysToRace, and getWeeksToRace all
+ * derive from it so "days until the race" can never disagree at a day
+ * boundary between the phase banner and the countdown stat.
+ */
+function getDaysUntilRace(now: Date): number | null {
   const { raceDate } = RACE_INFO;
-  if (!raceDate) return "active";
+  if (!raceDate) return null;
+  const diffDays = Math.round((toDateOnly(new Date(raceDate)).getTime() - toDateOnly(now).getTime()) / 86_400_000);
+  return diffDays < 0 ? null : diffDays;
+}
 
-  const race = toDateOnly(new Date(raceDate));
-  const today = toDateOnly(now);
-  const diffDays = Math.round((race.getTime() - today.getTime()) / 86_400_000);
+export function getCampaignPhase(now: Date = new Date()): CampaignPhase {
+  if (!RACE_INFO.raceDate) return "active";
 
-  if (diffDays < 0) return "completed";
+  const diffDays = getDaysUntilRace(now);
+  if (diffDays === null) return "completed";
   if (diffDays === 0) return "race-day";
   if (diffDays <= 7) return "race-week";
   return "active";
@@ -92,11 +102,8 @@ export function getWeeksToRace(now: Date = new Date()): number | null {
  * confirmed or after it's passed — same guard as getWeeksToRace, for the
  * homepage campaign status bar's "N DAYS TO CHATTANOOGA" figure, which
  * reads better as a day count than a week count this close to race day.
+ * Shares its diff math with getCampaignPhase via getDaysUntilRace.
  */
 export function getDaysToRace(now: Date = new Date()): number | null {
-  const { raceDate } = RACE_INFO;
-  if (!raceDate) return null;
-  const diffMs = new Date(raceDate).getTime() - now.getTime();
-  if (diffMs < 0) return null;
-  return Math.ceil(diffMs / 86_400_000);
+  return getDaysUntilRace(now);
 }

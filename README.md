@@ -1420,10 +1420,13 @@ order:
   a `returning_visitor` signal (needs an actual client-side identifier —
   not just a data attribute, so deliberately not faked), and eventually an
   admin conversion dashboard alongside the traffic one at `/admin/analytics`.
-- **23 — Empty states, refinement**: the homepage's $0 state ("The
-  Starting Line" / "Claim the First Mile") is done (see `hasStarted` in
-  `src/app/page.tsx`). Worth refining further once the first mile is
-  actually funded — e.g. referencing that specific mile in the copy.
+- **23 — Empty states, refinement**: the dedicated "$0 state" copy branch
+  (`hasStarted` in `src/app/page.tsx`) was retired — the homepage now always
+  renders `MissionProgress` with the real live total from
+  `getFundraisingImpactStats()`/`getMissionMetrics()`, including a genuine
+  $0. No special "Starting Line" treatment exists in code today; worth
+  reintroducing deliberately (not as a stale doc claim) if a $0 state ever
+  needs its own framing again.
 - **24 — Recent activity feed**: the admin CRUD to enter/verify donations
   now exists ([Donation Tracking Workflow](#donation-tracking-workflow));
   `/live`'s "Recent Mission Support" section (`getRecentDonations()`) is
