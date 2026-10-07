@@ -482,7 +482,7 @@ export function Footer({
                 Veterans and Athletes United.
               </p>
               <p className="mt-2 max-w-3xl text-xs text-off-white/60">
-                Personal, off-duty project. No employer or government affiliation.{" "}
+                Independent initiative. No employer or government affiliation.{" "}
                 <a
                   href="/campaign-terms#trademarks-and-endorsement"
                   className="underline-offset-2 hover:text-off-white/80 hover:underline"

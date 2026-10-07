@@ -233,12 +233,12 @@ export default async function PressPage() {
 
           <div>
             <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
-              Project Summary
+              Organization Summary
             </h2>
             <p className="mt-3 text-base leading-relaxed text-charcoal-light">
-              For The 22 is an independent, off-duty resource initiative that helps veterans and
-              first responders find established programs, services, and communities supporting
-              mental, physical, emotional, and spiritual health.
+              For The 22 is an independent veteran-founded initiative connecting veterans, first
+              responders, and their families with trusted resources while mobilizing communities
+              through campaigns that support established organizations serving them.
             </p>
           </div>
 

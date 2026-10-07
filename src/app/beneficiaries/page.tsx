@@ -6,7 +6,7 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { RevealGrid } from "@/components/shared/reveal-on-scroll";
 import { PartnerCard } from "@/components/partners/partner-card";
 import { CTAButton } from "@/components/shared/cta-button";
-import { CAMPAIGN_NAME, CAMPAIGN_URL, DONATE_LINK, PERSONAL_PROJECT_DISCLOSURE } from "@/lib/constants";
+import { CAMPAIGN_NAME, CAMPAIGN_URL, DONATE_LINK } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, CAMPAIGN_HOME_CRUMB, jsonLdScriptProps } from "@/lib/json-ld";
 
@@ -41,7 +41,6 @@ export default async function BeneficiariesPage() {
           title="Beneficiaries"
           description={`${CAMPAIGN_NAME} raises funds in support of the confirmed nonprofit organizations below. Charitable donations are made directly through each organization's own authorized donation platform.`}
         />
-        <p className="mt-3 max-w-2xl text-base text-off-white/75">{PERSONAL_PROJECT_DISCLOSURE}</p>
         <div className="mt-8">
           <CTAButton href={DONATE_LINK.href} variant="secondary" tone="dark">
             {DONATE_LINK.label}
