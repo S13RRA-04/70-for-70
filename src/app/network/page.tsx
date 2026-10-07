@@ -6,6 +6,7 @@ import { CTAButton } from "@/components/shared/cta-button";
 import { CTASection } from "@/components/shared/cta-section";
 import { PartnerCard } from "@/components/partners/partner-card";
 import { PartnerLogoWall } from "@/components/partners/partner-logo-wall";
+import { PartnerLogoDisclosure } from "@/components/partners/partner-logo-disclosure";
 import { getPartners } from "@/lib/data/partners";
 import { getMissionPartners } from "@/lib/data/mission-partners";
 import { getMissionMetrics } from "@/lib/data/mission-metrics";
@@ -138,9 +139,22 @@ export default async function NetworkPage() {
               reason a campaign can promise 100% of proceeds to its beneficiaries.
             </p>
 
-            <div className="mt-6">
-              <PartnerLogoWall presentingPartners={presentingPartners} otherPartners={otherPartners} />
-            </div>
+            {presentingPartners.length > 0 && (
+              <div className="mt-6">
+                <PartnerLogoWall presentingPartners={presentingPartners} otherPartners={[]} />
+              </div>
+            )}
+
+            {otherPartners.length > 0 && (
+              <div className="mt-8">
+                <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                  Tap a logo for details
+                </p>
+                <div className="mt-3">
+                  <PartnerLogoDisclosure partners={otherPartners} />
+                </div>
+              </div>
+            )}
 
             <CTAButton href={`${CAMPAIGN_URL}/sponsors`} external variant="secondary" className="mt-6">
               See All Campaign Partners
