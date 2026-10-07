@@ -26,10 +26,19 @@ function YouTubeIcon({ className }: { className?: string }) {
   );
 }
 
+function XIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+      <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.602-9.83L0 1.154h7.594l5.243 6.932 6.064-6.933Zm-1.292 19.491h2.039L6.486 3.24H4.298L17.61 20.644Z" />
+    </svg>
+  );
+}
+
 const PLATFORM_ICONS: Record<string, (props: { className?: string }) => React.JSX.Element> = {
   facebook: FacebookIcon,
   instagram: InstagramIcon,
   youtube: YouTubeIcon,
+  x: XIcon,
 };
 
 /**

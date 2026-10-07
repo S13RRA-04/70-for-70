@@ -187,7 +187,7 @@ export function TrainingObjectivesChecklist({ objectives }: { objectives: Traini
         className="mt-3 h-3 w-full overflow-hidden rounded-full bg-charcoal/10"
       >
         <div
-          className="h-full rounded-full bg-gradient-to-r from-olive to-bronze transition-[width] duration-700 ease-out"
+          className="h-full rounded-full bg-gradient-to-r from-olive to-bronze transition-[width] duration-600 ease-out"
           style={{ width: `${percent}%` }}
         />
       </div>
