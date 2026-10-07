@@ -75,7 +75,7 @@ export default function AboutPage() {
         <Container>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze">01 — Service</p>
           <div className="mt-6">
-            <ImageTextRow image={myStory.image!} heading={myStory.heading}>
+            <ImageTextRow image={myStory.image!} heading={myStory.heading} reverse>
               {myStory.body.map((paragraph, i) => (
                 <p key={i} className="text-base leading-relaxed text-charcoal-light">
                   {paragraph}
@@ -159,7 +159,7 @@ export default function AboutPage() {
               </p>
             ))}
           </div>
-          <blockquote className="mt-6 border-l-2 border-bronze py-1 pl-5 text-lg italic leading-relaxed text-ink">
+          <blockquote className="mt-6 border-l-2 border-bronze pl-6 font-display text-lg font-medium italic leading-relaxed text-ink sm:text-xl">
             There is another veteran somewhere trying to figure out what comes next — another
             who needs a mission.
           </blockquote>
