@@ -135,8 +135,10 @@ export default async function NetworkPage() {
               The Organizations & Businesses Behind the Campaigns
             </h2>
             <p className="mt-4 text-base leading-relaxed text-charcoal-light">
-              Campaign partners sponsor events, supply gear, and back the work directly — the
-              reason a campaign can promise 100% of proceeds to its beneficiaries.
+              Campaign partners sponsor events, supply gear, and help cover campaign costs
+              directly. That support — plus every donation link routing straight to a
+              beneficiary&apos;s own platform rather than through the campaign — is why 100% of
+              each donation reaches the beneficiary it was given to.
             </p>
 
             {presentingPartners.length > 0 && (
