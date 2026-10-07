@@ -72,6 +72,26 @@ export interface Resource {
    * quarterly"). Only set when the org's own site states it.
    */
   availability?: string;
+  /** Structured trust/access fields. Unknown values stay unset; the UI must never infer them. */
+  organizationType?: "nonprofit" | "government" | "commercial" | "peer-community" | "education" | "other";
+  verificationStatus?: "verified" | "reviewed" | "community-recommended" | "pending-review" | "information-incomplete";
+  whyIncluded?: string;
+  veteranLed?: boolean;
+  firstResponderLed?: boolean;
+  faithBased?: boolean;
+  peerLed?: boolean;
+  virtualAvailable?: boolean;
+  inPersonAvailable?: boolean;
+  selfReferral?: boolean;
+  employerInvolvementRequired?: boolean;
+  anonymousInitialContact?: boolean;
+  outsideAgencyProvider?: boolean;
+  insuranceRequired?: boolean;
+  referralRequired?: boolean;
+  applicationRequired?: boolean;
+  documentationRequired?: boolean;
+  confidentialityPolicyUrl?: string;
+  situationalTags?: string[];
 }
 
 export interface NeedCategory {

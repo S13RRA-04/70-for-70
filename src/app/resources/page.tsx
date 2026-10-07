@@ -4,6 +4,7 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
 import { MobileActionBar } from "@/components/shared/mobile-action-bar";
 import { ResourceDirectory } from "@/components/resources/resource-directory";
+import { ResourceNavigator } from "@/components/resources/resource-navigator";
 import { CONTACT_EMAIL, SITE_NAME } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
@@ -29,6 +30,14 @@ export default function ResourcesPage() {
 
       <section className="py-16 sm:py-20">
         <Container>
+          <ResourceNavigator />
+          <div id="browse-resources" className="mt-16 scroll-mt-24 border-t border-ink/10 pt-12">
+            <SectionHeading
+              eyebrow="Explore Everything"
+              title="Browse All Resources"
+              description="Search directly or filter by need, population, and location."
+            />
+          </div>
           <Suspense fallback={null}>
             <ResourceDirectory />
           </Suspense>

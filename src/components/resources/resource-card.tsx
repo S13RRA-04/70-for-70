@@ -24,7 +24,8 @@ export function ResourceCard({ resource }: { resource: Resource }) {
       href={resource.url}
       target="_blank"
       rel="noopener noreferrer"
-      data-analytics-event="resource_click"
+      data-analytics-event="resource_outbound_click"
+      data-resource-id={resource.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")}
       className="hover-lift group flex flex-col rounded-sm border border-ink/10 bg-off-white p-5 transition-colors hover:border-bronze/40"
     >
       <div className="flex items-start gap-3">
@@ -45,6 +46,12 @@ export function ResourceCard({ resource }: { resource: Resource }) {
 
       {categoryLabel && (
         <p className="mt-2 text-[11px] font-semibold uppercase tracking-widest text-bronze-text">{categoryLabel}</p>
+      )}
+
+      {resource.verificationStatus && (
+        <p className="mt-2 text-[10px] font-semibold uppercase tracking-widest text-olive">
+          {resource.verificationStatus.replaceAll("-", " ")} · <span className="normal-case tracking-normal text-charcoal-light">see review standard</span>
+        </p>
       )}
 
       <div className="mt-3 flex flex-wrap gap-1.5">
