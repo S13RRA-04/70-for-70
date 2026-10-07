@@ -24,6 +24,7 @@ const ORG_ROUTES = [
   "/advocacy",
   "/campaigns",
   "/campaigns/live",
+  "/campaigns/live/auction",
   "/campaigns/live/events",
   "/network",
   "/impact",

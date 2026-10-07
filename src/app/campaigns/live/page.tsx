@@ -6,6 +6,7 @@ import { RevealGrid } from "@/components/shared/reveal-on-scroll";
 import { MissionProgress } from "@/components/campaign/mission-progress";
 import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
 import { LIVE_CAMPAIGN_DESCRIPTION, LIVE_CAMPAIGN_TAGLINE, LIVE_CONTRIBUTION_METHODS } from "@/lib/content/live-campaign";
+import { LIVE_AUCTION } from "@/lib/content/live-auction";
 import { CAMPAIGN_URL, MISSION_NAME, SITE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
@@ -43,6 +44,28 @@ export default async function LiveCampaignPage() {
             </CTAButton>
             <CTAButton href="/70k" variant="secondary" tone="dark">
               Explore the Full $70K Mission
+            </CTAButton>
+            <CTAButton href="/campaigns/live/auction" variant="secondary" tone="dark">
+              Silent Auction
+            </CTAButton>
+          </div>
+        </Container>
+      </section>
+
+      <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
+        <Container className="max-w-3xl">
+          <SectionHeading
+            eyebrow="Online Silent Auction"
+            title={LIVE_AUCTION.title}
+            description={`Bidding opens ${LIVE_AUCTION.opensOn}. Winner announced ${LIVE_AUCTION.winnerAnnouncement}.`}
+          />
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-charcoal-light">
+            {LIVE_AUCTION.description}
+          </p>
+          <div className="mt-8 flex flex-wrap gap-4">
+            <CTAButton href="/campaigns/live/auction">Auction Details</CTAButton>
+            <CTAButton href={LIVE_AUCTION.biddingUrl} external variant="secondary">
+              View on 32auctions
             </CTAButton>
           </div>
         </Container>

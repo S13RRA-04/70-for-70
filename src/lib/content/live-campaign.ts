@@ -18,7 +18,7 @@ export const LIVE_CONTRIBUTION_METHODS: LiveContributionMethod[] = [
   { label: "Ticket Proceeds", description: "A portion of every ticket sold goes toward the mission." },
   { label: "Direct Donations", description: "Attendees can give directly at the show or online." },
   { label: "Event Sponsors", description: "Businesses and organizations sponsor the show itself." },
-  { label: "Silent Auction", description: "Donated items and experiences, auctioned live at the event." },
+  { label: "Silent Auction", description: "Donated items and experiences offered through the online auction." },
   { label: "Artist-Donated Memorabilia", description: "Signed gear and memorabilia contributed by performers." },
   { label: "Merchandise", description: "Event and campaign merch sold on-site and online." },
 ];
