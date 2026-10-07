@@ -84,6 +84,7 @@ export function ResourceDirectory() {
   const [search, setSearch] = useState(() => params.get("q") ?? "");
   const [stateFilter, setStateFilter] = useState<string | null>(() => params.get("state"));
   const [scope, setScope] = useState<ResourceScope>(() => toResourceScope(params.get("scope")));
+  const [accessFilters, setAccessFilters] = useState<string[]>([]);
   // Below `lg:`, the filter chip stack (3 groups, up to ~20 buttons total)
   // starts collapsed so a mobile visitor reaches search + results without
   // scrolling past it first — `lg:` always shows it regardless of this
@@ -168,6 +169,16 @@ export function ResourceDirectory() {
       // hide them.
       const matchesState = !stateFilter || !resource.state || resource.state === stateFilter;
       const matchesScope = scope === "all" || (scope === "national" ? !resource.state : Boolean(resource.state));
+      const matchesAccess = accessFilters.every((filter) => {
+        if (filter === "Self-referral") return resource.selfReferral === true;
+        if (filter === "No employer referral") return resource.employerInvolvementRequired === false;
+        if (filter === "Independent provider") return resource.outsideAgencyProvider === true;
+        if (filter === "Anonymous initial contact") return resource.anonymousInitialContact === true;
+        if (filter === "Virtual access") return resource.virtualAvailable === true;
+        if (filter === "No insurance required") return resource.insuranceRequired === false;
+        if (filter === "Peer-led") return resource.peerLed === true;
+        return true;
+      });
 
       const needLabels = resource.needCategoryIds.map(
         (id) => NEED_CATEGORIES.find((c) => c.id === id)?.label ?? "",
@@ -182,14 +193,14 @@ export function ResourceDirectory() {
         resource.geographicScope.toLowerCase().includes(query) ||
         (resource.state?.toLowerCase().includes(query) ?? false);
 
-      return matchesNeed && matchesAudience && matchesState && matchesScope && matchesSearch;
+      return matchesNeed && matchesAudience && matchesState && matchesScope && matchesAccess && matchesSearch;
     });
-  }, [needIds, audience, stateFilter, scope, search]);
+  }, [needIds, audience, stateFilter, scope, accessFilters, search]);
 
   // Drives the collapsible chip panel's own auto-open — search and the
   // state map are always visible outside that panel, so they don't need to
   // force it open.
-  const chipFilterCount = [needIds.length > 0, Boolean(audience), scope !== "all"].filter(Boolean).length;
+  const chipFilterCount = [needIds.length > 0, Boolean(audience), scope !== "all", accessFilters.length > 0].filter(Boolean).length;
   // Drives the toggle button's "N Active" badge and whether a "Clear all"
   // control appears — this one DOES count search/state, since both are
   // genuinely active filters even though they live outside the chip panel.
@@ -208,6 +219,7 @@ export function ResourceDirectory() {
     setSearch("");
     setStateFilter(null);
     setScope("all");
+    setAccessFilters([]);
   }
 
   return (
@@ -297,6 +309,14 @@ export function ResourceDirectory() {
               }
               chipSize="sm"
             />
+            <FilterRow
+              label="Confirmed Access & Privacy"
+              options={["Self-referral", "No employer referral", "Independent provider", "Anonymous initial contact", "Virtual access", "No insurance required", "Peer-led"]}
+              activeValues={accessFilters}
+              onSelect={(value) => setAccessFilters(value ? (accessFilters.includes(value) ? accessFilters.filter((item) => item !== value) : [...accessFilters, value]) : [])}
+              chipSize="sm"
+            />
+            <p className="text-[11px] leading-relaxed text-charcoal-light">These filters only match details explicitly confirmed from provider information. Missing information is treated as unknown.</p>
           </div>
         </div>
 

@@ -85,6 +85,13 @@ const WHAT_CHANGES = [
   "Program details can change. Visitors should confirm eligibility, availability, cost, and services directly with the organization.",
 ];
 
+const EXCLUSIONS = [
+  "Misleading claims or an identity that cannot be reasonably verified",
+  "Predatory financial practices, unsafe services, or deceptive marketing",
+  "Persistent, credible complaints that are not addressed",
+  "Pay-to-play referral arrangements or pressure to purchase placement",
+];
+
 export default function StandardsPage() {
   return (
     <>
@@ -98,6 +105,24 @@ export default function StandardsPage() {
             title="How Resources Are Reviewed"
             description={`${SITE_NAME} lists ${RESOURCES.length} programs and services. Every one goes through the same review before it appears — here is exactly what that involves, and what it does not mean.`}
           />
+        </Container>
+      </section>
+
+      <section className="border-y border-ink/10 bg-sand-light py-16 sm:py-20">
+        <Container className="max-w-3xl">
+          <SectionHeading eyebrow="Independence" title="What We Exclude" description="A listing must remain useful to the person seeking help, not merely useful to the provider." />
+          <ul className="mt-7 grid gap-3 sm:grid-cols-2">
+            {EXCLUSIONS.map((item) => <li key={item} className="border border-ink/10 bg-off-white p-4 text-sm leading-relaxed text-charcoal-light">{item}</li>)}
+          </ul>
+          <div className="mt-8 space-y-4 text-sm leading-relaxed text-charcoal-light">
+            <p><strong className="text-ink">Commercial providers:</strong> Paid providers may be listed when their commercial status and costs are clear and they independently meet the same relevance and transparency standards.</p>
+            <p><strong className="text-ink">No purchased placement:</strong> Organizations cannot buy preferential placement. Sponsorship is disclosed separately and never changes navigator ranking.</p>
+            <p><strong className="text-ink">Review cycle:</strong> Records are targeted for re-check every 6–12 months, and sooner when a visitor reports a broken link, material change, or concern.</p>
+          </div>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link href="/contact?topic=resource-update" className="rounded-sm bg-ink px-5 py-3 text-xs font-semibold uppercase tracking-wide text-off-white">Report inaccurate information</Link>
+            <Link href="/contact?topic=resource-concern" className="rounded-sm border border-ink/20 px-5 py-3 text-xs font-semibold uppercase tracking-wide text-ink">Report a concern</Link>
+          </div>
         </Container>
       </section>
 
