@@ -5,6 +5,7 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
 import { CampaignByTheNumbers } from "@/components/campaign/campaign-by-the-numbers";
 import { FocusScrollSection } from "@/components/shared/focus-scroll-section";
+import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
 import { MISSION_SECTIONS } from "@/lib/content/mission";
 import { CAMPAIGN_URL, DONATE_LINK, MISSION_NAME, MISSION_ORIGIN_LINE } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
@@ -19,7 +20,9 @@ export const metadata = pageMetadata({
 
 const BREADCRUMB_JSON_LD = breadcrumbJsonLd([CAMPAIGN_HOME_CRUMB, { name: "The Mission", url: `${CAMPAIGN_URL}/the-mission` }]);
 
-export default function MissionPage() {
+export default async function MissionPage() {
+  const fundraisingStats = await getFundraisingImpactStats();
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
@@ -38,7 +41,7 @@ export default function MissionPage() {
             />
             <p className="mt-4 text-sm font-semibold uppercase tracking-wide text-bronze-light">{MISSION_ORIGIN_LINE}</p>
           </div>
-          <CampaignByTheNumbers />
+          <CampaignByTheNumbers goal={fundraisingStats.fundraisingGoal} />
         </div>
       </CampaignPageHero>
 

@@ -3,6 +3,7 @@ import { getPartners } from "@/lib/data/partners";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CampaignByTheNumbers } from "@/components/campaign/campaign-by-the-numbers";
+import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
 import { APPROVED_PHOTOS, CAMPAIGN_MATERIALS, MEDIA_COVERAGE, PRESS_RELEASES } from "@/lib/content/campaign-press";
 import { CAMPAIGN_NAME, CONTACT_EMAIL, SITE_URL, SITE_TAGLINE } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
@@ -15,7 +16,7 @@ export const metadata = pageMetadata({
 });
 
 export default async function CampaignPressPage() {
-  const partners = await getPartners();
+  const [partners, fundraisingStats] = await Promise.all([getPartners(), getFundraisingImpactStats()]);
 
   return (
     <>
@@ -37,7 +38,7 @@ export default async function CampaignPressPage() {
               to the campaign&apos;s confirmed beneficiary organizations. {SITE_TAGLINE}
             </p>
             <div className="mt-6">
-              <CampaignByTheNumbers />
+              <CampaignByTheNumbers goal={fundraisingStats.fundraisingGoal} />
             </div>
           </div>
 
