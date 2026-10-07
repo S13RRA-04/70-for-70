@@ -3,6 +3,7 @@
 import { formatCurrency, percentFunded } from "@/lib/utils";
 import { StatCard } from "@/components/shared/stat-card";
 import { CountUpNumber } from "@/components/shared/count-up-number";
+import { useMountedTransition } from "@/components/shared/use-mounted-transition";
 import { cn } from "@/lib/utils";
 import type { AllocationBreakdown } from "@/lib/data/allocation";
 
@@ -40,6 +41,11 @@ export function CampaignProgress({
 }) {
   const percent = percentFunded(totalRaised, goal);
   const isDark = tone === "dark";
+  // Renders every segment at 0% on first paint, then to its real width one
+  // frame later, so the bar visibly grows in on mount instead of appearing
+  // already full — the transition-[width] below only ever had a prop
+  // *change* to animate from before this, and mount isn't one.
+  const mounted = useMountedTransition();
 
   const orgSegments = (breakdown?.byOrganization ?? [])
     .filter((row) => row.amount > 0)
@@ -66,20 +72,20 @@ export function CampaignProgress({
                   "h-full transition-[width] duration-600 ease-out",
                   ORG_BAR_COLORS[row.organization] ?? "bg-gradient-to-r from-olive to-bronze",
                 )}
-                style={{ width: `${row.widthPercent}%` }}
+                style={{ width: mounted ? `${row.widthPercent}%` : "0%" }}
               />
             ))}
             {unallocatedWidthPercent > 0 && (
               <div
                 className="h-full bg-gradient-to-r from-olive to-bronze transition-[width] duration-600 ease-out"
-                style={{ width: `${unallocatedWidthPercent}%` }}
+                style={{ width: mounted ? `${unallocatedWidthPercent}%` : "0%" }}
               />
             )}
           </>
         ) : (
           <div
             className="h-full rounded-full bg-gradient-to-r from-olive to-bronze transition-[width] duration-600 ease-out"
-            style={{ width: `${percent}%` }}
+            style={{ width: mounted ? `${percent}%` : "0%" }}
           />
         )}
       </div>

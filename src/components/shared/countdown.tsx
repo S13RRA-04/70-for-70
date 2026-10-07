@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useSyncExternalStore } from "react";
+import { cn } from "@/lib/utils";
 
 interface TimeLeft {
   days: number;
@@ -81,7 +82,7 @@ export function Countdown({ targetIso }: { targetIso: string | null }) {
 
   return (
     <div
-      className="grid grid-cols-4 gap-3"
+      className="grid grid-cols-2 gap-3 sm:grid-cols-4"
       role="timer"
       aria-live="polite"
       aria-label="Time remaining until race day"
@@ -91,7 +92,16 @@ export function Countdown({ targetIso }: { targetIso: string | null }) {
           key={unit.label}
           className="rounded-sm border border-ink/10 bg-off-white px-2 py-3 text-center"
         >
-          <p className="font-display text-2xl font-semibold tabular-nums text-ink sm:text-3xl">
+          <p
+            className={cn(
+              "font-display text-2xl font-semibold tabular-nums text-ink transition-opacity duration-300 sm:text-3xl",
+              // Soft fade once the real value replaces the SSR-safe "--"
+              // placeholder on mount, instead of an instant swap that reads
+              // as a glitch. Doesn't re-fire on every per-second tick after
+              // that — only this one mount transition.
+              unit.value === null ? "opacity-50" : "opacity-100",
+            )}
+          >
             {unit.value === null ? "--" : String(unit.value).padStart(2, "0")}
           </p>
           <p className="mt-1 text-[11px] font-medium uppercase tracking-widest text-charcoal-light">

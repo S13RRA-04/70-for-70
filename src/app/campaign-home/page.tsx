@@ -262,6 +262,7 @@ export default async function CampaignHomePage() {
         goal={fundraisingStats.fundraisingGoal}
         partnerCount={fundraisingStats.partnerCount}
         daysToRace={fundraisingStats.daysToRace}
+        updatedAt={fundraisingStats.updatedAt}
       />
 
       {/* 2. Who Your Support Helps — moved directly under the hero, ahead of
