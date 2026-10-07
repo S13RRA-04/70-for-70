@@ -37,6 +37,12 @@ const ANNOTATIONS = [
  * rather than paragraphs of explanation. "Black" isn't annotated here since
  * it's the racing kit's color, not a graphic element on this white-ground
  * logo file — it gets its own beat as the full-bleed Why Black section.
+ *
+ * Deliberately just the 4-callout diagram — the detailed per-branch/
+ * per-sector color breakdown lives in BrandColorBreakdown (same file),
+ * rendered on the Press page's brand-kit section instead of here. About is
+ * the founder's story; a full color-reference table turned it into a brand
+ * standards document partway through. See that component for the detail.
  */
 export function MarkDiagram() {
   return (
@@ -90,43 +96,53 @@ export function MarkDiagram() {
           ))}
         </ul>
       </div>
+    </div>
+  );
+}
 
-      <div className="mt-12 border-t border-ink/10 pt-8 sm:mt-16">
-        <h3 className="text-xs font-semibold uppercase tracking-wide text-charcoal-light">
-          Outer Ring — Armed Forces
-        </h3>
-        <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
-          {OUTER_RING_COLORS.map((ring) => (
-            <div key={ring.branch} className="flex items-center gap-2.5">
-              <span
-                aria-hidden="true"
-                className="h-4 w-4 shrink-0 rounded-full border border-ink/10"
-                style={{ backgroundColor: ring.hex }}
-              />
-              <p className="text-xs text-charcoal-light">
-                <span className="font-medium text-ink">{ring.branch}</span> — {ring.color}
-              </p>
-            </div>
-          ))}
-        </div>
+/**
+ * The full per-branch/per-sector color reference — split out of
+ * MarkDiagram so About can show just the 4-callout diagram (the founder
+ * story shouldn't turn into a brand standards document) while this
+ * detailed breakdown lives on the Press page's brand-kit section instead.
+ */
+export function BrandColorBreakdown() {
+  return (
+    <div className="mx-auto max-w-xl">
+      <h3 className="text-xs font-semibold uppercase tracking-wide text-charcoal-light">
+        Outer Ring — Armed Forces
+      </h3>
+      <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
+        {OUTER_RING_COLORS.map((ring) => (
+          <div key={ring.branch} className="flex items-center gap-2.5">
+            <span
+              aria-hidden="true"
+              className="h-4 w-4 shrink-0 rounded-full border border-ink/10"
+              style={{ backgroundColor: ring.hex }}
+            />
+            <p className="text-xs text-charcoal-light">
+              <span className="font-medium text-ink">{ring.branch}</span> — {ring.color}
+            </p>
+          </div>
+        ))}
+      </div>
 
-        <h3 className="mt-6 text-xs font-semibold uppercase tracking-wide text-charcoal-light">
-          Inner Ring — First Responders
-        </h3>
-        <div className="mt-3 grid gap-3 sm:grid-cols-2">
-          {INNER_RING_COLORS.map((ring) => (
-            <div key={ring.color} className="flex items-center gap-2.5">
-              <span
-                aria-hidden="true"
-                className="h-4 w-4 shrink-0 rounded-full border border-ink/10"
-                style={{ backgroundColor: ring.hex }}
-              />
-              <p className="text-xs text-charcoal-light">
-                <span className="font-medium text-ink">{ring.color}</span> — {ring.sector}
-              </p>
-            </div>
-          ))}
-        </div>
+      <h3 className="mt-6 text-xs font-semibold uppercase tracking-wide text-charcoal-light">
+        Inner Ring — First Responders
+      </h3>
+      <div className="mt-3 grid gap-3 sm:grid-cols-2">
+        {INNER_RING_COLORS.map((ring) => (
+          <div key={ring.color} className="flex items-center gap-2.5">
+            <span
+              aria-hidden="true"
+              className="h-4 w-4 shrink-0 rounded-full border border-ink/10"
+              style={{ backgroundColor: ring.hex }}
+            />
+            <p className="text-xs text-charcoal-light">
+              <span className="font-medium text-ink">{ring.color}</span> — {ring.sector}
+            </p>
+          </div>
+        ))}
       </div>
     </div>
   );

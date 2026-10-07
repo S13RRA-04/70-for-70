@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTAButton } from "@/components/shared/cta-button";
+import { BrandColorBreakdown } from "@/components/about/mark-diagram";
 import { getPartners } from "@/lib/data/partners";
 import { getMissionMetrics } from "@/lib/data/mission-metrics";
 import { FOUNDER_BIO_LONG, FOUNDER_BIO_SHORT, MEDIA_COVERAGE } from "@/lib/content/press";
@@ -275,6 +276,23 @@ export default async function PressPage() {
                   Download (Dark Background)
                 </a>
               </div>
+            </div>
+          </div>
+
+          <div id="brand-colors" className="scroll-mt-20">
+            <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+              Brand Colors
+            </h2>
+            <p className="mt-1 text-sm text-charcoal-light">
+              Every color in the mark is assigned, not decorative — the outer ring to a branch of
+              the Armed Forces, the inner ring to a sector of first-responder service. See{" "}
+              <Link href="/about#the-mark" className="text-bronze hover:underline">
+                The Mark
+              </Link>{" "}
+              on the About page for what the ring, star, and &quot;22&quot; represent.
+            </p>
+            <div className="mt-4">
+              <BrandColorBreakdown />
             </div>
           </div>
 
