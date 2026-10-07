@@ -229,11 +229,6 @@ export default async function CampaignHomePage() {
             Veterans and first responders often carry burdens most people never see. For The 22 exists to connect
             them — and their families — with trusted resources, community, recovery, purpose, and a path forward.
           </p>
-          <p className="mt-4 max-w-xl text-base leading-relaxed text-off-white/85">
-            {CAMPAIGN_NAME} is one campaign in that larger mission. Through endurance events, fundraising,
-            partnerships, and community action, we raise awareness and support organizations already doing the
-            work.
-          </p>
 
           <p className="mt-6 font-display text-2xl font-bold uppercase tracking-tight text-bronze-light sm:text-3xl">
             Because 22 &ne; 0.
@@ -348,9 +343,7 @@ export default async function CampaignHomePage() {
           )}
 
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-charcoal-light">
-            {CAMPAIGN_NAME} uses endurance sport as a platform for something larger. The goal is not simply to
-            finish {RACE_TOTAL_DISTANCE} miles — it&apos;s to turn those miles into awareness, support,
-            partnerships, and funding for organizations serving veterans and their families.
+            {RACE_TOTAL_DISTANCE} miles of swimming, biking, and running toward {CURRENT_CAMPAIGN.event}.
           </p>
 
           <dl className="mt-8 flex flex-wrap gap-x-10 gap-y-4">
