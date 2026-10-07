@@ -8,6 +8,7 @@ import { formatDateLong } from "@/lib/utils";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 import { SITE_URL } from "@/lib/constants";
+import { UPCOMING_LIVE_PERFORMERS } from "@/lib/content/live-campaign";
 
 export const metadata = pageMetadata({
   title: "For The 22: Live — Upcoming Shows",
@@ -29,6 +30,28 @@ export default async function LiveEventsPage() {
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container className="max-w-2xl">
           <SectionHeading as="h1" eyebrow="For The 22: Live" title="Upcoming Shows" />
+        </Container>
+      </section>
+
+      <section className="border-b border-ink/10 py-16 sm:py-20">
+        <Container>
+          <SectionHeading
+            eyebrow="Artist Roster"
+            title="Upcoming Performers"
+            description="Confirmed artists joining For The 22: Live. Dates, venues, and ticket details will be published as they are finalized."
+          />
+          <RevealGrid>
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {UPCOMING_LIVE_PERFORMERS.map((performer) => (
+                <article key={performer.name} className="rounded-sm border border-ink/10 bg-off-white p-6">
+                  <h2 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+                    {performer.name}
+                  </h2>
+                  <p className="mt-3 text-sm leading-relaxed text-charcoal-light">{performer.details}</p>
+                </article>
+              ))}
+            </div>
+          </RevealGrid>
         </Container>
       </section>
 

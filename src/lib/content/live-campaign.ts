@@ -9,6 +9,18 @@ export const LIVE_CAMPAIGN_TAGLINE = "Music Moves the Mission.";
 export const LIVE_CAMPAIGN_DESCRIPTION =
   "For The 22: Live is a benefit concert series bringing together artists, veterans, first responders, families, and supporters to raise awareness and direct support for The $70K Mission.";
 
+export interface UpcomingLivePerformer {
+  name: string;
+  details: string;
+}
+
+export const UPCOMING_LIVE_PERFORMERS: UpcomingLivePerformer[] = [
+  {
+    name: "Scooter Brown Band",
+    details: "Performance details will be announced as they are confirmed.",
+  },
+];
+
 export interface LiveContributionMethod {
   label: string;
   description: string;
