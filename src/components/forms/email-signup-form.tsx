@@ -1,8 +1,12 @@
 "use client";
 
-import { FormError, HoneypotField } from "@/components/forms/form-parts";
+import { controlClassName, fieldA11yProps, FormError, HoneypotField } from "@/components/forms/form-parts";
 import { TurnstileWidget } from "@/components/forms/turnstile-widget";
 import { useFormSubmit } from "@/components/forms/use-form-submit";
+import { emailSignupSchema } from "@/lib/validation/email-signup";
+
+const INPUT_BASE =
+  "w-36 rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40";
 
 /**
  * `tone` describes the surface this form is embedded in, not the button. The
@@ -12,13 +16,15 @@ import { useFormSubmit } from "@/components/forms/use-form-submit";
  * darkened fill would fall below the 3:1 boundary against the dark band.
  */
 export function EmailSignupForm({ tone = "light" }: { tone?: "dark" | "light" }) {
-  const { status, errorMessage, setTurnstileToken, turnstileRef, handleSubmit, submitDisabled } = useFormSubmit({
-    endpoint: "/api/subscribe",
-    buildPayload: (data) => ({
-      firstName: String(data.get("firstName") ?? ""),
-      email: String(data.get("email") ?? ""),
-    }),
-  });
+  const { status, errorMessage, fieldErrors, setTurnstileToken, turnstileRef, handleSubmit, submitDisabled } =
+    useFormSubmit({
+      endpoint: "/api/subscribe",
+      schema: emailSignupSchema,
+      buildPayload: (data) => ({
+        firstName: String(data.get("firstName") ?? ""),
+        email: String(data.get("email") ?? ""),
+      }),
+    });
 
   if (status === "success") {
     return (
@@ -32,29 +38,45 @@ export function EmailSignupForm({ tone = "light" }: { tone?: "dark" | "light" })
     <form onSubmit={handleSubmit} noValidate className="flex flex-wrap items-start gap-3">
       <HoneypotField id="signup-companyWebsite" />
 
-      <label className="sr-only" htmlFor="signup-firstName">
-        First Name
-      </label>
-      <input
-        id="signup-firstName"
-        name="firstName"
-        type="text"
-        placeholder="First name"
-        required
-        className="w-36 rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
-      />
+      <div className="flex flex-col gap-1">
+        <label className="sr-only" htmlFor="signup-firstName">
+          First Name
+        </label>
+        <input
+          id="signup-firstName"
+          name="firstName"
+          type="text"
+          placeholder="First name"
+          required
+          className={controlClassName(INPUT_BASE, fieldErrors.firstName)}
+          {...fieldA11yProps("signup-firstName", fieldErrors.firstName)}
+        />
+        {fieldErrors.firstName && (
+          <p id="signup-firstName-error" role="alert" className="text-xs font-medium text-red-700">
+            {fieldErrors.firstName}
+          </p>
+        )}
+      </div>
 
-      <label className="sr-only" htmlFor="signup-email">
-        Email
-      </label>
-      <input
-        id="signup-email"
-        name="email"
-        type="email"
-        placeholder="Email address"
-        required
-        className="w-52 rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
-      />
+      <div className="flex flex-col gap-1">
+        <label className="sr-only" htmlFor="signup-email">
+          Email
+        </label>
+        <input
+          id="signup-email"
+          name="email"
+          type="email"
+          placeholder="Email address"
+          required
+          className={controlClassName("w-52 rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40", fieldErrors.email)}
+          {...fieldA11yProps("signup-email", fieldErrors.email)}
+        />
+        {fieldErrors.email && (
+          <p id="signup-email-error" role="alert" className="text-xs font-medium text-red-700">
+            {fieldErrors.email}
+          </p>
+        )}
+      </div>
 
       <TurnstileWidget
         ref={turnstileRef}

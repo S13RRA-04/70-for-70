@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
 /**
  * The small pieces every public form on this site repeats. Kept together
@@ -19,19 +20,40 @@ export const FORM_CONTROL_CLASS = `${CONTROL_BASE} text-base sm:text-sm`;
 
 export const FORM_CONTROL_CLASS_COMPACT = `${CONTROL_BASE} text-sm`;
 
+/** Appends the invalid-state border/ring to a control class string — pass the field's error message (or undefined) straight through. */
+export function controlClassName(base: string, error?: string) {
+  return cn(base, error && "border-red-400 focus-visible:border-red-500 focus-visible:ring-red-400/40");
+}
+
+/** The error id `Field` renders error text at, for wiring a control's own `aria-describedby`. */
+export function fieldErrorId(id: string) {
+  return `${id}-error`;
+}
+
+/** `aria-invalid`/`aria-describedby` for a control, given the field's error message (or undefined). Spread directly onto the `<input>`/`<select>`/`<textarea>`. */
+export function fieldA11yProps(id: string, error?: string) {
+  return error
+    ? { "aria-invalid": true as const, "aria-describedby": fieldErrorId(id) }
+    : { "aria-invalid": false as const };
+}
+
 /**
- * Label + required/optional marker for one control. `id` is used for the
- * label's `htmlFor`, so it must match the control's own id.
+ * Label + required/optional marker for one control, plus an inline error
+ * slot. `id` is used for the label's `htmlFor` and the error's id, so it
+ * must match the control's own id (and whatever `aria-describedby` it's
+ * given via `fieldA11yProps`).
  */
 export function Field({
   id,
   label,
   optional,
+  error,
   children,
 }: {
   id: string;
   label: string;
   optional?: boolean;
+  error?: string;
   children: ReactNode;
 }) {
   return (
@@ -45,6 +67,11 @@ export function Field({
         )}
       </label>
       {children}
+      {error && (
+        <p id={fieldErrorId(id)} role="alert" className="mt-1 text-xs font-medium text-red-700">
+          {error}
+        </p>
+      )}
     </div>
   );
 }

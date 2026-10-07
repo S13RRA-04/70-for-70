@@ -1,7 +1,13 @@
 "use client";
 
-import { GET_INVOLVED_INTEREST_TYPES } from "@/lib/validation/inquiry";
-import { FormError, HoneypotField, FORM_CONTROL_CLASS_COMPACT } from "@/components/forms/form-parts";
+import { GET_INVOLVED_INTEREST_TYPES, inquirySchema } from "@/lib/validation/inquiry";
+import {
+  controlClassName,
+  fieldA11yProps,
+  FormError,
+  HoneypotField,
+  FORM_CONTROL_CLASS_COMPACT,
+} from "@/components/forms/form-parts";
 import { TurnstileWidget } from "@/components/forms/turnstile-widget";
 import { useFormSubmit } from "@/components/forms/use-form-submit";
 
@@ -27,18 +33,20 @@ interface GetInvolvedFormProps {
  * GET_INVOLVED_INTEREST_TYPES.
  */
 export function GetInvolvedForm({ defaultInterest, idPrefix = "" }: GetInvolvedFormProps = {}) {
-  const { status, errorMessage, setTurnstileToken, turnstileRef, handleSubmit, submitDisabled } = useFormSubmit({
-    endpoint: "/api/inquiries",
-    buildPayload: (data) => ({
-      name: String(data.get("name") ?? ""),
-      organization: "",
-      email: String(data.get("email") ?? ""),
-      phone: String(data.get("phone") ?? ""),
-      // Falls back to the prop only when the select isn't rendered at all.
-      interest: String(data.get("interest") ?? defaultInterest ?? ""),
-      message: String(data.get("message") ?? ""),
-    }),
-  });
+  const { status, errorMessage, fieldErrors, setTurnstileToken, turnstileRef, handleSubmit, submitDisabled } =
+    useFormSubmit({
+      endpoint: "/api/inquiries",
+      schema: inquirySchema,
+      buildPayload: (data) => ({
+        name: String(data.get("name") ?? ""),
+        organization: "",
+        email: String(data.get("email") ?? ""),
+        phone: String(data.get("phone") ?? ""),
+        // Falls back to the prop only when the select isn't rendered at all.
+        interest: String(data.get("interest") ?? defaultInterest ?? ""),
+        message: String(data.get("message") ?? ""),
+      }),
+    });
 
   if (status === "success") {
     return (
@@ -69,8 +77,14 @@ export function GetInvolvedForm({ defaultInterest, idPrefix = "" }: GetInvolvedF
             name="name"
             type="text"
             required
-            className={FORM_CONTROL_CLASS_COMPACT}
+            className={controlClassName(FORM_CONTROL_CLASS_COMPACT, fieldErrors.name)}
+            {...fieldA11yProps(`${idPrefix}involved-name`, fieldErrors.name)}
           />
+          {fieldErrors.name && (
+            <p id={`${idPrefix}involved-name-error`} role="alert" className="mt-1 text-xs font-medium text-red-700">
+              {fieldErrors.name}
+            </p>
+          )}
         </div>
 
         <div>
@@ -82,8 +96,14 @@ export function GetInvolvedForm({ defaultInterest, idPrefix = "" }: GetInvolvedF
             name="email"
             type="email"
             required
-            className={FORM_CONTROL_CLASS_COMPACT}
+            className={controlClassName(FORM_CONTROL_CLASS_COMPACT, fieldErrors.email)}
+            {...fieldA11yProps(`${idPrefix}involved-email`, fieldErrors.email)}
           />
+          {fieldErrors.email && (
+            <p id={`${idPrefix}involved-email-error`} role="alert" className="mt-1 text-xs font-medium text-red-700">
+              {fieldErrors.email}
+            </p>
+          )}
         </div>
 
         <div>
@@ -94,8 +114,14 @@ export function GetInvolvedForm({ defaultInterest, idPrefix = "" }: GetInvolvedF
             id={`${idPrefix}involved-phone`}
             name="phone"
             type="tel"
-            className={FORM_CONTROL_CLASS_COMPACT}
+            className={controlClassName(FORM_CONTROL_CLASS_COMPACT, fieldErrors.phone)}
+            {...fieldA11yProps(`${idPrefix}involved-phone`, fieldErrors.phone)}
           />
+          {fieldErrors.phone && (
+            <p id={`${idPrefix}involved-phone-error`} role="alert" className="mt-1 text-xs font-medium text-red-700">
+              {fieldErrors.phone}
+            </p>
+          )}
         </div>
 
         {defaultInterest ? (
@@ -110,7 +136,8 @@ export function GetInvolvedForm({ defaultInterest, idPrefix = "" }: GetInvolvedF
               name="interest"
               required
               defaultValue=""
-              className={FORM_CONTROL_CLASS_COMPACT}
+              className={controlClassName(FORM_CONTROL_CLASS_COMPACT, fieldErrors.interest)}
+              {...fieldA11yProps(`${idPrefix}involved-interest`, fieldErrors.interest)}
             >
               <option value="" disabled>
                 Select an option
@@ -121,6 +148,15 @@ export function GetInvolvedForm({ defaultInterest, idPrefix = "" }: GetInvolvedF
                 </option>
               ))}
             </select>
+            {fieldErrors.interest && (
+              <p
+                id={`${idPrefix}involved-interest-error`}
+                role="alert"
+                className="mt-1 text-xs font-medium text-red-700"
+              >
+                {fieldErrors.interest}
+              </p>
+            )}
           </div>
         )}
       </div>
@@ -134,8 +170,14 @@ export function GetInvolvedForm({ defaultInterest, idPrefix = "" }: GetInvolvedF
           name="message"
           required
           rows={4}
-          className={FORM_CONTROL_CLASS_COMPACT}
+          className={controlClassName(FORM_CONTROL_CLASS_COMPACT, fieldErrors.message)}
+          {...fieldA11yProps(`${idPrefix}involved-message`, fieldErrors.message)}
         />
+        {fieldErrors.message && (
+          <p id={`${idPrefix}involved-message-error`} role="alert" className="mt-1 text-xs font-medium text-red-700">
+            {fieldErrors.message}
+          </p>
+        )}
       </div>
 
       <TurnstileWidget ref={turnstileRef} action="inquiry" onToken={setTurnstileToken} />

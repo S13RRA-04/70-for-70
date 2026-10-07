@@ -1,8 +1,15 @@
 "use client";
 
-import { FORM_CONTROL_CLASS_COMPACT, FormError, HoneypotField } from "@/components/forms/form-parts";
+import {
+  controlClassName,
+  fieldA11yProps,
+  FORM_CONTROL_CLASS_COMPACT,
+  FormError,
+  HoneypotField,
+} from "@/components/forms/form-parts";
 import { TurnstileWidget } from "@/components/forms/turnstile-widget";
 import { useFormSubmit } from "@/components/forms/use-form-submit";
+import { journalCommentSchema } from "@/lib/validation/journal-comment";
 
 const COMMENT_MAX_LENGTH = 1000;
 
@@ -14,15 +21,17 @@ const COMMENT_MAX_LENGTH = 1000;
  * form — see MessageForm for the sibling pattern this follows.
  */
 export function JournalCommentForm({ journalEntryId }: { journalEntryId: string }) {
-  const { status, errorMessage, setTurnstileToken, turnstileRef, handleSubmit, submitDisabled } = useFormSubmit({
-    endpoint: "/api/journal-comments",
-    buildPayload: (data) => ({
-      journalEntryId,
-      name: String(data.get("name") ?? ""),
-      email: String(data.get("email") ?? ""),
-      body: String(data.get("body") ?? ""),
-    }),
-  });
+  const { status, errorMessage, fieldErrors, setTurnstileToken, turnstileRef, handleSubmit, submitDisabled } =
+    useFormSubmit({
+      endpoint: "/api/journal-comments",
+      schema: journalCommentSchema,
+      buildPayload: (data) => ({
+        journalEntryId,
+        name: String(data.get("name") ?? ""),
+        email: String(data.get("email") ?? ""),
+        body: String(data.get("body") ?? ""),
+      }),
+    });
 
   if (status === "success") {
     return (
@@ -50,8 +59,14 @@ export function JournalCommentForm({ journalEntryId }: { journalEntryId: string 
             type="text"
             required
             maxLength={100}
-            className={FORM_CONTROL_CLASS_COMPACT}
+            className={controlClassName(FORM_CONTROL_CLASS_COMPACT, fieldErrors.name)}
+            {...fieldA11yProps("journal-comment-name", fieldErrors.name)}
           />
+          {fieldErrors.name && (
+            <p id="journal-comment-name-error" role="alert" className="mt-1 text-xs font-medium text-red-700">
+              {fieldErrors.name}
+            </p>
+          )}
         </div>
 
         <div>
@@ -63,8 +78,14 @@ export function JournalCommentForm({ journalEntryId }: { journalEntryId: string 
             name="email"
             type="email"
             maxLength={320}
-            className={FORM_CONTROL_CLASS_COMPACT}
+            className={controlClassName(FORM_CONTROL_CLASS_COMPACT, fieldErrors.email)}
+            {...fieldA11yProps("journal-comment-email", fieldErrors.email)}
           />
+          {fieldErrors.email && (
+            <p id="journal-comment-email-error" role="alert" className="mt-1 text-xs font-medium text-red-700">
+              {fieldErrors.email}
+            </p>
+          )}
         </div>
       </div>
 
@@ -79,8 +100,14 @@ export function JournalCommentForm({ journalEntryId }: { journalEntryId: string 
           rows={4}
           maxLength={COMMENT_MAX_LENGTH}
           placeholder="Share your thoughts on this update..."
-          className={FORM_CONTROL_CLASS_COMPACT}
+          className={controlClassName(FORM_CONTROL_CLASS_COMPACT, fieldErrors.body)}
+          {...fieldA11yProps("journal-comment-body", fieldErrors.body)}
         />
+        {fieldErrors.body && (
+          <p id="journal-comment-body-error" role="alert" className="mt-1 text-xs font-medium text-red-700">
+            {fieldErrors.body}
+          </p>
+        )}
       </div>
 
       <TurnstileWidget ref={turnstileRef} action="journal_comment" onToken={setTurnstileToken} />
