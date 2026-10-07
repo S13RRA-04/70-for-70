@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
-import { RevealGrid } from "@/components/shared/reveal-on-scroll";
 import { CTAButton } from "@/components/shared/cta-button";
 import { MissionProgress } from "@/components/campaign/mission-progress";
 import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
@@ -128,7 +127,7 @@ export default async function CampaignsPage() {
           the shared MovementCampaign records. */}
       <section className="py-16 sm:py-20">
         <Container className="max-w-3xl">
-          <RevealGrid>
+          <>
             <div className="space-y-8">
               {current.map((campaign) => {
                 const isSameSite = "url" in campaign && campaign.url.startsWith("/");
@@ -168,7 +167,7 @@ export default async function CampaignsPage() {
                 );
               })}
             </div>
-          </RevealGrid>
+          </>
         </Container>
       </section>
 
@@ -181,7 +180,7 @@ export default async function CampaignsPage() {
             title="Beyond the Campaigns"
             description="Auctions, merchandise, corporate sponsorships, and direct giving all feed the same shared goal — no single event carries it alone."
           />
-          <RevealGrid>
+          <>
             <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {CONTRIBUTION_MECHANISMS.map((mechanism) => (
                 <div key={mechanism.name} className="flex flex-col rounded-sm border border-ink/10 bg-off-white p-6">
@@ -197,7 +196,7 @@ export default async function CampaignsPage() {
                 </div>
               ))}
             </div>
-          </RevealGrid>
+          </>
         </Container>
       </section>
 
