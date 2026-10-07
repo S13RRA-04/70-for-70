@@ -178,7 +178,7 @@ export default async function ImpactPage() {
             </div>
           </div>
           <p className="mt-8 text-xs uppercase tracking-widest text-charcoal-light">
-            Last updated: {lastUpdated}
+            Fundraising totals as of {lastUpdated}
           </p>
         </Container>
       </section>
