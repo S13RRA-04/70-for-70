@@ -60,7 +60,7 @@ export default function LiveAuctionPage() {
           />
           <ol className="mt-8 grid gap-4 sm:grid-cols-3">
             {[
-              ["01", "Open the Auction", "Visit the For The 22 auction page on 32auctions."],
+              ["01", "Open the Auction", "Visit the Whiskey Myers item listing on 32auctions."],
               ["02", "Register and Bid", "Follow 32auctions' instructions to create an account and place your bid."],
               ["03", "Watch for Updates", "32auctions handles bid activity and winner communications under the published auction terms."],
             ].map(([number, title, description]) => (
