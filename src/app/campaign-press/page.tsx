@@ -38,7 +38,7 @@ export default async function CampaignPressPage() {
               to the campaign&apos;s confirmed beneficiary organizations. {SITE_TAGLINE}
             </p>
             <div className="mt-6">
-              <CampaignByTheNumbers goal={fundraisingStats.fundraisingGoal} />
+              <CampaignByTheNumbers goal={fundraisingStats.fundraisingGoal} beneficiaryCount={fundraisingStats.beneficiaryCount} />
             </div>
           </div>
 
