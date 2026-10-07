@@ -37,6 +37,7 @@ const mightyOaks = findAboutSubsection("mighty-oaks")!;
 const theIdea = findAboutSubsection("the-idea")!;
 const why22 = findAboutSubsection("why-22")!;
 const whyBlack = findAboutSubsection("why-black")!;
+const missionGoing = findAboutSubsection("mission-going")!;
 
 const READING_COLUMN = "max-w-[46rem]";
 
@@ -240,6 +241,29 @@ export default function AboutPage() {
           <div className="mt-12">
             <MarkDiagram />
           </div>
+        </Container>
+      </section>
+
+      {/* Where the Mission Is Going — closes on For The 22's future, not Cody's story */}
+      <section id="mission-going" className="scroll-mt-28 border-b border-ink/10 bg-ink py-16 text-off-white sm:py-24">
+        <Container className={READING_COLUMN}>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">06 — What&apos;s Next</p>
+          <h2 className="mt-2 font-display text-2xl font-semibold uppercase tracking-tight sm:text-3xl">
+            {missionGoing.heading}
+          </h2>
+          <div className="mt-6 space-y-4">
+            {missionGoing.body.map((paragraph, i) => (
+              <p key={i} className="text-base leading-relaxed text-off-white/75">
+                {paragraph}
+              </p>
+            ))}
+          </div>
+          <Link
+            href="/campaigns"
+            className="mt-6 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze-light hover:text-off-white"
+          >
+            See Where the Mission Is Headed &rarr;
+          </Link>
         </Container>
       </section>
 

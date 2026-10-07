@@ -247,8 +247,7 @@ export default async function PressPage() {
               Logo Downloads
             </h2>
             <p className="mt-1 text-sm text-charcoal-light">
-              The compact icon/mark is available below, shown on both light and dark backgrounds.
-              A horizontal lockup hasn&apos;t been produced yet.
+              The icon mark is available below, shown on both light and dark backgrounds.
             </p>
             <div className="mt-3 flex flex-wrap gap-4">
               <div className="inline-flex flex-col items-start gap-3 rounded-sm border border-ink/10 bg-off-white p-6">

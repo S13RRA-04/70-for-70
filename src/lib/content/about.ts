@@ -105,6 +105,14 @@ const SUBSECTIONS = {
       "We remember those we have lost—and keep showing up for those who are still here.",
     ],
   },
+  "mission-going": {
+    id: "mission-going",
+    heading: "Where the Mission Is Going",
+    body: [
+      "Tri For The 22 has a finish line. For The 22 doesn't. The resource directory keeps growing, the network of beneficiaries and campaign partners keeps expanding, and new campaigns will carry the mission forward long after Chattanooga.",
+      "This started as one veteran's idea, but it isn't a one-man operation anymore — it's founder-led and supported by a growing network of volunteers, organizations, clubs, businesses, and campaign partners who've chosen to stand with it. I started it. It's meant to outlast me.",
+    ],
+  },
 } as const satisfies Record<string, AboutSubsection>;
 
 export interface AboutContent {
@@ -144,6 +152,7 @@ export const ABOUT_CHAPTERS: AboutChapter[] = [
   { id: "turning-point", number: "03", label: "Turning Point" },
   { id: "for-the-22", number: "04", label: "For The 22" },
   { id: "the-mark", number: "05", label: "The Mark" },
+  { id: "mission-going", number: "06", label: "What's Next" },
 ];
 
 /**
