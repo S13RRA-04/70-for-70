@@ -659,6 +659,7 @@ export const SOCIAL_LINKS: { platform: string; label: string; url: string }[] = 
   { platform: "facebook", label: "Facebook", url: "https://www.facebook.com/profile.php?id=61594694740294" },
   { platform: "instagram", label: "Instagram", url: "https://www.instagram.com/triforthe22/" },
   { platform: "youtube", label: "YouTube", url: "https://www.youtube.com/@triforthe22" },
+  { platform: "x", label: "X", url: "https://x.com/For_the_22" },
 ];
 
 /**
