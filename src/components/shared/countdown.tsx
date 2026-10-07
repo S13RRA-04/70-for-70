@@ -29,6 +29,7 @@ function useMounted() {
  */
 export function Countdown({ targetIso }: { targetIso: string | null }) {
   const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
+  const [hasPassed, setHasPassed] = useState(false);
   const mounted = useMounted();
 
   useEffect(() => {
@@ -37,12 +38,16 @@ export function Countdown({ targetIso }: { targetIso: string | null }) {
     const target = new Date(targetIso).getTime();
 
     function tick() {
-      const diff = Math.max(target - Date.now(), 0);
+      const rawDiff = target - Date.now();
+      if (rawDiff <= 0) {
+        setHasPassed(true);
+        return;
+      }
       setTimeLeft({
-        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((diff / (1000 * 60)) % 60),
-        seconds: Math.floor((diff / 1000) % 60),
+        days: Math.floor(rawDiff / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((rawDiff / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((rawDiff / (1000 * 60)) % 60),
+        seconds: Math.floor((rawDiff / 1000) % 60),
       });
     }
 
@@ -55,6 +60,14 @@ export function Countdown({ targetIso }: { targetIso: string | null }) {
     return (
       <p className="text-sm font-medium uppercase tracking-wide text-charcoal-light">
         Race date coming soon
+      </p>
+    );
+  }
+
+  if (mounted && hasPassed) {
+    return (
+      <p className="text-sm font-medium uppercase tracking-wide text-charcoal-light">
+        Race day has come and gone — the mission continues
       </p>
     );
   }

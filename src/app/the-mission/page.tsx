@@ -41,7 +41,7 @@ export default async function MissionPage() {
             />
             <p className="mt-4 text-sm font-semibold uppercase tracking-wide text-bronze-light">{MISSION_ORIGIN_LINE}</p>
           </div>
-          <CampaignByTheNumbers goal={fundraisingStats.fundraisingGoal} />
+          <CampaignByTheNumbers goal={fundraisingStats.fundraisingGoal} beneficiaryCount={fundraisingStats.beneficiaryCount} />
         </div>
       </CampaignPageHero>
 

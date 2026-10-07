@@ -1,5 +1,3 @@
-import { CURRENT_CAMPAIGN } from "@/lib/constants";
-
 /** Compact "$70K"-style display, derived from the real goal rather than a hardcoded string — stays correct if the goal number ever changes. Only meant for round thousands. */
 function formatCompactGoal(goal: number): string {
   return `$${Math.round(goal / 1000)}K`;
@@ -7,15 +5,16 @@ function formatCompactGoal(goal: number): string {
 
 /**
  * 3 meaningful values, per AGENTS.md's Campaign Page spec — not a 5-stat row
- * diluted with restatements of the same facts. `goal` comes from the live
- * public.campaign row (getCampaign()/getFundraisingImpactStats()), passed in
- * by the page — never hardcoded here.
+ * diluted with restatements of the same facts. Both `goal` and
+ * `beneficiaryCount` come from the live getFundraisingImpactStats() reading,
+ * passed in by the page — never hardcoded here, so this never drifts from
+ * the beneficiary count shown elsewhere on the same page.
  */
-export function CampaignByTheNumbers({ goal }: { goal: number }) {
+export function CampaignByTheNumbers({ goal, beneficiaryCount }: { goal: number; beneficiaryCount: number }) {
   const stats = [
     { value: "70.3", label: "Race Miles" },
     { value: formatCompactGoal(goal), label: "Goal" },
-    { value: String(CURRENT_CAMPAIGN.beneficiaries.length), label: "Beneficiaries" },
+    { value: String(beneficiaryCount), label: "Beneficiaries" },
   ] as const;
 
   return (
