@@ -323,6 +323,134 @@ export const RESOURCES: Resource[] = [
     cost: "Free / VA-supported",
     geographicScope: "Nationwide",
   },
+  {
+    name: "S.H.O.W. Swimming",
+    url: "https://showswimming.com/",
+    description:
+      "Swimming and water-safety program founded to serve wounded warriors and Gold Star families, with a team across FL, MD, NJ, and GA plus online training sessions.",
+    needCategoryIds: ["sports-fitness", "outdoor-programs"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Multi-state / virtual (FL, MD, NJ, GA plus online sessions)",
+    eligibility: "Wounded warriors and Gold Star families (per the org's mission)",
+    phone: "+1 (904) 540-2418",
+    // TODO(verify): participant cost and whether the online program is open nationwide.
+  },
+  {
+    name: "Adaptive Adventures — Adaptive Skiing & Snowboarding (Military Outreach)",
+    url: "https://adaptiveadventures.org/programs/skiing-and-snowboarding/",
+    description:
+      "Adaptive ski and snowboard program — day lessons, clinics, and multi-day camps at partner resorts across the country — with dedicated military outreach for veterans and service members with physical disabilities. Stand-up skiing, sit-skiing, snowboarding, and ski biking; equipment and instruction included.",
+    needCategoryIds: ["sports-fitness", "outdoor-programs"],
+    audienceTags: ["Veteran", "Active Military", "Disabled", "Family"],
+    cost: "Free — every program is offered at no cost to participants with physical disabilities and the family, friends, or caretakers who join them",
+    geographicScope: "Nationwide — multi-resort camps and clinics across the U.S.",
+    eligibility: "People with physical disabilities (and their family, friends, or caretakers), including veterans and service members through the org's military outreach",
+    availability: "Seasonal winter day lessons, clinics, and multi-day camps; dates posted in the org's events list",
+    phone: "303-679-2770",
+  },
+  {
+    // TODO(verify): participant cost/scholarship terms not stated on the event page — only that the event is funded in part by a VA grant; confirm registration cost for veterans.
+    name: "Move United — The Hartford Ski Spectacular",
+    url: "https://moveunitedsport.org/2026-the-hartford-ski-spectacular/",
+    description:
+      "One of the nation's largest adaptive winter sports festivals (39th annual, Dec 7–13, 2026, Breckenridge, CO) with 800+ participants in alpine and Nordic skiing, snowboarding, biathlon, sled hockey, and curling. More than 60 wounded veterans, active service members, family members, and military medical staff attend from military medical centers and VA facilities across the U.S.",
+    needCategoryIds: ["sports-fitness", "outdoor-programs"],
+    audienceTags: ["Veteran", "Active Military", "Family", "Disabled"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Nationwide — attendees travel from VA facilities across the U.S. to Breckenridge, CO",
+    eligibility: "Wounded military veterans, active service members, family members, and military medical staff, alongside the general adaptive-sports community",
+    availability: "Annual — 39th edition Dec 7–13, 2026 at Breckenridge, CO",
+  },
+  {
+    // TODO(verify): participant cost not stated on site — confirm whether retreats are fully funded for veterans.
+    name: "Challenge Accepted",
+    url: "https://challengeacceptedusa.org/",
+    description:
+      "Nonprofit running helicopter-accessed backcountry snowboarding (and monoskiing) retreats for veterans with physical and/or invisible injuries — recent retreats in Sun Valley, ID and Alaska with backcountry safety instruction, small-group cohesion, and wellness planning. Nationwide veteran applicants; next retreat planned for Feb 2027.",
+    needCategoryIds: ["sports-fitness", "outdoor-programs"],
+    audienceTags: ["Veteran", "Active Military", "Disabled"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Nationwide recruitment — retreats rotate (Sun Valley, ID; Alaska; pilot at Sugarloaf, ME)",
+    eligibility: "U.S. veterans with a physical disability and/or invisible injury or mental health condition who were honorably discharged, plus active service members with such conditions; must snowboard at an intermediate-to-advanced level",
+    availability: "Next: Heli Snowboarding Retreat, February 2027, Sun Valley, Idaho",
+  },
+  {
+    // TODO(verify): camp FAQ says program fees vary by session and season and scholarships may be available — confirm how veterans apply for scholarship waivers of the $1,000 Beginner Winter Camp fee; active duty/Guard-Reserve not listed on camp pages.
+    name: "National Ability Center — Military Winter Camps",
+    url: "https://nationalabilitycenter.org/program/military-nordic-ski-camp/",
+    description:
+      "Park City, UT military camps for veterans (18+), each 5 days, no prior experience required, with all equipment, instruction, and support provided: Military Nordic Ski Camp (cross-country skiing plus biathlon practice and a backcountry yurt ski — Cost: $0), Military Spring Experience Camp (spring ski/snowboard for beginner/intermediate veterans — Cost: $0), and Military Beginner Winter Camp (alpine ski/snowboard with adaptive lessons plus sled hockey, yoga, climbing, and biathlon — Cost: $1000; scholarships offered).",
+    needCategoryIds: ["sports-fitness", "outdoor-programs"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Varies by camp — $0 listed for Military Nordic Ski Camp and Military Spring Experience Camp; $1000 listed for Military Beginner Winter Camp (per nationalabilitycenter.org camp pages)",
+    geographicScope: "Single destination — Park City, UT; open to veterans nationwide",
+    eligibility: "Veterans, 18+ (camp pages list veterans only); no prior experience required",
+    availability: "5-day winter and spring sessions each season; register through the org's registration portal",
+    phone: "435-649-3991",
+  },
+  {
+    // TODO(verify): confirm participant cost/model (program described as free to participants on some pages but not stated explicitly on national site).
+    name: "Back on My Feet",
+    url: "https://www.backonmyfeet.org/",
+    description:
+      "National nonprofit that uses running and walking as a platform for mentorship and community, pairing participants with volunteer coaches for early morning workouts and goal-setting support.",
+    needCategoryIds: ["sports-fitness", "purpose-community"],
+    audienceTags: ["Veteran"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Nationwide",
+  },
+  {
+    name: "PGA HOPE",
+    url: "https://www.pgareach.org/pgahope/",
+    description:
+      "Flagship military program of PGA REACH (the PGA of America's charitable foundation): a developmental 6–8 week golf curriculum led by PGA of America Golf Professionals trained in adaptive golf and military cultural competency, enhancing veterans' physical, mental, social, and emotional well-being. Active in every U.S. state at roughly 670 program locations and has served 71,000+ veterans since 2015; a VA Memorandum of Understanding allows recreational therapists to refer veterans as a therapeutic resource.",
+    needCategoryIds: ["sports-fitness", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "Disabled"],
+    cost: "Free — all programs provided at no cost to participating veterans, fully funded by PGA REACH",
+    geographicScope: "Nationwide — active in every U.S. state",
+    eligibility: "Veterans and active-duty service members of any branch, era, or ability level, including veterans with disabilities",
+    availability: "6–8 week developmental sessions; register online and connect with the local PGA Section office for clinic schedules",
+  },
+  {
+    name: "Soldiers To Sidelines",
+    url: "https://soldierstosidelines.org/",
+    description:
+      "501(c)(3) that trains veterans, service members, military spouses, and Gold Star family members to become certified character-based sports coaches in their communities. Free virtual coaching certification seminars are step one, followed by free in-person coaching workshops and clinics for young athletes, coaching webinars, and a continuing-development program for certified Soldier Coaches — 2,093 Soldier Coaches nationwide, with certified coaches in 41 states and 6 countries.",
+    needCategoryIds: ["sports-fitness", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "Military Spouse", "Gold Star"],
+    cost: "Free — virtual certification seminars, workshops, clinics, and webinars offered at no cost",
+    geographicScope: "Nationwide — virtual certification seminars; own-site annual report counts coaches in 41 states and 6 countries",
+    eligibility: "Veterans, active service members, military spouses, and Gold Star family members",
+    availability: "Free virtual certification seminars run as step one, with dates listed on the site; workshops, webinars, and the annual STS Summit follow",
+  },
+  {
+    // TODO(verify): membership dues/fees live on usmes.org/about/membership-info/, which could not be fetched — confirm the exact membership cost and whether dues are free or discounted before firming up the cost line.
+    name: "US Military Endurance Sports (USMES)",
+    url: "https://usmes.org/",
+    description:
+      "501(c)(3) division of American Servicemembers Amateur Sports supporting cycling, triathlon, running, and adventure racing teams for amateur athletes of all abilities, including wounded-veteran and adaptive programs. Offers camps, clinics, races, and gatherings plus a mentoring program with discounted coaching and skill development, along with gear discounts, event reimbursement, and limited competition grants.",
+    needCategoryIds: ["sports-fitness", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Nationwide — 17 USMES regions covering every U.S. state, plus territories and overseas members",
+    eligibility: "Current, retired, and veteran members of the United States Uniformed Services; military credentials affirmed during membership application",
+    availability: "Year-round membership with regional club events, camps, clinics, and a national events calendar",
+  },
+  {
+    // TODO(verify): participant cost (challenge registration fee, if any) is not stated on the org's own site — confirm whether individual access through the app and partner facilities is free.
+    name: "Fit First Responders",
+    url: "https://fitfirstresponders.org/",
+    description:
+      "Tulsa-founded 501(c)(3) delivering strength-and-conditioning, nutrition, and mental-conditioning coaching to first responders and veterans through a 24/7 digital platform and mobile app, a 12-week Fit for Duty. Fit for Life challenge, and Certified FFR Training Facilities whose staff are trained on the FFR curriculum. Own site states the program is accessible in all 50 states, with a network of 5,000+ first responders across 100+ partner agencies and 4,000+ served.",
+    needCategoryIds: ["sports-fitness", "mental-health"],
+    audienceTags: ["Law Enforcement", "Fire", "EMS", "Veteran", "Guard/Reserve"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Nationwide — own site states the platform is accessible in all 50 states (the 12-week challenge runs at its Tulsa, OK headquarters)",
+    eligibility: "Police officers, firefighters, paramedics, National Guard, and veterans",
+    availability: "Digital platform available 24/7; 12-week challenge has run twice a year since 2015; individual intake via contact form",
+    phone: "800-382-1506",
+  },
 
   // ---------------------------------------------------------------------
   // Equipment & Grants
@@ -858,6 +986,144 @@ export const RESOURCES: Resource[] = [
     cost: "Free — family support, honor walls and data are free; Camp April children's camp is cost-free for affected families",
     geographicScope: "Nationwide",
   },
+  {
+    name: "One More Wave",
+    url: "https://onemorewave.com/",
+    description:
+      "Surf nonprofit funding custom adaptive surfboards and surf therapy for veterans from coast to coast, with local chapters in CA, HI, NC, VA, and FL; 748 grants awarded since 2015.",
+    needCategoryIds: ["mental-health", "outdoor-programs", "equipment-grants"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "National reach; chapters in CA, HI, NC, VA, FL",
+    eligibility: "Wounded and disabled veterans",
+    // TODO(verify): participant cost and chapter meeting schedule.
+  },
+  {
+    name: "The SWEL",
+    url: "https://theswel.org/",
+    description:
+      "Provides free surf missions for uniformed heroes, first responders, active-duty military, and veterans from across the country.",
+    needCategoryIds: ["mental-health", "outdoor-programs"],
+    audienceTags: ["Veteran", "Active Military", "First Responder"],
+    cost: "Free — free surf missions for uniformed heroes (stated on the org's own site)",
+    geographicScope: "National (participants from across the country)",
+    eligibility: "Uniformed heroes, first responders, active-duty military, and veterans",
+    // TODO(verify): mission dates/locations; no phone published (contact is info@theswel.org only).
+  },
+  {
+    // TODO(verify): current-year camp dates and phone number.
+    name: "Waves of Impact",
+    url: "https://wavesofimpact.com/veterans",
+    description:
+      "Adaptive surf-camp programs for wounded veterans held in California, Texas, New Jersey, and Massachusetts at no cost to participants.",
+    needCategoryIds: ["mental-health", "outdoor-programs"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free — no cost to participants (stated on the org's own site)",
+    geographicScope: "Multi-state (CA, TX, NJ, MA)",
+    eligibility: "Wounded veterans",
+  },
+  {
+    // TODO(verify): current session schedule and that Hawaii satellite operations are active.
+    name: "Jimmy Miller Memorial Foundation",
+    url: "https://jimmymillerfoundation.org/",
+    description:
+      "Runs military ocean-therapy sessions — surfing, ocean safety, and water confidence — free of charge for veterans, active-duty military, and first responders from San Diego up the coast to Oregon, with satellite operations in Hawaii.",
+    needCategoryIds: ["mental-health", "outdoor-programs"],
+    audienceTags: ["Veteran", "Active Military", "First Responder"],
+    cost: "Free — military ocean-therapy sessions offered free of charge (stated on the org's own site)",
+    geographicScope: "Multi-state (Southern/Central CA to Oregon, plus Hawaii satellite operations)",
+    eligibility: "Military (veterans and active duty) and first responders",
+    phone: "424-290-1953",
+  },
+  {
+    // TODO(verify): participant cost and chapter event calendar — site is a client-rendered SPA; facts sourced from the org's own published policy PDF.
+    name: "AmpSurf",
+    url: "https://ampsurf.org/",
+    description:
+      "Adaptive-surfing nonprofit with chapters in California, New England, New York, and the Pacific Northwest (plus a Puerto Rico program), teaching adaptive surfing to disabled veterans and first responders.",
+    needCategoryIds: ["mental-health", "outdoor-programs"],
+    audienceTags: ["Veteran", "First Responder", "Disabled"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Multi-chapter (CA, New England, NY, Pacific Northwest; Puerto Rico program)",
+    eligibility: "Disabled veterans and first responders (per the org's own published policy)",
+    phone: "805-295-5000",
+    hours: "Wednesday-Friday, Pacific Time (office hours per the org's own site)",
+  },
+  {
+    // TODO(verify): cost is not stated on pathintl.org and varies by member center — confirm typical veteran-program pricing before publishing.
+    name: "PATH International — Equine Services for Heroes®",
+    url: "https://pathintl.org/programs/veterans/",
+    description:
+      "Accreditation body behind Equine Services for Heroes®, PATH Intl. works to make mounted and unmounted equine-assisted services available to any veteran or military personnel within or near their home communities, with certified instructors trained to serve veterans and referral relationships in all U.S. territories; its Find a Program tool searches member centers nationwide.",
+    needCategoryIds: ["mental-health", "outdoor-programs"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family"],
+    cost: "Not stated on the org's own site — pricing is set by each PATH Intl. member center",
+    geographicScope: "Nationwide (member centers across the U.S. and all U.S. territories)",
+    eligibility: "Veterans and military personnel, served through PATH Intl. member centers in or near their home community; VA education benefits can reimburse CTRI/ESMHL certification exam fees for veterans, servicemembers, National Guard, Selected Reserve, and eligible dependents",
+    phone: "800-369-7433",
+  },
+  {
+    // TODO(verify): cost is not stated on eagala.org — confirm how veterans are quoted/charged by designated providers.
+    name: "Eagala Military Services",
+    url: "https://www.eagala.org/equine-therapy-veterans/",
+    description:
+      "Eagala's Military Services Designation credentials equine-assisted psychotherapy providers with mandatory military-culture and clinical training (30 hours each) for active duty, reserves, veterans and their families; its Find A Program tool locates designated providers.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family"],
+    cost: "Not stated on the org's own site — session fees are set by individual Eagala providers",
+    geographicScope: "Nationwide (Eagala provider network; association based in Fort Myers, FL)",
+    eligibility: "Active duty, reserves, veterans, and their families seeking the Eagala Model with military-designated providers",
+    phone: "801-754-0400",
+  },
+  {
+    name: "BraveHearts",
+    url: "https://braveheartsriding.org/",
+    description:
+      "Illinois/Wisconsin nonprofit that describes itself as the largest equine-assisted services program for veterans in the country, offering recreational riding plus mental health and wellness therapy while serving veterans nationwide and helping veterans outside IL/WI get connected to a center near them.",
+    needCategoryIds: ["mental-health", "outdoor-programs"],
+    audienceTags: ["Veteran", "Family", "Caregiver"],
+    cost: "Free — all services are offered at no cost to the veteran and one accompanying immediate family member or caregiver",
+    geographicScope: "Nationwide (serves veterans nationwide; program sites in Illinois and Wisconsin)",
+    eligibility: "Veterans, plus one accompanying immediate family member or caregiver; veterans who do not live in IL or WI are helped to find a center near them",
+    phone: "815-943-8226",
+  },
+  {
+    // TODO(verify): cost, phone, and where/how the equine programs are delivered are not stated on houndsandheroes.org — confirm before treating as fully production-checked.
+    name: "Hounds & Heroes",
+    url: "https://www.houndsandheroes.org/",
+    description:
+      "National nonprofit founded in 2011 that rescues animals and serves veterans, active-duty members, first responders and military families through service/therapy dog placements, equine therapy with rescued horses, outreach and disaster relief, with locations in Los Angeles and San Francisco, CA and Dallas, TX.",
+    needCategoryIds: ["mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "First Responder", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Nationwide (locations in Los Angeles and San Francisco, CA and Dallas, TX; own site states 'Serving Veterans Nationwide' since 2015)",
+    eligibility: "Veterans, active-duty military, first responders, and military families",
+  },
+  {
+    // TODO(verify): the own-site affiliates page lists facilities in 13 states but does not state which deliver veteran/first-responder programming — confirm affiliate coverage before relying on it.
+    name: "Horses4Heroes",
+    url: "https://horses4heroes.org/",
+    description:
+      "Las Vegas nonprofit (The Ranch Las Vegas) offering mental health and wellness programs with horses for veterans and first responders with PTSD — including the Back in the Saddle™ workshop for veterans with PTS/MST/TBI and family members — alongside affordable youth camps, supported by a network of affiliates listed in 13 states.",
+    needCategoryIds: ["mental-health", "outdoor-programs", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "First Responder", "Family"],
+    cost: "Free for veterans and first responders with PTSD (funded by grants, donations and sponsorships); other ranch programs are fee-based",
+    geographicScope: "Nationwide (flagship ranch in Las Vegas, NV plus affiliate locations in 13 states)",
+    eligibility: "Veterans, first responders, active duty members and their families; kids' programs are for children of active duty, veterans and first responders",
+    phone: "702-645-8446",
+  },
+  {
+    // TODO(verify): cost is set by individual partner programs and is not stated on horsesformentalhealth.org.
+    name: "Horses for Mental Health",
+    url: "https://horsesformentalhealth.org/",
+    description:
+      "National 501(c)(3) that expands access to equine-assisted mental health services through its Find a Program directory, partner funding and awareness campaigns, and a VA Adaptive Sports Grant that expanded life-changing services to U.S. veterans across the country in 2024; its fifth annual campaign united 130 organizations across 36 states and six countries.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Veteran", "Civilian Supporter"],
+    cost: "Not stated on the org's own site — HMH funds and lists partner programs that set their own fees",
+    geographicScope: "Nationwide (find-a-program directory; partner campaign across 36 states and six countries)",
+    eligibility: "Anyone can search the directory; veterans are served through VA Adaptive Sports Grant-funded partner programs",
+  },
 
   // ---------------------------------------------------------------------
   // Outdoor Programs
@@ -964,6 +1230,169 @@ export const RESOURCES: Resource[] = [
     audienceTags: ["Veteran", "Active Military", "Family", "Disabled"],
     cost: "Free — all programming is free of charge for veterans and service members",
     geographicScope: "Nationwide — chapters, regional coordinators, and national clinics",
+  },
+  {
+    // TODO(verify): confirm phone number; participants are matched to events near home per the org's site.
+    name: "Wake for Warriors",
+    url: "https://www.wakeforwarriors.org/",
+    description:
+      "All-volunteer nonprofit running therapeutic wakeboarding and wakesurf events for wounded veterans and their families, with a 2026 schedule of events across roughly 19 states, plus multi-day adaptive ski and snowboard events with partner providers (NSCD at Winter Park, Challenge Aspen at Aspen, Park City, UT) that include adaptive equipment rental, coaching, lodging, and meals.",
+    needCategoryIds: ["outdoor-programs", "sports-fitness"],
+    audienceTags: ["Veteran", "Active Military", "Disabled", "Family"],
+    cost: "Free — no cost for veterans and military personnel to participate (stated on the org's own site)",
+    geographicScope: "National event-based (2026 wake events in ~19 states; winter events in CO and UT)",
+    eligibility: "Veterans and active-duty military; personnel with service-related injuries have priority — participants may have physical disabilities, PTSD, or traumatic brain injury",
+    availability: "Application-based; 2026 event schedule published by state, plus an annual winter event series",
+  },
+  {
+    name: "Warrior Sailing",
+    url: "https://warriorsailing.org/",
+    description:
+      "National adaptive sailing program offering camps and clinics for wounded, ill, and injured service members and veterans.",
+    needCategoryIds: ["outdoor-programs", "sports-fitness"],
+    audienceTags: ["Veteran", "Active Military", "Disabled"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Nationwide camps and clinics",
+    eligibility: "Wounded, ill, and injured service members and veterans",
+    phone: "269-598-7119",
+    // TODO(verify): participant cost is not published on the org's own site; confirm camp schedule.
+  },
+  {
+    // TODO(verify): cost of team participation and current season schedule.
+    name: "US Patriot Sailing",
+    url: "https://uspatriotsailing.org/",
+    description:
+      "Sailing program open to all veterans and active duty, with teams in Annapolis and Solomons, Maryland; San Diego and Los Angeles, California; and Seattle and Tacoma, Washington, plus no-cost ASA sailing courses for participating veterans.",
+    needCategoryIds: ["outdoor-programs", "sports-fitness"],
+    audienceTags: ["Veteran", "Active Military"],
+    cost: "No-cost ASA sailing courses for participating veterans; other participation costs not stated on the org's own site",
+    geographicScope: "Multi-state (MD, CA, WA)",
+    eligibility: "All veterans and active duty",
+  },
+  {
+    // TODO(verify): explicit eligibility wording, retreat schedule, and phone number.
+    name: "Wind Sports for Wounded Warriors",
+    url: "https://ws4ww.org/",
+    description:
+      "Free, community-driven adaptive wind-sports retreats — kiteboarding, sailing, wakesurfing, and foiling — held along the East Coast (NC, SC, GA, FL).",
+    needCategoryIds: ["outdoor-programs", "sports-fitness"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free — free, community-driven programs (stated on the org's own site)",
+    geographicScope: "Multi-state East Coast retreats (NC, SC, GA, FL)",
+  },
+  {
+    // TODO(verify): nationwide availability (program is trip-based from a California HQ) and participant cost.
+    name: "WAVES Project",
+    url: "https://wavesproject.org/",
+    description:
+      "Temecula, California-based nonprofit providing adaptive scuba experiences for wounded American veterans and a companion, with trips to Nevada, Florida, and Hawaii.",
+    needCategoryIds: ["outdoor-programs", "sports-fitness"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Multi-state trips (NV, FL, HI); HQ in Temecula, CA",
+    eligibility: "Wounded American veterans, each accompanied by a companion",
+    phone: "951-308-0049",
+  },
+  {
+    // TODO(verify): phone number and current affiliate-dive-shop list.
+    name: "Patriots for Disabled Divers",
+    url: "https://patriotsfordisableddivers.org/",
+    description:
+      "Covers 100% of the cost to train disabled veterans to scuba dive through a network of 16 affiliate dive shops nationwide.",
+    needCategoryIds: ["outdoor-programs", "sports-fitness"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free — covers 100% of dive-training cost for disabled veterans (stated on the org's own site)",
+    geographicScope: "National network of 16 affiliate dive shops",
+    eligibility: "Injured veterans with a VA disability rating of 30% or higher (per the org's own blog)",
+  },
+  {
+    // TODO(verify): participant cost and full list of domestic program locations (own-site /military-wounded page 404s).
+    name: "Diveheart",
+    url: "https://diveheart.org/",
+    description:
+      "Adaptive-scuba nonprofit serving people with disabilities including veterans, with trips to Key Largo, Florida and international destinations and a training-affiliate network.",
+    needCategoryIds: ["outdoor-programs", "sports-fitness"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Multi-state (HQ Downers Grove, IL; trips in FL plus international)",
+    eligibility: "People with disabilities, including veterans with disabilities (per the org's mission)",
+    phone: "630-964-1983",
+  },
+  {
+    // TODO(verify): participant cost, phone number, and full chapter list.
+    name: "VetsBoats",
+    url: "https://vetsboats.org/",
+    description:
+      "Builds a nationwide network of chapters and partner vessels to heal veterans through on-the-water camaraderie, with partner boats in San Francisco Bay, San Diego, Springfield, Ohio, and Annapolis; 1,000+ veterans served.",
+    needCategoryIds: ["outdoor-programs", "purpose-community"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "National chapter/affiliate network (partner vessels in CA, OH, MD)",
+    eligibility: "Veterans and their families; focus on veterans healing from PTSD and addiction",
+  },
+  {
+    name: "Freedom Waters Foundation",
+    url: "https://freedomwatersfoundation.org/programs/for-veterans",
+    description:
+      "Offers no-cost therapeutic boating, sailing, and fishing experiences for veterans, active-duty military, and their families — year-round in Southwest and Southeast Florida with yearly events in Georgia and Indiana.",
+    needCategoryIds: ["outdoor-programs", "mental-health"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "Free — every experience is offered at no cost (stated on the org's own site)",
+    geographicScope: "Multi-state (FL year-round; GA and IN yearly)",
+    eligibility: "Veterans, active-duty military, and their families — all ages, backgrounds, and abilities; no prior boating experience required",
+    availability: "Year-round events in Southwest and Southeast Florida, with yearly events in Georgia and Indiana",
+    phone: "239-263-2377",
+    // TODO(verify): transportation to trips is not provided (per the org's FAQ).
+  },
+  {
+    // TODO(verify): own-site events calendar was empty at verification time and sister domain sudsdiving.org was unreachable — confirm current trip schedule before treating as fully production-checked.
+    name: "SUDS — Servicemembers Undertaking Disabled Sports",
+    url: "https://sudsusa.org/",
+    description:
+      "501(c)(3) providing adaptive/adventure sports — including snow skiing, scuba, rock climbing, and mountain biking — to wounded, injured, and ill Iraq/Afghanistan veterans and to post-9/11 police, firefighters, and EMTs. Trips cover airfare, lodging, meals, and training expenses.",
+    needCategoryIds: ["outdoor-programs", "sports-fitness"],
+    audienceTags: ["Veteran", "Disabled", "First Responder", "Law Enforcement", "Fire", "EMS"],
+    cost: "Free — there is no cost to the service members (stated on the org's own site)",
+    geographicScope: "Nationwide recruitment — trips originate from the org's San Antonio, TX base",
+    eligibility: "Wounded, injured, and ill veterans who served in Iraq and Afghanistan, plus post-9/11 police, firefighters, and EMTs",
+    availability: "Multiple adventure trips per year across disciplines; see the org's events calendar",
+    phone: "210-303-2181",
+  },
+  {
+    name: "No Boundaries Military — Winter Trip",
+    url: "https://www.noboundariesmilitary.org/winter-trip/",
+    description:
+      "Six-day adaptive winter trip at Snowbird, Utah with Wasatch Adaptive Sports — adaptive downhill skiing, snowboarding, mono-skiing, ski-biking, and snow tubing — with travel, meals, lodging, and activities covered for combat-wounded veterans recruited nationwide.",
+    needCategoryIds: ["outdoor-programs", "sports-fitness"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free — all expenses paid, including flights, meals, lodging, and activities (stated on the org's own site)",
+    geographicScope: "Destination trip — Snowbird, UT; recruits combat-wounded veterans nationwide",
+    eligibility: "Active duty or retired combat-wounded veterans who are independent in their care (e.g., amputees, PTSD, TBI)",
+    availability: "2027 winter trip: Feb 28 – Mar 5, 2027",
+  },
+  {
+    name: "Vail Veterans Program — Winter Therapeutic Outdoor Programs",
+    url: "https://www.vailveteransprogram.org/programs/",
+    description:
+      "Winter programs at Vail Mountain providing private adaptive ski, snowboard, and ski-bike instruction for wounded service members plus group lessons for spouses, caregivers, and children — part of the org's year-round therapeutic outdoor programming for military families.",
+    needCategoryIds: ["outdoor-programs", "sports-fitness"],
+    audienceTags: ["Veteran", "Disabled", "Family", "Caregiver"],
+    cost: "Free — winter programs provided at no cost to participants",
+    geographicScope: "Destination programs — Vail, CO; serves wounded military families recruited nationwide",
+    eligibility: "Wounded/injured military service members and their spouses, caregivers, and children",
+    availability: "Annual winter programs (2026: Winter Family Program in January, Winter Mountain Adventure Mar 1–6); dates published per season",
+  },
+  {
+    name: "Unbroken Spirit — Adaptive Sports Program",
+    url: "https://unbrokenspirit.org/what-we-do/adaptive-sports-program/",
+    description:
+      "Yearlong veteran program whose in-person phase is a 7-day adaptive sports week at the National Ability Center in Park City, Utah — alpine ski/snowboard days, a Nordic ski and snowshoe yurt excursion, biathlon, and sled hockey — bracketed by virtual training and mentorship phases.",
+    needCategoryIds: ["outdoor-programs", "sports-fitness"],
+    audienceTags: ["Veteran", "Active Military", "Disabled"],
+    cost: "Free — the program is completely free including travel expenses (stated on the org's own site)",
+    geographicScope: "Nationwide — virtual phases open nationwide; in-person week in Park City, UT",
+    eligibility: "Any veteran or active-duty military member (no disability rating or proof-of-service requirement stated); adaptive sports applicants must provide documented proof of their condition on request; teams of 12–15",
+    availability: "Team 1 – 2027: Phase 1 Jan 6 – Mar 17 (virtual), Phase 2 Mar 19–25 in Park City, Phase 3 Mar 31 – Sep 29 (virtual)",
   },
 
   // ---------------------------------------------------------------------
