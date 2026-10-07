@@ -13,11 +13,12 @@ import { MilestoneHeadline } from "@/components/journal/milestone-headline";
 import { SponsorDisclosureBanner } from "@/components/journal/sponsor-disclosure-banner";
 import { PartnerMentionsFooter } from "@/components/journal/partner-mentions-footer";
 import { JournalGallery } from "@/components/journal/journal-gallery";
+import { JournalCategoryPlaceholder } from "@/components/journal/journal-category-placeholder";
 import { JournalComments } from "@/components/journal/journal-comments";
 import { getApprovedJournalComments } from "@/lib/data/journal-comments";
 import { RelatedEntries } from "@/components/journal/related-entries";
 import { JournalCta } from "@/components/journal/journal-cta";
-import { formatDateLong } from "@/lib/utils";
+import { estimateReadingMinutes, formatDateLong } from "@/lib/utils";
 import { parseVideoUrl } from "@/lib/video-url";
 import { CAMPAIGN_URL, JOURNAL_PLACEHOLDER_IMAGE, SITE_NAME, SITE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
@@ -128,6 +129,8 @@ export default async function JournalEntryPage(props: PageProps<"/journal/[slug]
               <time dateTime={entry.published_at}>{formatDateLong(entry.published_at)}</time>
             </>
           )}
+          <span aria-hidden>&middot;</span>
+          <span>{estimateReadingMinutes(entry.body)} min read</span>
         </div>
 
         <h1 className="mt-3 text-balance font-display text-3xl font-semibold uppercase tracking-tight text-ink sm:text-4xl">
@@ -190,25 +193,69 @@ export default async function JournalEntryPage(props: PageProps<"/journal/[slug]
           <JournalComments journalEntryId={entry.id} comments={comments} />
         </RevealOnScroll>
 
-        <div className="mt-10 grid grid-cols-3 items-center border-t border-ink/10 pt-6 text-sm">
-          <div className="text-left">
+        <div className="mt-10 border-t border-ink/10 pt-6">
+          <div className="grid gap-4 sm:grid-cols-2">
             {adjacent.prev && (
-              <Link href={`/journal/${adjacent.prev.slug}`} className="font-semibold text-charcoal-light hover:text-ink">
-                &larr; Previous Update
+              <Link
+                href={`/journal/${adjacent.prev.slug}`}
+                className="hover-lift group flex items-center gap-4 rounded-sm border border-ink/10 bg-off-white p-4"
+              >
+                <div className="relative aspect-[4/3] w-20 shrink-0 overflow-hidden rounded-sm bg-sand-light">
+                  {adjacent.prev.image_url ? (
+                    <Image
+                      src={adjacent.prev.image_url}
+                      alt=""
+                      fill
+                      className="object-cover"
+                      sizes="80px"
+                    />
+                  ) : (
+                    <JournalCategoryPlaceholder category={adjacent.prev.primary_category} />
+                  )}
+                </div>
+                <div className="min-w-0">
+                  <span className="text-xs font-semibold uppercase tracking-widest text-bronze">
+                    &larr; Previous Update
+                  </span>
+                  <p className="mt-1 truncate font-display font-semibold text-ink group-hover:text-bronze">
+                    {adjacent.prev.title}
+                  </p>
+                </div>
+              </Link>
+            )}
+            {adjacent.next && (
+              <Link
+                href={`/journal/${adjacent.next.slug}`}
+                className="hover-lift group flex items-center gap-4 rounded-sm border border-ink/10 bg-off-white p-4 text-right sm:flex-row-reverse"
+              >
+                <div className="relative aspect-[4/3] w-20 shrink-0 overflow-hidden rounded-sm bg-sand-light">
+                  {adjacent.next.image_url ? (
+                    <Image
+                      src={adjacent.next.image_url}
+                      alt=""
+                      fill
+                      className="object-cover"
+                      sizes="80px"
+                    />
+                  ) : (
+                    <JournalCategoryPlaceholder category={adjacent.next.primary_category} />
+                  )}
+                </div>
+                <div className="min-w-0">
+                  <span className="text-xs font-semibold uppercase tracking-widest text-bronze">
+                    Next Update &rarr;
+                  </span>
+                  <p className="mt-1 truncate font-display font-semibold text-ink group-hover:text-bronze">
+                    {adjacent.next.title}
+                  </p>
+                </div>
               </Link>
             )}
           </div>
-          <div className="text-center">
+          <div className="mt-4 text-center text-sm">
             <Link href="/journal" className="font-semibold text-bronze hover:text-bronze-dark">
               Back to Journal
             </Link>
-          </div>
-          <div className="text-right">
-            {adjacent.next && (
-              <Link href={`/journal/${adjacent.next.slug}`} className="font-semibold text-charcoal-light hover:text-ink">
-                Next Update &rarr;
-              </Link>
-            )}
           </div>
         </div>
       </Container>

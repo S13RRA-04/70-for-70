@@ -39,3 +39,20 @@ export function weeksBetween(fromIso: string, toIso: string): number {
   const ms = new Date(toIso).getTime() - new Date(fromIso).getTime();
   return Math.max(Math.floor(ms / (1000 * 60 * 60 * 24 * 7)), 0);
 }
+
+/**
+ * Minutes to read a block of markdown/plain text at ~200 wpm, rounded up
+ * and floored at 1 so a short post never reads "0 min read". Strips
+ * markdown syntax (headings, emphasis, links, images, code fences) before
+ * counting words, since raw `#`/`**`/`[]()` characters would otherwise
+ * inflate the count on a post that's actually short to read.
+ */
+export function estimateReadingMinutes(body: string): number {
+  const plainText = body
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, " ")
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")
+    .replace(/[#>*_~`-]/g, " ");
+  const wordCount = plainText.split(/\s+/).filter(Boolean).length;
+  return Math.max(Math.ceil(wordCount / 200), 1);
+}
