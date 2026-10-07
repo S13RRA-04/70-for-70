@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { updateSupabaseSession } from "@/lib/supabase/proxy-session";
 import { getPreviewToken, isCampaignLive, isOrgLive, PREVIEW_COOKIE_NAME } from "@/lib/launch-gate";
 import { getCampaignSlug, isAppHost, type CampaignSlug } from "@/lib/site-mode";
-import { CAMPAIGN_URL, EVENT22_CAMPAIGN_URL, SITE_URL } from "@/lib/constants";
+import { CAMPAIGN_URL, EVENT22_CAMPAIGN_URL, LIVE_CAMPAIGN_URL, SITE_URL } from "@/lib/constants";
 import { assertValidRuntimeConfig } from "@/lib/config-validation";
 
 /**
@@ -61,6 +61,9 @@ export async function middleware(request: NextRequest) {
 
   const legacyEvent22Response = applyEvent22LegacyRedirect(request);
   if (legacyEvent22Response) return applyCsp(legacyEvent22Response, csp);
+
+  const legacyLiveResponse = applyLiveLegacyRedirect(request);
+  if (legacyLiveResponse) return applyCsp(legacyLiveResponse, csp);
 
   // app.forthe22.org is a different product surface entirely (authenticated
   // participant app, not marketing content) — never subject to the org/
@@ -260,6 +263,18 @@ function applyEvent22LegacyRedirect(request: NextRequest): Response | null {
   return NextResponse.redirect(`${EVENT22_CAMPAIGN_URL}${rest}${search}`, 308);
 }
 
+/** For The 22: Live moved from /campaigns/live to live.forthe22.org. */
+function applyLiveLegacyRedirect(request: NextRequest): Response | null {
+  const campaignSlug = getCampaignSlug(request.headers.get("host"));
+  if (campaignSlug === "live") return null;
+
+  const { pathname, search } = request.nextUrl;
+  if (pathname !== "/campaigns/live" && !pathname.startsWith("/campaigns/live/")) return null;
+
+  const rest = pathname.slice("/campaigns/live".length);
+  return NextResponse.redirect(`${LIVE_CAMPAIGN_URL}${rest}${search}`, 308);
+}
+
 /**
  * Returns a response if the request should be blocked/redirected by the
  * pre-launch gate, or null if the visitor has valid preview access and
@@ -396,6 +411,7 @@ function matchesPathPrefix(pathname: string, prefixes: string[]): boolean {
 const CAMPAIGN_HOME_ROUTES: Record<CampaignSlug, string> = {
   tri: "/campaign-home",
   ruck: "/ruck-home",
+  live: "/campaigns/live",
   // The page itself never moved on disk — only which host's "/" points at
   // it. See EVENT22_CAMPAIGN_URL's doc comment in constants.ts.
   "22": "/22forthe22",
@@ -410,6 +426,11 @@ const CAMPAIGN_HOME_ROUTES: Record<CampaignSlug, string> = {
 const EVENT22_PATH_REWRITES: Record<string, string> = {
   "/promokit": "/22forthe22/promokit",
   "/rules": "/22forthe22/rules",
+};
+
+const LIVE_PATH_REWRITES: Record<string, string> = {
+  "/events": "/campaigns/live/events",
+  "/auction": "/campaigns/live/auction",
 };
 
 /**
@@ -458,6 +479,24 @@ function applyEvent22Guard(request: NextRequest, campaignSlug: CampaignSlug | nu
   return NextResponse.redirect(new URL("/", request.nextUrl), 308);
 }
 
+function applyLiveGuard(request: NextRequest, campaignSlug: CampaignSlug | null): Response | null {
+  if (campaignSlug !== "live") return null;
+  const { pathname } = request.nextUrl;
+  if (matchesPathPrefix(pathname, ORG_PATH_PREFIXES) || matchesPathPrefix(pathname, CAMPAIGN_PATH_PREFIXES)) {
+    return NextResponse.redirect(new URL("/", request.nextUrl), 308);
+  }
+  const isEventDetailPath = /^\/[^/]+$/.test(pathname);
+  if (
+    pathname === "/" ||
+    pathname in LIVE_PATH_REWRITES ||
+    isEventDetailPath ||
+    matchesPathPrefix(pathname, SHARED_PATH_PREFIXES)
+  ) {
+    return null;
+  }
+  return NextResponse.redirect(new URL("/", request.nextUrl), 308);
+}
+
 /**
  * Returns a response if this request needs to be rewritten/redirected to
  * stay on the correct side of the movement/campaign split, or null if it
@@ -477,6 +516,9 @@ function applyDomainSplit(
   const event22GuardResponse = applyEvent22Guard(request, campaignSlug);
   if (event22GuardResponse) return event22GuardResponse;
 
+  const liveGuardResponse = applyLiveGuard(request, campaignSlug);
+  if (liveGuardResponse) return liveGuardResponse;
+
   // "/" is the one path that exists on every host with different content.
   // Each campaign's home lives at its own real route (see
   // CAMPAIGN_HOME_ROUTES) and is rewritten in transparently — the URL bar
@@ -493,6 +535,17 @@ function applyDomainSplit(
     return NextResponse.rewrite(new URL(EVENT22_PATH_REWRITES[url.pathname], url), {
       request: { headers: renderHeaders },
     });
+  }
+
+  if (campaignSlug === "live" && !matchesPathPrefix(url.pathname, SHARED_PATH_PREFIXES)) {
+    const destination =
+      LIVE_PATH_REWRITES[url.pathname] ??
+      (/^\/[^/]+$/.test(url.pathname) ? `/campaigns/live${url.pathname}` : null);
+    if (destination) {
+      return NextResponse.rewrite(new URL(destination, url), {
+        request: { headers: renderHeaders },
+      });
+    }
   }
 
   if (onCampaignHost && url.pathname in CAMPAIGN_PATH_REWRITES) {

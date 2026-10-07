@@ -27,7 +27,9 @@ const nextConfig: NextConfig = {
     NEXT_PUBLIC_SITE_URL: "https://forthe22.org",
     NEXT_PUBLIC_CAMPAIGN_URL: "https://tri.forthe22.org",
     NEXT_PUBLIC_RUCK_URL: "https://ruck.forthe22.org",
+    NEXT_PUBLIC_LIVE_URL: "https://live.forthe22.org",
     NEXT_PUBLIC_APP_URL: "https://app.forthe22.org",
+    NEXT_PUBLIC_EVENT22_URL: "https://22.forthe22.org",
     // Turnstile *site* key — public by design (it ships in the client bundle
     // and is visible in the widget request). Hardcoded for the same
     // build-time-inlining reliability reason as the URLs above. The matching

@@ -11,7 +11,7 @@ import { getLiveEventBySlug, getLiveEventPerformers, getLiveAuctionItems } from 
 import { getMissionPartners } from "@/lib/data/mission-partners";
 import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
 import { formatCurrency, formatDateLong } from "@/lib/utils";
-import { CAMPAIGN_URL, MISSION_NAME, SITE_URL } from "@/lib/constants";
+import { CAMPAIGN_URL, LIVE_CAMPAIGN_URL, MISSION_NAME } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 
@@ -23,7 +23,7 @@ export async function generateMetadata(props: PageProps<"/campaigns/live/[slug]"
   return pageMetadata({
     title: event.title,
     description: event.tagline ?? `${event.title} — a For The 22: Live benefit concert.`,
-    canonical: `/campaigns/live/${event.slug}`,
+    canonical: `/${event.slug}`,
   });
 }
 
@@ -41,9 +41,9 @@ export default async function LiveEventPage(props: PageProps<"/campaigns/live/[s
   const sponsors = missionPartners.filter((p) => p.associated_campaigns?.includes("live"));
 
   const breadcrumbJsonLdData = breadcrumbJsonLd([
-    { name: "For The 22: Live", url: `${SITE_URL}/campaigns/live` },
-    { name: "Shows", url: `${SITE_URL}/campaigns/live/events` },
-    { name: event.title, url: `${SITE_URL}/campaigns/live/${event.slug}` },
+    { name: "For The 22: Live", url: LIVE_CAMPAIGN_URL },
+    { name: "Shows", url: `${LIVE_CAMPAIGN_URL}/events` },
+    { name: event.title, url: `${LIVE_CAMPAIGN_URL}/${event.slug}` },
   ]);
 
   return (
