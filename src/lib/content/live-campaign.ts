@@ -12,12 +12,16 @@ export const LIVE_CAMPAIGN_DESCRIPTION =
 export interface UpcomingLivePerformer {
   name: string;
   details: string;
+  registrationUrl?: string;
 }
 
 export const UPCOMING_LIVE_PERFORMERS: UpcomingLivePerformer[] = [
   {
     name: "Scooter Brown Band",
-    details: "Performance details will be announced as they are confirmed.",
+    details:
+      "Featured in the first For The 22: LIVE virtual benefit concert. The event date and streaming details will be announced as they are confirmed.",
+    registrationUrl:
+      "https://www.zeffy.com/en-US/ticketing/for-the-22-presents-the-scooter-brown-band",
   },
 ];
 

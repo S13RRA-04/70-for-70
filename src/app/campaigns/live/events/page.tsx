@@ -9,6 +9,7 @@ import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 import { SITE_URL } from "@/lib/constants";
 import { UPCOMING_LIVE_PERFORMERS } from "@/lib/content/live-campaign";
+import { CTAButton } from "@/components/shared/cta-button";
 
 export const metadata = pageMetadata({
   title: "For The 22: Live — Upcoming Shows",
@@ -48,6 +49,11 @@ export default async function LiveEventsPage() {
                     {performer.name}
                   </h2>
                   <p className="mt-3 text-sm leading-relaxed text-charcoal-light">{performer.details}</p>
+                  {performer.registrationUrl && (
+                    <CTAButton href={performer.registrationUrl} external className="mt-5">
+                      Register on Zeffy
+                    </CTAButton>
+                  )}
                 </article>
               ))}
             </div>
