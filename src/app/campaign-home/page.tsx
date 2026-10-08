@@ -230,7 +230,9 @@ export default async function CampaignHomePage() {
           className="object-cover opacity-[0.08]"
         />
 
-        <Container className="relative max-w-3xl py-16 sm:py-24">
+        <Container className="relative py-16 sm:py-24">
+          <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
+          <div className="lg:col-span-8">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-bronze-light">For The 22</p>
           <h1 className="mt-2 text-balance font-display text-hero font-bold uppercase leading-[0.95] tracking-tight">
             Movement Creates Momentum.
@@ -259,6 +261,17 @@ export default async function CampaignHomePage() {
           >
             Follow the {CAMPAIGN_NAME} Campaign &rarr;
           </Link>
+          </div>
+          <div className="hidden lg:col-span-4 lg:block">
+            <div className="border-l border-off-white/20 pl-7">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">Current pursuit</p>
+              <p className="mt-3 font-display text-5xl font-bold leading-none">{RACE_TOTAL_DISTANCE}</p>
+              <p className="mt-1 text-sm uppercase tracking-widest text-off-white/65">Miles to move the mission</p>
+              <div className="mt-7 h-px bg-off-white/20" />
+              <p className="mt-7 text-sm leading-relaxed text-off-white/70">Training, bike build, fundraising, and race-day progress update as the campaign moves.</p>
+            </div>
+          </div>
+          </div>
         </Container>
       </section>
 
@@ -359,7 +372,9 @@ export default async function CampaignHomePage() {
       {/* 3. The $70K Mission — fundraising progress, grouped with Current
           Campaign above as the page's "what's happening now" block. */}
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container className="max-w-2xl">
+        <Container>
+          <div className="grid gap-10 lg:grid-cols-12 lg:items-center">
+          <div className="lg:col-span-7">
           <SectionHeading eyebrow="Fund the Mission" title="For The 22's Shared $70,000 Mission Goal" />
           <p className="mt-5 text-base leading-relaxed text-charcoal-light">
             Roughly $1,000 for every mile of {CURRENT_CAMPAIGN.event} — the race that inspired the number.
@@ -384,6 +399,15 @@ export default async function CampaignHomePage() {
               Explore the Full $70K Mission
             </CTAButton>
             <ShareButtons url={CAMPAIGN_URL} title={shareTitle} />
+          </div>
+          </div>
+          <div className="relative min-h-[340px] overflow-hidden rounded-sm lg:col-span-5 lg:min-h-[480px]">
+            <Image src="/journal/building-the-bike/frame-hero.jpg" alt="Tri For The 22 bike frame during the campaign build" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/90 to-transparent p-6 pt-24 text-off-white">
+              <p className="font-display text-xl font-semibold uppercase">Built piece by piece. Backed mile by mile.</p>
+              <Link href="/journal/building-the-bike" className="mt-3 inline-flex text-xs font-semibold uppercase tracking-widest text-bronze-light">See the bike build &rarr;</Link>
+            </div>
+          </div>
           </div>
         </Container>
       </section>

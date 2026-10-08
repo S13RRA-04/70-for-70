@@ -108,7 +108,9 @@ export default function AboutPage() {
 
       {/* What came after */}
       <section id="after" className="scroll-mt-28 bg-charcoal py-16 text-off-white sm:py-24">
-        <Container className={READING_COLUMN}>
+        <Container>
+          <div className="grid gap-10 lg:grid-cols-12 lg:items-start lg:gap-16">
+          <div className="lg:col-span-7 lg:pt-8">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">02 — After</p>
           <RevealOnScroll>
             <h2 className="mt-2 font-display text-2xl font-semibold uppercase tracking-tight sm:text-3xl">
@@ -122,12 +124,20 @@ export default function AboutPage() {
               ))}
             </div>
           </RevealOnScroll>
+          </div>
+          <div className="relative min-h-[360px] overflow-hidden rounded-sm lg:sticky lg:top-28 lg:col-span-5 lg:min-h-[520px]">
+            <Image src="/about/desert.jpg" alt="Cody walking through a desert landscape" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-transparent to-transparent" />
+          </div>
+          </div>
         </Container>
       </section>
 
       {/* Turning point */}
-      <section id="turning-point" className="scroll-mt-28 border-b border-ink/10 bg-off-white py-20 sm:py-28">
-        <Container className={READING_COLUMN}>
+      <section id="turning-point" className="scroll-mt-28 border-b border-ink/10 bg-off-white py-16 sm:py-24">
+        <Container>
+          <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
+          <div className="lg:col-span-5">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze">03 — Turning Point</p>
           <RevealOnScroll variant="rise">
             <blockquote className="mt-8 border-l-2 border-bronze pl-6 font-display text-xl font-medium italic leading-relaxed text-ink sm:text-2xl">
@@ -138,7 +148,8 @@ export default function AboutPage() {
               </footer>
             </blockquote>
           </RevealOnScroll>
-          <RevealOnScroll className="mt-10 space-y-4" delay={100}>
+          </div>
+          <RevealOnScroll className="space-y-4 lg:col-span-7 lg:pt-10" delay={100}>
             {testimony.body.map((paragraph, i) => (
               <p key={i} className="text-base leading-relaxed text-charcoal-light">
                 {paragraph}
@@ -150,6 +161,7 @@ export default function AboutPage() {
               </p>
             ))}
           </RevealOnScroll>
+          </div>
         </Container>
       </section>
 

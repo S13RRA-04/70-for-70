@@ -232,7 +232,15 @@ export default function MissionPage() {
             title="What They Carry"
             description="Raising awareness of the challenges carried by those who serve, and asking the public to give them the respect, care, and support they've earned."
           />
-          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+          <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:items-start">
+            <div className="relative min-h-[420px] overflow-hidden rounded-sm lg:sticky lg:top-28 lg:col-span-5 lg:min-h-[560px]">
+              <Image src="/about/navy-green.jpg" alt="A veteran in uniform" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-transparent to-transparent" />
+              <blockquote className="absolute inset-x-0 bottom-0 p-7 font-display text-2xl font-semibold uppercase leading-tight text-off-white">
+                The need does not end when the uniform comes off.
+              </blockquote>
+            </div>
+            <div className="space-y-4 lg:col-span-7">
             {THE_REALITY.map((item) => (
               <div key={item.title} className="border border-ink/10 bg-sand-light/40 p-8">
                 <item.icon className="h-6 w-6 text-bronze" aria-hidden="true" />
@@ -246,12 +254,13 @@ export default function MissionPage() {
                 </div>
               </div>
             ))}
+            <p className="border-l-2 border-bronze py-2 pl-6 text-sm leading-relaxed text-charcoal-light">
+              None of that stays contained to one person. Spouses, kids, and coworkers absorb part of
+              it too, which is part of why {SITE_NAME}&apos;s resource directory includes family and
+              caregiver support alongside programs built for veterans and first responders directly.
+            </p>
+            </div>
           </div>
-          <p className="mt-6 text-sm leading-relaxed text-charcoal-light">
-            None of that stays contained to one person. Spouses, kids, and coworkers absorb part of
-            it too, which is part of why {SITE_NAME}&apos;s resource directory includes family and
-            caregiver support alongside programs built for veterans and first responders directly.
-          </p>
         </Container>
       </section>
 

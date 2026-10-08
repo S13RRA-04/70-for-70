@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Backpack, Bike, Footprints, Music } from "lucide-react";
 import { Container } from "@/components/shared/container";
@@ -128,7 +129,9 @@ export default async function CampaignsPage() {
           component rather than restating it in prose. /70k remains the
           authoritative mission overview. */}
       <section className="border-b border-ink/10 py-14 sm:py-16">
-        <Container className="max-w-2xl">
+        <Container>
+          <div className="grid gap-10 lg:grid-cols-12 lg:items-center">
+          <div className="lg:col-span-7">
           <SectionHeading eyebrow="Current Mission" title="Where We Stand" />
           <div className="mt-6">
             <MissionProgress
@@ -150,14 +153,22 @@ export default async function CampaignsPage() {
               See the full {MISSION_NAME} overview &rarr;
             </Link>
           </p>
+          </div>
+          <div className="relative min-h-[300px] overflow-hidden rounded-sm lg:col-span-5 lg:min-h-[400px]">
+            <Image src="/the-race/chattanooga-river-bridge.jpg" alt="Chattanooga riverfront near the race course" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/90 to-transparent p-6 pt-20 text-off-white">
+              <p className="text-xs font-semibold uppercase tracking-widest text-bronze-light">One mission. Many ways in.</p>
+            </div>
+          </div>
+          </div>
         </Container>
       </section>
 
       {/* Current campaigns — status, dates, location, and links all come from
           the shared MovementCampaign records. */}
       <section className="py-16 sm:py-24">
-        <Container className="max-w-3xl">
-          <div className="space-y-10">
+        <Container>
+          <div className="grid gap-5 lg:grid-cols-2">
             {current.map((campaign) => {
               const isSameSite = "url" in campaign && campaign.url.startsWith("/");
               const dateLine = campaign.startDate
@@ -175,7 +186,7 @@ export default async function CampaignsPage() {
                 .join(" · ");
               const Icon = CAMPAIGN_ICONS[campaign.slug];
               return (
-                <div key={campaign.name} className="grid gap-6 border border-ink/10 bg-off-white p-8 sm:grid-cols-[auto_1fr] sm:items-center sm:gap-10 sm:p-10">
+                <div key={campaign.name} className="grid gap-6 border border-ink/10 bg-off-white p-7 sm:grid-cols-[auto_1fr] sm:items-start sm:gap-7 sm:p-8">
                   {Icon && (
                     <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-sm bg-bronze/10 text-bronze sm:h-24 sm:w-24">
                       <Icon className="h-9 w-9 sm:h-10 sm:w-10" aria-hidden="true" />
