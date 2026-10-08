@@ -15,15 +15,21 @@ import { ScrollProgressRail } from "@/components/shared/scroll-progress-rail";
 import { RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import { NEED_CATEGORIES } from "@/lib/content/resources";
 import { MissionProgress } from "@/components/campaign/mission-progress";
+import { CampaignCard } from "@/components/campaign/campaign-card";
+import { CountUpNumber } from "@/components/shared/count-up-number";
+import { PartnerLogoWall } from "@/components/partners/partner-logo-wall";
 import { ABOUT_CONTENT, findAboutSubsection } from "@/lib/content/about";
 import { OUTER_RING_COLORS } from "@/lib/ring-colors";
 import { getMissionMetrics } from "@/lib/data/mission-metrics";
 import { getPartners } from "@/lib/data/partners";
+import { getMissionPartners, isCampaignPartner } from "@/lib/data/mission-partners";
 import {
   CAMPAIGN_URL,
+  MOVEMENT_CAMPAIGNS,
   ORG_SUPPORTING_STATEMENT,
   ORG_TAGLINE,
   SITE_NAME,
+  isCurrentCampaign,
 } from "@/lib/constants";
 
 /** Who the directory serves — a quiet inline line under the resource categories, not a repeated icon grid (the categories above already show "what you need"; this just confirms "who this is for"). */
@@ -40,6 +46,7 @@ const WHO_WE_SERVE = [
 const RAIL_SECTIONS = [
   { id: "resources", label: "Resources" },
   { id: "network", label: "Network" },
+  { id: "campaigns", label: "Campaigns" },
   { id: "why-22", label: "Meaning" },
   { id: "mission", label: "The Mission" },
   { id: "story", label: "Story" },
@@ -95,7 +102,16 @@ const GET_INVOLVED_OPTIONS = [
 export default async function HomePage() {
   const why22 = findAboutSubsection("why-22");
   const theIdea = findAboutSubsection("the-idea");
-  const [metrics, beneficiaries] = await Promise.all([getMissionMetrics(), getPartners()]);
+  const [metrics, beneficiaries, missionPartners] = await Promise.all([
+    getMissionMetrics(),
+    getPartners(),
+    getMissionPartners(),
+  ]);
+
+  const currentCampaigns = MOVEMENT_CAMPAIGNS.filter(isCurrentCampaign);
+  const generalPartners = missionPartners.filter(isCampaignPartner);
+  const presentingPartners = generalPartners.filter((p) => p.tier === "presenting-partner");
+  const otherPartners = generalPartners.filter((p) => p.tier !== "presenting-partner");
 
   const networkStats = [
     { value: metrics.resources, label: "Resources" },
@@ -277,7 +293,7 @@ export default async function HomePage() {
                   <div key={stat.label} className="relative flex min-h-32 flex-col justify-center border-ink/10 p-5 text-center odd:border-r sm:min-h-40 sm:border-r sm:last:border-r-0">
                     <span className="absolute left-1/2 top-1/2 hidden h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-off-white bg-bronze sm:block" aria-hidden="true" />
                     <dd className="relative z-10 mb-7 font-display text-3xl font-semibold text-ink sm:text-4xl">
-                      {String(stat.value)}
+                      <CountUpNumber value={stat.value} />
                     </dd>
                     <dt className="relative z-10 text-[11px] font-semibold uppercase tracking-widest text-charcoal-light">
                       {stat.label}
@@ -291,6 +307,62 @@ export default async function HomePage() {
           </RevealOnScroll>
         </Container>
       </section>
+
+      {/* Current Campaigns — Tier 2: the movement in motion right now. Uses
+          the same CampaignCard as /campaigns' full index so the two never
+          render divergent copies of the same data; this teases 1-2 cards and
+          points to the full index rather than repeating every campaign. */}
+      {currentCampaigns.length > 0 && (
+        <section id="campaigns" className="scroll-mt-20 border-b border-ink/10 bg-off-white py-16 sm:py-20">
+          <Container>
+            <RevealOnScroll>
+              <SectionHeading
+                eyebrow="Right Now"
+                title="The Movement in Motion"
+                description="Current campaigns turning endurance, events, and community participation into direct support for the mission."
+              />
+            </RevealOnScroll>
+            <RevealOnScroll className="mt-10">
+              <div className="grid gap-5 lg:grid-cols-2">
+                {currentCampaigns.map((campaign) => (
+                  <CampaignCard key={campaign.name} campaign={campaign} />
+                ))}
+              </div>
+            </RevealOnScroll>
+            <RevealOnScroll>
+              <p className="mt-8 text-center">
+                <Link href="/campaigns" className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark">
+                  See All Campaigns &rarr;
+                </Link>
+              </p>
+            </RevealOnScroll>
+          </Container>
+        </section>
+      )}
+
+      {/* Partner Credibility — Tier 2: who's behind the mission, kept compact
+          (plan §5: "without creating an oversized logo wall"). Same
+          PartnerLogoWall primitive campaign-home/network already use, not a
+          new logo-grid implementation. */}
+      {(presentingPartners.length > 0 || otherPartners.length > 0) && (
+        <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
+          <Container>
+            <RevealOnScroll>
+              <SectionHeading eyebrow="Who's Behind This" title="Organizations Backing the Mission" />
+            </RevealOnScroll>
+            <RevealOnScroll className="mt-10">
+              <PartnerLogoWall presentingPartners={presentingPartners} otherPartners={otherPartners} />
+            </RevealOnScroll>
+            <RevealOnScroll>
+              <p className="mt-8 text-center">
+                <Link href="/network" className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark">
+                  View All Partners &rarr;
+                </Link>
+              </p>
+            </RevealOnScroll>
+          </Container>
+        </section>
+      )}
 
       {/* Why 22 + Black — Tier 1: sparse, poster-like memorial composition, typography-led */}
       {why22 && (
