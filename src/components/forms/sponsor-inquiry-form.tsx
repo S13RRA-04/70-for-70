@@ -5,6 +5,7 @@ import {
   controlClassName,
   fieldA11yProps,
   FormError,
+  FormSubmitButton,
   HoneypotField,
   FORM_CONTROL_CLASS_COMPACT,
 } from "@/components/forms/form-parts";
@@ -179,14 +180,12 @@ export function SponsorInquiryForm({ prefillItem }: { prefillItem?: string }) {
 
       <FormError message={status === "error" ? errorMessage : null} />
 
-      <button
-        type="submit"
+      <FormSubmitButton
         disabled={submitDisabled}
+        submitting={status === "submitting"}
+        idleLabel="Send Inquiry"
         data-analytics-event="sponsor_inquiry"
-        className="w-full rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-dark disabled:opacity-60 sm:w-auto"
-      >
-        {status === "submitting" ? "Sending..." : "Send Inquiry"}
-      </button>
+      />
     </form>
   );
 }

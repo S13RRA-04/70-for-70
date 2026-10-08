@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { MessageSquareText, Phone } from "lucide-react";
 
 /**
  * Homepage-only crisis utility — embedded as a compact dark card inside the
@@ -14,7 +15,7 @@ export function CrisisQuickLink() {
     <div
       id="crisis"
       aria-label="Crisis support"
-      className="flex h-full scroll-mt-24 flex-col border-t-4 border-bronze bg-ink p-6 text-off-white sm:p-8"
+      className="flex h-full scroll-mt-24 flex-col border-t-4 border-signal bg-ink p-6 text-off-white"
     >
       <p className="text-xs font-bold uppercase tracking-widest text-bronze-light">Need Help Now?</p>
       <p className="mt-2 text-sm leading-relaxed text-off-white/70">
@@ -28,7 +29,7 @@ export function CrisisQuickLink() {
         .
       </p>
 
-      <div className="mt-6 border border-off-white/15 bg-off-white/[0.04] p-5">
+      <div className="mt-5 border-t border-off-white/15 pt-5">
         <div className="flex items-start justify-between gap-3">
           <p className="text-sm font-semibold uppercase tracking-wide text-off-white">
             Veterans Crisis Line
@@ -40,23 +41,25 @@ export function CrisisQuickLink() {
             988
           </span>
         </div>
-        <div className="mt-3 flex flex-col">
+        <div className="mt-4 grid gap-2">
           <a
             href="tel:988"
-            className="block py-1 text-sm text-off-white/85 underline decoration-off-white/30 underline-offset-2 transition-colors hover:text-bronze-light"
+            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-sm bg-off-white px-4 py-3 text-sm font-bold uppercase tracking-wide text-ink hover:bg-sand-light"
           >
+            <Phone size={17} aria-hidden="true" />
             Call 988, then press 1
           </a>
           <a
             href="sms:838255"
-            className="block py-1 text-sm text-off-white/85 underline decoration-off-white/30 underline-offset-2 transition-colors hover:text-bronze-light"
+            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-sm border border-off-white/40 px-4 py-3 text-sm font-bold uppercase tracking-wide text-off-white hover:bg-off-white/10"
           >
+            <MessageSquareText size={17} aria-hidden="true" />
             Text 838255
           </a>
         </div>
       </div>
 
-      <div className="mt-4 flex flex-1 flex-col justify-center border border-off-white/15 p-5">
+      <div className="mt-5 flex flex-1 flex-col justify-center border-t border-off-white/15 pt-5">
         <p className="text-sm font-semibold uppercase tracking-wide text-off-white">
           First Responder Support
         </p>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Magnetic } from "@/components/shared/magnetic";
+import { ExternalLink } from "lucide-react";
 
 interface CTAButtonProps {
   href: string;
@@ -77,6 +78,7 @@ export function CTAButton({
   const button = external ? (
     <a href={href} className={classes} aria-current={ariaCurrent}>
       {children}
+      <ExternalLink size={14} aria-hidden="true" />
     </a>
   ) : (
     <Link href={href} className={classes} aria-current={ariaCurrent}>

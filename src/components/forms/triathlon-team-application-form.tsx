@@ -12,6 +12,7 @@ import {
   fieldA11yProps,
   Field,
   FormError,
+  FormSubmitButton,
   HoneypotField,
   FORM_CONTROL_CLASS,
 } from "@/components/forms/form-parts";
@@ -539,14 +540,13 @@ export function TriathlonTeamApplicationForm() {
 
       <FormError message={status === "error" ? errorMessage : null} />
 
-      <button
-        type="submit"
+      <FormSubmitButton
         disabled={submitDisabled}
+        submitting={status === "submitting"}
+        idleLabel="Submit Application"
+        submittingLabel="Submitting…"
         data-analytics-event="triathlon_team_application_submit"
-        className="w-full rounded-sm bg-bronze-text px-6 py-3.5 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-dark disabled:opacity-60 sm:w-auto"
-      >
-        {status === "submitting" ? "Submitting..." : "Submit Application"}
-      </button>
+      />
     </form>
   );
 }

@@ -101,9 +101,9 @@ export default async function HomePage() {
 
   const networkStats = [
     { value: metrics.resources, label: "Resources" },
-    { value: metrics.beneficiaries, label: "Current Beneficiaries" },
-    { value: metrics.campaignPartners, label: "Campaign Partners" },
     { value: metrics.activeCampaigns, label: "Active Campaigns" },
+    { value: metrics.campaignPartners, label: "Campaign Partners" },
+    { value: metrics.beneficiaries, label: "Current Beneficiaries" },
   ].filter((stat): stat is { value: number; label: string } => stat.value !== null);
 
   return (
@@ -263,34 +263,32 @@ export default async function HomePage() {
           backing the mission instead of the first thing a new visitor sees.
           Values from getMissionMetrics()/getFundraisingImpactStats(), never
           hardcoded. */}
-      <section id="network" className="scroll-mt-20 border-y border-ink/10 bg-off-white py-10 sm:py-12">
+      <section id="network" className="scroll-mt-20 border-y border-ink/10 bg-off-white py-14 sm:py-16">
         <Container>
           <RevealOnScroll>
-            <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-                  The Ecosystem
-                </p>
-                <p className="mt-1 max-w-sm text-sm text-charcoal-light">
-                  Resources, beneficiaries, campaign partners, and active campaigns — one
-                  organization, not separate projects.{" "}
-                  <Link href="/network" className="font-semibold text-bronze hover:text-bronze-dark">
-                    Explore the Network &rarr;
-                  </Link>
-                </p>
+            <div className="overflow-hidden border border-ink/10 bg-sand-light/35">
+              <div className="grid lg:grid-cols-[0.8fr_2.2fr]">
+              <div className="bg-ink p-7 text-off-white sm:p-9">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">The Ecosystem</p>
+                <p className="mt-3 font-display text-2xl font-semibold uppercase leading-tight">One mission.<br />Four connected systems.</p>
+                <Link href="/network" className="mt-5 inline-flex text-xs font-semibold uppercase tracking-wide text-bronze-light hover:text-off-white">Explore the Network &rarr;</Link>
               </div>
-              <dl className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-6">
+              <dl className="relative grid grid-cols-2 sm:grid-cols-4">
+                <div className="absolute left-[12.5%] right-[12.5%] top-1/2 hidden h-px bg-bronze/35 sm:block" aria-hidden="true" />
                 {networkStats.map((stat) => (
-                  <div key={stat.label} className="text-center sm:text-left">
-                    <dd className="font-display text-2xl font-semibold text-ink sm:text-3xl">
+                  <div key={stat.label} className="relative flex min-h-32 flex-col justify-center border-ink/10 p-5 text-center odd:border-r sm:min-h-40 sm:border-r sm:last:border-r-0">
+                    <span className="absolute left-1/2 top-1/2 hidden h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-off-white bg-bronze sm:block" aria-hidden="true" />
+                    <dd className="relative z-10 mb-7 font-display text-3xl font-semibold text-ink sm:text-4xl">
                       {String(stat.value)}
                     </dd>
-                    <dt className="mt-0.5 text-[11px] font-semibold uppercase tracking-widest text-charcoal-light">
+                    <dt className="relative z-10 text-[11px] font-semibold uppercase tracking-widest text-charcoal-light">
                       {stat.label}
                     </dt>
                   </div>
                 ))}
               </dl>
+              </div>
+              <p className="border-t border-ink/10 px-7 py-4 text-sm text-charcoal-light">Resources connect people to help. Campaigns create momentum. Partners expand reach. Beneficiaries deliver the work.</p>
             </div>
           </RevealOnScroll>
         </Container>

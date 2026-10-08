@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, X } from "lucide-react";
 import { NEED_CATEGORIES, type Resource } from "@/lib/content/resources";
 import { ResourceCard } from "@/components/resources/resource-card";
 import { StateMap } from "@/components/resources/state-map";
@@ -95,10 +95,51 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
   // Coverage + the 8-option "Confirmed Access & Organization" row sit behind
   // their own nested disclosure so the default view only surfaces Search,
   // Need, and Who Are You — the three dimensions most people actually touch
-  // first. Auto-opens once either is already active for the same reason
-  // showFilterPanel does below (a deep-linked/gateway visit never hides an
-  // applied filter).
+  // first. Auto-opens when one of its own filters is active so deep links do
+  // not hide applied state.
   const [moreFiltersOpen, setMoreFiltersOpen] = useState(false);
+  const filterTriggerRef = useRef<HTMLButtonElement>(null);
+  const filterPanelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!filtersOpen) return;
+    const panel = filterPanelRef.current;
+    if (!panel) return;
+    const trigger = filterTriggerRef.current;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const focusableSelector = 'button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    const focusable = Array.from(panel.querySelectorAll<HTMLElement>(focusableSelector));
+    focusable[0]?.focus();
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setFiltersOpen(false);
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const current = Array.from(panel!.querySelectorAll<HTMLElement>(focusableSelector));
+      if (current.length === 0) return;
+      const first = current[0];
+      const last = current[current.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", handleKeyDown);
+      trigger?.focus();
+    };
+  }, [filtersOpen]);
 
   // In-page filter changes now sync back to the URL (debounced below) so a
   // filtered view is shareable/bookmarkable — it previously never touched
@@ -216,11 +257,6 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
   // searched or only picked a state saw a bare "Filters" label that
   // understated how filtered the view already was.
   const totalActiveFilterCount = chipFilterCount + (search ? 1 : 0) + (stateFilter ? 1 : 0);
-  // Auto-opens (without an extra effect) once a filter is already active —
-  // e.g. a homepage gateway card landing here pre-filtered — so the applied
-  // filter is never hidden behind a closed disclosure.
-  const showFilterPanel = filtersOpen || chipFilterCount > 0;
-
   const moreFiltersActiveCount = (scope !== "all" ? 1 : 0) + accessFilters.length;
   const showMoreFilters = moreFiltersOpen || moreFiltersActiveCount > 0;
 
@@ -282,20 +318,46 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
           />
 
           <button
+            ref={filterTriggerRef}
             type="button"
             onClick={() => setFiltersOpen((v) => !v)}
-            aria-expanded={showFilterPanel}
+            aria-expanded={filtersOpen}
             aria-controls="resource-filter-panel"
-            className="flex w-full items-center justify-between rounded-sm border border-ink/10 bg-sand-light px-4 py-3 text-xs font-semibold uppercase tracking-wide text-ink lg:hidden"
+            className="sticky bottom-4 z-30 flex min-h-12 w-full items-center justify-between rounded-sm border border-ink/20 bg-ink px-4 py-3 text-xs font-semibold uppercase tracking-wide text-off-white shadow-lg lg:hidden"
           >
             <span>Filters{totalActiveFilterCount > 0 ? ` · ${totalActiveFilterCount} Active` : ""}</span>
-            <ChevronDown size={14} aria-hidden="true" className={cn("transition-transform", showFilterPanel && "rotate-180")} />
+            <ChevronDown size={14} aria-hidden="true" className={cn("transition-transform", filtersOpen && "rotate-180")} />
           </button>
 
+          {filtersOpen && (
+            <button
+              type="button"
+              aria-label="Close filters"
+              onClick={() => setFiltersOpen(false)}
+              className="fixed inset-0 z-40 bg-ink/55 lg:hidden"
+            />
+          )}
           <div
+            ref={filterPanelRef}
             id="resource-filter-panel"
-            className={cn("space-y-5 rounded-sm border border-ink/10 bg-sand-light p-5", showFilterPanel ? "block" : "hidden", "lg:block")}
+            role="dialog"
+            aria-modal={filtersOpen ? "true" : undefined}
+            aria-label="Resource filters"
+            className={cn(
+              "fixed inset-x-0 bottom-0 z-50 max-h-[85dvh] space-y-5 overflow-y-auto rounded-t-lg border border-ink/10 bg-sand-light p-5 shadow-2xl transition-transform duration-300 lg:static lg:z-auto lg:block lg:max-h-none lg:rounded-sm lg:shadow-none",
+              filtersOpen ? "translate-y-0" : "pointer-events-none translate-y-full",
+              "lg:pointer-events-auto lg:translate-y-0",
+            )}
           >
+            <div className="flex items-center justify-between border-b border-ink/10 pb-3 lg:hidden">
+              <div>
+                <p className="font-display text-lg font-semibold uppercase text-ink">Filter Resources</p>
+                <p className="text-xs text-charcoal-light">{results.length} results</p>
+              </div>
+              <button type="button" onClick={() => setFiltersOpen(false)} className="inline-flex h-11 w-11 items-center justify-center rounded-sm border border-ink/15 bg-off-white" aria-label="Close filters">
+                <X size={20} aria-hidden="true" />
+              </button>
+            </div>
             <FilterRow
               label="What Do You Need?"
               options={NEED_CATEGORIES.map((c) => c.label)}
@@ -344,6 +406,9 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
                 </div>
               )}
             </div>
+            <button type="button" onClick={() => setFiltersOpen(false)} className="sticky bottom-0 w-full rounded-sm bg-ink px-5 py-3 text-sm font-semibold uppercase tracking-wide text-off-white lg:hidden">
+              Show {results.length} {results.length === 1 ? "Resource" : "Resources"}
+            </button>
           </div>
         </div>
 
@@ -371,6 +436,19 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
               </button>
             )}
           </div>
+
+          {totalActiveFilterCount > 0 && (
+            <div className="mt-3 flex flex-wrap items-center gap-2" aria-label="Active filters">
+              {needIds.map((id) => (
+                <button key={id} type="button" onClick={() => setNeedIds(needIds.filter((item) => item !== id))} className="rounded-full border border-ink/20 bg-sand-light px-3 py-1 text-[11px] font-semibold text-ink">
+                  {NEED_CATEGORIES.find((c) => c.id === id)?.label} <span aria-hidden="true">×</span>
+                </button>
+              ))}
+              {audience && <button type="button" onClick={() => setAudience(null)} className="rounded-full border border-ink/20 bg-sand-light px-3 py-1 text-[11px] font-semibold text-ink">{audience} <span aria-hidden="true">×</span></button>}
+              {stateFilter && <button type="button" onClick={() => setStateFilter(null)} className="rounded-full border border-ink/20 bg-sand-light px-3 py-1 text-[11px] font-semibold text-ink">{stateFilter} <span aria-hidden="true">×</span></button>}
+              {search && <button type="button" onClick={() => setSearch("")} className="rounded-full border border-ink/20 bg-sand-light px-3 py-1 text-[11px] font-semibold text-ink">“{search}” <span aria-hidden="true">×</span></button>}
+            </div>
+          )}
 
           {results.length === 0 ? (
             <div className="mt-4">

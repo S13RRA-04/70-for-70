@@ -5,6 +5,7 @@ import {
   fieldA11yProps,
   FORM_CONTROL_CLASS_COMPACT,
   FormError,
+  FormSubmitButton,
   HoneypotField,
 } from "@/components/forms/form-parts";
 import { TurnstileWidget } from "@/components/forms/turnstile-widget";
@@ -114,14 +115,13 @@ export function JournalCommentForm({ journalEntryId }: { journalEntryId: string 
 
       <FormError message={status === "error" ? errorMessage : null} />
 
-      <button
-        type="submit"
+      <FormSubmitButton
         disabled={submitDisabled}
+        submitting={status === "submitting"}
+        idleLabel="Post Comment"
+        submittingLabel="Posting…"
         data-analytics-event="journal_comment_submit"
-        className="w-full rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-dark disabled:opacity-60 sm:w-auto"
-      >
-        {status === "submitting" ? "Posting..." : "Post Comment"}
-      </button>
+      />
     </form>
   );
 }

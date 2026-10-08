@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { CheckCircle2, LoaderCircle } from "lucide-react";
 
 /**
  * The small pieces every public form on this site repeats. Kept together
@@ -8,7 +9,7 @@ import { cn } from "@/lib/utils";
  */
 
 const CONTROL_BASE =
-  "mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40";
+  "mt-1.5 min-h-11 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-3 text-ink outline-none transition-[border-color,box-shadow] duration-150 focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40 disabled:cursor-not-allowed disabled:bg-ink/5 disabled:text-charcoal-light";
 
 /**
  * The standard control class. Two size variants exist and they are NOT
@@ -106,5 +107,49 @@ export function FormError({ message }: { message: string | null }) {
     <p role="alert" className="text-sm font-medium text-red-700">
       {message}
     </p>
+  );
+}
+
+export function FormSuccess({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <div role="status" tabIndex={-1} className="rounded-sm border border-olive/30 bg-olive/10 p-6 text-ink focus:outline-none">
+      <div className="flex items-start gap-3">
+        <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-olive" aria-hidden="true" />
+        <div>
+          <p className="font-display text-lg font-semibold uppercase tracking-wide">{title}</p>
+          <div className="mt-1 text-sm text-charcoal-light">{children}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function FormSubmitButton({
+  idleLabel,
+  submittingLabel = "Sending…",
+  submitting,
+  disabled,
+  className,
+  ...props
+}: {
+  idleLabel: string;
+  submittingLabel?: string;
+  submitting: boolean;
+  disabled: boolean;
+  className?: string;
+} & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "children" | "disabled">) {
+  return (
+    <button
+      type="submit"
+      disabled={disabled}
+      className={cn(
+        "inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-dark disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto",
+        className,
+      )}
+      {...props}
+    >
+      {submitting && <LoaderCircle size={16} className="animate-spin" aria-hidden="true" />}
+      {submitting ? submittingLabel : idleLabel}
+    </button>
   );
 }

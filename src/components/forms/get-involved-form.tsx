@@ -5,6 +5,7 @@ import {
   controlClassName,
   fieldA11yProps,
   FormError,
+  FormSubmitButton,
   HoneypotField,
   FORM_CONTROL_CLASS_COMPACT,
 } from "@/components/forms/form-parts";
@@ -184,14 +185,12 @@ export function GetInvolvedForm({ defaultInterest, idPrefix = "" }: GetInvolvedF
 
       <FormError message={status === "error" ? errorMessage : null} />
 
-      <button
-        type="submit"
+      <FormSubmitButton
         disabled={submitDisabled}
+        submitting={status === "submitting"}
+        idleLabel="Count Me In"
         data-analytics-event="get_involved_signup"
-        className="w-full rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-dark disabled:opacity-60 sm:w-auto"
-      >
-        {status === "submitting" ? "Sending..." : "Count Me In"}
-      </button>
+      />
     </form>
   );
 }
