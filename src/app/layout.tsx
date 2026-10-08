@@ -23,15 +23,24 @@ import { isSuicidePreventionMonth } from "@/lib/awareness-month";
 import { FOUNDER_PERSON_JSON_LD, jsonLdScriptProps } from "@/lib/json-ld";
 import "./globals.css";
 
+/**
+ * `display: "swap"` explicitly, rather than relying on next/font's own
+ * default — renders text in a fallback font immediately and swaps to the
+ * real one once it loads, instead of risking invisible text while the
+ * display font is pending (FOIT). The brief flash of a fallback font is a
+ * better trade than a blank headline on a slow connection.
+ */
 const oswald = Oswald({
   variable: "--font-oswald",
   subsets: ["latin"],
   weight: ["500", "600", "700"],
+  display: "swap",
 });
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
 });
 
 /** Impact.com publisher/affiliate-partnership domain-ownership proof — tri.forthe22.org only, see generateMetadata below. */
