@@ -203,6 +203,20 @@ export async function updateDonationAction(formData: FormData) {
   redirect(`${detailPath(id)}?saved=1`);
 }
 
+export async function confirmFundingTotalsCurrentAction() {
+  await requireAdminUser();
+  const admin = createAdminClient();
+  // Re-derives the total from verified donations (the real source of
+  // truth) and stamps campaign.updated_at either way — an honest "I just
+  // checked and this is still accurate" confirmation for a week with no
+  // new donations, rather than letting the public freshness label
+  // ("Fundraising total verified...") go stale just because the number
+  // itself didn't move.
+  await recomputeFundingTotals(admin);
+  revalidateFundingPaths();
+  redirect(`${LIST_PATH}?confirmed=1`);
+}
+
 export async function deleteDonationAction(formData: FormData) {
   await requireAdminUser();
   const id = String(formData.get("id") ?? "");
