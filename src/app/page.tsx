@@ -13,7 +13,7 @@ import { CTAButton } from "@/components/shared/cta-button";
 import { CrisisQuickLink } from "@/components/shared/crisis-quick-link";
 import { ScrollProgressRail } from "@/components/shared/scroll-progress-rail";
 import { RevealOnScroll } from "@/components/shared/reveal-on-scroll";
-import { ResourceCategoryGrid } from "@/components/home/resource-category-grid";
+import { NEED_CATEGORIES } from "@/lib/content/resources";
 import { MissionProgress } from "@/components/campaign/mission-progress";
 import { ABOUT_CONTENT, findAboutSubsection } from "@/lib/content/about";
 import { OUTER_RING_COLORS } from "@/lib/ring-colors";
@@ -40,12 +40,15 @@ const WHO_WE_SERVE = [
 ] as const;
 
 const RAIL_SECTIONS = [
-  { id: "network", label: "Network" },
   { id: "resources", label: "Resources" },
+  { id: "network", label: "Network" },
   { id: "why-22", label: "Meaning" },
   { id: "mission", label: "The Mission" },
   { id: "story", label: "Story" },
 ];
+
+/** The curated "I am a…" set for the homepage quick-finder — real audienceTags values from the resource data (see PRIMARY_AUDIENCE_TAGS in resource-directory.tsx for the fuller filter-row set), kept small here since this is a teaser, not the directory itself. */
+const QUICK_FINDER_AUDIENCES = ["Veteran", "Active Military", "Law Enforcement", "Fire", "EMS", "Family"] as const;
 
 /**
  * Homepage "Get Involved" options (secondary path for visitors who arrive
@@ -158,11 +161,105 @@ export default async function HomePage() {
         </Container>
       </section>
 
-      {/* Network Snapshot — Tier 2: a restrained institutional proof band
-          directly after the hero, before anything else, so a new visitor
-          sees evidence of a real organization before diving into either the
-          resource directory or the founder story. Values from
-          getMissionMetrics()/getFundraisingImpactStats(), never hardcoded. */}
+      {/* Find the Support You Need — Tier 1: now the first thing after the
+          hero, ahead of the Ecosystem proof band below, so a first-time
+          visitor sees what the org does before how big it's gotten. The
+          quick-finder is a plain GET form into the real directory's existing
+          ?need=/?audience=/?q= deep-link contract — teases the actual
+          518-resource product instead of recreating a simplified copy of
+          it. Crisis access stays a paired dark panel, not its own band. */}
+      <section id="resources" className="scroll-mt-20 bg-sand-light py-16 sm:py-24">
+        <Container>
+          <RevealOnScroll>
+            <SectionHeading
+              eyebrow="Our Core Mission"
+              title="Find the Support You Need"
+              description={`${metrics.resources} vetted resources for veterans, first responders, and their families. Find the ones that fit you.`}
+            />
+          </RevealOnScroll>
+          <RevealOnScroll className="mt-10">
+            <div className="grid gap-8 lg:grid-cols-12 lg:gap-8">
+              <div className="lg:col-span-8 xl:col-span-9">
+                <form
+                  action="/resources"
+                  className="grid gap-4 rounded-sm border border-ink/10 bg-off-white p-6 sm:grid-cols-3 sm:items-end sm:p-8"
+                >
+                  <label className="block text-sm">
+                    <span className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                      I am a&hellip;
+                    </span>
+                    <select
+                      name="audience"
+                      defaultValue=""
+                      className="mt-2 block w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
+                    >
+                      <option value="">Anyone</option>
+                      {QUICK_FINDER_AUDIENCES.map((tag) => (
+                        <option key={tag} value={tag}>
+                          {tag}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <label className="block text-sm">
+                    <span className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                      I need&hellip;
+                    </span>
+                    <select
+                      name="need"
+                      defaultValue=""
+                      className="mt-2 block w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
+                    >
+                      <option value="">Anything</option>
+                      {NEED_CATEGORIES.map((category) => (
+                        <option key={category.id} value={category.id}>
+                          {category.label}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <div className="flex items-end gap-2">
+                    <label className="block flex-1 text-sm">
+                      <span className="sr-only">Search resources</span>
+                      <input
+                        type="text"
+                        name="q"
+                        placeholder="Search…"
+                        className="block w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
+                      />
+                    </label>
+                    <button
+                      type="submit"
+                      className="inline-flex shrink-0 items-center rounded-sm bg-bronze-text px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
+                    >
+                      Find
+                    </button>
+                  </div>
+                </form>
+
+                <p className="mt-6 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                  Built for {WHO_WE_SERVE.join(" · ")}
+                </p>
+
+                <div className="mt-4 flex flex-wrap items-center gap-4">
+                  <CTAButton href="/resources" variant="ghost">
+                    Browse All Resources &rarr;
+                  </CTAButton>
+                </div>
+              </div>
+              <div className="lg:col-span-4 xl:col-span-3">
+                <CrisisQuickLink />
+              </div>
+            </div>
+          </RevealOnScroll>
+        </Container>
+      </section>
+
+      {/* Network Snapshot — Tier 2: the institutional proof band, now after
+          "what we do" rather than before it, so scale reads as evidence
+          backing the mission instead of the first thing a new visitor sees.
+          Values from getMissionMetrics()/getFundraisingImpactStats(), never
+          hardcoded. */}
       <section id="network" className="scroll-mt-20 bg-off-white py-16 sm:py-20">
         <Container>
           <RevealOnScroll>
@@ -192,45 +289,6 @@ export default async function HomePage() {
                   </div>
                 ))}
               </dl>
-            </div>
-          </RevealOnScroll>
-        </Container>
-      </section>
-
-      {/* Find the Support You Need — Tier 2: gateway into the resource directory, crisis access integrated as a paired dark panel rather than its own full-width band */}
-      <section id="resources" className="scroll-mt-20 bg-sand-light py-16 sm:py-24">
-        <Container>
-          <RevealOnScroll>
-            <SectionHeading
-              eyebrow="Our Core Mission"
-              title="Find the Support You Need"
-              description="Resources for veterans, first responders, and their families. Start with what you need, and we'll help you find the right programs."
-            />
-          </RevealOnScroll>
-          <RevealOnScroll className="mt-10">
-            <div className="grid gap-8 lg:grid-cols-12 lg:gap-8">
-              <div className="lg:col-span-8 xl:col-span-9">
-                <ResourceCategoryGrid />
-
-                <p className="mt-6 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-                  Built for {WHO_WE_SERVE.join(" · ")}
-                </p>
-
-                <p className="mt-6 max-w-xl text-sm leading-relaxed text-charcoal-light">
-                  Not sure where to start? Browse all available resources or search by service type.
-                </p>
-                <div className="mt-4 flex flex-wrap items-center gap-4">
-                  <CTAButton href="/resources" size="lg">
-                    Find Resources
-                  </CTAButton>
-                  <CTAButton href="/resources" variant="ghost">
-                    Browse All Resources &rarr;
-                  </CTAButton>
-                </div>
-              </div>
-              <div className="lg:col-span-4 xl:col-span-3">
-                <CrisisQuickLink />
-              </div>
             </div>
           </RevealOnScroll>
         </Container>

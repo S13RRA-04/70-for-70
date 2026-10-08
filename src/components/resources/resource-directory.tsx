@@ -68,11 +68,11 @@ function FilterRow({
 }
 
 export function ResourceDirectory({ resources }: { resources: Resource[] }) {
-  // Deep-link support so the homepage gateway (see ResourceCategoryGrid) can
-  // land here pre-filtered via ?q=&need=&audience=. `need` may be a
-  // comma-separated list of ids since a few gateway cards span more than
-  // one taxonomy category; a single id (the only form older links use)
-  // still works unchanged.
+  // Deep-link support so the homepage quick-finder and network/state pages
+  // can land here pre-filtered via ?q=&need=&audience=. `need` may be a
+  // comma-separated list of ids since a few callers span more than one
+  // taxonomy category; a single id (the only form older links use) still
+  // works unchanged.
   const params = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
