@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Inter, Oswald } from "next/font/google";
 import {
   CAMPAIGNS,
@@ -18,6 +19,7 @@ import {
   MobileConversionBar,
   MobileConversionBarSpacer,
 } from "@/components/layout/mobile-conversion-bar";
+import { AnalyticsEventListener } from "@/components/shared/analytics-event-listener";
 import { getSiteMode, getActiveCampaignSlug } from "@/lib/site-mode";
 import { isSuicidePreventionMonth } from "@/lib/awareness-month";
 import { FOUNDER_PERSON_JSON_LD, jsonLdScriptProps } from "@/lib/json-ld";
@@ -147,6 +149,21 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col bg-off-white text-ink">
         <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(ORGANIZATION_JSON_LD)} />
         <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(ORG_WEBSITE_JSON_LD)} />
+        {process.env.NODE_ENV === "production" && (
+          <>
+            {/* Exact snippet from the Plausible dashboard for this site — the
+                tagged script URL encodes which registered site this reports
+                to, replacing the older generic script.js + data-domain
+                pattern. Don't regenerate this from Plausible's general docs;
+                if it ever needs to change, re-copy it from the dashboard. */}
+            <Script src="https://plausible.io/js/pa-puXStW8Vosfd1RxpgqxlI.js" strategy="afterInteractive" async />
+            <Script id="plausible-init" strategy="afterInteractive">
+              {`window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()`}
+            </Script>
+          </>
+        )}
+        <AnalyticsEventListener />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-4 focus:rounded focus:bg-ink focus:px-4 focus:py-2 focus:text-off-white"

@@ -92,7 +92,12 @@ export default async function TriathlonTeamPage() {
                     team pricing on wetsuits, swim apparel and accessories through the XTERRA
                     Clubs, Teams &amp; Coaches Program.
                   </p>
-                  <CTAButton href={`${SITE_URL}/contact?item=XTERRA%20Team%20Access`} className="mt-5" external>
+                  <CTAButton
+                    href={`${SITE_URL}/contact?item=XTERRA%20Team%20Access`}
+                    className="mt-5"
+                    external
+                    data-analytics-event="team_access_request"
+                  >
                     Request Team Access
                   </CTAButton>
                 </div>

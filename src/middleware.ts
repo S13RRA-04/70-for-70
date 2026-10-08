@@ -122,13 +122,16 @@ function buildContentSecurityPolicy(nonce: string): string {
   const directives = [
     "default-src 'self'",
     // challenges.cloudflare.com is Cloudflare Turnstile, loaded by the public
-    // forms (src/components/forms/turnstile-widget.tsx). External origins are
-    // allowlisted by host, so no nonce is needed for its script.
-    `script-src 'self' https://challenges.cloudflare.com 'nonce-${nonce}'${isDev ? " 'unsafe-eval'" : ""}`,
+    // forms (src/components/forms/turnstile-widget.tsx). plausible.io is the
+    // custom-events script (src/lib/analytics/plausible.ts) — Cloudflare Web
+    // Analytics' own beacon is injected at Cloudflare's edge, after this
+    // header is already set, so it needs no entry here. External origins are
+    // allowlisted by host, so no nonce is needed for either script.
+    `script-src 'self' https://challenges.cloudflare.com https://plausible.io 'nonce-${nonce}'${isDev ? " 'unsafe-eval'" : ""}`,
     "style-src 'self' 'unsafe-inline'",
     `img-src 'self' data: blob:${supabaseOrigin ? ` ${supabaseOrigin}` : ""} https://img.youtube.com`,
     "font-src 'self' data:",
-    `connect-src 'self'${supabaseOrigin ? ` ${supabaseOrigin} ${supabaseOrigin.replace("https://", "wss://")}` : ""} https://challenges.cloudflare.com`,
+    `connect-src 'self'${supabaseOrigin ? ` ${supabaseOrigin} ${supabaseOrigin.replace("https://", "wss://")}` : ""} https://challenges.cloudflare.com https://plausible.io`,
     // The Journal's click-to-play video facade (src/lib/video-url.ts), plus the
     // Turnstile challenge iframe on the public forms.
     "frame-src https://www.youtube.com https://player.vimeo.com https://challenges.cloudflare.com",

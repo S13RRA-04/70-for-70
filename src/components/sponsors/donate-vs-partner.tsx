@@ -38,7 +38,12 @@ export function DonateVsPartner() {
             Help get Tri For the 22 to the starting line. Equipment, services, expertise, and sponsorship
             support campaign execution, training, race preparation, outreach, and related campaign needs.
           </p>
-          <CTAButton href={`${SITE_URL}/contact?item=Campaign%20Partnership`} className="mx-auto mt-6" external>
+          <CTAButton
+            href={`${SITE_URL}/contact?item=Campaign%20Partnership`}
+            className="mx-auto mt-6"
+            external
+            data-analytics-event="partner_inquiry"
+          >
             Become a Partner
           </CTAButton>
         </div>

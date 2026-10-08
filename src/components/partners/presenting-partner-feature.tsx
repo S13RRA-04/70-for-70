@@ -108,7 +108,13 @@ export function PresentingPartnerPlaceholder() {
           The campaign&apos;s top recognition level — including logo placement on Cody&apos;s race kit for IRONMAN
           70.3 Chattanooga — is still open.
         </p>
-        <CTAButton href={`${SITE_URL}/contact?item=Campaign%20Partnership`} tone="dark" className="mt-2" external>
+        <CTAButton
+          href={`${SITE_URL}/contact?item=Campaign%20Partnership`}
+          tone="dark"
+          className="mt-2"
+          external
+          data-analytics-event="partner_inquiry"
+        >
           Inquire About This Level
         </CTAButton>
       </div>
