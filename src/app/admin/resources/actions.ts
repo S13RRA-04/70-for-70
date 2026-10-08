@@ -14,6 +14,7 @@ export async function importFlagshipsAction() {
     geographic_scope: r.geographicScope, state: r.state ?? null, eligibility: r.eligibility ?? null,
     availability: r.availability ?? null, verification_status: r.verificationStatus,
     why_included: r.whyIncluded, faith_based: r.faithBased ?? null,
+    faith_affiliation_source: r.faithAffiliationSource ?? null,
     last_verified_at: r.verifiedDate ?? null, is_active: true,
   }));
   const { error } = await createAdminClient().from("resource_records").upsert(rows, { onConflict: "resource_key" });
@@ -39,6 +40,7 @@ export async function updateResourceAction(formData: FormData) {
     verification_status: verificationStatus,
     why_included: String(formData.get("why_included") ?? "").trim() || null,
     faith_based: formData.get("faith_based") === "unknown" ? null : formData.get("faith_based") === "yes",
+    faith_affiliation_source: String(formData.get("faith_affiliation_source") ?? "").trim() || null,
     is_active: formData.get("is_active") === "on",
     updated_at: new Date().toISOString(),
   }).eq("id", id);

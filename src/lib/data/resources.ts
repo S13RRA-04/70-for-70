@@ -17,6 +17,7 @@ function fromRow(row: ResourceRow): Resource {
     whyIncluded: (row.why_included as string | null) ?? undefined,
     veteranLed: (row.veteran_led as boolean | null) ?? undefined, firstResponderLed: (row.first_responder_led as boolean | null) ?? undefined,
     faithBased: (row.faith_based as boolean | null) ?? undefined, peerLed: (row.peer_led as boolean | null) ?? undefined,
+    faithAffiliationSource: (row.faith_affiliation_source as string | null) ?? undefined,
     virtualAvailable: (row.virtual_available as boolean | null) ?? undefined, inPersonAvailable: (row.in_person_available as boolean | null) ?? undefined,
     selfReferral: (row.self_referral as boolean | null) ?? undefined,
     employerInvolvementRequired: (row.employer_involvement_required as boolean | null) ?? undefined,

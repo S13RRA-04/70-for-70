@@ -79,6 +79,8 @@ export interface Resource {
   veteranLed?: boolean;
   firstResponderLed?: boolean;
   faithBased?: boolean;
+  /** Provider-owned page explicitly supporting the faithBased classification. */
+  faithAffiliationSource?: string;
   peerLed?: boolean;
   virtualAvailable?: boolean;
   inPersonAvailable?: boolean;
@@ -2661,7 +2663,11 @@ export const RESOURCES: Resource[] = [
     geographicScope: "Alabama — first responders statewide; office in Cullman",
     eligibility: "First responders and their families; hardship assistance requires a written recommendation from a chief, HR, or appropriate personnel, approved by the Board based on need and available funds",
     state: "Alabama",
-    verifiedDate: "2026-10-07",
+    verifiedDate: "2026-10-08",
+    // The organization explicitly describes itself as a ministry and publishes
+    // Bible, devotional, chaplaincy, and faith-based counseling programs.
+    faithBased: true,
+    faithAffiliationSource: "https://www.firstrespondersal.com/",
   },
   {
     name: "Lakeshore Foundation — Veterans Program",

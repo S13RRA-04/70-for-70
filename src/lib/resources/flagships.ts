@@ -18,6 +18,9 @@ export function enrichFlagship(resource: Resource): Resource {
   return {
     ...resource,
     faithBased: resource.name === "Mighty Oaks Foundation" ? true : resource.faithBased,
+    faithAffiliationSource: resource.name === "Mighty Oaks Foundation"
+      ? "https://www.mightyoaksprograms.org/"
+      : resource.faithAffiliationSource,
     verificationStatus: "reviewed",
     whyIncluded: `Its published information describes services for ${audiences} with ${resource.geographicScope.toLowerCase()} availability. Cost, eligibility, and access details should be confirmed directly with the provider.`,
   };
