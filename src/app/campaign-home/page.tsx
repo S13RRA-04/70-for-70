@@ -198,7 +198,7 @@ export default async function CampaignHomePage() {
   const showEventPromo = currentEvent && isEventPromoWindowNow(currentEvent.starts_at, currentEvent.ends_at);
   const phase = getCampaignPhase();
 
-  const generalPartners = missionPartners.filter(isCampaignPartner);
+  const generalPartners = missionPartners.filter(isCampaignPartner).filter((p) => p.associated_campaigns?.includes("tri"));
   const presentingPartners = generalPartners.filter((p) => p.tier === "presenting-partner");
   const otherPartners = generalPartners.filter((p) => p.tier !== "presenting-partner");
 
@@ -268,7 +268,7 @@ export default async function CampaignHomePage() {
       <CampaignStatusBar
         amountRaised={fundraisingStats.amountRaised}
         goal={fundraisingStats.fundraisingGoal}
-        partnerCount={fundraisingStats.partnerCount}
+        partnerCount={fundraisingStats.campaignPartnerCount}
         daysToRace={fundraisingStats.daysToRace}
         updatedAt={fundraisingStats.updatedAt}
       />

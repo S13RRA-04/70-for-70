@@ -13,7 +13,7 @@ export function FundraisingImpactStrip({ stats }: { stats: FundraisingImpactStat
   return (
     <div className="grid grid-cols-3 gap-3">
       <StatCard label="Raised" value={formatCurrency(stats.amountRaised)} sublabel={`of ${formatCurrency(stats.fundraisingGoal)} goal`} />
-      <StatCard label="Partners" value={String(stats.partnerCount)} />
+      <StatCard label="Partners" value={String(stats.campaignPartnerCount)} />
       <StatCard label="Supporters" value={String(stats.supporterCount)} />
     </div>
   );
