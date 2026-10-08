@@ -3,9 +3,16 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { FORM_CONTROL_CLASS_COMPACT, FormError, HoneypotField } from "@/components/forms/form-parts";
+import {
+  controlClassName,
+  fieldA11yProps,
+  FORM_CONTROL_CLASS_COMPACT,
+  FormError,
+  HoneypotField,
+} from "@/components/forms/form-parts";
 import { TurnstileWidget } from "@/components/forms/turnstile-widget";
 import { useFormSubmit } from "@/components/forms/use-form-submit";
+import { donationReportSchema } from "@/lib/validation/donation-report";
 
 /** Ignore an immediate refocus (e.g. an accidental click-away) — only prompt after a real trip out. */
 const MIN_AWAY_MS = 5_000;
@@ -39,9 +46,12 @@ export function ExternalDonateButton({
   const reportDialogRef = useRef<HTMLDialogElement>(null);
   const awaitingReturnRef = useRef(false);
   const clickedAtRef = useRef(0);
-  // This button can appear many times per page, so the honeypot's id has to be
+  // This button can appear many times per page, so every field id has to be
   // per-instance rather than the fixed prefix every other form uses.
   const honeypotId = useId();
+  const amountId = useId();
+  const donorNameId = useId();
+  const donorEmailId = useId();
 
   const [amount, setAmount] = useState("");
   const [donorName, setDonorName] = useState("");
@@ -52,8 +62,18 @@ export function ExternalDonateButton({
   const parsedAmount = Number(amount);
   const amountValid = Number.isFinite(parsedAmount) && parsedAmount > 0;
 
-  const { status, errorMessage, setTurnstileToken, turnstileRef, handleSubmit, reset, submitDisabled } = useFormSubmit({
+  const {
+    status,
+    errorMessage,
+    fieldErrors,
+    setTurnstileToken,
+    turnstileRef,
+    handleSubmit,
+    reset,
+    submitDisabled,
+  } = useFormSubmit({
     endpoint: "/api/donations",
+    schema: donationReportSchema,
     // The fields here are controlled, so the payload is built from component
     // state rather than the FormData the other forms read.
     buildPayload: () => ({
@@ -185,7 +205,7 @@ export function ExternalDonateButton({
               Thanks — we&apos;ll verify and credit this gift shortly.
             </p>
           ) : (
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} noValidate>
               <HoneypotField id={honeypotId} />
               <h3
                 id="donate-report-heading"
@@ -198,9 +218,10 @@ export function ExternalDonateButton({
                 credit it.
               </p>
 
-              <label className="mt-4 block text-xs font-semibold uppercase tracking-wide text-charcoal-light">
+              <label htmlFor={amountId} className="mt-4 block text-xs font-semibold uppercase tracking-wide text-charcoal-light">
                 Amount
                 <input
+                  id={amountId}
                   type="number"
                   inputMode="decimal"
                   min="1"
@@ -208,30 +229,50 @@ export function ExternalDonateButton({
                   required
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
-                  className={FORM_CONTROL_CLASS_COMPACT}
+                  className={controlClassName(FORM_CONTROL_CLASS_COMPACT, fieldErrors.amount)}
+                  {...fieldA11yProps(amountId, fieldErrors.amount)}
                 />
               </label>
+              {fieldErrors.amount && (
+                <p id={`${amountId}-error`} role="alert" className="mt-1 text-xs font-medium text-red-700">
+                  {fieldErrors.amount}
+                </p>
+              )}
 
-              <label className="mt-3 block text-xs font-semibold uppercase tracking-wide text-charcoal-light">
+              <label htmlFor={donorNameId} className="mt-3 block text-xs font-semibold uppercase tracking-wide text-charcoal-light">
                 Your Name (optional)
                 <input
+                  id={donorNameId}
                   type="text"
                   value={donorName}
                   onChange={(e) => setDonorName(e.target.value)}
                   disabled={anonymous}
-                  className={cn(FORM_CONTROL_CLASS_COMPACT, "disabled:opacity-50")}
+                  className={cn(controlClassName(FORM_CONTROL_CLASS_COMPACT, fieldErrors.donorName), "disabled:opacity-50")}
+                  {...fieldA11yProps(donorNameId, fieldErrors.donorName)}
                 />
               </label>
+              {fieldErrors.donorName && (
+                <p id={`${donorNameId}-error`} role="alert" className="mt-1 text-xs font-medium text-red-700">
+                  {fieldErrors.donorName}
+                </p>
+              )}
 
-              <label className="mt-3 block text-xs font-semibold uppercase tracking-wide text-charcoal-light">
+              <label htmlFor={donorEmailId} className="mt-3 block text-xs font-semibold uppercase tracking-wide text-charcoal-light">
                 Email (optional — only used to credit your total giving)
                 <input
+                  id={donorEmailId}
                   type="email"
                   value={donorEmail}
                   onChange={(e) => setDonorEmail(e.target.value)}
-                  className={FORM_CONTROL_CLASS_COMPACT}
+                  className={controlClassName(FORM_CONTROL_CLASS_COMPACT, fieldErrors.donorEmail)}
+                  {...fieldA11yProps(donorEmailId, fieldErrors.donorEmail)}
                 />
               </label>
+              {fieldErrors.donorEmail && (
+                <p id={`${donorEmailId}-error`} role="alert" className="mt-1 text-xs font-medium text-red-700">
+                  {fieldErrors.donorEmail}
+                </p>
+              )}
 
               <label className="mt-3 flex items-center gap-2 text-sm text-charcoal-light">
                 <input
