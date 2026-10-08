@@ -5,8 +5,16 @@ import {
   APPAREL_SIZES,
   FUNDRAISING_GOAL_PRESETS,
   TRIATHLON_EXPERIENCE_LEVELS,
+  triathlonTeamApplicationSchema,
 } from "@/lib/validation/triathlon-team";
-import { Field, FormError, HoneypotField, FORM_CONTROL_CLASS } from "@/components/forms/form-parts";
+import {
+  controlClassName,
+  fieldA11yProps,
+  Field,
+  FormError,
+  HoneypotField,
+  FORM_CONTROL_CLASS,
+} from "@/components/forms/form-parts";
 import { TurnstileWidget } from "@/components/forms/turnstile-widget";
 import { useFormSubmit } from "@/components/forms/use-form-submit";
 
@@ -15,11 +23,13 @@ function YesNoGroup({
   name,
   value,
   onChange,
+  error,
 }: {
   legend: string;
   name: string;
   value: string;
   onChange: (value: "yes" | "no") => void;
+  error?: string;
 }) {
   return (
     <fieldset>
@@ -42,6 +52,11 @@ function YesNoGroup({
           </label>
         ))}
       </div>
+      {error && (
+        <p role="alert" className="mt-1 text-xs font-medium text-red-700">
+          {error}
+        </p>
+      )}
     </fieldset>
   );
 }
@@ -60,48 +75,50 @@ export function TriathlonTeamApplicationForm() {
   const [goalPreset, setGoalPreset] = useState<string>("");
   const [customGoal, setCustomGoal] = useState("");
 
-  const { status, errorMessage, setTurnstileToken, turnstileRef, handleSubmit, submitDisabled } = useFormSubmit({
-    endpoint: "/api/triathlon-team",
-    buildPayload: (data) => {
-      const str = (key: string) => String(data.get(key) ?? "").trim();
-      const fundraisingGoal = goalPreset === "Other" ? customGoal.trim() : goalPreset;
+  const { status, errorMessage, fieldErrors, setTurnstileToken, turnstileRef, handleSubmit, submitDisabled } =
+    useFormSubmit({
+      endpoint: "/api/triathlon-team",
+      schema: triathlonTeamApplicationSchema,
+      buildPayload: (data) => {
+        const str = (key: string) => String(data.get(key) ?? "").trim();
+        const fundraisingGoal = goalPreset === "Other" ? customGoal.trim() : goalPreset;
 
-      return {
-        fullName: str("fullName"),
-        email: str("email"),
-        phone: str("phone"),
-        city: str("city"),
-        state: str("state"),
+        return {
+          fullName: str("fullName"),
+          email: str("email"),
+          phone: str("phone"),
+          city: str("city"),
+          state: str("state"),
 
-        experienceLevel: str("experienceLevel"),
-        yearsInTriathlon: str("yearsInTriathlon"),
-        preferredDistance: str("preferredDistance"),
+          experienceLevel: str("experienceLevel"),
+          yearsInTriathlon: str("yearsInTriathlon"),
+          preferredDistance: str("preferredDistance"),
 
-        registeredForRace,
-        raceName: str("raceName"),
-        raceDate: str("raceDate"),
-        raceDistance: str("raceDistance"),
-        raceLocation: str("raceLocation"),
-        needsRaceHelp,
+          registeredForRace,
+          raceName: str("raceName"),
+          raceDate: str("raceDate"),
+          raceDistance: str("raceDistance"),
+          raceLocation: str("raceLocation"),
+          needsRaceHelp,
 
-        missionReason: str("missionReason"),
+          missionReason: str("missionReason"),
 
-        fundraisingExperience,
-        fundraisingGoal,
+          fundraisingExperience,
+          fundraisingGoal,
 
-        instagram: str("instagram"),
-        facebook: str("facebook"),
-        strava: str("strava"),
-        otherSocial: str("otherSocial"),
+          instagram: str("instagram"),
+          facebook: str("facebook"),
+          strava: str("strava"),
+          otherSocial: str("otherSocial"),
 
-        apparelSize: str("apparelSize"),
+          apparelSize: str("apparelSize"),
 
-        ackCosts: data.get("ackCosts") === "on",
-        ackSafety: data.get("ackSafety") === "on",
-        ackConduct: data.get("ackConduct") === "on",
-      };
-    },
-  });
+          ackCosts: data.get("ackCosts") === "on",
+          ackSafety: data.get("ackSafety") === "on",
+          ackConduct: data.get("ackConduct") === "on",
+        };
+      },
+    });
 
   if (status === "success") {
     return (
@@ -132,21 +149,56 @@ export function TriathlonTeamApplicationForm() {
           Personal Information
         </h2>
         <div className="mt-4 grid gap-5 sm:grid-cols-2">
-          <Field id="tta-fullName" label="Full Name">
-            <input id="tta-fullName" name="fullName" type="text" required className={FORM_CONTROL_CLASS} />
+          <Field id="tta-fullName" label="Full Name" error={fieldErrors.fullName}>
+            <input
+              id="tta-fullName"
+              name="fullName"
+              type="text"
+              required
+              className={controlClassName(FORM_CONTROL_CLASS, fieldErrors.fullName)}
+              {...fieldA11yProps("tta-fullName", fieldErrors.fullName)}
+            />
           </Field>
-          <Field id="tta-email" label="Email">
-            <input id="tta-email" name="email" type="email" required className={FORM_CONTROL_CLASS} />
+          <Field id="tta-email" label="Email" error={fieldErrors.email}>
+            <input
+              id="tta-email"
+              name="email"
+              type="email"
+              required
+              className={controlClassName(FORM_CONTROL_CLASS, fieldErrors.email)}
+              {...fieldA11yProps("tta-email", fieldErrors.email)}
+            />
           </Field>
-          <Field id="tta-phone" label="Phone">
-            <input id="tta-phone" name="phone" type="tel" required className={FORM_CONTROL_CLASS} />
+          <Field id="tta-phone" label="Phone" error={fieldErrors.phone}>
+            <input
+              id="tta-phone"
+              name="phone"
+              type="tel"
+              required
+              className={controlClassName(FORM_CONTROL_CLASS, fieldErrors.phone)}
+              {...fieldA11yProps("tta-phone", fieldErrors.phone)}
+            />
           </Field>
           <div className="grid grid-cols-2 gap-5">
-            <Field id="tta-city" label="City">
-              <input id="tta-city" name="city" type="text" required className={FORM_CONTROL_CLASS} />
+            <Field id="tta-city" label="City" error={fieldErrors.city}>
+              <input
+                id="tta-city"
+                name="city"
+                type="text"
+                required
+                className={controlClassName(FORM_CONTROL_CLASS, fieldErrors.city)}
+                {...fieldA11yProps("tta-city", fieldErrors.city)}
+              />
             </Field>
-            <Field id="tta-state" label="State">
-              <input id="tta-state" name="state" type="text" required className={FORM_CONTROL_CLASS} />
+            <Field id="tta-state" label="State" error={fieldErrors.state}>
+              <input
+                id="tta-state"
+                name="state"
+                type="text"
+                required
+                className={controlClassName(FORM_CONTROL_CLASS, fieldErrors.state)}
+                {...fieldA11yProps("tta-state", fieldErrors.state)}
+              />
             </Field>
           </div>
         </div>
@@ -176,27 +228,34 @@ export function TriathlonTeamApplicationForm() {
                 </label>
               ))}
             </div>
+            {fieldErrors.experienceLevel && (
+              <p role="alert" className="mt-1 text-xs font-medium text-red-700">
+                {fieldErrors.experienceLevel}
+              </p>
+            )}
           </fieldset>
 
           <div className="grid gap-5 sm:grid-cols-2">
-            <Field id="tta-years" label="How long have you participated in triathlon?">
+            <Field id="tta-years" label="How long have you participated in triathlon?" error={fieldErrors.yearsInTriathlon}>
               <input
                 id="tta-years"
                 name="yearsInTriathlon"
                 type="text"
                 placeholder="e.g. 2 years"
                 required
-                className={FORM_CONTROL_CLASS}
+                className={controlClassName(FORM_CONTROL_CLASS, fieldErrors.yearsInTriathlon)}
+                {...fieldA11yProps("tta-years", fieldErrors.yearsInTriathlon)}
               />
             </Field>
-            <Field id="tta-preferredDistance" label="Preferred Race Distance">
+            <Field id="tta-preferredDistance" label="Preferred Race Distance" error={fieldErrors.preferredDistance}>
               <input
                 id="tta-preferredDistance"
                 name="preferredDistance"
                 type="text"
                 placeholder="e.g. 70.3"
                 required
-                className={FORM_CONTROL_CLASS}
+                className={controlClassName(FORM_CONTROL_CLASS, fieldErrors.preferredDistance)}
+                {...fieldA11yProps("tta-preferredDistance", fieldErrors.preferredDistance)}
               />
             </Field>
           </div>
@@ -214,28 +273,51 @@ export function TriathlonTeamApplicationForm() {
             name="registeredForRace"
             value={registeredForRace}
             onChange={setRegisteredForRace}
+            error={fieldErrors.registeredForRace}
           />
 
           {registeredForRace === "yes" && (
             <div className="grid gap-5 border-l-2 border-bronze/30 pl-4 sm:grid-cols-2">
-              <Field id="tta-raceName" label="Race Name">
-                <input id="tta-raceName" name="raceName" type="text" required className={FORM_CONTROL_CLASS} />
+              <Field id="tta-raceName" label="Race Name" error={fieldErrors.raceName}>
+                <input
+                  id="tta-raceName"
+                  name="raceName"
+                  type="text"
+                  required
+                  className={controlClassName(FORM_CONTROL_CLASS, fieldErrors.raceName)}
+                  {...fieldA11yProps("tta-raceName", fieldErrors.raceName)}
+                />
               </Field>
-              <Field id="tta-raceDate" label="Race Date">
-                <input id="tta-raceDate" name="raceDate" type="date" required className={FORM_CONTROL_CLASS} />
+              <Field id="tta-raceDate" label="Race Date" error={fieldErrors.raceDate}>
+                <input
+                  id="tta-raceDate"
+                  name="raceDate"
+                  type="date"
+                  required
+                  className={controlClassName(FORM_CONTROL_CLASS, fieldErrors.raceDate)}
+                  {...fieldA11yProps("tta-raceDate", fieldErrors.raceDate)}
+                />
               </Field>
-              <Field id="tta-raceDistance" label="Race Distance">
+              <Field id="tta-raceDistance" label="Race Distance" error={fieldErrors.raceDistance}>
                 <input
                   id="tta-raceDistance"
                   name="raceDistance"
                   type="text"
                   placeholder="e.g. Sprint, Olympic, 70.3, IRONMAN"
                   required
-                  className={FORM_CONTROL_CLASS}
+                  className={controlClassName(FORM_CONTROL_CLASS, fieldErrors.raceDistance)}
+                  {...fieldA11yProps("tta-raceDistance", fieldErrors.raceDistance)}
                 />
               </Field>
-              <Field id="tta-raceLocation" label="Race Location">
-                <input id="tta-raceLocation" name="raceLocation" type="text" required className={FORM_CONTROL_CLASS} />
+              <Field id="tta-raceLocation" label="Race Location" error={fieldErrors.raceLocation}>
+                <input
+                  id="tta-raceLocation"
+                  name="raceLocation"
+                  type="text"
+                  required
+                  className={controlClassName(FORM_CONTROL_CLASS, fieldErrors.raceLocation)}
+                  {...fieldA11yProps("tta-raceLocation", fieldErrors.raceLocation)}
+                />
               </Field>
             </div>
           )}
@@ -247,6 +329,7 @@ export function TriathlonTeamApplicationForm() {
                 name="needsRaceHelp"
                 value={needsRaceHelp}
                 onChange={setNeedsRaceHelp}
+                error={fieldErrors.needsRaceHelp}
               />
             </div>
           )}
@@ -257,13 +340,14 @@ export function TriathlonTeamApplicationForm() {
       <div>
         <h2 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">Mission</h2>
         <div className="mt-4">
-          <Field id="tta-missionReason" label="Why do you want to race for Tri For The 22?">
+          <Field id="tta-missionReason" label="Why do you want to race for Tri For The 22?" error={fieldErrors.missionReason}>
             <textarea
               id="tta-missionReason"
               name="missionReason"
               required
               rows={5}
-              className={FORM_CONTROL_CLASS}
+              className={controlClassName(FORM_CONTROL_CLASS, fieldErrors.missionReason)}
+              {...fieldA11yProps("tta-missionReason", fieldErrors.missionReason)}
             />
           </Field>
         </div>
@@ -278,6 +362,7 @@ export function TriathlonTeamApplicationForm() {
             name="fundraisingExperience"
             value={fundraisingExperience}
             onChange={setFundraisingExperience}
+            error={fieldErrors.fundraisingExperience}
           />
 
           <fieldset>
@@ -311,8 +396,13 @@ export function TriathlonTeamApplicationForm() {
                 value={customGoal}
                 onChange={(e) => setCustomGoal(e.target.value)}
                 required
-                className={`${FORM_CONTROL_CLASS} max-w-xs`}
+                className={controlClassName(`${FORM_CONTROL_CLASS} max-w-xs`, fieldErrors.fundraisingGoal)}
               />
+            )}
+            {fieldErrors.fundraisingGoal && (
+              <p role="alert" className="mt-1 text-xs font-medium text-red-700">
+                {fieldErrors.fundraisingGoal}
+              </p>
             )}
           </fieldset>
         </div>
@@ -325,17 +415,42 @@ export function TriathlonTeamApplicationForm() {
         </h2>
         <p className="mt-1 text-sm text-charcoal-light">All optional.</p>
         <div className="mt-4 grid gap-5 sm:grid-cols-2">
-          <Field id="tta-instagram" label="Instagram" optional>
-            <input id="tta-instagram" name="instagram" type="text" placeholder="@handle" className={FORM_CONTROL_CLASS} />
+          <Field id="tta-instagram" label="Instagram" optional error={fieldErrors.instagram}>
+            <input
+              id="tta-instagram"
+              name="instagram"
+              type="text"
+              placeholder="@handle"
+              className={controlClassName(FORM_CONTROL_CLASS, fieldErrors.instagram)}
+              {...fieldA11yProps("tta-instagram", fieldErrors.instagram)}
+            />
           </Field>
-          <Field id="tta-facebook" label="Facebook" optional>
-            <input id="tta-facebook" name="facebook" type="text" className={FORM_CONTROL_CLASS} />
+          <Field id="tta-facebook" label="Facebook" optional error={fieldErrors.facebook}>
+            <input
+              id="tta-facebook"
+              name="facebook"
+              type="text"
+              className={controlClassName(FORM_CONTROL_CLASS, fieldErrors.facebook)}
+              {...fieldA11yProps("tta-facebook", fieldErrors.facebook)}
+            />
           </Field>
-          <Field id="tta-strava" label="Strava" optional>
-            <input id="tta-strava" name="strava" type="text" className={FORM_CONTROL_CLASS} />
+          <Field id="tta-strava" label="Strava" optional error={fieldErrors.strava}>
+            <input
+              id="tta-strava"
+              name="strava"
+              type="text"
+              className={controlClassName(FORM_CONTROL_CLASS, fieldErrors.strava)}
+              {...fieldA11yProps("tta-strava", fieldErrors.strava)}
+            />
           </Field>
-          <Field id="tta-otherSocial" label="Other Link" optional>
-            <input id="tta-otherSocial" name="otherSocial" type="text" className={FORM_CONTROL_CLASS} />
+          <Field id="tta-otherSocial" label="Other Link" optional error={fieldErrors.otherSocial}>
+            <input
+              id="tta-otherSocial"
+              name="otherSocial"
+              type="text"
+              className={controlClassName(FORM_CONTROL_CLASS, fieldErrors.otherSocial)}
+              {...fieldA11yProps("tta-otherSocial", fieldErrors.otherSocial)}
+            />
           </Field>
         </div>
       </div>
@@ -344,8 +459,15 @@ export function TriathlonTeamApplicationForm() {
       <div>
         <h2 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">Apparel</h2>
         <div className="mt-4 max-w-xs">
-          <Field id="tta-apparelSize" label="Shirt / Tri Apparel Size">
-            <select id="tta-apparelSize" name="apparelSize" required defaultValue="" className={FORM_CONTROL_CLASS}>
+          <Field id="tta-apparelSize" label="Shirt / Tri Apparel Size" error={fieldErrors.apparelSize}>
+            <select
+              id="tta-apparelSize"
+              name="apparelSize"
+              required
+              defaultValue=""
+              className={controlClassName(FORM_CONTROL_CLASS, fieldErrors.apparelSize)}
+              {...fieldA11yProps("tta-apparelSize", fieldErrors.apparelSize)}
+            >
               <option value="" disabled>
                 Select a size
               </option>
@@ -385,6 +507,11 @@ export function TriathlonTeamApplicationForm() {
             other costs unless specifically approved in writing.
           </span>
         </label>
+        {fieldErrors.ackCosts && (
+          <p role="alert" className="text-xs font-medium text-red-700">
+            {fieldErrors.ackCosts}
+          </p>
+        )}
         <label className="flex items-start gap-3 text-sm text-ink">
           <input type="checkbox" name="ackSafety" required className="mt-0.5 h-4 w-4 shrink-0 accent-bronze" />
           <span>
@@ -392,10 +519,20 @@ export function TriathlonTeamApplicationForm() {
             compliance with the rules of any event in which I participate.
           </span>
         </label>
+        {fieldErrors.ackSafety && (
+          <p role="alert" className="text-xs font-medium text-red-700">
+            {fieldErrors.ackSafety}
+          </p>
+        )}
         <label className="flex items-start gap-3 text-sm text-ink">
           <input type="checkbox" name="ackConduct" required className="mt-0.5 h-4 w-4 shrink-0 accent-bronze" />
           <span>I agree to represent Tri For The 22 and its mission respectfully and professionally.</span>
         </label>
+        {fieldErrors.ackConduct && (
+          <p role="alert" className="text-xs font-medium text-red-700">
+            {fieldErrors.ackConduct}
+          </p>
+        )}
       </div>
 
       <TurnstileWidget ref={turnstileRef} action="triathlon_team" onToken={setTurnstileToken} />
