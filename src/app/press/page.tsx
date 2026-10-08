@@ -34,6 +34,15 @@ const BREADCRUMB_JSON_LD = breadcrumbJsonLd([
   { name: "Press & Media", url: `${SITE_URL}/press` },
 ]);
 
+/** The site's working UI palette, not the mark's symbolic colors — what a reporter actually needs to quote/reproduce brand colors at a glance. */
+const PRIMARY_PALETTE = [
+  { name: "Ink", hex: "#15150f" },
+  { name: "Bronze", hex: "#a97a4c" },
+  { name: "Olive", hex: "#454f37" },
+  { name: "Sand", hex: "#d8cdac" },
+  { name: "Off-White", hex: "#f6f3ea" },
+] as const;
+
 export default async function PressPage() {
   const [metrics, beneficiaries] = await Promise.all([getMissionMetrics(), getPartners()]);
   const currentCampaigns = MOVEMENT_CAMPAIGNS.filter(isCurrentCampaign);
@@ -283,17 +292,38 @@ export default async function PressPage() {
             <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
               Brand Colors
             </h2>
-            <p className="mt-1 text-sm text-charcoal-light">
-              Every color in the mark is assigned, not decorative — the outer ring to a branch of
-              the Armed Forces, the inner ring to a sector of first-responder service. See{" "}
-              <Link href="/about#the-mark" className="text-bronze hover:underline">
-                The Mark
-              </Link>{" "}
-              on the About page for what the ring, star, and &quot;22&quot; represent.
-            </p>
-            <div className="mt-4">
-              <BrandColorBreakdown />
+            <p className="mt-1 text-sm text-charcoal-light">Primary palette used across the site.</p>
+            <div className="mt-4 flex flex-wrap gap-4">
+              {PRIMARY_PALETTE.map((swatch) => (
+                <div key={swatch.name} className="flex items-center gap-2.5">
+                  <span
+                    aria-hidden="true"
+                    className="h-6 w-6 shrink-0 rounded-full border border-ink/10"
+                    style={{ backgroundColor: swatch.hex }}
+                  />
+                  <p className="text-xs text-charcoal-light">
+                    <span className="font-medium text-ink">{swatch.name}</span> — {swatch.hex}
+                  </p>
+                </div>
+              ))}
             </div>
+
+            <details className="mt-6">
+              <summary className="cursor-pointer text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark">
+                Full Mark Color Breakdown
+              </summary>
+              <p className="mt-3 text-sm text-charcoal-light">
+                Every color in the mark is assigned, not decorative — the outer ring to a branch of
+                the Armed Forces, the inner ring to a sector of first-responder service. See{" "}
+                <Link href="/about#the-mark" className="text-bronze hover:underline">
+                  The Mark
+                </Link>{" "}
+                on the About page for what the ring, star, and &quot;22&quot; represent.
+              </p>
+              <div className="mt-4">
+                <BrandColorBreakdown />
+              </div>
+            </details>
           </div>
 
           <div>
