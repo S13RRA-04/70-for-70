@@ -196,7 +196,8 @@ export default async function CampaignHomePage() {
   const showEventPromo = currentEvent && isEventPromoWindowNow(currentEvent.starts_at, currentEvent.ends_at);
   const phase = getCampaignPhase();
 
-  const generalPartners = missionPartners.filter(isCampaignPartner).filter((p) => p.associated_campaigns?.includes("tri"));
+  // Keep the public partner metric and the visible wall on one canonical set.
+  const generalPartners = missionPartners.filter(isCampaignPartner);
   const presentingPartners = generalPartners.filter((p) => p.tier === "presenting-partner");
   const otherPartners = generalPartners.filter((p) => p.tier !== "presenting-partner");
 
@@ -325,18 +326,16 @@ export default async function CampaignHomePage() {
         <Container>
           <div className="grid gap-10 lg:grid-cols-12 lg:items-center">
           <div className="lg:col-span-7">
-          <SectionHeading eyebrow="Fund the Mission" title="For The 22's Shared $70,000 Mission Goal" />
-          <p className="mt-5 text-base leading-relaxed text-charcoal-light">
-            Roughly $1,000 for every mile of {CURRENT_CAMPAIGN.event} — the race that inspired the number.
-          </p>
-
-          <div className="mt-8 rounded-sm border border-ink/10 bg-off-white p-6 sm:p-8">
+          <div className="border-y border-ink/10 py-6 sm:py-8">
             <MissionProgress
               totalRaised={fundraisingStats.amountRaised}
               goal={fundraisingStats.fundraisingGoal}
               breakdown={allocationBreakdown}
             />
           </div>
+          <p className="mt-5 text-base leading-relaxed text-charcoal-light">
+            Roughly $1,000 for every mile of {CURRENT_CAMPAIGN.event} — the race that inspired the number.
+          </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-4">
             <CTAButton href={DONATE_LINK.href} magnetic>

@@ -23,10 +23,9 @@ import { getDaysToRace } from "../campaign-phase";
  * - partnerCount: active mission_partners rows across every campaign,
  *   excluding giveaway-only supporters (see isCampaignPartner) — the
  *   org-wide "N Campaign Partners" stat (home/press/impact/network).
- * - campaignPartnerCount: the same, scoped to associated_campaigns
- *   including "tri" — what Tri's own on-page partner stats (campaign
- *   status bar, journal impact strip) should show, since those pages
- *   render a Tri-only partner wall below them and must agree with it.
+ * - campaignPartnerCount: a backwards-compatible alias of partnerCount.
+ *   Public properties use one ecosystem count so the metric never changes
+ *   meaning while a visitor moves between domains.
  * - beneficiaryCount/beneficiaryTotals: active partners rows (who the
  *   campaigns support) and verified donations grouped by
  *   organization_benefited — null-policy-safe, empty when unavailable.
@@ -46,7 +45,7 @@ export interface FundraisingImpactStats {
   supporterCount: number;
   /** Active campaign/partner organizations across every campaign (org-wide stat). */
   partnerCount: number;
-  /** Active campaign/partner organizations supporting Tri specifically (Tri's own partner wall). */
+  /** Canonical active campaign/partner organization count (legacy field name). */
   campaignPartnerCount: number;
   /** Active beneficiary organizations currently supported. */
   beneficiaryCount: number;
@@ -71,12 +70,14 @@ export async function getFundraisingImpactStats(): Promise<FundraisingImpactStat
 
   const miles = getMilesFundedMetric(campaign.amount_raised, campaign.fundraising_goal);
 
+  const partnerCount = missionPartners.filter(isCampaignPartner).length;
+
   return {
     amountRaised: campaign.amount_raised,
     fundraisingGoal: campaign.fundraising_goal,
     supporterCount,
-    partnerCount: missionPartners.filter(isCampaignPartner).length,
-    campaignPartnerCount: missionPartners.filter(isCampaignPartner).filter((p) => p.associated_campaigns?.includes("tri")).length,
+    partnerCount,
+    campaignPartnerCount: partnerCount,
     beneficiaryCount: beneficiaries.length,
     beneficiaryTotals: allocation?.byOrganization ?? [],
     daysToRace: getDaysToRace(),
