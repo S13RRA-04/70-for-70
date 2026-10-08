@@ -6,6 +6,7 @@ import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTAButton } from "@/components/shared/cta-button";
 import { MissionProgress } from "@/components/campaign/mission-progress";
+import { CampaignCard } from "@/components/campaign/campaign-card";
 import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
 import { getAllocationBreakdown } from "@/lib/data/allocation";
 import { getCampaign } from "@/lib/data/campaign";
@@ -17,7 +18,6 @@ import {
   MISSION_NAME,
   MISSION_ORIGIN_LINE,
   MISSION_SUPPORTING_LINE,
-  CAMPAIGN_STATUS_LABELS,
   MOVEMENT_CAMPAIGNS,
   isCurrentCampaign,
   SITE_NAME,
@@ -51,19 +51,6 @@ const FUTURE_MISSION_AREAS = [
   "Families & Transition",
 ] as const;
 
-/**
- * One icon per campaign type, keyed by slug — the four cards share identical
- * structure (status line, name, description, CTA), so this is the one place
- * visual differentiation is worth adding: each campaign reads as its own
- * activity at a glance instead of four copies of the same template.
- */
-const CAMPAIGN_ICONS: Record<string, typeof Bike> = {
-  tri: Bike,
-  ruck: Backpack,
-  live: Music,
-  "22": Footprints,
-};
-
 /** BreadcrumbList per credibility plan §25 — Home→page shape. */
 const BREADCRUMB_JSON_LD = breadcrumbJsonLd([
   { name: "Home", url: SITE_URL },
@@ -75,15 +62,6 @@ function joinNames(names: string[]): string {
   if (names.length === 0) return "its beneficiary organizations";
   if (names.length === 1) return names[0];
   return `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
-}
-
-function formatCampaignDate(value: string): string {
-  return new Intl.DateTimeFormat("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-    timeZone: "UTC",
-  }).format(new Date(`${value}T12:00:00Z`));
 }
 
 export default async function CampaignsPage() {
@@ -177,51 +155,9 @@ export default async function CampaignsPage() {
       <section className="py-16 sm:py-24">
         <Container>
           <div className="grid gap-5 lg:grid-cols-2">
-            {current.map((campaign) => {
-              const isSameSite = "url" in campaign && campaign.url.startsWith("/");
-              const dateLine = campaign.startDate
-                ? campaign.endDate
-                  ? `${formatCampaignDate(campaign.startDate)}–${formatCampaignDate(campaign.endDate)}`
-                  : formatCampaignDate(campaign.startDate)
-                : null;
-              const statusLine = [
-                CAMPAIGN_STATUS_LABELS[campaign.status],
-                campaign.type,
-                campaign.location,
-                dateLine,
-              ]
-                .filter(Boolean)
-                .join(" · ");
-              const Icon = CAMPAIGN_ICONS[campaign.slug];
-              return (
-                <div key={campaign.name} className="grid gap-6 border border-ink/10 bg-off-white p-7 sm:grid-cols-[auto_1fr] sm:items-start sm:gap-7 sm:p-8">
-                  {Icon && (
-                    <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-sm bg-bronze/10 text-bronze sm:h-24 sm:w-24">
-                      <Icon className="h-9 w-9 sm:h-10 sm:w-10" aria-hidden="true" />
-                    </div>
-                  )}
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-widest text-bronze">{statusLine}</p>
-                    <h2 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
-                      {campaign.name}
-                    </h2>
-                    {"description" in campaign && (
-                      <p className="mt-4 max-w-xl text-base leading-relaxed text-charcoal-light">
-                        {campaign.description}
-                      </p>
-                    )}
-                    <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-                      Contributes to {MISSION_NAME}
-                    </p>
-                    {"url" in campaign && (
-                      <CTAButton href={campaign.url} external={!isSameSite} className="mt-6">
-                        Explore {campaign.name}
-                      </CTAButton>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
+            {current.map((campaign) => (
+              <CampaignCard key={campaign.name} campaign={campaign} />
+            ))}
           </div>
         </Container>
       </section>
