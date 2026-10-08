@@ -1757,6 +1757,7 @@ create table if not exists public.resource_records (
   veteran_led boolean,
   first_responder_led boolean,
   faith_based boolean,
+  faith_affiliation_source text check (faith_affiliation_source is null or faith_affiliation_source ~ '^https://'),
   peer_led boolean,
   virtual_available boolean,
   in_person_available boolean,
