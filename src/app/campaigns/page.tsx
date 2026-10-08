@@ -7,6 +7,7 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { CTAButton } from "@/components/shared/cta-button";
 import { MissionProgress } from "@/components/campaign/mission-progress";
 import { CampaignCard } from "@/components/campaign/campaign-card";
+import { RevealGrid, RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
 import { getAllocationBreakdown } from "@/lib/data/allocation";
 import { getCampaign } from "@/lib/data/campaign";
@@ -116,7 +117,7 @@ export default async function CampaignsPage() {
           authoritative mission overview. */}
       <section className="border-b border-ink/10 py-14 sm:py-16">
         <Container>
-          <div className="grid gap-10 lg:grid-cols-12 lg:items-center">
+          <RevealOnScroll className="grid gap-10 lg:grid-cols-12 lg:items-center">
           <div className="lg:col-span-7">
           <SectionHeading eyebrow="Current Mission" title="Where We Stand" />
           <div className="mt-6">
@@ -146,7 +147,7 @@ export default async function CampaignsPage() {
               <p className="text-xs font-semibold uppercase tracking-widest text-bronze-light">One mission. Many ways in.</p>
             </div>
           </div>
-          </div>
+          </RevealOnScroll>
         </Container>
       </section>
 
@@ -154,11 +155,13 @@ export default async function CampaignsPage() {
           the shared MovementCampaign records. */}
       <section className="py-16 sm:py-24">
         <Container>
-          <div className="grid gap-5 lg:grid-cols-2">
-            {current.map((campaign) => (
-              <CampaignCard key={campaign.name} campaign={campaign} />
-            ))}
-          </div>
+          <RevealGrid>
+            <div className="grid gap-5 lg:grid-cols-2">
+              {current.map((campaign) => (
+                <CampaignCard key={campaign.name} campaign={campaign} />
+              ))}
+            </div>
+          </RevealGrid>
         </Container>
       </section>
 
@@ -166,26 +169,30 @@ export default async function CampaignsPage() {
           The canonical mission detail remains on /70k. */}
       <section className="border-t border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container>
-          <SectionHeading
-            eyebrow="How the Mission Grows"
-            title="Beyond the Campaigns"
-            description="Auctions, merchandise, corporate sponsorships, and direct giving all feed the same shared goal — no single event carries it alone."
-          />
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {CONTRIBUTION_MECHANISMS.map((mechanism) => (
-              <div key={mechanism.name} className="flex flex-col rounded-sm border border-ink/10 bg-off-white p-6">
-                <h3 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
-                  {mechanism.name}
-                </h3>
-                <p className="mt-2 flex-1 text-sm text-charcoal-light">{mechanism.description}</p>
-                {mechanism.href && (
-                  <CTAButton href={mechanism.href} external={mechanism.external} variant="ghost" className="mt-4 px-0">
-                    Learn More &rarr;
-                  </CTAButton>
-                )}
-              </div>
-            ))}
-          </div>
+          <RevealOnScroll>
+            <SectionHeading
+              eyebrow="How the Mission Grows"
+              title="Beyond the Campaigns"
+              description="Auctions, merchandise, corporate sponsorships, and direct giving all feed the same shared goal — no single event carries it alone."
+            />
+          </RevealOnScroll>
+          <RevealGrid>
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {CONTRIBUTION_MECHANISMS.map((mechanism) => (
+                <div key={mechanism.name} className="flex flex-col rounded-sm border border-ink/10 bg-off-white p-6">
+                  <h3 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+                    {mechanism.name}
+                  </h3>
+                  <p className="mt-2 flex-1 text-sm text-charcoal-light">{mechanism.description}</p>
+                  {mechanism.href && (
+                    <CTAButton href={mechanism.href} external={mechanism.external} variant="ghost" className="mt-4 px-0">
+                      Learn More &rarr;
+                    </CTAButton>
+                  )}
+                </div>
+              ))}
+            </div>
+          </RevealGrid>
         </Container>
       </section>
 
@@ -194,42 +201,44 @@ export default async function CampaignsPage() {
           labeled as areas, not promised beneficiaries. */}
       <section className="border-y border-ink/10 bg-ink py-16 text-off-white sm:py-20">
         <Container className="max-w-2xl">
-          <SectionHeading eyebrow="What's Next?" title="The Beginning, Not the Finish Line" tone="dark" />
-          <div className="mt-6 space-y-4 text-base leading-relaxed text-off-white/80">
-            <p>
-              The current campaigns are working toward a shared {formatCurrency(fundraisingStats.fundraisingGoal)} goal
-              benefiting {joinNames(beneficiaryNames)}.
-            </p>
-            <p>
-              But {SITE_NAME} was never intended to end with one race, one fundraising goal, or
-              {beneficiaryNames.length > 0 ? ` ${beneficiaryNames.length === 2 ? "two" : String(beneficiaryNames.length)} organizations` : " a fixed list of organizations"}.
-            </p>
-            <p>
-              We are exploring future fundraising opportunities supporting additional verified
-              nonprofit organizations serving veterans, first responders, and their families.
-            </p>
-          </div>
-          <blockquote className="mt-8 border-l-2 border-bronze pl-5 font-display text-xl font-semibold uppercase tracking-tight text-bronze-light sm:text-2xl">
-            The $70K Mission has a finish line. {SITE_NAME} does not.
-          </blockquote>
-          <div className="mt-10">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">
-              Areas of Future Focus
-            </p>
-            <div className="mt-3 flex flex-wrap gap-2">
-              {FUTURE_MISSION_AREAS.map((area) => (
-                <span
-                  key={area}
-                  className="rounded-full border border-off-white/20 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-off-white/80"
-                >
-                  {area}
-                </span>
-              ))}
+          <RevealOnScroll>
+            <SectionHeading eyebrow="What's Next?" title="The Beginning, Not the Finish Line" tone="dark" />
+            <div className="mt-6 space-y-4 text-base leading-relaxed text-off-white/80">
+              <p>
+                The current campaigns are working toward a shared {formatCurrency(fundraisingStats.fundraisingGoal)} goal
+                benefiting {joinNames(beneficiaryNames)}.
+              </p>
+              <p>
+                But {SITE_NAME} was never intended to end with one race, one fundraising goal, or
+                {beneficiaryNames.length > 0 ? ` ${beneficiaryNames.length === 2 ? "two" : String(beneficiaryNames.length)} organizations` : " a fixed list of organizations"}.
+              </p>
+              <p>
+                We are exploring future fundraising opportunities supporting additional verified
+                nonprofit organizations serving veterans, first responders, and their families.
+              </p>
             </div>
-            <p className="mt-3 text-xs text-off-white/50">
-              Mission areas of interest — not commitments to specific organizations or campaigns.
-            </p>
-          </div>
+            <blockquote className="mt-8 border-l-2 border-bronze pl-5 font-display text-xl font-semibold uppercase tracking-tight text-bronze-light sm:text-2xl">
+              The $70K Mission has a finish line. {SITE_NAME} does not.
+            </blockquote>
+            <div className="mt-10">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">
+                Areas of Future Focus
+              </p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {FUTURE_MISSION_AREAS.map((area) => (
+                  <span
+                    key={area}
+                    className="rounded-full border border-off-white/20 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-off-white/80"
+                  >
+                    {area}
+                  </span>
+                ))}
+              </div>
+              <p className="mt-3 text-xs text-off-white/50">
+                Mission areas of interest — not commitments to specific organizations or campaigns.
+              </p>
+            </div>
+          </RevealOnScroll>
         </Container>
       </section>
 

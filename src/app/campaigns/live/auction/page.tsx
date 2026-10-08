@@ -5,6 +5,7 @@ import { CTAButton } from "@/components/shared/cta-button";
 import { LIVE_AUCTION } from "@/lib/content/live-auction";
 import { LIVE_FUNDS_DISCLOSURE } from "@/lib/content/live-campaign";
 import { LIVE_CAMPAIGN_URL, SITE_URL } from "@/lib/constants";
+import { RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 
@@ -51,63 +52,67 @@ export default function LiveAuctionPage() {
 
       <section className="border-b border-ink/10 py-16 sm:py-20">
         <Container className="max-w-3xl">
-          <div className="grid gap-4 sm:grid-cols-3">
+          <RevealOnScroll className="grid gap-4 sm:grid-cols-3">
             <AuctionDate label="Bidding Opens" value={LIVE_AUCTION.opensOn} />
             <AuctionDate label="Auction Platform" value="32auctions" />
             <AuctionDate label="Winner Announced" value={LIVE_AUCTION.winnerAnnouncement} />
-          </div>
+          </RevealOnScroll>
         </Container>
       </section>
 
       <section className="bg-sand-light py-16 sm:py-20">
         <Container className="max-w-3xl">
-          <SectionHeading
-            eyebrow="How to Participate"
-            title="Bid Through 32auctions"
-            description="32auctions is the system of record for registration, bids, auction timing, payment, and the winning bidder."
-          />
-          <ol className="mt-8 grid gap-4 sm:grid-cols-3">
-            {[
-              ["01", "Open the Auction", "Visit the Whiskey Myers item listing on 32auctions."],
-              ["02", "Register and Bid", "Follow 32auctions' instructions to create an account and place your bid."],
-              ["03", "Watch for Updates", "32auctions handles bid activity and winner communications under the published auction terms."],
-            ].map(([number, title, description]) => (
-              <li key={number} className="border border-ink/10 bg-off-white p-6">
-                <p className="font-display text-2xl font-bold text-bronze/50">{number}</p>
-                <h2 className="mt-3 font-display text-lg font-semibold uppercase tracking-tight text-ink">{title}</h2>
-                <p className="mt-2 text-sm leading-relaxed text-charcoal-light">{description}</p>
-              </li>
-            ))}
-          </ol>
-          <p className="mt-8 text-sm leading-relaxed text-charcoal-light">
-            Item specifications, eligible 2027 show details, fulfillment, shipping or pickup, payment deadlines,
-            and all final bidding terms are governed by the listing published on 32auctions.
-          </p>
-          <CTAButton
-            href={LIVE_AUCTION.biddingUrl}
-            external
-            size="lg"
-            className="mt-6"
-            data-analytics-event="auction_bid_click"
-          >
-            Go to 32auctions <ExternalLink size={16} aria-hidden="true" />
-          </CTAButton>
+          <RevealOnScroll>
+            <SectionHeading
+              eyebrow="How to Participate"
+              title="Bid Through 32auctions"
+              description="32auctions is the system of record for registration, bids, auction timing, payment, and the winning bidder."
+            />
+            <ol className="mt-8 grid gap-4 sm:grid-cols-3">
+              {[
+                ["01", "Open the Auction", "Visit the Whiskey Myers item listing on 32auctions."],
+                ["02", "Register and Bid", "Follow 32auctions' instructions to create an account and place your bid."],
+                ["03", "Watch for Updates", "32auctions handles bid activity and winner communications under the published auction terms."],
+              ].map(([number, title, description]) => (
+                <li key={number} className="border border-ink/10 bg-off-white p-6">
+                  <p className="font-display text-2xl font-bold text-bronze/50">{number}</p>
+                  <h2 className="mt-3 font-display text-lg font-semibold uppercase tracking-tight text-ink">{title}</h2>
+                  <p className="mt-2 text-sm leading-relaxed text-charcoal-light">{description}</p>
+                </li>
+              ))}
+            </ol>
+            <p className="mt-8 text-sm leading-relaxed text-charcoal-light">
+              Item specifications, eligible 2027 show details, fulfillment, shipping or pickup, payment deadlines,
+              and all final bidding terms are governed by the listing published on 32auctions.
+            </p>
+            <CTAButton
+              href={LIVE_AUCTION.biddingUrl}
+              external
+              size="lg"
+              className="mt-6"
+              data-analytics-event="auction_bid_click"
+            >
+              Go to 32auctions <ExternalLink size={16} aria-hidden="true" />
+            </CTAButton>
+          </RevealOnScroll>
         </Container>
       </section>
 
       <section className="py-16 sm:py-20">
         <Container className="max-w-3xl">
-          <SectionHeading eyebrow="Financial Transparency" title="Where the Winning Bid Goes" />
-          <p className="mt-5 max-w-2xl text-sm leading-relaxed text-charcoal-light">
-            {LIVE_FUNDS_DISCLOSURE} As noted above, 32auctions is the system of record for the winning payment
-            itself.
-          </p>
-          <a
-            href={`${SITE_URL}/beneficiaries`}
-            className="mt-4 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
-          >
-            See Beneficiaries &rarr;
-          </a>
+          <RevealOnScroll>
+            <SectionHeading eyebrow="Financial Transparency" title="Where the Winning Bid Goes" />
+            <p className="mt-5 max-w-2xl text-sm leading-relaxed text-charcoal-light">
+              {LIVE_FUNDS_DISCLOSURE} As noted above, 32auctions is the system of record for the winning payment
+              itself.
+            </p>
+            <a
+              href={`${SITE_URL}/beneficiaries`}
+              className="mt-4 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
+            >
+              See Beneficiaries &rarr;
+            </a>
+          </RevealOnScroll>
         </Container>
       </section>
     </>

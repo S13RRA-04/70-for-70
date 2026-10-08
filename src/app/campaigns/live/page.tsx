@@ -2,7 +2,7 @@ import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTAButton } from "@/components/shared/cta-button";
 import { CTASection } from "@/components/shared/cta-section";
-import { RevealGrid } from "@/components/shared/reveal-on-scroll";
+import { RevealGrid, RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import { MissionProgress } from "@/components/campaign/mission-progress";
 import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
 import {
@@ -70,7 +70,7 @@ export default async function LiveCampaignPage() {
 
       <section className="border-b border-off-white/10 bg-charcoal py-16 text-off-white sm:py-20">
         <Container>
-          <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+          <RevealOnScroll className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
           <div className="flex aspect-square max-w-md items-center justify-center border border-bronze/30 bg-ink"><div className="text-center"><Gavel className="mx-auto h-14 w-14 text-bronze-light" aria-hidden="true" /><p className="mt-5 text-xs font-semibold uppercase tracking-[0.25em] text-off-white/60">Donated by</p><p className="mt-2 font-display text-4xl font-bold uppercase">{LIVE_AUCTION.donor}</p></div></div>
           <div>
           <SectionHeading
@@ -89,13 +89,15 @@ export default async function LiveCampaignPage() {
             </CTAButton>
           </div>
           </div>
-          </div>
+          </RevealOnScroll>
         </Container>
       </section>
 
       <section className="border-b border-ink/10 py-16 sm:py-20">
         <Container className="max-w-2xl">
-          <MissionProgress totalRaised={fundraisingStats.amountRaised} goal={fundraisingStats.fundraisingGoal} />
+          <RevealOnScroll>
+            <MissionProgress totalRaised={fundraisingStats.amountRaised} goal={fundraisingStats.fundraisingGoal} />
+          </RevealOnScroll>
         </Container>
       </section>
 
