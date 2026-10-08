@@ -358,7 +358,7 @@ export default async function RuckHomePage() {
                 description={`Alongside RuckUp22 itself, Cody's own Ruck For The 22 effort supports the same causes as ${CAMPAIGNS.tri.name} — and contributes to For The 22's shared $70,000 mission goal.`}
               />
               <div className="mt-6 max-w-xl rounded-sm border border-ink/10 bg-sand-light p-6">
-                <MissionProgress totalRaised={fundraisingStats.amountRaised} goal={fundraisingStats.fundraisingGoal} showStats={false} />
+                <MissionProgress totalRaised={fundraisingStats.amountRaised} goal={fundraisingStats.fundraisingGoal} />
                 <p className="mt-4 text-xs text-charcoal-light">
                   This reflects Cody&apos;s own Ruck For The 22 fundraising, not RuckUp22 Huntsville&apos;s
                   registration/ticket proceeds — those go directly to RuckUp22&apos;s own event beneficiaries above.

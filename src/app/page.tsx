@@ -357,7 +357,7 @@ export default async function HomePage() {
             )}
             <div className="mt-8 rounded-sm border border-ink/10 bg-off-white p-6 sm:p-8">
               {metrics.totalRaised !== null && metrics.fundraisingGoal !== null && (
-                <MissionProgress totalRaised={metrics.totalRaised} goal={metrics.fundraisingGoal} showStats={false} />
+                <MissionProgress totalRaised={metrics.totalRaised} goal={metrics.fundraisingGoal} />
               )}
             </div>
             <CTAButton href="/70k" className="mt-6">

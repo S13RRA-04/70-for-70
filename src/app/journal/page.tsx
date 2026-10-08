@@ -197,7 +197,6 @@ export default async function JournalPage(props: PageProps<"/journal">) {
                   <MissionProgress
                     totalRaised={fundraisingStats.amountRaised}
                     goal={fundraisingStats.fundraisingGoal}
-                    showStats={false}
                   />
                 </div>
                 <div className="mt-6 grid grid-cols-2 gap-3">

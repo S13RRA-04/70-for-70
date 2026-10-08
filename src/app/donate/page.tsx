@@ -44,7 +44,6 @@ export default async function DonatePage() {
           <MissionProgress
             totalRaised={campaign.amount_raised}
             goal={campaign.fundraising_goal}
-            showStats={false}
             tone="dark"
             breakdown={allocationBreakdown}
           />

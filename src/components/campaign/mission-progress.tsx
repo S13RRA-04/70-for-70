@@ -15,14 +15,12 @@ import type { AllocationBreakdown } from "@/lib/data/allocation";
 export function MissionProgress({
   totalRaised,
   goal,
-  showStats = true,
   tone,
   breakdown,
   className,
 }: {
   totalRaised: number;
   goal: number;
-  showStats?: boolean;
   tone?: "dark";
   breakdown?: AllocationBreakdown | null;
   className?: string;
@@ -42,7 +40,7 @@ export function MissionProgress({
         {MISSION_SUPPORTING_LINE}
       </p>
       <div className="mt-4">
-        <CampaignProgress totalRaised={totalRaised} goal={goal} showStats={showStats} tone={tone} breakdown={breakdown} />
+        <CampaignProgress totalRaised={totalRaised} goal={goal} tone={tone} breakdown={breakdown} />
       </div>
     </div>
   );
