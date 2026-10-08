@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import {
   Ambulance,
@@ -154,10 +155,27 @@ const WHAT_WE_ARE_NOT = [
 export default function MissionPage() {
   return (
     <>
-      {/* Hero */}
+      {/* Hero — asymmetrical rather than a centered text column; the ring-
+          color strip echoes the branch/sector colors "Who We Serve" uses
+          just below, tying the two together instead of introducing an
+          unrelated visual. */}
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container className="max-w-2xl">
-          <SectionHeading as="h1" eyebrow="Our Mission" title={ORG_TAGLINE} description={ORG_SUPPORTING_STATEMENT} />
+        <Container>
+          <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
+            <div className="lg:col-span-8">
+              <SectionHeading as="h1" eyebrow="Our Mission" title={ORG_TAGLINE} description={ORG_SUPPORTING_STATEMENT} />
+            </div>
+            <div className="flex flex-col items-center lg:col-span-4">
+              <div className="relative aspect-square w-full max-w-[180px]">
+                <Image src="/logo.png" alt="" fill className="object-contain" sizes="180px" />
+              </div>
+              <div className="mt-4 flex h-1 w-40 overflow-hidden rounded-full" aria-hidden="true">
+                {OUTER_RING_COLORS.map((ring) => (
+                  <span key={ring.branch} className="flex-1" style={{ backgroundColor: ring.hex }} />
+                ))}
+              </div>
+            </div>
+          </div>
         </Container>
       </section>
 
