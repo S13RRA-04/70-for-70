@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { HandCoins, HandHelping, Handshake, Share2, type LucideIcon } from "lucide-react";
 import { getCampaign } from "@/lib/data/campaign";
@@ -212,16 +213,21 @@ export default async function CampaignHomePage() {
           renders above this at the layout level (MissionRelationshipBanner),
           not here. */}
       <section className="relative overflow-hidden bg-ink text-off-white">
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-25"
-          style={{ backgroundImage: "url(/tri-for-the-22-banner.png)" }}
+        <Image
+          src="/tri-for-the-22-banner.png"
+          alt=""
+          fill
+          priority
           aria-hidden="true"
+          className="object-cover opacity-25"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/85 to-ink/60" aria-hidden="true" />
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-[0.08]"
-          style={{ backgroundImage: "url(/topo-map.png)" }}
+        <Image
+          src="/topo-map.png"
+          alt=""
+          fill
           aria-hidden="true"
+          className="object-cover opacity-[0.08]"
         />
 
         <Container className="relative max-w-3xl py-16 sm:py-24">

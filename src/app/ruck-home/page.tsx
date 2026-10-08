@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ExternalLink, ShieldCheck } from "lucide-react";
 import { getPartners } from "@/lib/data/partners";
 import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
@@ -165,10 +166,13 @@ export default async function RuckHomePage() {
 
       {/* Hero */}
       <section className="relative overflow-hidden bg-ink text-off-white">
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-[0.08]"
-          style={{ backgroundImage: "url(/topo-map.png)" }}
+        <Image
+          src="/topo-map.png"
+          alt=""
+          fill
+          priority
           aria-hidden="true"
+          className="object-cover opacity-[0.08]"
         />
         <Container className="relative grid gap-10 py-16 sm:py-24 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:gap-16">
           <div>
