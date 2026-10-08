@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Container } from "@/components/shared/container";
 import { cn } from "@/lib/utils";
 
@@ -26,10 +27,12 @@ export function CampaignPageHero({
         className,
       )}
     >
-      <div
-        className="absolute inset-0 bg-cover bg-center opacity-10"
-        style={{ backgroundImage: "url(/topo-map.png)" }}
+      <Image
+        src="/topo-map.png"
+        alt=""
+        fill
         aria-hidden="true"
+        className="object-cover opacity-10"
       />
       <Container className={cn("relative", containerClassName)}>{children}</Container>
     </section>
