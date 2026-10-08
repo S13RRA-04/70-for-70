@@ -2,6 +2,7 @@ import { RaceStatCard } from "@/components/campaign/race-stat-card";
 import { RACE_GOAL } from "@/lib/content/race-goal";
 import { RACE_AGE_GROUP_YEARLY } from "@/lib/content/race-benchmarks";
 import { RACE_INFO } from "@/lib/constants";
+import { MetricGrid } from "@/components/shared/metric-grid";
 
 /**
  * "Race at a Glance" — a 5-card competitive-context summary, immediately
@@ -16,7 +17,7 @@ export function RaceAtAGlance() {
   const mostRecentYear = RACE_AGE_GROUP_YEARLY.find((row) => row.finish && !row.note);
 
   return (
-    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+    <MetricGrid columns={5}>
       <RaceStatCard label="Race" value="IRONMAN 70.3 Chattanooga" detail={raceDateLabel ?? undefined} />
       <RaceStatCard label="Division" value={RACE_GOAL.ageGroup} />
       <RaceStatCard label="Primary Goal" value="Top 3 / Podium" accent />
@@ -28,6 +29,6 @@ export function RaceAtAGlance() {
           detail={`${mostRecentYear.year} ${RACE_GOAL.ageGroup} winner`}
         />
       )}
-    </div>
+    </MetricGrid>
   );
 }

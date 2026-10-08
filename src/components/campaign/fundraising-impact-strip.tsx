@@ -1,4 +1,5 @@
 import { StatCard } from "@/components/shared/stat-card";
+import { MetricGrid } from "@/components/shared/metric-grid";
 import { formatCurrency } from "@/lib/utils";
 import type { FundraisingImpactStats } from "@/lib/data/fundraising-impact";
 
@@ -11,10 +12,10 @@ import type { FundraisingImpactStats } from "@/lib/data/fundraising-impact";
  */
 export function FundraisingImpactStrip({ stats }: { stats: FundraisingImpactStats }) {
   return (
-    <div className="grid grid-cols-3 gap-3">
+    <MetricGrid columns={3}>
       <StatCard label="Raised" value={formatCurrency(stats.amountRaised)} sublabel={`of ${formatCurrency(stats.fundraisingGoal)} goal`} />
       <StatCard label="Partners" value={String(stats.campaignPartnerCount)} />
       <StatCard label="Supporters" value={String(stats.supporterCount)} />
-    </div>
+    </MetricGrid>
   );
 }

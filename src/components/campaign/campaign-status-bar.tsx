@@ -88,7 +88,7 @@ export function CampaignStatusBar({
           className="mt-6 h-2 w-full overflow-hidden rounded-full bg-charcoal/10"
         >
           <div
-            className="h-full rounded-full bg-gradient-to-r from-olive to-bronze transition-[width] duration-600 ease-out"
+            className="h-full rounded-full bg-property-accent transition-[width] duration-motion-narrative ease-system"
             style={{ width: mounted ? `${percent}%` : "0%" }}
           />
         </div>

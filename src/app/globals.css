@@ -136,6 +136,55 @@
   --text-hero-sm: clamp(2rem, 6vw, 3.5rem);
   --text-hero: clamp(2.25rem, 7vw, 4.5rem);
   --text-hero-lg: clamp(2.5rem, 8vw, 5.5rem);
+
+  /*
+   * Shared design-system scales. Pages compose from these named steps rather
+   * than inventing a new clamp or section gap. Tailwind's sm/md/lg/xl/2xl
+   * breakpoints remain the only responsive system; xs is the one additive
+   * step for compact controls and 2xl is pinned explicitly for consistency.
+   */
+  --text-display: clamp(2.25rem, 6vw, 4.5rem);
+  --text-section: clamp(1.875rem, 4vw, 3rem);
+  --text-subsection: clamp(1.25rem, 2.5vw, 1.75rem);
+  --space-section: clamp(3.5rem, 7vw, 6rem);
+  --space-section-tight: clamp(2.5rem, 5vw, 4rem);
+  --space-stack: clamp(1.25rem, 3vw, 2rem);
+
+  /* Default property flavor: For The 22 — institutional/editorial. */
+  --property-accent: var(--color-bronze);
+  --property-accent-readable: var(--color-bronze-text);
+  --property-accent-light: var(--color-bronze-light);
+  --property-action: var(--color-bronze-text);
+  --property-action-hover: var(--color-bronze-dark);
+  --property-action-text: var(--color-off-white);
+  --property-surface: var(--color-off-white);
+  --property-surface-muted: var(--color-sand-light);
+  --property-dark: var(--color-ink);
+}
+
+/* One system, four flavors. Components consume semantic property variables. */
+html[data-property="tri"] {
+  --property-surface-muted: #eee7d8;
+}
+
+html[data-property="ruck"] {
+  --property-accent: var(--color-olive);
+  --property-accent-readable: var(--color-olive-dark);
+  --property-accent-light: var(--color-sand);
+  --property-action: var(--color-olive);
+  --property-action-hover: var(--color-olive-dark);
+  --property-action-text: var(--color-off-white);
+  --property-surface-muted: var(--color-sand-light);
+}
+
+html[data-property="live"] {
+  --property-surface: var(--color-ink);
+  --property-surface-muted: var(--color-charcoal);
+  --property-dark: #0d0d0b;
+}
+
+html[data-property="22"] {
+  --property-surface-muted: #eee8da;
 }
 
 @theme inline {
@@ -175,6 +224,28 @@
   --text-hero-sm: var(--text-hero-sm);
   --text-hero: var(--text-hero);
   --text-hero-lg: var(--text-hero-lg);
+  --text-display: var(--text-display);
+  --text-section: var(--text-section);
+  --text-subsection: var(--text-subsection);
+
+  --spacing-section: var(--space-section);
+  --spacing-section-tight: var(--space-section-tight);
+  --spacing-stack: var(--space-stack);
+
+  --color-property-accent: var(--property-accent);
+  --color-property-accent-readable: var(--property-accent-readable);
+  --color-property-accent-light: var(--property-accent-light);
+  --color-property-surface: var(--property-surface);
+  --color-property-muted: var(--property-surface-muted);
+  --color-property-dark: var(--property-dark);
+
+  --breakpoint-xs: 30rem;
+  --breakpoint-2xl: 90rem;
+
+  --ease-system: var(--ease-standard);
+  --duration-motion-fast: var(--duration-fast);
+  --duration-motion-ui: var(--duration-ui);
+  --duration-motion-narrative: var(--duration-narrative);
 }
 
 body {
@@ -440,5 +511,48 @@ body {
     [data-route-line] {
       stroke-dashoffset: 0 !important;
     }
+  }
+}
+
+@layer components {
+  .property-nav-shell {
+    background-color: color-mix(in srgb, var(--property-surface) 92%, transparent);
+    border-color: color-mix(in srgb, var(--property-dark) 12%, transparent);
+  }
+
+  .property-footer-shell {
+    background-color: var(--property-dark);
+  }
+
+  .property-eyebrow {
+    color: var(--property-accent-readable);
+  }
+
+  .property-eyebrow-dark {
+    color: var(--property-accent-light);
+  }
+
+  .property-button-primary {
+    background-color: var(--property-action);
+    color: var(--property-action-text);
+  }
+
+  .property-button-primary:hover {
+    background-color: var(--property-action-hover);
+  }
+
+  .ui-card {
+    border: 1px solid color-mix(in srgb, var(--property-dark) 12%, transparent);
+    background: var(--property-surface);
+    border-radius: 0.125rem;
+  }
+
+  .ui-card-muted {
+    background: var(--property-surface-muted);
+  }
+
+  .ui-card-accent {
+    border-color: color-mix(in srgb, var(--property-accent) 45%, transparent);
+    background: color-mix(in srgb, var(--property-accent) 9%, var(--property-surface));
   }
 }

@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { Card } from "@/components/shared/card";
 
 export function StatCard({
   label,
@@ -12,9 +13,9 @@ export function StatCard({
   className?: string;
 }) {
   return (
-    <div
+    <Card
       className={cn(
-        "rounded-sm border border-ink/10 bg-off-white px-5 py-4",
+        "px-5 py-4",
         className,
       )}
     >
@@ -25,6 +26,6 @@ export function StatCard({
         {label}
       </p>
       {sublabel && <p className="mt-0.5 text-xs text-charcoal-light/80">{sublabel}</p>}
-    </div>
+    </Card>
   );
 }

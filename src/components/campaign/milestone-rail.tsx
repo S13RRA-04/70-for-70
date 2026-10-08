@@ -21,7 +21,7 @@ export function MilestoneRail({ totalRaised, goal }: { totalRaised: number; goal
     <div className="relative pt-2">
       <div className="relative h-1.5 w-full rounded-full bg-charcoal/10">
         <div
-          className="absolute inset-y-0 left-0 rounded-full bg-bronze transition-[width] duration-600 ease-out"
+          className="absolute inset-y-0 left-0 rounded-full bg-property-accent transition-[width] duration-motion-narrative ease-system"
           style={{ width: `${Math.min(percentRaised, 100)}%` }}
         />
         {MILESTONES.map((milestone) => (

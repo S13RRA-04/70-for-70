@@ -1,5 +1,6 @@
 import { cn, formatDateLong } from "@/lib/utils";
 import { StatCard } from "@/components/shared/stat-card";
+import { MetricGrid } from "@/components/shared/metric-grid";
 import { EmptyState } from "@/components/shared/empty-state";
 import type { WhoopTrainingSnapshot } from "@/types/whoop";
 
@@ -83,7 +84,7 @@ export function TrainingSnapshot({
 
   return (
     <div>
-      <div className="grid grid-cols-3 gap-3">
+      <MetricGrid columns={3}>
         <StatCard
           label="Recovery"
           value={snapshot.recoveryScorePercent !== null ? `${snapshot.recoveryScorePercent}%` : "—"}
@@ -101,7 +102,7 @@ export function TrainingSnapshot({
           label="Day Strain"
           value={snapshot.cycleStrain !== null ? snapshot.cycleStrain.toFixed(1) : "—"}
         />
-      </div>
+      </MetricGrid>
 
       {visibleWorkouts.length > 0 && (
         <div className="mt-5">
