@@ -171,16 +171,16 @@ export default async function HomePage() {
           ?need=/?audience=/?q= deep-link contract — teases the actual
           518-resource product instead of recreating a simplified copy of
           it. Crisis access stays a paired dark panel, not its own band. */}
-      <section id="resources" className="scroll-mt-20 bg-sand-light py-16 sm:py-24">
+      <section id="resources" className="relative z-10 scroll-mt-20 bg-sand-light pb-16 pt-0 sm:pb-24">
         <Container>
-          <RevealOnScroll>
+          <RevealOnScroll className="relative -mt-8 border-t-4 border-bronze bg-sand-light px-5 pt-12 shadow-[0_-18px_50px_rgba(18,23,28,0.16)] sm:-mt-12 sm:px-10 sm:pt-14 lg:px-14">
             <SectionHeading
               eyebrow="Our Core Mission"
               title="Find the Support You Need"
               description={`${metrics.resources} vetted resources for veterans, first responders, and their families. Find the ones that fit you.`}
             />
           </RevealOnScroll>
-          <RevealOnScroll className="mt-10">
+          <RevealOnScroll className="mt-10 px-5 sm:px-10 lg:px-14">
             <div className="grid gap-8 lg:grid-cols-12 lg:gap-8">
               <div className="lg:col-span-8 xl:col-span-9">
                 <form
@@ -346,9 +346,10 @@ export default async function HomePage() {
           Beneficiary names come from real data (getPartners()), never
           invented; the progress bar reads the same canonical campaign
           total every other money-displaying page on the site reads. */}
-      <section id="mission" className="scroll-mt-20 border-t border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container className="max-w-2xl">
-          <RevealOnScroll>
+      <section id="mission" className="scroll-mt-20 overflow-hidden border-t border-ink/10 bg-sand-light py-16 sm:py-20">
+        <Container>
+          <RevealOnScroll className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-14">
+            <div className="lg:col-span-7">
             <SectionHeading eyebrow={MISSION_NAME} title={MISSION_SUPPORTING_LINE} />
             {beneficiaries.length > 0 && (
               <p className="mt-3 text-sm text-charcoal-light">
@@ -363,6 +364,20 @@ export default async function HomePage() {
             <CTAButton href="/70k" className="mt-6">
               Explore The $70K Mission &rarr;
             </CTAButton>
+            </div>
+            <div className="relative min-h-[320px] overflow-hidden rounded-sm lg:col-span-5 lg:min-h-[430px] lg:translate-x-8">
+              <Image
+                src="/journal/building-the-bike/looks-like-a-bike-full.jpeg"
+                alt="The Tri For The 22 campaign bike during its build"
+                fill
+                sizes="(min-width: 1024px) 42vw, 100vw"
+                className="object-cover"
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/90 to-transparent p-6 pt-24 text-off-white">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">Mission in motion</p>
+                <p className="mt-2 max-w-sm font-display text-xl font-semibold uppercase leading-tight">Every mile, event, and partnership feeds one shared goal.</p>
+              </div>
+            </div>
           </RevealOnScroll>
         </Container>
       </section>
