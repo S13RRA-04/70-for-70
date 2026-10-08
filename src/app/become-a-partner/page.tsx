@@ -1,4 +1,4 @@
-import { getMissionPartners } from "@/lib/data/mission-partners";
+import { getMissionPartners, isCampaignPartner } from "@/lib/data/mission-partners";
 import { Container } from "@/components/shared/container";
 import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
@@ -34,7 +34,7 @@ const BREADCRUMB_JSON_LD = breadcrumbJsonLd([
  */
 export default async function BecomeAPartnerPage() {
   const missionPartners = await getMissionPartners();
-  const generalPartners = missionPartners.filter((p) => p.partner_type !== "giveaway-supporter");
+  const generalPartners = missionPartners.filter(isCampaignPartner);
 
   return (
     <>

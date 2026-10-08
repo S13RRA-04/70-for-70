@@ -8,7 +8,7 @@ import { PartnerCard } from "@/components/partners/partner-card";
 import { PartnerLogoWall } from "@/components/partners/partner-logo-wall";
 import { PartnerLogoDisclosure } from "@/components/partners/partner-logo-disclosure";
 import { getPartners } from "@/lib/data/partners";
-import { getMissionPartners } from "@/lib/data/mission-partners";
+import { getMissionPartners, isCampaignPartner } from "@/lib/data/mission-partners";
 import { getMissionMetrics } from "@/lib/data/mission-metrics";
 import { buildOrganizationNetwork } from "@/lib/data/organization-network";
 import { CAMPAIGN_URL, ORG_SUPPORTING_LINE, SITE_NAME, SITE_URL } from "@/lib/constants";
@@ -35,8 +35,9 @@ export default async function NetworkPage() {
   ]);
   const organizations = buildOrganizationNetwork(beneficiaries, missionPartners);
   const organizationByName = new Map(organizations.map((organization) => [organization.name, organization]));
-  const presentingPartners = missionPartners.filter((p) => p.tier === "presenting-partner");
-  const otherPartners = missionPartners.filter((p) => p.tier !== "presenting-partner");
+  const campaignPartners = missionPartners.filter(isCampaignPartner);
+  const presentingPartners = campaignPartners.filter((p) => p.tier === "presenting-partner");
+  const otherPartners = campaignPartners.filter((p) => p.tier !== "presenting-partner");
 
   return (
     <>
