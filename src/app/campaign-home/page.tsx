@@ -43,7 +43,7 @@ import {
   SITE_URL,
 } from "@/lib/constants";
 import { formatCurrency, formatDateLong } from "@/lib/utils";
-import { RevealGrid } from "@/components/shared/reveal-on-scroll";
+import { RevealGrid, RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import { pageMetadata } from "@/lib/metadata";
 import { jsonLdScriptProps } from "@/lib/json-ld";
 
@@ -427,28 +427,39 @@ export default async function CampaignHomePage() {
         </Container>
       </section>
 
-      {/* 5. What Is For The 22 */}
+      {/* 5. What Is For The 22 — the mark itself as the asymmetrical
+          counterweight, since this section is explaining the org the mark
+          belongs to, not telling a personal story a photo would suit. */}
       <section className="border-b border-ink/10 bg-ink py-16 text-off-white sm:py-20">
-        <Container className="max-w-2xl">
-          <SectionHeading eyebrow="More Than One Race" title="What Is For The 22?" tone="dark" />
-          <p className="mt-5 text-base leading-relaxed text-off-white/80">
-            For The 22 is a broader mission focused on helping veterans, first responders, and their families find
-            trusted resources, support, and community.
-          </p>
-          <p className="mt-4 text-base leading-relaxed text-off-white/80">
-            {CAMPAIGN_NAME} is one way that mission comes to life — using endurance sport to create attention,
-            raise funds, build partnerships, and start conversations that matter.
-          </p>
-          <div className="mt-8 flex flex-wrap items-center gap-6">
-            <CTAButton href={SITE_URL} tone="dark" external>
-              Visit ForThe22.org
-            </CTAButton>
-            <a
-              href={`${SITE_URL}/resources`}
-              className="text-sm font-semibold uppercase tracking-wide text-bronze-light hover:text-off-white"
-            >
-              Explore Resources &rarr;
-            </a>
+        <Container>
+          <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
+            <div className="flex justify-center lg:order-2 lg:col-span-5">
+              <div className="relative aspect-square w-full max-w-[260px]">
+                <Image src="/logo-white.png" alt="" fill className="object-contain" sizes="260px" />
+              </div>
+            </div>
+            <div className="lg:order-1 lg:col-span-7">
+              <SectionHeading eyebrow="More Than One Race" title="What Is For The 22?" tone="dark" />
+              <p className="mt-5 max-w-xl text-base leading-relaxed text-off-white/80">
+                For The 22 is a broader mission focused on helping veterans, first responders, and their families
+                find trusted resources, support, and community.
+              </p>
+              <p className="mt-4 max-w-xl text-base leading-relaxed text-off-white/80">
+                {CAMPAIGN_NAME} is one way that mission comes to life — using endurance sport to create attention,
+                raise funds, build partnerships, and start conversations that matter.
+              </p>
+              <div className="mt-8 flex flex-wrap items-center gap-6">
+                <CTAButton href={SITE_URL} tone="dark" external>
+                  Visit ForThe22.org
+                </CTAButton>
+                <a
+                  href={`${SITE_URL}/resources`}
+                  className="text-sm font-semibold uppercase tracking-wide text-bronze-light hover:text-off-white"
+                >
+                  Explore Resources &rarr;
+                </a>
+              </div>
+            </div>
           </div>
         </Container>
       </section>
@@ -583,23 +594,34 @@ export default async function CampaignHomePage() {
         </Container>
       </section>
 
-      {/* 10. Why Cody Chose to Carry This Mission */}
+      {/* 10. Why Cody Chose to Carry This Mission — asymmetrical image/text,
+          matching the org homepage's "Why I Started This" treatment, rather
+          than a centered text column floating in an empty dark band. */}
       <section className="border-b border-ink/10 bg-ink py-16 text-off-white sm:py-20">
-        <Container className="max-w-2xl">
-          <SectionHeading eyebrow="The Founder" title="Why Cody Chose to Carry This Mission" tone="dark" />
-          <p className="mt-5 text-base leading-relaxed text-off-white/80">
-            {CAMPAIGN_NAME} began with one person deciding to use endurance sport as a platform for something
-            bigger. Cody Hitson is a combat veteran, husband, father, and endurance athlete who created the
-            campaign to support organizations helping veterans and their families rebuild, recover, reconnect, and
-            move forward.
-          </p>
-          <p className="mt-4 max-w-xl text-base leading-relaxed text-off-white/75">{HOW_THIS_BEGAN.body[1]}</p>
-          <Link
-            href="/the-story"
-            className="mt-5 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze-light hover:text-off-white"
-          >
-            Read Cody&apos;s Story &rarr;
-          </Link>
+        <Container>
+          <RevealOnScroll>
+            <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-sm lg:order-2 lg:col-span-5">
+                <Image src="/about/ultra-1.jpg" alt="" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
+              </div>
+              <div className="lg:order-1 lg:col-span-7">
+                <SectionHeading eyebrow="The Founder" title="Why Cody Chose to Carry This Mission" tone="dark" />
+                <p className="mt-5 max-w-xl text-base leading-relaxed text-off-white/80">
+                  {CAMPAIGN_NAME} began with one person deciding to use endurance sport as a platform for something
+                  bigger. Cody Hitson is a combat veteran, husband, father, and endurance athlete who created the
+                  campaign to support organizations helping veterans and their families rebuild, recover, reconnect,
+                  and move forward.
+                </p>
+                <p className="mt-4 max-w-xl text-base leading-relaxed text-off-white/75">{HOW_THIS_BEGAN.body[1]}</p>
+                <Link
+                  href="/the-story"
+                  className="mt-5 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze-light hover:text-off-white"
+                >
+                  Read Cody&apos;s Story &rarr;
+                </Link>
+              </div>
+            </div>
+          </RevealOnScroll>
         </Container>
       </section>
 
