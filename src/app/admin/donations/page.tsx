@@ -4,10 +4,11 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { getPartners } from "@/lib/data/partners";
 import { getMiles } from "@/lib/data/miles";
 import { getDonorTiers } from "@/lib/donor-tiers";
+import { getCampaign } from "@/lib/data/campaign";
 import { Container } from "@/components/shared/container";
 import { cn, formatCurrency, formatDateLong } from "@/lib/utils";
 import { DonationFields } from "@/components/admin/donation-fields";
-import { createDonationAction } from "./actions";
+import { createDonationAction, confirmFundingTotalsCurrentAction } from "./actions";
 import type { DonationRow } from "@/types/database";
 
 const FILTERS: { value: "all" | "unverified" | "verified"; label: string }[] = [
@@ -21,6 +22,7 @@ export default async function DonationsAdminPage(props: PageProps<"/admin/donati
   const searchParams = await props.searchParams;
   const filterParam = Array.isArray(searchParams.filter) ? searchParams.filter[0] : searchParams.filter;
   const errorParam = Array.isArray(searchParams.error) ? searchParams.error[0] : searchParams.error;
+  const confirmedParam = Array.isArray(searchParams.confirmed) ? searchParams.confirmed[0] : searchParams.confirmed;
   const activeFilter = (filterParam ?? "all") as "all" | "unverified" | "verified";
 
   const admin = createAdminClient();
@@ -29,12 +31,13 @@ export default async function DonationsAdminPage(props: PageProps<"/admin/donati
   if (activeFilter === "unverified") donationsQuery = donationsQuery.eq("verified", false);
   if (activeFilter === "verified") donationsQuery = donationsQuery.eq("verified", true);
 
-  const [partners, miles, donationsResult, mileLookup, donorTiers] = await Promise.all([
+  const [partners, miles, donationsResult, mileLookup, donorTiers, campaign] = await Promise.all([
     getPartners(),
     getMiles(),
     donationsQuery,
     admin.from("miles").select("id, mile_number"),
     getDonorTiers(admin),
+    getCampaign(),
   ]);
 
   const donations = (donationsResult.data ?? []) as DonationRow[];
@@ -62,6 +65,26 @@ export default async function DonationsAdminPage(props: PageProps<"/admin/donati
           {errorParam}
         </p>
       )}
+      {confirmedParam && (
+        <p role="status" className="mt-4 rounded-sm border border-olive/30 bg-olive/10 px-4 py-3 text-sm font-medium text-ink">
+          Confirmed — the public freshness date now reads today.
+        </p>
+      )}
+
+      <div className="mt-6 flex flex-wrap items-center justify-between gap-3 rounded-sm border border-ink/10 bg-sand-light/60 p-4">
+        <p className="text-sm text-charcoal-light">
+          Public pages show <span className="font-semibold text-ink">&quot;Fundraising total verified {formatDateLong(campaign.updated_at)}&quot;</span>.
+          {" "}If nothing new has come in but the total is still accurate, confirm it below to bring that date current.
+        </p>
+        <form action={confirmFundingTotalsCurrentAction}>
+          <button
+            type="submit"
+            className="shrink-0 rounded-sm border border-ink/20 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
+          >
+            Confirm Total Is Current
+          </button>
+        </form>
+      </div>
 
       <details className="mt-8 rounded-sm border border-ink/10 bg-off-white p-6" open>
         <summary className="cursor-pointer font-display text-lg font-semibold uppercase tracking-wide text-ink">

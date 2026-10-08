@@ -30,7 +30,7 @@ export function CampaignStatusBar({
   partnerCount: number;
   /** Null before RACE_INFO.raceDate is confirmed or after race day — see getDaysToRace(). */
   daysToRace: number | null;
-  /** campaign.updated_at — shown as a small freshness cue under the bar, same source /transparency's "Fundraising total as of" line reads. Optional so existing callers that don't have it handy aren't forced to thread it through. */
+  /** campaign.updated_at — shown as a small freshness cue under the bar, same source /impact's "Fundraising totals verified" line reads. Admins can re-stamp this to today via "Confirm Total Is Current" on /admin/donations even when the amount itself hasn't changed, so a quiet week doesn't make the campaign read as stale. Optional so existing callers that don't have it handy aren't forced to thread it through. */
   updatedAt?: string;
 }) {
   const percent = percentFunded(amountRaised, goal);
@@ -95,7 +95,7 @@ export function CampaignStatusBar({
 
         {updatedAt && (
           <p className="mt-3 text-[11px] font-medium uppercase tracking-wide text-charcoal-light/70">
-            Fundraising total as of {formatDateLong(updatedAt)}
+            Fundraising total verified {formatDateLong(updatedAt)}
           </p>
         )}
       </div>
