@@ -626,6 +626,9 @@ export const RESOURCES: Resource[] = [
     audienceTags: ["Veteran", "Active Military", "First Responder"],
     cost: "Free",
     geographicScope: "Nationwide / retreat-based",
+    // Own FAQ: "While Mighty Oaks is a Christian faith-based organization, we welcome attendees from all backgrounds."
+    faithBased: true,
+    faithAffiliationSource: "https://www.mightyoaksprograms.org/",
   },
   {
     name: "Cohen Veterans Network",
@@ -2256,6 +2259,9 @@ export const RESOURCES: Resource[] = [
     cost: "Homebuyers pay an affordable mortgage; repair-program and volunteer costs vary by local affiliate",
     geographicScope: "Nationwide — delivered through participating local Habitat affiliates",
     eligibility: "U.S. veterans, active service members and their families",
+    // Own mission page: "Since our founding in 1976 as a Christian organization..." — mission is "Seeking to put God's love into action."
+    faithBased: true,
+    faithAffiliationSource: "https://www.habitat.org/about/mission-and-vision",
   },
   {
     // TODO(verify): cost to the veteran is never stated outright on the org's own site — confirm before publishing a firmer claim.
@@ -2339,6 +2345,9 @@ export const RESOURCES: Resource[] = [
     cost: "Free — services are funded by federal grants (VA SSVF, DOL HVRP); no fee stated for veterans",
     geographicScope: "Nationwide — 47 states, the District of Columbia, and Puerto Rico; service areas are specific local offices",
     eligibility: "SSVF: very low-income veteran families living in or transitioning to permanent housing. HVRP: homeless veterans seeking employment services",
+    // Own About page: "Founded in 1896, the faith-based nonprofit..." — mission: "VOA puts faith into action."
+    faithBased: true,
+    faithAffiliationSource: "https://www.voa.org/about-us/",
   },
 
   // ---------------------------------------------------------------------
@@ -2620,6 +2629,9 @@ export const RESOURCES: Resource[] = [
     phone: "251-300-3968",
     state: "Alabama",
     verifiedDate: "2026-10-07",
+    // Own site: "Volunteers of America (VOA) Southeast is a ministry of service..."
+    faithBased: true,
+    faithAffiliationSource: "https://voase.org/",
   },
   {
     // TODO(verify): confirm grant amount limits, review cadence, and whether assistance carries any repayment terms.
@@ -2713,6 +2725,9 @@ export const RESOURCES: Resource[] = [
     phone: "334-683-4450",
     state: "Alabama",
     verifiedDate: "2026-10-07",
+    // Own site: "Inspired by the strength and guidance of St. Michael the Archangel..."
+    faithBased: true,
+    faithAffiliationSource: "https://www.stmichaelsironhorse.org/",
   },
   {
     name: "Alabama Mentorship-HUB (Military Spouse Advocacy Network)",
@@ -3115,6 +3130,9 @@ export const RESOURCES: Resource[] = [
     geographicScope: "Northeast Florida",
     state: "Florida",
     verifiedDate: "2026-08-20",
+    // Own About page publishes a "What We Believe" statement of faith; mission works "through faith, action, and encouragement."
+    faithBased: true,
+    faithAffiliationSource: "https://operationbarnabas.com/about/",
   },
   {
     name: "Paralyzed Veterans of America — Central Florida Chapter",
@@ -3166,6 +3184,9 @@ export const RESOURCES: Resource[] = [
     geographicScope: "Florida (19 communities, Pensacola to Key West)",
     state: "Florida",
     verifiedDate: "2026-09-29",
+    // Own About page: "Volunteers of America of Florida is a faith-based, non-profit human service organization..."
+    faithBased: true,
+    faithAffiliationSource: "https://www.voaflorida.org/about-us/",
   },
   {
     name: "National Veterans Homeless Support (NVHS)",
@@ -3242,6 +3263,9 @@ export const RESOURCES: Resource[] = [
     geographicScope: "Mississippi",
     state: "Mississippi",
     verifiedDate: "2026-08-20",
+    // Own About page: mission is "to provide spiritual guidance and counseling"; site footer carries a Bible verse (John 16:33).
+    faithBased: true,
+    faithAffiliationSource: "https://veteransoutreachms.org/about-us/",
   },
   {
     name: "Mississippi DMH – Mental Health First Aid for Public Safety",
@@ -3798,6 +3822,9 @@ export const RESOURCES: Resource[] = [
     verifiedDate: "2026-09-29",
     eligibility: "Low-income veteran families (household income ≤50% area median income) who are homeless or at risk",
     phone: "502-636-0771",
+    // Own site's "Ministry of Service" page: "Volunteers of America is an interdenominational church — a church with a distinctive ministry of service."
+    faithBased: true,
+    faithAffiliationSource: "https://www.voamid.org/ministry-of-service/",
   },
   {
     name: "USA Cares",
@@ -4264,6 +4291,9 @@ export const RESOURCES: Resource[] = [
     state: "Oklahoma",
     verifiedDate: "2026-08-27",
     eligibility: "Veterans must be homeless or at risk of homelessness and actively participating in job search activities; DD-214 preferred but not required.",
+    // Own About page: "Founded in 1896, the faith-based nonprofit has services in 46 states..."
+    faithBased: true,
+    faithAffiliationSource: "https://www.voaok.org/about/",
   },
   {
     name: "OKVALOR — Oklahoma Veterans Assistance Locator",
@@ -4329,6 +4359,9 @@ export const RESOURCES: Resource[] = [
     geographicScope: "Statewide",
     state: "Missouri",
     verifiedDate: "2026-08-27",
+    // Own site menu: "Devotions", "Spiritual Help and Guidance", "Monthly Bible Studies"; copy calls volunteers "the core to the ministry."
+    faithBased: true,
+    faithAffiliationSource: "https://charlie22outdoors.com/",
   },
   {
     name: "Missouri Veterans Commission — Veterans Service Program",
@@ -4667,6 +4700,9 @@ export const RESOURCES: Resource[] = [
     state: "South Dakota",
     verifiedDate: "2026-08-27",
     eligibility: "Previously deployed or service-connected disabled veterans.",
+    // Own site: self-describes as a "God-inspired volunteer non-profit organization offering... faith-based outdoor experiences."
+    faithBased: true,
+    faithAffiliationSource: "https://www.warriorsnevergiveup.org/",
   },
   {
     name: "Wings of Valor Lodge",
@@ -4978,6 +5014,9 @@ export const RESOURCES: Resource[] = [
     state: "Wyoming",
     verifiedDate: "2026-09-29",
     phone: "1-844-486-2838",
+    // Own "Our Ministry" page: "Volunteers of America is a spiritual-based ministry of service," founded as a church; offers Bible studies and chapel services.
+    faithBased: true,
+    faithAffiliationSource: "https://www.voanr.org/ministry/",
   },
   {
     name: "Wyoming Department of Workforce Services — Veteran Employment Services",
@@ -6216,6 +6255,9 @@ export const RESOURCES: Resource[] = [
     verifiedDate: "2026-09-29",
     eligibility: "U.S. Armed Forces veteran; current or at-risk homelessness; low-income household",
     phone: "410-462-5770",
+    // Own history page: founded 1865 "at the Basilica of the Assumption"; a Catholic lay organization of parish-based conferences.
+    faithBased: true,
+    faithAffiliationSource: "https://www.vincentbaltimore.org/who-we-are/history/",
   },
   {
     // TODO(verify): housing sub-page returned HTTP 400 on fetch; description drawn from org-overview page instead.
@@ -6779,6 +6821,9 @@ export const RESOURCES: Resource[] = [
     geographicScope: "Westmoreland & Indiana Counties, PA",
     state: "Pennsylvania",
     verifiedDate: "2026-08-27",
+    // Own site motto: "Helping Veterans through Christ and the Great Outdoors"; includes a Prayer Request page.
+    faithBased: true,
+    faithAffiliationSource: "https://www.heroesneveralone.org/Mission_Outdoors",
   },
 ];
 
