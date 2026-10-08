@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
@@ -33,14 +34,24 @@ export default function TheStoryPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
-      <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container className="max-w-2xl">
+      <section className="overflow-hidden border-b border-ink/10 bg-sand-light py-16 sm:py-20">
+        <Container>
+          <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
+          <div className="lg:col-span-7">
           <SectionHeading
             as="h1"
             eyebrow={CAMPAIGN_NAME}
             title="The Athlete's Story"
             description={`${ABOUT_CONTENT.name} — ${STORY_TAGLINE}`}
           />
+          </div>
+          <div className="relative min-h-[320px] overflow-hidden rounded-sm lg:col-span-5 lg:min-h-[460px] lg:translate-x-8">
+            <Image src="/about/trail.jpg" alt="Cody training on a trail" fill sizes="(min-width: 1024px) 42vw, 100vw" className="object-cover" />
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/85 to-transparent p-6 pt-20 text-off-white">
+              <p className="font-display text-xl font-semibold uppercase">A new mission, carried forward one mile at a time.</p>
+            </div>
+          </div>
+          </div>
         </Container>
       </section>
 
@@ -60,8 +71,10 @@ export default function TheStoryPage() {
       </section>
 
       <section className="border-t border-ink/10 py-16 sm:py-24">
-        <Container className="max-w-2xl">
+        <Container>
           <FocusScrollSection>
+            <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
+            <div className="lg:col-span-7">
             <h2 className="font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
               {HOW_THIS_BEGAN.heading}
             </h2>
@@ -69,6 +82,11 @@ export default function TheStoryPage() {
               {HOW_THIS_BEGAN.body.map((paragraph, i) => (
                 <p key={i}>{paragraph}</p>
               ))}
+            </div>
+            </div>
+            <div className="relative min-h-[320px] overflow-hidden rounded-sm lg:col-span-5 lg:min-h-[430px]">
+              <Image src="/about/ultra-1.jpg" alt="Cody during an endurance event" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
+            </div>
             </div>
           </FocusScrollSection>
         </Container>
@@ -89,13 +107,20 @@ export default function TheStoryPage() {
         </Container>
       </section>
 
-      <section className="py-16 sm:py-24">
-        <Container className="max-w-2xl">
+      <section className="overflow-hidden py-16 sm:py-24">
+        <Container>
           <FocusScrollSection>
+            <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
+            <div className="relative min-h-[300px] overflow-hidden rounded-sm lg:col-span-5 lg:min-h-[420px]">
+              <Image src="/partners/mighty-oaks-logo.png" alt="Mighty Oaks Warrior Programs" fill sizes="(min-width: 1024px) 36vw, 100vw" className="object-contain p-10" />
+            </div>
+            <div className="lg:col-span-7">
             <h2 className="font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
               Who This Supports
             </h2>
             <p className="mt-5 text-base leading-relaxed text-charcoal-light">{BENEFICIARY_EXPLANATION}</p>
+            </div>
+            </div>
           </FocusScrollSection>
         </Container>
       </section>

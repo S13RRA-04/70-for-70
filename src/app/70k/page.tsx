@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTAButton } from "@/components/shared/cta-button";
@@ -45,8 +46,10 @@ export default async function Mission70kPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
-      <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container className="max-w-2xl">
+      <section className="overflow-hidden border-b border-ink/10 bg-sand-light py-16 sm:py-20">
+        <Container>
+          <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
+          <div className="lg:col-span-7">
           <SectionHeading as="h1" eyebrow={MISSION_NAME} title={MISSION_SUPPORTING_LINE} />
           <p className="mt-3 text-base font-semibold uppercase tracking-wide text-bronze-text">{MISSION_ORIGIN_LINE}</p>
           <div className="mt-6 space-y-4">
@@ -58,17 +61,28 @@ export default async function Mission70kPage() {
             <CTAButton href={`${CAMPAIGN_URL}${DONATE_LINK.href}`} external>{DONATE_LINK.label}</CTAButton>
             <CTAButton href="/campaigns" variant="secondary">Explore the Campaigns</CTAButton>
           </div>
+          </div>
+          <div className="relative min-h-[340px] overflow-hidden rounded-sm lg:col-span-5 lg:min-h-[500px] lg:translate-x-8">
+            <Image src="/journal/building-the-bike/frame-overhead.jpg" alt="The Tri For The 22 bike frame prepared for the campaign" fill sizes="(min-width: 1024px) 42vw, 100vw" className="object-cover" />
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/90 to-transparent p-7 pt-24 text-off-white">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">The original equation</p>
+              <p className="mt-2 font-display text-3xl font-bold uppercase">70.3 miles.<br />$70,000 raised.</p>
+            </div>
+          </div>
+          </div>
         </Container>
       </section>
 
       {metrics.totalRaised !== null && metrics.fundraisingGoal !== null && (
-        <section className="border-b border-ink/10 py-16 sm:py-20">
-          <Container className="max-w-2xl">
+        <section className="relative z-10 border-b border-ink/10 pb-16 sm:pb-20">
+          <Container>
+            <div className="-mt-8 border-t-4 border-bronze bg-off-white p-6 shadow-[0_18px_60px_rgba(18,23,28,0.1)] sm:-mt-10 sm:p-9">
             <MissionProgress
               totalRaised={metrics.totalRaised}
               goal={metrics.fundraisingGoal}
               breakdown={allocationBreakdown}
             />
+            </div>
           </Container>
         </section>
       )}
@@ -96,21 +110,25 @@ export default async function Mission70kPage() {
       </section>
 
       <section className="py-16 sm:py-20">
-        <Container className="max-w-2xl">
-          <SectionHeading
+        <Container>
+          <div className="grid gap-10 lg:grid-cols-12 lg:items-start lg:gap-16">
+          <div className="lg:sticky lg:top-28 lg:col-span-5">
+            <SectionHeading
             eyebrow="How Funds Flow"
             title="Direct, Attributed Support"
             description="For The 22 does not represent itself as the charitable recipient. Donations are processed through approved beneficiary destinations and reconciled into the shared campaign total."
-          />
-          <ul className="mt-6 space-y-3">
+            />
+            <CTAButton href={`${CAMPAIGN_URL}/beneficiaries`} external variant="secondary" className="mt-6">Meet the Beneficiaries</CTAButton>
+          </div>
+          <ul className="space-y-4 lg:col-span-7">
             {beneficiaries.map((beneficiary) => (
-              <li key={beneficiary.id} className="border-l-2 border-bronze/50 pl-4 text-sm text-charcoal-light">
+              <li key={beneficiary.id} className="border border-ink/10 border-l-4 border-l-bronze bg-sand-light/50 p-6 text-sm text-charcoal-light">
                 <span className="font-semibold text-ink">{beneficiary.name}</span>
                 {beneficiary.nonprofit_status_verified ? " · Verified 501(c)(3) beneficiary" : ""}
               </li>
             ))}
           </ul>
-          <CTAButton href={`${CAMPAIGN_URL}/beneficiaries`} external variant="secondary" className="mt-6">Meet the Beneficiaries</CTAButton>
+          </div>
         </Container>
       </section>
 
