@@ -232,7 +232,7 @@ export default async function CampaignHomePage() {
 
         <Container className="relative max-w-3xl py-16 sm:py-24">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-bronze-light">For The 22</p>
-          <h1 className="mt-2 text-balance font-display text-[clamp(2.25rem,7vw,4.5rem)] font-bold uppercase leading-[0.95] tracking-tight">
+          <h1 className="mt-2 text-balance font-display text-hero font-bold uppercase leading-[0.95] tracking-tight">
             Movement Creates Momentum.
           </h1>
 

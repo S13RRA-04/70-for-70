@@ -28,7 +28,7 @@ export function EventHero({
             height={88}
             className="h-16 w-16 sm:h-20 sm:w-20"
           />
-          <h1 className="mt-6 text-balance font-display text-[clamp(2.25rem,7vw,4.5rem)] font-bold uppercase leading-[0.95] tracking-tight">
+          <h1 className="mt-6 text-balance font-display text-hero font-bold uppercase leading-[0.95] tracking-tight">
             {EVENT_HERO_CONTENT.headline}
           </h1>
           <p className="mt-4 max-w-xl text-lg font-semibold uppercase tracking-wide text-bronze-light sm:text-xl">
