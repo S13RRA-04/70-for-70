@@ -90,16 +90,35 @@ export default async function CampaignsPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
-      {/* Hero — plan's standard intro: what campaigns are for, org-wide. */}
+      {/* Hero — plan's standard intro: what campaigns are for, org-wide. The
+          4-icon grid previews the portfolio below instead of leaving the
+          opposite side of the text empty. */}
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container className="max-w-2xl">
-          <SectionHeading
-            as="h1"
-            eyebrow="Campaigns"
-            title="Movement That Moves the Mission"
-            description={`${SITE_NAME} turns movement, events, storytelling, and community participation into direct support for organizations serving veterans, first responders, and their families.`}
-          />
-          <p className="mt-4 text-sm font-semibold uppercase tracking-wide text-bronze">{MISSION_ORIGIN_LINE}</p>
+        <Container>
+          <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
+            <div className="lg:col-span-7">
+              <SectionHeading
+                as="h1"
+                eyebrow="Campaigns"
+                title="Movement That Moves the Mission"
+                description={`${SITE_NAME} turns movement, events, storytelling, and community participation into direct support for organizations serving veterans, first responders, and their families.`}
+              />
+              <p className="mt-4 text-sm font-semibold uppercase tracking-wide text-bronze">{MISSION_ORIGIN_LINE}</p>
+            </div>
+            <div className="lg:col-span-5">
+              <div className="grid grid-cols-2 gap-4">
+                {/* Fixed order (not Object.values on CAMPAIGN_ICONS) — a "22" key would otherwise sort first as an integer-like property key. */}
+                {[Bike, Backpack, Music, Footprints].map((Icon, i) => (
+                  <div
+                    key={i}
+                    className="flex aspect-square items-center justify-center rounded-sm border border-bronze/20 bg-off-white text-bronze"
+                  >
+                    <Icon className="h-9 w-9" aria-hidden="true" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </Container>
       </section>
 
@@ -156,29 +175,31 @@ export default async function CampaignsPage() {
                 .join(" · ");
               const Icon = CAMPAIGN_ICONS[campaign.slug];
               return (
-                <div key={campaign.name} className="border border-ink/10 bg-off-white p-10">
+                <div key={campaign.name} className="grid gap-6 border border-ink/10 bg-off-white p-8 sm:grid-cols-[auto_1fr] sm:items-center sm:gap-10 sm:p-10">
                   {Icon && (
-                    <span className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-full bg-bronze/10 text-bronze">
-                      <Icon className="h-5 w-5" aria-hidden="true" />
-                    </span>
+                    <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-sm bg-bronze/10 text-bronze sm:h-24 sm:w-24">
+                      <Icon className="h-9 w-9 sm:h-10 sm:w-10" aria-hidden="true" />
+                    </div>
                   )}
-                  <p className="text-xs font-semibold uppercase tracking-widest text-bronze">{statusLine}</p>
-                  <h2 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
-                    {campaign.name}
-                  </h2>
-                  {"description" in campaign && (
-                    <p className="mt-4 max-w-xl text-base leading-relaxed text-charcoal-light">
-                      {campaign.description}
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-widest text-bronze">{statusLine}</p>
+                    <h2 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
+                      {campaign.name}
+                    </h2>
+                    {"description" in campaign && (
+                      <p className="mt-4 max-w-xl text-base leading-relaxed text-charcoal-light">
+                        {campaign.description}
+                      </p>
+                    )}
+                    <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                      Contributes to {MISSION_NAME}
                     </p>
-                  )}
-                  <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-                    Contributes to {MISSION_NAME}
-                  </p>
-                  {"url" in campaign && (
-                    <CTAButton href={campaign.url} external={!isSameSite} className="mt-6">
-                      Explore {campaign.name}
-                    </CTAButton>
-                  )}
+                    {"url" in campaign && (
+                      <CTAButton href={campaign.url} external={!isSameSite} className="mt-6">
+                        Explore {campaign.name}
+                      </CTAButton>
+                    )}
+                  </div>
                 </div>
               );
             })}
