@@ -159,7 +159,7 @@ export default async function LiveEventPage(props: PageProps<"/campaigns/live/[s
                   logoLightUrl={sponsor.logo_light_url}
                   logoDarkUrl={sponsor.logo_dark_url}
                   background={sponsor.logo_background}
-                  className="h-12 w-fit"
+                  className="h-16 w-fit"
                 />
               ))}
             </div>

@@ -321,7 +321,7 @@ export default async function CampaignHomePage() {
                     logoLightUrl={partner.logo_light_url}
                     logoDarkUrl={partner.logo_dark_url}
                     background={partner.logo_background}
-                    className="h-14 w-fit"
+                    className="h-20 w-fit"
                   />
                   <p className="mt-4 text-sm leading-relaxed text-charcoal-light">
                     {firstSentence(partner.description)}
