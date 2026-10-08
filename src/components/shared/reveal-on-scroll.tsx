@@ -116,9 +116,11 @@ export function useRevealGroup({
           observer.disconnect();
         }
       },
-      // A group is tall; waiting for 12% of it is unnecessarily strict, and a
-      // first row that's already fully in view should animate immediately.
-      { threshold: 0.05, rootMargin: "0px 0px -8% 0px" },
+      // A grid may contain hundreds of rows. Percentage thresholds are based
+      // on the whole observed element, so even 5% can exceed the viewport and
+      // leave every child permanently hidden. Trigger as soon as any part of
+      // the grid enters the usable viewport instead.
+      { threshold: 0, rootMargin: "0px 0px -8% 0px" },
     );
     observer.observe(el);
     return () => observer.disconnect();

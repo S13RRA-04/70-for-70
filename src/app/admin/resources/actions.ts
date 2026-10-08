@@ -13,7 +13,8 @@ export async function importFlagshipsAction() {
     need_category_ids: r.needCategoryIds, audience_tags: r.audienceTags, cost: r.cost,
     geographic_scope: r.geographicScope, state: r.state ?? null, eligibility: r.eligibility ?? null,
     availability: r.availability ?? null, verification_status: r.verificationStatus,
-    why_included: r.whyIncluded, last_verified_at: r.verifiedDate ?? null, is_active: true,
+    why_included: r.whyIncluded, faith_based: r.faithBased ?? null,
+    last_verified_at: r.verifiedDate ?? null, is_active: true,
   }));
   const { error } = await createAdminClient().from("resource_records").upsert(rows, { onConflict: "resource_key" });
   if (error) throw error;
@@ -37,6 +38,7 @@ export async function updateResourceAction(formData: FormData) {
   const { error } = await createAdminClient().from("resource_records").update({
     verification_status: verificationStatus,
     why_included: String(formData.get("why_included") ?? "").trim() || null,
+    faith_based: formData.get("faith_based") === "unknown" ? null : formData.get("faith_based") === "yes",
     is_active: formData.get("is_active") === "on",
     updated_at: new Date().toISOString(),
   }).eq("id", id);

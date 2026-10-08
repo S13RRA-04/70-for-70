@@ -177,6 +177,7 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
         if (filter === "Virtual access") return resource.virtualAvailable === true;
         if (filter === "No insurance required") return resource.insuranceRequired === false;
         if (filter === "Peer-led") return resource.peerLed === true;
+        if (filter === "Faith-based organization") return resource.faithBased === true;
         return true;
       });
 
@@ -310,13 +311,13 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
               chipSize="sm"
             />
             <FilterRow
-              label="Confirmed Access & Privacy"
-              options={["Self-referral", "No employer referral", "Independent provider", "Anonymous initial contact", "Virtual access", "No insurance required", "Peer-led"]}
+              label="Confirmed Access & Organization"
+              options={["Self-referral", "No employer referral", "Independent provider", "Anonymous initial contact", "Virtual access", "No insurance required", "Peer-led", "Faith-based organization"]}
               activeValues={accessFilters}
               onSelect={(value) => setAccessFilters(value ? (accessFilters.includes(value) ? accessFilters.filter((item) => item !== value) : [...accessFilters, value]) : [])}
               chipSize="sm"
             />
-            <p className="text-[11px] leading-relaxed text-charcoal-light">These filters only match details explicitly confirmed from provider information. Missing information is treated as unknown.</p>
+            <p className="text-[11px] leading-relaxed text-charcoal-light">These filters only match details explicitly confirmed from provider information. Missing information, including faith affiliation, is treated as unknown.</p>
           </div>
         </div>
 
