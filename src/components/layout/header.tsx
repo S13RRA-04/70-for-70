@@ -75,7 +75,7 @@ export function Header({
             height={36}
             priority
           />
-          <span className="whitespace-nowrap font-display text-xl font-semibold uppercase tracking-wide text-ink">
+          <span className="hidden whitespace-nowrap font-display text-xl font-semibold uppercase tracking-wide text-ink xs:inline-block">
             {campaign ? campaign.name : SITE_NAME}
             {!isCampaign && <sup className="text-[0.5em] font-medium tracking-normal">™</sup>}
           </span>
