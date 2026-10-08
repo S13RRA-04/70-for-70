@@ -136,55 +136,53 @@ export default async function CampaignsPage() {
 
       {/* Current campaigns — status, dates, location, and links all come from
           the shared MovementCampaign records. */}
-      <section className="py-16 sm:py-20">
+      <section className="py-16 sm:py-24">
         <Container className="max-w-3xl">
-          <>
-            <div className="space-y-8">
-              {current.map((campaign) => {
-                const isSameSite = "url" in campaign && campaign.url.startsWith("/");
-                const dateLine = campaign.startDate
-                  ? campaign.endDate
-                    ? `${formatCampaignDate(campaign.startDate)}–${formatCampaignDate(campaign.endDate)}`
-                    : formatCampaignDate(campaign.startDate)
-                  : null;
-                const statusLine = [
-                  CAMPAIGN_STATUS_LABELS[campaign.status],
-                  campaign.type,
-                  campaign.location,
-                  dateLine,
-                ]
-                  .filter(Boolean)
-                  .join(" · ");
-                const Icon = CAMPAIGN_ICONS[campaign.slug];
-                return (
-                  <div key={campaign.name} className="border border-ink/10 bg-off-white p-8">
-                    {Icon && (
-                      <span className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-full bg-bronze/10 text-bronze">
-                        <Icon className="h-5 w-5" aria-hidden="true" />
-                      </span>
-                    )}
-                    <p className="text-xs font-semibold uppercase tracking-widest text-bronze">{statusLine}</p>
-                    <h2 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
-                      {campaign.name}
-                    </h2>
-                    {"description" in campaign && (
-                      <p className="mt-4 max-w-xl text-base leading-relaxed text-charcoal-light">
-                        {campaign.description}
-                      </p>
-                    )}
-                    <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-                      Contributes to {MISSION_NAME}
+          <div className="space-y-10">
+            {current.map((campaign) => {
+              const isSameSite = "url" in campaign && campaign.url.startsWith("/");
+              const dateLine = campaign.startDate
+                ? campaign.endDate
+                  ? `${formatCampaignDate(campaign.startDate)}–${formatCampaignDate(campaign.endDate)}`
+                  : formatCampaignDate(campaign.startDate)
+                : null;
+              const statusLine = [
+                CAMPAIGN_STATUS_LABELS[campaign.status],
+                campaign.type,
+                campaign.location,
+                dateLine,
+              ]
+                .filter(Boolean)
+                .join(" · ");
+              const Icon = CAMPAIGN_ICONS[campaign.slug];
+              return (
+                <div key={campaign.name} className="border border-ink/10 bg-off-white p-10">
+                  {Icon && (
+                    <span className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-full bg-bronze/10 text-bronze">
+                      <Icon className="h-5 w-5" aria-hidden="true" />
+                    </span>
+                  )}
+                  <p className="text-xs font-semibold uppercase tracking-widest text-bronze">{statusLine}</p>
+                  <h2 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
+                    {campaign.name}
+                  </h2>
+                  {"description" in campaign && (
+                    <p className="mt-4 max-w-xl text-base leading-relaxed text-charcoal-light">
+                      {campaign.description}
                     </p>
-                    {"url" in campaign && (
-                      <CTAButton href={campaign.url} external={!isSameSite} className="mt-6">
-                        Explore {campaign.name}
-                      </CTAButton>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </>
+                  )}
+                  <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                    Contributes to {MISSION_NAME}
+                  </p>
+                  {"url" in campaign && (
+                    <CTAButton href={campaign.url} external={!isSameSite} className="mt-6">
+                      Explore {campaign.name}
+                    </CTAButton>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </Container>
       </section>
 
@@ -197,23 +195,21 @@ export default async function CampaignsPage() {
             title="Beyond the Campaigns"
             description="Auctions, merchandise, corporate sponsorships, and direct giving all feed the same shared goal — no single event carries it alone."
           />
-          <>
-            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {CONTRIBUTION_MECHANISMS.map((mechanism) => (
-                <div key={mechanism.name} className="flex flex-col rounded-sm border border-ink/10 bg-off-white p-6">
-                  <h3 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
-                    {mechanism.name}
-                  </h3>
-                  <p className="mt-2 flex-1 text-sm text-charcoal-light">{mechanism.description}</p>
-                  {mechanism.href && (
-                    <CTAButton href={mechanism.href} external={mechanism.external} variant="ghost" className="mt-4 px-0">
-                      Learn More &rarr;
-                    </CTAButton>
-                  )}
-                </div>
-              ))}
-            </div>
-          </>
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {CONTRIBUTION_MECHANISMS.map((mechanism) => (
+              <div key={mechanism.name} className="flex flex-col rounded-sm border border-ink/10 bg-off-white p-6">
+                <h3 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+                  {mechanism.name}
+                </h3>
+                <p className="mt-2 flex-1 text-sm text-charcoal-light">{mechanism.description}</p>
+                {mechanism.href && (
+                  <CTAButton href={mechanism.href} external={mechanism.external} variant="ghost" className="mt-4 px-0">
+                    Learn More &rarr;
+                  </CTAButton>
+                )}
+              </div>
+            ))}
+          </div>
         </Container>
       </section>
 
