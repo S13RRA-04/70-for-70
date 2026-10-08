@@ -304,46 +304,54 @@ export default async function CampaignHomePage() {
       <section className="border-b border-ink/10 py-16 sm:py-20">
         <Container>
           <CampaignPhaseBanner phase={phase} />
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze">Current Campaign</p>
-          <h2 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
-            {CAMPAIGN_NAME} — {CURRENT_CAMPAIGN.event}
-          </h2>
-          {RACE_INFO.raceDate && (
-            <p className="mt-1 text-sm font-semibold uppercase tracking-wide text-charcoal-light">
-              {formatDateLong(RACE_INFO.raceDate)}
-              {RACE_INFO.raceLocation && <> &middot; {RACE_INFO.raceLocation}</>}
-            </p>
-          )}
+          <div className="grid gap-10 lg:grid-cols-12 lg:items-start lg:gap-12">
+            <div className="lg:col-span-7">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze">Current Campaign</p>
+              <h2 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
+                {CAMPAIGN_NAME} — {CURRENT_CAMPAIGN.event}
+              </h2>
+              {RACE_INFO.raceDate && (
+                <p className="mt-1 text-sm font-semibold uppercase tracking-wide text-charcoal-light">
+                  {formatDateLong(RACE_INFO.raceDate)}
+                  {RACE_INFO.raceLocation && <> &middot; {RACE_INFO.raceLocation}</>}
+                </p>
+              )}
 
-          <p className="mt-5 max-w-2xl text-base leading-relaxed text-charcoal-light">
-            {RACE_TOTAL_DISTANCE} miles of swimming, biking, and running toward {CURRENT_CAMPAIGN.event}.
-          </p>
-
-          <dl className="mt-8 flex flex-wrap gap-x-10 gap-y-4">
-            <div>
-              <dt className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">Distance</dt>
-              <dd className="font-display text-2xl font-bold tabular-nums text-ink">{RACE_TOTAL_DISTANCE} Miles</dd>
-            </div>
-            <div>
-              <dt className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">Beneficiaries</dt>
-              <dd className="font-display text-2xl font-bold tabular-nums text-ink">{partners.length} Organizations</dd>
-            </div>
-          </dl>
-
-          {RACE_INFO.raceDate && (
-            <div className="mt-8 max-w-sm rounded-sm border border-ink/10 bg-sand-light p-6">
-              <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-                Race Day Countdown
+              <p className="mt-5 max-w-xl text-base leading-relaxed text-charcoal-light">
+                {RACE_TOTAL_DISTANCE} miles of swimming, biking, and running toward {CURRENT_CAMPAIGN.event}.
               </p>
-              <Countdown targetIso={RACE_INFO.raceDate} />
-            </div>
-          )}
 
-          <div className="mt-8 flex flex-wrap items-center gap-6">
-            <CTAButton href="/journal">Follow the Campaign</CTAButton>
-            <Link href="/the-race" className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark">
-              See the Race Plan &rarr;
-            </Link>
+              <div className="mt-8 flex flex-wrap items-center gap-6">
+                <CTAButton href="/journal">Follow the Campaign</CTAButton>
+                <Link href="/the-race" className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark">
+                  See the Race Plan &rarr;
+                </Link>
+              </div>
+            </div>
+
+            <div className="lg:col-span-5">
+              <div className="rounded-sm border border-ink/10 bg-sand-light p-6 sm:p-8">
+                <dl className="grid grid-cols-2 gap-6">
+                  <div>
+                    <dt className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">Distance</dt>
+                    <dd className="font-display text-2xl font-bold tabular-nums text-ink">{RACE_TOTAL_DISTANCE} Miles</dd>
+                  </div>
+                  <div>
+                    <dt className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">Beneficiaries</dt>
+                    <dd className="font-display text-2xl font-bold tabular-nums text-ink">{partners.length} Organizations</dd>
+                  </div>
+                </dl>
+
+                {RACE_INFO.raceDate && (
+                  <div className="mt-6 border-t border-ink/10 pt-6">
+                    <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                      Race Day Countdown
+                    </p>
+                    <Countdown targetIso={RACE_INFO.raceDate} />
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </Container>
       </section>
