@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Backpack, Bike, Footprints, Music } from "lucide-react";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTAButton } from "@/components/shared/cta-button";
@@ -40,6 +41,19 @@ const FUTURE_MISSION_AREAS = [
   "Adaptive Sport & Recreation",
   "Families & Transition",
 ] as const;
+
+/**
+ * One icon per campaign type, keyed by slug — the four cards share identical
+ * structure (status line, name, description, CTA), so this is the one place
+ * visual differentiation is worth adding: each campaign reads as its own
+ * activity at a glance instead of four copies of the same template.
+ */
+const CAMPAIGN_ICONS: Record<string, typeof Bike> = {
+  tri: Bike,
+  ruck: Backpack,
+  live: Music,
+  "22": Footprints,
+};
 
 /** BreadcrumbList per credibility plan §25 — Home→page shape. */
 const BREADCRUMB_JSON_LD = breadcrumbJsonLd([
@@ -141,8 +155,14 @@ export default async function CampaignsPage() {
                 ]
                   .filter(Boolean)
                   .join(" · ");
+                const Icon = CAMPAIGN_ICONS[campaign.slug];
                 return (
                   <div key={campaign.name} className="border border-ink/10 bg-off-white p-8">
+                    {Icon && (
+                      <span className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-full bg-bronze/10 text-bronze">
+                        <Icon className="h-5 w-5" aria-hidden="true" />
+                      </span>
+                    )}
                     <p className="text-xs font-semibold uppercase tracking-widest text-bronze">{statusLine}</p>
                     <h2 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
                       {campaign.name}
