@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Handshake, MapPinned, Megaphone, Users } from "lucide-react";
 import { Container } from "@/components/shared/container";
@@ -52,21 +53,29 @@ export default async function ImpactPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
       {/* Hero */}
-      <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container className="max-w-2xl">
+      <section className="overflow-hidden border-b border-ink/10 bg-sand-light py-16 sm:py-20">
+        <Container>
+          <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
+          <div className="lg:col-span-7">
           <SectionHeading
             as="h1"
             eyebrow="Impact"
             title="Mission in Motion"
             description={`${SITE_NAME} moves the mission two ways: connecting people to support that already exists, and mobilizing communities to fund the organizations doing the work. This is the live picture of both.`}
           />
+          </div>
+          <div className="relative min-h-[300px] overflow-hidden rounded-sm lg:col-span-5 lg:min-h-[420px] lg:translate-x-8">
+            <Image src="/about/hiking.jpg" alt="Moving forward together on the trail" fill sizes="(min-width: 1024px) 42vw, 100vw" className="object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-ink/75 via-transparent to-transparent" />
+          </div>
+          </div>
         </Container>
       </section>
 
       {/* Connecting People */}
       <section className="py-16 sm:py-20">
-        <Container className="max-w-3xl">
-          <div className="border border-ink/10 bg-off-white p-8">
+        <Container>
+          <div className="border border-ink/10 border-l-4 border-l-bronze bg-off-white p-8 lg:ml-0 lg:mr-24">
             <MapPinned className="h-6 w-6 text-bronze" aria-hidden="true" />
             <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-bronze">
               Connecting People
@@ -100,8 +109,8 @@ export default async function ImpactPage() {
 
       {/* Mobilizing Support */}
       <section className="border-y border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container className="max-w-3xl">
-          <div className="border border-ink/10 bg-off-white p-8">
+        <Container>
+          <div className="border border-ink/10 border-r-4 border-r-bronze bg-off-white p-8 lg:ml-24 lg:mr-0">
             <Megaphone className="h-6 w-6 text-bronze" aria-hidden="true" />
             <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-bronze">
               Mobilizing Support

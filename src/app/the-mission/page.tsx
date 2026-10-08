@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/shared/container";
 import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
@@ -46,11 +47,22 @@ export default async function MissionPage() {
       </CampaignPageHero>
 
       <section className="py-16 sm:py-20">
-        <Container className="max-w-3xl">
-          <div className="space-y-14">
+        <Container>
+          <div className="grid gap-12 lg:grid-cols-12 lg:items-start lg:gap-16">
+            <aside className="lg:sticky lg:top-28 lg:col-span-5">
+              <div className="relative min-h-[430px] overflow-hidden rounded-sm lg:min-h-[600px]">
+                <Image src="/journal/building-the-bike/loaner-bike-blue-trail.jpg" alt="Training ride during the Tri For The 22 campaign" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/10 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-7 text-off-white">
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">The mission in one line</p>
+                  <p className="mt-2 font-display text-3xl font-bold uppercase leading-tight">Turn endurance into attention. Turn attention into support.</p>
+                </div>
+              </div>
+            </aside>
+          <div className="space-y-6 lg:col-span-7">
             {MISSION_SECTIONS.map((section) => (
               <FocusScrollSection key={section.id}>
-                <div id={section.id}>
+                <div id={section.id} className="border-t border-ink/10 py-7 first:border-t-4 first:border-bronze first:pt-7">
                   <h2 className="font-display text-2xl font-semibold uppercase tracking-tight text-ink sm:text-3xl">
                     {section.heading}
                   </h2>
@@ -72,6 +84,7 @@ export default async function MissionPage() {
                 </div>
               </FocusScrollSection>
             ))}
+          </div>
           </div>
         </Container>
       </section>
