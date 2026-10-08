@@ -31,7 +31,11 @@ export function ResourceCard({ resource }: { resource: Resource }) {
   // Plain text, not another pill — audience tags already cover that
   // treatment below, and giving every field its own pill reads as clutter.
   const categoryLabel = NEED_CATEGORIES.find((c) => c.id === resource.needCategoryIds[0])?.label;
-  const hasDetails = Boolean(resource.eligibility || resource.verificationStatus);
+  // A rough proxy for "this would overflow the 3-line clamp below" — long
+  // enough that the full text belongs in the expanded state, not guessed
+  // from a DOM measurement.
+  const isLongDescription = resource.description.length > 160;
+  const hasDetails = Boolean(resource.eligibility || resource.verificationStatus || isLongDescription);
   const resourceId = resource.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
   return (
@@ -51,7 +55,7 @@ export function ResourceCard({ resource }: { resource: Resource }) {
         </p>
       </div>
 
-      <p className="mt-3 flex-1 text-sm leading-relaxed text-charcoal-light">
+      <p className="mt-3 line-clamp-3 flex-1 text-sm leading-relaxed text-charcoal-light">
         {resource.description}
       </p>
 
@@ -90,6 +94,7 @@ export function ResourceCard({ resource }: { resource: Resource }) {
           </button>
           {expanded && (
             <div id={`${resourceId}-details`} className="mt-2 space-y-1.5 text-xs leading-relaxed text-charcoal-light">
+              {isLongDescription && <p>{resource.description}</p>}
               {resource.eligibility && (
                 <p>
                   <span className="font-semibold text-ink">Eligibility:</span> {resource.eligibility}
