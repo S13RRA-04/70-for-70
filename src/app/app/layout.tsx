@@ -4,6 +4,11 @@ import { RegisterServiceWorker } from "@/components/app/register-service-worker"
 export const metadata: Metadata = {
   title: { default: "For the 22", template: "%s | For the 22" },
   description: "Move with purpose. Track your progress. Carry the mission.",
+  // Every route under here is session-gated (requireParticipant()) and
+  // personal (progress, challenges, share) — never meant to be publicly
+  // indexed or shared. Set once here rather than per-page since no child
+  // route overrides `robots` today.
+  robots: { index: false, follow: false },
 };
 
 /**

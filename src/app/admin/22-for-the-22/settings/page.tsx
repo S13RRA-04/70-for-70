@@ -3,6 +3,7 @@ import { requireAdminUser } from "@/lib/supabase/require-admin";
 import { getCurrentEventConfig } from "@/lib/data/event-config";
 import { Container } from "@/components/shared/container";
 import { formatDateLong } from "@/lib/utils";
+import { CAMPAIGN_URL, DONATE_LINK } from "@/lib/constants";
 import { updateEventConfigAction } from "./actions";
 
 export default async function EventSettingsAdminPage(props: PageProps<"/admin/22-for-the-22/settings">) {
@@ -98,7 +99,7 @@ export default async function EventSettingsAdminPage(props: PageProps<"/admin/22
               id="donateUrl"
               name="donateUrl"
               type="url"
-              placeholder="https://tri.forthe22.org/donate"
+              placeholder={`${CAMPAIGN_URL}${DONATE_LINK.href}`}
               defaultValue={event.donate_url ?? ""}
               className="mt-1.5 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2 text-sm text-ink"
             />
