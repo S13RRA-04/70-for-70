@@ -88,7 +88,7 @@ interface InvolvementCta {
   icon: LucideIcon;
 }
 
-/** The brief's four "Move the Mission Forward" buckets — Donate/Partner/Share already get their own buttons in the fundraising-goal section just above this one, so this grid is deliberately just Participate + the other three restated as a complete, scannable set rather than a near-duplicate of that section. */
+/** The brief's four "Move the Mission Forward" buckets — Donate/Partner/Share already get their own buttons in the fundraising-goal section earlier on the page, so this grid is deliberately just Participate + the other three restated as a complete, scannable set rather than a near-duplicate of that section. */
 const INVOLVEMENT_CTAS: InvolvementCta[] = [
   {
     title: "Donate",
@@ -166,17 +166,17 @@ const MISSION_CAMPAIGN_CARDS: MissionCampaignCard[] = [
  * transparent middleware rewrite (see src/middleware.ts). The movement
  * homepage at src/app/page.tsx renders at "/" on forthe22.org instead.
  *
- * Mission-first repositioning (see the approved plan in
- * .claude/plans — this page no longer leads with race mileage/date or
- * carries a permanent "Building the Bike" section): Hero, Who Your Support
- * Helps, What Is For The 22, Organizations Standing With the Mission,
- * Current Campaign, Fundraising Goal, Mission in Action, Ways to Get
+ * State-driven repositioning, following the Journal's pattern (current
+ * state → context → progress → story → action) rather than reading as a
+ * brochure for the whole campaign universe: Hero, live status bar, a
+ * one-line Latest Update pointer, Current Campaign (race state/countdown,
+ * now with CampaignPhaseBanner), The $70K Mission (fundraising progress —
+ * grouped with Current Campaign as the "what's happening now" block, ahead
+ * of any explanatory copy), Who Your Support Helps, What Is For The 22,
+ * Organizations Standing With the Mission, Mission in Action, Ways to Get
  * Involved, Stories From the Mission, Why Cody Chose to Carry This Mission,
- * ForThe22.org CTA, Final CTA. Organizations Standing With the Mission moved
- * up from its former spot after Stories From the Mission — institutional
- * proof (who stands with this) should read before the founder story, not
- * sandwiched right in front of it. Detailed follow-along content still
- * lives on its own pages (/journal, /the-race, /journal/building-the-bike,
+ * ForThe22.org CTA, Final CTA. Detailed follow-along content still lives on
+ * its own pages (/journal, /the-race, /journal/building-the-bike,
  * /sponsors, /get-involved) — this page previews and links to them, it
  * doesn't duplicate them.
  *
@@ -297,106 +297,13 @@ export default async function CampaignHomePage() {
         </div>
       )}
 
-      {/* 2. Who Your Support Helps — moved directly under the hero, ahead of
-          anything race-specific. */}
-      <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
+      {/* 2. Current Campaign — the live race state (date, distance,
+          countdown) now reads immediately after the hero's status bar,
+          before any "who we are" context, so the page opens with what's
+          actually happening rather than brochure copy. */}
+      <section className="border-b border-ink/10 py-16 sm:py-20">
         <Container>
           <CampaignPhaseBanner phase={phase} />
-          <SectionHeading
-            eyebrow="Who It Supports"
-            title="Who Your Support Helps"
-            description={`${CAMPAIGN_NAME} raises awareness and support for organizations already doing meaningful work in the veteran community.`}
-          />
-          <RevealGrid>
-            <div className="mt-8 grid gap-6 sm:grid-cols-2">
-              {partners.map((partner) => (
-                // The whole card used to carry .hover-lift despite only the
-                // inner text link actually being clickable — a hover
-                // affordance with nothing behind it. Since every card leads
-                // to the same place anyway, making the whole thing a real
-                // link (matching JournalCard's pattern) completes that
-                // signal instead of stripping it.
-                <Link
-                  key={partner.id}
-                  href="/beneficiaries"
-                  className="hover-lift group flex flex-col rounded-sm border border-ink/10 bg-off-white p-6"
-                >
-                  <PartnerLogo
-                    name={partner.name}
-                    logoUrl={partner.logo_url}
-                    logoLightUrl={partner.logo_light_url}
-                    logoDarkUrl={partner.logo_dark_url}
-                    background={partner.logo_background}
-                    className="h-20 w-fit"
-                  />
-                  <p className="mt-4 text-sm leading-relaxed text-charcoal-light">
-                    {firstSentence(partner.description)}
-                  </p>
-                  <span className="mt-4 inline-flex w-fit text-xs font-semibold uppercase tracking-wide text-bronze group-hover:text-bronze-dark">
-                    Learn About {partner.name} &rarr;
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </RevealGrid>
-          <p className="mt-8 max-w-2xl text-sm text-charcoal-light">
-            {CAMPAIGN_NAME} does not operate these programs. We use our platform to raise awareness and direct
-            support toward organizations already doing the work.
-          </p>
-        </Container>
-      </section>
-
-      {/* 3. What Is For The 22 */}
-      <section className="border-b border-ink/10 bg-ink py-16 text-off-white sm:py-20">
-        <Container className="max-w-2xl">
-          <SectionHeading eyebrow="More Than One Race" title="What Is For The 22?" tone="dark" />
-          <p className="mt-5 text-base leading-relaxed text-off-white/80">
-            For The 22 is a broader mission focused on helping veterans, first responders, and their families find
-            trusted resources, support, and community.
-          </p>
-          <p className="mt-4 text-base leading-relaxed text-off-white/80">
-            {CAMPAIGN_NAME} is one way that mission comes to life — using endurance sport to create attention,
-            raise funds, build partnerships, and start conversations that matter.
-          </p>
-          <div className="mt-8 flex flex-wrap items-center gap-6">
-            <CTAButton href={SITE_URL} tone="dark" external>
-              Visit ForThe22.org
-            </CTAButton>
-            <a
-              href={`${SITE_URL}/resources`}
-              className="text-sm font-semibold uppercase tracking-wide text-bronze-light hover:text-off-white"
-            >
-              Explore Resources &rarr;
-            </a>
-          </div>
-        </Container>
-      </section>
-
-      {/* 4. Organizations Standing With the Mission — moved up from after
-          "Stories From the Mission" so institutional proof (who stands with
-          this) reads early, well before the founder story. */}
-      <section className="border-b border-ink/10 py-16 sm:py-20">
-        <Container>
-          <SectionHeading
-            eyebrow="Standing With the Mission"
-            title="Organizations Standing With the Mission"
-            description="These businesses, clubs, and organizations contribute equipment, services, expertise, visibility, financial support, or community reach to help For The 22 move forward."
-          />
-          <div className="mt-8">
-            <PartnerLogoWall presentingPartners={presentingPartners} otherPartners={otherPartners} />
-          </div>
-          <Link
-            href="/become-a-partner"
-            className="mt-8 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
-          >
-            Become a Partner &rarr;
-          </Link>
-        </Container>
-      </section>
-
-      {/* 5. Current Campaign */}
-      <section className="border-b border-ink/10 py-16 sm:py-20">
-        <Container>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze">Current Campaign</p>
           <h2 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
             {CAMPAIGN_NAME} — {CURRENT_CAMPAIGN.event}
@@ -441,7 +348,8 @@ export default async function CampaignHomePage() {
         </Container>
       </section>
 
-      {/* 6. The $70K Mission */}
+      {/* 3. The $70K Mission — fundraising progress, grouped with Current
+          Campaign above as the page's "what's happening now" block. */}
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container className="max-w-2xl">
           <SectionHeading eyebrow="Fund the Mission" title="For The 22's Shared $70,000 Mission Goal" />
@@ -469,6 +377,101 @@ export default async function CampaignHomePage() {
             </CTAButton>
             <ShareButtons url={CAMPAIGN_URL} title={shareTitle} />
           </div>
+        </Container>
+      </section>
+
+      {/* 4. Who Your Support Helps */}
+      <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
+        <Container>
+          <SectionHeading
+            eyebrow="Who It Supports"
+            title="Who Your Support Helps"
+            description={`${CAMPAIGN_NAME} raises awareness and support for organizations already doing meaningful work in the veteran community.`}
+          />
+          <RevealGrid>
+            <div className="mt-8 grid gap-6 sm:grid-cols-2">
+              {partners.map((partner) => (
+                // The whole card used to carry .hover-lift despite only the
+                // inner text link actually being clickable — a hover
+                // affordance with nothing behind it. Since every card leads
+                // to the same place anyway, making the whole thing a real
+                // link (matching JournalCard's pattern) completes that
+                // signal instead of stripping it.
+                <Link
+                  key={partner.id}
+                  href="/beneficiaries"
+                  className="hover-lift group flex flex-col rounded-sm border border-ink/10 bg-off-white p-6"
+                >
+                  <PartnerLogo
+                    name={partner.name}
+                    logoUrl={partner.logo_url}
+                    logoLightUrl={partner.logo_light_url}
+                    logoDarkUrl={partner.logo_dark_url}
+                    background={partner.logo_background}
+                    className="h-20 w-fit"
+                  />
+                  <p className="mt-4 text-sm leading-relaxed text-charcoal-light">
+                    {firstSentence(partner.description)}
+                  </p>
+                  <span className="mt-4 inline-flex w-fit text-xs font-semibold uppercase tracking-wide text-bronze group-hover:text-bronze-dark">
+                    Learn About {partner.name} &rarr;
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </RevealGrid>
+          <p className="mt-8 max-w-2xl text-sm text-charcoal-light">
+            {CAMPAIGN_NAME} does not operate these programs. We use our platform to raise awareness and direct
+            support toward organizations already doing the work.
+          </p>
+        </Container>
+      </section>
+
+      {/* 5. What Is For The 22 */}
+      <section className="border-b border-ink/10 bg-ink py-16 text-off-white sm:py-20">
+        <Container className="max-w-2xl">
+          <SectionHeading eyebrow="More Than One Race" title="What Is For The 22?" tone="dark" />
+          <p className="mt-5 text-base leading-relaxed text-off-white/80">
+            For The 22 is a broader mission focused on helping veterans, first responders, and their families find
+            trusted resources, support, and community.
+          </p>
+          <p className="mt-4 text-base leading-relaxed text-off-white/80">
+            {CAMPAIGN_NAME} is one way that mission comes to life — using endurance sport to create attention,
+            raise funds, build partnerships, and start conversations that matter.
+          </p>
+          <div className="mt-8 flex flex-wrap items-center gap-6">
+            <CTAButton href={SITE_URL} tone="dark" external>
+              Visit ForThe22.org
+            </CTAButton>
+            <a
+              href={`${SITE_URL}/resources`}
+              className="text-sm font-semibold uppercase tracking-wide text-bronze-light hover:text-off-white"
+            >
+              Explore Resources &rarr;
+            </a>
+          </div>
+        </Container>
+      </section>
+
+      {/* 6. Organizations Standing With the Mission — moved up from after
+          "Stories From the Mission" so institutional proof (who stands with
+          this) reads early, well before the founder story. */}
+      <section className="border-b border-ink/10 py-16 sm:py-20">
+        <Container>
+          <SectionHeading
+            eyebrow="Standing With the Mission"
+            title="Organizations Standing With the Mission"
+            description="These businesses, clubs, and organizations contribute equipment, services, expertise, visibility, financial support, or community reach to help For The 22 move forward."
+          />
+          <div className="mt-8">
+            <PartnerLogoWall presentingPartners={presentingPartners} otherPartners={otherPartners} />
+          </div>
+          <Link
+            href="/become-a-partner"
+            className="mt-8 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
+          >
+            Become a Partner &rarr;
+          </Link>
         </Container>
       </section>
 
