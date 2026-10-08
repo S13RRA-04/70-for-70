@@ -182,7 +182,7 @@ export default async function RuckHomePage() {
             >
               {SITE_NAME} Presents
             </a>
-            <h1 className="mt-3 text-balance font-display text-[clamp(2.25rem,7vw,4.5rem)] font-bold uppercase leading-[0.95] tracking-tight">
+            <h1 className="mt-3 text-balance font-display text-hero font-bold uppercase leading-[0.95] tracking-tight">
               {RUCK.name}
             </h1>
 

@@ -122,6 +122,20 @@
   --duration-ui: 300ms;
   --duration-narrative: 600ms;
   --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /*
+   * Hero heading scale — three sizes, each previously a one-off
+   * `text-[clamp(...)]` arbitrary value retyped per page. `hero-lg` is
+   * reserved for the single biggest H1 on the site (the org root
+   * homepage); `hero` is the standard campaign/event page-hero H1
+   * (Tri, Ruck, 22 For the 22); `hero-sm` is for an oversized display
+   * heading that isn't a page's actual H1 (e.g. a closing CTA band).
+   * Pair with the shared `leading-[0.95]` tracking-tight treatment,
+   * which stays inline since it isn't part of the size itself.
+   */
+  --text-hero-sm: clamp(2rem, 6vw, 3.5rem);
+  --text-hero: clamp(2.25rem, 7vw, 4.5rem);
+  --text-hero-lg: clamp(2.5rem, 8vw, 5.5rem);
 }
 
 @theme inline {
@@ -157,6 +171,10 @@
 
   --font-display: var(--font-oswald);
   --font-sans: var(--font-inter);
+
+  --text-hero-sm: var(--text-hero-sm);
+  --text-hero: var(--text-hero);
+  --text-hero-lg: var(--text-hero-lg);
 }
 
 body {

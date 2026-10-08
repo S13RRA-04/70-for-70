@@ -135,7 +135,7 @@ export default async function HomePage() {
               <span key={ring.branch} className="flex-1" style={{ backgroundColor: ring.hex }} />
             ))}
           </div>
-          <h1 className="mt-5 text-balance font-display text-[clamp(2.5rem,8vw,5.5rem)] font-bold uppercase leading-[0.95] tracking-tight">
+          <h1 className="mt-5 text-balance font-display text-hero-lg font-bold uppercase leading-[0.95] tracking-tight">
             {ORG_TAGLINE}
           </h1>
           <p className="mt-5 max-w-xl text-base leading-relaxed text-off-white/80 sm:text-lg">
@@ -459,7 +459,7 @@ export default async function HomePage() {
       {/* Final CTA — Tier 1: closing call to action, resource-finding stays the point to the last line */}
       <section id="find-resources" className="scroll-mt-20 bg-ink py-20 text-off-white sm:py-28">
         <Container className="max-w-3xl text-center">
-          <p className="text-balance font-display text-[clamp(2rem,6vw,3.5rem)] font-bold uppercase leading-[0.95] tracking-tight">
+          <p className="text-balance font-display text-hero-sm font-bold uppercase leading-[0.95] tracking-tight">
             Where Can We Help You Find Support?
           </p>
           <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-off-white/75">
