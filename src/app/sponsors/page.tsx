@@ -88,7 +88,7 @@ const OFFICIAL_BICYCLE_SUPPORT_DESIGNATION = "Official Bicycle Support Partner";
 export default async function SponsorsPage() {
   const [partners, currentEvent] = await Promise.all([getMissionPartners(), getCurrentEventConfig()]);
   const giveawayPrizes = currentEvent ? await getGiveawayPrizes(currentEvent.id) : [];
-  const generalPartners = partners.filter(isCampaignPartner);
+  const generalPartners = partners.filter(isCampaignPartner).filter((p) => p.associated_campaigns?.includes("tri"));
 
   const presentingPartners = generalPartners.filter((p) => p.tier === "presenting-partner");
   const teamBenefitPartner = generalPartners.find((p) => p.partner_type === "team-benefit-partner");

@@ -34,7 +34,7 @@ const BREADCRUMB_JSON_LD = breadcrumbJsonLd([
  */
 export default async function BecomeAPartnerPage() {
   const missionPartners = await getMissionPartners();
-  const generalPartners = missionPartners.filter(isCampaignPartner);
+  const generalPartners = missionPartners.filter(isCampaignPartner).filter((p) => p.associated_campaigns?.includes("tri"));
 
   return (
     <>

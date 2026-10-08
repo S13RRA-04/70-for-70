@@ -11,7 +11,7 @@ import { getPartners } from "@/lib/data/partners";
 import { getMissionPartners, isCampaignPartner } from "@/lib/data/mission-partners";
 import { getMissionMetrics } from "@/lib/data/mission-metrics";
 import { buildOrganizationNetwork } from "@/lib/data/organization-network";
-import { CAMPAIGN_URL, ORG_SUPPORTING_LINE, SITE_NAME, SITE_URL } from "@/lib/constants";
+import { CAMPAIGN_URL, CAMPAIGNS, ORG_SUPPORTING_LINE, SITE_NAME, SITE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 
@@ -27,6 +27,24 @@ const BREADCRUMB_JSON_LD = breadcrumbJsonLd([
   { name: "Network", url: `${SITE_URL}/network` },
 ]);
 
+/**
+ * Which campaign each mission_partners.associated_campaigns tag maps to —
+ * this is the one place that groups the org-wide partner list by effort, so
+ * a visitor sees who's backing Tri vs. Ruck vs. Live vs. 22 For the 22
+ * separately instead of one undifferentiated wall (each campaign's own home
+ * page/partner page already shows only its own supporters — see
+ * ruck-home, campaign-home, /sponsors). "22-for-the-22" (not "22") matches
+ * the tag 22forthe22/page.tsx already writes for giveaway supporters, kept
+ * here for symmetry even though giveaway-supporter rows are excluded from
+ * isCampaignPartner before this list is built.
+ */
+const CAMPAIGN_PARTNER_GROUPS: { tag: string; name: string; url: string }[] = [
+  { tag: "tri", name: CAMPAIGNS.tri.name, url: CAMPAIGNS.tri.url },
+  { tag: "ruck", name: CAMPAIGNS.ruck.name, url: CAMPAIGNS.ruck.url },
+  { tag: "live", name: CAMPAIGNS.live.name, url: CAMPAIGNS.live.url },
+  { tag: "22-for-the-22", name: CAMPAIGNS["22"].name, url: CAMPAIGNS["22"].url },
+];
+
 export default async function NetworkPage() {
   const [beneficiaries, missionPartners, metrics] = await Promise.all([
     getPartners(),
@@ -36,8 +54,21 @@ export default async function NetworkPage() {
   const organizations = buildOrganizationNetwork(beneficiaries, missionPartners);
   const organizationByName = new Map(organizations.map((organization) => [organization.name, organization]));
   const campaignPartners = missionPartners.filter(isCampaignPartner);
-  const presentingPartners = campaignPartners.filter((p) => p.tier === "presenting-partner");
-  const otherPartners = campaignPartners.filter((p) => p.tier !== "presenting-partner");
+  const campaignPartnerGroups = CAMPAIGN_PARTNER_GROUPS.map((group) => {
+    const partners = campaignPartners.filter((p) => p.associated_campaigns?.includes(group.tag));
+    return {
+      ...group,
+      partners,
+      presentingPartners: partners.filter((p) => p.tier === "presenting-partner"),
+      otherPartners: partners.filter((p) => p.tier !== "presenting-partner"),
+    };
+  }).filter((group) => group.partners.length > 0);
+  // Defensive, not expected in practice — every mission_partners row should
+  // carry an associated_campaigns tag matching one of the groups above (see
+  // supabase/2026-10-08-tag-tri-mission-partners.sql). Surfaced rather than
+  // silently dropped so a future untagged row doesn't just vanish from here.
+  const taggedPartnerIds = new Set(campaignPartnerGroups.flatMap((group) => group.partners.map((p) => p.id)));
+  const untaggedPartners = campaignPartners.filter((p) => !taggedPartnerIds.has(p.id));
 
   return (
     <>
@@ -139,28 +170,57 @@ export default async function NetworkPage() {
               Campaign partners sponsor events, supply gear, and help cover campaign costs
               directly. That support — plus every donation link routing straight to a
               beneficiary&apos;s own platform rather than through the campaign — is why 100% of
-              each donation reaches the beneficiary it was given to.
+              each donation reaches the beneficiary it was given to. Each campaign has its own
+              partners, grouped below by which effort they actually support.
             </p>
 
-            {presentingPartners.length > 0 && (
-              <div className="mt-6">
-                <PartnerLogoWall presentingPartners={presentingPartners} otherPartners={[]} />
-              </div>
-            )}
+            <div className="mt-8 space-y-10">
+              {campaignPartnerGroups.map((group) => (
+                <div key={group.tag} className="border-t border-ink/10 pt-8 first:border-t-0 first:pt-0">
+                  <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+                    <h3 className="font-display text-base font-bold uppercase tracking-wide text-ink">
+                      {group.name}
+                    </h3>
+                    <span className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                      {group.partners.length} Partner{group.partners.length === 1 ? "" : "s"}
+                    </span>
+                  </div>
 
-            {otherPartners.length > 0 && (
-              <div className="mt-8">
-                <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-                  Tap a logo for details
-                </p>
-                <div className="mt-3">
-                  <PartnerLogoDisclosure partners={otherPartners} />
+                  {group.presentingPartners.length > 0 && (
+                    <div className="mt-5">
+                      <PartnerLogoWall presentingPartners={group.presentingPartners} otherPartners={[]} />
+                    </div>
+                  )}
+
+                  {group.otherPartners.length > 0 && (
+                    <div className="mt-5">
+                      <PartnerLogoDisclosure partners={group.otherPartners} />
+                    </div>
+                  )}
+
+                  <a
+                    href={group.url}
+                    className="mt-4 inline-flex text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
+                  >
+                    Visit {group.name} &rarr;
+                  </a>
                 </div>
-              </div>
-            )}
+              ))}
 
-            <CTAButton href={`${CAMPAIGN_URL}/sponsors`} external variant="secondary" className="mt-6">
-              See All Campaign Partners
+              {untaggedPartners.length > 0 && (
+                <div className="border-t border-ink/10 pt-8">
+                  <h3 className="font-display text-base font-bold uppercase tracking-wide text-ink">
+                    General Mission Partners
+                  </h3>
+                  <div className="mt-5">
+                    <PartnerLogoDisclosure partners={untaggedPartners} />
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <CTAButton href={`${CAMPAIGN_URL}/sponsors`} external variant="secondary" className="mt-8">
+              See All Tri For The 22 Partners
             </CTAButton>
           </div>
         </Container>
