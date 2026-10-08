@@ -1,3 +1,5 @@
+import { Card } from "@/components/shared/card";
+
 /**
  * A single large KPI card — "Race at a Glance"'s building block. Deliberately
  * generic (label/value/detail only) so it isn't re-hardcoded per stat; see
@@ -16,11 +18,7 @@ export function RaceStatCard({
   accent?: boolean;
 }) {
   return (
-    <div
-      className={`rounded-sm border p-5 text-center sm:text-left ${
-        accent ? "border-bronze/40 bg-bronze/10" : "border-ink/10 bg-off-white"
-      }`}
-    >
+    <Card variant={accent ? "accent" : "default"} className="p-5 text-center sm:text-left">
       <p
         className={`text-xs font-semibold uppercase tracking-widest ${accent ? "text-bronze" : "text-charcoal-light"}`}
       >
@@ -30,6 +28,6 @@ export function RaceStatCard({
         {value}
       </p>
       {detail && <p className="mt-1 text-sm text-charcoal-light">{detail}</p>}
-    </div>
+    </Card>
   );
 }

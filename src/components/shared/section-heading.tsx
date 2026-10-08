@@ -29,7 +29,7 @@ export function SectionHeading({
             // bronze-text, not bronze: an eyebrow is 14px semibold, so it's
             // "normal text" for WCAG and needs 4.5:1 — bronze only reaches 3.39
             // on off-white. See the bronze scale's roles in globals.css.
-            isDark ? "text-bronze-light" : "text-bronze-text",
+            isDark ? "property-eyebrow-dark" : "property-eyebrow",
           )}
         >
           {eyebrow}
@@ -37,7 +37,7 @@ export function SectionHeading({
       )}
       <Heading
         className={cn(
-          "text-balance text-3xl font-semibold uppercase tracking-tight sm:text-4xl",
+          "text-balance text-section font-semibold uppercase tracking-tight",
           isDark ? "text-off-white" : "text-ink",
         )}
       >

@@ -61,8 +61,8 @@ export function Header({
   return (
     <header
       className={cn(
-        "sticky top-0 z-40 border-b border-ink/10 backdrop-blur transition-[background-color,box-shadow] duration-300",
-        scrolled ? "bg-off-white/95 shadow-sm supports-[backdrop-filter]:bg-off-white/80" : "bg-off-white/70",
+        "property-nav-shell sticky top-0 z-40 border-b backdrop-blur transition-[background-color,box-shadow] duration-motion-ui ease-system",
+        scrolled && "shadow-sm",
       )}
     >
       <Container className="flex h-16 items-center justify-between">
@@ -149,8 +149,8 @@ export function Header({
                   key={entry.href}
                   href={entry.href}
                   className={cn(
-                    "whitespace-nowrap border-b-2 border-transparent pb-0.5 text-sm font-medium uppercase tracking-wide text-charcoal transition-colors hover:text-bronze",
-                    pathname === entry.href && "border-bronze text-bronze",
+                    "whitespace-nowrap border-b-2 border-transparent pb-0.5 text-sm font-medium uppercase tracking-wide text-charcoal transition-colors hover:text-property-accent-readable",
+                    pathname === entry.href && "border-property-accent text-property-accent-readable",
                   )}
                   aria-current={pathname === entry.href ? "page" : undefined}
                 >
@@ -170,13 +170,9 @@ export function Header({
           )}
 
           {campaign && (
-            <a
-              href={campaign.primaryCta.href}
-              {...(campaign.primaryCta.external && { target: "_blank", rel: "noopener noreferrer" })}
-              className="rounded-sm bg-bronze-text px-5 py-2 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-dark"
-            >
+            <CTAButton href={campaign.primaryCta.href} external={campaign.primaryCta.external} className="px-5 py-2">
               {campaign.primaryCta.label}
-            </a>
+            </CTAButton>
           )}
         </div>
 
@@ -301,8 +297,8 @@ function NavDropdown({
         aria-controls={panelId}
         onClick={() => onOpenChange(!open)}
         className={cn(
-          "flex items-center gap-1 whitespace-nowrap border-b-2 border-transparent pb-0.5 text-sm font-medium uppercase tracking-wide text-charcoal transition-colors hover:text-bronze",
-          (isActive || open) && "border-bronze text-bronze",
+          "flex items-center gap-1 whitespace-nowrap border-b-2 border-transparent pb-0.5 text-sm font-medium uppercase tracking-wide text-charcoal transition-colors hover:text-property-accent-readable",
+          (isActive || open) && "border-property-accent text-property-accent-readable",
         )}
       >
         {group.label}

@@ -52,7 +52,7 @@ export function CTAButton({
   "aria-current": ariaCurrent,
 }: CTAButtonProps) {
   const classes = cn(
-    "inline-flex items-center gap-1.5 rounded-sm font-semibold uppercase tracking-wide transition-all duration-150 active:scale-[0.97]",
+    "inline-flex items-center gap-1.5 rounded-sm font-semibold uppercase tracking-wide transition-all duration-motion-fast ease-system active:scale-[0.97]",
     SIZE_CLASSES[size],
     variant === "primary" &&
       (accent === "emergency"
@@ -61,7 +61,7 @@ export function CTAButton({
           ? "bg-anchor text-off-white hover:bg-anchor-light"
           : tone === "dark"
             ? "bg-bronze text-ink hover:bg-bronze-light"
-            : "bg-bronze-text text-off-white hover:bg-bronze-dark"),
+            : "property-button-primary"),
     variant === "secondary" &&
       (tone === "dark"
         ? "border border-off-white/40 text-off-white hover:bg-off-white/10"

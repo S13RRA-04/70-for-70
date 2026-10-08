@@ -4,6 +4,7 @@ import { ExternalDonateButton } from "@/components/shared/external-donate-button
 import { DonationTrackingNote } from "@/components/shared/donation-tracking-note";
 import { PartnerLogo } from "@/components/shared/partner-logo";
 import type { PartnerRow } from "@/types/database";
+import { Card } from "@/components/shared/card";
 
 /**
  * Large feature panel, not a small generic card — beneficiary
@@ -21,7 +22,7 @@ export function PartnerCard({
   const hasLinks = Boolean(partner.website_url || partner.donation_url);
 
   return (
-    <div className="flex flex-col gap-6 rounded-sm border border-ink/10 bg-off-white p-6 sm:flex-row sm:p-8">
+    <Card className="flex flex-col gap-6 p-6 sm:flex-row sm:p-8">
       <div className="shrink-0 sm:w-48">
         <PartnerLogo
           name={partner.name}
@@ -95,6 +96,6 @@ export function PartnerCard({
           <DonationTrackingNote partnerName={partner.name} mileNumber={mileNumber} />
         )}
       </div>
-    </div>
+    </Card>
   );
 }

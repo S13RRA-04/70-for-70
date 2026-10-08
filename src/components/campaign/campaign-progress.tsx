@@ -66,22 +66,22 @@ export function CampaignProgress({
               <div
                 key={row.organization}
                 className={cn(
-                  "h-full transition-[width] duration-600 ease-out",
-                  ORG_BAR_COLORS[row.organization] ?? "bg-gradient-to-r from-olive to-bronze",
+                  "h-full transition-[width] duration-motion-narrative ease-system",
+                  ORG_BAR_COLORS[row.organization] ?? "bg-property-accent",
                 )}
                 style={{ width: mounted ? `${row.widthPercent}%` : "0%" }}
               />
             ))}
             {unallocatedWidthPercent > 0 && (
               <div
-                className="h-full bg-gradient-to-r from-olive to-bronze transition-[width] duration-600 ease-out"
+                className="h-full bg-property-accent transition-[width] duration-motion-narrative ease-system"
                 style={{ width: mounted ? `${unallocatedWidthPercent}%` : "0%" }}
               />
             )}
           </>
         ) : (
           <div
-            className="h-full rounded-full bg-gradient-to-r from-olive to-bronze transition-[width] duration-600 ease-out"
+            className="h-full rounded-full bg-property-accent transition-[width] duration-motion-narrative ease-system"
             style={{ width: mounted ? `${percent}%` : "0%" }}
           />
         )}
@@ -92,7 +92,7 @@ export function CampaignProgress({
           {orgSegments.map((row) => (
             <div key={row.organization} className="flex items-center gap-1.5 text-xs">
               <span
-                className={cn("h-2 w-2 shrink-0 rounded-full", ORG_BAR_COLORS[row.organization] ?? "bg-bronze")}
+                className={cn("h-2 w-2 shrink-0 rounded-full", ORG_BAR_COLORS[row.organization] ?? "bg-property-accent")}
                 aria-hidden="true"
               />
               <span className={isDark ? "text-off-white/70" : "text-charcoal-light"}>

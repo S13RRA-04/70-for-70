@@ -7,6 +7,7 @@ import { TeamBenefitBadge } from "@/components/partners/team-benefit-badge";
 import { TIER_THEME } from "@/lib/tier-theme";
 import { MISSION_PARTNER_TIERS } from "@/lib/constants";
 import type { MissionPartnerRow, MissionPartnerTier } from "@/types/database";
+import { Card } from "@/components/shared/card";
 
 /** Untiered-card fallback — smaller and quieter than any formal sponsorship tier. See TIER_THEME for the tiered equivalents. */
 const UNTIERED_CARD = {
@@ -39,7 +40,7 @@ export function MissionPartnerCard({
 
   return (
     <TiltCard>
-      <div
+      <Card
         className={`relative flex h-full flex-col rounded-sm ${background} ${padding} ${border} ${theme?.accentBar ?? ""}`}
       >
       <PartnerLogo
@@ -108,7 +109,7 @@ export function MissionPartnerCard({
           <ExternalLink size={13} aria-hidden />
         </Link>
       )}
-      </div>
+      </Card>
     </TiltCard>
   );
 }

@@ -140,6 +140,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
+      data-property={mode === "app" ? "app" : (campaignSlug ?? "org")}
       data-scroll-behavior="smooth"
       className={`${oswald.variable} ${inter.variable} h-full antialiased`}
     >

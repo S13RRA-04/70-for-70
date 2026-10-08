@@ -51,7 +51,7 @@ export function Footer({
   ) : null;
 
   return (
-    <footer className="relative overflow-hidden border-t border-off-white/10 bg-ink text-off-white">
+    <footer className="property-footer-shell relative overflow-hidden border-t border-off-white/10 text-off-white">
       <div
         className="absolute inset-0 bg-cover bg-center opacity-[0.06]"
         style={{ backgroundImage: "url(/topo-map.png)" }}
