@@ -21,8 +21,6 @@ import { getMissionMetrics } from "@/lib/data/mission-metrics";
 import { getPartners } from "@/lib/data/partners";
 import {
   CAMPAIGN_URL,
-  MISSION_NAME,
-  MISSION_SUPPORTING_LINE,
   ORG_SUPPORTING_STATEMENT,
   ORG_TAGLINE,
   SITE_NAME,
@@ -348,17 +346,16 @@ export default async function HomePage() {
         <Container>
           <RevealOnScroll className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-14">
             <div className="lg:col-span-7">
-            <SectionHeading eyebrow={MISSION_NAME} title={MISSION_SUPPORTING_LINE} />
-            {beneficiaries.length > 0 && (
-              <p className="mt-3 text-sm text-charcoal-light">
-                Supporting {beneficiaries.map((p) => p.name).join(" and ")}.
-              </p>
-            )}
-            <div className="mt-8 rounded-sm border border-ink/10 bg-off-white p-6 sm:p-8">
+            <div className="border-y border-ink/10 py-6 sm:py-8">
               {metrics.totalRaised !== null && metrics.fundraisingGoal !== null && (
                 <MissionProgress totalRaised={metrics.totalRaised} goal={metrics.fundraisingGoal} />
               )}
             </div>
+            {beneficiaries.length > 0 && (
+              <p className="mt-5 text-sm text-charcoal-light">
+                Supporting {beneficiaries.map((p) => p.name).join(" and ")}.
+              </p>
+            )}
             <CTAButton href="/70k" className="mt-6">
               Explore The $70K Mission &rarr;
             </CTAButton>

@@ -53,7 +53,7 @@ export function CTAButton({
   "aria-current": ariaCurrent,
 }: CTAButtonProps) {
   const classes = cn(
-    "inline-flex items-center gap-1.5 rounded-sm font-semibold uppercase tracking-wide transition-all duration-motion-fast ease-system active:scale-[0.97]",
+    "action-control inline-flex items-center gap-1.5 font-semibold uppercase tracking-wide",
     SIZE_CLASSES[size],
     variant === "primary" &&
       (accent === "emergency"
