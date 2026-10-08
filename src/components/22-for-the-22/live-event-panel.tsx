@@ -41,7 +41,6 @@ export function LiveEventPanel({
               <MissionProgress
                 totalRaised={fundraisingStats.amountRaised}
                 goal={fundraisingStats.fundraisingGoal}
-                showStats={false}
               />
             </div>
             <Link

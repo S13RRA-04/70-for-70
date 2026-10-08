@@ -1,7 +1,6 @@
 "use client";
 
 import { formatCurrency, percentFunded } from "@/lib/utils";
-import { StatCard } from "@/components/shared/stat-card";
 import { CountUpNumber } from "@/components/shared/count-up-number";
 import { useMountedTransition } from "@/components/shared/use-mounted-transition";
 import { cn } from "@/lib/utils";
@@ -18,17 +17,15 @@ const ORG_BAR_COLORS: Record<string, string> = {
   "Veterans and Athletes United": "bg-red-600",
 };
 
-/** Reusable fundraising progress display: a percent bar plus $ raised vs. goal. */
+/** Reusable fundraising progress display: a percent bar plus $ raised vs. goal (once, not restated in a stat grid below it — every call site that used to opt out of that repeated grid via showStats={false} is now just the default). */
 export function CampaignProgress({
   totalRaised,
   goal,
-  showStats = true,
   tone,
   breakdown,
 }: {
   totalRaised: number;
   goal: number;
-  showStats?: boolean;
   /** "dark" for use on a dark (bg-ink) background, e.g. the campaign-home hero. */
   tone?: "dark";
   /**
@@ -122,13 +119,6 @@ export function CampaignProgress({
           Goal: {formatCurrency(goal)}
         </p>
       </div>
-
-      {showStats && (
-        <div className="mt-6 grid grid-cols-2 gap-3">
-          <StatCard label="Raised" value={formatCurrency(totalRaised)} />
-          <StatCard label="Goal" value={formatCurrency(goal)} />
-        </div>
-      )}
     </div>
   );
 }

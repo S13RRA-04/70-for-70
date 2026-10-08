@@ -210,7 +210,7 @@ export default async function GetInvolvedPage() {
         <Container className="max-w-2xl">
           <SectionHeading eyebrow="Support the Mission" title="Every Dollar Counts" />
           <div className="mt-8">
-            <MissionProgress totalRaised={campaign.amount_raised} goal={campaign.fundraising_goal} showStats={false} />
+            <MissionProgress totalRaised={campaign.amount_raised} goal={campaign.fundraising_goal} />
           </div>
           <div className="mt-8 flex flex-wrap gap-4">
             <CTAButton href={DONATE_LINK.href} magnetic>{DONATE_LINK.label}</CTAButton>

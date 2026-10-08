@@ -24,7 +24,7 @@ export function MissionFinale({ totalRaised, goal }: { totalRaised: number; goal
         </p>
 
         <div className="mt-10 rounded-sm border border-off-white/15 bg-off-white/5 p-8 text-left">
-          <MissionProgress totalRaised={totalRaised} goal={goal} tone="dark" showStats={false} />
+          <MissionProgress totalRaised={totalRaised} goal={goal} tone="dark" />
           <p className="mt-6 text-center text-sm text-off-white/70">
             {RACE_TOTAL_DISTANCE} miles
             {RACE_INFO.raceDate && ` · ${formatDateLong(RACE_INFO.raceDate)}`}
