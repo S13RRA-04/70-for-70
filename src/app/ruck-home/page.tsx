@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ExternalLink, ShieldCheck } from "lucide-react";
 import { getPartners } from "@/lib/data/partners";
+import { getMissionPartners } from "@/lib/data/mission-partners";
 import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
@@ -152,10 +153,15 @@ function BeneficiaryCard({
  * redirects back here (see applyRuckSingleHomeGuard in src/middleware.ts).
  */
 export default async function RuckHomePage() {
-  const [allPartners, fundraisingStats] = await Promise.all([getPartners(), getFundraisingImpactStats()]);
+  const [allPartners, missionPartners, fundraisingStats] = await Promise.all([
+    getPartners(),
+    getMissionPartners(),
+    getFundraisingImpactStats(),
+  ]);
   const campaignBeneficiaries = allPartners.filter((p) =>
     (RUCK_EVENT_INFO.beneficiaries as readonly string[]).includes(p.name),
   );
+  const campaignPartners = missionPartners.filter((p) => p.associated_campaigns?.includes("ruck"));
 
   return (
     <>
@@ -287,6 +293,35 @@ export default async function RuckHomePage() {
           </a>
         </Container>
       </section>
+
+      {/* Campaign partners — e.g. GORUCK supporting RuckUp22 with event-day gear. */}
+      {campaignPartners.length > 0 && (
+        <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
+          <Container>
+            <SectionHeading eyebrow="With Thanks To" title="Campaign Partners" />
+            <div className="mt-8 flex flex-wrap items-center gap-8">
+              {campaignPartners.map((partner) => (
+                <a
+                  key={partner.id}
+                  href={partner.website_url ?? undefined}
+                  target={partner.website_url ? "_blank" : undefined}
+                  rel={partner.website_url ? "noopener noreferrer" : undefined}
+                  className="group"
+                >
+                  <PartnerLogo
+                    name={partner.name}
+                    logoUrl={partner.logo_url}
+                    logoLightUrl={partner.logo_light_url}
+                    logoDarkUrl={partner.logo_dark_url}
+                    background={partner.logo_background}
+                    className="h-16 w-fit transition-opacity group-hover:opacity-80"
+                  />
+                </a>
+              ))}
+            </div>
+          </Container>
+        </section>
+      )}
 
       {/* Beneficiaries */}
       <section id="beneficiaries" className="scroll-mt-24 py-16 sm:py-20">
