@@ -129,7 +129,13 @@ export default async function BecomeAPartnerPage() {
             Chattanooga? Let&apos;s talk.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <CTAButton href={`${SITE_URL}/contact?item=Campaign%20Partnership`} tone="dark" magnetic external>
+            <CTAButton
+              href={`${SITE_URL}/contact?item=Campaign%20Partnership`}
+              tone="dark"
+              magnetic
+              external
+              data-analytics-event="partner_inquiry"
+            >
               Contact the Campaign
             </CTAButton>
             <CTAButton href="/sponsors" variant="secondary" tone="dark">

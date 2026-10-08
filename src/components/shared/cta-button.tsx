@@ -33,6 +33,8 @@ interface CTAButtonProps {
   className?: string;
   /** Set when this CTA's own href is the current page — e.g. the nav's CTA-treated "Find Resources"/"Need Help Now" links, which otherwise get none of the plain nav links' active-page styling. */
   "aria-current"?: "page";
+  /** Forwarded onto the rendered <a> — see AnalyticsEventListener, which reads this attribute off any link/button site-wide. */
+  "data-analytics-event"?: string;
 }
 
 const SIZE_CLASSES = {
@@ -51,6 +53,7 @@ export function CTAButton({
   magnetic = false,
   className,
   "aria-current": ariaCurrent,
+  "data-analytics-event": analyticsEvent,
 }: CTAButtonProps) {
   const classes = cn(
     "action-control inline-flex items-center gap-1.5 font-semibold uppercase tracking-wide",
@@ -76,12 +79,12 @@ export function CTAButton({
   );
 
   const button = external ? (
-    <a href={href} className={classes} aria-current={ariaCurrent}>
+    <a href={href} className={classes} aria-current={ariaCurrent} data-analytics-event={analyticsEvent}>
       {children}
       <ExternalLink size={14} aria-hidden="true" />
     </a>
   ) : (
-    <Link href={href} className={classes} aria-current={ariaCurrent}>
+    <Link href={href} className={classes} aria-current={ariaCurrent} data-analytics-event={analyticsEvent}>
       {children}
     </Link>
   );

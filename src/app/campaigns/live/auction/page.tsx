@@ -24,7 +24,7 @@ export default function LiveAuctionPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
 
-      <section className="border-b border-ink/10 bg-ink py-16 text-off-white sm:py-20">
+      <section data-analytics-event="auction_view" className="border-b border-ink/10 bg-ink py-16 text-off-white sm:py-20">
         <Container className="max-w-3xl">
           <SectionHeading
             as="h1"
@@ -35,7 +35,15 @@ export default function LiveAuctionPage() {
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-off-white/80">
             {LIVE_AUCTION.description}
           </p>
-          <CTAButton href={LIVE_AUCTION.biddingUrl} external tone="dark" size="lg" magnetic className="mt-8">
+          <CTAButton
+            href={LIVE_AUCTION.biddingUrl}
+            external
+            tone="dark"
+            size="lg"
+            magnetic
+            className="mt-8"
+            data-analytics-event="auction_bid_click"
+          >
             View the Auction <ExternalLink size={16} aria-hidden="true" />
           </CTAButton>
         </Container>
@@ -75,7 +83,13 @@ export default function LiveAuctionPage() {
             Item specifications, eligible 2027 show details, fulfillment, shipping or pickup, payment deadlines,
             and all final bidding terms are governed by the listing published on 32auctions.
           </p>
-          <CTAButton href={LIVE_AUCTION.biddingUrl} external size="lg" className="mt-6">
+          <CTAButton
+            href={LIVE_AUCTION.biddingUrl}
+            external
+            size="lg"
+            className="mt-6"
+            data-analytics-event="auction_bid_click"
+          >
             Go to 32auctions <ExternalLink size={16} aria-hidden="true" />
           </CTAButton>
         </Container>

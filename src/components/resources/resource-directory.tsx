@@ -10,6 +10,7 @@ import { EmptyState } from "@/components/shared/empty-state";
 import { FilterChip } from "@/components/shared/filter-chip";
 import { SearchField } from "@/components/shared/search-field";
 import { RevealGrid } from "@/components/shared/reveal-on-scroll";
+import { trackEvent } from "@/lib/analytics/plausible";
 import { cn } from "@/lib/utils";
 
 /** A single active-filter tag in the "Active filters" row, with its own remove button. Extracted so the 4 call sites below (need/audience/state/search) share one implementation instead of repeating the same markup. */
@@ -258,6 +259,18 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
       return matchesNeed && matchesAudience && matchesState && matchesScope && matchesAccess && matchesSearch;
     });
   }, [resources, needIds, audience, stateFilter, scope, accessFilters, search]);
+
+  // Tracked on its own debounce (not folded into the URL-sync effect above)
+  // so it fires once per pause in typing, carrying the result count at that
+  // moment — not on every keystroke, and not for an empty/cleared query.
+  useEffect(() => {
+    const query = search.trim();
+    if (!query) return;
+    const timeout = setTimeout(() => {
+      trackEvent("resource_search", { query, results: String(results.length) });
+    }, 500);
+    return () => clearTimeout(timeout);
+  }, [search, results.length]);
 
   // Drives the collapsible chip panel's own auto-open — search and the
   // state map are always visible outside that panel, so they don't need to
