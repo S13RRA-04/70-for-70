@@ -162,7 +162,34 @@ export const GEAR_JOURNEY_OPENING_POST: GearJourneyOpeningPost = {
  * Empty until the first one lands — BuildTimeline renders an empty list
  * fine, ending in its own "To Be Continued" marker.
  */
-export const GEAR_JOURNEY_TIMELINE: BikeBuildTimelineEntry[] = [];
+export const GEAR_JOURNEY_TIMELINE: BikeBuildTimelineEntry[] = [
+  {
+    id: "tri-suit-design-is-in",
+    date: "2026-10-08",
+    displayDate: "October 8, 2026",
+    title: "The Tri Suit Design Is In",
+    summary:
+      "Delfina Athletics delivered the finished tri suit design — black and topo-mapped, carrying the Tri For The 22 mark, the flag, and the Montgomery Bicycle Club and Stradalli St. marks on the back.",
+    status: "Design approved",
+    contributors: ["Nina at Delfina Athletics"],
+    photos: [
+      {
+        src: "/journal/gear-journey/tri-suit-design.jpg",
+        alt: "Front and back mockup of the Tri For The 22 tri suit: black with a subtle topo-map pattern, 'FOR THE 22' lettering, American flag stars, a blue/olive/yellow/red diagonal stripe, and on the back a circular 'FOR THE 22' logo above the Montgomery Bicycle Club and Stradalli St. marks and the line 'BECAUSE 22 ≠ 0'.",
+        caption: "The finished tri suit design, front and back — designed by Nina at Delfina Athletics.",
+        width: 3158,
+        height: 2350,
+      },
+    ],
+    body: [
+      "The tri suit is one of the pieces of equipment mentioned back in the opening post of this journal — another sizing chart, another specialized piece of gear that doesn't exist off the shelf once a campaign's branding gets involved.",
+      "Nina at Delfina Athletics took that on, and the finished design is in.",
+      "It's black, carrying a subtle topo-map texture, with FOR THE 22 across the chest and a star-and-stripe nod to the flag down the sleeve. A diagonal stripe in blue, olive, yellow, and red runs down the front — the same color language used across the campaign. The back carries the full circular FOR THE 22 mark, the Montgomery Bicycle Club and Stradalli St. logos, and the line that's been underneath all of this from the start: BECAUSE 22 ≠ 0.",
+      "Like the bike, this suit didn't come from a catalog. It came from someone willing to take the mission seriously and put real design work behind it.",
+      "One more piece of the kit, accounted for.",
+    ],
+  },
+];
 
 function getLatestGearJourneyEntry(): BikeBuildTimelineEntry | null {
   return GEAR_JOURNEY_TIMELINE.length > 0 ? GEAR_JOURNEY_TIMELINE[GEAR_JOURNEY_TIMELINE.length - 1] : null;
