@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Script from "next/script";
+import { headers } from "next/headers";
 import { Inter, Oswald } from "next/font/google";
 import {
   CAMPAIGNS,
@@ -138,6 +138,10 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   const mode = await getSiteMode();
   const campaignSlug = await getActiveCampaignSlug();
   const awarenessMonth = isSuicidePreventionMonth();
+  // Set by src/middleware.ts alongside the CSP header itself — required on
+  // the inline Plausible bootstrap script below, which has no `src` to
+  // allowlist by host the way the external script tag is.
+  const nonce = (await headers()).get("x-nonce") ?? undefined;
 
   return (
     <html
@@ -155,12 +159,26 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
                 tagged script URL encodes which registered site this reports
                 to, replacing the older generic script.js + data-domain
                 pattern. Don't regenerate this from Plausible's general docs;
-                if it ever needs to change, re-copy it from the dashboard. */}
-            <Script src="https://plausible.io/js/pa-puXStW8Vosfd1RxpgqxlI.js" strategy="afterInteractive" async />
-            <Script id="plausible-init" strategy="afterInteractive">
-              {`window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
-  plausible.init()`}
-            </Script>
+                if it ever needs to change, re-copy it from the dashboard.
+                Plain native <script> tags (matching the JSON-LD scripts just
+                above), not next/script's <Script> component: even with
+                strategy="beforeInteractive", next/script in the App Router
+                injects via a client-side bootstrap queue (`__next_s`), so it
+                never appears as a literal <script> in the server-rendered
+                HTML — which is what Plausible's own "detect installation"
+                check (and the dashboard's "paste in <head>" instruction)
+                looks for. No nonce needed on the external-src tag (its host
+                is allowlisted in middleware.ts's CSP, same as Turnstile's
+                script); the inline bootstrap below has no `src` to allowlist
+                by host, so it needs the per-request nonce instead. */}
+            <script src="https://plausible.io/js/pa-puXStW8Vosfd1RxpgqxlI.js" async />
+            <script
+              nonce={nonce}
+              dangerouslySetInnerHTML={{
+                __html:
+                  "window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()",
+              }}
+            />
           </>
         )}
         <AnalyticsEventListener />
