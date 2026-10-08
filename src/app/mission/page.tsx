@@ -88,7 +88,7 @@ const THE_REALITY = [
   },
   {
     icon: HeartHandshake,
-    title: "What They Carry",
+    title: "The Costs That Don't Show",
     body: [
       "The effects of service aren't always visible. Physical injury, chronic pain, and the strain of years spent operating under pressure can persist long after the uniform comes off. So can the harder-to-see costs — reintegration, identity, and the mental and emotional load of what the job asked of them.",
     ],
@@ -293,11 +293,10 @@ export default function MissionPage() {
           position statement. */}
       <section id="move-the-mission" className="scroll-mt-28 border-t border-ink/10 bg-off-white py-16 sm:py-20">
         <Container>
-          <SectionHeading
-            eyebrow="Connect + Mobilize"
-            title="How We Move the Mission Forward"
-            description={ORG_SUPPORTING_LINE}
-          />
+          <SectionHeading eyebrow="Connect + Mobilize" title="How We Move the Mission Forward" />
+          <p className="mt-4 max-w-2xl font-display text-2xl font-semibold uppercase tracking-tight text-ink sm:text-3xl">
+            {ORG_SUPPORTING_LINE}
+          </p>
           <div className="mt-8 grid gap-6 sm:grid-cols-2">
             <div className="border border-ink/10 bg-sand-light/40 p-8">
               <Link2 className="h-6 w-6 text-bronze" aria-hidden="true" />

@@ -24,12 +24,22 @@ export function ResourceNavigator({ resources }: { resources: Resource[] }) {
   const toggle = (field: "audiences" | "situations" | "priorities", value: string) => setAnswers((a) => ({ ...a, [field]: a[field].includes(value) ? a[field].filter((v) => v !== value) : [...a[field], value] }));
   const restart = () => { setStarted(false); setStep(0); setAnswers(INITIAL); setVisible(5); };
 
-  if (!started) return <div className="rounded-sm border border-bronze/30 bg-sand-light p-6 sm:p-9">
-    <p className="text-xs font-semibold uppercase tracking-widest text-bronze-text">A clearer place to begin</p>
-    <h2 className="mt-2 font-display text-3xl font-bold uppercase tracking-tight text-ink">Not sure where to start?</h2>
-    <p className="mt-3 max-w-2xl text-base leading-relaxed text-charcoal-light">You don&apos;t need to know exactly what kind of help you need. Answer a few private, non-clinical questions and we&apos;ll narrow the directory to a few relevant options.</p>
-    <div className="mt-6 flex flex-wrap gap-3"><button type="button" onClick={() => setStarted(true)} data-analytics-event="resource_navigator_started" className="inline-flex items-center gap-2 rounded-sm bg-ink px-5 py-3 text-sm font-semibold uppercase tracking-wide text-off-white">Help Me Find Support <ArrowRight size={15}/></button><a href="#browse-resources" className="rounded-sm border border-ink/20 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-ink">Browse All Resources</a></div>
-    <p className="mt-4 text-xs text-charcoal-light">No account required. Your answers stay in this browser and are not submitted.</p>
+  if (!started) return <div>
+    <div className="grid gap-4 sm:grid-cols-2">
+      <div className="flex flex-col rounded-sm border-2 border-bronze bg-sand-light p-6 sm:p-8">
+        <p className="text-xs font-semibold uppercase tracking-widest text-bronze-text">Guided Discovery</p>
+        <h2 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight text-ink">Help Me Figure Out What I Need</h2>
+        <p className="mt-2 flex-1 text-sm leading-relaxed text-charcoal-light">Answer a few private, non-clinical questions and we&apos;ll narrow the directory to a few relevant options.</p>
+        <button type="button" onClick={() => setStarted(true)} data-analytics-event="resource_navigator_started" className="mt-5 inline-flex items-center justify-center gap-2 rounded-sm bg-ink px-5 py-3 text-sm font-semibold uppercase tracking-wide text-off-white">Start <ArrowRight size={15}/></button>
+      </div>
+      <div className="flex flex-col rounded-sm border-2 border-ink/15 bg-off-white p-6 sm:p-8">
+        <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">Direct Search</p>
+        <h2 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight text-ink">I Know What I&apos;m Looking For</h2>
+        <p className="mt-2 flex-1 text-sm leading-relaxed text-charcoal-light">Go straight to the full directory — search, filter by need or population, or browse by state.</p>
+        <a href="#browse-resources" className="mt-5 inline-flex items-center justify-center rounded-sm border border-ink/20 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-ink">Browse the Directory</a>
+      </div>
+    </div>
+    <p className="mt-4 text-xs text-charcoal-light">No account required. Answers in the guided path stay in this browser and are not submitted.</p>
   </div>;
 
   const questions = [

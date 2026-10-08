@@ -34,16 +34,11 @@ export default async function ResourcesPage() {
       <section className="py-16 sm:py-20">
         <Container>
           <ResourceNavigator resources={resources} />
-          <div id="browse-resources" className="mt-16 scroll-mt-24 border-t border-ink/10 pt-12">
-            <SectionHeading
-              eyebrow="Explore Everything"
-              title="Browse All Resources"
-              description="Search directly or filter by need, population, and location."
-            />
+          <div id="browse-resources" className="mt-12 scroll-mt-24 border-t border-ink/10 pt-12">
+            <Suspense fallback={null}>
+              <ResourceDirectory resources={resources} />
+            </Suspense>
           </div>
-          <Suspense fallback={null}>
-            <ResourceDirectory resources={resources} />
-          </Suspense>
           <p className="mt-10 text-center text-sm text-charcoal-light">
             Every listing is reviewed before it goes live.{" "}
             <a href="/standards" className="font-semibold text-bronze hover:text-bronze-dark">
