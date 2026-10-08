@@ -2,13 +2,15 @@ import "server-only";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { logServerWarn } from "@/lib/log";
+import { addContactToAudience } from "@/lib/email/resend";
 
 /**
- * Provider-abstracted signup capture. No email-sending infrastructure is
- * built here — this only durably records the signup (so nothing is lost)
- * and marks it for sync once a real provider (Mailchimp, ConvertKit,
- * Buttondown, etc.) is chosen. Swap the "TODO" block for that provider's
- * API call; nothing else needs to change.
+ * Durably records the signup first (so nothing is lost even if the provider
+ * call below fails), then syncs it to the Resend Audience configured via
+ * RESEND_AUDIENCE_ID. `synced_to_provider` reflects whether that sync
+ * actually succeeded, not just whether a provider is configured — rows that
+ * land here before RESEND_AUDIENCE_ID exists stay `false` and can be
+ * backfilled later via a one-off script over unsynced rows.
  */
 export async function subscribeToUpdates(firstName: string, email: string): Promise<void> {
   if (!isSupabaseConfigured()) {
@@ -16,16 +18,14 @@ export async function subscribeToUpdates(firstName: string, email: string): Prom
     return;
   }
 
+  const synced = await addContactToAudience({ email, firstName });
+
   const supabase = createAdminClient();
   const { error } = await supabase
     .from("email_subscribers")
-    .upsert({ first_name: firstName, email, synced_to_provider: false }, { onConflict: "email" });
+    .upsert({ first_name: firstName, email, synced_to_provider: synced }, { onConflict: "email" });
 
   if (error) {
     throw new Error(`Failed to record email signup: ${error.message}`);
   }
-
-  // TODO: no email provider configured yet. Once one is chosen, sync this
-  // subscriber to it here (or via a scheduled job over unsynced rows) and
-  // set synced_to_provider = true.
 }
