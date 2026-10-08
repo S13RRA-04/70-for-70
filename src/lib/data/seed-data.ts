@@ -535,6 +535,30 @@ export const SEED_MISSION_PARTNERS: MissionPartnerRow[] = [
     tier: null,
     designation: null,
   },
+  {
+    id: "seed-mission-partner-goruck",
+    name: "GORUCK",
+    relationship_label: "Gear Partner",
+    description:
+      "Veteran-owned maker of Special Forces-standard rucksacks and training gear, supporting RuckUp22 Huntsville with event-day gear for Ruck For The 22.",
+    logo_url: "/partners/goruck-logo.png",
+    logo_light_url: null,
+    logo_dark_url: null,
+    logo_background: null,
+    website_url: "https://www.goruck.com",
+    support_type: null,
+    geographic_scope: null,
+    active: true,
+    display_order: 0,
+    agreement_status: null,
+    logo_permission: true,
+    relationship_start: null,
+    relationship_end: null,
+    associated_campaigns: ["ruck"],
+    partner_type: "gear-partner",
+    tier: null,
+    designation: null,
+  },
 ];
 
 // No posts yet. Superseded by SEED_JOURNAL_ENTRIES below (see
