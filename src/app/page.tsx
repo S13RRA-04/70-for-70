@@ -182,7 +182,7 @@ export default async function HomePage() {
               <div className="lg:col-span-8 xl:col-span-9">
                 <form
                   action="/resources"
-                  className="grid gap-4 rounded-sm border border-ink/10 bg-off-white p-6 sm:grid-cols-3 sm:items-end sm:p-8"
+                  className="grid gap-4 rounded-sm border-2 border-bronze/40 bg-off-white p-6 shadow-sm sm:grid-cols-3 sm:items-end sm:p-8"
                 >
                   <label className="block text-sm">
                     <span className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
@@ -260,30 +260,29 @@ export default async function HomePage() {
           backing the mission instead of the first thing a new visitor sees.
           Values from getMissionMetrics()/getFundraisingImpactStats(), never
           hardcoded. */}
-      <section id="network" className="scroll-mt-20 bg-off-white py-16 sm:py-20">
+      <section id="network" className="scroll-mt-20 border-y border-ink/10 bg-off-white py-10 sm:py-12">
         <Container>
           <RevealOnScroll>
-            <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
-              <div className="lg:col-span-5">
-                <SectionHeading
-                  eyebrow="The Ecosystem"
-                  title="A Growing Network Behind the Mission"
-                  description="Resources, beneficiaries, campaign partners, and active campaigns — one organization, not separate projects."
-                />
-                <CTAButton href="/network" variant="secondary" className="mt-6">
-                  Explore the Network &rarr;
-                </CTAButton>
+            <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                  The Ecosystem
+                </p>
+                <p className="mt-1 max-w-sm text-sm text-charcoal-light">
+                  Resources, beneficiaries, campaign partners, and active campaigns — one
+                  organization, not separate projects.{" "}
+                  <Link href="/network" className="font-semibold text-bronze hover:text-bronze-dark">
+                    Explore the Network &rarr;
+                  </Link>
+                </p>
               </div>
-              <dl className="grid grid-cols-2 gap-4 lg:col-span-7 sm:grid-cols-4">
+              <dl className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-6">
                 {networkStats.map((stat) => (
-                  <div
-                    key={stat.label}
-                    className="rounded-sm border border-ink/10 bg-sand-light/60 p-5 text-center"
-                  >
-                    <dd className="font-display text-3xl font-semibold text-ink sm:text-4xl">
+                  <div key={stat.label} className="text-center sm:text-left">
+                    <dd className="font-display text-2xl font-semibold text-ink sm:text-3xl">
                       {String(stat.value)}
                     </dd>
-                    <dt className="mt-1 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                    <dt className="mt-0.5 text-[11px] font-semibold uppercase tracking-widest text-charcoal-light">
                       {stat.label}
                     </dt>
                   </div>
@@ -296,14 +295,14 @@ export default async function HomePage() {
 
       {/* Why 22 + Black — Tier 1: sparse, poster-like memorial composition, typography-led */}
       {why22 && (
-        <section id="why-22" className="scroll-mt-20 bg-ink py-20 text-off-white sm:py-28">
+        <section id="why-22" className="scroll-mt-20 bg-ink py-24 text-off-white sm:py-32">
           <Container>
             <RevealOnScroll>
               <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
                 <div>
                   <span
                     aria-hidden="true"
-                    className="font-display text-7xl font-bold leading-none text-bronze-light sm:text-8xl"
+                    className="font-display text-8xl font-bold leading-none text-bronze-light sm:text-9xl"
                   >
                     22
                   </span>
@@ -317,7 +316,7 @@ export default async function HomePage() {
                 </div>
 
                 <div className="border-t border-off-white/15 pt-10 lg:border-l lg:border-t-0 lg:pl-16 lg:pt-0">
-                  <p className="text-balance font-display text-5xl font-bold uppercase leading-none tracking-tight sm:text-6xl">
+                  <p className="text-balance font-display text-6xl font-bold uppercase leading-none tracking-tight sm:text-7xl">
                     Black.
                   </p>
                   <p className="mt-2 font-display text-lg font-semibold uppercase tracking-tight text-bronze-light sm:text-xl">
