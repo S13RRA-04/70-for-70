@@ -6,13 +6,17 @@ import {
   PROMO_KIT_ZIP_PATH,
   REGISTRATION_EMAIL_CONTENT,
 } from "@/lib/content/22-for-the-22-promokit";
-import { EVENT22_CAMPAIGN_URL } from "@/lib/constants";
+import { CONTACT_EMAIL, EVENT22_CAMPAIGN_URL, SITE_NAME } from "@/lib/constants";
+import { sendEmail } from "@/lib/email/resend";
 
 /**
- * TODO: no email provider is configured yet. Wire this to a real service
- * (e.g. Resend, Postmark, SES) before launch — until then this only logs,
- * so "send acknowledgment" / "notify administrator" are architecturally
- * wired into the submission flow but not actually delivered.
+ * Sends both halves of each submission notification through Resend
+ * (src/lib/email/resend.ts): an acknowledgment to the submitter and a
+ * heads-up to CONTACT_EMAIL so an admin sees it without checking the
+ * dashboard. sendEmail never throws, so a Resend outage degrades to
+ * "the submission saved but no email went out" rather than a failed
+ * request — the on-screen success state in each form is always the
+ * authoritative confirmation.
  */
 export async function notifySponsorshipRequestSubmitted(input: {
   requestId: string;
@@ -20,42 +24,43 @@ export async function notifySponsorshipRequestSubmitted(input: {
   organizationName: string;
   email: string;
 }) {
-  console.info(
-    `[notifications] TODO: email provider not configured — would send requester ` +
-      `acknowledgment to ${input.email} and notify the campaign administrator ` +
-      `about sponsorship request ${input.requestId} from ${input.organizationName} ` +
-      `(${input.contactName}).`,
-  );
+  await sendEmail({
+    to: input.email,
+    subject: `We received your sponsorship inquiry — ${SITE_NAME}`,
+    text: `Hi ${input.contactName},\n\nThanks for reaching out on behalf of ${input.organizationName}. We've received your sponsorship inquiry and will follow up soon.\n\n— ${SITE_NAME}`,
+  });
+
+  if (CONTACT_EMAIL) {
+    await sendEmail({
+      to: CONTACT_EMAIL,
+      subject: `New sponsorship request: ${input.organizationName}`,
+      text: `${input.contactName} (${input.email}) submitted a sponsorship request on behalf of ${input.organizationName}.\n\nRequest ID: ${input.requestId}`,
+      replyTo: input.email,
+    });
+  }
 }
 
-/**
- * Same "architecturally wired, not yet delivered" state as
- * notifySponsorshipRequestSubmitted above — the applicant's on-screen
- * confirmation (see TriathlonTeamApplicationForm's success state) is the
- * real confirmation until a real email provider is configured.
- */
 export async function notifyTriathlonTeamApplicationSubmitted(input: {
   applicationId: string;
   fullName: string;
   email: string;
 }) {
-  console.info(
-    `[notifications] TODO: email provider not configured — would send ${input.fullName} ` +
-      `(${input.email}) a confirmation email and notify the campaign administrator about ` +
-      `Triathlon Team application ${input.applicationId}.`,
-  );
+  await sendEmail({
+    to: input.email,
+    subject: `Triathlon Team application received — ${SITE_NAME}`,
+    text: `Hi ${input.fullName},\n\nThanks for applying to the Triathlon Team. We've received your application and will follow up soon.\n\n— ${SITE_NAME}`,
+  });
+
+  if (CONTACT_EMAIL) {
+    await sendEmail({
+      to: CONTACT_EMAIL,
+      subject: `New Triathlon Team application: ${input.fullName}`,
+      text: `${input.fullName} (${input.email}) submitted a Triathlon Team application.\n\nApplication ID: ${input.applicationId}`,
+      replyTo: input.email,
+    });
+  }
 }
 
-/**
- * Same "architecturally wired, not yet delivered" state as
- * notifyTriathlonTeamApplicationSubmitted above — the on-screen success
- * state (see RegistrationSuccess, which already hands the participant the
- * Promo Kit directly) is the real confirmation until a real email provider
- * is configured. The subject/body built below is the actual, ready-to-send
- * confirmation email content per the Promo Kit brief — once a provider is
- * wired in, sending it is a matter of passing this content through, not
- * writing it from scratch.
- */
 export async function notifyEventRegistrationSubmitted(input: {
   registrationId: string;
   firstName: string;
@@ -72,8 +77,8 @@ export async function notifyEventRegistrationSubmitted(input: {
     "",
     REGISTRATION_EMAIL_CONTENT.body,
     "",
-    `[${REGISTRATION_EMAIL_CONTENT.primaryButtonLabel}](${promoKitZipUrl})`,
-    `[${REGISTRATION_EMAIL_CONTENT.secondaryButtonLabel}](${eventPageUrl})`,
+    `${REGISTRATION_EMAIL_CONTENT.primaryButtonLabel}: ${promoKitZipUrl}`,
+    `${REGISTRATION_EMAIL_CONTENT.secondaryButtonLabel}: ${eventPageUrl}`,
     "",
     `View individual assets: ${promoKitPageUrl}`,
     "",
@@ -85,10 +90,18 @@ export async function notifyEventRegistrationSubmitted(input: {
     PROMO_KIT_EMAIL_DISCLAIMER,
   ].join("\n");
 
-  console.info(
-    `[notifications] TODO: email provider not configured — would send ${input.firstName} ` +
-      `${input.lastName} (${input.email}) this confirmation email and notify the campaign ` +
-      `administrator about 22 For the 22 registration ${input.registrationId}.\n` +
-      `Subject: ${REGISTRATION_EMAIL_CONTENT.subject}\n${emailBody}`,
-  );
+  await sendEmail({
+    to: input.email,
+    subject: REGISTRATION_EMAIL_CONTENT.subject,
+    text: emailBody,
+  });
+
+  if (CONTACT_EMAIL) {
+    await sendEmail({
+      to: CONTACT_EMAIL,
+      subject: `New 22 For the 22 registration: ${input.firstName} ${input.lastName}`,
+      text: `${input.firstName} ${input.lastName} (${input.email}) registered for 22 For the 22.\n\nRegistration ID: ${input.registrationId}`,
+      replyTo: input.email,
+    });
+  }
 }

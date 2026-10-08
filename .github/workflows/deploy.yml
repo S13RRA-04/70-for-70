@@ -98,6 +98,9 @@ jobs:
           # Optional — bot protection stays inert while unset (see
           # src/lib/turnstile.ts). Set the repo secret to start enforcing.
           SECRET_TURNSTILE_SECRET_KEY: ${{ secrets.TURNSTILE_SECRET_KEY }}
+          # Optional — email sends/audience sync stay inert while unset (see
+          # src/lib/email/resend.ts). Set the repo secret to start sending.
+          SECRET_RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
         run: |
           node -e "
             const fs = require('fs');
@@ -111,6 +114,7 @@ jobs:
               'CLOUDFLARE_ACCOUNT_ID',
               'CLOUDFLARE_ANALYTICS_API_TOKEN',
               'TURNSTILE_SECRET_KEY',
+              'RESEND_API_KEY',
             ];
             const out = {};
             for (const name of names) {
