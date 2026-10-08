@@ -1,11 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import { LifeBuoy } from "lucide-react";
+import { LifeBuoy, Quote } from "lucide-react";
 import { Container } from "@/components/shared/container";
 import { CTASection } from "@/components/shared/cta-section";
 import { ChapterRail } from "@/components/about/chapter-rail";
 import { ImageTextRow } from "@/components/about/image-text-row";
 import { MarkDiagram } from "@/components/about/mark-diagram";
+import { RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import { ABOUT_CHAPTERS, ABOUT_CONTENT, findAboutSubsection } from "@/lib/content/about";
 import { CAMPAIGN_URL, SITE_NAME } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
@@ -49,21 +50,23 @@ export default function AboutPage() {
       {/* Founder's Story intro */}
       <section id="founders-story" className="scroll-mt-28 border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container>
-          <ImageTextRow
-            image={{ src: ABOUT_CONTENT.portraitUrl ?? "/about/hiking.jpg", alt: ABOUT_CONTENT.name }}
-            eyebrow="Founder's Story"
-            heading="Why For The 22 Exists"
-          >
-            <p className="text-sm font-medium uppercase tracking-wide text-charcoal-light">
-              {ABOUT_CONTENT.name} — {ABOUT_CONTENT.tagline}
-            </p>
-            <p className="text-base leading-relaxed text-charcoal-light">
-              For The 22 grew out of a Navy deployment to Afghanistan, the years of struggle that
-              followed, and a recovery that started with faith and community. This is the story of
-              how one veteran&apos;s fight to find a way forward became a mission to help others
-              find theirs.
-            </p>
-          </ImageTextRow>
+          <RevealOnScroll>
+            <ImageTextRow
+              image={{ src: ABOUT_CONTENT.portraitUrl ?? "/about/hiking.jpg", alt: ABOUT_CONTENT.name }}
+              eyebrow="Founder's Story"
+              heading="Why For The 22 Exists"
+            >
+              <p className="text-sm font-medium uppercase tracking-wide text-charcoal-light">
+                {ABOUT_CONTENT.name} — {ABOUT_CONTENT.tagline}
+              </p>
+              <p className="text-base leading-relaxed text-charcoal-light">
+                For The 22 grew out of a Navy deployment to Afghanistan, the years of struggle that
+                followed, and a recovery that started with faith and community. This is the story of
+                how one veteran&apos;s fight to find a way forward became a mission to help others
+                find theirs.
+              </p>
+            </ImageTextRow>
+          </RevealOnScroll>
         </Container>
       </section>
 
@@ -74,7 +77,7 @@ export default function AboutPage() {
         <span id="my-story" aria-hidden="true" className="block scroll-mt-28 sm:scroll-mt-32" />
         <Container>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze">01 — Service</p>
-          <div className="mt-6">
+          <RevealOnScroll className="mt-6">
             <ImageTextRow image={myStory.image!} heading={myStory.heading} reverse>
               {myStory.body.map((paragraph, i) => (
                 <p key={i} className="text-base leading-relaxed text-charcoal-light">
@@ -99,7 +102,7 @@ export default function AboutPage() {
                 Featured as VA&apos;s #VeteranOfTheDay &rarr;
               </a>
             </ImageTextRow>
-          </div>
+          </RevealOnScroll>
         </Container>
       </section>
 
@@ -107,16 +110,18 @@ export default function AboutPage() {
       <section id="after" className="scroll-mt-28 bg-charcoal py-16 text-off-white sm:py-24">
         <Container className={READING_COLUMN}>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">02 — After</p>
-          <h2 className="mt-2 font-display text-2xl font-semibold uppercase tracking-tight sm:text-3xl">
-            {after.heading}
-          </h2>
-          <div className="mt-6 space-y-4">
-            {after.body.map((paragraph, i) => (
-              <p key={i} className="text-base leading-relaxed text-off-white/75">
-                {paragraph}
-              </p>
-            ))}
-          </div>
+          <RevealOnScroll>
+            <h2 className="mt-2 font-display text-2xl font-semibold uppercase tracking-tight sm:text-3xl">
+              {after.heading}
+            </h2>
+            <div className="mt-6 space-y-4">
+              {after.body.map((paragraph, i) => (
+                <p key={i} className="text-base leading-relaxed text-off-white/75">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+          </RevealOnScroll>
         </Container>
       </section>
 
@@ -124,13 +129,16 @@ export default function AboutPage() {
       <section id="turning-point" className="scroll-mt-28 border-b border-ink/10 bg-off-white py-20 sm:py-28">
         <Container className={READING_COLUMN}>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze">03 — Turning Point</p>
-          <blockquote className="mt-8 border-l-2 border-bronze pl-6 font-display text-xl font-medium italic leading-relaxed text-ink sm:text-2xl">
-            <p>&ldquo;{testimony.pullQuote!.text}&rdquo;</p>
-            <footer className="mt-3 text-sm font-semibold not-italic uppercase tracking-wide text-bronze">
-              {testimony.pullQuote!.attribution}
-            </footer>
-          </blockquote>
-          <div className="mt-10 space-y-4">
+          <RevealOnScroll variant="rise">
+            <blockquote className="mt-8 border-l-2 border-bronze pl-6 font-display text-xl font-medium italic leading-relaxed text-ink sm:text-2xl">
+              <Quote className="h-8 w-8 text-bronze/30" aria-hidden="true" />
+              <p className="mt-3">&ldquo;{testimony.pullQuote!.text}&rdquo;</p>
+              <footer className="mt-3 text-sm font-semibold not-italic uppercase tracking-wide text-bronze">
+                {testimony.pullQuote!.attribution}
+              </footer>
+            </blockquote>
+          </RevealOnScroll>
+          <RevealOnScroll className="mt-10 space-y-4" delay={100}>
             {testimony.body.map((paragraph, i) => (
               <p key={i} className="text-base leading-relaxed text-charcoal-light">
                 {paragraph}
@@ -141,7 +149,7 @@ export default function AboutPage() {
                 {paragraph}
               </p>
             ))}
-          </div>
+          </RevealOnScroll>
         </Container>
       </section>
 
@@ -149,63 +157,70 @@ export default function AboutPage() {
       <section id="for-the-22" className="scroll-mt-28 pt-16 sm:pt-24">
         <Container className={READING_COLUMN}>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze">04 — For The 22</p>
-          <h2 className="mt-2 font-display text-2xl font-semibold uppercase tracking-tight text-ink sm:text-3xl">
-            {theIdea.heading}
-          </h2>
-          <div className="mt-5 space-y-4">
-            {theIdea.body.map((paragraph, i) => (
-              <p key={i} className="text-base leading-relaxed text-charcoal-light">
-                {paragraph}
+          <RevealOnScroll>
+            <h2 className="mt-2 font-display text-2xl font-semibold uppercase tracking-tight text-ink sm:text-3xl">
+              {theIdea.heading}
+            </h2>
+            <div className="mt-5 space-y-4">
+              {theIdea.body.map((paragraph, i) => (
+                <p key={i} className="text-base leading-relaxed text-charcoal-light">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+            <blockquote className="mt-6 border-l-2 border-bronze pl-6 font-display text-lg font-medium italic leading-relaxed text-ink sm:text-xl">
+              <Quote className="h-6 w-6 text-bronze/30" aria-hidden="true" />
+              <p className="mt-2">
+                There is another veteran somewhere trying to figure out what comes next — another
+                who needs a mission.
               </p>
-            ))}
-          </div>
-          <blockquote className="mt-6 border-l-2 border-bronze pl-6 font-display text-lg font-medium italic leading-relaxed text-ink sm:text-xl">
-            There is another veteran somewhere trying to figure out what comes next — another
-            who needs a mission.
-          </blockquote>
-          <a
-            href={`${CAMPAIGN_URL}/the-story`}
-            className="mt-6 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
-          >
-            Read the full athletic story at Tri For The 22 &rarr;
-          </a>
+            </blockquote>
+            <a
+              href={`${CAMPAIGN_URL}/the-story`}
+              className="mt-6 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
+            >
+              Read the full athletic story at Tri For The 22 &rarr;
+            </a>
+          </RevealOnScroll>
         </Container>
 
         <Container className="mt-14 sm:mt-20">
-          <div className="grid gap-4 lg:grid-cols-[1.3fr_1fr] lg:items-start">
-            <div data-rail-quiet className="bg-ink px-6 py-14 text-off-white sm:px-16 sm:py-20">
-              <span className="font-display text-7xl font-bold leading-none text-bronze-light sm:text-8xl">
-                22
-              </span>
-              <div className="mt-6 max-w-lg space-y-4">
-                {why22.body.map((paragraph, i) => (
-                  <p key={i} className="text-base leading-relaxed text-off-white/75">
-                    {paragraph}
-                  </p>
-                ))}
+          <RevealOnScroll>
+            <div className="grid gap-4 lg:grid-cols-[1.3fr_1fr] lg:items-start">
+              <div data-rail-quiet className="bg-ink px-6 py-14 text-off-white sm:px-16 sm:py-20">
+                <span className="font-display text-7xl font-bold leading-none text-bronze-light sm:text-8xl">
+                  22
+                </span>
+                <div className="mt-6 max-w-lg space-y-4">
+                  {why22.body.map((paragraph, i) => (
+                    <p key={i} className="text-base leading-relaxed text-off-white/75">
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            <div className="border border-bronze/30 bg-off-white p-6">
-              <div className="flex items-center gap-3">
-                <LifeBuoy className="h-6 w-6 shrink-0 text-bronze" aria-hidden="true" />
-                <p className="text-sm font-semibold uppercase tracking-widest text-bronze">
-                  Need Help Now?
+              <div className="border border-bronze/30 bg-off-white p-6">
+                <div className="flex items-center gap-3">
+                  <LifeBuoy className="h-6 w-6 shrink-0 text-bronze" aria-hidden="true" />
+                  <p className="text-sm font-semibold uppercase tracking-widest text-bronze">
+                    Need Help Now?
+                  </p>
+                </div>
+                <p className="mt-3 text-sm leading-relaxed text-charcoal-light">
+                  If you or someone you know is in crisis, immediate support is available.{" "}
+                  {SITE_NAME} is not a crisis-response service — the organizations listed connect
+                  you with people equipped to help.
                 </p>
+                <Link
+                  href="/crisis"
+                  className="mt-4 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
+                >
+                  Get Crisis Support &rarr;
+                </Link>
               </div>
-              <p className="mt-3 text-sm leading-relaxed text-charcoal-light">
-                If you or someone you know is in crisis, immediate support is available.{" "}
-                {SITE_NAME} is not a crisis-response service — the organizations listed connect
-                you with people equipped to help.
-              </p>
-              <Link
-                href="/crisis"
-                className="mt-4 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
-              >
-                Get Crisis Support &rarr;
-              </Link>
             </div>
-          </div>
+          </RevealOnScroll>
         </Container>
 
         <div
@@ -213,7 +228,7 @@ export default function AboutPage() {
           data-rail-quiet
           className="scroll-mt-28 mt-14 w-full bg-ink py-24 text-off-white sm:mt-20 sm:py-36"
         >
-          <div className="mx-auto max-w-2xl px-4 text-center sm:px-6">
+          <RevealOnScroll className="mx-auto max-w-2xl px-4 text-center sm:px-6">
             <p className="text-balance font-display text-6xl font-bold uppercase leading-none tracking-tight sm:text-8xl">
               Black.
             </p>
@@ -227,7 +242,7 @@ export default function AboutPage() {
                 </p>
               ))}
             </div>
-          </div>
+          </RevealOnScroll>
         </div>
       </section>
 
@@ -235,17 +250,19 @@ export default function AboutPage() {
       <section id="the-mark" className="scroll-mt-28 border-b border-ink/10 bg-off-white py-16 sm:py-24">
         <Container>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze">05 — The Mark</p>
-          <h2 className="mt-2 font-display text-2xl font-semibold uppercase tracking-tight text-ink sm:text-3xl">
-            Nothing in the mark is decorative.
-          </h2>
-          <div className="mt-12">
-            <MarkDiagram />
-          </div>
-          <p className="mt-10 text-center text-sm text-charcoal-light">
-            <Link href="/press#brand-colors" className="font-semibold text-bronze hover:text-bronze-dark">
-              See the full color breakdown &rarr;
-            </Link>
-          </p>
+          <RevealOnScroll>
+            <h2 className="mt-2 font-display text-2xl font-semibold uppercase tracking-tight text-ink sm:text-3xl">
+              Nothing in the mark is decorative.
+            </h2>
+            <div className="mt-12">
+              <MarkDiagram />
+            </div>
+            <p className="mt-10 text-center text-sm text-charcoal-light">
+              <Link href="/press#brand-colors" className="font-semibold text-bronze hover:text-bronze-dark">
+                See the full color breakdown &rarr;
+              </Link>
+            </p>
+          </RevealOnScroll>
         </Container>
       </section>
 
@@ -253,22 +270,24 @@ export default function AboutPage() {
       <section id="mission-going" className="scroll-mt-28 border-b border-ink/10 bg-ink py-16 text-off-white sm:py-24">
         <Container className={READING_COLUMN}>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">06 — What&apos;s Next</p>
-          <h2 className="mt-2 font-display text-2xl font-semibold uppercase tracking-tight sm:text-3xl">
-            {missionGoing.heading}
-          </h2>
-          <div className="mt-6 space-y-4">
-            {missionGoing.body.map((paragraph, i) => (
-              <p key={i} className="text-base leading-relaxed text-off-white/75">
-                {paragraph}
-              </p>
-            ))}
-          </div>
-          <Link
-            href="/campaigns"
-            className="mt-6 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze-light hover:text-off-white"
-          >
-            See Where the Mission Is Headed &rarr;
-          </Link>
+          <RevealOnScroll>
+            <h2 className="mt-2 font-display text-2xl font-semibold uppercase tracking-tight sm:text-3xl">
+              {missionGoing.heading}
+            </h2>
+            <div className="mt-6 space-y-4">
+              {missionGoing.body.map((paragraph, i) => (
+                <p key={i} className="text-base leading-relaxed text-off-white/75">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+            <Link
+              href="/campaigns"
+              className="mt-6 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze-light hover:text-off-white"
+            >
+              See Where the Mission Is Headed &rarr;
+            </Link>
+          </RevealOnScroll>
         </Container>
       </section>
 
