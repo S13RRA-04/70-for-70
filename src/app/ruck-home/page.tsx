@@ -21,6 +21,7 @@ import {
   SITE_URL,
 } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
+import { formatCurrency } from "@/lib/utils";
 import type { LogoBackground } from "@/types/database";
 
 const RUCK = CAMPAIGNS.ruck;
@@ -336,9 +337,9 @@ export default async function RuckHomePage() {
               <SectionHeading
                 eyebrow="Cody's Ruck Campaign"
                 title="A Separate Path Into The $70K Mission"
-                description={`Alongside RuckUp22 itself, Cody's own Ruck For The 22 effort supports the same causes as ${CAMPAIGNS.tri.name} — and contributes to For The 22's shared $70,000 mission goal.`}
+                description={`Alongside RuckUp22 itself, Cody's own Ruck For The 22 effort supports the same causes as ${CAMPAIGNS.tri.name} — and contributes to For The 22's shared ${formatCurrency(fundraisingStats.fundraisingGoal)} mission goal.`}
               />
-              <p className="mt-5 font-display text-lg font-semibold uppercase text-ink">Cody&apos;s Ruck Campaign <span aria-hidden="true">↓</span> The $70K Mission <span aria-hidden="true">↓</span> Two verified beneficiaries</p>
+              <p className="mt-5 font-display text-lg font-semibold uppercase text-ink">Cody&apos;s Ruck Campaign <span aria-hidden="true">↓</span> The $70K Mission <span aria-hidden="true">↓</span> {campaignBeneficiaries.length} verified {campaignBeneficiaries.length === 1 ? "beneficiary" : "beneficiaries"}</p>
               <div className="mt-6 rounded-sm border border-ink/10 bg-sand-light p-6 lg:max-w-3xl">
                 <MissionProgress totalRaised={fundraisingStats.amountRaised} goal={fundraisingStats.fundraisingGoal} />
                 <p className="mt-4 text-xs text-charcoal-light">

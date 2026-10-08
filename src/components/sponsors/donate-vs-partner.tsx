@@ -1,5 +1,6 @@
 import { CTAButton } from "@/components/shared/cta-button";
 import { SectionHeading } from "@/components/shared/section-heading";
+import { SITE_URL } from "@/lib/constants";
 
 /**
  * Strategically/ethically important distinction, kept explicit rather than
@@ -37,7 +38,7 @@ export function DonateVsPartner() {
             Help get Tri For the 22 to the starting line. Equipment, services, expertise, and sponsorship
             support campaign execution, training, race preparation, outreach, and related campaign needs.
           </p>
-          <CTAButton href="/contact?item=Campaign%20Partnership" className="mx-auto mt-6">
+          <CTAButton href={`${SITE_URL}/contact?item=Campaign%20Partnership`} className="mx-auto mt-6" external>
             Become a Partner
           </CTAButton>
         </div>

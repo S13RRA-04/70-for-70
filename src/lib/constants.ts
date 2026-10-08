@@ -1,6 +1,7 @@
 import type { NavLink, NavEntry } from "@/types/content";
 import type { CampaignStatus, MovementCampaign } from "@/types/organization";
 import type { CampaignSlug } from "@/lib/site-mode";
+import { formatCurrency } from "@/lib/utils";
 
 /** The project's name — used in the header, footer, legal copy, and site-wide metadata. Not an organization name; see PROJECT_POSITIONING. */
 export const SITE_NAME = "For The 22";
@@ -43,7 +44,17 @@ export const PERSONAL_PROJECT_DISCLOSURE =
  * organization) is being named.
  */
 export const CAMPAIGN_NAME = "Tri For The 22";
-export const SITE_TAGLINE = "70.3 miles. One campaign in For The 22's shared $70,000 mission.";
+
+/**
+ * The canonical mission fundraising target — see the doc comment on
+ * MISSION_NAME below for why this is a single, shared, org-level goal
+ * rather than a per-campaign one. Declared up here (not further down) so
+ * SITE_TAGLINE can read it instead of retyping "$70,000" as an independent
+ * literal that could silently drift out of sync with it.
+ */
+export const FUNDRAISING_GOAL = 70_000;
+
+export const SITE_TAGLINE = `70.3 miles. One campaign in For The 22's shared ${formatCurrency(FUNDRAISING_GOAL)} mission.`;
 
 /**
  * Unified mission branding — the $70,000 goal belongs to For The 22 (the
@@ -365,8 +376,6 @@ export const PARENT_EVENT_LINK: NavLink = { label: "A For The 22 Event", href: S
  */
 export const CRISIS_LINK: NavLink = { label: "Need Help Now", href: `${SITE_URL}/crisis` };
 
-export const FUNDRAISING_GOAL = 70_000;
-
 /** Official IRONMAN 70.3 leg distances, in miles. */
 export const RACE_LEGS = {
   swim: 1.2,
@@ -439,7 +448,7 @@ export const SPONSOR_VALUE_PROPS = [
   {
     id: "tangible-impact",
     title: "A Tangible Way to Give",
-    body: "Every dollar you contribute moves the campaign visibly closer to its $70,000 goal — a concrete, trackable way to give.",
+    body: `Every dollar you contribute moves the campaign visibly closer to its ${formatCurrency(FUNDRAISING_GOAL)} goal — a concrete, trackable way to give.`,
   },
   {
     id: "sponsor-recognition",

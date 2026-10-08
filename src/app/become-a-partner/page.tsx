@@ -7,7 +7,7 @@ import { CTAButton } from "@/components/shared/cta-button";
 import { SponsorshipProgression } from "@/components/sponsors/sponsorship-progression";
 import { DonateVsPartner } from "@/components/sponsors/donate-vs-partner";
 import { CurrentGearNeeds } from "@/components/sponsors/current-gear-needs";
-import { CAMPAIGN_NAME, CAMPAIGN_URL, CUSTOM_PARTNERSHIP_CATEGORIES, SPONSOR_VALUE_PROPS } from "@/lib/constants";
+import { CAMPAIGN_NAME, CAMPAIGN_URL, CUSTOM_PARTNERSHIP_CATEGORIES, SITE_URL, SPONSOR_VALUE_PROPS } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, CAMPAIGN_HOME_CRUMB, jsonLdScriptProps } from "@/lib/json-ld";
 
@@ -129,7 +129,7 @@ export default async function BecomeAPartnerPage() {
             Chattanooga? Let&apos;s talk.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <CTAButton href="/contact?item=Campaign%20Partnership" tone="dark" magnetic>
+            <CTAButton href={`${SITE_URL}/contact?item=Campaign%20Partnership`} tone="dark" magnetic external>
               Contact the Campaign
             </CTAButton>
             <CTAButton href="/sponsors" variant="secondary" tone="dark">

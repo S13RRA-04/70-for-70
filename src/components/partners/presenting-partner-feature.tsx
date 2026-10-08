@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ExternalLink } from "lucide-react";
 import { PartnerLogo } from "@/components/shared/partner-logo";
 import { CTAButton } from "@/components/shared/cta-button";
+import { SITE_URL } from "@/lib/constants";
 import type { MissionPartnerRow } from "@/types/database";
 
 /**
@@ -107,7 +108,7 @@ export function PresentingPartnerPlaceholder() {
           The campaign&apos;s top recognition level — including logo placement on Cody&apos;s race kit for IRONMAN
           70.3 Chattanooga — is still open.
         </p>
-        <CTAButton href="/contact?item=Campaign%20Partnership" tone="dark" className="mt-2">
+        <CTAButton href={`${SITE_URL}/contact?item=Campaign%20Partnership`} tone="dark" className="mt-2" external>
           Inquire About This Level
         </CTAButton>
       </div>

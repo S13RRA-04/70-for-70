@@ -288,6 +288,17 @@ export interface PartnerRow {
   relationship_start: string | null;
   relationship_end: string | null;
   associated_campaigns: string[] | null;
+  /**
+   * Whether this beneficiary's share of mission funds has actually been
+   * sent — distinct from getAllocationBreakdown()'s computed "amount
+   * verified as raised for this org" (derived from verified donations,
+   * never stored here). Unset until an admin records a real distribution;
+   * never fabricated. See partner-card.tsx.
+   */
+  distribution_status: "not_started" | "in_progress" | "distributed" | null;
+  /** Actual dollars disbursed so far — may be less than the live verified-donations total while a distribution is still in progress. */
+  distributed_amount: number | null;
+  last_distributed_at: string | null;
 }
 
 /**

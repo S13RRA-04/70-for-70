@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
@@ -11,11 +12,18 @@ import { LIVE_CAMPAIGN_URL } from "@/lib/constants";
 import { UPCOMING_LIVE_PERFORMERS } from "@/lib/content/live-campaign";
 import { CTAButton } from "@/components/shared/cta-button";
 
-export const metadata = pageMetadata({
-  title: "For The 22: Live — Upcoming Shows",
-  description: "Upcoming For The 22: Live benefit concerts — dates, venues, and ticket links.",
-  canonical: "/events",
-});
+// generateMetadata (not a static `metadata` export) so this can share the
+// soonest upcoming show's own hero image instead of always falling back to
+// the one generic campaign-wide social image.
+export async function generateMetadata(): Promise<Metadata> {
+  const events = await getPublishedLiveEvents();
+  return pageMetadata({
+    title: "For The 22: Live — Upcoming Shows",
+    description: "Upcoming For The 22: Live benefit concerts — dates, venues, and ticket links.",
+    canonical: `${LIVE_CAMPAIGN_URL}/events`,
+    image: events[0]?.hero_image_url ?? undefined,
+  });
+}
 
 const BREADCRUMB_JSON_LD = breadcrumbJsonLd([
   { name: "For The 22: Live", url: LIVE_CAMPAIGN_URL },

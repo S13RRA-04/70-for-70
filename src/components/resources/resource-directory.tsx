@@ -12,6 +12,19 @@ import { SearchField } from "@/components/shared/search-field";
 import { RevealGrid } from "@/components/shared/reveal-on-scroll";
 import { cn } from "@/lib/utils";
 
+/** A single active-filter tag in the "Active filters" row, with its own remove button. Extracted so the 4 call sites below (need/audience/state/search) share one implementation instead of repeating the same markup. */
+function RemovableFilterPill({ label, onRemove }: { label: string; onRemove: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onRemove}
+      className="rounded-full border border-ink/20 bg-sand-light px-3 py-1 text-[11px] font-semibold text-ink"
+    >
+      {label} <span aria-hidden="true">×</span>
+    </button>
+  );
+}
+
 /** "Who are you?" — the curated filter-row subset. Cards may show additional audience tags beyond this list. */
 export const PRIMARY_AUDIENCE_TAGS = [
   "Veteran",
@@ -440,13 +453,15 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
           {totalActiveFilterCount > 0 && (
             <div className="mt-3 flex flex-wrap items-center gap-2" aria-label="Active filters">
               {needIds.map((id) => (
-                <button key={id} type="button" onClick={() => setNeedIds(needIds.filter((item) => item !== id))} className="rounded-full border border-ink/20 bg-sand-light px-3 py-1 text-[11px] font-semibold text-ink">
-                  {NEED_CATEGORIES.find((c) => c.id === id)?.label} <span aria-hidden="true">×</span>
-                </button>
+                <RemovableFilterPill
+                  key={id}
+                  label={NEED_CATEGORIES.find((c) => c.id === id)?.label ?? id}
+                  onRemove={() => setNeedIds(needIds.filter((item) => item !== id))}
+                />
               ))}
-              {audience && <button type="button" onClick={() => setAudience(null)} className="rounded-full border border-ink/20 bg-sand-light px-3 py-1 text-[11px] font-semibold text-ink">{audience} <span aria-hidden="true">×</span></button>}
-              {stateFilter && <button type="button" onClick={() => setStateFilter(null)} className="rounded-full border border-ink/20 bg-sand-light px-3 py-1 text-[11px] font-semibold text-ink">{stateFilter} <span aria-hidden="true">×</span></button>}
-              {search && <button type="button" onClick={() => setSearch("")} className="rounded-full border border-ink/20 bg-sand-light px-3 py-1 text-[11px] font-semibold text-ink">“{search}” <span aria-hidden="true">×</span></button>}
+              {audience && <RemovableFilterPill label={audience} onRemove={() => setAudience(null)} />}
+              {stateFilter && <RemovableFilterPill label={stateFilter} onRemove={() => setStateFilter(null)} />}
+              {search && <RemovableFilterPill label={`“${search}”`} onRemove={() => setSearch("")} />}
             </div>
           )}
 

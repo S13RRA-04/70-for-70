@@ -5,9 +5,15 @@ import { CTASection } from "@/components/shared/cta-section";
 import { RevealGrid } from "@/components/shared/reveal-on-scroll";
 import { MissionProgress } from "@/components/campaign/mission-progress";
 import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
-import { LIVE_CAMPAIGN_DESCRIPTION, LIVE_CAMPAIGN_TAGLINE, LIVE_CONTRIBUTION_METHODS, UPCOMING_LIVE_PERFORMERS } from "@/lib/content/live-campaign";
+import {
+  LIVE_CAMPAIGN_DESCRIPTION,
+  LIVE_CAMPAIGN_TAGLINE,
+  LIVE_CONTRIBUTION_METHODS,
+  LIVE_FUNDS_DISCLOSURE,
+  UPCOMING_LIVE_PERFORMERS,
+} from "@/lib/content/live-campaign";
 import { LIVE_AUCTION } from "@/lib/content/live-auction";
-import { CAMPAIGN_URL, LIVE_CAMPAIGN_URL, MISSION_NAME } from "@/lib/constants";
+import { CAMPAIGN_URL, LIVE_CAMPAIGN_URL, MISSION_NAME, SITE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 
@@ -115,6 +121,12 @@ export default async function LiveCampaignPage() {
               )})}
             </div>
           </RevealGrid>
+          <p className="mt-8 max-w-2xl text-sm text-charcoal-light">
+            {LIVE_FUNDS_DISCLOSURE}{" "}
+            <a href={`${SITE_URL}/beneficiaries`} className="font-semibold text-bronze hover:text-bronze-dark">
+              See Beneficiaries &rarr;
+            </a>
+          </p>
         </Container>
       </section>
 

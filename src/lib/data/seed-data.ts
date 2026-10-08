@@ -82,6 +82,9 @@ export const SEED_PARTNERS: PartnerRow[] = [
     relationship_start: null,
     relationship_end: null,
     associated_campaigns: null,
+    distribution_status: null,
+    distributed_amount: null,
+    last_distributed_at: null,
   },
   {
     id: "seed-partner-project-echelon",
@@ -104,6 +107,9 @@ export const SEED_PARTNERS: PartnerRow[] = [
     relationship_start: null,
     relationship_end: null,
     associated_campaigns: null,
+    distribution_status: null,
+    distributed_amount: null,
+    last_distributed_at: null,
   },
   {
     id: "seed-partner-vau",
@@ -126,6 +132,9 @@ export const SEED_PARTNERS: PartnerRow[] = [
     relationship_start: null,
     relationship_end: null,
     associated_campaigns: null,
+    distribution_status: null,
+    distributed_amount: null,
+    last_distributed_at: null,
   },
 ];
 

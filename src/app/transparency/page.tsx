@@ -16,6 +16,7 @@ import { CTASection } from "@/components/shared/cta-section";
 import { getPartners } from "@/lib/data/partners";
 import { getCampaign } from "@/lib/data/campaign";
 import { RESOURCES } from "@/lib/content/resources";
+import { formatCurrency } from "@/lib/utils";
 import {
   CAMPAIGN_URL,
   CONTACT_EMAIL,
@@ -123,7 +124,7 @@ export default async function TransparencyPage() {
           </div>
           <div className="mt-6 space-y-4 text-base leading-relaxed text-charcoal-light">
             <p>
-              Fundraising totals shown across the site (amounts raised, the shared $70,000 goal,
+              Fundraising totals shown across the site (amounts raised, the shared {formatCurrency(campaign.fundraising_goal)} goal,
               miles funded) reflect donations reported to or verified by the campaign. They may not
               update in real time with each beneficiary organization&apos;s own records — a gift made
               directly to a beneficiary is counted once it&apos;s reported back.

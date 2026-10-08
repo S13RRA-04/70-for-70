@@ -84,7 +84,7 @@ export default async function SponsorshipDetailPage(
             <h2 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
               Proposal
             </h2>
-            <dl className="mt-4 grid grid-cols-2 gap-x-6 gap-y-3 text-sm">
+            <dl className="mt-4 grid grid-cols-1 gap-x-6 gap-y-3 text-sm sm:grid-cols-2">
               <Info label="Website" value={r.website} />
               <Info label="Industry" value={r.industry} />
               <Info
@@ -276,7 +276,7 @@ export default async function SponsorshipDetailPage(
                   </select>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                   <div>
                     <label htmlFor="contributionValue" className="text-xs font-medium text-ink">
                       Contribution Value ($)

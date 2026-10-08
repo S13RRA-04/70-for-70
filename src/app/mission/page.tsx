@@ -36,18 +36,24 @@ export const metadata = pageMetadata({
   canonical: "/mission",
 });
 
+// Each tile's background is derived from its own `color.hex` at render time
+// (see the color-mix() below) rather than a separately hand-picked pastel —
+// a set of unrelated literal hex values here could drift from the ring
+// colors they were originally matched to by eye. `iconColor` only overrides
+// the icon/caption color for a ring hex that's unreadable at icon size
+// (EMS's white, Dispatch's gold, Corrections' silver) — it doesn't affect
+// the tile background.
 const WHO_WE_SERVE = [
-  { label: "Veterans", icon: Star, color: OUTER_RING_COLORS[4], background: "#EEF0E5" },
-  { label: "Law Enforcement", icon: Shield, color: INNER_RING_COLORS[0], background: "#E8EFF5" },
-  { label: "Fire", icon: Flame, color: INNER_RING_COLORS[1], background: "#F9E7EA" },
-  { label: "EMS", icon: Ambulance, color: INNER_RING_COLORS[2], background: "#FFFFFF", iconColor: "#4B5563" },
-  { label: "Dispatch", icon: Radio, color: INNER_RING_COLORS[3], background: "#FFF8D6", iconColor: "#8A6500" },
-  { label: "Corrections", icon: Lock, color: INNER_RING_COLORS[5], background: "#F0F1F3", iconColor: "#59616D" },
+  { label: "Veterans", icon: Star, color: OUTER_RING_COLORS[4] },
+  { label: "Law Enforcement", icon: Shield, color: INNER_RING_COLORS[0] },
+  { label: "Fire", icon: Flame, color: INNER_RING_COLORS[1] },
+  { label: "EMS", icon: Ambulance, color: INNER_RING_COLORS[2], iconColor: "#4B5563" },
+  { label: "Dispatch", icon: Radio, color: INNER_RING_COLORS[3], iconColor: "#8A6500" },
+  { label: "Corrections", icon: Lock, color: INNER_RING_COLORS[5], iconColor: "#59616D" },
   {
     label: "Families & Caregivers",
     icon: HeartHandshake,
     color: { color: "Purple Blend", hex: "#6D3F82" },
-    background: "#F1EAF4",
   },
 ] as const;
 
@@ -167,7 +173,7 @@ export default function MissionPage() {
             </div>
             <div className="flex flex-col items-center lg:col-span-4">
               <div className="relative aspect-square w-full max-w-[180px]">
-                <Image src="/logo.png" alt="" fill className="object-contain" sizes="180px" />
+                <Image src="/logo.png" alt="" aria-hidden="true" fill className="object-contain" sizes="180px" />
               </div>
               <div className="mt-4 flex h-1 w-40 overflow-hidden rounded-full" aria-hidden="true">
                 {OUTER_RING_COLORS.map((ring) => (
@@ -184,11 +190,11 @@ export default function MissionPage() {
         <Container>
           <SectionHeading eyebrow="Built For" title="Who We Serve" />
           <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7">
-            {WHO_WE_SERVE.map(({ label, icon: Icon, color, background, ...item }) => (
+            {WHO_WE_SERVE.map(({ label, icon: Icon, color, ...item }) => (
               <li
                 key={label}
                 className="flex flex-col items-center gap-2.5 border border-ink/10 border-t-4 px-4 py-6 text-center"
-                style={{ backgroundColor: background, borderTopColor: color.hex }}
+                style={{ backgroundColor: `color-mix(in srgb, ${color.hex} 12%, white)`, borderTopColor: color.hex }}
               >
                 <Icon
                   size={24}

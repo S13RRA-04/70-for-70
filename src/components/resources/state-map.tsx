@@ -203,6 +203,7 @@ export function StateMap({
                       <Geography
                         key={geo.rsmKey}
                         geography={geo}
+                        tabIndex={0}
                         role="button"
                         aria-pressed={isSelected}
                         aria-label={
@@ -216,9 +217,9 @@ export function StateMap({
                           }
                         }}
                         style={{
-                          default: { fill: defaultFill, stroke: STROKE, strokeWidth: 0.75, outline: "none", cursor: "pointer" },
-                          hover: { fill: hoverFill, stroke: STROKE, strokeWidth: 0.75, outline: "none", cursor: "pointer" },
-                          pressed: { fill: SELECTED_FILL, stroke: STROKE, strokeWidth: 0.75, outline: "none", cursor: "pointer" },
+                          default: { fill: defaultFill, stroke: STROKE, strokeWidth: 0.75, cursor: "pointer" },
+                          hover: { fill: hoverFill, stroke: STROKE, strokeWidth: 0.75, cursor: "pointer" },
+                          pressed: { fill: SELECTED_FILL, stroke: STROKE, strokeWidth: 0.75, cursor: "pointer" },
                         }}
                       >
                         <title>{isActive ? name : `${name} — nationwide resources (regional pass coming soon)`}</title>

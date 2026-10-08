@@ -6,6 +6,7 @@ import { US_STATES_GRID } from "@/lib/content/us-states";
 import { getPublishedLiveEvents } from "@/lib/data/live-events";
 import { CAMPAIGN_URL, CAMPAIGNS, SITE_URL } from "@/lib/constants";
 import { getActiveCampaignSlug } from "@/lib/site-mode";
+import { isCampaignLive, isOrgLive } from "@/lib/launch-gate";
 
 // Kept in sync with the split enforced in src/middleware.ts. /athletes,
 // /join, and /athlete-agreement are retired (permanent redirect to the
@@ -68,6 +69,16 @@ const CAMPAIGN_ROUTES = [
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const campaignSlug = await getActiveCampaignSlug();
 
+  // While a domain's launch gate is closed, middleware rewrites every path on
+  // it to /coming-soon content (200, not a redirect) — so listing the real
+  // route set here would get search engines indexing many URLs that all show
+  // identical placeholder copy. Fall back to just the root until launch;
+  // sitemap.xml itself stays ungated per AGENTS.md, only what it lists here
+  // changes. isCampaignLive() covers tri/ruck/22/live alike, matching the
+  // same `onCampaignHost ? isCampaignLive() : isOrgLive()` check middleware
+  // uses to decide whether to show real content at all.
+  const live = campaignSlug ? isCampaignLive() : isOrgLive();
+
   // Ruck For The 22 is a single page (see src/app/ruck-home/page.tsx's doc
   // comment) — nothing to enumerate beyond its own root.
   if (campaignSlug === "ruck") {
@@ -78,6 +89,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // src/middleware.ts.
   if (campaignSlug === "22") {
     const base = CAMPAIGNS["22"].url;
+    if (!live) return [{ url: `${base}/`, lastModified: new Date() }];
     return [
       { url: `${base}/`, lastModified: new Date() },
       { url: `${base}/promokit`, lastModified: new Date() },
@@ -87,6 +99,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   if (campaignSlug === "live") {
     const base = CAMPAIGNS.live.url;
+    if (!live) return [{ url: `${base}/`, lastModified: new Date() }];
     const liveEvents = await getPublishedLiveEvents();
     return [
       { url: `${base}/`, lastModified: new Date() },
@@ -100,6 +113,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   if (campaignSlug === "tri") {
+    if (!live) return [{ url: `${CAMPAIGN_URL}/`, lastModified: new Date() }];
     const entries = await getJournalEntries();
 
     const campaignEntries: MetadataRoute.Sitemap = CAMPAIGN_ROUTES.map((path) => ({
@@ -134,6 +148,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     return [...campaignEntries, ...journalEntries, ...bikeBuildEntry, ...gearJourneyEntry];
   }
+
+  if (!live) return [{ url: `${SITE_URL}/`, lastModified: new Date() }];
 
   const orgEntries: MetadataRoute.Sitemap = ORG_ROUTES.map((path) => ({
     url: `${SITE_URL}${path}`,

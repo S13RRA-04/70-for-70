@@ -52,15 +52,22 @@ const HOMEPAGE_OG_TITLE = "For The 22 — Movement Creates Momentum";
 const HOMEPAGE_OG_DESCRIPTION =
   "One mission. Multiple ways to serve. Supporting veterans, first responders, and their families through resources, fundraising, endurance, and community action.";
 
+const BASE_METADATA = pageMetadata({
+  title: HOMEPAGE_TITLE,
+  description: HOMEPAGE_DESCRIPTION,
+  canonical: `${CAMPAIGN_URL}/`,
+  image: "/og-campaign.png",
+});
+
+// The social card uses a broader mission-framed title/description than the
+// <title>/search-result description above — merged onto BASE_METADATA's
+// openGraph/twitter objects (not replaced) so `images`/`url`/`type`/`card`
+// survive. A prior version replaced the whole openGraph/twitter objects,
+// which silently dropped the share image on this page only.
 export const metadata: Metadata = {
-  ...pageMetadata({
-    title: HOMEPAGE_TITLE,
-    description: HOMEPAGE_DESCRIPTION,
-    canonical: `${CAMPAIGN_URL}/`,
-  }),
-  title: { absolute: HOMEPAGE_TITLE },
-  openGraph: { title: HOMEPAGE_OG_TITLE, description: HOMEPAGE_OG_DESCRIPTION, url: `${CAMPAIGN_URL}/`, type: "website" },
-  twitter: { card: "summary_large_image", title: HOMEPAGE_OG_TITLE, description: HOMEPAGE_OG_DESCRIPTION },
+  ...BASE_METADATA,
+  openGraph: { ...BASE_METADATA.openGraph, title: HOMEPAGE_OG_TITLE, description: HOMEPAGE_OG_DESCRIPTION },
+  twitter: { ...BASE_METADATA.twitter, title: HOMEPAGE_OG_TITLE, description: HOMEPAGE_OG_DESCRIPTION },
 };
 
 /** Identifies the campaign itself to search engines as a distinct WebSite, separate from the ORGANIZATION_JSON_LD (For The 22 the org) rendered on every route in the root layout. */
@@ -583,7 +590,13 @@ export default async function CampaignHomePage() {
           <RevealOnScroll>
             <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
               <div className="relative aspect-[4/5] overflow-hidden rounded-sm lg:order-2 lg:col-span-5">
-                <Image src="/about/ultra-1.jpg" alt="" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
+                <Image
+                  src="/about/ultra-1.jpg"
+                  alt="Cody Hitson, combat veteran and founder of Tri For The 22, mid-race"
+                  fill
+                  sizes="(min-width: 1024px) 40vw, 100vw"
+                  className="object-cover"
+                />
               </div>
               <div className="lg:order-1 lg:col-span-7">
                 <SectionHeading eyebrow="The Founder" title="Why Cody Chose to Carry This Mission" tone="dark" />
