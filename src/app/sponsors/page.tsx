@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getMissionPartners } from "@/lib/data/mission-partners";
+import { getMissionPartners, isCampaignPartner } from "@/lib/data/mission-partners";
 import { getCurrentEventConfig } from "@/lib/data/event-config";
 import { getGiveawayPrizes } from "@/lib/data/giveaway-prizes";
 import { Container } from "@/components/shared/container";
@@ -88,7 +88,7 @@ const OFFICIAL_BICYCLE_SUPPORT_DESIGNATION = "Official Bicycle Support Partner";
 export default async function SponsorsPage() {
   const [partners, currentEvent] = await Promise.all([getMissionPartners(), getCurrentEventConfig()]);
   const giveawayPrizes = currentEvent ? await getGiveawayPrizes(currentEvent.id) : [];
-  const generalPartners = partners.filter((p) => p.partner_type !== "giveaway-supporter");
+  const generalPartners = partners.filter(isCampaignPartner);
 
   const presentingPartners = generalPartners.filter((p) => p.tier === "presenting-partner");
   const teamBenefitPartner = generalPartners.find((p) => p.partner_type === "team-benefit-partner");

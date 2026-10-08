@@ -5,7 +5,7 @@ import { HandCoins, HandHelping, Handshake, Share2, type LucideIcon } from "luci
 import { getCampaign } from "@/lib/data/campaign";
 import { getAllocationBreakdown } from "@/lib/data/allocation";
 import { getPartners } from "@/lib/data/partners";
-import { getMissionPartners } from "@/lib/data/mission-partners";
+import { getMissionPartners, isCampaignPartner } from "@/lib/data/mission-partners";
 import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
 import { getLatestJournalEntries } from "@/lib/data/journal";
 import { HOW_THIS_BEGAN } from "@/lib/content/the-story";
@@ -198,7 +198,7 @@ export default async function CampaignHomePage() {
   const showEventPromo = currentEvent && isEventPromoWindowNow(currentEvent.starts_at, currentEvent.ends_at);
   const phase = getCampaignPhase();
 
-  const generalPartners = missionPartners.filter((p) => p.partner_type !== "giveaway-supporter");
+  const generalPartners = missionPartners.filter(isCampaignPartner);
   const presentingPartners = generalPartners.filter((p) => p.tier === "presenting-partner");
   const otherPartners = generalPartners.filter((p) => p.tier !== "presenting-partner");
 

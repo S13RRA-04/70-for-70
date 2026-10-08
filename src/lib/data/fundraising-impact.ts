@@ -1,5 +1,5 @@
 import { getCampaign } from "./campaign";
-import { getMissionPartners } from "./mission-partners";
+import { getMissionPartners, isCampaignPartner } from "./mission-partners";
 import { getPartners } from "./partners";
 import { getVerifiedDonationCount } from "./donations";
 import { getAllocationBreakdown } from "./allocation";
@@ -20,7 +20,8 @@ import { getDaysToRace } from "../campaign-phase";
  *   flow recomputes from verified donations (admin/donations/actions.ts);
  *   reconciles with the sum of beneficiaryTotals.
  * - fundraisingGoal: public.campaign.fundraising_goal (shared $70K Mission).
- * - partnerCount: active mission_partners rows (the sponsor/partner wall).
+ * - partnerCount: active mission_partners rows, excluding giveaway-only
+ *   supporters (see isCampaignPartner) — the sponsor/partner wall count.
  * - beneficiaryCount/beneficiaryTotals: active partners rows (who the
  *   campaigns support) and verified donations grouped by
  *   organization_benefited — null-policy-safe, empty when unavailable.
@@ -67,7 +68,7 @@ export async function getFundraisingImpactStats(): Promise<FundraisingImpactStat
     amountRaised: campaign.amount_raised,
     fundraisingGoal: campaign.fundraising_goal,
     supporterCount,
-    partnerCount: missionPartners.length,
+    partnerCount: missionPartners.filter(isCampaignPartner).length,
     beneficiaryCount: beneficiaries.length,
     beneficiaryTotals: allocation?.byOrganization ?? [],
     daysToRace: getDaysToRace(),
