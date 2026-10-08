@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/shared/container";
@@ -11,13 +12,20 @@ import { MISSION_SECTIONS } from "@/lib/content/mission";
 import { CAMPAIGN_URL, DONATE_LINK, MISSION_NAME, MISSION_ORIGIN_LINE } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, CAMPAIGN_HOME_CRUMB, jsonLdScriptProps } from "@/lib/json-ld";
+import { formatCurrency } from "@/lib/utils";
 
-export const metadata = pageMetadata({
-  title: "The Mission",
-  description:
-    "Tri For The 22 pairs a 70.3-mile IRONMAN challenge with For The 22's broader $70,000 fundraising mission — a shared goal, not Tri's alone.",
-  canonical: `${CAMPAIGN_URL}/the-mission`,
-});
+// generateMetadata (not a static `metadata` export) so the description below
+// reads the live Supabase-driven goal instead of a separately hand-typed
+// dollar figure that can't track it — see getFundraisingImpactStats's doc
+// comment on why every number-bearing page must read from it.
+export async function generateMetadata(): Promise<Metadata> {
+  const { fundraisingGoal } = await getFundraisingImpactStats();
+  return pageMetadata({
+    title: "The Mission",
+    description: `Tri For The 22 pairs a 70.3-mile IRONMAN challenge with For The 22's broader ${formatCurrency(fundraisingGoal)} fundraising mission — a shared goal, not Tri's alone.`,
+    canonical: `${CAMPAIGN_URL}/the-mission`,
+  });
+}
 
 const BREADCRUMB_JSON_LD = breadcrumbJsonLd([CAMPAIGN_HOME_CRUMB, { name: "The Mission", url: `${CAMPAIGN_URL}/the-mission` }]);
 
@@ -38,7 +46,7 @@ export default async function MissionPage() {
               tone="dark"
               className="mt-2"
               title={MISSION_NAME}
-              description="Tri For The 22 pairs a 70.3-mile IRONMAN challenge with For The 22's broader $70,000 fundraising mission. The triathlon inspired the original target — roughly $1,000 for every mile. But the mission has grown beyond one athlete and one race."
+              description={`Tri For The 22 pairs a 70.3-mile IRONMAN challenge with For The 22's broader ${formatCurrency(fundraisingStats.fundraisingGoal)} fundraising mission. The triathlon inspired the original target — roughly $1,000 for every mile. But the mission has grown beyond one athlete and one race.`}
             />
             <p className="mt-4 text-sm font-semibold uppercase tracking-wide text-bronze-light">{MISSION_ORIGIN_LINE}</p>
           </div>
@@ -91,7 +99,7 @@ export default async function MissionPage() {
 
       <CTASection
         title={`Help Fund ${MISSION_NAME}`}
-        description="Support the shared $70,000 goal directly, or meet the beneficiary organizations it funds."
+        description={`Support the shared ${formatCurrency(fundraisingStats.fundraisingGoal)} goal directly, or meet the beneficiary organizations it funds.`}
         buttons={[
           { label: DONATE_LINK.label, href: DONATE_LINK.href },
           { label: "Meet the Beneficiaries", href: "/beneficiaries", variant: "secondary" },

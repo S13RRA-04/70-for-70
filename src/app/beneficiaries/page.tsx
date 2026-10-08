@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { getPartners } from "@/lib/data/partners";
+import { getCampaign } from "@/lib/data/campaign";
+import { getAllocationBreakdown } from "@/lib/data/allocation";
 import { Container } from "@/components/shared/container";
 import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
@@ -29,7 +31,11 @@ const BENEFICIARIES_BREADCRUMB_JSON_LD = breadcrumbJsonLd([
  * sections on one. /partners redirects here.
  */
 export default async function BeneficiariesPage() {
-  const partners = await getPartners();
+  const [partners, campaign] = await Promise.all([getPartners(), getCampaign()]);
+  const allocationBreakdown = await getAllocationBreakdown(campaign);
+  const allocationByOrg = new Map(
+    allocationBreakdown?.byOrganization.map((entry) => [entry.organization, entry.amount]) ?? [],
+  );
 
   return (
     <>
@@ -57,7 +63,11 @@ export default async function BeneficiariesPage() {
           <RevealGrid>
             <div className="mt-8 flex flex-col gap-6">
               {partners.map((partner) => (
-                <PartnerCard key={partner.id} partner={partner} />
+                <PartnerCard
+                  key={partner.id}
+                  partner={partner}
+                  allocatedAmount={allocationByOrg.get(partner.name)}
+                />
               ))}
             </div>
           </RevealGrid>

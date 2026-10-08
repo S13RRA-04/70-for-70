@@ -614,7 +614,18 @@ create table if not exists public.partners (
   logo_permission boolean not null default false,
   relationship_start date,
   relationship_end date,
-  associated_campaigns text[]
+  associated_campaigns text[],
+  -- Whether this beneficiary's share of mission funds has actually been
+  -- sent — distinct from getAllocationBreakdown()'s computed "amount
+  -- verified as raised for this org" (derived from verified donations,
+  -- never stored). Nullable/unset until an admin records a real
+  -- distribution by hand; never fabricated. See partner-card.tsx.
+  distribution_status text
+    check (distribution_status is null or distribution_status in ('not_started', 'in_progress', 'distributed')),
+  -- Actual dollars disbursed so far — may be less than the live verified-
+  -- donations total while a distribution is still in progress.
+  distributed_amount numeric(10, 2),
+  last_distributed_at date
 );
 
 create index if not exists partners_active_idx on public.partners (active);
@@ -630,6 +641,12 @@ alter table public.partners add column if not exists logo_light_url text;
 alter table public.partners add column if not exists logo_dark_url text;
 alter table public.partners add column if not exists logo_background text
   check (logo_background is null or logo_background in ('light', 'dark'));
+alter table public.partners add column if not exists distribution_status text;
+alter table public.partners drop constraint if exists partners_distribution_status_check;
+alter table public.partners add constraint partners_distribution_status_check
+  check (distribution_status is null or distribution_status in ('not_started', 'in_progress', 'distributed'));
+alter table public.partners add column if not exists distributed_amount numeric(10, 2);
+alter table public.partners add column if not exists last_distributed_at date;
 
 -- ---------------------------------------------------------------------------
 -- mission_partners

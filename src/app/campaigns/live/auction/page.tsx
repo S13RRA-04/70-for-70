@@ -3,7 +3,8 @@ import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTAButton } from "@/components/shared/cta-button";
 import { LIVE_AUCTION } from "@/lib/content/live-auction";
-import { LIVE_CAMPAIGN_URL } from "@/lib/constants";
+import { LIVE_FUNDS_DISCLOSURE } from "@/lib/content/live-campaign";
+import { LIVE_CAMPAIGN_URL, SITE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 
@@ -77,6 +78,22 @@ export default function LiveAuctionPage() {
           <CTAButton href={LIVE_AUCTION.biddingUrl} external size="lg" className="mt-6">
             Go to 32auctions <ExternalLink size={16} aria-hidden="true" />
           </CTAButton>
+        </Container>
+      </section>
+
+      <section className="py-16 sm:py-20">
+        <Container className="max-w-3xl">
+          <SectionHeading eyebrow="Financial Transparency" title="Where the Winning Bid Goes" />
+          <p className="mt-5 max-w-2xl text-sm leading-relaxed text-charcoal-light">
+            {LIVE_FUNDS_DISCLOSURE} As noted above, 32auctions is the system of record for the winning payment
+            itself.
+          </p>
+          <a
+            href={`${SITE_URL}/beneficiaries`}
+            className="mt-4 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
+          >
+            See Beneficiaries &rarr;
+          </a>
         </Container>
       </section>
     </>

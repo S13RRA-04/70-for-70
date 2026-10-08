@@ -5,7 +5,7 @@ import { TriathlonTeamApplicationForm } from "@/components/forms/triathlon-team-
 import { PartnerLogo } from "@/components/shared/partner-logo";
 import { CTAButton } from "@/components/shared/cta-button";
 import { getMissionPartners } from "@/lib/data/mission-partners";
-import { CAMPAIGN_URL } from "@/lib/constants";
+import { CAMPAIGN_URL, SITE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, CAMPAIGN_HOME_CRUMB, jsonLdScriptProps } from "@/lib/json-ld";
 
@@ -92,7 +92,7 @@ export default async function TriathlonTeamPage() {
                     team pricing on wetsuits, swim apparel and accessories through the XTERRA
                     Clubs, Teams &amp; Coaches Program.
                   </p>
-                  <CTAButton href="/contact?item=XTERRA%20Team%20Access" className="mt-5">
+                  <CTAButton href={`${SITE_URL}/contact?item=XTERRA%20Team%20Access`} className="mt-5" external>
                     Request Team Access
                   </CTAButton>
                 </div>

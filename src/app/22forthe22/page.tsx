@@ -356,12 +356,12 @@ export default async function EventPage() {
           <p className="mt-3 text-base text-off-white/75">
             Sponsor the event, donate a giveaway prize, or volunteer alongside the mission.
           </p>
-          <Link
-            href="/get-involved"
+          <a
+            href={`${CAMPAIGN_URL}/get-involved`}
             className="mt-6 inline-flex rounded-sm border border-off-white/40 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-off-white/10"
           >
             See Get Involved
-          </Link>
+          </a>
         </Container>
       </section>
     </>

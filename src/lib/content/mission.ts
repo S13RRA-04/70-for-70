@@ -10,7 +10,8 @@
  * README's "Movement/Campaign Domain Split".
  */
 
-import { SITE_URL } from "@/lib/constants";
+import { FUNDRAISING_GOAL, SITE_URL } from "@/lib/constants";
+import { formatCurrency } from "@/lib/utils";
 
 export interface MissionSection {
   id: string;
@@ -24,7 +25,7 @@ export const MISSION_SECTIONS: MissionSection[] = [
     id: "the-challenge",
     heading: "The Challenge",
     body: [
-      "Tri For The 22 pairs a 70.3-mile triathlon — a 1.2-mile swim, 56-mile bike, and 13.1-mile run — with For The 22's broader $70,000 fundraising mission. The triathlon inspired the original target — roughly $1,000 for every mile.",
+      `Tri For The 22 pairs a 70.3-mile triathlon — a 1.2-mile swim, 56-mile bike, and 13.1-mile run — with For The 22's broader ${formatCurrency(FUNDRAISING_GOAL)} fundraising mission. The triathlon inspired the original target — roughly $1,000 for every mile.`,
     ],
   },
   {
@@ -67,7 +68,7 @@ export const MISSION_SECTIONS: MissionSection[] = [
     id: "the-goal",
     heading: "The Goal",
     body: [
-      "Every donation counts toward the same $70,000 goal, whatever the amount and however it arrives — through Tri, Ruck For The 22, For The 22: Live, 22 For the 22, an auction, merchandise, or a direct gift. Corporate sponsorships are handled separately through the sponsorship review process.",
+      `Every donation counts toward the same ${formatCurrency(FUNDRAISING_GOAL)} goal, whatever the amount and however it arrives — through Tri, Ruck For The 22, For The 22: Live, 22 For the 22, an auction, merchandise, or a direct gift. Corporate sponsorships are handled separately through the sponsorship review process.`,
     ],
   },
   {

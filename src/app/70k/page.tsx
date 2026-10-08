@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
@@ -13,6 +14,7 @@ import {
   CAMPAIGN_STATUS_LABELS,
   CAMPAIGN_URL,
   DONATE_LINK,
+  FUNDRAISING_GOAL,
   MISSION_NAME,
   MISSION_ORIGIN_LINE,
   MISSION_SUPPORTING_LINE,
@@ -22,12 +24,20 @@ import {
 } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
+import { formatCurrency } from "@/lib/utils";
 
-export const metadata = pageMetadata({
-  title: `${MISSION_NAME} — ${MISSION_SUPPORTING_LINE}`,
-  description: `${MISSION_SUPPORTING_LINE} Current For The 22 campaigns contribute toward one shared $70,000 fundraising goal supporting verified veteran-focused nonprofit organizations.`,
-  canonical: "/70k",
-});
+// generateMetadata so the fundraising-goal figure below reads the live
+// Supabase-driven value (via getMissionMetrics -> getFundraisingImpactStats)
+// instead of a separately hand-typed dollar figure that can't track it.
+export async function generateMetadata(): Promise<Metadata> {
+  const metrics = await getMissionMetrics();
+  const goal = metrics.fundraisingGoal ?? FUNDRAISING_GOAL;
+  return pageMetadata({
+    title: `${MISSION_NAME} — ${MISSION_SUPPORTING_LINE}`,
+    description: `${MISSION_SUPPORTING_LINE} Current For The 22 campaigns contribute toward one shared ${formatCurrency(goal)} fundraising goal supporting verified veteran-focused nonprofit organizations.`,
+    canonical: "/70k",
+  });
+}
 
 const BREADCRUMB_JSON_LD = breadcrumbJsonLd([
   { name: "Home", url: SITE_URL },
@@ -66,7 +76,7 @@ export default async function Mission70kPage() {
             <Image src="/journal/building-the-bike/frame-overhead.jpg" alt="The Tri For The 22 bike frame prepared for the campaign" fill sizes="(min-width: 1024px) 42vw, 100vw" className="object-cover" />
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/90 to-transparent p-7 pt-24 text-off-white">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">The original equation</p>
-              <p className="mt-2 font-display text-3xl font-bold uppercase">70.3 miles.<br />$70,000 raised.</p>
+              <p className="mt-2 font-display text-3xl font-bold uppercase">70.3 miles.<br />{formatCurrency(metrics.fundraisingGoal ?? FUNDRAISING_GOAL)} goal.</p>
             </div>
           </div>
           </div>

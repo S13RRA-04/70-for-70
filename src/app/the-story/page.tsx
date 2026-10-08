@@ -18,6 +18,8 @@ import {
 import { CAMPAIGN_NAME, CAMPAIGN_URL, DONATE_LINK } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, CAMPAIGN_HOME_CRUMB, jsonLdScriptProps } from "@/lib/json-ld";
+import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
+import { formatCurrency } from "@/lib/utils";
 
 export const metadata = pageMetadata({
   title: "Cody Hitson's Story",
@@ -30,7 +32,8 @@ const BREADCRUMB_JSON_LD = breadcrumbJsonLd([CAMPAIGN_HOME_CRUMB, { name: "The S
 /** Already public on the org domain (src/app/about/page.tsx) — reused here, not duplicated, same pattern the homepage uses for findAboutSubsection("why-22"). */
 const myStory = findAboutSubsection("my-story")!;
 
-export default function TheStoryPage() {
+export default async function TheStoryPage() {
+  const { fundraisingGoal } = await getFundraisingImpactStats();
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
@@ -158,7 +161,7 @@ export default function TheStoryPage() {
 
       <CTASection
         title="Help Fund the Mission"
-        description="Support the $70,000 goal directly, or meet the beneficiary organizations it funds."
+        description={`Support the ${formatCurrency(fundraisingGoal)} goal directly, or meet the beneficiary organizations it funds.`}
         buttons={[
           { label: DONATE_LINK.label, href: DONATE_LINK.href },
           { label: "Meet the Beneficiaries", href: "/beneficiaries", variant: "secondary" },

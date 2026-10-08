@@ -23,7 +23,8 @@ export async function generateMetadata(props: PageProps<"/campaigns/live/[slug]"
   return pageMetadata({
     title: event.title,
     description: event.tagline ?? `${event.title} — a For The 22: Live benefit concert.`,
-    canonical: `/${event.slug}`,
+    canonical: `${LIVE_CAMPAIGN_URL}/${event.slug}`,
+    image: event.hero_image_url ?? undefined,
   });
 }
 

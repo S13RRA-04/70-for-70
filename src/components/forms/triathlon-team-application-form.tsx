@@ -180,7 +180,7 @@ export function TriathlonTeamApplicationForm() {
               {...fieldA11yProps("tta-phone", fieldErrors.phone)}
             />
           </Field>
-          <div className="grid grid-cols-2 gap-5">
+          <div className="grid gap-5 sm:grid-cols-2">
             <Field id="tta-city" label="City" error={fieldErrors.city}>
               <input
                 id="tta-city"

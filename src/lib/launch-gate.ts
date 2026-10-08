@@ -5,9 +5,11 @@
  * instead of real content. This is how the org site (forthe22.org)
  * can go live while the campaign (tri.forthe22.org) stays closed —
  * see src/middleware.ts, which checks the right flag per host, and
- * README's "Pre-Launch Gate" section. Read only from
- * src/middleware.ts — never expose `PREVIEW_ACCESS_TOKEN` via a
- * `NEXT_PUBLIC_` var, which would ship it in the client bundle.
+ * README's "Pre-Launch Gate" section. isOrgLive()/isCampaignLive() are
+ * also read from src/app/sitemap.ts, to avoid listing a gated domain's
+ * real routes while they all render identical /coming-soon content —
+ * never expose `PREVIEW_ACCESS_TOKEN` via a `NEXT_PUBLIC_` var or read
+ * it outside src/middleware.ts, which would ship it in the client bundle.
  */
 
 export function isOrgLive(): boolean {

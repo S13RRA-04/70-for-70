@@ -50,7 +50,7 @@ export default async function ResourceAdminPage() {
           </p>
         </div>
         <form action={importFlagshipsAction}>
-          <button className="rounded-sm bg-bronze-text px-5 py-3 text-xs font-semibold uppercase tracking-wide text-off-white">
+          <button className="rounded-sm bg-bronze-text px-5 py-3 text-xs font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark">
             Import 32 flagships
           </button>
         </form>

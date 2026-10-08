@@ -482,16 +482,21 @@ function applyEvent22Guard(request: NextRequest, campaignSlug: CampaignSlug | nu
 function applyLiveGuard(request: NextRequest, campaignSlug: CampaignSlug | null): Response | null {
   if (campaignSlug !== "live") return null;
   const { pathname } = request.nextUrl;
+
+  // Shared paths (notably /crisis, which also lives in ORG_PATH_PREFIXES
+  // below) must escape this guard entirely so the cross-host redirect logic
+  // at the bottom of applyDomainSplit can send them to SITE_URL, matching
+  // how Ruck/22's guards treat SHARED_PATH_PREFIXES as an exception checked
+  // first. Checking this after the ORG/CAMPAIGN_PATH_PREFIXES redirect below
+  // used to mean /crisis never got that far — Live swallowed it into its own
+  // homepage instead of reaching the org's crisis resources.
+  if (matchesPathPrefix(pathname, SHARED_PATH_PREFIXES)) return null;
+
   if (matchesPathPrefix(pathname, ORG_PATH_PREFIXES) || matchesPathPrefix(pathname, CAMPAIGN_PATH_PREFIXES)) {
     return NextResponse.redirect(new URL("/", request.nextUrl), 308);
   }
   const isEventDetailPath = /^\/[^/]+$/.test(pathname);
-  if (
-    pathname === "/" ||
-    pathname in LIVE_PATH_REWRITES ||
-    isEventDetailPath ||
-    matchesPathPrefix(pathname, SHARED_PATH_PREFIXES)
-  ) {
+  if (pathname === "/" || pathname in LIVE_PATH_REWRITES || isEventDetailPath) {
     return null;
   }
   return NextResponse.redirect(new URL("/", request.nextUrl), 308);

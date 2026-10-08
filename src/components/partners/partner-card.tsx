@@ -5,6 +5,13 @@ import { DonationTrackingNote } from "@/components/shared/donation-tracking-note
 import { PartnerLogo } from "@/components/shared/partner-logo";
 import type { PartnerRow } from "@/types/database";
 import { Card } from "@/components/shared/card";
+import { formatCurrency, formatDateLong } from "@/lib/utils";
+
+const DISTRIBUTION_STATUS_LABEL: Record<NonNullable<PartnerRow["distribution_status"]>, string> = {
+  not_started: "Distribution not yet started",
+  in_progress: "Distribution in progress",
+  distributed: "Funds distributed",
+};
 
 /**
  * Large feature panel, not a small generic card — beneficiary
@@ -15,9 +22,12 @@ import { Card } from "@/components/shared/card";
 export function PartnerCard({
   partner,
   mileNumber,
+  allocatedAmount,
 }: {
   partner: PartnerRow;
   mileNumber?: number;
+  /** This org's share of verified donations, from getAllocationBreakdown() — omitted entirely (not shown as $0) when no allocation policy is set or this org has no verified donations yet. */
+  allocatedAmount?: number;
 }) {
   const hasLinks = Boolean(partner.website_url || partner.donation_url);
 
@@ -65,6 +75,26 @@ export function PartnerCard({
           </p>
           <p className="mt-1 text-sm text-charcoal-light">{partner.description}</p>
         </div>
+
+        {(allocatedAmount !== undefined || partner.distribution_status) && (
+          <div className="mt-4">
+            <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+              Funding &amp; Distribution
+            </p>
+            {allocatedAmount !== undefined && (
+              <p className="mt-1 text-sm text-charcoal-light">
+                {formatCurrency(allocatedAmount)} in verified donations attributed to this organization.
+              </p>
+            )}
+            {partner.distribution_status && (
+              <p className="mt-1 text-sm text-charcoal-light">
+                {DISTRIBUTION_STATUS_LABEL[partner.distribution_status]}
+                {partner.distributed_amount != null && ` — ${formatCurrency(partner.distributed_amount)} sent`}
+                {partner.last_distributed_at && ` as of ${formatDateLong(partner.last_distributed_at)}`}
+              </p>
+            )}
+          </div>
+        )}
 
         {hasLinks && (
           <div className="mt-6 flex flex-wrap items-center gap-3">

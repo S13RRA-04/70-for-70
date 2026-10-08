@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Backpack, Bike, Footprints, Music } from "lucide-react";
@@ -24,12 +25,19 @@ import {
 } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
+import { formatCurrency } from "@/lib/utils";
 
-export const metadata = pageMetadata({
-  title: MISSION_NAME,
-  description: `${MISSION_SUPPORTING_LINE} Tri For The 22, Ruck For The 22, For The 22: Live, 22 For the 22, auctions, merchandise, sponsorships, and direct giving all contribute toward ${SITE_NAME}'s shared $70,000 fundraising goal.`,
-  canonical: "/campaigns",
-});
+// generateMetadata so the fundraising-goal figure below reads the live
+// Supabase-driven value instead of a separately hand-typed dollar figure
+// that can't track it.
+export async function generateMetadata(): Promise<Metadata> {
+  const { fundraisingGoal } = await getFundraisingImpactStats();
+  return pageMetadata({
+    title: MISSION_NAME,
+    description: `${MISSION_SUPPORTING_LINE} Tri For The 22, Ruck For The 22, For The 22: Live, 22 For the 22, auctions, merchandise, sponsorships, and direct giving all contribute toward ${SITE_NAME}'s shared ${formatCurrency(fundraisingGoal)} fundraising goal.`,
+    canonical: "/campaigns",
+  });
+}
 
 /**
  * Mission areas for the "What's Next?" closer — areas of need, NOT promised
@@ -253,8 +261,8 @@ export default async function CampaignsPage() {
           <SectionHeading eyebrow="What's Next?" title="The Beginning, Not the Finish Line" tone="dark" />
           <div className="mt-6 space-y-4 text-base leading-relaxed text-off-white/80">
             <p>
-              The current campaigns are working toward a shared $70,000 goal benefiting{" "}
-              {joinNames(beneficiaryNames)}.
+              The current campaigns are working toward a shared {formatCurrency(fundraisingStats.fundraisingGoal)} goal
+              benefiting {joinNames(beneficiaryNames)}.
             </p>
             <p>
               But {SITE_NAME} was never intended to end with one race, one fundraising goal, or
