@@ -1,6 +1,6 @@
 "use client";
 
-import { controlClassName, fieldA11yProps, FormError, HoneypotField } from "@/components/forms/form-parts";
+import { controlClassName, fieldA11yProps, FormError, FormSubmitButton, HoneypotField } from "@/components/forms/form-parts";
 import { TurnstileWidget } from "@/components/forms/turnstile-widget";
 import { useFormSubmit } from "@/components/forms/use-form-submit";
 import { emailSignupSchema } from "@/lib/validation/email-signup";
@@ -85,18 +85,14 @@ export function EmailSignupForm({ tone = "light" }: { tone?: "dark" | "light" })
         className="min-w-0"
       />
 
-      <button
-        type="submit"
+      <FormSubmitButton
         disabled={submitDisabled}
+        submitting={status === "submitting"}
+        idleLabel="Follow Campaign Updates"
+        submittingLabel="Subscribing…"
         data-analytics-event="mailing_list_signup"
-        className={
-          tone === "dark"
-            ? "rounded-sm bg-bronze px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-ink hover:bg-bronze-light disabled:opacity-60"
-            : "rounded-sm bg-bronze-text px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark disabled:opacity-60"
-        }
-      >
-        {status === "submitting" ? "Submitting..." : "Follow Campaign Updates"}
-      </button>
+        className={tone === "dark" ? "bg-bronze text-ink hover:bg-bronze-light" : undefined}
+      />
 
       <FormError message={status === "error" ? errorMessage : null} />
     </form>

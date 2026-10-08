@@ -48,10 +48,11 @@ export default async function ResourcesPage() {
             </a>
           </p>
           <div className="mt-8"><AskForThe22Form /></div>
-          <div className="mt-8 rounded-sm border border-ink/10 bg-off-white p-6 sm:p-8">
-            <SectionHeading eyebrow="Improve the Directory" title="Share Resource Feedback" description="Tell us privately whether a listing was useful or whether you were able to connect. Individual responses are never displayed publicly." />
+          <details className="mt-8 rounded-sm border border-ink/10 bg-off-white p-6 sm:p-8">
+            <summary className="cursor-pointer font-display text-lg font-semibold uppercase tracking-wide text-ink">Share private resource feedback</summary>
+            <p className="mt-2 max-w-2xl text-sm text-charcoal-light">Tell us whether a listing was useful or whether you connected. Individual responses are never displayed publicly.</p>
             <div className="mt-6"><ResourceFeedbackForm /></div>
-          </div>
+          </details>
         </Container>
       </section>
 

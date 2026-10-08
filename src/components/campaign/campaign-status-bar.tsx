@@ -8,6 +8,7 @@ interface StatCell {
   value: number;
   label: string;
   formatter: (n: number) => string;
+  sublabel?: string;
 }
 
 /**
@@ -23,11 +24,13 @@ export function CampaignStatusBar({
   goal,
   partnerCount,
   daysToRace,
+  distanceMiles,
   updatedAt,
 }: {
   amountRaised: number;
   goal: number;
   partnerCount: number;
+  distanceMiles?: number;
   /** Null before RACE_INFO.raceDate is confirmed or after race day — see getDaysToRace(). */
   daysToRace: number | null;
   /** campaign.updated_at — shown as a small freshness cue under the bar, same source /impact's "Fundraising totals verified" line reads. Admins can re-stamp this to today via "Confirm Total Is Current" on /admin/donations even when the amount itself hasn't changed, so a quiet week doesn't make the campaign read as stale. Optional so existing callers that don't have it handy aren't forced to thread it through. */
@@ -37,8 +40,10 @@ export function CampaignStatusBar({
   const mounted = useMountedTransition();
 
   const stats: StatCell[] = [
-    { value: amountRaised, label: "Raised", formatter: (n) => formatCurrency(n) },
-    { value: goal, label: "Goal", formatter: (n) => formatCurrency(n) },
+    { value: amountRaised, label: "Mission Progress", formatter: (n) => formatCurrency(n), sublabel: `of ${formatCurrency(goal)}` },
+    ...(distanceMiles !== undefined
+      ? [{ value: distanceMiles, label: "Race Distance", formatter: (n: number) => `${n.toFixed(1)} miles` }]
+      : []),
     { value: partnerCount, label: "Partners", formatter: (n) => formatNumber(Math.round(n)) },
     ...(daysToRace !== null
       ? [{ value: daysToRace, label: "Days to Chattanooga", formatter: (n: number) => formatNumber(Math.round(n)) }]
@@ -75,6 +80,7 @@ export function CampaignStatusBar({
               <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
                 {stat.label}
               </p>
+              {stat.sublabel && <p className="mt-0.5 text-xs text-charcoal-light/75">{stat.sublabel}</p>}
             </div>
           ))}
         </div>

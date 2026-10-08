@@ -25,8 +25,8 @@ export function FilterChip({ label, active, onClick, size = "md" }: FilterChipPr
         "rounded-full border font-semibold uppercase tracking-wide transition-all duration-150 active:scale-95",
         SIZE_CLASSES[size],
         active
-          ? "border-bronze bg-bronze-text text-off-white"
-          : "border-ink/15 text-charcoal-light hover:border-ink/30 hover:text-ink",
+          ? "border-ink bg-ink text-off-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.18)]"
+          : "border-ink/20 bg-off-white text-charcoal-light hover:border-bronze hover:text-ink",
       )}
     >
       {label}

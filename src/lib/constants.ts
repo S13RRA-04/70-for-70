@@ -248,14 +248,14 @@ export const ORG_NAV_LINKS: NavEntry[] = [
   { label: "Impact", href: "/impact" },
   { label: "About", href: "/about" },
   {
-    label: "Shop",
+    label: "More",
     children: [
       { label: "For The 22 Store", href: "/store" },
       { label: "Shop With Purpose", href: "/veteran-brands" },
+      { label: "Press & Media", href: "/press" },
+      { label: "Contact", href: "/contact" },
     ],
   },
-  { label: "Press", href: "/press" },
-  { label: "Contact", href: "/contact" },
   { label: "Need Help Now", href: "/crisis" },
 ];
 

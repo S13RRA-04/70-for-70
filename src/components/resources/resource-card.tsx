@@ -18,8 +18,8 @@ function accentForName(name: string): string {
 }
 
 /**
- * Decision-critical fields (org, description, category, who qualifies,
- * cost, availability) render immediately; eligibility detail and review
+ * Decision-critical fields (org, short description, who qualifies, cost,
+ * coverage) render immediately; category, availability, eligibility, and review
  * status — supporting detail, not what most people scan for first — sit
  * behind "View details" so a dense result set stays scannable. The outer
  * element is a plain div, not a link, because "View details" has to be its
@@ -35,13 +35,13 @@ export function ResourceCard({ resource }: { resource: Resource }) {
   // enough that the full text belongs in the expanded state, not guessed
   // from a DOM measurement.
   const isLongDescription = resource.description.length > 160;
-  const hasDetails = Boolean(resource.eligibility || resource.verificationStatus || isLongDescription);
+  const hasDetails = Boolean(categoryLabel || resource.availability || resource.eligibility || resource.verificationStatus || isLongDescription);
   const resourceId = resource.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
   return (
     <div
       data-resource-id={resourceId}
-      className="hover-lift flex flex-col rounded-sm border border-ink/10 bg-off-white p-5 transition-colors hover:border-bronze/40"
+      className="flex flex-col rounded-sm border border-ink/10 bg-off-white p-5 transition-colors duration-150 focus-within:border-bronze/50"
     >
       <div className="flex items-start gap-3">
         <span
@@ -55,16 +55,12 @@ export function ResourceCard({ resource }: { resource: Resource }) {
         </p>
       </div>
 
-      <p className="mt-3 line-clamp-3 flex-1 text-sm leading-relaxed text-charcoal-light">
+      <p className="mt-3 line-clamp-2 flex-1 text-sm leading-relaxed text-charcoal-light">
         {resource.description}
       </p>
 
-      {categoryLabel && (
-        <p className="mt-2 text-[11px] font-semibold uppercase tracking-widest text-bronze-text">{categoryLabel}</p>
-      )}
-
       <div className="mt-3 flex flex-wrap gap-1.5">
-        {resource.audienceTags.map((tag) => (
+        {resource.audienceTags.slice(0, 3).map((tag) => (
           <span
             key={tag}
             className="rounded-full border border-ink/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-charcoal-light"
@@ -72,13 +68,12 @@ export function ResourceCard({ resource }: { resource: Resource }) {
             {tag}
           </span>
         ))}
+        {resource.audienceTags.length > 3 && (
+          <span className="px-1 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-charcoal-light">
+            +{resource.audienceTags.length - 3} more
+          </span>
+        )}
       </div>
-
-      {resource.availability && (
-        <p className="mt-3 text-xs text-charcoal-light">
-          <span className="font-semibold text-ink">Availability:</span> {resource.availability}
-        </p>
-      )}
 
       {hasDetails && (
         <div className="mt-3">
@@ -92,9 +87,12 @@ export function ResourceCard({ resource }: { resource: Resource }) {
             View details
             <ChevronDown size={13} aria-hidden="true" className={cn("transition-transform", expanded && "rotate-180")} />
           </button>
-          {expanded && (
-            <div id={`${resourceId}-details`} className="mt-2 space-y-1.5 text-xs leading-relaxed text-charcoal-light">
+          <div className={cn("grid transition-[grid-template-rows,opacity] duration-300", expanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0")}>
+            <div id={`${resourceId}-details`} className="overflow-hidden">
+            <div className="mt-2 space-y-1.5 text-xs leading-relaxed text-charcoal-light">
               {isLongDescription && <p>{resource.description}</p>}
+              {categoryLabel && <p><span className="font-semibold text-ink">Category:</span> {categoryLabel}</p>}
+              {resource.availability && <p><span className="font-semibold text-ink">Availability:</span> {resource.availability}</p>}
               {resource.eligibility && (
                 <p>
                   <span className="font-semibold text-ink">Eligibility:</span> {resource.eligibility}
@@ -109,7 +107,8 @@ export function ResourceCard({ resource }: { resource: Resource }) {
                 </p>
               )}
             </div>
-          )}
+            </div>
+          </div>
         </div>
       )}
 
