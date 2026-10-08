@@ -5528,6 +5528,182 @@ export const RESOURCES: Resource[] = [
     eligibility:
       "Veterans, service members, and their families; Military Family Relief Fund open to pre- and post-9/11 veterans facing hardship caused by military service; State Veteran Homes require honorable discharge (or veteran's spouse) and documented need for skilled nursing care.",
   },
+  {
+    // Distinct from the already-listed "The 100 Club — Houston" (the100club.org) — separate organizations.
+    // TODO(verify): confirm recipient cost for family financial assistance; only Peer 100 trainings are stated as no cost.
+    name: "The 100 Club of Arizona",
+    url: "https://100club.org/",
+    description:
+      "Arizona public-safety charity (since 1968) providing immediate financial assistance to the families of officers and firefighters killed or seriously injured, scholarships for their family members' college costs, Safety Enhancement Stipend equipment grants to agencies, and the Peer 100 mental-health wellness and training programs for Arizona's public safety personnel.",
+    needCategoryIds: ["financial-assistance", "family-support", "equipment-grants", "mental-health"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "Corrections", "Family", "Survivor"],
+    cost: "Peer 100 wellness trainings are 'NO COST to Arizona Public Safety Personnel' (own site); cost of family financial assistance and scholarships is not stated on the org's own site",
+    geographicScope: "Arizona statewide (city, county, tribal, state, federal agencies)",
+    eligibility: "Arizona police, corrections, probation/parole officers, firefighters and federal agents and their immediate families; assistance requests must be submitted by a supervisor or agency HR — potential beneficiaries are not authorized to submit requests (own site); scholarships require the applicant be the child, spouse or stepchild of an active, retired or deceased sworn officer or firefighter",
+    phone: "602-485-0100",
+    state: "Arizona",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    name: "Be Connected — Arizona Coalition for Military Families",
+    url: "https://connectveterans.org/",
+    description:
+      "Core program of the Arizona Coalition for Military Families: a statewide support line (866-4AZ-VETS) and team of community navigators who listen, provide information and connect Arizona's service members, veterans, families, caregivers and helpers to resources, plus no-cost coaching and career-navigation services.",
+    needCategoryIds: ["mental-health", "family-support", "purpose-community", "career-education"],
+    audienceTags: ["Veteran", "Active Military", "Family", "Caregiver"],
+    cost: "Free — 'Support and connection to resources are provided by the Be Connected team at no cost to everyone in the community' (own site)",
+    geographicScope: "Statewide Arizona",
+    eligibility: "Service members, veterans, family members, caregivers and helpers — 'no wrong door'; resources are offered 'regardless of status or eligibility' (own site guidelines)",
+    phone: "866-429-8387",
+    hours: "Monday–Friday, 8 a.m.–5 p.m. Arizona time (own site)",
+    state: "Arizona",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): site never uses the word 'free' — assistance is described only as one-time grants paid directly to payees; confirm no-cost framing before strengthening cost wording.
+    name: "Military Assistance Mission (MAM)",
+    url: "https://azmam.org/",
+    description:
+      "Arizona nonprofit providing one-time emergency financial assistance for rent, mortgage, utilities, car payments, car insurance and food, plus education-assistance scholarships, baby showers and holiday programs, to Arizona active-duty, National Guard and Reserve members ranked E-5 or below and separated post-9/11 veterans with a Purple Heart or Combat Action Badge or equivalent.",
+    needCategoryIds: ["financial-assistance", "family-support", "career-education"],
+    audienceTags: ["Active Military", "Guard/Reserve", "Veteran", "Family", "Military Spouse"],
+    cost: "Not stated on the org's own site — financial assistance is a one-time grant with bills paid directly to the payee (own site)",
+    geographicScope: "Arizona (applicant must be stationed in and reside in Arizona)",
+    eligibility: "Arizona active-duty, Guard and Reserve E-5 and below (eligibility also dependent on income), plus separated post-9/11 veterans who received a Purple Heart or Combat Action Badge or equivalent and reside in Arizona; assistance is one-time only (own site)",
+    phone: "602-246-6429",
+    hours: "Applications reviewed during business hours, Monday–Friday 8 a.m.–3 p.m. (own site)",
+    state: "Arizona",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): also runs the VORTEX equine program jointly with EmpoweRanch — VORTEX (listed separately); confirm whether non-hunt programs carry the same disability eligibility requirement.
+    name: "Arizona Elk Society — Heroes Rising Outdoors",
+    url: "https://www.arizonaelksociety.org/heroes-rising-outdoors",
+    description:
+      "Arizona Elk Society program (since 2015) providing free, all-inclusive guided big-game hunts through the Arizona Game & Fish tag-transfer program, fly-fishing classes, equine therapy, kayaking, fishing and camping experiences for Arizona veterans with service-connected disabilities — 125+ outdoor experiences yearly.",
+    needCategoryIds: ["outdoor-programs", "sports-fitness", "mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free — the program 'delivers comfortable, all-inclusive guided hunts and fishing trips free of charge' (own site brochure)",
+    geographicScope: "Arizona statewide (program office in Peoria, AZ)",
+    eligibility: "Arizona veterans with a service-connected disability (A.R.S. 17-332 definition, confirmed by physician form); tag-transfer hunts require a valid Arizona hunting license at time of transfer (own site)",
+    phone: "623-444-4147",
+    state: "Arizona",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): participation cost not stated on the courts page; availability varies by county — page is a directory with individual court coordinators/contacts.
+    name: "Arizona Veterans Treatment Courts",
+    url: "https://www.azcourts.gov/selfservicecenter/Arizona-Specialty-Courts",
+    description:
+      "Arizona Judicial Branch specialty (problem-solving) courts whose stated goal is 'to rehabilitate and restore veterans as active, contributing members of their community,' creating and supervising treatment plans that address the underlying causes of a veteran's behavior and substance-abuse issues; operated as Veterans Treatment Courts in courts across the state.",
+    needCategoryIds: ["legal-benefits", "mental-health"],
+    audienceTags: ["Veteran"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide Arizona (directory lists Veterans Treatment Courts in Apache, Coconino, Gila, Maricopa, Mohave, Pima, Pinal and Yuma counties)",
+    eligibility: "Veterans in or entering the criminal justice system; each county's presiding judge sets referral eligibility criteria under A.R.S. 22-601; programs typically handle misdemeanors and require VA confirmation of military service (own site/state statute)",
+    state: "Arizona",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): the veterans page does not publish specific repair fees or sweat-equity terms — recheck with Family Services details before treating repair cost as fully verified.
+    name: "Habitat for Humanity Central Arizona — Veterans Program",
+    url: "https://habitatcaz.org/veterans/",
+    description:
+      "Local Habitat affiliate partnering with U.S. military veterans and families in Maricopa and portions of Pinal County on a pathway to home ownership, affordable home repairs and modifications (roofs, AC, windows, ramps, grab bars), plus a pre-apprenticeship Construction Training Program specifically for veterans entering the trades or construction field.",
+    needCategoryIds: ["housing-transportation", "career-education", "family-support"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Home repairs are described as 'affordable' (not stated as free); home ownership requires meeting all Habitat qualifications including income guidelines (own site)",
+    geographicScope: "Maricopa County and portions of Pinal County (Phoenix metro)",
+    eligibility: "Veterans must meet all Habitat for Humanity qualifications including income guidelines and demonstrate veteran status from the United States Military (own site)",
+    phone: "602-268-9022",
+    state: "Arizona",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): des.az.gov returned HTTP 403 to a direct fetch — page content verified via the indexed copy of the same URL; recommend a manual check.
+    name: "Arizona Department of Economic Security — Veterans Program (ARIZONA@WORK)",
+    url: "https://des.az.gov/services/employment/veterans",
+    description:
+      "State workforce program under the Wagner-Peyser Act and Title 38 giving veterans and eligible spouses priority services in job referrals, training and other employment services through ARIZONA@WORK, with Disabled Veterans Outreach Program specialists providing intensive career services and Local Veteran Employment Representatives engaging employers, plus Jobs for Veterans State Grants for veterans with significant barriers to employment.",
+    needCategoryIds: ["career-education"],
+    audienceTags: ["Veteran", "Military Spouse"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide Arizona (ARIZONA@WORK Employment Service Offices)",
+    eligibility: "Veterans and eligible spouses are entitled to priority services; JVSG-funded intensive services target veterans and eligible persons with significant barriers to employment (own site)",
+    state: "Arizona",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): program page lists only an email contact (no public phone) — confirm a phone number if one is later published.
+    name: "Arizona Veterans StandDown Alliance",
+    url: "https://azhousingcoalition.org/avsa/",
+    description:
+      "Program of the Arizona Housing Coalition holding annual StandDown resource events across the state (18 events in 2025, 2026 schedule posted) where veterans and families experiencing housing instability and homelessness receive housing assistance, veterans' benefits support, employment opportunities, medical/vision and mental-health help, hot meals, clothing and move-in kits in one place — the Maricopa County StandDown is billed as the nation's largest of its kind.",
+    needCategoryIds: ["housing-transportation", "career-education", "legal-benefits", "family-support"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free — 'This FREE event allows veterans and their families ... to receive and stay connected to complimentary support services' (own site)",
+    geographicScope: "Statewide Arizona (18 StandDown events in 2025 from Parker, Bullhead City and Tucson to Page, Kingman, Show Low and tribal communities)",
+    eligibility: "Veterans and their families experiencing housing instability and homelessness (own site)",
+    availability: "Annual StandDown series — 18 events in 2025; 2026 dates and venues posted on the program page",
+    state: "Arizona",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): the 'Get Assistance' pathway's eligibility criteria, processing time and any recipient cost are not detailed on the public pages reviewed.
+    name: "Honor The Fallen",
+    url: "https://honorthefallen.org/",
+    description:
+      "Tempe, Arizona 501(c)(3) (established 2015) supporting children and families of fallen military, police, fire, EMS and first responder heroes through community events (its flagship 5K For Heroes has raised over $130,000), financial assistance and connections to therapeutic support and resources through vetted partner organizations.",
+    needCategoryIds: ["family-support", "financial-assistance", "purpose-community"],
+    audienceTags: ["Family", "Survivor", "First Responder", "Law Enforcement", "Fire", "EMS"],
+    cost: "Not stated on the org's own site — assistance is described as funded by donations and delivered through the org's own funds and vetted partners",
+    geographicScope: "Phoenix metro, Arizona (Tempe-based; events in Tempe/Scottsdale)",
+    eligibility: "Children and families of fallen military, police, fire, EMS and first responder heroes (own site)",
+    state: "Arizona",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): About page does not list a phone number or a formal application process — contact runs through the site's Get Involved/Calendar pages.
+    name: "Arizona Veterans Fly Fishing",
+    url: "https://www.azveteransff.org/about",
+    description:
+      "Arizona nonprofit (since 2013) dedicated to supporting the physical and emotional well-being of disabled veterans through peer-led fly fishing — shared outings, fly-tying classes, rod building and fishing education guided largely by volunteers who have served: 'we are not therapists; we are your peers.'",
+    needCategoryIds: ["outdoor-programs", "mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free — experiences are 'All without charge to the disabled veteran' (own site)",
+    geographicScope: "Phoenix metro and central Arizona (own events calendar: Phoenix, Mesa/Gilbert, Payson and Show Low outings)",
+    eligibility: "Disabled veterans (own site mission statement)",
+    state: "Arizona",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): Financial Assistance Program eligibility and any recipient cost are not stated on the public pages reviewed; About/Values pages were not fully reviewed, so no faithBased flag is set even though the org runs a chaplain program.
+    name: "Arizona Fallen Hero Memorial Riders",
+    url: "https://azfhmr.org/",
+    description:
+      "Arizona nonprofit honoring the state's fallen first responders and military heroes while supporting the families, coworkers and communities they leave behind — through memorial and wellness rides, its Financial Assistance Program, the United Together Family Support Program, First Responder and Veteran Initiatives, a chaplain program and the Arizona Legacy Scholarship Program.",
+    needCategoryIds: ["family-support", "financial-assistance", "purpose-community", "career-education"],
+    audienceTags: ["Survivor", "Family", "First Responder", "Law Enforcement", "Fire", "Veteran", "Coworker"],
+    cost: "Not stated on the org's own site — operates a Financial Assistance Program and Hero Family Assistance Fund for those it serves (own site)",
+    geographicScope: "Arizona statewide (memorial rides and events across the state)",
+    eligibility: "Families of fallen Arizona first responders and military heroes, plus serving first responders and veterans (own site)",
+    state: "Arizona",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): paper license is issued free with an optional $4 plastic card; active-duty members stationed in Arizona and their spouses have separate resident-license rules under A.R.S. 17-337 on other pages.
+    name: "Arizona Game & Fish Department — Disabled Veteran License",
+    url: "https://www.azgfd.com/hunting/hunt-draw-and-licenses/special-licenses-2/disabled-veteran-license/",
+    description:
+      "State wildlife benefit issuing a complimentary combination hunting and fishing license (lifetime when the VA rating is permanent) to Arizona residents with a permanent service-connected disability rated at 100% disabling, plus reduced-fee licenses for veterans with a service-connected disability and for Purple Heart recipients, all granting the privileges of a full hunt/fish combination license.",
+    needCategoryIds: ["legal-benefits", "outdoor-programs"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free for 100% disabled — 'Fee: None for 100% service connected disability' (complimentary license); reduced-fee tiers are $42 for a service-connected disability under 100% and $28 for Purple Heart recipients (own site)",
+    geographicScope: "Arizona (licenses issued at Arizona Game and Fish Department offices)",
+    eligibility: "At least one year of Arizona residency immediately preceding application; 100% complimentary license requires VA certification of a permanent service-connected disability rated as 100% disabling (100% IU does not qualify); reduced-fee license requires any service-connected disability; Purple Heart license requires bona fide Purple Heart proof (own site)",
+    state: "Arizona",
+    verifiedDate: "2026-10-08",
+  },
 
   // ---------------------------------------------------------------------
   // Utah Regional
@@ -6657,6 +6833,177 @@ export const RESOURCES: Resource[] = [
     state: "New York",
     verifiedDate: "2026-08-27",
   },
+  {
+    name: "Veterans Outreach Center",
+    url: "https://veteransoutreachcenter.org/",
+    description:
+      "Rochester, NY veterans services center offering housing and residential programs, workforce development, behavioral health and wellness, legal resources including Veterans Treatment Court and Lawyer for a Day, a Quartermaster pantry of free food and clothing, and care management for veterans and their families. Serves Genesee, Livingston, Monroe, Ontario, Orleans and Wayne counties.",
+    needCategoryIds: ["housing-transportation", "career-education", "legal-benefits", "mental-health"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free — 'every service we provide is delivered with respect, compassion, and at no cost' (own site)",
+    geographicScope: "Rochester, NY area — Genesee, Livingston, Monroe, Ontario, Orleans & Wayne counties",
+    eligibility: "'No matter your branch, rank, or time served, you are welcome here' (own site); veterans and their families in six Western NY/Finger Lakes counties",
+    availability: "Walk-in — no appointment necessary",
+    phone: "585-546-1081",
+    hours: "Monday–Friday, 8:30 a.m.–4:30 p.m.",
+    state: "New York",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): grant page says 14 surrounding counties while homepage says 17 — confirm the county list; site does not explicitly state assistance is free to recipients.
+    name: "WNY Heroes",
+    url: "https://wnyheroes.org/",
+    description:
+      "Buffalo, NY nonprofit providing immediate assistance to Western New York veterans and their families — Heroes' Bridge grants for rent, mortgage and utilities paid directly to vendors, Adopt-A-Hero's Family holiday support, Operation Backpack school supplies, Operation B.O.O.T.S. peer-to-peer groups, service dogs through Pawsitive for Heroes, and up to $1,500 scholarships.",
+    needCategoryIds: ["financial-assistance", "family-support", "career-education", "mental-health"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free — grants paid directly to vendors ('All checks are written to the landlord, utility company, mortgage company'); no application fee is mentioned (own site)",
+    geographicScope: "Western New York — Buffalo HQ; grants for residents of the surrounding counties",
+    eligibility: "Grant programs: veterans legally residing in Western New York for a minimum of one year in Buffalo and the surrounding counties (own site's grant page)",
+    availability: "Grants reviewed by a committee of veterans and renewable once every three years; Adopt-A-Hero's Family and Operation Backpack run annually",
+    phone: "716-630-5020",
+    state: "New York",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): confirm whether the site currently lists pantries beyond the Utica location (its pantry page links out to a general food-pantry finder).
+    name: "Feed Our Vets",
+    url: "https://feedourvets.org/",
+    description:
+      "Utica, NY nonprofit that since 2009 has run community food pantries providing regular, free food to veterans, active-duty members and their families — 79,000+ veterans served, 6 million+ pounds of food and $430,000+ in gift cards distributed.",
+    needCategoryIds: ["financial-assistance", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "Free — 'community food pantries that provide regular, free food to Veterans and their families' (own site)",
+    geographicScope: "Utica, NY — Mohawk Valley",
+    eligibility: "Veterans, active-duty service members, and their spouses and children (own site)",
+    hours: "Wednesday, 1:30–5:30 p.m.; Saturday, 8:00–11:00 a.m. on the third Saturday of the month",
+    phone: "315-525-9206",
+    state: "New York",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): own site notes remote options for those not local to the Hudson Valley — confirm which programs are available outside the region.
+    name: "Guardian Revival",
+    url: "https://www.guardianrevival.org/",
+    description:
+      "Beacon, NY nonprofit improving the mental health and well-being of military members, veterans and first responders — 'guardians' — and their families at no cost, through outdoor adventures (Another Summit), companion dogs (Boots & Paws), peer support (Dwyer Vet2Vet of Putnam), department training (RISE) and ICISF crisis-intervention courses.",
+    needCategoryIds: ["mental-health", "outdoor-programs", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family", "First Responder", "Law Enforcement", "Fire", "EMS", "Dispatch", "Corrections"],
+    cost: "Free — 'All our programs are provided free of cost to guardians' (own site)",
+    geographicScope: "Hudson Valley, NY — Beacon HQ with partnerships across Orange, Dutchess, Putnam and Westchester counties; online courses also offered",
+    eligibility: "Active and retired military (including Reserves and National Guard), first responders (law enforcement, fire & rescue, EMS, dispatch, corrections, federal agents) and their families (own site)",
+    availability: "Year-round programs and events; courses and HQ visits by arrangement (own site)",
+    phone: "845-617-6164",
+    state: "New York",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    name: "Honor Flight Long Island",
+    url: "https://www.honorflightlongisland.org/",
+    description:
+      "Long Island chapter of the Honor Flight Network that has flown more than 2,000 local veterans on all-expenses-paid trips to Washington, D.C. to visit the memorials honoring their service.",
+    needCategoryIds: ["purpose-community"],
+    audienceTags: ["Veteran"],
+    cost: "Free — 'all-expenses-paid trip to Washington DC to see their memorials' (own site)",
+    geographicScope: "Long Island, NY — flights depart from Long Island airports",
+    eligibility: "Veterans with an honorable discharge prior to May 7, 1975 (end of the Vietnam War era); terminally ill veterans of any era receive highest priority (own site)",
+    availability: "Applications accepted continuously on a first-come, first-served waiting list; flights run seasonally",
+    phone: "631-702-2423",
+    state: "New York",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): confirm from the application form whether any cost-sharing, income limits, or insurance-exhaustion requirements apply.
+    name: "Ray Pfeifer Foundation",
+    url: "https://theraypfeiferfoundation.org/",
+    description:
+      "Massapequa Park, NY 501(c)(3) founded by FDNY first responders in memory of FDNY firefighter Ray Pfeifer, assisting September 11 first responders with medical needs not covered by insurance — home health and hospice care, motorized scooters, portable oxygen, and other equipment and therapy.",
+    needCategoryIds: ["equipment-grants", "financial-assistance"],
+    audienceTags: ["First Responder", "Fire", "Law Enforcement", "EMS"],
+    cost: "Not stated on the org's own site — assistance covers medical needs and equipment 'not covered by insurance' and requires an application (own site)",
+    geographicScope: "Nationwide — assists 9/11 first responders around the country; HQ Massapequa Park, NY",
+    eligibility: "September 11, 2001 first responders suffering from 9/11-related illnesses (own site's application process)",
+    availability: "By application — submit the foundation's application form by email; contact the foundation directly by phone",
+    phone: "516-882-2870",
+    state: "New York",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): site states only that programs are available to registered families — confirm whether any carry a fee or are explicitly free.
+    name: "Tuesday's Promise",
+    url: "https://www.tuesdayspromise.org/",
+    description:
+      "Manhasset, NY nonprofit (formerly Tuesday's Children) providing lifelong support to families affected by traumatic loss — one-on-one youth mentoring for children ages 6–18 who lost a parent, guardian or sibling in military service, plus community and peer support, family engagements and resource-navigation case management for military families of the fallen, 9/11 families and 9/11 first responders.",
+    needCategoryIds: ["family-support", "mental-health", "purpose-community"],
+    audienceTags: ["Family", "Gold Star", "Survivor", "First Responder"],
+    cost: "Not stated on the org's own site — 'Programs are available to any registered Tuesday's Promise family or individual' (own site)",
+    geographicScope: "Long Island HQ (Manhasset, NY); programs offered in person and virtually",
+    eligibility: "Children ages 6–18 who lost a parent, guardian or sibling in military service; also serves military families of the fallen (since 9/11/2001), 9/11 families and 9/11 first responders (own site)",
+    availability: "Year-round — youth-mentoring matches run a minimum of one year; register through the site",
+    phone: "516-562-9000",
+    state: "New York",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): confirm current county/district coverage — the official page links a statewide resources directory but does not list locations or participation costs inline.
+    name: "New York State Veterans Treatment Courts",
+    url: "https://www.nycourts.gov/problem-solving-courts/veterans-treatment-courts",
+    description:
+      "New York State Unified Court System's Veterans Treatment Courts, which connect justice-involved veterans to treatment and services in a therapeutic court setting surrounded by an interdisciplinary team — judge, court staff, prosecutors, treatment providers, defense attorneys, probation, law enforcement, volunteer veteran peer mentors and federal veterans-department representatives. New York created the first VTC in the country in Buffalo City Court in 2008.",
+    needCategoryIds: ["legal-benefits", "mental-health"],
+    audienceTags: ["Veteran"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide — New York State Unified Court System courts where a Veterans Treatment Court operates",
+    eligibility: "'VTCs accept veterans with all characters of military discharge' (own page); for justice-involved veterans referred within a court setting",
+    state: "New York",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    name: "Legal Services NYC — Veterans Justice Project",
+    url: "https://www.legalservicesnyc.org/resources/veterans-military-advocacy/",
+    description:
+      "New York City civil legal aid for low-income military veterans and service members — housing and eviction defense, consumer debt and tax matters, family law, income supports and public benefits, and health-care access — delivered in partnership with VA hospitals, vet centers and veteran housing programs across the five boroughs.",
+    needCategoryIds: ["legal-benefits", "housing-transportation", "financial-assistance"],
+    audienceTags: ["Veteran", "Active Military"],
+    cost: "Free — 'Legal Services NYC provides FREE civil legal assistance to military veterans and service members across New York City' (own site)",
+    geographicScope: "New York City — five boroughs",
+    eligibility: "Low-income veterans and service members in NYC — 'Legal help subject to capacity and location' (own site)",
+    phone: "917-661-4500",
+    hours: "Monday–Friday, 9:30 a.m.–4:00 p.m.",
+    state: "New York",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): own site lists only an email and a Plattekill/Saugerties mailing address — confirm a referral phone number; scholarship schedule is stated for 2027.
+    name: "Joseph P. Dwyer Veterans Peer Support Project",
+    url: "https://www.josephpdwyerpeerproject.org/",
+    description:
+      "Statewide coordinating body (the Dwyer Coalition for Military Veterans & Families) for New York's county-based Joseph P. Dwyer Veterans Peer Support Project network — confidential, non-clinical peer support for veterans, service members and military families in all 62 counties, plus DwyerCare referral navigation, a Connection Lounge of local and virtual activities, and scholarships.",
+    needCategoryIds: ["mental-health", "purpose-community", "family-support", "career-education"],
+    audienceTags: ["Veteran", "Active Military", "Family", "Caregiver", "Survivor", "Gold Star"],
+    cost: "Free — 'The Joseph Dwyer Program is a 100% confidential and FREE program that covers NY State' (own site); Connection Lounge activities are listed as free",
+    geographicScope: "Statewide — all 62 New York counties",
+    eligibility: "Veterans, service members, military families, caregivers, survivors and Gold Star families across New York State (own site)",
+    availability: "Year-round — county peer-support programs, DwyerCare referrals and a statewide virtual community; two $1,500 scholarships planned for 2027 (applications Jan 1–Apr 1)",
+    state: "New York",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): confirm cost wording for housing, shelter and WeCare suicide-prevention services — only employment programs are described as free.
+    name: "Black Veterans for Social Justice",
+    url: "https://bvsj.org/",
+    description:
+      "Brooklyn-founded nonprofit serving all veterans regardless of race, gender or discharge status with VA benefits assistance and job readiness at its Veterans Service Center, free job training and placement, emergency, transitional and permanent supportive housing, a food pantry and community services, and a suicide-prevention program across New York City.",
+    needCategoryIds: ["housing-transportation", "career-education", "mental-health", "financial-assistance"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free for employment programs — 'Free job training, resume help, interview prep, and job placement for veterans in NYC' (own site); housing, pantry and other service costs are not stated",
+    geographicScope: "New York City — founded in Brooklyn; resource center at 665 Willoughby Ave.",
+    eligibility: "'All veterans and their families' served 'regardless of race, gender, or discharge status' (own site)",
+    hours: "Monday–Friday, 8:00 a.m.–6:00 p.m.",
+    phone: "718-852-6004",
+    state: "New York",
+    verifiedDate: "2026-10-08",
+  },
 
   // ---------------------------------------------------------------------
   // New Jersey Regional
@@ -6712,6 +7059,103 @@ export const RESOURCES: Resource[] = [
     geographicScope: "Statewide",
     state: "New Jersey",
     verifiedDate: "2026-08-27",
+  },
+  {
+    // TODO(verify): phone number, hours, and formal eligibility criteria could not be confirmed from public program pages on the org's own site.
+    name: "Valor Clinic Foundation",
+    url: "https://valorclinic.org/",
+    description:
+      "Clark, New Jersey-based nonprofit providing trauma-focused mental health care, counseling, and support services to veterans, active-duty service members, and first responders, including those affected by PTSD and moral injury.",
+    needCategoryIds: ["mental-health", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "First Responder", "Law Enforcement", "Fire", "EMS", "Family"],
+    cost: "Free — 'services are provided at no cost to veterans, service members, and first responders' (own site)",
+    geographicScope: "Clark, NJ (with virtual options available in some programs)",
+    state: "New Jersey",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): cost for veteran programs not stated on the org's own site; income thresholds, phone, and hours not confirmed from public pages.
+    name: "Eva's Village",
+    url: "https://evasvillage.org/",
+    description:
+      "Paterson, New Jersey-based nonprofit providing comprehensive services including housing, recovery support, job training, and veteran-specific programming for veterans experiencing homelessness, poverty, or substance use challenges.",
+    needCategoryIds: ["housing-transportation", "career-education", "mental-health", "financial-assistance"],
+    audienceTags: ["Veteran", "Disabled", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Paterson, NJ (with some services extending to Northern NJ)",
+    eligibility: "Veterans (as stated for veteran-specific programming on the org's own site)",
+    state: "New Jersey",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): award amounts, application deadlines, and cost structure are not fully detailed on the org's own site.
+    name: "The 200 Club of Morris County",
+    url: "https://www.200clubofmorriscounty.com/",
+    description:
+      "Morris County, New Jersey nonprofit providing financial support to families of fallen first responders and scholarships to dependents of first responders and military personnel killed in the line of duty or training.",
+    needCategoryIds: ["financial-assistance", "family-support"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Military Spouse", "Family", "Survivor", "Gold Star"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Morris County, NJ",
+    eligibility: "Families and dependents of fallen first responders; scholarships open to dependents as specified, including military line-of-duty deaths where eligible per program guidelines stated on site",
+    state: "New Jersey",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): contact information, award timelines, and explicit inclusion of military line-of-duty cases beyond first-responder categories are not confirmed on the org's own site.
+    name: "The 200 Club of Bergen County",
+    url: "https://www.200clubbergen.org/",
+    description:
+      "Bergen County, New Jersey nonprofit supporting the families of law enforcement officers, firefighters, and EMS personnel killed in the line of duty, and providing educational scholarships to their children and grandchildren.",
+    needCategoryIds: ["financial-assistance", "family-support", "career-education"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Family", "Survivor"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Bergen County, NJ",
+    eligibility: "Families of fallen first responders (law enforcement, fire, EMS) in Bergen County; scholarship eligibility as stated on site",
+    state: "New Jersey",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): admission fees and insurance requirements are not stated on the org's own site.
+    name: "New Jersey Firemen's Home",
+    url: "https://www.njfh.org/",
+    description:
+      "Boonton, New Jersey facility providing long-term care and residential services for eligible retired New Jersey firefighters, including those with disabilities or in need of skilled nursing care.",
+    needCategoryIds: ["housing-transportation", "family-support"],
+    audienceTags: ["Fire", "Disabled", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Boonton, NJ (statewide eligibility for NJ firefighters)",
+    eligibility: "Eligible retired New Jersey firefighters (as stated on the org's own site)",
+    state: "New Jersey",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): office hours are not consolidated on the page; documentation requirements not fully confirmed from this page alone.
+    name: "New Jersey Department of Labor & Workforce Development — Veterans Services",
+    url: "https://www.nj.gov/labor/career-services/veterans/",
+    description:
+      "Official New Jersey state program providing employment and training services for veterans, transitioning service members, and eligible spouses through Disabled Veterans' Outreach Program specialists and Local Veterans' Employment Representatives.",
+    needCategoryIds: ["career-education", "financial-assistance"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Military Spouse", "Disabled"],
+    cost: "Free — 'no cost to veterans' (stated on the program page of the NJ .gov site)",
+    geographicScope: "Statewide (NJ)",
+    eligibility: "Veterans, transitioning service members, and eligible spouses (as stated on the NJ .gov site)",
+    state: "New Jersey",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): interest rates, fees, income limits, and Guard/Reserve eligibility details require lender verification; cost structure not fully stated on the summary page.
+    name: "New Jersey Housing and Mortgage Finance Agency (NJHMFA) — Veterans Programs",
+    url: "https://www.nj.gov/dca/hmfa/homeownership/owners/veteransprograms/",
+    description:
+      "Official New Jersey state housing agency offering mortgage and down payment assistance programs specifically for veterans and service members, including the NJHMFA Veterans Loan Program.",
+    needCategoryIds: ["housing-transportation", "financial-assistance"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Disabled"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide (NJ)",
+    eligibility: "Eligible veterans and service members (as stated on the NJ .gov site)",
+    state: "New Jersey",
+    verifiedDate: "2026-10-08",
   },
 
   // ---------------------------------------------------------------------
@@ -6885,6 +7329,185 @@ export const RESOURCES: Resource[] = [
     state: "Massachusetts",
     verifiedDate: "2026-08-27",
     eligibility: "Must be a veteran or dependent of a veteran, demonstrate financial need, and reside in Massachusetts.",
+  },
+  {
+    // TODO(verify): cost not stated on the org's own site; own-site FAQ does not state a discharge-character rule.
+    name: "Veterans Inc.",
+    url: "https://www.veteransinc.org/",
+    description:
+      "Massachusetts-based nonprofit (HQ Worcester) offering emergency and transitional housing, employment services, food pantry, transportation, education, case management, substance use treatment, and suicide prevention for veterans across New England and in Montana and North Dakota.",
+    needCategoryIds: ["housing-transportation", "career-education", "financial-assistance", "family-support"],
+    audienceTags: ["Veteran", "Guard/Reserve", "Family", "Caregiver"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Massachusetts (HQ Worcester) plus veterans across New England, Montana, and North Dakota (own site)",
+    eligibility: "'Any veteran of the U.S. military is eligible'; Guard/Reserve members assisted regardless of mobilization status (own site FAQ)",
+    availability: "Phone intake answered 24/7 (own site)",
+    phone: "1-800-482-2565",
+    state: "Massachusetts",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): cost not stated on the org's own site; confirm whether Mass Vets Connect accepts statewide referrals.
+    name: "New England Center and Home for Veterans (NECHV)",
+    url: "https://nechv.org/",
+    description:
+      "Boston-based center providing transitional and permanent housing, employment and training, and support services for veterans experiencing or at risk of homelessness, plus its Mass Vets Connect point of contact for veterans in need.",
+    needCategoryIds: ["housing-transportation", "career-education", "mental-health"],
+    audienceTags: ["Veteran"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Boston, Massachusetts (own site)",
+    eligibility: "Veterans experiencing or at risk of homelessness, any era, 'regardless of the length or character of discharge'; must be able to independently care for themselves (own site FAQ)",
+    phone: "617-371-1800",
+    state: "Massachusetts",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): legacy domain soldieron.org no longer resolves — canonical site is wesoldieron.org; verify current SSVF regional coverage.
+    name: "Soldier On",
+    url: "https://www.wesoldieron.org/",
+    description:
+      "Massachusetts nonprofit (HQ Pittsfield) offering shelter, transitional and permanent housing for veterans, SSVF homeless-prevention assistance capped at $2,000 for rent and utilities, and free financial counseling since 1994.",
+    needCategoryIds: ["housing-transportation", "financial-assistance", "family-support"],
+    audienceTags: ["Veteran", "Guard/Reserve", "Family", "Caregiver"],
+    cost: "'Safe and affordable housing' — permanent-housing residents pay monthly rent including a daily meal; financial counseling is free via a foundation grant (own site)",
+    geographicScope: "Massachusetts (HQ Pittsfield, own site)",
+    eligibility: "SSVF assistance requires at least one day of military service, including Guard and Reserve members (own site)",
+    phone: "1-866-406-8449",
+    state: "Massachusetts",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): own site publishes no office hours; intake is via P.O. Box, phone, and online screening form.
+    name: "Veterans Legal Services",
+    url: "https://www.veteranslegalservices.org/help",
+    description:
+      "Independent Boston-based 501(c)(3) providing free civil legal aid to Massachusetts veterans through in-person clinics at partner VA and community sites and remote services, covering housing and evictions, CORI sealing, divorce, consumer debt, public benefits, state and federal veterans benefits, and discharge upgrades.",
+    needCategoryIds: ["legal-benefits", "housing-transportation", "financial-assistance"],
+    audienceTags: ["Veteran", "Guard/Reserve"],
+    cost: "Free — 'Veterans Legal Services provides free legal assistance to military veterans throughout Massachusetts' (own site)",
+    geographicScope: "Massachusetts (in-person clinics at partner sites; remote services available statewide with a waitlist) (own site)",
+    eligibility: "Served in the U.S. military, National Guard, or Reserves (any discharge status); currently reside in Massachusetts; household income under 300% of the federal poverty level (or VA SSVF/LSV-H eligible); legal case based in Massachusetts (own site)",
+    availability: "Remote services currently have a waiting list; in-person clinics at partner sites (own site)",
+    phone: "857-317-4474",
+    state: "Massachusetts",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): cost not stated on the org's own site; confirm whether support is limited to Massachusetts Gold Star Families.
+    name: "Massachusetts Fallen Heroes",
+    url: "https://www.massfallenheroes.org/",
+    description:
+      "Boston-based nonprofit supporting post-9/11 Gold Star Families with financial support, basic needs grants, grief counseling, donated vehicles, employment support and legal assistance, and maintaining the state's post-9/11 military memorial.",
+    needCategoryIds: ["family-support", "financial-assistance", "purpose-community"],
+    audienceTags: ["Gold Star", "Survivor", "Family", "Veteran"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Boston, Massachusetts-based; Gold Star Family support described on its own site without a state restriction",
+    state: "Massachusetts",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): own site does not publish age limits or application steps.
+    name: "Massachusetts Soldiers Legacy Fund",
+    url: "https://mslfund.org/",
+    description:
+      "Northborough-based nonprofit founded in 2004 awarding educational grants to the children of Massachusetts service members who died in service after 9/11, having awarded $4.1 million total to children from 54 Gold Star families, including $216,732 in 2025.",
+    needCategoryIds: ["family-support", "financial-assistance", "career-education"],
+    audienceTags: ["Gold Star", "Survivor", "Family"],
+    cost: "Grant — educational grants awarded to recipient children (own site); no fee language published",
+    geographicScope: "Children of Massachusetts service members; HQ Northborough, MA (own site)",
+    eligibility: "Children of Massachusetts service members who died in the line of duty since September 11, 2001 (own site)",
+    phone: "508-630-2382",
+    state: "Massachusetts",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): phone is published only as vanity number 1-84-HELP-VETS — confirm the numeric equivalent before exposing a tel: link.
+    name: "Military Friends Foundation",
+    url: "https://militaryfriends.org/",
+    description:
+      "Swampscott-based 501(c)(3) (d/b/a Friends of the National Guard and Reserve Families) providing Crisis Response, Basic Needs, Casualty Assistance and Warrior Travel grants to Massachusetts military families, plus community wellness events; run by military spouses and current and former service members.",
+    needCategoryIds: ["financial-assistance", "family-support", "purpose-community"],
+    audienceTags: ["Active Military", "Guard/Reserve", "Family", "Gold Star", "Survivor", "Veteran"],
+    cost: "Grant — 'urgent financial assistance to Massachusetts military families facing unexpected crises' (own site); no fee to apply stated",
+    geographicScope: "Massachusetts — Active Duty stationed in MA, MA National Guard, Reservists residing in MA, and MA Gold Star Families (own site)",
+    eligibility: "Active Duty service members stationed in Massachusetts, Massachusetts National Guard members, Reservists residing in Massachusetts, or Massachusetts Gold Star Families of all eras (own site)",
+    availability: "'We aim to respond within three business days'; Crisis Response Grants typically initiated within 72 hours of the crisis (own site)",
+    state: "Massachusetts",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): cost not stated on the org's own site; exact service-area boundaries not published — confirm whether out-of-region veterans are served.
+    name: "Montachusett Veterans Outreach Center",
+    url: "https://www.veterans-outreach.org/",
+    description:
+      "Gardner-based Central Massachusetts nonprofit offering housing support, one-time financial assistance for rent, utilities and emergencies, mental health and wellness counseling, benefits counseling, a food and clothing pantry, and medical appointment transportation for veterans.",
+    needCategoryIds: ["housing-transportation", "financial-assistance", "mental-health"],
+    audienceTags: ["Veteran", "Family", "Caregiver"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Montachusett/Central Massachusetts region, HQ Gardner, MA (own site)",
+    availability: "Monday–Friday, 9 a.m.–5 p.m. (own site)",
+    phone: "978-632-9601",
+    state: "Massachusetts",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): mass.gov page publishes no phone number — add the MassHire career-center locator contact; JVSG/HVRP eligibility is administered by local centers.
+    name: "MassHire Department of Career Services — Veteran Career Services",
+    url: "https://www.mass.gov/info-details/veteran-career-services",
+    description:
+      "MassHire career centers offering free career services to Massachusetts veterans with Priority of Service, the JobQuest veterans portal for veterans, transitioning service members and military spouses, and referrals to veteran employment programs such as JVSG, HVRP and the Hilton Honors Veteran Hiring Initiative.",
+    needCategoryIds: ["career-education"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Military Spouse"],
+    cost: "Free — 'free career services available to veterans in Massachusetts' (own page)",
+    geographicScope: "Massachusetts — MassHire career centers statewide (own page)",
+    eligibility: "Veterans, transitioning service members and military spouses; veterans and eligible spouses receive Priority of Service at MassHire centers (own page)",
+    state: "Massachusetts",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): confirm 508-820-2000 (MEMA line listed "For CISM services") is a staffed intake line before presenting it as a crisis number; response times not published.
+    name: "Massachusetts State Peer Support Network",
+    url: "https://mastatepeersupportnetwork.org/",
+    description:
+      "Statewide network assigning trained peer-support and Critical Incident Stress Management (CISM) teams to every city and town in Massachusetts to provide crisis intervention for public safety personnel after critical incidents.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Dispatch", "Corrections"],
+    cost: "Free — CISM and crisis intervention services provided 'free of charge' (own site)",
+    geographicScope: "Massachusetts — 'every city and town has a team assigned' (own site)",
+    crisisResource: true,
+    crisisAudience: "first-responders",
+    phone: "508-820-2000",
+    state: "Massachusetts",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): cost/insurance acceptance not stated on the program page; mass.gov's MassMen directory also lists a direct LEADER line (617-855-3141).
+    name: "McLean LEADER Program",
+    url: "https://www.massgeneralbrigham.org/en/locations/belmont-ma/mclean-law-enforcement-active-duty-emergency-responder-leader-program-loc0000280583",
+    description:
+      "McLean Hospital (Mass General Brigham) program in Belmont, MA providing specialized, confidential mental health and addiction care for first responders, active-duty service members and veterans, including inpatient, residential and outpatient treatment for trauma, depression and PTSD.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Veteran", "Active Military", "Law Enforcement", "Fire", "EMS", "First Responder"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "115 Mill Street, Belmont, Massachusetts; inpatient, residential and outpatient care at McLean Hospital (own page)",
+    phone: "617-855-2525",
+    state: "Massachusetts",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): also appears as a partner inside the Massachusetts Universal Access Program entry — confirm current program schedule/season dates.
+    name: "All Out Adventures — Veterans Programs",
+    url: "https://www.alloutadventures.org/programs/veterans",
+    description:
+      "Northampton-based nonprofit running cycling, pickleball and kayaking programs for veterans and disabled members of the armed forces at all ability levels, with a companion welcome alongside each participant.",
+    needCategoryIds: ["sports-fitness", "outdoor-programs"],
+    audienceTags: ["Veteran", "Active Military", "Disabled", "Caregiver", "Family"],
+    cost: "Free — 'open to veterans and their loved ones at no charge. Participants may make a donation if they wish.' (own site)",
+    geographicScope: "Northampton/Western Massachusetts; programs at Look Park and partner sites (own site)",
+    eligibility: "Veterans and disabled members of the armed forces of any age and ability level; a companion may attend at no charge (own site)",
+    phone: "413-584-2052",
+    state: "Massachusetts",
+    verifiedDate: "2026-10-08",
   },
 
   // ---------------------------------------------------------------------
@@ -7566,6 +8189,97 @@ export const RESOURCES: Resource[] = [
     geographicScope: "Statewide",
     state: "Illinois",
     verifiedDate: "2026-08-27",
+  },
+  {
+    name: "Illinois Department of Employment Security — Veterans Employment Services",
+    url: "https://ides.illinois.gov/services/veterans.html",
+    description:
+      "Illinois Department of Employment Security provides priority employment services for veterans and eligible spouses through veteran representatives, including job referrals, resume assistance, training information, and unemployment benefit guidance at no cost to veterans.",
+    needCategoryIds: ["career-education", "financial-assistance"],
+    audienceTags: ["Veteran", "Military Spouse", "Disabled"],
+    cost: "Free — services provided at no cost to eligible veterans and spouses (own site)",
+    geographicScope: "Statewide (Illinois)",
+    eligibility: "Veterans with other than dishonorable discharge and eligible spouses as defined by federal/state law.",
+    availability: "Available through IDES offices and online services statewide.",
+    hours: "Monday–Friday, 8:30 a.m.–5:00 p.m. (general IDES business hours as stated)",
+    state: "Illinois",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): site does not state a cost for its referral services — confirm before claiming free.
+    name: "Illinois Joining Forces",
+    url: "https://www.illinoisjoiningforces.org/",
+    description:
+      "Statewide public-private coalition connecting service members, veterans, and their families to Illinois-based resources and support, coordinating referrals across agencies and community partners.",
+    needCategoryIds: ["family-support", "purpose-community", "mental-health"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Military Spouse", "Family", "Caregiver", "Survivor", "Gold Star"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide (Illinois)",
+    eligibility: "Service members, veterans, and their families (as stated on own site).",
+    availability: "Statewide resource network; services available via website and referral.",
+    state: "Illinois",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    name: "Midwest Veterans Closet",
+    url: "https://midwestveteranscloset.org/",
+    description:
+      "Chicago-area nonprofit providing clothing, household essentials, and basic need items to veterans and their families at no cost to help stabilize households in need.",
+    needCategoryIds: ["family-support", "financial-assistance"],
+    audienceTags: ["Veteran", "Military Spouse", "Family", "Caregiver", "Disabled"],
+    cost: "Free — services provided at no cost to veterans and families (own site)",
+    geographicScope: "Chicago metropolitan area (Illinois)",
+    eligibility: "Veterans and their families in need (as stated on own site).",
+    availability: "By appointment or during service hours as posted on own site.",
+    phone: "708-308-4357",
+    state: "Illinois",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): program cost and insurance coverage are not stated on the org's own site.
+    name: "Road Home Program — Rush University Medical Center",
+    url: "https://roadhomeprogram.org/",
+    description:
+      "Rush University Medical Center program providing trauma-focused mental health care for veterans, service members, and their families, including clinical treatment for PTSD and related conditions.",
+    needCategoryIds: ["mental-health", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Military Spouse", "Family", "Caregiver"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Illinois (based in Chicago; serves veterans and families as described on own site)",
+    eligibility: "Veterans, service members, and their families (program eligibility varies by service; call for details as stated).",
+    phone: "312-942-8387",
+    state: "Illinois",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): specific program costs are not stated on the org's own veterans services page.
+    name: "Volunteers of America Illinois — Veterans Services",
+    url: "https://www.voail.org/services/veterans",
+    description:
+      "Volunteers of America Illinois provides veterans services including transitional and supportive housing, employment assistance, and case management to help veterans achieve stability and self-sufficiency.",
+    needCategoryIds: ["housing-transportation", "career-education", "family-support"],
+    audienceTags: ["Veteran", "Disabled", "Caregiver", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Illinois (programs as described on own site)",
+    eligibility: "Veterans who meet program eligibility criteria (housing and employment programs as stated).",
+    state: "Illinois",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): program costs are not stated on the org's own veterans services page.
+    name: "Catholic Charities of the Archdiocese of Chicago — Veterans Services",
+    url: "https://www.catholiccharities.net/our-services/veterans-services/",
+    description:
+      "Catholic Charities of the Archdiocese of Chicago provides supportive services for veterans including housing assistance, case management, and basic needs support as part of its faith-based mission to serve those in need.",
+    needCategoryIds: ["housing-transportation", "family-support", "financial-assistance"],
+    audienceTags: ["Veteran", "Disabled", "Family", "Caregiver", "Military Spouse"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Chicago metropolitan area and surrounding counties (Illinois)",
+    eligibility: "Veterans and their families in need (program-specific eligibility as stated).",
+    state: "Illinois",
+    verifiedDate: "2026-10-08",
+    // Own site: "We are proud to be a faith-based organization ... anchored in our Christian faith" (Who We Are page).
+    faithBased: true,
+    faithAffiliationSource: "https://www.catholiccharities.net/about-us/mission/",
   },
 
   // ---------------------------------------------------------------------

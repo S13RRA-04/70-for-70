@@ -191,7 +191,7 @@ export function LiveEventForm({
         <legend className="px-1 text-sm font-semibold uppercase tracking-wide text-ink">Performers</legend>
         <div className="mt-4 space-y-4">
           {performerSlots.map((performer, i) => (
-            <div key={i} className="grid gap-3 border-b border-ink/5 pb-4 last:border-0 last:pb-0 sm:grid-cols-4">
+            <div key={i} className="grid gap-3 border-b border-ink/5 pb-4 last:border-0 last:pb-0 sm:grid-cols-5">
               <input
                 name={`performer_name_${i + 1}`}
                 type="text"
@@ -213,6 +213,13 @@ export function LiveEventForm({
                 defaultValue={performer?.bio ?? ""}
                 className="rounded-sm border border-ink/20 bg-off-white px-3 py-2 text-sm text-ink sm:col-span-2"
               />
+              <input
+                name={`performer_image_url_${i + 1}`}
+                type="url"
+                placeholder="Photo URL"
+                defaultValue={performer?.image_url ?? ""}
+                className="rounded-sm border border-ink/20 bg-off-white px-3 py-2 text-sm text-ink"
+              />
             </div>
           ))}
         </div>
@@ -222,7 +229,7 @@ export function LiveEventForm({
         <legend className="px-1 text-sm font-semibold uppercase tracking-wide text-ink">Auction Items</legend>
         <div className="mt-4 space-y-4">
           {auctionSlots.map((item, i) => (
-            <div key={i} className="grid gap-3 border-b border-ink/5 pb-4 last:border-0 last:pb-0 sm:grid-cols-5">
+            <div key={i} className="grid gap-3 border-b border-ink/5 pb-4 last:border-0 last:pb-0 sm:grid-cols-6">
               <input
                 name={`auction_title_${i + 1}`}
                 type="text"
@@ -236,6 +243,13 @@ export function LiveEventForm({
                 placeholder="Description"
                 defaultValue={item?.description ?? ""}
                 className="rounded-sm border border-ink/20 bg-off-white px-3 py-2 text-sm text-ink sm:col-span-2"
+              />
+              <input
+                name={`auction_image_url_${i + 1}`}
+                type="url"
+                placeholder="Image URL"
+                defaultValue={item?.image_url ?? ""}
+                className="rounded-sm border border-ink/20 bg-off-white px-3 py-2 text-sm text-ink"
               />
               <input
                 name={`auction_starting_bid_${i + 1}`}

@@ -59,6 +59,7 @@ function buildPerformerRows(formData: FormData, eventId: string) {
       name,
       billing: optionalStr(formData, `performer_billing_${i}`),
       bio: optionalStr(formData, `performer_bio_${i}`),
+      image_url: optionalStr(formData, `performer_image_url_${i}`),
       display_order: i,
     });
   }
@@ -75,6 +76,7 @@ function buildAuctionItemRows(formData: FormData, eventId: string) {
       event_id: eventId,
       title,
       description: optionalStr(formData, `auction_description_${i}`),
+      image_url: optionalStr(formData, `auction_image_url_${i}`),
       starting_bid: optionalNumber(formData, `auction_starting_bid_${i}`),
       bidding_url: optionalStr(formData, `auction_bidding_url_${i}`),
       status: status === "closed" ? "closed" : "open",

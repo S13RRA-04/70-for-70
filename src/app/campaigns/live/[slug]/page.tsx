@@ -95,16 +95,26 @@ export default async function LiveEventPage(props: PageProps<"/campaigns/live/[s
             <RevealGrid>
               <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {performers.map((performer) => (
-                  <div key={performer.id} className="rounded-sm border border-ink/10 bg-off-white p-6">
-                    <h3 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
-                      {performer.name}
-                    </h3>
-                    {performer.billing && (
-                      <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-bronze">
-                        {performer.billing}
-                      </p>
+                  <div key={performer.id} className="overflow-hidden rounded-sm border border-ink/10 bg-off-white">
+                    {performer.image_url && (
+                      // eslint-disable-next-line @next/next/no-img-element -- admin-entered URL from an arbitrary host, not a build-time-known set next/image can optimize (same reasoning as JournalMarkdown's body images).
+                      <img
+                        src={performer.image_url}
+                        alt={performer.name}
+                        className="aspect-[4/3] w-full object-cover"
+                      />
                     )}
-                    {performer.bio && <p className="mt-3 text-sm text-charcoal-light">{performer.bio}</p>}
+                    <div className="p-6">
+                      <h3 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+                        {performer.name}
+                      </h3>
+                      {performer.billing && (
+                        <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-bronze">
+                          {performer.billing}
+                        </p>
+                      )}
+                      {performer.bio && <p className="mt-3 text-sm text-charcoal-light">{performer.bio}</p>}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -120,25 +130,31 @@ export default async function LiveEventPage(props: PageProps<"/campaigns/live/[s
             <RevealGrid>
               <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {auctionItems.map((item) => (
-                  <div key={item.id} className="rounded-sm border border-ink/10 bg-off-white p-6">
-                    <h3 className="font-display text-base font-semibold uppercase tracking-wide text-ink">
-                      {item.title}
-                    </h3>
-                    {item.description && <p className="mt-2 text-sm text-charcoal-light">{item.description}</p>}
-                    {item.starting_bid != null && (
-                      <p className="mt-3 text-sm font-semibold text-bronze-text">
-                        Starting Bid: {formatCurrency(item.starting_bid)}
-                      </p>
+                  <div key={item.id} className="overflow-hidden rounded-sm border border-ink/10 bg-off-white">
+                    {item.image_url && (
+                      // eslint-disable-next-line @next/next/no-img-element -- admin-entered URL from an arbitrary host, not a build-time-known set next/image can optimize (same reasoning as JournalMarkdown's body images).
+                      <img src={item.image_url} alt={item.title} className="aspect-[4/3] w-full object-cover" />
                     )}
-                    {item.status === "closed" ? (
-                      <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-charcoal-light">Closed</p>
-                    ) : (
-                      item.bidding_url && (
-                        <CTAButton href={item.bidding_url} external variant="secondary" className="mt-4">
-                          Bid Now
-                        </CTAButton>
-                      )
-                    )}
+                    <div className="p-6">
+                      <h3 className="font-display text-base font-semibold uppercase tracking-wide text-ink">
+                        {item.title}
+                      </h3>
+                      {item.description && <p className="mt-2 text-sm text-charcoal-light">{item.description}</p>}
+                      {item.starting_bid != null && (
+                        <p className="mt-3 text-sm font-semibold text-bronze-text">
+                          Starting Bid: {formatCurrency(item.starting_bid)}
+                        </p>
+                      )}
+                      {item.status === "closed" ? (
+                        <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-charcoal-light">Closed</p>
+                      ) : (
+                        item.bidding_url && (
+                          <CTAButton href={item.bidding_url} external variant="secondary" className="mt-4">
+                            Bid Now
+                          </CTAButton>
+                        )
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>
