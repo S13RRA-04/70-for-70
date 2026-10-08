@@ -92,6 +92,13 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
   // is actually active, so a deep-linked/gateway-card visit doesn't hide
   // the filters that are already applied.
   const [filtersOpen, setFiltersOpen] = useState(false);
+  // Coverage + the 8-option "Confirmed Access & Organization" row sit behind
+  // their own nested disclosure so the default view only surfaces Search,
+  // Need, and Who Are You — the three dimensions most people actually touch
+  // first. Auto-opens once either is already active for the same reason
+  // showFilterPanel does below (a deep-linked/gateway visit never hides an
+  // applied filter).
+  const [moreFiltersOpen, setMoreFiltersOpen] = useState(false);
 
   // In-page filter changes now sync back to the URL (debounced below) so a
   // filtered view is shareable/bookmarkable — it previously never touched
@@ -214,6 +221,9 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
   // filter is never hidden behind a closed disclosure.
   const showFilterPanel = filtersOpen || chipFilterCount > 0;
 
+  const moreFiltersActiveCount = (scope !== "all" ? 1 : 0) + accessFilters.length;
+  const showMoreFilters = moreFiltersOpen || moreFiltersActiveCount > 0;
+
   function clearAllFilters() {
     setNeedIds([]);
     setAudience(null);
@@ -301,23 +311,39 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
               onSelect={setAudience}
               chipSize="sm"
             />
-            <FilterRow
-              label="Coverage"
-              options={[SCOPE_LABELS.national, SCOPE_LABELS.state]}
-              activeValues={scope === "all" ? [] : [SCOPE_LABELS[scope]]}
-              onSelect={(label) =>
-                setScope(label === SCOPE_LABELS.national ? "national" : label === SCOPE_LABELS.state ? "state" : "all")
-              }
-              chipSize="sm"
-            />
-            <FilterRow
-              label="Confirmed Access & Organization"
-              options={["Self-referral", "No employer referral", "Independent provider", "Anonymous initial contact", "Virtual access", "No insurance required", "Peer-led", "Faith-based organization"]}
-              activeValues={accessFilters}
-              onSelect={(value) => setAccessFilters(value ? (accessFilters.includes(value) ? accessFilters.filter((item) => item !== value) : [...accessFilters, value]) : [])}
-              chipSize="sm"
-            />
-            <p className="text-[11px] leading-relaxed text-charcoal-light">These filters only match details explicitly confirmed from provider information. Missing information, including faith affiliation, is treated as unknown.</p>
+            <div className="border-t border-ink/10 pt-4">
+              <button
+                type="button"
+                onClick={() => setMoreFiltersOpen((v) => !v)}
+                aria-expanded={showMoreFilters}
+                aria-controls="resource-more-filters"
+                className="flex w-full items-center justify-between text-xs font-semibold uppercase tracking-widest text-charcoal-light hover:text-ink"
+              >
+                <span>More Filters{moreFiltersActiveCount > 0 ? ` · ${moreFiltersActiveCount} Active` : ""}</span>
+                <ChevronDown size={14} aria-hidden="true" className={cn("transition-transform", showMoreFilters && "rotate-180")} />
+              </button>
+              {showMoreFilters && (
+                <div id="resource-more-filters" className="mt-4 space-y-5">
+                  <FilterRow
+                    label="Coverage"
+                    options={[SCOPE_LABELS.national, SCOPE_LABELS.state]}
+                    activeValues={scope === "all" ? [] : [SCOPE_LABELS[scope]]}
+                    onSelect={(label) =>
+                      setScope(label === SCOPE_LABELS.national ? "national" : label === SCOPE_LABELS.state ? "state" : "all")
+                    }
+                    chipSize="sm"
+                  />
+                  <FilterRow
+                    label="Confirmed Access & Organization"
+                    options={["Self-referral", "No employer referral", "Independent provider", "Anonymous initial contact", "Virtual access", "No insurance required", "Peer-led", "Faith-based organization"]}
+                    activeValues={accessFilters}
+                    onSelect={(value) => setAccessFilters(value ? (accessFilters.includes(value) ? accessFilters.filter((item) => item !== value) : [...accessFilters, value]) : [])}
+                    chipSize="sm"
+                  />
+                  <p className="text-[11px] leading-relaxed text-charcoal-light">These filters only match details explicitly confirmed from provider information. Missing information, including faith affiliation, is treated as unknown.</p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 

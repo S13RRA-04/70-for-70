@@ -1,4 +1,8 @@
-import { ExternalLink } from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import { ChevronDown, ExternalLink } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { NEED_CATEGORIES, type Resource } from "@/lib/content/resources";
 
 /** Deterministic accent per card so the grid isn't monochrome — not tied to category, purely visual rhythm. */
@@ -13,20 +17,27 @@ function accentForName(name: string): string {
   return AVATAR_ACCENTS[sum % AVATAR_ACCENTS.length];
 }
 
+/**
+ * Decision-critical fields (org, description, category, who qualifies,
+ * cost, availability) render immediately; eligibility detail and review
+ * status — supporting detail, not what most people scan for first — sit
+ * behind "View details" so a dense result set stays scannable. The outer
+ * element is a plain div, not a link, because "View details" has to be its
+ * own button distinct from the outbound "Visit" action.
+ */
 export function ResourceCard({ resource }: { resource: Resource }) {
+  const [expanded, setExpanded] = useState(false);
   const initial = resource.name.trim().charAt(0).toUpperCase();
   // Plain text, not another pill — audience tags already cover that
   // treatment below, and giving every field its own pill reads as clutter.
   const categoryLabel = NEED_CATEGORIES.find((c) => c.id === resource.needCategoryIds[0])?.label;
+  const hasDetails = Boolean(resource.eligibility || resource.verificationStatus);
+  const resourceId = resource.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
   return (
-    <a
-      href={resource.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      data-analytics-event="resource_outbound_click"
-      data-resource-id={resource.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")}
-      className="hover-lift group flex flex-col rounded-sm border border-ink/10 bg-off-white p-5 transition-colors hover:border-bronze/40"
+    <div
+      data-resource-id={resourceId}
+      className="hover-lift flex flex-col rounded-sm border border-ink/10 bg-off-white p-5 transition-colors hover:border-bronze/40"
     >
       <div className="flex items-start gap-3">
         <span
@@ -48,12 +59,6 @@ export function ResourceCard({ resource }: { resource: Resource }) {
         <p className="mt-2 text-[11px] font-semibold uppercase tracking-widest text-bronze-text">{categoryLabel}</p>
       )}
 
-      {resource.verificationStatus && (
-        <p className="mt-2 text-[10px] font-semibold uppercase tracking-widest text-olive">
-          {resource.verificationStatus.replaceAll("-", " ")} · <span className="normal-case tracking-normal text-charcoal-light">see review standard</span>
-        </p>
-      )}
-
       <div className="mt-3 flex flex-wrap gap-1.5">
         {resource.audienceTags.map((tag) => (
           <span
@@ -65,17 +70,40 @@ export function ResourceCard({ resource }: { resource: Resource }) {
         ))}
       </div>
 
-      {(resource.eligibility || resource.availability) && (
-        <div className="mt-3 space-y-0.5 text-xs text-charcoal-light">
-          {resource.eligibility && (
-            <p>
-              <span className="font-semibold text-ink">Eligibility:</span> {resource.eligibility}
-            </p>
-          )}
-          {resource.availability && (
-            <p>
-              <span className="font-semibold text-ink">Availability:</span> {resource.availability}
-            </p>
+      {resource.availability && (
+        <p className="mt-3 text-xs text-charcoal-light">
+          <span className="font-semibold text-ink">Availability:</span> {resource.availability}
+        </p>
+      )}
+
+      {hasDetails && (
+        <div className="mt-3">
+          <button
+            type="button"
+            onClick={() => setExpanded((v) => !v)}
+            aria-expanded={expanded}
+            aria-controls={`${resourceId}-details`}
+            className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
+          >
+            View details
+            <ChevronDown size={13} aria-hidden="true" className={cn("transition-transform", expanded && "rotate-180")} />
+          </button>
+          {expanded && (
+            <div id={`${resourceId}-details`} className="mt-2 space-y-1.5 text-xs leading-relaxed text-charcoal-light">
+              {resource.eligibility && (
+                <p>
+                  <span className="font-semibold text-ink">Eligibility:</span> {resource.eligibility}
+                </p>
+              )}
+              {resource.verificationStatus && (
+                <p className="font-semibold uppercase tracking-widest text-olive">
+                  {resource.verificationStatus.replaceAll("-", " ")} ·{" "}
+                  <a href="/standards" className="normal-case tracking-normal text-bronze hover:text-bronze-dark">
+                    see review standard
+                  </a>
+                </p>
+              )}
+            </div>
           )}
         </div>
       )}
@@ -86,11 +114,17 @@ export function ResourceCard({ resource }: { resource: Resource }) {
           <span className="mx-1.5 text-ink/20">·</span>
           {resource.geographicScope}
         </div>
-        <span className="inline-flex shrink-0 items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-bronze group-hover:text-bronze-dark">
+        <a
+          href={resource.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-analytics-event="resource_outbound_click"
+          className="group inline-flex shrink-0 items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
+        >
           Visit
-          <ExternalLink size={12} aria-hidden="true" />
-        </span>
+          <ExternalLink size={12} aria-hidden="true" className="transition-transform group-hover:translate-x-0.5" />
+        </a>
       </div>
-    </a>
+    </div>
   );
 }
