@@ -10,6 +10,8 @@ import { getLatestJournalEntries } from "@/lib/data/journal";
 import { HOW_THIS_BEGAN } from "@/lib/content/the-story";
 import { MissionProgress } from "@/components/campaign/mission-progress";
 import { CampaignStatusBar } from "@/components/campaign/campaign-status-bar";
+import { CampaignPhaseBanner } from "@/components/campaign/campaign-phase-banner";
+import { getCampaignPhase } from "@/lib/campaign-phase";
 import { MerchTicker } from "@/components/campaign/merch-ticker";
 import { EventPromoSection } from "@/components/campaign/event-promo-section";
 import { getCurrentEventConfig } from "@/lib/data/event-config";
@@ -193,6 +195,7 @@ export default async function CampaignHomePage() {
   ]);
   const allocationBreakdown = await getAllocationBreakdown(campaign);
   const showEventPromo = currentEvent && isEventPromoWindowNow(currentEvent.starts_at, currentEvent.ends_at);
+  const phase = getCampaignPhase();
 
   const generalPartners = missionPartners.filter((p) => p.partner_type !== "giveaway-supporter");
   const presentingPartners = generalPartners.filter((p) => p.tier === "presenting-partner");
@@ -264,10 +267,35 @@ export default async function CampaignHomePage() {
         updatedAt={fundraisingStats.updatedAt}
       />
 
+      {/* Latest Update — a one-line pointer to the newest journal entry,
+          directly under the live status bar, so the page reads as a
+          currently-updating campaign before any explanatory content. The
+          full "Stories From the Mission" section further down still shows
+          the latest three in full. */}
+      {latestEntries[0] && (
+        <div className="border-b border-ink/10 bg-sand-light py-3">
+          <Container className="flex flex-wrap items-center justify-between gap-2">
+            <p className="min-w-0 truncate text-sm text-charcoal-light">
+              <span className="font-semibold uppercase tracking-wide text-bronze-text">Latest:</span>{" "}
+              <Link href={`/journal/${latestEntries[0].slug}`} className="font-medium text-ink hover:text-bronze">
+                {latestEntries[0].title}
+              </Link>
+            </p>
+            <Link
+              href="/journal"
+              className="shrink-0 text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
+            >
+              View All Updates &rarr;
+            </Link>
+          </Container>
+        </div>
+      )}
+
       {/* 2. Who Your Support Helps — moved directly under the hero, ahead of
           anything race-specific. */}
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container>
+          <CampaignPhaseBanner phase={phase} />
           <SectionHeading
             eyebrow="Who It Supports"
             title="Who Your Support Helps"
