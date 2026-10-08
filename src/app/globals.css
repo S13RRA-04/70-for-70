@@ -520,6 +520,13 @@ body {
     border-color: color-mix(in srgb, var(--property-dark) 12%, transparent);
   }
 
+  /* Live keeps its dark cinematic page surfaces, but campaign navigation
+     follows the same high-contrast off-white shell as forthe22.org. */
+  html[data-property="live"] .property-nav-shell {
+    background-color: color-mix(in srgb, var(--color-off-white) 95%, transparent);
+    border-color: color-mix(in srgb, var(--color-ink) 12%, transparent);
+  }
+
   .property-footer-shell {
     background-color: var(--property-dark);
   }
