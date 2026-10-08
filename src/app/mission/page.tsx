@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {
   Ambulance,
+  ArrowRight,
   Ban,
   Brain,
   Activity,
@@ -264,13 +265,19 @@ export default function MissionPage() {
         <Container>
           <SectionHeading eyebrow="The Process" title="How the Directory Works" />
           <div className="mt-8 grid gap-6 sm:grid-cols-2">
-            {HOW_IT_WORKS.map((step) => (
-              <div key={step.number} className="border border-ink/10 bg-sand-light/40 p-8">
-                <span className="font-display text-3xl font-bold text-bronze/40">{step.number}</span>
+            {HOW_IT_WORKS.map((step, i) => (
+              <div key={step.number} className="relative border border-ink/10 bg-sand-light/40 p-8">
+                <span className="font-display text-5xl font-bold text-bronze/60">{step.number}</span>
                 <h3 className="mt-3 font-display text-xl font-semibold uppercase tracking-tight text-ink">
                   {step.title}
                 </h3>
                 <p className="mt-2 text-base leading-relaxed text-charcoal-light">{step.body}</p>
+                {i < HOW_IT_WORKS.length - 1 && (
+                  <ArrowRight
+                    aria-hidden="true"
+                    className="absolute right-0 top-1/2 hidden h-6 w-6 -translate-y-1/2 translate-x-1/2 text-bronze sm:block"
+                  />
+                )}
               </div>
             ))}
           </div>
@@ -294,9 +301,11 @@ export default function MissionPage() {
       <section id="move-the-mission" className="scroll-mt-28 border-t border-ink/10 bg-off-white py-16 sm:py-20">
         <Container>
           <SectionHeading eyebrow="Connect + Mobilize" title="How We Move the Mission Forward" />
-          <p className="mt-4 max-w-2xl font-display text-2xl font-semibold uppercase tracking-tight text-ink sm:text-3xl">
-            {ORG_SUPPORTING_LINE}
-          </p>
+          <div className="mx-auto mt-6 max-w-2xl border-y border-bronze/30 py-6 text-center">
+            <p className="font-display text-2xl font-semibold uppercase tracking-tight text-ink sm:text-3xl">
+              {ORG_SUPPORTING_LINE}
+            </p>
+          </div>
           <div className="mt-8 grid gap-6 sm:grid-cols-2">
             <div className="border border-ink/10 bg-sand-light/40 p-8">
               <Link2 className="h-6 w-6 text-bronze" aria-hidden="true" />
