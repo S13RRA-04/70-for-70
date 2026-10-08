@@ -32,8 +32,6 @@ import {
   EVENT22_CAMPAIGN_NAME,
   EVENT22_CAMPAIGN_URL,
   LIVE_CAMPAIGN_URL,
-  MISSION_NAME,
-  MISSION_SUPPORTING_LINE,
   RACE_INFO,
   RACE_TOTAL_DISTANCE,
   RUCK_CAMPAIGN_NAME,
@@ -386,10 +384,6 @@ export default async function CampaignHomePage() {
               <dd className="font-display text-2xl font-bold tabular-nums text-ink">{RACE_TOTAL_DISTANCE} Miles</dd>
             </div>
             <div>
-              <dt className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">Goal</dt>
-              <dd className="font-display text-2xl font-bold tabular-nums text-ink">{formatCurrency(fundraisingStats.fundraisingGoal)}</dd>
-            </div>
-            <div>
               <dt className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">Beneficiaries</dt>
               <dd className="font-display text-2xl font-bold tabular-nums text-ink">{partners.length} Organizations</dd>
             </div>
@@ -418,8 +412,7 @@ export default async function CampaignHomePage() {
         <Container className="max-w-2xl">
           <SectionHeading eyebrow="Fund the Mission" title="For The 22's Shared $70,000 Mission Goal" />
           <p className="mt-5 text-base leading-relaxed text-charcoal-light">
-            The current goal is {formatCurrency(fundraisingStats.fundraisingGoal)} — roughly $1,000 for every mile of{" "}
-            {CURRENT_CAMPAIGN.event}, the race that inspired the number.
+            Roughly $1,000 for every mile of {CURRENT_CAMPAIGN.event} — the race that inspired the number.
           </p>
 
           <div className="mt-8 rounded-sm border border-ink/10 bg-off-white p-6 sm:p-8">
@@ -445,10 +438,12 @@ export default async function CampaignHomePage() {
         </Container>
       </section>
 
-      {/* 7. Mission in Action */}
+      {/* 7. Mission in Action — eyebrow/title deliberately distinct from
+          MISSION_NAME/MISSION_SUPPORTING_LINE, which MissionProgress just
+          rendered verbatim in section 6 immediately above. */}
       <section className="border-b border-ink/10 py-16 sm:py-20">
         <Container>
-          <SectionHeading eyebrow={MISSION_NAME} title={MISSION_SUPPORTING_LINE} />
+          <SectionHeading eyebrow="Mission in Action" title="Every Campaign Contributes to One Goal" />
           <RevealGrid>
             <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {MISSION_CAMPAIGN_CARDS.map((card, i) => (
