@@ -90,22 +90,20 @@ export default async function CampaignsPage() {
       </section>
 
       {/* Current Mission — a campaign-index summary of the shared goal.
-          /70k remains the authoritative mission overview. */}
+          MissionProgress already names the mission and states the "one
+          shared goal" framing, so this section leans on that visual/numeric
+          component rather than restating it in prose. /70k remains the
+          authoritative mission overview. */}
       <section className="border-b border-ink/10 py-14 sm:py-16">
         <Container className="max-w-2xl">
-          <SectionHeading
-            eyebrow="Current Mission"
-            title={MISSION_NAME}
-            description={`${SITE_NAME} is working toward a shared $70,000 fundraising goal in support of ${joinNames(beneficiaryNames)} — funded by every current campaign, not Tri alone.`}
-          />
-          <div className="mt-8">
+          <SectionHeading eyebrow="Current Mission" title="Where We Stand" />
+          <div className="mt-6">
             <MissionProgress
               totalRaised={fundraisingStats.amountRaised}
               goal={fundraisingStats.fundraisingGoal}
               breakdown={allocationBreakdown}
             />
           </div>
-          <p className="mt-4 text-sm text-charcoal-light">Every campaign below contributes toward this total.</p>
           <div className="mt-6 flex flex-wrap items-center gap-4">
             <CTAButton href={`${CAMPAIGN_URL}${DONATE_LINK.href}`} external magnetic>
               {DONATE_LINK.label}
@@ -115,9 +113,8 @@ export default async function CampaignsPage() {
             </CTAButton>
           </div>
           <p className="mt-4 text-sm text-charcoal-light">
-            Read the authoritative mission overview —{" "}
             <Link href="/70k" className="font-semibold text-bronze hover:text-bronze-dark">
-              Learn about the full {MISSION_NAME} &rarr;
+              See the full {MISSION_NAME} overview &rarr;
             </Link>
           </p>
         </Container>
