@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { ChevronDown, Copy, Check, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { NEED_CATEGORIES, type Resource } from "@/lib/content/resources";
+import { NEED_CATEGORIES, slugifyResourceName, type Resource } from "@/lib/content/resources";
 import { SITE_URL } from "@/lib/constants";
 import { trackEvent } from "@/lib/analytics/plausible";
 
@@ -45,15 +46,14 @@ export function ResourceCard({ resource }: { resource: Resource }) {
   // from a DOM measurement.
   const isLongDescription = resource.description.length > 160;
   const hasDetails = Boolean(categoryLabel || resource.availability || resource.eligibility || resource.verificationStatus || isLongDescription);
-  const resourceId = resource.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+  const resourceId = slugifyResourceName(resource.name);
+  const detailHref = `/resources/${resourceId}`;
 
-  // Shares a deep link into the directory's existing search — there's no
-  // dedicated per-resource page to link to, so this re-finds the same card
-  // via its own name (which the directory's search already matches against)
-  // plus a hash the directory scrolls to on load (see ResourceDirectory's
-  // hash-scroll effect).
+  // The resource's own canonical page — a real, permanent URL (better for
+  // SEO/sharing/trust than the old `?q=&...#anchor` deep link back into this
+  // same search results page).
   async function handleCopyLink() {
-    const url = `${SITE_URL}/resources?q=${encodeURIComponent(resource.name)}#${resourceId}`;
+    const url = `${SITE_URL}${detailHref}`;
     try {
       await navigator.clipboard.writeText(url);
       setCopied(true);
@@ -161,6 +161,12 @@ export function ResourceCard({ resource }: { resource: Resource }) {
           >
             {copied ? <Check size={12} aria-hidden="true" /> : <Copy size={12} aria-hidden="true" />}
           </button>
+          <Link
+            href={detailHref}
+            className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-charcoal-light hover:text-ink"
+          >
+            Full Details
+          </Link>
           <a
             href={resource.url}
             target="_blank"

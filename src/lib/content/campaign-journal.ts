@@ -27,7 +27,7 @@ export const CAMPAIGN_JOURNAL_ENTRIES: CampaignJournalEntry[] = [
       "A collaboration pitch turned into a genuine veteran-to-veteran connection with the Marine Corps EOD vet and Purple Heart recipient behind INERTmugs.",
     body: [
       "Shoutout to Tyler over at INERTmugs — a Marine Corps veteran, Purple Heart recipient, and former Explosive Ordnance Disposal technician who now serves as a TSA Explosive Specialist and runs INERTmugs on the side.",
-      "What started as a collaboration pitch turned into a phone call, and the phone call turned into a genuine veteran-to-veteran connection. Tyler's already working on introducing me to other veteran-owned businesses and people doing great work for vets and first responders.",
+      "What started as a collaboration pitch turned into a phone call — and that call turned into a genuine veteran-to-veteran connection. Tyler's already working on introducing me to other veteran-owned businesses and people doing great work for vets and first responders.",
       "Huge thanks to Tyler — looking forward to working together throughout this campaign and beyond. BOOM!",
     ],
     image: { src: "/partners/inertmugs-logo.png", alt: "INERTmugs logo" },
