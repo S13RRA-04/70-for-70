@@ -3,6 +3,8 @@ import { getJournalEntries } from "@/lib/data/journal";
 import { getBikeBuildLastUpdated } from "@/lib/content/building-the-bike";
 import { getGearJourneyLastUpdated } from "@/lib/content/gear-journey";
 import { US_STATES_GRID } from "@/lib/content/us-states";
+import { slugifyResourceName } from "@/lib/content/resources";
+import { getResources } from "@/lib/data/resources";
 import { getPublishedLiveEvents } from "@/lib/data/live-events";
 import { CAMPAIGN_URL, CAMPAIGNS, SITE_URL } from "@/lib/constants";
 import { getActiveCampaignSlug } from "@/lib/site-mode";
@@ -161,5 +163,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: new Date(),
   }));
 
-  return [...orgEntries, ...stateEntries];
+  const resources = await getResources();
+  const resourceEntries: MetadataRoute.Sitemap = resources.map((resource) => ({
+    url: `${SITE_URL}/resources/${slugifyResourceName(resource.name)}`,
+    lastModified: resource.verifiedDate ? new Date(resource.verifiedDate) : new Date(),
+  }));
+
+  return [...orgEntries, ...stateEntries, ...resourceEntries];
 }

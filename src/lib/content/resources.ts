@@ -96,6 +96,22 @@ export interface Resource {
   situationalTags?: string[];
 }
 
+/**
+ * Stable, derived (never stored) slug for a resource's own URL
+ * (/resources/<slug>) and its "copy link"/anchor targets — there's no slug
+ * column on either the static RESOURCES array or the Supabase
+ * resource_records table, so every consumer (ResourceCard, ResourceDirectory,
+ * the /resources/[slug] detail route) must derive it the same way. Collisions
+ * are possible for two resources differing only in punctuation/case, but not
+ * observed in the current directory.
+ */
+export function slugifyResourceName(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
 export interface NeedCategory {
   id: string;
   label: string;

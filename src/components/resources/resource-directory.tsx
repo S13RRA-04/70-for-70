@@ -2,8 +2,8 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { ChevronDown, X } from "lucide-react";
-import { NEED_CATEGORIES, type Resource } from "@/lib/content/resources";
+import { ChevronDown, Check, Copy, X } from "lucide-react";
+import { NEED_CATEGORIES, slugifyResourceName, type Resource } from "@/lib/content/resources";
 import { ResourceCard } from "@/components/resources/resource-card";
 import { StateMap } from "@/components/resources/state-map";
 import { EmptyState } from "@/components/shared/empty-state";
@@ -12,6 +12,9 @@ import { SearchField } from "@/components/shared/search-field";
 import { RevealGrid } from "@/components/shared/reveal-on-scroll";
 import { trackEvent } from "@/lib/analytics/plausible";
 import { cn } from "@/lib/utils";
+
+/** Cards rendered per "page" — a plain client-side slice of sortedResults, not a route param, since the whole list is already filtered/sorted client-side. Keeps the unfiltered 1,000+-resource view from mounting every card (and its own useState pair) at once. */
+const RESULTS_PAGE_SIZE = 24;
 
 /** A single active-filter tag in the "Active filters" row, with its own remove button. Extracted so the 4 call sites below (need/audience/state/search) share one implementation instead of repeating the same markup. */
 function RemovableFilterPill({ label, onRemove }: { label: string; onRemove: () => void }) {
@@ -119,6 +122,8 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
   const [scope, setScope] = useState<ResourceScope>(() => toResourceScope(params.get("scope")));
   const [sort, setSort] = useState<ResourceSort>(() => toResourceSort(params.get("sort")));
   const [accessFilters, setAccessFilters] = useState<string[]>([]);
+  const [visibleCount, setVisibleCount] = useState(RESULTS_PAGE_SIZE);
+  const [searchLinkCopied, setSearchLinkCopied] = useState(false);
   // Below `lg:`, the filter chip stack (3 groups, up to ~20 buttons total)
   // starts collapsed so a mobile visitor reaches search + results without
   // scrolling past it first — `lg:` always shows it regardless of this
@@ -305,6 +310,16 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
     return copy;
   }, [results, sort]);
 
+  // Resets the page back to the first batch whenever the actual result set
+  // changes shape — otherwise tightening a filter after scrolling deep into
+  // "Load More" could leave visibleCount far past the new, smaller total,
+  // or just strand a visitor on page 6 of a now-unrelated search.
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => setVisibleCount(RESULTS_PAGE_SIZE), [needIds, audience, search, stateFilter, scope, accessFilters, sort]);
+
+  const visibleResults = sortedResults.slice(0, visibleCount);
+  const hasMoreResults = visibleCount < sortedResults.length;
+
   // Tracked on its own debounce (not folded into the URL-sync effect above)
   // so it fires once per pause in typing, carrying the result count at that
   // moment — not on every keystroke, and not for an empty/cleared query.
@@ -326,13 +341,21 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
   useEffect(() => {
     const hash = window.location.hash.slice(1);
     if (!hash || results.length === 0) return;
+    // A hash target past the current page (page size, no narrowing search)
+    // wouldn't be in the DOM yet to scroll to — expand to include it first.
+    const targetIndex = sortedResults.findIndex((r) => slugifyResourceName(r.name) === hash);
+    if (targetIndex >= visibleCount) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setVisibleCount(targetIndex + 1);
+      return;
+    }
     const el = document.querySelector(`[data-resource-id="${hash}"]`);
     if (!el) return;
     el.scrollIntoView({ behavior: "smooth", block: "center" });
     el.classList.add("ring-2", "ring-bronze", "ring-offset-2");
     const timeout = setTimeout(() => el.classList.remove("ring-2", "ring-bronze", "ring-offset-2"), 2500);
     return () => clearTimeout(timeout);
-  }, [results.length]);
+  }, [results.length, sortedResults, visibleCount]);
 
   // Drives the collapsible chip panel's own auto-open — search is always
   // visible outside that panel, so it doesn't need to force it open.
@@ -535,7 +558,7 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
               {stateFilter && (scope === "state" ? ` in ${stateFilter} only` : ` in ${stateFilter} + nationwide`)}
               {!stateFilter && scope !== "all" && ` · ${SCOPE_LABELS[scope]} only`}
             </p>
-            <div className="flex shrink-0 items-center gap-3">
+            <div className="flex shrink-0 flex-wrap items-center gap-3">
               <label className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
                 Sort
                 <select
@@ -550,6 +573,25 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
                   ))}
                 </select>
               </label>
+              {totalActiveFilterCount > 0 && (
+                <button
+                  type="button"
+                  onClick={async () => {
+                    try {
+                      await navigator.clipboard.writeText(window.location.href);
+                      setSearchLinkCopied(true);
+                      trackEvent("resource_search", { query: search || "(filters only)", results: String(results.length) });
+                      setTimeout(() => setSearchLinkCopied(false), 2000);
+                    } catch {
+                      // Clipboard API unavailable — no-op.
+                    }
+                  }}
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-charcoal-light hover:text-ink"
+                >
+                  {searchLinkCopied ? <Check size={12} aria-hidden="true" /> : <Copy size={12} aria-hidden="true" />}
+                  {searchLinkCopied ? "Link Copied" : "Share This Search"}
+                </button>
+              )}
               {totalActiveFilterCount > 0 && (
                 <button
                   type="button"
@@ -586,13 +628,30 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
               />
             </div>
           ) : (
-            <RevealGrid>
-              <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-                {sortedResults.map((resource) => (
-                  <ResourceCard key={resource.name} resource={resource} />
-                ))}
-              </div>
-            </RevealGrid>
+            <>
+              <RevealGrid>
+                <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+                  {visibleResults.map((resource) => (
+                    <ResourceCard key={resource.name} resource={resource} />
+                  ))}
+                </div>
+              </RevealGrid>
+
+              {hasMoreResults && (
+                <div className="mt-8 flex flex-col items-center gap-2">
+                  <p className="text-xs text-charcoal-light">
+                    Showing {visibleResults.length} of {sortedResults.length}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setVisibleCount((count) => count + RESULTS_PAGE_SIZE)}
+                    className="rounded-sm border border-ink/20 bg-off-white px-6 py-3 text-sm font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
+                  >
+                    Load More Resources
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>

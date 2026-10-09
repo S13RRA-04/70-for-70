@@ -17,7 +17,9 @@ import { NEED_CATEGORIES } from "@/lib/content/resources";
 import { MissionProgress } from "@/components/campaign/mission-progress";
 import { CampaignCard } from "@/components/campaign/campaign-card";
 import { CountUpNumber } from "@/components/shared/count-up-number";
-import { PartnerLogoWall } from "@/components/partners/partner-logo-wall";
+import { PresentingPartnerFeature } from "@/components/partners/presenting-partner-feature";
+import { MissionPartnerCard } from "@/components/partners/mission-partner-card";
+import { RevealGrid } from "@/components/shared/reveal-on-scroll";
 import { ABOUT_CONTENT, findAboutSubsection } from "@/lib/content/about";
 import { OUTER_RING_COLORS } from "@/lib/ring-colors";
 import { getMissionMetrics } from "@/lib/data/mission-metrics";
@@ -47,8 +49,8 @@ const RAIL_SECTIONS = [
   { id: "resources", label: "Resources" },
   { id: "network", label: "Network" },
   { id: "campaigns", label: "Campaigns" },
-  { id: "why-22", label: "Meaning" },
   { id: "mission", label: "The Mission" },
+  { id: "why-22", label: "Meaning" },
   { id: "story", label: "Story" },
 ];
 
@@ -112,6 +114,11 @@ export default async function HomePage() {
   const generalPartners = missionPartners.filter(isCampaignPartner);
   const presentingPartners = generalPartners.filter((p) => p.tier === "presenting-partner");
   const otherPartners = generalPartners.filter((p) => p.tier !== "presenting-partner");
+  // A curated handful, not the full wall — otherPartners is already ordered
+  // by display_order, so this is "whoever's placed first," not a random cut.
+  // See AGENTS.md-adjacent plan: a logo wall reads fine at 4-8 partners, not
+  // at 20 — the rest get their due on /network instead.
+  const featuredPartners = otherPartners.slice(0, 6);
 
   const networkStats = [
     { value: metrics.resources, label: "Resources" },
@@ -124,7 +131,8 @@ export default async function HomePage() {
     <>
       <ScrollProgressRail sections={RAIL_SECTIONS} />
 
-      {/* Hero — Tier 1: full-bleed photo, oversized type, full desktop viewport height */}
+      {/* ACT I — "What we do": hero, resource finder, crisis support.
+          Hero — Tier 1: full-bleed photo, oversized type, full desktop viewport height */}
       <section className="relative overflow-hidden bg-ink text-off-white lg:flex lg:min-h-[88vh] lg:items-end">
         <Image
           src="/topo-map.png"
@@ -272,7 +280,10 @@ export default async function HomePage() {
         </Container>
       </section>
 
-      {/* Network Snapshot — Tier 2: the institutional proof band, now after
+      {/* ACT II — "What is happening": ecosystem proof, campaigns, partners,
+          and the $70K Mission, as one contiguous run rather than split
+          across the page by the Act III memorial section.
+          Network Snapshot — Tier 2: the institutional proof band, now after
           "what we do" rather than before it, so scale reads as evidence
           backing the mission instead of the first thing a new visitor sees.
           Values from getMissionMetrics()/getFundraisingImpactStats(), never
@@ -340,23 +351,51 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* Partner Credibility — Tier 2: who's behind the mission, kept compact
-          (plan §5: "without creating an oversized logo wall"). Same
-          PartnerLogoWall primitive campaign-home/network already use, not a
-          new logo-grid implementation. */}
-      {(presentingPartners.length > 0 || otherPartners.length > 0) && (
+      {/* Backing the Mission — Tier 2: at 20 campaign partners network-wide,
+          a full logo wall reads as a sponsor footer, not a credibility
+          signal. Presenting partners get the same full-weight feature
+          treatment /network and /sponsors use; a curated handful of
+          featuredPartners get real story cards (category, contribution,
+          description) instead of a bare logo; everyone else is one click
+          away on /network, not crammed in here. */}
+      {(presentingPartners.length > 0 || featuredPartners.length > 0) && (
         <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
           <Container>
             <RevealOnScroll>
-              <SectionHeading eyebrow="Who's Behind This" title="Organizations Backing the Mission" />
+              <SectionHeading eyebrow="Backing the Mission" title="Organizations Behind the Movement" />
             </RevealOnScroll>
-            <RevealOnScroll className="mt-10">
-              <PartnerLogoWall presentingPartners={presentingPartners} otherPartners={otherPartners} />
-            </RevealOnScroll>
+
+            {presentingPartners.length > 0 && (
+              <RevealOnScroll className="mt-10">
+                <div className="space-y-6">
+                  {presentingPartners.map((partner) => (
+                    <PresentingPartnerFeature key={partner.id} partner={partner} />
+                  ))}
+                </div>
+              </RevealOnScroll>
+            )}
+
+            {featuredPartners.length > 0 && (
+              <RevealOnScroll className="mt-12">
+                <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">Featured Partners</p>
+                <RevealGrid step={45}>
+                  <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+                    {featuredPartners.map((partner) => (
+                      <MissionPartnerCard
+                        key={partner.id}
+                        partner={partner}
+                        tier={partner.tier === "presenting-partner" ? undefined : (partner.tier ?? undefined)}
+                      />
+                    ))}
+                  </div>
+                </RevealGrid>
+              </RevealOnScroll>
+            )}
+
             <RevealOnScroll>
-              <p className="mt-8 text-center">
+              <p className="mt-10 text-center">
                 <Link href="/network" className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark">
-                  View All Partners &rarr;
+                  {generalPartners.length} organizations support the mission &rarr;
                 </Link>
               </p>
             </RevealOnScroll>
@@ -364,7 +403,50 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* Why 22 + Black — Tier 1: sparse, poster-like memorial composition, typography-led */}
+      {/* $70K Mission — closes out "what is happening" (Act II) alongside
+          campaigns and partners above, rather than sitting isolated after
+          the Why-22 memorial section below. The one active initiative, not
+          the org's identity. Beneficiary names come from real data
+          (getPartners()), never invented; the progress bar reads the same
+          canonical campaign total every other money-displaying page reads. */}
+      <section id="mission" className="scroll-mt-20 overflow-hidden border-t border-ink/10 bg-sand-light py-16 sm:py-20">
+        <Container>
+          <RevealOnScroll className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-14">
+            <div className="lg:col-span-7">
+            <div className="border-y border-ink/10 py-6 sm:py-8">
+              {metrics.totalRaised !== null && metrics.fundraisingGoal !== null && (
+                <MissionProgress totalRaised={metrics.totalRaised} goal={metrics.fundraisingGoal} />
+              )}
+            </div>
+            {beneficiaries.length > 0 && (
+              <p className="mt-5 text-sm text-charcoal-light">
+                Supporting {beneficiaries.map((p) => p.name).join(" and ")}.
+              </p>
+            )}
+            <CTAButton href="/70k" className="mt-6">
+              Explore The $70K Mission &rarr;
+            </CTAButton>
+            </div>
+            <div className="relative min-h-[320px] overflow-hidden rounded-sm lg:col-span-5 lg:min-h-[430px] lg:translate-x-8">
+              <Image
+                src="/journal/building-the-bike/looks-like-a-bike-full.jpeg"
+                alt="The Tri For The 22 campaign bike during its build"
+                fill
+                sizes="(min-width: 1024px) 42vw, 100vw"
+                className="object-cover"
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/90 to-transparent p-6 pt-24 text-off-white">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">Mission in motion</p>
+                <p className="mt-2 max-w-sm font-display text-xl font-semibold uppercase leading-tight">Every mile, event, and partnership feeds one shared goal.</p>
+              </div>
+            </div>
+          </RevealOnScroll>
+        </Container>
+      </section>
+
+      {/* Why 22 + Black — Act III: "why it matters" begins here, after the
+          "what is happening" act above closes with the $70K Mission. Sparse,
+          poster-like memorial composition, typography-led. */}
       {why22 && (
         <section id="why-22" className="scroll-mt-20 bg-ink py-24 text-off-white sm:py-32">
           <Container>
@@ -409,45 +491,6 @@ export default async function HomePage() {
           </Container>
         </section>
       )}
-
-      {/* $70K Mission — the one active initiative, not the org's identity.
-          Beneficiary names come from real data (getPartners()), never
-          invented; the progress bar reads the same canonical campaign
-          total every other money-displaying page on the site reads. */}
-      <section id="mission" className="scroll-mt-20 overflow-hidden border-t border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container>
-          <RevealOnScroll className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-14">
-            <div className="lg:col-span-7">
-            <div className="border-y border-ink/10 py-6 sm:py-8">
-              {metrics.totalRaised !== null && metrics.fundraisingGoal !== null && (
-                <MissionProgress totalRaised={metrics.totalRaised} goal={metrics.fundraisingGoal} />
-              )}
-            </div>
-            {beneficiaries.length > 0 && (
-              <p className="mt-5 text-sm text-charcoal-light">
-                Supporting {beneficiaries.map((p) => p.name).join(" and ")}.
-              </p>
-            )}
-            <CTAButton href="/70k" className="mt-6">
-              Explore The $70K Mission &rarr;
-            </CTAButton>
-            </div>
-            <div className="relative min-h-[320px] overflow-hidden rounded-sm lg:col-span-5 lg:min-h-[430px] lg:translate-x-8">
-              <Image
-                src="/journal/building-the-bike/looks-like-a-bike-full.jpeg"
-                alt="The Tri For The 22 campaign bike during its build"
-                fill
-                sizes="(min-width: 1024px) 42vw, 100vw"
-                className="object-cover"
-              />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/90 to-transparent p-6 pt-24 text-off-white">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">Mission in motion</p>
-                <p className="mt-2 max-w-sm font-display text-xl font-semibold uppercase leading-tight">Every mile, event, and partnership feeds one shared goal.</p>
-              </div>
-            </div>
-          </RevealOnScroll>
-        </Container>
-      </section>
 
       {/* Why I Started This — Tier 2: shrunk founder teaser, one image/paragraph/pull-quote, pointing to the full story on /mission rather than retelling it here */}
       {theIdea && (

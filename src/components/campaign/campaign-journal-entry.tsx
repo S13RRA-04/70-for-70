@@ -1,5 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ShareButtons } from "@/components/shared/share-buttons";
+import { SITE_URL } from "@/lib/constants";
 import { cn, formatDateLong } from "@/lib/utils";
 import type { CampaignJournalEntry } from "@/types/campaign-journal";
 
@@ -80,6 +82,14 @@ export function CampaignJournalEntryCard({ entry, variant = "full", className }:
           {entry.link.label} &rarr;
         </a>
       )}
+      <div className="mt-6 border-t border-ink/10 pt-5">
+        <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-charcoal-light">Share This Update</p>
+        <ShareButtons
+          url={`${SITE_URL}/campaigns/journal#${entry.id}`}
+          title={`${entry.title} | For The 22`}
+          analyticsEvent="campaign_journal_share_click"
+        />
+      </div>
     </article>
   );
 }
