@@ -8,11 +8,14 @@ import { CTAButton } from "@/components/shared/cta-button";
 import { MissionProgress } from "@/components/campaign/mission-progress";
 import { CampaignCard } from "@/components/campaign/campaign-card";
 import { RevealGrid, RevealOnScroll } from "@/components/shared/reveal-on-scroll";
+import { EmptyState } from "@/components/shared/empty-state";
 import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
 import { getAllocationBreakdown } from "@/lib/data/allocation";
 import { getCampaign } from "@/lib/data/campaign";
 import { getPartners } from "@/lib/data/partners";
 import { CONTRIBUTION_MECHANISMS } from "@/lib/content/campaigns";
+import { getCampaignJournalEntries } from "@/lib/content/campaign-journal";
+import { formatDateLong } from "@/lib/utils";
 import {
   CAMPAIGN_URL,
   DONATE_LINK,
@@ -74,6 +77,7 @@ export default async function CampaignsPage() {
   const allocationBreakdown = await getAllocationBreakdown(campaign);
   const current = MOVEMENT_CAMPAIGNS.filter(isCurrentCampaign);
   const beneficiaryNames = beneficiaries.map((b) => b.name);
+  const journalEntries = getCampaignJournalEntries();
 
   return (
     <>
@@ -162,6 +166,61 @@ export default async function CampaignsPage() {
               ))}
             </div>
           </RevealGrid>
+        </Container>
+      </section>
+
+      {/* Campaign Journal — mission-wide announcements (new efforts
+          launching, cross-campaign milestones), not any single campaign's
+          own journal/training log. See src/lib/content/campaign-journal.ts
+          for how to publish a new entry. */}
+      <section id="journal" className="scroll-mt-20 border-t border-ink/10 py-16 sm:py-20">
+        <Container className="max-w-2xl">
+          <RevealOnScroll>
+            <SectionHeading
+              eyebrow="Campaign Journal"
+              title="Mission-Wide Announcements"
+              description="New campaigns, cross-campaign milestones, and other updates that span the whole For The 22 mission — not any single campaign's own journal."
+            />
+          </RevealOnScroll>
+          {journalEntries.length === 0 ? (
+            <div className="mt-8">
+              <EmptyState
+                title="No Announcements Yet"
+                description="Mission-wide updates will appear here as they happen."
+              />
+            </div>
+          ) : (
+            <RevealGrid>
+              <div className="mt-8 space-y-8">
+                {journalEntries.map((entry) => (
+                  <article key={entry.id} id={entry.id} className="scroll-mt-20 border-t border-ink/10 pt-8 first:border-t-0 first:pt-0">
+                    <time dateTime={entry.date} className="text-xs font-semibold uppercase tracking-widest text-bronze">
+                      {formatDateLong(entry.date)}
+                    </time>
+                    <h3 className="mt-2 font-display text-xl font-bold uppercase tracking-tight text-ink sm:text-2xl">
+                      {entry.title}
+                    </h3>
+                    <p className="mt-3 text-base leading-relaxed text-charcoal-light">{entry.summary}</p>
+                    <div className="mt-3 space-y-3">
+                      {entry.body.map((paragraph, i) => (
+                        <p key={i} className="text-base leading-relaxed text-charcoal-light">
+                          {paragraph}
+                        </p>
+                      ))}
+                    </div>
+                    {entry.link && (
+                      <Link
+                        href={entry.link.href}
+                        className="mt-4 inline-block text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
+                      >
+                        {entry.link.label} &rarr;
+                      </Link>
+                    )}
+                  </article>
+                ))}
+              </div>
+            </RevealGrid>
+          )}
         </Container>
       </section>
 
