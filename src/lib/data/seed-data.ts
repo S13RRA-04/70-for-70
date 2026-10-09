@@ -568,6 +568,30 @@ export const SEED_MISSION_PARTNERS: MissionPartnerRow[] = [
     tier: null,
     designation: null,
   },
+  {
+    id: "seed-mission-partner-inertmugs",
+    name: "INERTmugs",
+    relationship_label: "Ally",
+    description:
+      "INERTmugs designs tactical tumblers, mugs, and gear built for veterans, patriots, and those who support them — a brand ally of the overall For The 22 mission, not any single campaign.",
+    logo_url: "/partners/inertmugs-logo.png",
+    logo_light_url: null,
+    logo_dark_url: null,
+    logo_background: null,
+    website_url: "https://www.inertmugs.com/",
+    support_type: null,
+    geographic_scope: null,
+    active: true,
+    display_order: 0,
+    agreement_status: null,
+    logo_permission: true,
+    relationship_start: null,
+    relationship_end: null,
+    associated_campaigns: null,
+    partner_type: null,
+    tier: "ally",
+    designation: null,
+  },
 ];
 
 // No posts yet. Superseded by SEED_JOURNAL_ENTRIES below (see
