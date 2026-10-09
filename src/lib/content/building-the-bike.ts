@@ -1,6 +1,7 @@
 import type {
   BikeBuildComponentRow,
   BikeBuildContributor,
+  BikeBuildDiagramHotspot,
   BikeBuildPhoto,
   BikeBuildStatusSummaryItem,
   BikeBuildTimelineEntry,
@@ -1534,4 +1535,117 @@ export function getBikeBuildTeaser(): BikeBuildTeaser {
     summary: latest.summary,
     href: `/journal/building-the-bike#${latest.id}`,
   };
+}
+
+/**
+ * Markers for the interactive bike diagram (InteractiveBikeDiagram). Every
+ * real build photo is a candid garage shot — cluttered, oddly angled, parts
+ * sometimes off the bike entirely — so the diagram is a simplified line-art
+ * schematic rather than hotspots pinned to a photo, which stays legible and
+ * stays correct regardless of which photo gets added next.
+ *
+ * `x`/`y` are coordinates in the schematic's 400x220 viewBox, hand-placed
+ * against InteractiveBikeDiagram's frame geometry. The repair stand is
+ * deliberately not a marker here — BIKE_BUILD_TIMELINE's own
+ * "feedback-sports-mechanic-stand" entry is explicit that it "isn't a
+ * component of the bike itself."
+ */
+export const BIKE_BUILD_DIAGRAM_HOTSPOTS: BikeBuildDiagramHotspot[] = [
+  {
+    id: "frame",
+    label: "Frame",
+    x: 195,
+    y: 100,
+    componentNames: ["Frame"],
+    contributorName: "Betsy & MBC",
+    relatedEntryId: "a-stradalli-frame-appears",
+  },
+  {
+    id: "wheels",
+    label: "Wheels & Cassette",
+    x: 80,
+    y: 150,
+    componentNames: ["Wheel & Cassette", "Training Tires", "Race Tires", "Tubes"],
+    contributorName: "Betsy & MBC",
+    relatedEntryId: "taking-inventory",
+  },
+  {
+    id: "crankset",
+    label: "Crankset & Pedals",
+    x: 185,
+    y: 175,
+    componentNames: ["Crankset", "Bottom Bracket", "Chainrings", "Pedals"],
+    contributorName: "Praxis",
+    relatedEntryId: "crankset-pedals-saddle-installed",
+  },
+  {
+    id: "drivetrain",
+    label: "Derailleurs & Chain",
+    x: 120,
+    y: 180,
+    componentNames: ["Front Derailleur", "Rear Derailleur", "Chain"],
+    relatedEntryId: "drivetrain-installed",
+  },
+  {
+    id: "brakes",
+    label: "Brakes",
+    x: 320,
+    y: 118,
+    componentNames: ["Brake Calipers", "Brake Cables"],
+    relatedEntryId: "it-finally-looks-like-a-bike",
+  },
+  {
+    id: "cockpit",
+    label: "Cockpit",
+    x: 300,
+    y: 62,
+    componentNames: ["Handlebars & Stem", "Brifters", "Handlebar Tape", "Shifter Cables & Housing"],
+    relatedEntryId: "it-finally-looks-like-a-bike",
+  },
+  {
+    id: "aero",
+    label: "Aero Bars & Seatpost",
+    x: 365,
+    y: 35,
+    componentNames: ["Aerobars", "Seatpost", "Seatpost Shim", "Seat Tube Collar"],
+    contributorName: "Redshift Sports",
+    relatedEntryId: "aerobars-and-brifters-installed",
+  },
+  {
+    id: "saddle",
+    label: "Saddle",
+    x: 135,
+    y: 44,
+    componentNames: ["Saddle"],
+    contributorName: "ISM Saddles",
+    relatedEntryId: "crankset-pedals-saddle-installed",
+  },
+];
+
+export interface BikeBuildHotspotDetail {
+  hotspot: BikeBuildDiagramHotspot;
+  rows: BikeBuildComponentRow[];
+  contributor: BikeBuildContributor | null;
+  relatedEntry: BikeBuildTimelineEntry | null;
+}
+
+/**
+ * Resolves a hotspot's componentNames/contributorName/relatedEntryId against
+ * the real data (component board, contributors, timeline) so nothing about
+ * a part's status, notes, or story is ever duplicated in the hotspot
+ * definition above — edit the component board or timeline and every hotspot
+ * that references it stays correct automatically.
+ */
+export function getDiagramHotspotDetail(hotspot: BikeBuildDiagramHotspot): BikeBuildHotspotDetail {
+  const rows = hotspot.componentNames
+    .map((name) => BIKE_BUILD_COMPONENT_STATUS.find((row) => row.component === name))
+    .filter((row): row is BikeBuildComponentRow => Boolean(row));
+
+  const contributor = hotspot.contributorName
+    ? (BIKE_BUILD_CONFIRMED_CONTRIBUTORS.find((c) => c.name === hotspot.contributorName) ?? null)
+    : null;
+
+  const relatedEntry = BIKE_BUILD_TIMELINE.find((entry) => entry.id === hotspot.relatedEntryId) ?? null;
+
+  return { hotspot, rows, contributor, relatedEntry };
 }

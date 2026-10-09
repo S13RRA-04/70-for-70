@@ -177,7 +177,7 @@ export default async function TransparencyPage() {
             <SectionHeading eyebrow="04 — Resources" title="Resource Standards" />
           </div>
           <p className="mt-6 text-base leading-relaxed text-charcoal-light">
-            The resource directory lists {RESOURCES.length} programs and services, each checked for
+            The resource directory lists {RESOURCES.length} resources — vetted programs and services, each checked for
             legitimacy, the population it serves, service type, geographic availability, and mission
             fit before it&apos;s added — and re-checked when details change. &quot;Reviewed&quot; does
             not mean guaranteed, certified, or endorsed.

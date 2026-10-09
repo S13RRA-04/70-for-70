@@ -3,6 +3,7 @@ import { ExternalLink } from "lucide-react";
 import { PartnerLogo } from "@/components/shared/partner-logo";
 import { CTAButton } from "@/components/shared/cta-button";
 import { SITE_URL } from "@/lib/constants";
+import { partnerProfileHref } from "@/lib/data/partner-profile";
 import type { MissionPartnerRow } from "@/types/database";
 
 /**
@@ -19,11 +20,19 @@ export function PresentingPartnerFeature({
   secondaryLinkLabel,
 }: {
   partner: MissionPartnerRow;
-  /** Optional internal link to related campaign content (e.g. MBC's build story) — distinct from the partner's own website link below. */
+  /**
+   * Internal link to related campaign content (e.g. MBC's build story) —
+   * distinct from the partner's own website link below. Defaults to this
+   * partner's own profile page (/network/partners/[slug]) when omitted, so
+   * every Presenting Partner gets a story link even where no bespoke
+   * tie-in exists; pass an explicit pair to override it for one that does.
+   */
   secondaryLinkHref?: string;
   secondaryLinkLabel?: string;
 }) {
   const blurb = partner.description || partner.support_type;
+  const resolvedSecondaryHref = secondaryLinkHref ?? partnerProfileHref(partner.name);
+  const resolvedSecondaryLabel = secondaryLinkHref ? secondaryLinkLabel : "View Partner Profile";
 
   return (
     <div className="relative overflow-hidden rounded-sm border-2 border-bronze bg-ink text-off-white">
@@ -69,12 +78,12 @@ export function PresentingPartnerFeature({
               </Link>
             )}
 
-            {secondaryLinkHref && secondaryLinkLabel && (
+            {resolvedSecondaryLabel && (
               <Link
-                href={secondaryLinkHref}
+                href={resolvedSecondaryHref}
                 className="inline-flex w-fit items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-off-white/70 hover:text-off-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-off-white/70"
               >
-                {secondaryLinkLabel} &rarr;
+                {resolvedSecondaryLabel} &rarr;
               </Link>
             )}
           </div>

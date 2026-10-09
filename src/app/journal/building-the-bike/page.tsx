@@ -11,11 +11,14 @@ import { BuildBeforeAfter } from "@/components/journal/bike-build/build-before-a
 import { ComponentStatusBoard } from "@/components/journal/bike-build/component-status-board";
 import { ContributorsSection } from "@/components/journal/bike-build/contributors-section";
 import { PhotoRoadmap } from "@/components/journal/bike-build/photo-roadmap";
+import { InteractiveBikeDiagram, type DiagramHotspotData } from "@/components/journal/bike-build/interactive-bike-diagram";
+import { RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import {
   BIKE_BUILD_BEFORE_AFTER,
   BIKE_BUILD_COMPONENT_STATUS,
   BIKE_BUILD_CONFIRMED_CONTRIBUTORS,
   BIKE_BUILD_CONVERSATIONS_IN_PROGRESS,
+  BIKE_BUILD_DIAGRAM_HOTSPOTS,
   BIKE_BUILD_HERO_PHOTO,
   BIKE_BUILD_INTRO,
   BIKE_BUILD_PHOTO_ROADMAP,
@@ -24,6 +27,7 @@ import {
   getBikeBuildLastUpdated,
   getBikeBuildStatusOverview,
   getBikeBuildTimelineNodes,
+  getDiagramHotspotDetail,
 } from "@/lib/content/building-the-bike";
 import { getMissionPartners } from "@/lib/data/mission-partners";
 import { findProvidingPartner } from "@/lib/partner-matching";
@@ -95,6 +99,14 @@ export default async function BuildingTheBikePage() {
   const buildPercent = Math.round((statusOverview.confirmedCount / statusOverview.totalCount) * 100);
   const partners = await getMissionPartners();
 
+  const diagramHotspots: DiagramHotspotData[] = BIKE_BUILD_DIAGRAM_HOTSPOTS.map((hotspot) => {
+    const detail = getDiagramHotspotDetail(hotspot);
+    return {
+      ...detail,
+      rows: detail.rows.map((row) => ({ ...row, partnerName: findProvidingPartner(row, partners)?.name ?? null })),
+    };
+  });
+
   return (
     <article>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(buildJsonLd())} />
@@ -140,6 +152,21 @@ export default async function BuildingTheBikePage() {
           <div className="mt-4">
             <BuildBeforeAfter before={BIKE_BUILD_BEFORE_AFTER.before} after={BIKE_BUILD_BEFORE_AFTER.after} />
           </div>
+        </Container>
+      </section>
+
+      <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
+        <Container>
+          <RevealOnScroll>
+            <SectionHeading
+              eyebrow="Explore the Build"
+              title="The Stradalli, Part by Part"
+              description="Tap or click a part of the bike for its real status, who helped secure it, and a link to the full story behind it."
+            />
+            <div className="mt-8">
+              <InteractiveBikeDiagram hotspots={diagramHotspots} />
+            </div>
+          </RevealOnScroll>
         </Container>
       </section>
 

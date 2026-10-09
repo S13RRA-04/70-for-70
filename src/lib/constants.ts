@@ -881,3 +881,22 @@ export const CAMPAIGNS: Record<
     crisisLink: CRISIS_LINK,
   },
 };
+
+/**
+ * mission_partners.associated_campaigns tag → human-readable campaign name.
+ * "22-for-the-22" (not "22") matches the tag 22forthe22/page.tsx already
+ * writes for giveaway supporters — see supabase/2026-10-08-tag-tri-mission-partners.sql.
+ * Used anywhere a partner's raw tags would otherwise render verbatim (e.g.
+ * "Supports: tri") instead of as finished public copy.
+ */
+export const ASSOCIATED_CAMPAIGN_LABELS: Record<string, string> = {
+  tri: CAMPAIGNS.tri.name,
+  ruck: CAMPAIGNS.ruck.name,
+  live: CAMPAIGNS.live.name,
+  "22-for-the-22": CAMPAIGNS["22"].name,
+};
+
+/** Maps each tag in `tags` through ASSOCIATED_CAMPAIGN_LABELS, falling back to the raw tag only for an unrecognized one (should not happen in practice). */
+export function formatAssociatedCampaigns(tags: string[]): string {
+  return tags.map((tag) => ASSOCIATED_CAMPAIGN_LABELS[tag] ?? tag).join(", ");
+}

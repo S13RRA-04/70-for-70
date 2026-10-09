@@ -47,6 +47,20 @@ export function weeksBetween(fromIso: string, toIso: string): number {
  * counting words, since raw `#`/`**`/`[]()` characters would otherwise
  * inflate the count on a post that's actually short to read.
  */
+/**
+ * Lowercase, hyphenated slug for a free-text name — used to derive a
+ * partner's profile URL (/network/partners/<slug>) without a dedicated slug
+ * column, consistent with partner-matching.ts's existing name-based (not
+ * FK-based) matching between partners and the content that credits them.
+ */
+export function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 export function estimateReadingMinutes(body: string): number {
   const plainText = body
     .replace(/```[\s\S]*?```/g, " ")

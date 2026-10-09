@@ -308,20 +308,27 @@ export function BuildTimelineNodes({ nodes }: { nodes: BikeBuildTimelineNode[] }
   useEffect(() => {
     // window.location isn't available during SSR, so the featured-entry
     // default above is what the server renders; this corrects it on the
-    // client to whichever node a shared #entry-id permalink points at. A
-    // genuine "sync from an external system" case, not derivable from
-    // props/state alone — the two-pass (SSR default, client corrects) is
-    // the intended, hydration-safe pattern here.
-    const hash = window.location.hash.replace("#", "");
-    if (!hash) return;
-    const match = nodes.find((node) => node.entries.some((entry) => entry.id === hash));
-    if (!match) return;
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setActiveDate(match.date);
-    requestAnimationFrame(() => {
-      document.getElementById(hash)?.scrollIntoView({ block: "start" });
-    });
-    // Only ever run once, on mount — nodes is static content, not reactive state.
+    // client to whichever node a shared #entry-id permalink points at — on
+    // mount for a freshly-loaded permalink, and again on `hashchange` for an
+    // in-page link to another entry (e.g. InteractiveBikeDiagram's "Read the
+    // full story" links): the target entry's id only exists in the DOM once
+    // its node is expanded, so following the hash natively isn't enough —
+    // this is what actually expands the node and scrolls to it.
+    function openFromHash() {
+      const hash = window.location.hash.replace("#", "");
+      if (!hash) return;
+      const match = nodes.find((node) => node.entries.some((entry) => entry.id === hash));
+      if (!match) return;
+      setActiveDate(match.date);
+      requestAnimationFrame(() => {
+        document.getElementById(hash)?.scrollIntoView({ block: "start" });
+      });
+    }
+
+    openFromHash();
+    window.addEventListener("hashchange", openFromHash);
+    return () => window.removeEventListener("hashchange", openFromHash);
+    // nodes is static content, not reactive state — this only needs to bind the listener once.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

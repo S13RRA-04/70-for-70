@@ -6,8 +6,9 @@ import { PartnerLogo } from "@/components/shared/partner-logo";
 import type { PartnerRow } from "@/types/database";
 import { Card } from "@/components/shared/card";
 import { formatCurrency, formatDateLong } from "@/lib/utils";
+import { partnerProfileHref } from "@/lib/data/partner-profile";
 
-const DISTRIBUTION_STATUS_LABEL: Record<NonNullable<PartnerRow["distribution_status"]>, string> = {
+export const DISTRIBUTION_STATUS_LABEL: Record<NonNullable<PartnerRow["distribution_status"]>, string> = {
   not_started: "Distribution not yet started",
   in_progress: "Distribution in progress",
   distributed: "Funds distributed",
@@ -29,8 +30,6 @@ export function PartnerCard({
   /** This org's share of verified donations, from getAllocationBreakdown() — omitted entirely (not shown as $0) when no allocation policy is set or this org has no verified donations yet. */
   allocatedAmount?: number;
 }) {
-  const hasLinks = Boolean(partner.website_url || partner.donation_url);
-
   return (
     <Card className="flex flex-col gap-6 p-6 sm:flex-row sm:p-8">
       <div className="shrink-0 sm:w-48">
@@ -96,31 +95,36 @@ export function PartnerCard({
           </div>
         )}
 
-        {hasLinks && (
-          <div className="mt-6 flex flex-wrap items-center gap-3">
-            {partner.website_url && (
-              <Link
-                href={partner.website_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-analytics-event="beneficiary_selected"
-                className="inline-flex items-center gap-1.5 rounded-sm border border-ink/20 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
-              >
-                Learn More
-                <ExternalLink size={13} aria-hidden />
-              </Link>
-            )}
+        <div className="mt-6 flex flex-wrap items-center gap-3">
+          <Link
+            href={partnerProfileHref(partner.name)}
+            className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
+          >
+            Full Partner Profile &rarr;
+          </Link>
 
-            {partner.donation_url && (
-              <ExternalDonateButton
-                href={partner.donation_url}
-                orgName={partner.name}
-                mileNumber={mileNumber}
-                label={`Support ${partner.name} Directly →`}
-              />
-            )}
-          </div>
-        )}
+          {partner.website_url && (
+            <Link
+              href={partner.website_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-analytics-event="beneficiary_selected"
+              className="inline-flex items-center gap-1.5 rounded-sm border border-ink/20 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
+            >
+              Learn More
+              <ExternalLink size={13} aria-hidden />
+            </Link>
+          )}
+
+          {partner.donation_url && (
+            <ExternalDonateButton
+              href={partner.donation_url}
+              orgName={partner.name}
+              mileNumber={mileNumber}
+              label={`Support ${partner.name} Directly →`}
+            />
+          )}
+        </div>
 
         {partner.donation_url && partner.requires_donation_note && (
           <DonationTrackingNote partnerName={partner.name} mileNumber={mileNumber} />
