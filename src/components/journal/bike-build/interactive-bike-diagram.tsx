@@ -14,79 +14,26 @@ export interface DiagramHotspotData {
   relatedEntry: BikeBuildTimelineEntry | null;
 }
 
-const VIEWBOX_WIDTH = 400;
-const VIEWBOX_HEIGHT = 220;
+/** Must match public/journal/building-the-bike/bike-diagram.svg's own viewBox exactly — every hotspot's x/y/glowRadius in BIKE_BUILD_DIAGRAM_HOTSPOTS is hand-placed against this same space. */
+const BIKE_VIEWBOX = { x: -0.17, y: 29.46, width: 145.51, height: 91.02 };
 
-/**
- * Simplified line-art side-view schematic, not a photo — every real build
- * photo is a candid, cluttered, oddly-angled garage shot (frame on a stand,
- * wheel off, parts loose on a workbench), so there's no clean reference
- * image to pin precise hotspots to. The schematic trades photographic
- * accuracy for something that stays legible, centered, and correctly
- * proportioned at any screen size. Coordinates are hand-placed in the same
- * 400x220 space BIKE_BUILD_DIAGRAM_HOTSPOTS' x/y use.
- */
-function BikeSchematic() {
-  return (
-    <svg
-      viewBox={`0 0 ${VIEWBOX_WIDTH} ${VIEWBOX_HEIGHT}`}
-      className="h-full w-full"
-      role="img"
-      aria-label="Simplified side-view diagram of the Stradalli race bike"
-    >
-      <g fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="text-ink/25">
-        {/* Rear wheel */}
-        <circle cx="80" cy="150" r="50" />
-        {/* Front wheel */}
-        <circle cx="320" cy="150" r="50" />
-        {/* Chainring / crank */}
-        <circle cx="165" cy="150" r="22" />
-        {/* Cassette */}
-        <circle cx="80" cy="150" r="13" />
-
-        {/* Frame triangle */}
-        <path d="M 145 55 L 290 65" />
-        <path d="M 165 150 L 300 115" />
-        <path d="M 165 150 L 80 150" />
-        <path d="M 145 55 L 80 150" />
-        <path d="M 145 55 L 165 150" />
-
-        {/* Fork */}
-        <path d="M 300 115 L 320 150" />
-
-        {/* Seatpost + saddle */}
-        <path d="M 145 55 L 138 45" />
-        <path d="M 126 43 L 150 43" strokeWidth="5" />
-
-        {/* Stem + bars */}
-        <path d="M 290 65 L 315 50" />
-        <path d="M 315 50 L 330 68" />
-
-        {/* Aerobars */}
-        <path d="M 300 44 L 352 40" />
-
-        {/* Chain (drivetrain) */}
-        <path d="M 165 128 L 92 138" strokeDasharray="4 4" />
-        <path d="M 165 172 L 92 162" strokeDasharray="4 4" />
-
-        {/* Pedal / crank arm */}
-        <path d="M 165 150 L 190 172" strokeWidth="4" />
-
-        {/* Brake marks */}
-        <path d="M 296 100 L 306 112" strokeWidth="4" className="text-ink/35" />
-        <path d="M 90 112 L 100 124" strokeWidth="4" className="text-ink/35" />
-      </g>
-    </svg>
-  );
+function toPercent(value: number, origin: number, span: number): number {
+  return ((value - origin) / span) * 100;
 }
 
 function Marker({
   data,
-  isActive,
+  isGlowing,
+  isSelected,
+  onHover,
+  onHoverEnd,
   onSelect,
 }: {
   data: DiagramHotspotData;
-  isActive: boolean;
+  isGlowing: boolean;
+  isSelected: boolean;
+  onHover: () => void;
+  onHoverEnd: () => void;
   onSelect: () => void;
 }) {
   const { hotspot, rows } = data;
@@ -96,24 +43,61 @@ function Marker({
     <button
       type="button"
       onClick={onSelect}
-      aria-expanded={isActive}
+      onMouseEnter={onHover}
+      onMouseLeave={onHoverEnd}
+      onFocus={onHover}
+      onBlur={onHoverEnd}
+      aria-expanded={isSelected}
       aria-controls="bike-diagram-detail-panel"
       aria-label={hotspot.label}
       style={{
-        left: `${(hotspot.x / VIEWBOX_WIDTH) * 100}%`,
-        top: `${(hotspot.y / VIEWBOX_HEIGHT) * 100}%`,
+        left: `${toPercent(hotspot.x, BIKE_VIEWBOX.x, BIKE_VIEWBOX.width)}%`,
+        top: `${toPercent(hotspot.y, BIKE_VIEWBOX.y, BIKE_VIEWBOX.height)}%`,
       }}
       className={cn(
-        "absolute flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 shadow-sm transition-all duration-150",
-        isActive
-          ? "scale-125 border-bronze bg-bronze-text text-off-white shadow-md"
+        "absolute flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 bg-off-white/90 shadow-sm backdrop-blur-[1px] transition-all duration-150",
+        isGlowing
+          ? "scale-125 border-bronze text-bronze shadow-md"
           : allConfirmed
-            ? "border-bronze/60 bg-off-white text-bronze hover:scale-110 hover:border-bronze"
-            : "border-ink/25 bg-off-white text-charcoal-light/60 hover:scale-110 hover:border-ink/50",
+            ? "border-bronze/50 text-bronze/80 hover:scale-110 hover:border-bronze"
+            : "border-ink/25 text-charcoal-light/60 hover:scale-110 hover:border-ink/50",
       )}
     >
-      <span className="h-2.5 w-2.5 rounded-full bg-current" aria-hidden="true" />
+      <span className="h-2 w-2 rounded-full bg-current" aria-hidden="true" />
     </button>
+  );
+}
+
+/** Soft radial highlight over one region of the real bike artwork, in the same viewBox the image itself uses — see BIKE_VIEWBOX. Purely decorative (aria-hidden); the accessible name lives on the Marker button above it. */
+function GlowLayer({ hotspots, glowingId }: { hotspots: DiagramHotspotData[]; glowingId: string | null }) {
+  return (
+    <svg
+      viewBox={`${BIKE_VIEWBOX.x} ${BIKE_VIEWBOX.y} ${BIKE_VIEWBOX.width} ${BIKE_VIEWBOX.height}`}
+      className="pointer-events-none absolute inset-0 h-full w-full"
+      aria-hidden="true"
+    >
+      <defs>
+        <filter id="bike-glow-blur" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="3.5" />
+        </filter>
+        <radialGradient id="bike-glow-fill">
+          <stop offset="0%" stopColor="#a97a4c" stopOpacity="0.55" />
+          <stop offset="100%" stopColor="#a97a4c" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      {hotspots.map(({ hotspot }) => (
+        <circle
+          key={hotspot.id}
+          cx={hotspot.x}
+          cy={hotspot.y}
+          r={hotspot.glowRadius}
+          fill="url(#bike-glow-fill)"
+          filter="url(#bike-glow-blur)"
+          className="transition-opacity duration-200"
+          opacity={glowingId === hotspot.id ? 1 : 0}
+        />
+      ))}
+    </svg>
   );
 }
 
@@ -174,25 +158,48 @@ function DetailPanel({ data }: { data: DiagramHotspotData | null }) {
 }
 
 /**
- * The flagship interactive piece of /journal/building-the-bike: a clickable
- * schematic of the race bike where each marker opens the real status,
- * story, and sponsor credit for that part — all looked up from
- * BIKE_BUILD_COMPONENT_STATUS / BIKE_BUILD_CONFIRMED_CONTRIBUTORS /
- * BIKE_BUILD_TIMELINE via getDiagramHotspotDetail, never re-typed here.
+ * The flagship interactive piece of /journal/building-the-bike: the real
+ * bike illustration (public/journal/building-the-bike/bike-diagram.svg),
+ * with markers that highlight the matching part of that artwork on
+ * hover/focus and open its real status, story, and sponsor credit on
+ * click — all looked up from BIKE_BUILD_COMPONENT_STATUS /
+ * BIKE_BUILD_CONFIRMED_CONTRIBUTORS / BIKE_BUILD_TIMELINE via
+ * getDiagramHotspotDetail, never re-typed here.
  */
 export function InteractiveBikeDiagram({ hotspots }: { hotspots: DiagramHotspotData[] }) {
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
   const active = hotspots.find((h) => h.hotspot.id === activeId) ?? null;
+  const glowingId = hoveredId ?? activeId;
 
   return (
     <div className="grid gap-8 lg:grid-cols-[3fr_2fr] lg:items-start">
-      <div className="relative aspect-[400/220] w-full rounded-sm border border-ink/10 bg-off-white p-6">
-        <BikeSchematic />
+      <div
+        className="relative w-full rounded-sm border border-ink/10 bg-off-white p-4"
+        style={{ aspectRatio: `${BIKE_VIEWBOX.width} / ${BIKE_VIEWBOX.height}` }}
+      >
+        {/*
+         * A plain <img>, not next/image: Next's built-in optimizer refuses
+         * to process SVGs unless images.dangerouslyAllowSVG is set in
+         * next.config, and that's a site-wide security-relevant flag not
+         * worth flipping for one static local decorative asset — same
+         * reasoning as the raw <img> usages elsewhere (journal-image-upload.tsx,
+         * journal-markdown.tsx).
+         */}
+        <img
+          src="/journal/building-the-bike/bike-diagram.svg"
+          alt="Side-view illustration of the Stradalli race bike, with clickable highlights over each major component"
+          className="absolute inset-0 h-full w-full object-contain p-4"
+        />
+        <GlowLayer hotspots={hotspots} glowingId={glowingId} />
         {hotspots.map((data) => (
           <Marker
             key={data.hotspot.id}
             data={data}
-            isActive={activeId === data.hotspot.id}
+            isGlowing={glowingId === data.hotspot.id}
+            isSelected={activeId === data.hotspot.id}
+            onHover={() => setHoveredId(data.hotspot.id)}
+            onHoverEnd={() => setHoveredId(null)}
             onSelect={() => setActiveId((current) => (current === data.hotspot.id ? null : data.hotspot.id))}
           />
         ))}

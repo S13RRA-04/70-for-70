@@ -1538,24 +1538,25 @@ export function getBikeBuildTeaser(): BikeBuildTeaser {
 }
 
 /**
- * Markers for the interactive bike diagram (InteractiveBikeDiagram). Every
- * real build photo is a candid garage shot — cluttered, oddly angled, parts
- * sometimes off the bike entirely — so the diagram is a simplified line-art
- * schematic rather than hotspots pinned to a photo, which stays legible and
- * stays correct regardless of which photo gets added next.
+ * Markers for the interactive bike diagram (InteractiveBikeDiagram), which
+ * renders public/journal/building-the-bike/bike-diagram.svg (a real bike
+ * illustration, not a hand-drawn schematic) and highlights the matching
+ * region of that artwork when a marker is hovered, focused, or selected.
  *
- * `x`/`y` are coordinates in the schematic's 400x220 viewBox, hand-placed
- * against InteractiveBikeDiagram's frame geometry. The repair stand is
- * deliberately not a marker here — BIKE_BUILD_TIMELINE's own
- * "feedback-sports-mechanic-stand" entry is explicit that it "isn't a
- * component of the bike itself."
+ * `x`/`y`/`glowRadius` are hand-placed coordinates in that SVG file's own
+ * viewBox ("-0.17 29.46 145.51 91.02") — they describe THIS specific
+ * artwork's geometry, not an abstract scale, so they'd need re-placing
+ * against any replacement image. The repair stand is deliberately not a
+ * marker here — BIKE_BUILD_TIMELINE's own "feedback-sports-mechanic-stand"
+ * entry is explicit that it "isn't a component of the bike itself."
  */
 export const BIKE_BUILD_DIAGRAM_HOTSPOTS: BikeBuildDiagramHotspot[] = [
   {
     id: "frame",
     label: "Frame",
-    x: 195,
-    y: 100,
+    x: 68,
+    y: 70,
+    glowRadius: 24,
     componentNames: ["Frame"],
     contributorName: "Betsy & MBC",
     relatedEntryId: "a-stradalli-frame-appears",
@@ -1563,8 +1564,9 @@ export const BIKE_BUILD_DIAGRAM_HOTSPOTS: BikeBuildDiagramHotspot[] = [
   {
     id: "wheels",
     label: "Wheels & Cassette",
-    x: 80,
-    y: 150,
+    x: 37,
+    y: 88,
+    glowRadius: 27,
     componentNames: ["Wheel & Cassette", "Training Tires", "Race Tires", "Tubes"],
     contributorName: "Betsy & MBC",
     relatedEntryId: "taking-inventory",
@@ -1572,8 +1574,9 @@ export const BIKE_BUILD_DIAGRAM_HOTSPOTS: BikeBuildDiagramHotspot[] = [
   {
     id: "crankset",
     label: "Crankset & Pedals",
-    x: 185,
-    y: 175,
+    x: 93,
+    y: 90,
+    glowRadius: 11,
     componentNames: ["Crankset", "Bottom Bracket", "Chainrings", "Pedals"],
     contributorName: "Praxis",
     relatedEntryId: "crankset-pedals-saddle-installed",
@@ -1581,32 +1584,36 @@ export const BIKE_BUILD_DIAGRAM_HOTSPOTS: BikeBuildDiagramHotspot[] = [
   {
     id: "drivetrain",
     label: "Derailleurs & Chain",
-    x: 120,
-    y: 180,
+    x: 51,
+    y: 104,
+    glowRadius: 10,
     componentNames: ["Front Derailleur", "Rear Derailleur", "Chain"],
     relatedEntryId: "drivetrain-installed",
   },
   {
     id: "brakes",
     label: "Brakes",
-    x: 320,
-    y: 118,
+    x: 101,
+    y: 57,
+    glowRadius: 9,
     componentNames: ["Brake Calipers", "Brake Cables"],
     relatedEntryId: "it-finally-looks-like-a-bike",
   },
   {
     id: "cockpit",
     label: "Cockpit",
-    x: 300,
-    y: 62,
+    x: 91,
+    y: 44,
+    glowRadius: 9,
     componentNames: ["Handlebars & Stem", "Brifters", "Handlebar Tape", "Shifter Cables & Housing"],
     relatedEntryId: "it-finally-looks-like-a-bike",
   },
   {
     id: "aero",
     label: "Aero Bars & Seatpost",
-    x: 365,
-    y: 35,
+    x: 51,
+    y: 62,
+    glowRadius: 8,
     componentNames: ["Aerobars", "Seatpost", "Seatpost Shim", "Seat Tube Collar"],
     contributorName: "Redshift Sports",
     relatedEntryId: "aerobars-and-brifters-installed",
@@ -1614,8 +1621,9 @@ export const BIKE_BUILD_DIAGRAM_HOTSPOTS: BikeBuildDiagramHotspot[] = [
   {
     id: "saddle",
     label: "Saddle",
-    x: 135,
-    y: 44,
+    x: 41,
+    y: 45,
+    glowRadius: 10,
     componentNames: ["Saddle"],
     contributorName: "ISM Saddles",
     relatedEntryId: "crankset-pedals-saddle-installed",
