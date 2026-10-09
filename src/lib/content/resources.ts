@@ -286,16 +286,6 @@ export const RESOURCES: Resource[] = [
     geographicScope: "Nationwide / event-based",
   },
   {
-    name: "Move United — Warfighters",
-    url: "https://moveunitedsport.org/get-involved/warfighters/",
-    description:
-      "Free adaptive sports programming across 70+ sports and 245+ chapters for service members and veterans with a permanent physical disability. Official U.S. Olympic & Paralympic Committee affiliate.",
-    needCategoryIds: ["sports-fitness"],
-    audienceTags: ["Veteran", "Active Military", "Disabled"],
-    cost: "Free / low-cost / varies",
-    geographicScope: "Nationwide network",
-  },
-  {
     name: "Achilles International — Achilles Freedom Team",
     url: "https://www.achillesinternational.org/achilles-freedom-team",
     description:
@@ -1434,16 +1424,6 @@ export const RESOURCES: Resource[] = [
     geographicScope: "Virginia / regional",
   },
   {
-    name: "Wounded Warriors Family Support (WWFS)",
-    url: "https://www.wwfs.org/familyretreats/",
-    description:
-      "Not affiliated with Wounded Warrior Project. Restorative family retreats and staycations, plus vehicle grants and caregiver support, for the families of those wounded, injured, or killed in combat.",
-    needCategoryIds: ["family-support"],
-    audienceTags: ["Veteran", "Disabled", "Family", "Caregiver"],
-    cost: "Free / grant",
-    geographicScope: "Nationwide",
-  },
-  {
     name: "Project Sanctuary",
     url: "https://projectsanctuary.us/",
     description:
@@ -1842,16 +1822,6 @@ export const RESOURCES: Resource[] = [
   // ---------------------------------------------------------------------
   // Career & Education
   // ---------------------------------------------------------------------
-  {
-    name: "Hire Heroes USA",
-    url: "https://www.hireheroesusa.org/",
-    description:
-      "Free career coaching, résumé support, interview preparation, and job-search help for transitioning service members, veterans, and military spouses.",
-    needCategoryIds: ["career-education"],
-    audienceTags: ["Veteran", "Active Military", "Military Spouse"],
-    cost: "Free",
-    geographicScope: "Nationwide / virtual",
-  },
   {
     name: "American Corporate Partners",
     url: "https://www.acp-usa.org/",
@@ -2838,7 +2808,7 @@ export const RESOURCES: Resource[] = [
   },
   {
     name: "Forging A Difference",
-    url: "http://www.forgingadifference.com/",
+    url: "https://www.forgingadifference.com/",
     description:
       "Daphne 501(c)(3) using blacksmithing and knife-making to serve active duty, veteran, law enforcement and first-responder communities — multi-week classes, family days and open shop, each class starting with a shared meal.",
     needCategoryIds: ["purpose-community"],
@@ -2953,6 +2923,187 @@ export const RESOURCES: Resource[] = [
     state: "Tennessee",
     verifiedDate: "2026-08-20",
   },
+  {
+    // TODO(verify): whether Roof of Hope roofing assistance is at no cost and its eligibility criteria are unconfirmed; the site only says it is 'for qualified homeowners across Tennessee' and does not state cost.
+    name: "Force Cares Foundation",
+    url: "https://forcecaresfoundation.com/",
+    description:
+      "Force Cares Foundation exists to honor and support veterans, military families, first responders, and families in need across Tennessee by delivering essential services that restore stability, dignity, and opportunity. Its programs include the Roof of Hope roofing assistance, Force Unites community outreach, and the Rise Above youth apprenticeship.",
+    needCategoryIds: ["housing-transportation", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "First Responder", "Family", "Survivor"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Tennessee (statewide; headquartered in Franklin, TN)",
+    state: "Tennessee",
+    verifiedDate: "2026-10-09",
+  },
+  {
+    // TODO(verify): discharge-status or other eligibility requirements beyond post-9/11 Tennessee service are not stated on the site.
+    name: "Veterans Health + Wellness Alliance of Tennessee",
+    url: "https://www.vhwa.org/",
+    description:
+      "The Veterans Health + Wellness Alliance comes alongside post-9/11 Tennessee Veterans and gives them access to integrative clinical care, mental wellness counseling, advanced diagnostics, addictions counseling, dental work, and life coaching through vetted local providers. The org states it serves Veterans throughout Tennessee who served on or after September 11, 2001.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Veteran"],
+    cost: "Free — the org states services are '100% Free for post-9/11 TN Veterans' and that its Veterans 'never pay a dime' for its providers' services",
+    geographicScope: "Tennessee (statewide)",
+    state: "Tennessee",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans throughout Tennessee who served on or after September 11, 2001.",
+    phone: "(629) 248-7437",
+  },
+  {
+    // TODO(verify): current dates and locations of Vet Talk seminars and Rally Points; the site does not list a schedule.
+    name: "Rocky Top Veterans Foundation",
+    url: "https://rockytopvets.org/",
+    description:
+      "Rocky Top Veterans Foundation is an all-volunteer, veteran-run 501(c)(3) focused on making an immediate impact on veterans in East Tennessee. Programs include QPR-based 'Vet Talk' suicide-prevention seminars, the FIRE-TEAM Tennessee suicide-prevention network, and free veteran 'Rally Point' gatherings and breakfasts.",
+    needCategoryIds: ["mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "Military Spouse", "Family"],
+    cost: "Free — the Vet Talk seminar is 'FREE OF CHARGE' and the Rally Point 'locations are free' (own site)",
+    geographicScope: "East Tennessee (based out of Friendsville, TN)",
+    state: "Tennessee",
+    verifiedDate: "2026-10-09",
+  },
+  {
+    // Own site (about page): "HOPE and HEALING at HILLENGLADE is a Bible-based 501(c)(3) nonprofit charitable organization... led by Biblical principles and truths while welcoming ALL individuals with respect and love."
+    // TODO(verify): exact enrollment/eligibility process and current program availability; the site gives a phone and appointment-only note but no formal application criteria.
+    name: "Hope and Healing at Hillenglade",
+    url: "https://www.hillenglade.org/about-hhh",
+    description:
+      "The Renewal Center at Hope and Healing at Hillenglade is a Bible-based 501(c)(3) just outside Nashville that serves active-duty service members, veterans, first responders, and their families. It offers equine-assisted (non-riding) sessions and a two-month 'Harvest Program' for Veterans and First Responders, serving groups from Ft. Campbell, Operation Stand Down, the VA, and Vet Court.",
+    needCategoryIds: ["mental-health", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "First Responder", "Family", "Caregiver"],
+    cost: "Free — the org states it has hosted thousands of Heroes 'FREE OF CHARGE'; public paid sessions 'directly fund the free services we provide to our Heroes and their families'",
+    geographicScope: "Nashville area / Middle Tennessee",
+    state: "Tennessee",
+    verifiedDate: "2026-10-09",
+    phone: "615-868-6309",
+    hours: "All visits are by confirmed appointment only.",
+    faithBased: true,
+    faithAffiliationSource: "https://www.hillenglade.org/about-hhh",
+  },
+  {
+    // TODO(verify): which equipment-grant and mental health programs are currently active and how to apply; the site lists resources but no eligibility or application details.
+    name: "Tennessee First Responders Foundation",
+    url: "https://www.tnfirstrespondersfoundation.com/",
+    description:
+      "Tennessee First Responders Foundation is a 501(c)(3) founded in August 2022 with a vision to enrich, educate, and advocate for First Responders, their families, and agencies. It provides education, programming, life-saving equipment, and mental health resources to First Responders, their Families, and Agencies.",
+    needCategoryIds: ["mental-health", "equipment-grants", "family-support"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Dispatch", "Corrections", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Tennessee (founded in the Memphis metropolitan area)",
+    state: "Tennessee",
+    verifiedDate: "2026-10-09",
+  },
+  {
+    // Own site (homepage): "We are a non-denominational, non-sectarian organization and serve out of a love for God and a compassion for our fellow man."
+    // TODO(verify): 1-800-792-1033 is dispatched 24/7 for the TN Crisis Response Network's critical-incident and disaster mental health triage for emergency responders and citizens; it is not a suicide-specific hotline.
+    name: "Tennessee Federation of Fire Chaplains",
+    url: "https://www.tffc.org/",
+    description:
+      "Founded in 2002, the Tennessee Federation of Fire Chaplains is a nonprofit whose certified volunteer chaplains provide critical incident crisis intervention, disaster response, REST/rehab trailers, and line-of-duty-death support via the Tennessee LAST team to emergency service departments, personnel, and families statewide. It also established the Tennessee Disaster Mental Health Strike Team (TN Crisis Response Network).",
+    needCategoryIds: ["mental-health", "family-support", "legal-benefits"],
+    audienceTags: ["Fire", "EMS", "First Responder", "Family", "Survivor"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Tennessee (statewide)",
+    crisisResource: true,
+    crisisAudience: "general",
+    state: "Tennessee",
+    verifiedDate: "2026-10-09",
+    phone: "1-800-792-1033",
+    faithBased: true,
+    faithAffiliationSource: "https://www.tffc.org/",
+  },
+  {
+    // Own site (About page): "Lifeline is a faith-driven non-profit organization... dedicated to serving and offering love, healing, and hope" — Statement of Faith: "It is only through accepting Jesus Christ as personal Savior and Lord that one can receive eternal life in Heaven."
+    // TODO(verify): specific services offered and whether any are provided at no cost; the site lists mission, vision, and statement of faith but no program pricing or phone number.
+    name: "First Responder Lifeline",
+    url: "https://www.firstresponderlifeline.com/about-us",
+    description:
+      "First Responder Lifeline is a faith-driven non-profit whose mission is to support the physical, mental, and spiritual needs of first responders across Northeast Tennessee and Southwest Virginia. It works to connect first responders with prayer teams, mental health professionals, and local churches.",
+    needCategoryIds: ["mental-health", "family-support", "purpose-community"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Northeast Tennessee and Southwest Virginia (Kingsport, TN)",
+    state: "Tennessee",
+    verifiedDate: "2026-10-09",
+    faithBased: true,
+    faithAffiliationSource: "https://www.firstresponderlifeline.com/about-us",
+  },
+  {
+    // TODO(verify): eligibility and how first responders apply for assistance; the site describes the mission and team but no formal application process.
+    name: "Fire Watch Foundation",
+    url: "https://www.firewatchfoundationtn.org/about",
+    description:
+      "Fire Watch Foundation works to bridge gaps in mental health resources for fire and EMS first responders and their families, funding trauma-informed support such as counseling and EMDR therapy. It was founded by the family of a Mt. Juliet firefighter injured in the line of duty and a Mt. Juliet paramedic.",
+    needCategoryIds: ["mental-health", "family-support"],
+    audienceTags: ["Fire", "EMS", "First Responder", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Wilson County and surrounding areas, Tennessee (Mt. Juliet, TN)",
+    state: "Tennessee",
+    verifiedDate: "2026-10-09",
+    phone: "(615) 403-6390",
+  },
+  {
+    // TODO(verify): funding level and turnaround time of V.I.C. grants; the site states board approval is required but not grant amounts.
+    name: "West Tennessee Veterans Coalition",
+    url: "https://westtnveterans.com/veterans-in-crisis",
+    description:
+      "The West Tennessee Veterans Coalition brings the community together to share information and resources and advocate for local veterans. Its Veterans in Crisis (V.I.C.) grant provides rapid, short-term financial assistance to veterans and actively serving military members for housing, utilities, transportation, medication, and groceries.",
+    needCategoryIds: ["financial-assistance"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve"],
+    cost: "Free to apply — provides 'one time short term financial assistance' (own site)",
+    geographicScope: "20 counties in West Tennessee",
+    state: "Tennessee",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "Must be vetted by a Veteran Service Officer, VA Social Worker, Military Family Readiness Office, DAV, VFW, or American Legion; must reside in a listed West Tennessee county.",
+    phone: "+1 731-988-8908",
+  },
+  {
+    // TODO(verify): whether assistance is free of charge and eligibility details; the site does not state cost or list a phone number.
+    name: "The Lost Vets Rescue",
+    url: "https://lostvets.org/",
+    description:
+      "The Lost Vets Rescue is an emergency veteran rescue organization located in Tennessee with offices in Maryville and Greenback. It helps Veterans, spouses, and widows/widowers of Veterans with emergency shelter, food, clothing, medication, transportation, and PTSD counseling and recovery.",
+    needCategoryIds: ["housing-transportation", "family-support", "mental-health"],
+    audienceTags: ["Veteran", "Military Spouse", "Survivor", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "East Tennessee (Maryville and Greenback offices)",
+    state: "Tennessee",
+    verifiedDate: "2026-10-09",
+  },
+  {
+    // TODO(verify): resident application process and whether housing is free; the site says construction was set to begin August 2025 and does not state cost or an intake process.
+    name: "Operation Hero's Hill",
+    url: "https://operationheroshill.org/",
+    description:
+      "Operation Hero's Hill is a Knox County initiative championed by the county mayor to end veteran homelessness by providing safe, stable, and dignified housing for unhoused Veterans. It will create up to 20 tiny homes and a community center, constructed by Knox County Schools Career and Technical Education students mentored by construction trade experts.",
+    needCategoryIds: ["housing-transportation", "career-education"],
+    audienceTags: ["Veteran"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Knox County, Tennessee",
+    state: "Tennessee",
+    verifiedDate: "2026-10-09",
+    eligibility: "Safe shelter for up to 20 unhoused Veterans currently living in the Knox County community.",
+    availability: "Construction of the tiny-home community was set to begin August 2025; resident application process not yet published.",
+  },
+  {
+    // TODO(verify): whether guardians pay a fee in addition to the veteran's free trip; the site states the veteran trip is free but guardian cost is not on this hub's pages.
+    name: "Honor Flight of the Appalachian Highlands",
+    url: "https://honorflightah.org/",
+    description:
+      "Honor Flight of the Appalachian Highlands is a Tennessee Honor Flight hub that transports veterans on an all-expense-paid three-day bus trip to Washington, D.C. to visit the memorials built to honor their service. It schedules up to five trips to Washington DC each year and gives priority to WWII, Korean War, Vietnam War, and terminally ill veterans.",
+    needCategoryIds: ["purpose-community"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free — the org states 'There is no cost to the Veteran for an HFAH trip.'",
+    geographicScope: "Appalachian Highlands region of Northeast Tennessee (Jonesborough, TN)",
+    state: "Tennessee",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "Currently accepting applications from all veterans, with priority given to those who served in WWII, the Korean War, and the Vietnam War, as well as terminally ill veterans from all service eras.",
+    phone: "1-888-400-1185",
+  },
 
   // ---------------------------------------------------------------------
   // Southeast Regional — Georgia
@@ -3042,6 +3193,176 @@ export const RESOURCES: Resource[] = [
     geographicScope: "Georgia",
     state: "Georgia",
     verifiedDate: "2026-08-20",
+  },
+  {
+    // TODO(verify): the '500+ served' figure is stated for active duty service members and veterans; whether first responders are included is not specified.
+    name: "Shepherd Center — SHARE Military Initiative",
+    url: "https://shepherd.org/treatment/services-clinics/share/",
+    description:
+      "Since 2007, Shepherd Center's SHARE Military Initiative has provided evidence-based rehabilitation for military veterans, service members, and first responders struggling with traumatic brain injury and related mental health concerns, including comprehensive, modified, and single-service day programs. The center says it has served over 500 active duty service members and veterans since 2008.",
+    needCategoryIds: ["mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "First Responder", "Disabled", "Family", "Caregiver"],
+    cost: "Free — the org states services are 'at no cost to military veterans, service members, and first responders'",
+    geographicScope:
+      "Atlanta, GA campus; outpatient services virtual or in person for clients in Georgia, Florida, South Carolina, North Carolina, and Virginia",
+    state: "Georgia",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "Symptoms of mild to moderate traumatic brain injury (TBI) or concussion; co-occurring behavioral health issues such as anxiety, depression, and/or post-traumatic stress; commitment to rehabilitation (own site).",
+    availability:
+      "Four- to 14-week comprehensive day program, four- to six-week modified day program, and single-service therapy; telehealth licensed in multiple states.",
+    phone: "404-603-4314",
+    hours: "Call 7:30 a.m. – 4:00 p.m. ET for non-emergencies.",
+  },
+  {
+    name: "Camp Southern Ground",
+    url: "https://campsouthernground.org/veteran-programs/",
+    description:
+      "Camp Southern Ground, founded by Zac Brown on 400 acres in Fayetteville, Georgia, runs year-round veteran programs including Warrior Week (workforce and wellness transition), Warrior PATHH (post-traumatic growth for combat veterans), and Warrior Family Camp. The org states its veteran programs are provided at no cost.",
+    needCategoryIds: ["purpose-community", "family-support", "mental-health"],
+    audienceTags: ["Veteran", "Active Military", "Family", "Military Spouse", "Caregiver"],
+    cost: "Free — the org states its veteran programs are provided 'at no cost' and welcomes Warriors from across the country",
+    geographicScope: "Fayetteville, GA campus; welcomes Warriors from across the country",
+    state: "Georgia",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "Warrior Family Camp is for families where at least one parent/guardian is a veteran or active-duty member of the U.S. military, or the spouse of a fallen or deceased service member.",
+    phone: "(678) 561-9600",
+  },
+  {
+    name: "Emory Healthcare Veterans Program",
+    url: "https://www.emoryhealthcare.org/centers-programs/veterans-program",
+    description:
+      "The Emory Healthcare Veterans Program provides no-cost, evidence-based mental health care for post-traumatic stress, traumatic brain injury, military sexual trauma, anxiety, and depression through a two-week accelerated treatment program at its Atlanta clinic or via telehealth. It is part of the Warrior Care Network.",
+    needCategoryIds: ["mental-health", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "Family", "Caregiver"],
+    cost: "Free — the org states treatment is confidential and all costs, including treatment, travel, lodging, and meals, are fully covered",
+    geographicScope: "Atlanta, GA clinic; telehealth in 42 U.S. states and 2 territories",
+    state: "Georgia",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "All eligible veterans and service members who were active in the military at least one day after September 11, 2001, regardless of location, discharge status, deployment history, or length of service.",
+    phone: "888-514-5345",
+  },
+  {
+    name: "Hire Heroes USA",
+    url: "https://www.hireheroesusa.org/",
+    description:
+      "Headquartered in Alpharetta, Georgia, Hire Heroes USA provides free personalized one-on-one career coaching, resume reviews, and interview prep for transitioning service members, veterans, and military spouses nationwide. It also operates a proprietary job board and hiring events.",
+    needCategoryIds: ["career-education", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Military Spouse", "Family"],
+    cost: "Free — the org states its personalized one-on-one support is provided 'at no cost'",
+    geographicScope: "National — headquartered in Alpharetta, GA",
+    state: "Georgia",
+    verifiedDate: "2026-10-09",
+    phone: "844-634-1520",
+  },
+  {
+    // TODO(verify): whether navigation services are free of charge is not explicitly stated.
+    name: "The Warrior Alliance",
+    url: "https://thewarrioralliance.org/",
+    description:
+      "Headquartered at The Battery Atlanta, The Warrior Alliance connects service members, veterans, and their families to curated partner organizations across health, education, employment, housing, legal, and financial wellness through Warrior Navigators. It directly serves the Greater Atlanta area and Warriors throughout Georgia, with a national partner network.",
+    needCategoryIds: ["purpose-community", "family-support", "legal-benefits"],
+    audienceTags: ["Veteran", "Guard/Reserve", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Greater Atlanta area and Georgia; national partner network",
+    state: "Georgia",
+    verifiedDate: "2026-10-09",
+    phone: "(404) 210-1776",
+  },
+  {
+    name: "Nine Line Foundation",
+    url: "https://www.ninelinefoundation.org/",
+    description:
+      "Nine Line Foundation is a 501(c)(3) dedicated to meeting the financial and specialized needs of severely wounded veterans. It built the Veterans' Village in Savannah and supports a Veterans' Village and aquaponics training center in Brunswick, GA, providing transitional housing and job training to homeless veterans.",
+    needCategoryIds: ["housing-transportation", "career-education", "financial-assistance"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Savannah and Brunswick, GA; national wounded-veteran support",
+    state: "Georgia",
+    verifiedDate: "2026-10-09",
+  },
+  {
+    name: "The 200 Club",
+    url: "https://www.our200club.com/",
+    description:
+      "Founded in 2000 and based in Savannah, the 200 Club provides immediate financial assistance, a fully funded college education, holiday meals, and ongoing family support to the families of law enforcement officers and firefighters killed or critically injured in the line of duty across a 20-county area of Georgia and South Carolina. It reports having given over $3.8 million to support those families.",
+    needCategoryIds: ["financial-assistance", "family-support", "career-education"],
+    audienceTags: ["Law Enforcement", "Fire", "EMS", "Family", "Survivor"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "20 counties across Coastal Georgia and South Carolina",
+    state: "Georgia",
+    verifiedDate: "2026-10-09",
+    eligibility: "Line-of-duty benefit for firefighters and law enforcement officers who are active members of their departments.",
+  },
+  {
+    // TODO(verify): headquarters city and any published phone number are not shown on the home page.
+    name: "Care for Cops",
+    url: "https://www.care4cops.org/",
+    description:
+      "Care for Cops provides beneficiary payments and critical financial support to the families of Georgia's law enforcement officers killed in the line of duty. The org states it has helped over 200 families since operating in 1999.",
+    needCategoryIds: ["financial-assistance", "family-support"],
+    audienceTags: ["Law Enforcement", "Family", "Survivor"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Georgia",
+    state: "Georgia",
+    verifiedDate: "2026-10-09",
+  },
+  {
+    // TODO(verify): the site header carries the tagline 'Whatever you do, do all to the glory of God' (1 Corinthians 10:31), but the org does not explicitly self-identify as faith-based in its mission text — left unflagged pending confirmation.
+    name: "West Georgia First Responders",
+    url: "https://www.westgafirst.org/",
+    description:
+      "West Georgia First Responders is a Carrollton-based 501(c)(3) that redistributes donations to current and retired first responders and their immediate families in the West Georgia area who face disability, fatality, injury, or illness. Eligible applicants include law enforcement, fire, EMS, dispatch, corrections, security, military, and utility line workers.",
+    needCategoryIds: ["financial-assistance", "family-support"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Dispatch", "Corrections", "Family", "Veteran"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "West Georgia (Carrollton area)",
+    state: "Georgia",
+    verifiedDate: "2026-10-09",
+    eligibility: "Any current or retired qualified first responder and any immediate family member of current or retired qualified first responders.",
+  },
+  {
+    name: "Georgia Public Safety Foundation, Inc.",
+    url: "https://www.gapublicsafetyfoundation.com/",
+    description:
+      "The Georgia Public Safety Foundation is a 501(c)(3), founded in 1987, that provides critical financial assistance to Georgia State Troopers, officers, and their families in times of tragedy or serious injury, and awards scholarships to children of Department of Public Safety employees. It also funds the annual DPS awards ceremony.",
+    needCategoryIds: ["financial-assistance", "career-education"],
+    audienceTags: ["Law Enforcement", "Family", "Survivor"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Georgia (statewide)",
+    state: "Georgia",
+    verifiedDate: "2026-10-09",
+    eligibility: "Georgia State Troopers and officers; scholarships for children of Department of Public Safety employees, current and retired.",
+  },
+  {
+    name: "Atlanta Legal Aid Society — Veterans Law Project",
+    url: "https://atlantalegalaid.org/about-us/our-work/",
+    description:
+      "The Veterans Law Project, founded in 2022 within Atlanta Legal Aid Society, provides free holistic civil legal services to veterans who are unhoused or experiencing housing instability, handling matters including eviction defense, VA benefits, public benefits, disability rights, poor housing conditions, family law, and consumer law.",
+    needCategoryIds: ["legal-benefits", "housing-transportation", "financial-assistance"],
+    audienceTags: ["Veteran"],
+    cost: "Free — the org describes its services as 'free civil legal services'",
+    geographicScope: "Metro Atlanta (Fulton, DeKalb, Cobb, Gwinnett, and Clayton counties)",
+    state: "Georgia",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans who are unhoused or experiencing housing instability.",
+    availability: "Intake is by phone; the Veterans Law Project-specific hours are not stated.",
+    phone: "(404) 614-3915",
+  },
+  {
+    name: "Ole Glory Warriors Retreat",
+    url: "https://oleglorywarriorsretreat.org/",
+    description:
+      "Ole Glory Warriors Retreat is a veteran-owned nonprofit founded in 2021 in Jonesboro, Georgia, providing structured weekend healing retreats, peer support, therapeutic pontoon boat rides, and supportive housing referrals for disabled veterans and their families in the Metro Atlanta area. Its healing retreats for veterans battling PTSD, TBI, and invisible wounds are offered free of charge.",
+    needCategoryIds: ["mental-health", "outdoor-programs", "housing-transportation", "family-support"],
+    audienceTags: ["Veteran", "Disabled", "Family"],
+    cost: "Free — healing retreats are offered free of charge (own site)",
+    geographicScope: "Jonesboro and greater Metro Atlanta, GA",
+    state: "Georgia",
+    verifiedDate: "2026-10-09",
+    phone: "1-833-492-7838",
   },
 
   // ---------------------------------------------------------------------
@@ -4278,6 +4599,182 @@ export const RESOURCES: Resource[] = [
     state: "Virginia",
     verifiedDate: "2026-08-21",
   },
+  {
+    // TODO(verify): cost is not stated on the org's own site; program intake and housing capacity details are not published.
+    name: "Warriors First, Inc.",
+    url: "https://warriorsfirstinc.org/",
+    description:
+      "Buckingham County 501(c)(3) founded in 2022 that provides temporary housing, financial assistance, and liaison services to existing care-management programs for military service members, veterans, and first responders — regardless of rank, service status, years served, or time since service.",
+    needCategoryIds: ["housing-transportation", "financial-assistance"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "First Responder"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Buckingham County, VA / rural Virginia",
+    state: "Virginia",
+    verifiedDate: "2026-10-09",
+    phone: "(602) 768-8789",
+  },
+  {
+    // TODO(verify): confirm the seven currently served counties and the request-intake process before publishing.
+    name: "Mountain Valor Veteran Services",
+    url: "https://www.mtnvalor.org/",
+    description:
+      "Veteran-founded Floyd, VA 501(c)(3) (2024) connecting rural Virginia veterans and their families to benefits, resources, and community through weekly outreach events, one-on-one navigation, caregiver education, and medical-facility outreach.",
+    needCategoryIds: ["legal-benefits", "purpose-community", "family-support"],
+    audienceTags: ["Veteran", "Family", "Caregiver"],
+    cost: "Free — '$0 Cost to Veterans — Always' (own site)",
+    geographicScope: "Rural Virginia — 7 counties; based in Floyd, VA",
+    state: "Virginia",
+    verifiedDate: "2026-10-09",
+    availability: "Weekly outreach events; annual Mountain Valor Fest each fall in Floyd, VA",
+  },
+  {
+    // TODO(verify): cost to recipients and the full list of covered expense categories are not exhaustively stated on the site.
+    name: "Northern Virginia Vietnam Veterans Foundation (NVVVF)",
+    url: "https://www.nvvvf.org/",
+    description:
+      "Volunteer-led Reston 501(c)(3) providing immediate, crisis-based financial assistance (rent, utilities, transportation, other essentials) to veterans and their families across Northern Virginia, typically within 48 hours of a verified referral.",
+    needCategoryIds: ["financial-assistance"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Financial assistance — no repayment stated; '100% of donations go directly to veteran support' (own site)",
+    geographicScope: "Northern Virginia",
+    state: "Virginia",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans and their families in Northern Virginia; requests come through a verified referral from a Veterans Service Officer or community partner",
+    availability: "Assistance typically provided within 48 hours of a verified referral",
+  },
+  {
+    // TODO(verify): cost is not stated on the org's own site; confirm the admission/eligibility process and current capacity.
+    name: "Liberation Veteran Services",
+    url: "https://www.lvsrva.org/",
+    description:
+      "Richmond 501(c)(3) operating a low-barrier residential program for homeless veterans, with individual case management, mental-health and substance-abuse services, employment and financial-literacy skills, recreation, and permanent-housing support.",
+    needCategoryIds: ["housing-transportation", "mental-health", "career-education"],
+    audienceTags: ["Veteran"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Greater Richmond, VA",
+    state: "Virginia",
+    verifiedDate: "2026-10-09",
+    availability: "6–8 months average length of stay; 38-veteran program capacity",
+    phone: "804-233-4064",
+  },
+  {
+    // TODO(verify): cost is not stated on the org's own site; confirm intake requirements and housing capacity.
+    name: "COSIG, Incorporated",
+    url: "https://cosig.org/",
+    description:
+      "Hopewell 501(c)(3) that helps, houses, and trains homeless veterans and people with disabilities, offering temporary housing for up to 24 months and training across seven career paths including HVAC, automotive repair, construction, and home health.",
+    needCategoryIds: ["housing-transportation", "career-education"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Hopewell / Greater Richmond, VA",
+    state: "Virginia",
+    verifiedDate: "2026-10-09",
+    phone: "804-255-7374",
+    hours: "10:00 am – 3:00 pm (business hours shown on the site)",
+  },
+  {
+    // TODO(verify): in-person counseling is delivered within Virginia; confirm current referral-panel and cost-coverage capacity before publishing.
+    name: "Vets' Retreat Virginia, Inc.",
+    url: "https://vetsretreatvirginia.org/",
+    description:
+      "Virginia 501(c)(3) serving military members, veterans, first responders, and their families with health-and-wellness information, referrals, and licensed counseling through referral partnerships; it plans a permanent 24-hour wellness and community center on at least 50 acres.",
+    needCategoryIds: ["mental-health", "family-support", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "First Responder", "Family"],
+    cost: "Free — 'We provide our services at no charge to the individual or family' (own site); counseling cost-coverage offered by referral",
+    geographicScope: "Virginia (no requirement to live or work in Virginia)",
+    state: "Virginia",
+    verifiedDate: "2026-10-09",
+    eligibility: "Military members, veterans, first responders, and their families of all branches, components, ranks, and duty statuses",
+    phone: "1-888-906-4593",
+  },
+  {
+    // TODO(verify): cost to recipients, application timeline, and current program status are not stated on the org's own site, which appears to be under development.
+    name: "Renewed Hope Canines of Virginia",
+    url: "https://www.rhcanines.org/",
+    description:
+      "Virginia 501(c)(3) that trains and places PTSD and mobility service dogs for veterans and first responders.",
+    needCategoryIds: ["mental-health", "equipment-grants"],
+    audienceTags: ["Veteran", "First Responder", "Disabled"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Virginia",
+    state: "Virginia",
+    verifiedDate: "2026-10-09",
+  },
+  {
+    // TODO(verify): course fees and the process for an individual responder to request peer support are not stated on the org's own site.
+    name: "Virginia Peer Support Association (VAPSA)",
+    url: "https://vapeersupport.org/",
+    description:
+      "Colonial Heights 501(c)(3) formed in 2006 and certified by the Virginia Office of Emergency Medical Services that trains, certifies, and maintains Professional Peer Supporters for police, fire, EMS, dispatch, and jail/corrections personnel across the Commonwealth.",
+    needCategoryIds: ["mental-health", "career-education"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Dispatch", "Corrections"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Virginia",
+    state: "Virginia",
+    verifiedDate: "2026-10-09",
+    eligibility: "First responders — police, fire, EMS, dispatch, and jail/corrections — and their agencies",
+    availability: "Scheduled training courses and seminars (e.g., Richmond Nov 2–3, 2026; Virginia Beach Mar 24–25, 2026)",
+    phone: "(804) 894-3792",
+  },
+  {
+    // TODO(verify): confirm whether the counseling benefit is limited to departments that have completed the IFR training program.
+    name: "Impact First Responders",
+    url: "https://www.impactfirstresponders.org/",
+    description:
+      "Program of Impact Living Services delivering statewide first-responder resiliency training, department peer-support teams, and 'off-the-grid' counseling to Virginia first responders; the site reports that in 2025 it provided over 500 hours of free counseling and debriefed 19 critical incidents.",
+    needCategoryIds: ["mental-health", "family-support"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Dispatch"],
+    cost: "Free — 'Off-the-grid counseling services are available at no cost to all first responders in the program' (own site)",
+    geographicScope: "Virginia",
+    state: "Virginia",
+    verifiedDate: "2026-10-09",
+    eligibility: "First responders in participating departments; 'No diagnosis is needed'",
+    availability: "First responders receive a call back within 24 hours of contact",
+  },
+  {
+    // TODO(verify): cost is not stated on the org's own site; confirm how responders apply for relief and the current coverage area.
+    name: "First Responder Outreach Foundation",
+    url: "https://www.firstresponderoutreachfoundation.org/",
+    description:
+      "Abingdon 501(c)(3) serving Southwest Virginia first responders through an Emergency Relief Fund for responders injured or killed in the line of duty, a resource pool for equipment/training/mental-health needs, and community fundraisers for responders facing hardship or severe illness.",
+    needCategoryIds: ["financial-assistance", "equipment-grants", "mental-health"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Corrections"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Southwest Virginia",
+    state: "Virginia",
+    verifiedDate: "2026-10-09",
+    eligibility: "First responders — paid or volunteer — and their immediate families in Southwest Virginia",
+    phone: "(276) 494-3425",
+  },
+  {
+    // TODO(verify): cost is not stated on the org's own site; confirm current application forms for scholarships and cancer assistance.
+    name: "Roanoke Valley Firefighters Foundation",
+    url: "https://rvff.org/",
+    description:
+      "Roanoke Valley 501(c)(3) supporting the families of fallen fire and EMS workers with higher-education scholarships, emergency financial assistance, survivor/memorial conference funding, a 'Spouse to Spouse' survivor network, and a firefighter occupational cancer assistance fund.",
+    needCategoryIds: ["financial-assistance", "family-support", "career-education"],
+    audienceTags: ["Fire", "EMS", "Family", "Survivor", "Coworker"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Roanoke Valley, VA — Cities of Roanoke and Salem; Counties of Roanoke, Bedford, Botetourt, and Franklin",
+    state: "Virginia",
+    verifiedDate: "2026-10-09",
+    eligibility: "Any full-time, part-time, or volunteer fire-EMS provider serving a public governmental agency in the Cities of Roanoke and Salem and the Counties of Roanoke, Bedford, Botetourt, and Franklin (and towns within)",
+  },
+  {
+    // TODO(verify): cost is not stated on the org's own site; confirm the current coverage area and how departments apply for grants.
+    name: "First In Foundation",
+    url: "https://firstinfoundation.org/",
+    description:
+      "Charlottesville–Albemarle 501(c)(3) raising funds for Virginia volunteer fire companies and rescue squads, funding critical equipment (breathing apparatus, rescue tools, safety gear), advanced training, and family assistance after line-of-duty deaths or injuries.",
+    needCategoryIds: ["equipment-grants", "family-support"],
+    audienceTags: ["Fire", "EMS", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Charlottesville–Albemarle, VA (expanding to neighboring counties and statewide)",
+    state: "Virginia",
+    verifiedDate: "2026-10-09",
+    eligibility: "Volunteer fire companies and rescue squads, and the families of fallen or injured firefighters and EMS personnel",
+    phone: "434-367-5240",
+  },
 
   // ---------------------------------------------------------------------
   // Kansas Regional
@@ -5486,6 +5983,155 @@ export const RESOURCES: Resource[] = [
     state: "West Virginia",
     verifiedDate: "2026-08-27",
   },
+  {
+    // TODO(verify): cost is not stated on the org's own site.
+    name: "Operation Welcome Home",
+    url: "https://welcomehomewv.com/",
+    description:
+      "Morgantown, West Virginia 501(c)(3) veterans support facility at Mylan Park serving the North Central West Virginia population of service members, veterans, and families. Its own site lists job placement, resume services, employment search, linkage to existing services, recreational opportunities, agriculture training, and a common meeting place for veterans.",
+    needCategoryIds: ["career-education", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "North Central West Virginia (Morgantown / Monongalia County)",
+    eligibility: "Own site: services to all veterans and family members regardless of service era, branch, rank, ability, or socioeconomic status; \"No veteran, relative, or partner will be turned away at the time of need.\"",
+    state: "West Virginia",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    name: "Veterans Upward Bound — West Virginia",
+    url: "https://vubwv.org/",
+    description:
+      "Elkins-based U.S. Department of Education TRIO program that has served West Virginia veterans since 1990, helping them enroll in and complete studies at colleges, universities, and technical or trade schools. The program's own site states it provides services and materials to participants at no cost.",
+    needCategoryIds: ["career-education"],
+    audienceTags: ["Veteran"],
+    cost: "Free — \"VUB provides services and materials (at no cost to program participants)\" (own site)",
+    geographicScope: "Statewide West Virginia (Elkins-based)",
+    eligibility: "Veterans who meet the TRIO Veterans Upward Bound eligibility criteria",
+    phone: "304-637-1322",
+    state: "West Virginia",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    name: "OPERATION ACTIVET",
+    url: "https://operationactivet.com/",
+    description:
+      "Morgantown, West Virginia 501(c)(3) founded in 2017 by an Army veteran that hosts community events for veterans and first responders to build connection and support their overall physical and mental health. Its own site states the organization is locally founded and operated, not a chapter of a national organization.",
+    needCategoryIds: ["purpose-community", "mental-health"],
+    audienceTags: ["Veteran", "First Responder"],
+    cost: "Free — \"hosting completely free events that all veterans and first responders are eligible to attend\" (own site)",
+    geographicScope: "Morgantown, West Virginia (locally founded and operated)",
+    eligibility: "All veterans and first responders, regardless of branch, component, or department",
+    state: "West Virginia",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    name: "Legal Aid of West Virginia — Veterans Services",
+    url: "https://legalaidwv.org/our-programs/legal-services/veterans-services",
+    description:
+      "Statewide West Virginia legal aid nonprofit running two dedicated veterans projects that help with VA benefits, discharge upgrades, eviction and housing problems, expungement, driver's license reinstatement, and other civil issues. Its own site says it serves veterans in every West Virginia county through the SSVF program and through a Legal Services to Veterans grant partnership with the Huntington VA.",
+    needCategoryIds: ["legal-benefits", "housing-transportation"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free — \"Any veterans qualified for our services will not be charged for our services\" (own site)",
+    geographicScope: "Statewide West Virginia (12 offices, all 55 counties)",
+    phone: "866-255-4370",
+    state: "West Virginia",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): cost is not stated on the org's own site.
+    name: "Compass Huntington",
+    url: "https://compasshuntington.com/",
+    description:
+      "Huntington, West Virginia first-responder wellness program that gives members of the Huntington Police Department and Huntington Fire Department embedded mental wellness coaching, on-scene and post-incident critical incident support, confidential one-to-one coaching and resource navigation, training, and access to the Compass wellness center. Its own site describes it as promoting the overall health and wellness of police officers and fire fighters in Huntington.",
+    needCategoryIds: ["mental-health", "sports-fitness"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Huntington, WV (Huntington Police & Fire Departments)",
+    eligibility: "Members of the Huntington Police Department and Huntington Fire Department",
+    state: "West Virginia",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): the cost quote is specifically about first-responder training access codes; other Armor Up services do not state a cost. The site also lists the national Safe Call Now line (206-459-3020) as its crisis referral, but that hotline is not operated by Armor Up WV, so no crisisResource flag.
+    name: "Armor Up WV",
+    url: "https://armorupwv.weebly.com/",
+    description:
+      "West Virginia effort providing first responders with resources and referrals for trauma, substance use, and family struggles, plus in-person and online education and training for first responders and their families. Its own site also publishes a West Virginia referral contact and free access codes to first-responder training recordings.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Family"],
+    cost: "Free — \"All WV first responders can receive a code to watch the recordings for free... It is our gift to all WV First Responders\" (own site)",
+    geographicScope: "West Virginia (statewide referrals and training)",
+    phone: "304-651-3008",
+    state: "West Virginia",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): the org's site footer shows the project is operated by Battalion 1 Consultants LLC (Hamilton, NJ) in partnership with First Responder Coaching, LLC (Winchendon, MA); the contact address is out-of-state.
+    name: "West Virginia Peer Support Group",
+    url: "https://www.wvpsg.org/",
+    description:
+      "Peer support network for West Virginia first responders and their families, created in 2024 by Upshur, Randolph, and Lewis county fire, law enforcement, EMS, and dispatch leaders to provide social connection, peer supporters with similar experience, education, training, and resource referrals. Its own site states it is not funded or endorsed by the State of West Virginia.",
+    needCategoryIds: ["mental-health", "family-support"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Dispatch", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Upshur, Randolph & Lewis counties, West Virginia (tri-county)",
+    state: "West Virginia",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): cost is not stated on the org's own site.
+    name: "West Virginia National Guard Foundation",
+    url: "https://wvnationalguardfoundation.org/",
+    description:
+      "Charleston-based 501(c)(3) established in 1991 to strengthen the well-being, resilience, and readiness of West Virginia National Guard members and their families. Its own site says it provides non-reimbursable financial grants for situations such as shortfall in pay from a civilian job when called to duty, uncovered medical costs, moving expenses, unavoidable home or vehicle repairs, and education expenses not covered by other aid.",
+    needCategoryIds: ["financial-assistance", "family-support"],
+    audienceTags: ["Guard/Reserve", "Family", "Gold Star"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "West Virginia (statewide; Charleston-based)",
+    eligibility: "National Guard members and their families facing unexpected financial hardship through no fault of their own",
+    state: "West Virginia",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): cost is not stated on the org's own site.
+    name: "Ascend Heroes",
+    url: "https://ascendwv.com/ascend-heroes",
+    description:
+      "Veterans-specific initiative of Ascend WV, created in partnership with the State of West Virginia, that recruits U.S. veterans to relocate to West Virginia with a $12,000 cash incentive paid over 24 monthly payments, settlement in one of six Ascend communities, and job placement assistance from the West Virginia National Guard for veterans seeking West Virginia employment. Its own FAQ states applicants must currently live outside West Virginia.",
+    needCategoryIds: ["career-education", "housing-transportation"],
+    audienceTags: ["Veteran"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide West Virginia (six Ascend communities: Charleston, Greenbrier Valley, Morgantown, Eastern Panhandle, Greater Elkins, New River Gorge)",
+    eligibility: "U.S. veterans (or within six months of separation) who are 18 or older, live outside West Virginia, and work full-time remotely, own a remote-capable business, or have secured full-time employment in West Virginia",
+    state: "West Virginia",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    name: "West Virginia Department of Agriculture — Veterans & Heroes to Agriculture",
+    url: "https://agriculture.wv.gov/ag-business/veterans-and-heroes-to-agriculture",
+    description:
+      "West Virginia Department of Agriculture program dedicated to integrating and supporting veterans, Guard members, firefighters, law enforcement, emergency services personnel, and first responders entering or working in agriculture. Its own site offers a free membership application, scholarships reimbursing up to $600 per fiscal year for pre-approved agricultural classes or certifications, an agribusiness pitch competition, and grants to organizations serving those populations.",
+    needCategoryIds: ["career-education", "financial-assistance"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "First Responder", "Law Enforcement", "Fire", "EMS", "Family"],
+    cost: "Free — \"The application collects a baseline of information to help direct members to pertinent resources and is free to join\" (own site)",
+    geographicScope: "Statewide West Virginia (Charleston-based)",
+    phone: "304-558-2210",
+    state: "West Virginia",
+    verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): the org's site describes Patriot Guardens as a program of the West Virginia Military Authority (a state agency) rather than an independent nonprofit.
+    name: "Patriot Guardens",
+    url: "https://www.patriotguardens.com/",
+    description:
+      "Program of the West Virginia Military Authority providing non-formal agricultural education and hands-on learning opportunities to veterans, active duty members, and their families, including a grant-funded urban farm in Dunbar offering hydroponic and field-grown crop training and workforce development. Its own site lists free workshops in urban agriculture, food production, value-added processing, and small business development.",
+    needCategoryIds: ["career-education", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "Family", "Guard/Reserve"],
+    cost: "Free — \"Free workshops in urban agriculture, food production, value-added processing, and small business development\" (own site)",
+    geographicScope: "Charleston & Dunbar, West Virginia (Kanawha Valley)",
+    state: "West Virginia",
+    verifiedDate: "2026-10-08",
+  },
 
   // ---------------------------------------------------------------------
   // Michigan Regional
@@ -5764,156 +6410,6 @@ export const RESOURCES: Resource[] = [
     state: "Michigan",
     verifiedDate: "2026-10-08",
   },
-  {
-    // TODO(verify): cost is not stated on the org's own site.
-    name: "Operation Welcome Home",
-    url: "https://welcomehomewv.com/",
-    description:
-      "Morgantown, West Virginia 501(c)(3) veterans support facility at Mylan Park serving the North Central West Virginia population of service members, veterans, and families. Its own site lists job placement, resume services, employment search, linkage to existing services, recreational opportunities, agriculture training, and a common meeting place for veterans.",
-    needCategoryIds: ["career-education", "purpose-community"],
-    audienceTags: ["Veteran", "Active Military", "Family"],
-    cost: "Not stated on the org's own site",
-    geographicScope: "North Central West Virginia (Morgantown / Monongalia County)",
-    eligibility: "Own site: services to all veterans and family members regardless of service era, branch, rank, ability, or socioeconomic status; \"No veteran, relative, or partner will be turned away at the time of need.\"",
-    state: "West Virginia",
-    verifiedDate: "2026-10-08",
-  },
-  {
-    name: "Veterans Upward Bound — West Virginia",
-    url: "https://vubwv.org/",
-    description:
-      "Elkins-based U.S. Department of Education TRIO program that has served West Virginia veterans since 1990, helping them enroll in and complete studies at colleges, universities, and technical or trade schools. The program's own site states it provides services and materials to participants at no cost.",
-    needCategoryIds: ["career-education"],
-    audienceTags: ["Veteran"],
-    cost: "Free — \"VUB provides services and materials (at no cost to program participants)\" (own site)",
-    geographicScope: "Statewide West Virginia (Elkins-based)",
-    eligibility: "Veterans who meet the TRIO Veterans Upward Bound eligibility criteria",
-    phone: "304-637-1322",
-    state: "West Virginia",
-    verifiedDate: "2026-10-08",
-  },
-  {
-    name: "OPERATION ACTIVET",
-    url: "https://operationactivet.com/",
-    description:
-      "Morgantown, West Virginia 501(c)(3) founded in 2017 by an Army veteran that hosts community events for veterans and first responders to build connection and support their overall physical and mental health. Its own site states the organization is locally founded and operated, not a chapter of a national organization.",
-    needCategoryIds: ["purpose-community", "mental-health"],
-    audienceTags: ["Veteran", "First Responder"],
-    cost: "Free — \"hosting completely free events that all veterans and first responders are eligible to attend\" (own site)",
-    geographicScope: "Morgantown, West Virginia (locally founded and operated)",
-    eligibility: "All veterans and first responders, regardless of branch, component, or department",
-    state: "West Virginia",
-    verifiedDate: "2026-10-08",
-  },
-  {
-    name: "Legal Aid of West Virginia — Veterans Services",
-    url: "https://legalaidwv.org/our-programs/legal-services/veterans-services",
-    description:
-      "Statewide West Virginia legal aid nonprofit running two dedicated veterans projects that help with VA benefits, discharge upgrades, eviction and housing problems, expungement, driver's license reinstatement, and other civil issues. Its own site says it serves veterans in every West Virginia county through the SSVF program and through a Legal Services to Veterans grant partnership with the Huntington VA.",
-    needCategoryIds: ["legal-benefits", "housing-transportation"],
-    audienceTags: ["Veteran", "Family"],
-    cost: "Free — \"Any veterans qualified for our services will not be charged for our services\" (own site)",
-    geographicScope: "Statewide West Virginia (12 offices, all 55 counties)",
-    phone: "866-255-4370",
-    state: "West Virginia",
-    verifiedDate: "2026-10-08",
-  },
-  {
-    // TODO(verify): cost is not stated on the org's own site.
-    name: "Compass Huntington",
-    url: "https://compasshuntington.com/",
-    description:
-      "Huntington, West Virginia first-responder wellness program that gives members of the Huntington Police Department and Huntington Fire Department embedded mental wellness coaching, on-scene and post-incident critical incident support, confidential one-to-one coaching and resource navigation, training, and access to the Compass wellness center. Its own site describes it as promoting the overall health and wellness of police officers and fire fighters in Huntington.",
-    needCategoryIds: ["mental-health", "sports-fitness"],
-    audienceTags: ["First Responder", "Law Enforcement", "Fire", "Family"],
-    cost: "Not stated on the org's own site",
-    geographicScope: "Huntington, WV (Huntington Police & Fire Departments)",
-    eligibility: "Members of the Huntington Police Department and Huntington Fire Department",
-    state: "West Virginia",
-    verifiedDate: "2026-10-08",
-  },
-  {
-    // TODO(verify): the cost quote is specifically about first-responder training access codes; other Armor Up services do not state a cost. The site also lists the national Safe Call Now line (206-459-3020) as its crisis referral, but that hotline is not operated by Armor Up WV, so no crisisResource flag.
-    name: "Armor Up WV",
-    url: "https://armorupwv.weebly.com/",
-    description:
-      "West Virginia effort providing first responders with resources and referrals for trauma, substance use, and family struggles, plus in-person and online education and training for first responders and their families. Its own site also publishes a West Virginia referral contact and free access codes to first-responder training recordings.",
-    needCategoryIds: ["mental-health"],
-    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Family"],
-    cost: "Free — \"All WV first responders can receive a code to watch the recordings for free... It is our gift to all WV First Responders\" (own site)",
-    geographicScope: "West Virginia (statewide referrals and training)",
-    phone: "304-651-3008",
-    state: "West Virginia",
-    verifiedDate: "2026-10-08",
-  },
-  {
-    // TODO(verify): the org's site footer shows the project is operated by Battalion 1 Consultants LLC (Hamilton, NJ) in partnership with First Responder Coaching, LLC (Winchendon, MA); the contact address is out-of-state.
-    name: "West Virginia Peer Support Group",
-    url: "https://www.wvpsg.org/",
-    description:
-      "Peer support network for West Virginia first responders and their families, created in 2024 by Upshur, Randolph, and Lewis county fire, law enforcement, EMS, and dispatch leaders to provide social connection, peer supporters with similar experience, education, training, and resource referrals. Its own site states it is not funded or endorsed by the State of West Virginia.",
-    needCategoryIds: ["mental-health", "family-support"],
-    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Dispatch", "Family"],
-    cost: "Not stated on the org's own site",
-    geographicScope: "Upshur, Randolph & Lewis counties, West Virginia (tri-county)",
-    state: "West Virginia",
-    verifiedDate: "2026-10-08",
-  },
-  {
-    // TODO(verify): cost is not stated on the org's own site.
-    name: "West Virginia National Guard Foundation",
-    url: "https://wvnationalguardfoundation.org/",
-    description:
-      "Charleston-based 501(c)(3) established in 1991 to strengthen the well-being, resilience, and readiness of West Virginia National Guard members and their families. Its own site says it provides non-reimbursable financial grants for situations such as shortfall in pay from a civilian job when called to duty, uncovered medical costs, moving expenses, unavoidable home or vehicle repairs, and education expenses not covered by other aid.",
-    needCategoryIds: ["financial-assistance", "family-support"],
-    audienceTags: ["Guard/Reserve", "Family", "Gold Star"],
-    cost: "Not stated on the org's own site",
-    geographicScope: "West Virginia (statewide; Charleston-based)",
-    eligibility: "National Guard members and their families facing unexpected financial hardship through no fault of their own",
-    state: "West Virginia",
-    verifiedDate: "2026-10-08",
-  },
-  {
-    // TODO(verify): cost is not stated on the org's own site.
-    name: "Ascend Heroes",
-    url: "https://ascendwv.com/ascend-heroes",
-    description:
-      "Veterans-specific initiative of Ascend WV, created in partnership with the State of West Virginia, that recruits U.S. veterans to relocate to West Virginia with a $12,000 cash incentive paid over 24 monthly payments, settlement in one of six Ascend communities, and job placement assistance from the West Virginia National Guard for veterans seeking West Virginia employment. Its own FAQ states applicants must currently live outside West Virginia.",
-    needCategoryIds: ["career-education", "housing-transportation"],
-    audienceTags: ["Veteran"],
-    cost: "Not stated on the org's own site",
-    geographicScope: "Statewide West Virginia (six Ascend communities: Charleston, Greenbrier Valley, Morgantown, Eastern Panhandle, Greater Elkins, New River Gorge)",
-    eligibility: "U.S. veterans (or within six months of separation) who are 18 or older, live outside West Virginia, and work full-time remotely, own a remote-capable business, or have secured full-time employment in West Virginia",
-    state: "West Virginia",
-    verifiedDate: "2026-10-08",
-  },
-  {
-    name: "West Virginia Department of Agriculture — Veterans & Heroes to Agriculture",
-    url: "https://agriculture.wv.gov/ag-business/veterans-and-heroes-to-agriculture",
-    description:
-      "West Virginia Department of Agriculture program dedicated to integrating and supporting veterans, Guard members, firefighters, law enforcement, emergency services personnel, and first responders entering or working in agriculture. Its own site offers a free membership application, scholarships reimbursing up to $600 per fiscal year for pre-approved agricultural classes or certifications, an agribusiness pitch competition, and grants to organizations serving those populations.",
-    needCategoryIds: ["career-education", "financial-assistance"],
-    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "First Responder", "Law Enforcement", "Fire", "EMS", "Family"],
-    cost: "Free — \"The application collects a baseline of information to help direct members to pertinent resources and is free to join\" (own site)",
-    geographicScope: "Statewide West Virginia (Charleston-based)",
-    phone: "304-558-2210",
-    state: "West Virginia",
-    verifiedDate: "2026-10-08",
-  },
-  {
-    // TODO(verify): the org's site describes Patriot Guardens as a program of the West Virginia Military Authority (a state agency) rather than an independent nonprofit.
-    name: "Patriot Guardens",
-    url: "https://www.patriotguardens.com/",
-    description:
-      "Program of the West Virginia Military Authority providing non-formal agricultural education and hands-on learning opportunities to veterans, active duty members, and their families, including a grant-funded urban farm in Dunbar offering hydroponic and field-grown crop training and workforce development. Its own site lists free workshops in urban agriculture, food production, value-added processing, and small business development.",
-    needCategoryIds: ["career-education", "purpose-community"],
-    audienceTags: ["Veteran", "Active Military", "Family", "Guard/Reserve"],
-    cost: "Free — \"Free workshops in urban agriculture, food production, value-added processing, and small business development\" (own site)",
-    geographicScope: "Charleston & Dunbar, West Virginia (Kanawha Valley)",
-    state: "West Virginia",
-    verifiedDate: "2026-10-08",
-  },
-
   // ---------------------------------------------------------------------
   // Wisconsin Regional
   // ---------------------------------------------------------------------
@@ -6351,7 +6847,7 @@ export const RESOURCES: Resource[] = [
   {
     // TODO(verify): cost is not stated on the org's own site.
     name: "Minnesotans' Military Appreciation Fund (MMAF)",
-    url: "http://thankmntroops.org/",
+    url: "https://thankmntroops.org/",
     description:
       "Statewide Minnesota 501(c)(3) that shows thanks with cash grants to Minnesota service members who served in a combat zone since September 11, 2001 — $500 for combat-zone service, $2,000-$10,000 for Purple Heart recipients based on injury severity, and $5,000 to the families of Minnesota service members killed in combat.",
     needCategoryIds: ["financial-assistance"],
@@ -7016,7 +7512,7 @@ export const RESOURCES: Resource[] = [
   {
     // TODO(verify): confirm 2026 conference dates and location on the org's site.
     name: "Gold Star Project of Colorado",
-    url: "http://www.coloradogoldstarparentsweekend.com/",
+    url: "https://www.coloradogoldstarparentsweekend.com/",
     description:
       "Colorado nonprofit formed in December 2017 out of the Blue Star Mothers of Colorado, running an annual fall healing conference for Colorado Gold Star parents with peer mentoring and workshops — 'We do not ask our parents to pay for the conference' (own site); the 2024 conference was held at the Hotel Colorado in Glenwood Springs.",
     needCategoryIds: ["family-support", "purpose-community", "mental-health"],
@@ -7780,6 +8276,183 @@ export const RESOURCES: Resource[] = [
     state: "Wyoming",
     verifiedDate: "2026-09-29",
     phone: "307-292-5331",
+  },
+  {
+    // TODO(verify): the org's own site lists a single Cheyenne location and does not state whether services extend beyond Laramie County; confirm any residency/geographic limits.
+    name: "Veterans' Rock",
+    url: "https://www.veteransrockchey.org/",
+    description:
+      "Cheyenne 501(c)(3) that assists veterans and active-duty service members in need through supportive services including food, clothing, furniture, emergency shelter, donated vehicles, a free food pantry, computer/printer access, laundry and shower facilities, document retrieval, and advocacy toward self-sufficiency.",
+    needCategoryIds: ["housing-transportation", "financial-assistance", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "Free — food pantry and services are provided at no charge to veterans in need (donations are tax-deductible)",
+    geographicScope: "Cheyenne, WY (Laramie County)",
+    state: "Wyoming",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans and active-duty service members in need; vehicle donations require a job or school enrollment, a driver's license or ability to obtain one, and auto insurance",
+    phone: "307-514-0035",
+    hours: "Monday–Friday 10 AM–4 PM (closed Saturday–Sunday)",
+  },
+  {
+    // TODO(verify): confirm current office hours and whether counseling/acupuncture require an appointment; the org's own site gives a contact email rather than a scheduling system.
+    name: "The Soldier's House of Fremont County",
+    url: "https://www.thesoldiershousefc.org/",
+    description:
+      "Riverton and Lander 501(c)(3) providing free, confidential services to Fremont County veterans, including mental-health counseling, acupuncture and healing body work, case management, Veterans-only Alcoholics Anonymous, food security through a Victory Garden and food distribution, and home repair/retrofit projects to keep veterans in their homes.",
+    needCategoryIds: ["mental-health", "housing-transportation", "family-support"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free — the org's own site states services are provided 'at no cost to the Veteran'",
+    geographicScope: "Fremont County, WY (Riverton and Lander)",
+    state: "Wyoming",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans and their loved ones in Fremont County; acupuncture is open to veterans regardless of era served or discharge status",
+    availability: "Veterans-only AA meetings weekly on Tuesdays, 4:30–5:30 PM; acupuncture hosted monthly",
+    phone: "(307) 856-1244",
+  },
+  {
+    // TODO(verify): the org's own site does not publish grant amounts, application deadlines, or whether non-resident active-duty service members qualify.
+    name: "Wyoming for Heroes",
+    url: "https://wyomingforheroes.com/",
+    description:
+      "Casper-based foundation providing emergency financial assistance and family support to current and former Wyoming U.S. military members and first responders and their immediate families during times of medical or personal crisis.",
+    needCategoryIds: ["financial-assistance", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "First Responder", "Law Enforcement", "Fire", "EMS", "Family"],
+    cost: "Free — grants, not loans; the program is funded by donations",
+    geographicScope: "Wyoming (statewide; based in Casper)",
+    state: "Wyoming",
+    verifiedDate: "2026-10-09",
+    eligibility: "Current and former Wyoming U.S. military and first responders, or their families, in personal or financial crisis; application (PDF or online) required",
+    phone: "307-301-8066",
+  },
+  {
+    // TODO(verify): the org's own site does not state a specific VA disability-rating threshold or an application deadline.
+    name: "H.D. Outdoors of Wyoming",
+    url: "https://hdoutdoorswyo.org/",
+    description:
+      "Casper nonprofit offering a 100% all-inclusive Wyoming outdoor experience for disabled veterans, including big-game hunting, fly fishing, walleye fishing, bird hunting, and group outings, covering airfare, hotels, guide and outfitter fees, meat processing, taxidermy, and shipping at no cost to the veteran.",
+    needCategoryIds: ["outdoor-programs", "sports-fitness", "purpose-community"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free — 'completely financially burden free' for the disabled veteran regardless of where they travel from (own site)",
+    geographicScope: "Wyoming (based in Casper; serves disabled veterans nationwide)",
+    state: "Wyoming",
+    verifiedDate: "2026-10-09",
+    eligibility: "Disabled veterans; participation is by referral, application, or donation of a hunting license/tag",
+    phone: "307-277-6509",
+  },
+  {
+    // TODO(verify): cost is stated only via a participant testimonial, not in the org's own program copy; confirm whether travel and lodging are fully covered and whether caregivers may attend.
+    name: "Honoring Our Veterans",
+    url: "https://www.honorvets.org/",
+    description:
+      "Jackson, Wyoming 501(c)(3) offering week-long photography, fly fishing, and woodcarving workshops to combat-wounded veterans in the Grand Teton/Yellowstone area, with small veteran-only groups and coordination with airport liaisons and caregivers.",
+    needCategoryIds: ["outdoor-programs", "purpose-community"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free — a participant testimonial on the org's own site describes the program as 'free'",
+    geographicScope: "Jackson Hole, WY (northwestern Wyoming)",
+    state: "Wyoming",
+    verifiedDate: "2026-10-09",
+    eligibility: "Combat-wounded veterans; online application required",
+    availability: "Week-long workshops; 2026 sessions offered in June and September for photography, woodcarving, and fly fishing",
+  },
+  {
+    // TODO(verify): the org's own site does not state cost, eligibility criteria, or whether trips are limited to combat veterans; local news coverage reports trips are provided free of cost.
+    name: "Laramie Range Adventures for Veterans (LRAV)",
+    url: "https://lravnonprofit.com/",
+    description:
+      "Laramie-based nonprofit providing outdoor adventure programs that promote healing, camaraderie, and personal growth for veterans through hiking, camping, hunting/fishing, and team-building exercises.",
+    needCategoryIds: ["outdoor-programs", "purpose-community"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Laramie, WY / southeastern Wyoming (also North Dakota trips)",
+    state: "Wyoming",
+    verifiedDate: "2026-10-09",
+  },
+  {
+    // TODO(verify): cost to participants and application/eligibility details are not stated on the org's own site; confirm whether programs are free and how veterans apply.
+    name: "The Wilderness Healing Project",
+    url: "https://wildernesshealingproject.org/",
+    description:
+      "Wyoming 501(c)(3) dedicated to using Wyoming's landscapes to support disabled military veterans, active-duty service members, and their families through a range of outdoor activities tailored to various abilities and interests.",
+    needCategoryIds: ["outdoor-programs", "sports-fitness", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "Disabled", "Family"],
+    cost: "Not stated on the org's own site (it states 100% of donations go directly toward funding veteran services)",
+    geographicScope: "Wyoming (statewide)",
+    state: "Wyoming",
+    verifiedDate: "2026-10-09",
+  },
+  {
+    // TODO(verify): the org's own site does not state cost for ongoing programs or confirm 501(c)(3) status; confirm service area and current program schedule.
+    name: "RISE Foundation of Wyoming",
+    url: "https://risewyoming.org/",
+    description:
+      "Cheyenne-based nonprofit supporting active-duty service members, National Guard, veterans, and their families through holiday meal and hygiene assistance, access to vital resources, mental-health support, and community-building events.",
+    needCategoryIds: ["family-support", "financial-assistance", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Cheyenne, WY / southeastern Wyoming region",
+    state: "Wyoming",
+    verifiedDate: "2026-10-09",
+    eligibility: "Active-duty service members, National Guard, veterans, and their families; a valid military or veteran ID is required at Thanksgiving meal pickup",
+  },
+  {
+    // TODO(verify): the phone number is listed by the program's fiscal home (Community Foundation of Jackson Hole), not on the TIPS site itself; confirm it is the program's direct line and whether peer support (vs. the six counseling sessions) is also free.
+    name: "Teton Interagency Peer Support (TIPS)",
+    url: "https://www.tetontips.org/",
+    description:
+      "Teton County program providing first responders and their families with confidential peer support, education on stress and trauma response, and up to six free counseling sessions with licensed clinicians and psychologists; operated as a program of the Community Foundation of Jackson Hole.",
+    needCategoryIds: ["mental-health", "family-support"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Dispatch", "Family"],
+    cost: "Free — up to six confidential counseling sessions at no charge to first responders and their immediate family members",
+    geographicScope: "Teton County, WY",
+    state: "Wyoming",
+    verifiedDate: "2026-10-09",
+    eligibility: "First responders in Teton County, WY and their immediate family members",
+    phone: "307-739-1026",
+  },
+  {
+    // TODO(verify): cost to the individual and family eligibility are not stated on the org's own site; confirm which agencies currently participate and whether family members are covered.
+    name: "Wyoming's First Responders Network (WyEAP)",
+    url: "https://www.wyeap.org/",
+    description:
+      "Employee Assistance Program network founded in 2013 that helps Wyoming first responders and other public employees access confidential mental-health care with qualified licensed professionals through their participating agencies and local governments.",
+    needCategoryIds: ["mental-health", "family-support"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Dispatch", "Corrections"],
+    cost: "Not stated on the org's own site (agency-funded EAP; care provided through participating agencies)",
+    geographicScope: "Wyoming (statewide; participating agencies)",
+    state: "Wyoming",
+    verifiedDate: "2026-10-09",
+    eligibility: "Employees of participating Wyoming agencies and local governments (the org's own site lists agencies including the Wyoming Highway Patrol, county sheriff's offices, and police and fire departments)",
+  },
+  {
+    // TODO(verify): monthly fee schedule and current bed availability/waitlist are not published; confirm whether VA per diem or Medicaid covers care.
+    name: "Veterans' Home of Wyoming",
+    url: "https://health.wyo.gov/aging/veteranshome/",
+    description:
+      "State-operated veterans home in Buffalo, Wyoming offering a domiciliary/assisted-living community and a VA-certified 36-bed skilled nursing community in three Green House-model cottages, including a furnished private room, meals, laundry, nursing, social services, activities, and weekday transportation.",
+    needCategoryIds: ["housing-transportation", "family-support"],
+    audienceTags: ["Veteran", "Family", "Survivor", "Gold Star"],
+    cost: "Residents' fees are based on the individual's ability to pay (own site); no dollar amounts published",
+    geographicScope: "Buffalo, WY (serves veterans statewide)",
+    state: "Wyoming",
+    verifiedDate: "2026-10-09",
+    eligibility: "Must be unable to earn a living by reason of wounds, disease, old age, or infirmities, or lack adequate means of support, with valid Wyoming residence; veterans are given preference, then their accompanying dependents",
+    availability: "Admissions by application, including a two-day trial stay; a pre-admission packet with DD-214 and Medicare/income documentation is required",
+    phone: "(307) 684-5511",
+  },
+  {
+    // TODO(verify): the org's own site states groundbreaking on the 24 units is planned 'next year,' so housing is not yet available; confirm the construction timeline, eligibility, and any interim services.
+    name: "Veteran Village - AMNACS",
+    url: "https://veteranvillagewyo.org/",
+    description:
+      "Sheridan-area nonprofit working to provide opportunities and stability to at-risk Wyoming veterans by building 24 long-term affordable housing units at Story House, with integrated peer support, service-animal support, mental health, GI Bill education, volunteer, and workforce-skills services.",
+    needCategoryIds: ["housing-transportation", "purpose-community", "career-education"],
+    audienceTags: ["Veteran"],
+    cost: "Not stated on the org's own site (long-term affordable housing; donor-funded)",
+    geographicScope: "Sheridan County, WY",
+    state: "Wyoming",
+    verifiedDate: "2026-10-09",
+    eligibility: "At-risk veterans in Sheridan County (own site)",
+    phone: "307-763-3943",
   },
 
   // ---------------------------------------------------------------------
@@ -8822,6 +9495,187 @@ export const RESOURCES: Resource[] = [
     state: "Oregon",
     verifiedDate: "2026-10-08",
   },
+  {
+    // TODO(verify): a phone number and program hours are not listed on the org's own site — confirm the current activity schedule directly.
+    name: "Fly Fishing Veterans",
+    url: "https://flyfishingveterans.org/",
+    description:
+      "All-volunteer nonprofit founded in 2020 by veterans, first responders, and healthcare professionals that serves veterans, first responders, and healthcare personnel throughout the Umpqua region and surrounding Southern Oregon communities from its base in Roseburg. It mentors participants in fly tying, rod building, casting, fly fishing education, and fishing events as a therapeutic approach to suicide prevention, PTSD, TBI, and other physical and mental injuries, in partnership with the Roseburg VA Hospital, fire departments, law enforcement agencies, and healthcare facilities.",
+    needCategoryIds: ["outdoor-programs", "mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "First Responder", "Law Enforcement", "Fire", "EMS", "Healthcare", "Family"],
+    cost: "No cost — we provide all equipment and materials needed for participation in our classes and events at no cost (own site)",
+    geographicScope: "Umpqua region and surrounding communities, Southern Oregon (based in Roseburg, Douglas County)",
+    state: "Oregon",
+    verifiedDate: "2026-10-09",
+  },
+  {
+    // TODO(verify): cost is not stated on the org's own site — confirm current eligibility and intake process.
+    name: "Housing Our Veterans",
+    url: "https://housingourveterans.org/",
+    description:
+      "Eugene nonprofit that operates recovery houses for men and women who have served in the military, helping veterans establish stable housing, maintain jobs, and access community resources. It manages multiple houses, has expanded with funding for 24-hour response and additional properties, and is a service-provider member of the Lane County Behavioral Health Resource Network.",
+    needCategoryIds: ["housing-transportation", "mental-health", "purpose-community"],
+    audienceTags: ["Veteran"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Eugene and Lane County, Oregon",
+    state: "Oregon",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans in need of stable housing (own site; intake arranged by appointment)",
+    hours: "By appointment only (own site)",
+    phone: "(541) 579-6695 (housing); (541) 606-9220 (general)",
+  },
+  {
+    // TODO(verify): cost, eligibility, hours, and phone are not stated on the org's own site — contact is via web form/email only; confirm current program intake.
+    name: "The Alignment Collective",
+    url: "https://alignmentcollective.org/",
+    description:
+      "Portland-based 501(c)(3) that supports veteran stability, suicide prevention, community connection, and access to well-being resources across greater Portland and an 8-county Northwest Oregon service area. Its flagship Veterans Stability & Connection Program provides wraparound support, peer connection, case coordination, and suicide prevention services for veterans and their families, supported in part by the VA Staff Sergeant Parker Gordon Fox Suicide Prevention Grant.",
+    needCategoryIds: ["mental-health", "family-support", "purpose-community"],
+    audienceTags: ["Veteran", "Family", "Military Spouse", "Caregiver"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Greater Portland and an 8-county service area in Northwest Oregon",
+    state: "Oregon",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans and their families in the greater Portland / Northwest Oregon service area (own site)",
+  },
+  {
+    // TODO(verify): no phone number is listed on PAVE's own contact page (the Assistance Dogs International member directory lists 503-348-2048 — reconfirm); confirm current wait times directly.
+    name: "Paws Assisting Veterans (PAVE)",
+    url: "https://www.paveusa.org/",
+    description:
+      "Cornelius, Oregon-based 501(c)(3) that trains and provides service dogs free of charge to U.S. veterans with military-related psychological and/or physical disabilities such as PTSD, MST, TBI, or mobility needs. Founded in 2010 and accredited by Assistance Dogs International, it offers customized training and lifetime support, with training camp held in the Portland metro area.",
+    needCategoryIds: ["equipment-grants", "mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free — service dogs are provided to veterans at no charge (own site)",
+    geographicScope: "Oregon, Idaho, California, and Washington (training camp in the Portland metro area)",
+    state: "Oregon",
+    verifiedDate: "2026-10-09",
+    eligibility: "Honorably discharged veterans with a clinical diagnosis of PTSD, MST, TBI, or a need for specific physical assistance who are currently receiving treatment and can attend the training camp in the Portland metro area (own site)",
+  },
+  {
+    name: "Oregon Law Center — Veterans Legal Help",
+    url: "https://oregonlawcenter.org/veterans-legal-help/",
+    description:
+      "Free civil legal services for veterans living in Oregon who are homeless or at risk of homelessness, funded through a VA Legal Services for Homeless Veterans and Veterans At-Risk for Homelessness (LSV-H) grant. Assistance includes eviction defense, landlord-tenant and foreclosure cases, family law such as child support, child custody, and divorce, income and public benefits, criminal-record expungement and driver's-license matters, protective orders, and health care or employment issues.",
+    needCategoryIds: ["legal-benefits", "housing-transportation", "family-support", "financial-assistance"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free — provided at no cost to the veteran (own site)",
+    geographicScope: "Oregon (statewide; offices in Coos Bay, Grants Pass, Gresham, Hillsboro, Eugene, McMinnville, Portland, Ontario, Salem, St. Helens, and Woodburn)",
+    state: "Oregon",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans living in Oregon who are homeless or at risk of homelessness (own site)",
+    phone: "800-450-1846 (toll free)",
+  },
+  {
+    // TODO(verify): eligibility criteria beyond veteran status and ODVA grant qualification are not detailed on the org's own site; confirm current intake.
+    name: "St. Andrew Legal Clinic — Veterans Assistance Program",
+    url: "https://www.salcgroup.org/veterans",
+    description:
+      "Through a grant from the Oregon Department of Veterans Affairs (ODVA), St. Andrew Legal Clinic's Veterans Assistance Program provides full legal representation at no cost to veterans in all family law cases, including divorce and child custody disputes. The nonprofit, operating since 1979, serves clients from offices in Portland (Multnomah County) and Hillsboro (Washington County).",
+    needCategoryIds: ["legal-benefits", "family-support"],
+    audienceTags: ["Veteran", "Family", "Military Spouse"],
+    cost: "Free — full legal representation for veterans in all family law cases at absolutely no cost (own site)",
+    geographicScope: "Multnomah and Washington Counties, Oregon (Portland and Hillsboro offices)",
+    state: "Oregon",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans who qualify for the ODVA grant (own site; specific criteria confirmed during intake)",
+    hours: "Monday–Friday, 9 a.m.–5 p.m. (closed daily 12–1 p.m.); appointments required (own site)",
+    phone: "503-281-1500",
+  },
+  {
+    // TODO(verify): cost, eligibility criteria, and hours are not stated on the org's own site — confirm current services directly.
+    name: "Pacific Northwest Veterans Alliance (PNVA)",
+    url: "https://pnwveteransalliance.org/",
+    description:
+      "Hermiston-based 501(c)(3) formed in 2019 that serves veterans and their families in Morrow, Umatilla, and Union Counties in Eastern Oregon, offering hope, healing, and emergency financial assistance for those affected by PTSD and working to aid the epidemic of veteran suicide. It hosts community gatherings such as 'Dave's Journey' and offers a $1,000-per-academic-year scholarship.",
+    needCategoryIds: ["financial-assistance", "mental-health", "purpose-community", "career-education"],
+    audienceTags: ["Veteran", "Family", "Military Spouse"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Morrow, Umatilla, and Union Counties, Eastern Oregon",
+    state: "Oregon",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans and their families in Morrow, Umatilla, and Union Counties (own site)",
+    phone: "(541) 701-8006",
+  },
+  {
+    // TODO(verify): cost and program eligibility are not explicitly stated on the org's own site — confirm income and housing criteria at intake.
+    name: "ACCESS — Supportive Services for Veteran Families",
+    url: "https://accesshelps.org/veterans-assistance/",
+    description:
+      "SSVF department based in Medford that serves veterans across Jackson, Josephine, Coos, Curry, and Douglas Counties in Southern Oregon, connecting them through case management with VA benefits and healthcare, education and employment opportunities, transportation, clothing, tools, and household goods, and providing rental assistance and rapid rehousing for unhoused veterans.",
+    needCategoryIds: ["housing-transportation", "financial-assistance", "career-education", "family-support"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Jackson, Josephine, Coos, Curry, and Douglas Counties, Southern Oregon (Medford)",
+    state: "Oregon",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans and veteran families that are homeless or at risk of homelessness in the service area (own site; criteria confirmed at intake)",
+    hours: "Monday–Thursday 8 a.m.–5 p.m.; Friday 9 a.m.–4:30 p.m. (own site)",
+    phone: "541-774-4322 (Veterans Services); (541) 779-6691 (main)",
+  },
+  {
+    // TODO(verify): cost and eligibility are not stated on the org's own site — confirm current admissions and program status directly.
+    name: "Veterans Legacy (Camp Alma)",
+    url: "https://veteranslegacyoregon.org/",
+    description:
+      "501(c)(3) founded in 2016 that operates Camp Alma, a 108-acre residential therapeutic farm outside Eugene for veterans experiencing PTSD, substance use disorder, homelessness, and associated traumas. In a rural therapeutic agricultural setting, resident veterans receive coordinated intervention, peer support, and skills for self-sufficiency, with the goal of returning to the community sober and with stable housing and employment options.",
+    needCategoryIds: ["housing-transportation", "mental-health", "purpose-community", "career-education", "outdoor-programs"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Eugene area / Lane County, Oregon (Camp Alma in the Coast Range)",
+    state: "Oregon",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans experiencing PTSD, substance use disorder, homelessness, or associated traumas (own site)",
+    phone: "(541) 935-0144",
+  },
+  {
+    // TODO(verify): cost and eligibility are not stated on the org's own site — confirm whether programs are available to individual responders or agencies only.
+    name: "Responder Life",
+    url: "https://responderlife.org/",
+    description:
+      "Tualatin, Oregon-based 501(c)(3) that equips first responders in the Pacific Northwest — police, fire, EMS, 911 dispatch, and corrections — to care for themselves, their families, and their neighbors. Established in 2004, it helps agencies select, train, and develop peer support leaders, provides secure rest-stop rooms for first responders to recover from difficult calls, and hosts an annual Northwest Peer Support Conference.",
+    needCategoryIds: ["mental-health", "purpose-community", "family-support"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Dispatch", "Corrections", "Coworker", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Pacific Northwest (based in Tualatin, Oregon)",
+    state: "Oregon",
+    verifiedDate: "2026-10-09",
+    eligibility: "First responders in the Pacific Northwest (own site); some programs are agency-facing",
+    phone: "503-308-1082",
+  },
+  {
+    // TODO(verify): Oregon-specific office hours and a local phone number are not provided on the chapter site (only a national number and email) — confirm the local contact.
+    name: "Oregon Concerns of Police Survivors (Oregon C.O.P.S.)",
+    url: "https://www.oregoncops.org/",
+    description:
+      "Chapter established in 1993 that provides support for families and co-workers of peace officers whose deaths are directly related to their sworn duties. Board members are trained to provide survivor peer support and grief counseling and to assist with line-of-duty-death funeral planning, Public Safety Officers' Benefits (PSOB) claims, and national and state memorial enrollment. Services including financial support, scholarships, retreats, and the Annual National Conference are free of charge to survivors.",
+    needCategoryIds: ["family-support", "financial-assistance", "mental-health", "legal-benefits"],
+    audienceTags: ["Survivor", "Family", "Law Enforcement", "Coworker"],
+    cost: "Free — there is no membership fee to join C.O.P.S. and services are free of charge to survivors (own site)",
+    geographicScope: "Oregon",
+    state: "Oregon",
+    verifiedDate: "2026-10-09",
+    eligibility: "Family members and co-workers of law enforcement officers killed in the line of duty (own site)",
+    phone: "573-346-4911 (C.O.P.S. national number listed on the chapter site)",
+  },
+  {
+    // Own site (https://www.pscnw.org/home): "Christian non-profit ministry" serving first responder agencies and the communities they protect.
+    // TODO(verify): cost and eligibility for chaplaincy services are not stated on the org's own site — confirm service availability.
+    name: "Public Safety Chaplaincy (PSC)",
+    url: "https://www.pscnw.org/home",
+    description:
+      "Beaverton, Oregon-based Christian nonprofit ministry that enlists, equips, and empowers qualified chaplains to serve first responder agencies — local police, fire, EMS, and 911 dispatch personnel — and the communities they serve. It reports providing more than 72 chaplains to 60 first responder agencies across Oregon and Southwest Washington and operates the Oregon Chaplains Academy for professional first-responder chaplain training.",
+    needCategoryIds: ["mental-health", "purpose-community", "family-support"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Dispatch", "Family", "Coworker"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Oregon and Southwest Washington (based in Beaverton, Oregon)",
+    state: "Oregon",
+    verifiedDate: "2026-10-09",
+    eligibility: "First responder agencies and personnel served through agency chaplaincy programs (own site)",
+    phone: "503-614-1513",
+    faithBased: true,
+    faithAffiliationSource: "https://www.pscnw.org/home",
+  },
 
   // ---------------------------------------------------------------------
   // Washington Regional
@@ -9231,6 +10085,146 @@ export const RESOURCES: Resource[] = [
     eligibility: "Alaska Native veterans; family members may be served through programs.",
     availability: "Year-round; contact for current services.",
   },
+  {
+    // TODO(verify): the organization's website returned HTTP 523 (origin unreachable) during research on 2026-10-09 — revalidate the URL and contact details; details are drawn from press and partner references.
+    name: "Alaska Coalition for Veterans & Military Families (AKCVMF)",
+    url: "https://www.akcvmf.org/",
+    description:
+      "Coalition of Alaska-based organizations working to connect veterans, service members, and their families across the state with resources and service providers, with a focus on coordination and outreach throughout Alaska's communities.",
+    needCategoryIds: ["purpose-community", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family", "Military Spouse"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide — Alaska",
+    state: "Alaska",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans, service members, and their families (own site)",
+  },
+  {
+    // TODO(verify): no-cost status and eligibility are not fully stated on the org's own site — confirm program details directly (site is thin).
+    name: "Outreach22",
+    url: "https://www.outreach22.org/",
+    description:
+      "Alaska nonprofit founded by veteran Joshua Robbins that pairs veterans and individuals facing stress with rescued sled dogs in Willow, Alaska, using mushing and dog-befriending retreats to support mental health and reconnection with life.",
+    needCategoryIds: ["mental-health", "outdoor-programs", "purpose-community"],
+    audienceTags: ["Veteran", "Family", "Caregiver"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Willow, Alaska (Matanuska-Susitna Borough)",
+    state: "Alaska",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans and individuals navigating trauma or difficult life transitions (own site); participation arranged via application",
+  },
+  {
+    name: "HAVE Alaska",
+    url: "https://www.havealaska.com/",
+    description:
+      "All-volunteer Alaska nonprofit that honors and supports veterans through guided fly-fishing trips on the Kenai Peninsula and in Soldotna, Homer, and the Susitna Valley, reporting that every donation goes to veterans and their experiences.",
+    needCategoryIds: ["outdoor-programs", "purpose-community", "mental-health"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free fishing trips for veterans — the organization states it is 100% volunteer-run and that funds go directly to veterans (own site)",
+    geographicScope: "Kenai Peninsula, Alaska (Soldotna, Homer, and the Susitna Valley)",
+    state: "Alaska",
+    verifiedDate: "2026-10-09",
+    eligibility: "Military veterans (own site); space is limited and filled as trips are scheduled",
+  },
+  {
+    name: "Gold Star Peak, Inc.",
+    url: "https://goldstarpeak.org/",
+    description:
+      "Chugiak, Alaska nonprofit named for a 7,000-foot peak in the Chugach Mountains that organizes wilderness and outdoor experiences, including climbs, for Gold Star families, surviving military families, and veterans, often in partnership with military and air-force organizations.",
+    needCategoryIds: ["outdoor-programs", "purpose-community", "family-support"],
+    audienceTags: ["Gold Star", "Veteran", "Family", "Survivor"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Chugiak, Alaska (Chugach Mountains area)",
+    state: "Alaska",
+    verifiedDate: "2026-10-09",
+    eligibility: "Gold Star families, surviving military families, and veterans (own site)",
+  },
+  {
+    name: "Battle Dawgs",
+    url: "https://www.battledawgs.org/",
+    description:
+      "Willow, Alaska volunteer 501(c)(3) that rehomes dogs displaced by abuse, neglect, or abandonment with veterans in need, reporting more than 350 service and companion dogs trained and placed to date. Dogs are provided at no cost along with training and support.",
+    needCategoryIds: ["mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free — Battle Dawgs dogs are provided at no cost to qualified veterans (own site)",
+    geographicScope: "Willow, Alaska (Matanuska-Susitna Borough)",
+    state: "Alaska",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans in need of a service or companion dog; the application process includes submission of a DD-214 and discharge status (own site)",
+    phone: "1-844-907-3297",
+  },
+  {
+    // TODO(verify): pull a verbatim faith statement from the org's own site to complete the faith comment; the Christ-centered framing is stated on its retreat page.
+    name: "Revive Alaska Community Services (RACS) — Veteran & Military Services",
+    url: "https://www.revivealaska.org/come-to-alaska",
+    description:
+      "Seward, Alaska Christian nonprofit that offers Alaska wilderness retreats for veterans, service members, and their families at Haven Point Bible Camp, including housing, glacier and fjord excursions, dog mushing, and fishing, framed as spiritual and community renewal.",
+    needCategoryIds: ["outdoor-programs", "purpose-community", "mental-health"],
+    audienceTags: ["Veteran", "Active Military", "Family", "Military Spouse"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Seward, Alaska",
+    state: "Alaska",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans, active-duty service members, and their families (own site); availability is seasonal and reservation-based",
+    faithBased: true,
+    faithAffiliationSource: "https://www.revivealaska.org/come-to-alaska",
+  },
+  {
+    name: "Alaska Veterans and Pioneers Home — Palmer",
+    url: "https://dfcs.alaska.gov/daph/pages/palmer/default.aspx",
+    description:
+      "State of Alaska elder-care home in Palmer, certified through the U.S. Department of Veterans Affairs, where 75% of the 79 beds are designated for veterans. Renamed from the Palmer Pioneer Home in 2007 after remodeling to meet VA requirements, it provides assisted-living and skilled nursing care in an Eden Alternative registered environment.",
+    needCategoryIds: ["housing-transportation", "family-support"],
+    audienceTags: ["Veteran", "Disabled", "Caregiver", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Palmer, Alaska (Matanuska-Susitna Borough)",
+    state: "Alaska",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans (75% of beds) and eligible non-veterans (25% of beds); qualifying veterans may receive a per diem from the VA toward care costs (own site)",
+    phone: "(907) 745-4241",
+  },
+  {
+    name: "Catholic Social Services Alaska — Supportive Services for Veteran Families (SSVF)",
+    url: "https://cssalaska.org/ssvf/",
+    description:
+      "Anchorage-based program operated by Catholic Social Services Alaska through the U.S. Department of Veterans Affairs Supportive Services for Veteran Families (SSVF) grant, helping homeless and at-risk veteran families in Anchorage and the Matanuska-Susitna area find and keep housing through case management, temporary rental assistance, and connections to VA and community benefits.",
+    needCategoryIds: ["housing-transportation", "financial-assistance"],
+    audienceTags: ["Veteran", "Family", "Military Spouse"],
+    cost: "Not stated on the org's own site (VA-funded SSVF program)",
+    geographicScope: "Anchorage and the Matanuska-Susitna area (Wasilla), Alaska",
+    state: "Alaska",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veteran families that are homeless or at risk of homelessness with household income at or below 80% of area median income; veterans with a dishonorable discharge are excluded (program page)",
+    hours: "Monday–Friday, 9 a.m.–5 p.m.",
+    phone: "(907) 222-7331",
+  },
+  {
+    name: "Southcentral Foundation — Family Wellness Warriors (Soldier's Heart)",
+    url: "https://www.southcentralfoundation.com/the-alaska-native-health-campus/our-approach-to-care/ttm-services/",
+    description:
+      "Southcentral Foundation's Family Wellness Warriors / Soldier's Heart initiative provides trauma-informed behavioral health support rooted in the Alaska Native system of care, serving veterans, service members, and their families with access to individual and group wellness services.",
+    needCategoryIds: ["mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Anchorage, Alaska (Alaska Native Health Campus)",
+    state: "Alaska",
+    verifiedDate: "2026-10-09",
+    eligibility: "Alaska Native and American Indian people who receive services through Southcentral Foundation, including veterans and their families (own site)",
+  },
+  {
+    // TODO(verify): program-page details appear last updated in 2020 — confirm the current Tribal HUD-VASH status, geographic coverage, and VA partnership before relying on these details.
+    name: "AVCP Regional Housing Authority (AVCP RHA) — Tribal HUD-VASH",
+    url: "https://www.avcprha.com/programs/veteran-assistance",
+    description:
+      "Kotzebue-based Alaska Native Regional Housing Authority that administers a Tribal HUD-VASH voucher program in partnership with the U.S. Department of Veterans Affairs, pairing rental assistance with case management to help Alaska Native veterans who are homeless or at risk of homelessness obtain stable housing.",
+    needCategoryIds: ["housing-transportation", "financial-assistance"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "AVCP region, Alaska",
+    state: "Alaska",
+    verifiedDate: "2026-10-09",
+    eligibility: "Alaska Native veterans who meet Tribal HUD-VASH voucher eligibility, including VA health care eligibility (program page)",
+  },
 
   // ---------------------------------------------------------------------
   // Hawaii Regional
@@ -9354,6 +10348,180 @@ export const RESOURCES: Resource[] = [
     geographicScope: "Oahu (Leeward/Waianae Coast)",
     state: "Hawaii",
     verifiedDate: "2026-09-29",
+  },
+  {
+    // TODO(verify): cost/fees are not stated on the org's own site; no published phone number was found on the site.
+    name: "Hawaii Vet 2 Vet Inc.",
+    url: "https://www.hawaiivet2vet.com/",
+    description:
+      "A Hawaii nonprofit that provides support services and direction to service members, veterans, and their families, including educational peer-to-peer seminars and trainings, mental-health and substance-abuse education, and connections to housing services. Its work focuses on supporting participants and mentors of the Hawaii Veterans Treatment Court and the training of Hawaii Certified Peer Specialists.",
+    needCategoryIds: ["mental-health", "purpose-community", "housing-transportation", "career-education"],
+    audienceTags: ["Veteran", "Active Military", "Family", "Caregiver"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Hawaii (statewide)",
+    state: "Hawaii",
+    verifiedDate: "2026-10-09",
+  },
+  {
+    // TODO(verify): scholarship amounts and GoFarm Hawaiʻi AgXcel pathway details are limited on the site; confirm current program costs and dates directly.
+    name: "Hoʻōla Farms (Hoʻōla Veteran Services)",
+    url: "https://hoolafarms.org/",
+    description:
+      "A Hilo-based 501(c)(3) whose mission is to serve military veterans and first responders, their families and caregivers, and the community by providing opportunities to heal, connect, learn, grow, and thrive. It runs hands-on agriculture programs including free Victory Gardens for Veterans workshops, beginner-farmer Intro to Grow workshops, and Groundwork to Grow agribusiness training with veteran/first-responder scholarships.",
+    needCategoryIds: ["career-education", "outdoor-programs", "purpose-community", "equipment-grants", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "First Responder", "Caregiver", "Family"],
+    cost: "Most Intro to Grow workshops are free, with some specialty workshops carrying a small registration fee; Groundwork to Grow 4-week courses range from $99-$350 depending on course and equipment, with scholarships available for veterans, veteran family members, veteran caregivers, or first responders; Victory Gardens for Veterans is free (own site)",
+    geographicScope: "Hawaiʻi Island (Hawaii County)",
+    state: "Hawaii",
+    verifiedDate: "2026-10-09",
+    eligibility: "Victory Gardens for Veterans is open to veterans, active-duty military, and their caregivers and ʻohana who are Hawaiʻi Island residents; Groundwork to Grow scholarships are open to veterans, veteran family members, veteran caregivers, or first responders",
+    phone: "808-896-6122",
+  },
+  {
+    // TODO(verify): cost/fees are not stated on the org's own site; the medical clinic and scholarship fund are described as planned/endowment-funded; no published phone number was found.
+    name: "Hawaiʻi Island Veterans Memorial, Inc. (HIVM)",
+    url: "https://hawaiiislandveterans.org/",
+    description:
+      "A tax-exempt 501(c)(3) all-volunteer nonprofit organized in 1997 as a development entity for Big Island veterans. It completed a 92-unit EAH Housing senior independent living community in Hilo with preference given to veterans and their surviving spouses, and funds scholarships through an endowment at the Hawaiʻi Community Foundation while developing a community medical clinic.",
+    needCategoryIds: ["housing-transportation", "career-education"],
+    audienceTags: ["Veteran", "Military Spouse", "Survivor"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Hawaiʻi Island (Hawaii County; Hilo)",
+    state: "Hawaii",
+    verifiedDate: "2026-10-09",
+  },
+  {
+    // TODO(verify): cost and admission eligibility are not stated on the org's own site; contact the home to confirm.
+    name: "Yukio Okutsu State Veterans Home",
+    url: "https://www.yukiookutsustateveteranshome.org/",
+    description:
+      "The Big Island's only post-acute care and rehabilitation provider specifically designed to serve the special needs of veterans, offering 24-hour skilled nursing, short-term rehabilitation, respite care, and hospice/end-of-life care in a 95-bed facility in Hilo. It is a VA- and Medicare/Medicaid-certified health care community.",
+    needCategoryIds: ["housing-transportation", "family-support"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Hawaiʻi Island (Hilo, Hawaii County)",
+    state: "Hawaii",
+    verifiedDate: "2026-10-09",
+    phone: "808-961-1500",
+    hours: "Mon-Fri 8:00 a.m. - 5:00 p.m. (except federal and Hawaiʻi state holidays)",
+  },
+  {
+    // TODO(verify): the admission timeline is managed via an interest form and is not stated on the site.
+    name: "Daniel Kahikina Akaka State Veterans Home",
+    url: "https://www.dkasvh.org/",
+    description:
+      "Hawaii's largest long-term care facility built specifically for veterans, a 120-bed state home in Kapolei on Oahu that opened in 2025 and provides long-term skilled nursing, rehabilitation, and residential amenities. Admissions are managed through an interest form and the home's operator, Ohana Pacific Health.",
+    needCategoryIds: ["housing-transportation", "family-support"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "VA covers the cost of care at a combined 70% + service-connected disability percentage; below 70%, care is private pay unless eligible for long-term-care Medicaid (own site)",
+    geographicScope: "Oʻahu (Kapolei); serves Hawaii residents",
+    state: "Hawaii",
+    verifiedDate: "2026-10-09",
+    eligibility: "A recognized U.S. veteran (must provide a copy of DD-214) discharged for reasons other than dishonorable, a resident of the State of Hawaii, and eligible for a long-term level of care (physician certified)",
+    phone: "(808) 751-3270",
+  },
+  {
+    // Own site (https://www.catholiccharitieshawaii.org/ssvf/): "Catholic Charities Hawaiʻi, rooted in the gospel of Jesus, exists to carry out the social mission of the church by serving the people of Hawaiʻi, regardless of their faith or culture."
+    // TODO(verify): cost is not stated on the org's own site; the program is VA-funded.
+    name: "Catholic Charities Hawaiʻi — Supportive Services for Veteran Families (SSVF)",
+    url: "https://www.catholiccharitieshawaii.org/ssvf/",
+    description:
+      "A U.S. Department of Veterans Affairs-funded Supportive Services for Veteran Families program operated by Catholic Charities Hawaiʻi that helps homeless or at-risk veteran families find temporary or long-term housing and achieve housing stability. Services include case management, housing search assistance, landlord mediation, temporary financial assistance, and connections to VA and public benefits.",
+    needCategoryIds: ["housing-transportation", "financial-assistance", "career-education"],
+    audienceTags: ["Veteran", "Family", "Military Spouse"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Hawaii (statewide; Oʻahu, Hawaiʻi, Maui, and Kauaʻi offices)",
+    state: "Hawaii",
+    verifiedDate: "2026-10-09",
+    eligibility: "Must be a military veteran family (a single person who is a veteran, or a family whose head of household or spouse is a veteran); household income at or below 80% of area median income (adjusted for Hawaiʻi); and be homeless and prepared to move into permanent housing within 90 days, or at risk of losing current permanent housing",
+    phone: "(808) 527-4986",
+    faithBased: true,
+    faithAffiliationSource: "https://www.catholiccharitieshawaii.org/ssvf/",
+  },
+  {
+    // TODO(verify): the facility page rendered some phone numbers blank to the fetch tool; verify the current main/appointment line. Eligibility is limited to enrolled VA health care users.
+    name: "Spark M. Matsunaga Department of Veterans Affairs Medical Center",
+    url: "https://www.va.gov/pacific-islands-health-care/locations/spark-m-matsunaga-department-of-veterans-affairs-medical-center/",
+    description:
+      "The VA Pacific Islands Health Care System's main Honolulu campus, providing primary care and specialty services including mental-health care, PTSD treatment, geriatrics, suicide prevention, homeless veteran care, caregiver support, and telehealth. It is a teaching hospital affiliated with the University of Hawaiʻi and other institutions.",
+    needCategoryIds: ["mental-health", "family-support", "housing-transportation", "career-education"],
+    audienceTags: ["Veteran", "Caregiver", "Family", "Guard/Reserve"],
+    cost: "Free (the site states 'Cost: Free')",
+    geographicScope: "Oʻahu (Honolulu); serves veterans across Hawaii and the Pacific Islands",
+    state: "Hawaii",
+    verifiedDate: "2026-10-09",
+    phone: "800-214-1306",
+    hours: "Facility hours: 24/7 (some services have specific hours)",
+  },
+  {
+    // TODO(verify): the official Tripler page returned HTTP 403 to automated fetch; details are taken from the same official site as indexed. Confirm lodging cost (typically no-cost) on the official page.
+    name: "Tripler Army Medical Center Fisher House",
+    url: "https://tripler.tricare.mil/Health-Services/Other/Fisher-House",
+    description:
+      "Two Fisher House homes located next to Tripler Army Medical Center in Honolulu that provide temporary lodging to the families of active-duty, veteran, and retiree patients receiving care, with 19 suites total plus shared kitchens, laundry, and common areas. It primarily supports families from out-of-state or outer islands, and its reach extends across the Pacific.",
+    needCategoryIds: ["family-support", "housing-transportation"],
+    audienceTags: ["Family", "Caregiver", "Active Military", "Veteran"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Oʻahu (Honolulu); serves outer islands and the Pacific region",
+    state: "Hawaii",
+    verifiedDate: "2026-10-09",
+    eligibility: "Primarily supports active-duty, veteran, or retiree patients and their families from either out-of-state or an outer island, outside a 50-mile radius (per the official site's FAQ)",
+    phone: "808-433-1291",
+  },
+  {
+    // TODO(verify): cost/membership fees are not stated on the org's own site; confirm membership tiers and event costs directly.
+    name: "Mental Restorations Foundation",
+    url: "https://mentalrestorations.org/",
+    description:
+      "A Hilo-based 501(c)(3) that promotes mental wellness through community events, dedicated to helping active military members, veterans, first responders, and their families. It provides access to community activities and excursions such as boating, fishing, snorkeling, hiking, and farming.",
+    needCategoryIds: ["mental-health", "outdoor-programs", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "First Responder", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Hawaiʻi Island (Hilo)",
+    state: "Hawaii",
+    verifiedDate: "2026-10-09",
+    phone: "808-315-5594",
+  },
+  {
+    // TODO(verify): cost is not stated on the org's own site; no published phone number was found (contact via the website form).
+    name: "Hoʻohanu",
+    url: "https://hoohanu.org/",
+    description:
+      "An Oahu-based 501(c)(3) nonprofit committed to caring for first-responder mental health and wellness. It offers culturally based programs through the loʻi kalo (taro farm), kai (ocean), and lomi lomi, along with peer support groups, resiliency and wellness education, and help accessing appropriate professional care.",
+    needCategoryIds: ["mental-health", "purpose-community", "outdoor-programs"],
+    audienceTags: ["First Responder", "EMS", "Fire", "Law Enforcement"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Hawaii (statewide; Oʻahu-based, hosts Maui events)",
+    state: "Hawaii",
+    verifiedDate: "2026-10-09",
+  },
+  {
+    // TODO(verify): cost is not stated on the org's own site (the foundation is donation-funded).
+    name: "The Daniel R. Sayre Memorial Foundation",
+    url: "https://www.danielsayrefoundation.org/",
+    description:
+      "A volunteer-run 501(c)(3) dedicated to providing essential equipment and training to the Hawaiʻi Island Fire Department, and the sponsoring nonprofit for a fund dedicated to Maui Fire Department equipment. It has donated rescue helicopters and boats and also provides financial assistance and support to the family of a fallen HFD chief.",
+    needCategoryIds: ["equipment-grants", "family-support", "financial-assistance"],
+    audienceTags: ["Fire", "First Responder", "Family", "Survivor"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Hawaiʻi Island (Hawaii County) and Maui",
+    state: "Hawaii",
+    verifiedDate: "2026-10-09",
+    phone: "808-325-5456",
+  },
+  {
+    // TODO(verify): eligibility and cost are not stated on the org's own site.
+    name: "The SHOPO Benevolent Fund",
+    url: "https://shopohawaii.org/shopo-benevolent-fund",
+    description:
+      "An IRS-recognized 501(c)(3) charitable fund of the State of Hawaii Organization of Police Officers that provides benefits and support to police officers of the Honolulu, Maui, Kauai, and Hawaii Police Departments and their families. It also collects donations for families of fallen officers.",
+    needCategoryIds: ["financial-assistance", "family-support"],
+    audienceTags: ["Law Enforcement", "First Responder", "Family", "Survivor"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Hawaii (statewide; Honolulu, Maui, Kauai, and Hawaiʻi Police Departments)",
+    state: "Hawaii",
+    verifiedDate: "2026-10-09",
+    phone: "808-847-4676",
   },
 
   // ---------------------------------------------------------------------
@@ -9611,20 +10779,6 @@ export const RESOURCES: Resource[] = [
     verifiedDate: "2026-08-27",
   },
   {
-    name: "Heroes on the Hudson — New Jersey",
-    url: "https://hudsonsailing.org/veterans-programs/",
-    description:
-      "Annual adaptive maritime sports clinic hosted by Hudson River Community Sailing in partnership with VA New York Harbor Healthcare, serving injured veterans from the New York/New Jersey region through sailing, kayaking, and recreation-based rehabilitation.",
-    needCategoryIds: ["sports-fitness", "outdoor-programs", "mental-health"],
-    audienceTags: ["Veteran", "Disabled"],
-    cost: "Free for eligible veterans",
-    geographicScope: "New York / New Jersey region",
-    state: "New Jersey",
-    verifiedDate: "2026-08-27",
-    eligibility:
-      "Open to veterans eligible for VA medical care with a qualifying condition (e.g. orthopedic amputation, TBI, burn injury, mental-health condition, visual impairment, or other injury).",
-  },
-  {
     // TODO(verify): PTSD/readjustment-counseling and diversion-program claims from source notes weren't independently confirmed on the fetched page — reconfirm against program-specific subpages before treating as fully checked.
     name: "New Jersey Department of Veterans Affairs",
     url: "https://www.nj.gov/dva/",
@@ -9636,19 +10790,6 @@ export const RESOURCES: Resource[] = [
     geographicScope: "Statewide",
     state: "New Jersey",
     verifiedDate: "2026-08-27",
-  },
-  {
-    // TODO(verify): phone number, hours, and formal eligibility criteria could not be confirmed from public program pages on the org's own site.
-    name: "Valor Clinic Foundation",
-    url: "https://valorclinic.org/",
-    description:
-      "Clark, New Jersey-based nonprofit providing trauma-focused mental health care, counseling, and support services to veterans, active-duty service members, and first responders, including those affected by PTSD and moral injury.",
-    needCategoryIds: ["mental-health", "family-support"],
-    audienceTags: ["Veteran", "Active Military", "First Responder", "Law Enforcement", "Fire", "EMS", "Family"],
-    cost: "Free — 'services are provided at no cost to veterans, service members, and first responders' (own site)",
-    geographicScope: "Clark, NJ (with virtual options available in some programs)",
-    state: "New Jersey",
-    verifiedDate: "2026-10-08",
   },
   {
     // TODO(verify): cost for veteran programs not stated on the org's own site; income thresholds, phone, and hours not confirmed from public pages.
@@ -9732,7 +10873,188 @@ export const RESOURCES: Resource[] = [
     geographicScope: "Statewide (NJ)",
     eligibility: "Eligible veterans and service members (as stated on the NJ .gov site)",
     state: "New Jersey",
-    verifiedDate: "2026-10-08",
+verifiedDate: "2026-10-08",
+  },
+  {
+    // TODO(verify): confirm the current Police Clinical Network referral process and any geographic limits for in-person follow-up.
+    name: "Cop2Cop",
+    url: "https://njcop2cop.com/",
+    description:
+      "Confidential peer-support helpline for New Jersey law enforcement officers and their families, operated through Rutgers University Behavioral Health Care and staffed by retired officers and licensed clinician peer supporters. Provides peer counseling, clinical assessments, referral to its Police Clinical Network, and critical incident stress management on a 24/7 basis.",
+    needCategoryIds: ["mental-health", "purpose-community"],
+    audienceTags: ["First Responder", "Law Enforcement", "Family"],
+    cost: "Free — the program's HelpLine is described as free and confidential (own site)",
+    geographicScope: "New Jersey",
+    crisisResource: true,
+    crisisAudience: "first-responders",
+    state: "New Jersey",
+    verifiedDate: "2026-10-09",
+    eligibility: "New Jersey law enforcement officers and their families (own site)",
+    hours: "24 hours a day, 7 days a week (own site)",
+    phone: "1-866-267-2267 (1-866-COP-2-COP)",
+  },
+  {
+    name: "New Jersey Fire & EMS Lifeline",
+    url: "https://njfireems.com/about-us",
+    description:
+      "Peer-support network for all New Jersey firefighters, EMS personnel, dispatchers, and their families, hosted at the Rutgers University Behavioral Health Care National Call Center. Staffed by active, retired, or former fire/EMS/dispatch peers, it provides free, confidential, personalized support for physical, mental, financial, and social concerns.",
+    needCategoryIds: ["mental-health", "purpose-community"],
+    audienceTags: ["First Responder", "Fire", "EMS", "Dispatch", "Family"],
+    cost: "Free — live, free, confidential, stigma-free support (own site)",
+    geographicScope: "New Jersey",
+    crisisResource: true,
+    crisisAudience: "first-responders",
+    state: "New Jersey",
+    verifiedDate: "2026-10-09",
+    hours: "Peers available 24/7 (own site)",
+    phone: "1-888-653-3367",
+  },
+  {
+    // TODO(verify): cost is not stated on the org's own site; confirm current eligibility, the counties served, and bed availability via the SSVF hotline.
+    name: "Community Hope (Hope for Veterans Programs)",
+    url: "https://www.communityhope-nj.org/what-we-do/hope-for-veterans",
+    description:
+      "New Jersey nonprofit whose Hope for Veterans program operates transitional housing for homeless veterans, including a 95-bed facility on the Lyons VA campus and an 8-bed Bergen County program, with wraparound services and access to VA healthcare. Its Supportive Services for Veteran Families (SSVF) program provides rapid re-housing and homelessness-prevention assistance to low-income veteran households.",
+    needCategoryIds: ["housing-transportation", "financial-assistance", "mental-health", "family-support"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "New Jersey (also serves Eastern Pennsylvania for some programs)",
+    state: "New Jersey",
+    verifiedDate: "2026-10-09",
+    eligibility: "Low-income veteran households that are homeless or at imminent risk of homelessness; SSVF excludes veterans with a dishonorable or bad-conduct discharge from a general court-martial (org brochure)",
+    phone: "1-855-483-8466 (SSVF Referral Hotline); 908-647-5717 ext. 320 (Transitional Housing); 973-463-9600 (main)",
+  },
+  {
+    // TODO(verify): cost and the full geographic service area are not stated on the org's own site; confirm the application process directly.
+    name: "NJ Dogs of Honor",
+    url: "https://newjerseydogsofhonor.com/",
+    description:
+      "New Jersey nonprofit established in 2018 that provides rescue service dogs — dogs otherwise facing euthanasia — to veterans diagnosed with Post-Traumatic Stress (PTS). Work is described as a collaboration among Maurice River Township firefighters, a local pet business, and the Veterans Affairs community.",
+    needCategoryIds: ["mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "New Jersey",
+    state: "New Jersey",
+    verifiedDate: "2026-10-09",
+    eligibility: "Military veterans diagnosed with Post-Traumatic Stress (own site); application required",
+    phone: "856-785-1384",
+  },
+  {
+    // TODO(verify): cost to the veteran and geographic service area are not explicitly stated on the org's own site; confirm via the contact form.
+    name: "Paws Healing Heroes",
+    url: "https://pawshealingheroes.org/",
+    description:
+      "Glassboro, New Jersey 501(c)(3) founded by Army veteran Mark Eberle that rescues shelter dogs and trains them as service dogs for veterans in need. Applicants submit a DD-214 and VA disability award letter, and the organization reports pairing more than 150 dogs with veterans.",
+    needCategoryIds: ["mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "Disabled", "Active Military"],
+    cost: "Not stated on the org's own site (donation-funded program)",
+    geographicScope: "New Jersey (Glassboro-based)",
+    state: "New Jersey",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans; the application process includes a DD-214 and disability award letter (own site)",
+  },
+  {
+    // TODO(verify): cost is not stated on the org's own site; confirm current program offerings and registration.
+    name: "Veteran Farmers of New Jersey (VFNJ)",
+    url: "https://www.vfnj.org/about-us",
+    description:
+      "Organization connecting New Jersey veterans and active-duty personnel with agriculture and food-system opportunities through education, workshops, networking, mentoring, training, and job placement. It operates in partnership with NOFA New Jersey and hosted the state's first week-long farming 'Boot Camp' for veterans in 2024.",
+    needCategoryIds: ["career-education", "outdoor-programs", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "New Jersey",
+    state: "New Jersey",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans and active-duty personnel in New Jersey (own site)",
+    phone: "609-651-7665",
+  },
+  {
+    // TODO(verify): confirm current veterans-program scheduling and whether no-cost sessions remain available.
+    name: "Equine Assisted Therapy of NJ",
+    url: "https://www.equineassistedtherapyofnj.org/veterans-equine-program.html",
+    description:
+      "Nonprofit wellness center in Mannington, New Jersey that provides therapy and therapeutic activities in the presence of horses, including a dedicated Veterans/Military equine program. Using the EAGALA model, a licensed mental health professional and an equine specialist work with clients on the ground (no riding), with equine assisted therapy provided to veterans at no cost.",
+    needCategoryIds: ["mental-health", "outdoor-programs"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "No cost for veterans — equine assisted therapy is provided to veterans at no cost (own site, Veterans/Military Program)",
+    geographicScope: "Mannington, New Jersey (Salem County)",
+    state: "New Jersey",
+    verifiedDate: "2026-10-09",
+    eligibility: "Military members, veterans, and their families (own site)",
+    hours: "By appointment only (own site)",
+    phone: "609-617-2765",
+  },
+  {
+    // TODO(verify): confirm current eligibility and which costs are covered; the organization is volunteer-run with limited published details.
+    name: "New Jersey Veteran Support Alliance",
+    url: "https://njvsa.org/about-us",
+    description:
+      "Volunteer-run nonprofit that helps New Jersey veterans access medical and mental-health care, including documentation that may support VA claims, assistance with transitional housing, and community experiences. It states it never charges veterans for its support services and uses grant funding and donations to help cover partnered health professionals for qualifying veterans.",
+    needCategoryIds: ["mental-health", "housing-transportation", "legal-benefits", "purpose-community"],
+    audienceTags: ["Veteran"],
+    cost: "Free — 'We never charge veterans for our support services' (own site); some partnered health professionals may charge, with grant/donor funds helping cover qualifying veterans",
+    geographicScope: "New Jersey",
+    state: "New Jersey",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans (own site); the organization notes it is not a crisis service",
+  },
+  {
+    // TODO(verify): confirm current veterans clinic schedule and intake eligibility.
+    name: "Volunteer Lawyers for Justice — Veterans Legal Program",
+    url: "https://www.vljnj.org/programs",
+    description:
+      "Newark-based nonprofit providing free civil legal services to people experiencing poverty in New Jersey, including a Veterans Legal Program founded in 2014. The program hosts virtual legal clinics and assists veterans with a holistic legal 'check up' and with driver's license restoration, criminal record expungement, debt and bankruptcy, and child support modification.",
+    needCategoryIds: ["legal-benefits", "financial-assistance", "career-education"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free — free civil legal services on certain New Jersey matters to people experiencing poverty (own site)",
+    geographicScope: "New Jersey",
+    state: "New Jersey",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans; services target people experiencing poverty in New Jersey (own site)",
+    phone: "(973) 645-1955",
+  },
+  {
+    // TODO(verify): income eligibility thresholds and the specific counties served are not stated on the org's own site — reconfirm directly before publishing.
+    name: "Northeast New Jersey Legal Services (NNJLS)",
+    url: "https://www.nnjls.org/veterans",
+    description:
+      "Legal services organization providing advice and representation to help veterans resolve VA service-connected disability and pension benefit denials, VA medical benefit issues, public benefits matters, housing, debt collection, bankruptcy, and employment barriers such as criminal record expungement, across northern New Jersey.",
+    needCategoryIds: ["legal-benefits", "financial-assistance", "housing-transportation", "career-education"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Northern New Jersey",
+    state: "New Jersey",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans and their families; income eligibility applies (own site services; confirm directly)",
+  },
+  {
+    // TODO(verify): cost and eligibility are not explicitly stated on the org's own site; confirm the care-package request process and current programs.
+    name: "Operation Jersey Cares",
+    url: "https://operationjerseycares.org/about-us/",
+    description:
+      "New Jersey nonprofit run by veterans and volunteers that supports currently deployed service members, veterans, and military families. Its stated mission is to honor those who have served, with programs including care packages and community support.",
+    needCategoryIds: ["purpose-community", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "New Jersey (Flemington-based)",
+    state: "New Jersey",
+    verifiedDate: "2026-10-09",
+    eligibility: "Deployed service members, veterans, and military families (own site)",
+    phone: "(908) 248-4630",
+  },
+  {
+    // TODO(verify): cost to families and current camp dates are not stated on the org's own site; confirm eligibility and registration through the NJ National Guard Child & Youth Program.
+    name: "New Jersey National Guard Family Youth Support Foundation",
+    url: "https://njguardfamily.org/",
+    description:
+      "501(c)(3) nonprofit supporting military-affiliated youth in New Jersey through leadership development, community connection, and resources. It funds the New Jersey Child & Youth Program's annual week-long youth camp at the National Guard Training Center in Sea Girt for children of New Jersey National Guard members.",
+    needCategoryIds: ["family-support", "purpose-community"],
+    audienceTags: ["Family", "Guard/Reserve", "Military Spouse"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "New Jersey (camp at the National Guard Training Center, Sea Girt)",
+    state: "New Jersey",
+    verifiedDate: "2026-10-09",
+    eligibility: "Military-affiliated youth — children whose parents, grandparents, aunts, or uncles are active or retired members of the New Jersey National Guard (own site)",
   },
 
   // ---------------------------------------------------------------------
@@ -10458,6 +11780,164 @@ export const RESOURCES: Resource[] = [
     verifiedDate: "2026-09-29",
     eligibility: "Veterans receive priority of service",
   },
+  {
+    // TODO(verify): confirm whether program participants pay any cost (the site only states it is supported by donations); confirm whether the five-day program is residential or day-based.
+    name: "Front Line Foundations",
+    url: "https://frontlinefoundations.org",
+    description:
+      "A Vermont and federally registered 501(c)(3) in Bellows Falls providing culturally competent, skills-based mindfulness education and treatment to veterans and first responders to address post-traumatic stress. Offers a five-day mindfulness program, individual therapy in-office and via telehealth, in-service trainings at police/EMS/fire departments, and an alumni peer-support network.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Veteran", "First Responder", "Law Enforcement", "Fire", "EMS"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Bellows Falls and southeastern Vermont; individual therapy by telehealth statewide",
+    state: "Vermont",
+    verifiedDate: "2026-10-09",
+    phone: "(802) 732-2518",
+    hours: "Monday–Friday, 8am–3pm",
+  },
+  {
+    // TODO(verify): confirm Josh's House address/phone, hours, and eligibility; confirm whether services are free (cost not stated on the org's own site).
+    name: "Josh Pallotta Fund / Josh's House",
+    url: "https://www.joshpallottafund.org",
+    description:
+      "A 501(c)(3) created by veterans, family, and community members in memory of Joshua R. Pallotta, supporting veterans and service members through Josh's House, a wellness and recreation center for Vermont's service members. Intended offerings include massage and complementary healing modalities, a meditation room, a gym, a video/game room, and a full kitchen for community dinners.",
+    needCategoryIds: ["mental-health", "purpose-community", "sports-fitness", "family-support"],
+    audienceTags: ["Veteran", "Guard/Reserve", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Vermont",
+    state: "Vermont",
+    verifiedDate: "2026-10-09",
+  },
+  {
+    // TODO(verify): confirm the home's specific location and any additional stated admission/eligibility requirements.
+    name: "The Veterans' Place, Inc. (TVPI)",
+    url: "https://vermontveteransplace.org",
+    description:
+      "An 18-bed Grant-per-diem structured transitional home where unhoused veterans can safely recover and rehabilitate. Provides a home-like environment, home-cooked meals, and hands-on assistance to help veterans navigate and resolve administrative or medical barriers to receiving earned benefits.",
+    needCategoryIds: ["housing-transportation", "mental-health", "family-support"],
+    audienceTags: ["Veteran"],
+    cost: "Residents pay a modest participation fee if they are able (own site)",
+    geographicScope: "Vermont",
+    state: "Vermont",
+    verifiedDate: "2026-10-09",
+    eligibility: "Unhoused veterans; residents agree to overcome substance dependencies, assist in home chores, work toward self-sufficiency, and pay a modest participation fee if able",
+    phone: "(802) 485-8874",
+  },
+  {
+    // TODO(verify): confirm cost/benefit arrangements and admission requirements (cost not stated on the org's own site).
+    name: "Vermont Veterans' Home",
+    url: "https://vvh.vermont.gov",
+    description:
+      "A state residential campus in Bennington providing health, rehabilitation, and long-term care for military veterans, their spouses, and Gold Star parents, with patient-centered clinical care and a range of services.",
+    needCategoryIds: ["housing-transportation", "family-support"],
+    audienceTags: ["Veteran", "Military Spouse", "Gold Star", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Bennington, Vermont (statewide draw)",
+    state: "Vermont",
+    verifiedDate: "2026-10-09",
+    phone: "(802) 447-6510",
+  },
+  {
+    // TODO(verify): confirm the center's direct main phone number (the site's main phone field rendered blank; only the 24/7 call center number was shown).
+    name: "White River Junction Vet Center",
+    url: "https://www.va.gov/white-river-junction-vet-center/",
+    description:
+      "A VA community-based counseling center offering confidential, no-cost help to veterans, service members, and their families for readjustment issues including depression, anxiety, PTSD, and the psychological effects of military sexual trauma, plus referral to VA and community support.",
+    needCategoryIds: ["mental-health", "family-support", "legal-benefits", "career-education"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family", "Military Spouse", "Caregiver", "Survivor"],
+    cost: "Free",
+    geographicScope: "White River Junction, Vermont (Upper Valley region)",
+    state: "Vermont",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans and service members (including National Guard and Reserves) who meet specified combat/disaster/MST/other service criteria; no VA health enrollment or service-connected disability required",
+    availability: "Same-day services available; non-traditional hours by appointment; telehealth available; 24/7 call center",
+    hours: "Mon 7:00am-6:00pm; Tue 7:00am-6:00pm; Wed 8:00am-4:30pm; Thu 8:00am-6:00pm; Fri 8:00am-4:30pm; Sat/Sun closed",
+    phone: "877-927-8387 (24/7 Vet Center call center)",
+  },
+  {
+    // TODO(verify): confirm how first responders enroll and whether there is any cost (cost not stated on the org's own site).
+    name: "Team Two",
+    url: "https://vermontcarepartners.org/team-two-2/",
+    description:
+      "Team Two is a scenario-based mental-health crisis training for first responders, administered by Vermont Care Partners and funded through the Department of Mental Health and Department of Public Safety. It trains dispatchers, law enforcement officers, mental-health crisis workers, EMTs, State's Attorneys, and emergency department personnel together in five regions across the state.",
+    needCategoryIds: ["mental-health", "career-education"],
+    audienceTags: ["First Responder", "Law Enforcement", "EMS", "Dispatch", "Fire", "Corrections", "Healthcare", "Coworker"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide Vermont (five regions: Northwest, Central, Southeast, Southwest, Northeast)",
+    state: "Vermont",
+    verifiedDate: "2026-10-09",
+    phone: "(802) 236-5065",
+  },
+  {
+    // TODO(verify): confirm detailed eligibility for Veteran Directed Care and Vet to Vet Vermont.
+    name: "Senior Solutions — Veteran Care",
+    url: "https://www.seniorsolutionsvt.org/services/veterans/",
+    description:
+      "Senior Solutions provides veteran-specific services in southeastern Vermont, including a monthly free Veteran's Lunch at the American Legion in Brattleboro, the Vet to Vet Vermont peer-support/companionship program run with American Legion Brattleboro Post 5, and case management for the VA's Veteran Directed Care program that helps veterans age at home.",
+    needCategoryIds: ["family-support", "purpose-community", "housing-transportation", "financial-assistance"],
+    audienceTags: ["Veteran", "Family", "Caregiver"],
+    cost: "All veterans, regardless of age, are invited to join for a free meal (monthly Veteran's Lunch)",
+    geographicScope: "Southeastern Vermont (Springfield office; regional service area)",
+    state: "Vermont",
+    verifiedDate: "2026-10-09",
+    eligibility: "Vet to Vet Vermont serves senior veterans; Veteran Directed Care is a VA program for veterans who require help with activities of daily living",
+    phone: "802-885-2669 (HelpLine); 866-673-8376",
+    hours: "HelpLine staffed 8:30am-4:30pm Monday-Friday; Veteran's Lunch monthly on the second Monday at noon",
+  },
+  {
+    // TODO(verify): confirm membership dues amount and specific member benefits/support programs (amount not stated on the org's own site).
+    name: "Vermont State Firefighters' Association",
+    url: "https://www.vtfirefighters.org",
+    description:
+      "A statewide organization of active and retired firefighters and rescue personnel with over 4,000 members, representing and supporting Vermont's 236 fire departments. It promotes fire and rescue training, public education, safety legislation, and provides programs, benefits, and support to its members.",
+    needCategoryIds: ["purpose-community", "career-education"],
+    audienceTags: ["Fire", "EMS", "First Responder", "Coworker"],
+    cost: "Funding comes 'entirely provided through donations and yearly association membership dues' (amount not stated on the org's own site)",
+    geographicScope: "Vermont (statewide)",
+    state: "Vermont",
+    verifiedDate: "2026-10-09",
+  },
+  {
+    // TODO(verify): confirm cost and detailed eligibility; verify current program contacts (direct fetch of the official site returned 403; content was confirmed via the site's indexed pages and the National Guard site).
+    name: "Vermont National Guard Family Programs / Vermont Veterans Outreach Program",
+    url: "https://www.ngfamily.vt.gov/",
+    description:
+      "The Vermont National Guard Family Programs Office provides education, support, and resources through community, state, and federal programs to ensure veterans, service members, and their families have the knowledge and resiliency to support readiness and retention. Programs include the Vermont Veterans Outreach Program, Military & Family Readiness Centers, Survivor Outreach Services, Child & Youth Program, and a 24/7 Military & Family support call line.",
+    needCategoryIds: ["family-support", "mental-health", "financial-assistance", "career-education"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Military Spouse", "Family", "Caregiver", "Gold Star", "Survivor"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Vermont (statewide)",
+    state: "Vermont",
+    verifiedDate: "2026-10-09",
+    availability: "24/7 support call line; family assistance centers located around the state in six Vermont Army National Guard armories",
+    phone: "888-607-8773 (24/7 Military & Family support line)",
+  },
+  {
+    // TODO(verify): confirm whether there is any cost to veterans/families and the process for requesting replacement documentation and medals.
+    name: "Purple Hearts Reunited",
+    url: "https://purpleheartsreunited.org/",
+    description:
+      "A nonprofit headquartered in St. Albans, Vermont that returns lost, stolen, and misplaced military medals of valor to veterans or their families in order to honor their sacrifice. It conducts research, maintains a lost-hearts database, and holds return ceremonies across all 50 states.",
+    needCategoryIds: ["purpose-community"],
+    audienceTags: ["Veteran", "Family", "Survivor", "Gold Star"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "National (headquartered in St. Albans, Vermont)",
+    state: "Vermont",
+    verifiedDate: "2026-10-09",
+  },
+  {
+    // TODO(verify): the chapter website is thin; confirm current chapter programs, meeting times, and how Vermont veterans request assistance.
+    name: "Combat Veterans Motorcycle Association — Vermont Chapter 26-1",
+    url: "https://www.vtcombatvets.com",
+    description:
+      "The Vermont 26-1 chapter of the Combat Veterans Motorcycle Association, a 501(c)(19) veterans' charity whose members are combat veterans from all branches of the U.S. Armed Forces who ride motorcycles as a hobby and support and defend those who have defended the country. The chapter supports veterans in need and veteran causes in central Vermont.",
+    needCategoryIds: ["purpose-community"],
+    audienceTags: ["Veteran", "Civilian Supporter"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Central Vermont",
+    state: "Vermont",
+    verifiedDate: "2026-10-09",
+  },
 
   // ---------------------------------------------------------------------
   // New Hampshire Regional
@@ -10517,7 +11997,7 @@ export const RESOURCES: Resource[] = [
   },
   {
     name: "Responders Together NH",
-    url: "http://responderstogethernh.org/",
+    url: "https://responderstogethernh.org/",
     description:
       "Peer-led wellness and Critical Incident Stress Management (CISM) nonprofit running the Lakes Region CISM peer teams, offering peer support meetings, fitness programs, family game nights, seasonal hiking groups, and CISM/mental-health training for first responders, military members, veterans, and their families across the Lakes Region and northern New Hampshire, overseen by a volunteer licensed clinician.",
     needCategoryIds: ["mental-health", "sports-fitness", "purpose-community"],
@@ -10545,7 +12025,7 @@ export const RESOURCES: Resource[] = [
   },
   {
     name: "Veterans Legal Justice",
-    url: "http://vljnh.org/",
+    url: "https://vljnh.org/",
     description:
       "New Hampshire 501(c)(3) nonprofit (EIN 88-324-5729) based in Durham providing pro bono legal services to active duty service members, veterans, and their family members \"in nearly every aspect of the law,\" powered by volunteer attorneys.",
     needCategoryIds: ["legal-benefits"],
@@ -10767,6 +12247,185 @@ export const RESOURCES: Resource[] = [
     state: "Maine",
     verifiedDate: "2026-10-08",
   },
+  {
+    // TODO(verify): confirm current application eligibility, service-dog waitlist, and any cost to participants — not fully stated on the org's own site.
+    name: "Maine Paws for Veterans",
+    url: "https://www.mainepawsforveterans.org/",
+    description:
+      "Provides service dog training and support for Maine veterans living with military-related post-traumatic stress, matching rescued dogs with veterans and progressing through training together. Established as Embrace A Vet in 2012 and re-formed as Maine Paws for Veterans in 2021, it also runs caregiver programs and retreats, and serves veterans across Maine and their caregiver spouses and significant others.",
+    needCategoryIds: ["mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "Family", "Caregiver"],
+    cost: "Free — thanks to the generosity of donors, it is able to offer its services to Maine veterans free of charge (own site)",
+    geographicScope: "Maine (based in Brunswick/Topsham)",
+    state: "Maine",
+    verifiedDate: "2026-10-09",
+    eligibility: "Maine veterans living with military-related post-traumatic stress and their caregiver spouses/significant others (own site)",
+    phone: "207-449-9149",
+  },
+  {
+    // TODO(verify): cost is not stated on the org's own site — confirm current veteran availability and volunteer matching waitlist.
+    name: "Vet2Vet Maine",
+    url: "https://www.vet2vetmaine.org/our-mission",
+    description:
+      "Nonprofit dedicated to serving veterans in Maine by alleviating social isolation and loneliness. It matches trained veteran volunteers with fellow veterans who need a friend or mentor; volunteers visit at least twice a month, provide companionship, and help veterans access benefits and services, with participating communities including Portland, Augusta, and Bangor-area towns.",
+    needCategoryIds: ["purpose-community", "mental-health"],
+    audienceTags: ["Veteran"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide Maine (peer companion program across southern, central, and midcoast Maine)",
+    state: "Maine",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans in Maine who could benefit from a peer companion (own site)",
+  },
+  {
+    name: "Boots2Roots",
+    url: "https://boots2roots.org/",
+    description:
+      "Maine 501(c)(3) that helps active-duty military members, veterans, and military spouses find meaningful work and put down roots in Maine. Through its Transition-to-Work program it offers resume coaching, interview training, peer mentoring by recently separated or retired Maine service members, and connections to Maine employers and community resources, focusing on those planning to separate or retire to Maine within roughly 12 months.",
+    needCategoryIds: ["career-education", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "Military Spouse", "Guard/Reserve", "Family"],
+    cost: "Free — there is never any cost for the Boots2Roots program (own site)",
+    geographicScope: "Maine (statewide; office in Freeport)",
+    state: "Maine",
+    verifiedDate: "2026-10-09",
+    eligibility: "Active-duty members, veterans, and spouses planning to live and work in Maine, generally within 12 months of transition (own site)",
+    phone: "207-707-3040",
+  },
+  {
+    // TODO(verify): cost and financial responsibility for the service dog are not stated on the org's own site — confirm current Maine program cost and eligibility directly.
+    name: "K9s on the Front Line",
+    url: "https://k9sonthefrontline.org/",
+    description:
+      "501(c)(3) that pairs military veterans and first responders with service dogs and provides free mental health support and trauma-recovery programs. Its advanced Service Dog program requires at least 260 training hours plus 100 public access hours over about 7 months, and it also offers a Companion Dog program, with a Maine program (and a Maine Head Trainer) and another in Missouri.",
+    needCategoryIds: ["mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "First Responder", "Law Enforcement", "Fire", "EMS"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Maine (Maine program; the organization also operates in Missouri)",
+    state: "Maine",
+    verifiedDate: "2026-10-09",
+    eligibility: "Honorably discharged veterans with a diagnosed mental health condition or first responders who are currently in or seeking mental health counseling (own site)",
+  },
+  {
+    // TODO(verify): cost is not stated on the org's own site; MMCN operates as a network/coalition rather than a direct-service provider.
+    name: "Maine Military & Community Network",
+    url: "https://www.mainemcn.org/",
+    description:
+      "Statewide community network working to understand, prevent, and address the challenges faced by current and former military members and their families. It connects service members, veterans, and families to resources and local communities through regional groups across Aroostook, Washington, Hancock, Greater Bangor, Kennebec, Lewiston/Auburn, Mid-Coast, Greater Portland, York, and Somerset.",
+    needCategoryIds: ["purpose-community", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family", "Civilian Supporter"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide Maine, with regional groups across multiple counties",
+    state: "Maine",
+    verifiedDate: "2026-10-09",
+    eligibility: "Current and former military members and their families in Maine (own site)",
+  },
+  {
+    // TODO(verify): cost and specific eligibility are not stated on the org's own site — confirm current program details.
+    name: "Easterseals Maine — Military and Veterans Program (Veterans Forward)",
+    url: "https://www.eastersealsmaine.org/",
+    description:
+      "Provides emergency and holistic support to Maine veterans and their families transitioning from military service to civilian life, including housing stabilization (a Housing First model), employment services, emergency and short-term financial assistance, and case management with referrals to community partners. Easterseals Maine is a 501(c)(3) affiliate of Fedcap.",
+    needCategoryIds: ["financial-assistance", "housing-transportation", "career-education", "family-support"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide Maine",
+    state: "Maine",
+    verifiedDate: "2026-10-09",
+    eligibility: "Maine veterans and their families (own site)",
+    phone: "207-835-8250",
+  },
+  {
+    // TODO(verify): cost is not stated on the org's own site; certain eligibility conditions apply and staff assess each situation.
+    name: "Preble Street — Veterans Housing Services",
+    url: "https://www.preblestreet.org/what-we-do/housing-services/veterans-housing-services/",
+    description:
+      "Assists veterans and their families in finding and maintaining stable housing and works to end homelessness among veterans throughout Maine. It offers housing search and placement, case management, budget counseling, information and referral for VA benefits, and limited financial assistance for security deposits, first month's rent, and utility fees, covering all 16 Maine counties with offices in Portland, Lewiston, and Bangor.",
+    needCategoryIds: ["housing-transportation", "financial-assistance"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "All 16 Maine counties (offices in Portland, Lewiston, and Bangor)",
+    state: "Maine",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans and their families at risk of or experiencing homelessness (own site)",
+    hours: "Monday–Friday, 8 a.m.–5 p.m. (own site)",
+    phone: "207-956-6556 / 1-800-377-5709",
+  },
+  {
+    name: "House in the Woods",
+    url: "https://www.houseinthewoods.org/",
+    description:
+      "501(c)(3) military and family retreat in Lee, Maine, offering free outdoor retreats for active-duty military, veterans, and their family members, including hunting, fishing, canoeing, kayaking, hiking, nature tours, campfires, swimming, and wildlife spotting, aimed at helping participants deal with stress, loss, and grief. It was founded by Paul and Dee House after their son, Sgt. Joel A. House, was killed in Iraq.",
+    needCategoryIds: ["outdoor-programs", "family-support", "mental-health"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "Free — we are able to provide free outdoor retreats to our service members and their families (own site)",
+    geographicScope: "Based in Lee, Maine; retreats in the Maine woods",
+    state: "Maine",
+    verifiedDate: "2026-10-09",
+    eligibility: "Active military, veterans, and their family members (own site)",
+    phone: "207-738-8387 (207-738-VETS)",
+  },
+  {
+    // TODO(verify): representation is limited to Mainers meeting income eligibility guidelines; confirm current intake procedures and clinic status.
+    name: "Pine Tree Legal Assistance — Military Services / Veterans Unit",
+    url: "https://www.ptla.org/veterans",
+    description:
+      "Maine's largest nonprofit provider of civil legal aid, including for veterans, providing civil legal representation through both a homelessness-focused project with Preble Street and a health-focused medical-legal partnership with VA Maine Healthcare System (Togus). Through its Togus Medical-Legal Partnership it helps veterans with veteran-specific issues like discharge upgrades as well as housing stability and benefits, and co-runs the Veterans Legal Services Initiative (including a Wills for Heroes estate-planning project) with the Maine State Bar Association.",
+    needCategoryIds: ["legal-benefits", "housing-transportation"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free (nonprofit civil legal aid for eligible low-income Mainers)",
+    geographicScope: "Statewide Maine (staff handle cases in all 16 counties)",
+    state: "Maine",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans meeting Pine Tree Legal Assistance's income eligibility guidelines; medical-legal partnership clients generally access services via referrals from VA Maine providers (own site)",
+    hours: "Veterans Medical-Legal Partnership clinic hours: Mondays and Thursdays 8:30 a.m.–1 p.m. (own site)",
+    phone: "(207) 400-3229 (Veterans Medical-Legal Partnership); (207) 400-3265 (pro bono / Wills for Heroes intake)",
+  },
+  {
+    // Own site (https://www.veteransafieldfoundation.org/): the foundation describes itself as "faith-based, non-denominational".
+    // TODO(verify): eligibility and selection are referral-based and not fully stated on the org's own site — confirm current program requirements.
+    name: "The Veterans Afield Foundation",
+    url: "https://www.veteransafieldfoundation.org/",
+    description:
+      "Faith-based, non-denominational 501(c)(3) that provides disabled and at-risk veterans, first responders, and Gold Star families with hunting and fishing experiences designed to support reintegration and healing. It runs small-group, guided hunts and fishing trips with adaptive equipment such as track chairs and eye-scope adapters, and covers licenses, fees, food, lodging, non-local transportation, and meat processing for participants.",
+    needCategoryIds: ["outdoor-programs", "purpose-community"],
+    audienceTags: ["Veteran", "Disabled", "First Responder", "Gold Star", "Family"],
+    cost: "Free — all of its experiential programs are free of cost for participants (own site)",
+    geographicScope: "Headquartered in Maine; hunting and fishing trips in Maine and across the United States",
+    state: "Maine",
+    verifiedDate: "2026-10-09",
+    eligibility: "Disabled and at-risk veterans, first responders, and Gold Star families (own site); selection is referral-based",
+    faithBased: true,
+    faithAffiliationSource: "https://www.veteransafieldfoundation.org/",
+  },
+  {
+    // TODO(verify): benefits, eligibility, and a phone contact are not stated on the org's own site — confirm assistance details directly.
+    name: "Trooper Black Foundation",
+    url: "https://trooperblackfoundation.org/",
+    description:
+      "Registered 501(c)(3) whose mission is providing assistance to first responders and their families during times of crisis or need. It serves police, EMS, fire, and dispatch personnel and is named in honor of Maine State Police Trooper Charles Clinton Black, shot and killed in the line of duty in South Berwick, Maine, in 1964. Based in Cape Neddick/York, Maine, it raises funds through community events and donations to support first responders and their families.",
+    needCategoryIds: ["financial-assistance", "family-support"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Dispatch", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Maine",
+    state: "Maine",
+    verifiedDate: "2026-10-09",
+    eligibility: "First responders and their families in Maine (own site)",
+  },
+  {
+    // TODO(verify): the schedule and event calendar may change seasonally — confirm current VAST programming directly (partially funded by the VA Adaptive Sports Grant).
+    name: "Pineland Farms — VAST (Veterans Adaptive Sports & Training)",
+    url: "https://pinelandfarms.org/recreation/VAST",
+    description:
+      "Program at Pineland Farms in New Gloucester, Maine that promotes the health and well-being of veterans with disabilities through year-round adaptive sports and recreation. Activities include target archery, laser rifle shooting, adaptive cycling (mountain, hand, and recumbent), fly and spin cast fishing, disc golf, boccia, wheelchair basketball and pickleball, snowshoeing, cross-country skiing, and trail walking. Programs and equipment are free to veterans with disabilities and to veterans who volunteer.",
+    needCategoryIds: ["sports-fitness", "outdoor-programs", "equipment-grants"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free — programs are free and equipment is provided (own site)",
+    geographicScope: "New Gloucester, Maine (Pineland Farms)",
+    state: "Maine",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans with disabilities and veterans who volunteer (own site)",
+    hours: "Weekly activities Wednesdays 9 a.m.–12 p.m.; additional one-day events and multi-day camps (own site)",
+    phone: "(207) 310-8694",
+  },
 
   // ---------------------------------------------------------------------
   // Maryland Regional
@@ -10896,6 +12555,148 @@ export const RESOURCES: Resource[] = [
     geographicScope: "Maryland (Baltimore-area focus)",
     state: "Maryland",
     verifiedDate: "2026-09-29",
+  },
+  {
+    // TODO(verify): cost is not stated on the org's own site; dog-applicant eligibility criteria are not stated on the pages reviewed. Confirm current wait-list/open-application status.
+    name: "Warrior Canine Connection",
+    url: "https://warriorcanineconnection.org/",
+    description:
+      "Boyds, Maryland-headquartered nonprofit that trains and places assistance dogs at no cost to veterans and service members living with PTSD, traumatic brain injury, or mobility impairments. Its Mission Based Trauma Recovery model enlists recovering Warriors in training dogs for fellow veterans as part of their own rehabilitation.",
+    needCategoryIds: ["mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Disabled", "Family", "Gold Star"],
+    cost: "No fee for the dog or the training — 'There is no fee for the dog or for the training' (own site); the recipient is responsible for ongoing care, estimated at roughly $1,240-$2,080 per year",
+    geographicScope: "Maryland (headquarters and Team Training campus in Boyds, MD); places assistance dogs with veterans and service members, including at sites in multiple states",
+    state: "Maryland",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veteran or service member in the later stages of medical evaluation for separation (including Reserves/National Guard); a qualifying disability (physical injury, PTSD, and/or TBI) supported by a healthcare provider; actively engaged in mental-health treatment; able to attend a minimum 8-day Team Training Camp in Maryland",
+    availability: "Service-dog applications currently open; average wait time about two years",
+    phone: "301-260-1111",
+  },
+  {
+    // TODO(verify): cost is not stated on the org's own site; the org's language covers 'heroes' broadly and does not explicitly confirm first-responder eligibility.
+    name: "Hero Dogs, Inc.",
+    url: "https://www.hero-dogs.org/",
+    description:
+      "Places assistance dogs — service dogs, facility dogs, skilled home companion dogs, and therapy dogs — with customized training and lifetime support to improve the quality of life of veterans and other 'nation's heroes' and to enhance community organizations' services. Serves the greater Washington, DC metropolitan area.",
+    needCategoryIds: ["mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "Disabled", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Greater Washington, DC metropolitan area (includes Maryland suburbs)",
+    state: "Maryland",
+    verifiedDate: "2026-10-09",
+    phone: "1-888-570-8653",
+  },
+  {
+    // TODO(verify): confirm current intake/referral workflow and whether the new Women's Transitional Housing program (opening Oct 1, 2026) should be reflected in eligibility/audience before publishing.
+    name: "The Baltimore Station",
+    url: "https://www.baltimorestation.org/",
+    description:
+      "Baltimore-based, CARF-accredited 501(c)(3) providing residential substance-use treatment and transitional housing for veterans experiencing homelessness, with case management, mental-health counseling, workforce development, and connections to permanent housing. It describes itself as the largest VA-funded program of its kind in the region and serves eligible veterans from anywhere in the country.",
+    needCategoryIds: ["housing-transportation", "mental-health", "career-education"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "No cost — 'We do not charge rent nor any program fees for participants' (own site)",
+    geographicScope: "Baltimore, Maryland (program site); accepts eligible veterans from anywhere in the country",
+    state: "Maryland",
+    verifiedDate: "2026-10-09",
+    eligibility: "Adult veterans experiencing homelessness who are seeking recovery from substance-use disorders and are committed to a structured therapeutic community; each referral is reviewed individually (currently serves male veterans; a Women's Transitional Housing program opens Oct 1, 2026)",
+    availability: "Rolling intake by referral or direct contact; average stay about 13 months, up to two years",
+    phone: "(410) 752-4454",
+  },
+  {
+    // TODO(verify): cost is not stated on the org's own site.
+    name: "Platoon 22",
+    url: "https://platoon22.org/",
+    description:
+      "Works to end veteran suicide through successful reintegration of service members and their families, offering care coordination and case management, financial wellness and emergency support, health, wellness and recreation, peer support, transportation services, Veterans Treatment Court support, and veteran housing.",
+    needCategoryIds: ["mental-health", "financial-assistance", "housing-transportation", "career-education", "purpose-community"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Frederick, Maryland (headquarters; regional programs)",
+    state: "Maryland",
+    verifiedDate: "2026-10-09",
+    phone: "301-507-2502",
+  },
+  {
+    // TODO(verify): no phone number is published on the org's own site (contact by email).
+    name: "Yellow Ribbon Fund",
+    url: "https://yellowribbonfund.org/",
+    description:
+      "Provides practical support to post-9/11 wounded, ill, and injured service members, veterans, caregivers, and families — offering rental cars, hotel stays, and fully furnished apartments at no cost while they receive medical treatment at Walter Reed National Military Medical Center — plus the Keystone program of recreation, wellness, life-skills, and peer support.",
+    needCategoryIds: ["housing-transportation", "family-support", "mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "Family", "Caregiver"],
+    cost: "No cost to military families for Crossroads lodging/transport assistance — 'fully-furnished apartments at no cost to military families' (own site)",
+    geographicScope: "National (headquartered in Bethesda, Maryland; focused on Walter Reed)",
+    state: "Maryland",
+    verifiedDate: "2026-10-09",
+  },
+  {
+    // TODO(verify): cost is not stated on the org's own site; no phone number published (contact by email).
+    name: "International Critical Incident Stress Foundation (ICISF)",
+    url: "https://icisf.org/",
+    description:
+      "Provides education, training, consultation, and support services in comprehensive crisis intervention and disaster behavioral health to emergency responders and other professions, organizations, and communities, and maintains listings of trained CISM peer-support teams.",
+    needCategoryIds: ["mental-health", "career-education"],
+    audienceTags: ["First Responder", "Fire", "EMS", "Law Enforcement", "Dispatch", "Corrections", "Healthcare", "Coworker"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "International (headquartered in Ellicott City, Maryland)",
+    state: "Maryland",
+    verifiedDate: "2026-10-09",
+  },
+  {
+    // TODO(verify): cost/eligibility details and current phone numbers were blank on the page reviewed; cost is not stated on the org's own site.
+    name: "VA Maryland Health Care System",
+    url: "https://www.va.gov/maryland-health-care/",
+    description:
+      "Delivers VA health care for veterans, their families, and caregivers through three facilities — the Baltimore VA Medical Center, Perry Point VA Medical Center, and Loch Raven VA Medical Center — with additional locations across Maryland.",
+    needCategoryIds: ["mental-health", "family-support"],
+    audienceTags: ["Veteran", "Family", "Caregiver"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide Maryland (Baltimore, Perry Point, Loch Raven)",
+    state: "Maryland",
+    verifiedDate: "2026-10-09",
+  },
+  {
+    // TODO(verify): cost is not stated on the org's own site; the phone is from the org's own annual report and should be re-verified, as no phone appears on the About page.
+    name: "First Responder Center for Excellence (FRCE)",
+    url: "https://firstrespondercenter.org/",
+    description:
+      "An affiliate of the National Fallen Firefighters Foundation that promotes education, awareness, and research to reduce physical, emotional, and psychological health and wellness issues for first responders across five areas: cancer prevention, behavioral health, cardiac health, general health and wellness, and firefighter physicals.",
+    needCategoryIds: ["mental-health", "career-education"],
+    audienceTags: ["First Responder", "Fire", "EMS", "Law Enforcement", "Dispatch", "Corrections", "Healthcare"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "National (physical address in Emmitsburg, MD; affiliate of the National Fallen Firefighters Foundation)",
+    state: "Maryland",
+    verifiedDate: "2026-10-09",
+    phone: "443-302-2915",
+  },
+  {
+    // TODO(verify): cost is not stated on the org's own site; several benefits may be limited to members/member companies.
+    name: "Maryland State Firefighters Association (MSFA)",
+    url: "https://msfa.org/",
+    description:
+      "Represents Maryland's volunteer fire, rescue, and EMS companies and offers member benefits and programs including a Cancer Support Committee, Wills for Heroes, scholarships, a Joint Mental Wellness Task Force, a behavioral-health resource list, a survivor/LODD procedural guide, and a Bereavement Uniform Program.",
+    needCategoryIds: ["mental-health", "financial-assistance", "legal-benefits", "career-education"],
+    audienceTags: ["Fire", "EMS", "First Responder", "Family", "Coworker"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide Maryland",
+    state: "Maryland",
+    verifiedDate: "2026-10-09",
+    phone: "443-302-2911",
+  },
+  {
+    // TODO(verify): cost, specific locations/hours, and eligibility specifics are not fully stated on the org's own site; some detail comes from Maryland Judiciary news releases.
+    name: "Maryland Veterans Treatment Court (Maryland Judiciary, Office of Problem-Solving Courts)",
+    url: "https://www.mdcourts.gov/opsc/vtc",
+    description:
+      "A court-supervised, voluntary treatment-based program that connects justice-involved veterans who have PTSD, traumatic brain injuries, other mental-health issues, and/or substance-use disorders to VA benefits, treatment, long-term supportive housing, and a veteran peer mentor. Veterans Treatment Court dockets operate in multiple jurisdictions statewide.",
+    needCategoryIds: ["legal-benefits", "mental-health", "housing-transportation"],
+    audienceTags: ["Veteran"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide Maryland",
+    state: "Maryland",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans charged with qualifying offenses who have conditions such as PTSD, traumatic brain injuries, other mental-health issues, and/or substance-use disorders; participants are referred by the court",
+    phone: "410-260-3615",
   },
 
   // ---------------------------------------------------------------------
@@ -11193,7 +12994,7 @@ export const RESOURCES: Resource[] = [
   },
   {
     name: "Veterans Legal Support Network (VLSN)",
-    url: "http://vlsn.org/",
+    url: "https://vlsn.org/",
     description:
       "Nebraska 501(c)(3) providing free and low-cost legal help to veterans, active-duty service members, and their family members — including discharge upgrades for less-than-fully-honorable discharges and civil legal assistance for those who cannot afford it.",
     needCategoryIds: ["legal-benefits"],
@@ -11218,7 +13019,7 @@ export const RESOURCES: Resource[] = [
   {
     // TODO(verify): Site lists both '$10,000' and '$30,000' as average vehicle grant amounts; confirm the current figure.
     name: "Wounded Warriors Family Support",
-    url: "http://www.wwfs.org/",
+    url: "https://www.wwfs.org/",
     description:
       "Omaha-based independent nonprofit (not affiliated with Wounded Warrior Project) supporting the families of combat-wounded, injured, or killed service members through no-cost programs including mobility vehicle grants, free welding certification, caregiver respite, family retreats, and unmet-needs assistance.",
     needCategoryIds: ["family-support", "financial-assistance", "career-education", "housing-transportation"],
@@ -11440,6 +13241,168 @@ export const RESOURCES: Resource[] = [
     verifiedDate: "2026-09-29",
     eligibility: "Spouses and children of military members who have fallen or been disabled while serving",
   },
+  {
+    // TODO(verify): confirm current eligibility requirements from the 'Do I Qualify' page and average wait time for placement.
+    name: "IOWA Service Dogs",
+    url: "https://www.iowaservicedogs.org/",
+    description:
+      "Nonprofit (501(c)(3) since 2019) that trains and places mobility and psychiatric service dogs with first responders and veterans. Volunteer Guardians raise and train each dog from puppyhood until it is matched with its warrior.",
+    needCategoryIds: ["mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "First Responder", "Disabled"],
+    cost: "No charge — dogs are provided 'at no charge' (own site)",
+    geographicScope: "Iowa",
+    state: "Iowa",
+    verifiedDate: "2026-10-09",
+    phone: "(515) 207-3324",
+  },
+  {
+    // TODO(verify): confirm Iowa-specific application eligibility and whether Gold & White Star families are currently being placed.
+    name: "Retrieving Freedom, Inc.",
+    url: "https://www.retrievingfreedom.org/mission",
+    description:
+      "501(c)(3) that trains and places service dogs for veterans with disabilities, children with autism, and Gold & White Star families. It has an Iowa training facility in Waverly and an ADI-accredited program.",
+    needCategoryIds: ["mental-health", "family-support"],
+    audienceTags: ["Veteran", "Disabled", "Family", "Gold Star"],
+    cost: "No cost to clients — 'always at no cost to our clients' (own site)",
+    geographicScope: "Iowa (Waverly) and Missouri (Sedalia)",
+    state: "Iowa",
+    verifiedDate: "2026-10-09",
+    phone: "(319) 505-5949",
+  },
+  {
+    // TODO(verify): confirm current Iowa service-dog waitlist status and application intake.
+    name: "Paws & Effect",
+    url: "https://www.paws-effect.org/",
+    description:
+      "Des Moines-based 501(c)(3) that raises, trains, and places service dogs with veterans and children with disabilities, and supports therapy-animal teams. Founded in 2006, with its service-dog program added in 2009 for the veteran community.",
+    needCategoryIds: ["mental-health", "family-support"],
+    audienceTags: ["Veteran", "Disabled", "Family"],
+    cost: "Little to no cost to recipients — 'at little to no cost to recipients' (own site)",
+    geographicScope: "Iowa and Western North Carolina",
+    state: "Iowa",
+    verifiedDate: "2026-10-09",
+    phone: "(515) 822-5285",
+  },
+  {
+    // TODO(verify): confirm whether participants must register in advance and whether there is any event fee.
+    name: "Ruck Iowa",
+    url: "https://www.ruckiowa.com/",
+    description:
+      "Iowa nonprofit (founded 2023) that hosts physical ruck/hike events to build camaraderie and promote positive mental health among veterans and active-duty service members statewide. Its stated vision is that no Iowa veteran feels alone.",
+    needCategoryIds: ["sports-fitness", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Iowa",
+    state: "Iowa",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans and active-duty service members",
+  },
+  {
+    // Own site (https://10-42project.org/): "Our foundation is grounded in Christian faith."
+    // TODO(verify): confirm whether direct support services carry any cost and how a responder requests support.
+    name: "10-42 Project",
+    url: "https://10-42project.org/",
+    description:
+      "Iowa 501(c)(3) founded in 2021 that provides confidential mentorship, retreats, outdoor and equine experiences (with GodSpeed Equine at Victory Ranch), and faith-anchored community for current and former first responders and their families. It also hosts a free annual Strength in Faith Conference.",
+    needCategoryIds: ["mental-health", "family-support", "purpose-community"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Dispatch", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Iowa",
+    state: "Iowa",
+    verifiedDate: "2026-10-09",
+    eligibility: "Current and former first responders and their families",
+    phone: "(515) 350-6274",
+    faithBased: true,
+    faithAffiliationSource: "https://10-42project.org/",
+  },
+  {
+    // TODO(verify): confirm whether individual responders or only agencies can apply, and the current academy schedule.
+    name: "Crisis Canines of the Midlands",
+    url: "https://crisiscaninesmidlands.org/about",
+    description:
+      "Colfax, Iowa nonprofit that coordinates and funds the training, care, equipping, certification, and deployment of Crisis Response K9 teams for first-responder agencies across Iowa. Teams provide peer support and respond to critical incidents and disasters at little to no cost to departments.",
+    needCategoryIds: ["mental-health", "purpose-community"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS"],
+    cost: "Little to no cost to the participating agency/department",
+    geographicScope: "Iowa",
+    state: "Iowa",
+    verifiedDate: "2026-10-09",
+    eligibility: "First-responder agencies/departments seeking a Crisis Response K9 team",
+    phone: "(515) 800-1800",
+  },
+  {
+    // TODO(verify): confirm SSVF income/eligibility guidelines and the current intake process from the local office.
+    name: "WestCare Iowa — Family Alliance for Veterans of America (FAVA)",
+    url: "https://westcare.com/places/iowa/",
+    description:
+      "WestCare's Iowa program (since 2012) serving veterans and families experiencing homelessness across the 43 counties of Northern Iowa through Supportive Services for Veteran Families (SSVF), case management, and a Suicide Prevention grant program. Offices are in Forest City and Sioux City.",
+    needCategoryIds: ["housing-transportation", "financial-assistance"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "43 counties in Northern Iowa",
+    state: "Iowa",
+    verifiedDate: "2026-10-09",
+    phone: "(641) 243-4103",
+  },
+  {
+    // TODO(verify): confirm current income guidelines and the intake/documents process.
+    name: "HACAP Operation Home (SSVF)",
+    url: "https://www.hacap.org/our-initiatives/veteran-support",
+    description:
+      "VA-funded Supportive Services for Veteran Families program improving housing stability for low-income veterans in Eastern Iowa. Provides case management, connection to VA and local benefits, outreach, and housing assistance.",
+    needCategoryIds: ["housing-transportation", "financial-assistance"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Linn, Johnson, Benton, Iowa, Jones, Dubuque, Black Hawk, Cedar, Washington, Delaware, and Buchanan counties, Iowa",
+    state: "Iowa",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veteran or veteran in the household; at least 1 day of active duty; income guidelines; any discharge status other than dishonorable; resident of the listed service area",
+    phone: "(319) 560-3826",
+  },
+  {
+    // TODO(verify): confirm referral requirements for the VA Grant & Per Diem and transitional programs.
+    name: "Central Iowa Shelter & Services — Veterans Support",
+    url: "https://centraliowashelter.org/services/veterans-support/",
+    description:
+      "Des Moines shelter whose Veterans Support Services provide housing, meals, clothing, and case management to veterans experiencing homelessness, including 19 VA Grant & Per Diem efficiency apartments and a 5-unit short-term transitional housing program.",
+    needCategoryIds: ["housing-transportation"],
+    audienceTags: ["Veteran"],
+    cost: "No cost (emergency shelter, meals, and support are provided at no cost)",
+    geographicScope: "Des Moines / Polk County, Iowa",
+    state: "Iowa",
+    verifiedDate: "2026-10-09",
+    availability: "Emergency shelter operates 24/7/365.",
+    phone: "(515) 284-5719",
+  },
+  {
+    // TODO(verify): confirm current bed availability and the intake/referral process for the Grant & Per Diem program.
+    name: "Shelter House — Veterans Assistance",
+    url: "https://shelterhouseiowa.org/veterans",
+    description:
+      "Iowa City shelter that partners with the VA on its Grant & Per Diem program (11 designated beds, up to 24-month stay) and connects veterans to HUD-VASH and SSVF housing support in Johnson County. Rapid re-housing and case management assist veterans toward permanent housing.",
+    needCategoryIds: ["housing-transportation"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Johnson County, Iowa (Iowa City)",
+    state: "Iowa",
+    verifiedDate: "2026-10-09",
+    eligibility: "At least 1 day of active duty and any discharge type other than dishonorable (per VA program criteria)",
+    phone: "(319) 338-5416",
+  },
+  {
+    // TODO(verify): confirm admission eligibility and application steps from the Admissions page. Note: this is a distinct facility under the Iowa Department of Veterans Affairs, not the department itself.
+    name: "Iowa Veterans Home (IVH)",
+    url: "https://dva.iowa.gov/veterans-home/services",
+    description:
+      "State-operated long-term care community in Marshalltown offering residential and nursing care along with on-site clinical services (medical, mental health, therapies, pharmacy, chaplaincy) for Iowa veterans and eligible spouses. It is a facility of the Iowa Department of Veterans Affairs.",
+    needCategoryIds: ["housing-transportation"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Individualized based on each resident's income and assets, up to the home's full daily rate; it is a Medicaid facility following Medicaid guidelines",
+    geographicScope: "Iowa (Marshalltown)",
+    state: "Iowa",
+    verifiedDate: "2026-10-09",
+    phone: "(641) 752-1501",
+  },
 
   // ---------------------------------------------------------------------
   // Illinois Regional
@@ -11586,6 +13549,187 @@ export const RESOURCES: Resource[] = [
     // Own site: "We are proud to be a faith-based organization ... anchored in our Christian faith" (Who We Are page).
     faithBased: true,
     faithAffiliationSource: "https://www.catholiccharities.net/about-us/mission/",
+  },
+  {
+    // TODO(verify): cost is not stated on the org's own site; hours are not listed on the org's own site; confirm current program eligibility.
+    name: "Midwest Shelter for Homeless Veterans",
+    url: "https://www.helpaveteran.org/",
+    description:
+      "Wheaton-based nonprofit that provides housing, supportive services, and community outreach to help homeless and at-risk veterans and their families achieve self-sufficiency. It operates transitional and affordable housing for veterans and administers the VA-funded Supportive Services for Veteran Families (SSVF) program across northern Illinois, with case management, employment services, and assistance obtaining VA and mainstream benefits.",
+    needCategoryIds: ["housing-transportation", "financial-assistance", "mental-health", "career-education", "purpose-community"],
+    audienceTags: ["Veteran", "Family", "Disabled"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Wheaton and Northern Illinois counties",
+    state: "Illinois",
+    verifiedDate: "2026-10-09",
+    eligibility: "SSVF serves low-income veteran families who are homeless or at imminent risk of homelessness; its transitional home requires at least one day of active-duty service and a greater than dishonorable discharge (own site)",
+    phone: "(630) 871-8387",
+  },
+  {
+    name: "Salute, Inc.",
+    url: "https://www.saluteinc.org/",
+    description:
+      "Palatine-based 501(c)(3) founded in 2003 that works to meet the financial, physical, and emotional needs of injured military service members, veterans, and their families. It provides one-time financial assistance for rent, mortgage, auto expenses, utilities, and other everyday needs, and runs the BRAVE Program for families of injured military personnel hospitalized at the Shirley Ryan AbilityLab.",
+    needCategoryIds: ["financial-assistance", "family-support", "housing-transportation"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family", "Caregiver"],
+    cost: "No charge — one-time financial assistance paid to the veteran's billing organization (own site)",
+    geographicScope: "Based in Palatine, Illinois; applicants must reside in the United States",
+    state: "Illinois",
+    verifiedDate: "2026-10-09",
+    eligibility: "Post-9/11 (2001) veterans and active-duty service members, including Reservists and National Guard members, in VA hospitals or in mental health, rehabilitation, or substance abuse programs; must be 100% service-connected and provide documentation from a clinician plus a DD-214 or service letter (own site)",
+    phone: "847-359-8811",
+  },
+  {
+    // TODO(verify): cost is not stated on the org's own site; hours are not listed on the org's own site.
+    name: "Operation Support Our Troops-America",
+    url: "https://www.osotamerica.org/",
+    description:
+      "Naperville-based volunteer-driven nonprofit founded in 2003 that supports the morale and well-being of American forces by providing comfort, resources, and education to them and their families during and after deployment. Programs include Comfort and Care Packages, the Veterans Assistance Program (one-time hardship grants), Leap of Faith, and G.I. Yoga.",
+    needCategoryIds: ["family-support", "financial-assistance", "purpose-community"],
+    audienceTags: ["Active Military", "Guard/Reserve", "Veteran", "Family", "Gold Star", "Civilian Supporter"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Based in Naperville, Illinois; serves the military community nationally, with the Veterans Assistance Program covering Illinois, Indiana, and Wisconsin",
+    state: "Illinois",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans Assistance Program applicants must reside in Illinois, Indiana, or Wisconsin, demonstrate need with a sustainability plan, have applied to at least three other organizations first, and may request one area of assistance among utilities, house service systems, auto repair, or dental (own site)",
+    phone: "630-971-1150",
+  },
+  {
+    // TODO(verify): hours are not stated on the org's own site.
+    name: "Veterans Path to Hope",
+    url: "https://veteranspathtohope.org/",
+    description:
+      "Crystal Lake-based nonprofit founded in 1996 that supports veterans and their families in northern Illinois and southern Wisconsin with free counseling, certified peer support, a food pantry, housing assistance, employment assistance, and the New Horizons transitional living program in Hebron, Illinois. It also administers the VA-funded SSVF program in several northern Illinois counties and Kenosha County, Wisconsin.",
+    needCategoryIds: ["mental-health", "housing-transportation", "financial-assistance", "career-education", "family-support"],
+    audienceTags: ["Veteran", "Family", "Caregiver"],
+    cost: "Free — offers free veterans and family counseling and free services to veterans in need of a hand up (own site)",
+    geographicScope: "Northern Illinois (McHenry, Lake, Boone, and Winnebago counties) and Kenosha County, Wisconsin",
+    state: "Illinois",
+    verifiedDate: "2026-10-09",
+    eligibility: "Serves active and retired veterans regardless of discharge status; SSVF requires a veteran in the household, very low household income and no sizable assets, and an emergent need such as living in a shelter, on the street, or in a car, or being at risk of losing housing (own site)",
+    phone: "(815) 321-4673",
+  },
+  {
+    name: "Great Lakes Adaptive Sports Association (GLASA)",
+    url: "https://glasa.org/veterans",
+    description:
+      "Lake Forest-based 501(c)(3) founded in 1999 that empowers and supports youth, adults, and injured military members with a physical or visual disability through inclusive adaptive sports. Its Injured Military programming serves veterans who may have PTSD or a physical or visual disability, with adaptive sports clinics at Hines VA, Jesse Brown VA, Lovell VA, and Milwaukee VA and more than 20 adaptive sports from cycling and swimming to sled hockey and powerlifting.",
+    needCategoryIds: ["sports-fitness", "outdoor-programs", "purpose-community", "mental-health"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free — 'Injured Veterans are welcome to join in any of the 20+ GLASA adaptive sports programs for FREE' (own site)",
+    geographicScope: "Based in Lake Forest, Illinois; serves the greater Chicago / Great Lakes region",
+    state: "Illinois",
+    verifiedDate: "2026-10-09",
+    eligibility: "Injured military veterans who may have PTSD or a physical or visual disability; no one is turned away due to an inability to pay (own site)",
+    phone: "847-283-0908",
+  },
+  {
+    // TODO(verify): cost is not stated on the org's own site; the toll-free line is not stated to be a 24/7 crisis line.
+    name: "Illinois Firefighter Peer Support (ILFFPS)",
+    url: "https://www.ilffps.org/",
+    description:
+      "Statewide, firefighter-run 501(c)(3) that provides a confidential peer support environment for fire service and EMS members, matching individuals on active duty or retired with a trained firefighter peer, responding to whole-shift or crew needs, and offering department and family outreach presentations. It is assisted by licensed mental health professionals and also helps other states develop peer support programs.",
+    needCategoryIds: ["mental-health", "purpose-community"],
+    audienceTags: ["Fire", "EMS", "First Responder"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Illinois",
+    state: "Illinois",
+    verifiedDate: "2026-10-09",
+    eligibility: "Fire service and emergency medical service members, whether on active duty or retired (own site)",
+    phone: "855-90-SUPPORT (855-907-8776)",
+  },
+  {
+    // TODO(verify): the (844) 452-6770 line is the national C.O.P.S. number listed by the chapter site — confirm members-only vs. survivor-only access.
+    name: "Illinois Concerns of Police Survivors (Illinois C.O.P.S.)",
+    url: "https://www.ilcops.org/",
+    description:
+      "501(c)(3) state chapter that provides resources to help rebuild the lives of surviving family members and co-workers affected by a line-of-duty death as determined by federal criteria. The chapter offers emotional and financial support as well as legal assistance, and helps survivors attend National Police Week, state memorials, trainings, weekends, and retreats, serving all of Illinois.",
+    needCategoryIds: ["family-support", "financial-assistance", "legal-benefits", "mental-health"],
+    audienceTags: ["Family", "Survivor", "Coworker", "Law Enforcement"],
+    cost: "Free — 'There is no membership fee to join C.O.P.S.' (own site)",
+    geographicScope: "Illinois",
+    crisisResource: true,
+    crisisAudience: "general",
+    state: "Illinois",
+    verifiedDate: "2026-10-09",
+    eligibility: "Surviving family members and co-workers affected by a line-of-duty death as determined by federal criteria; eligible family includes spouses, children, step-children, parents, step-parents, siblings and their spouses, in-laws, significant others, and parents of an officer's minor children (own site)",
+    hours: "Available 24 hours a day, 7 days a week, 365 days a year (own site)",
+    phone: "(844) 452-6770",
+  },
+  {
+    // TODO(verify): the org's site is thin and appears last updated in 2023 — confirm current program status and application availability directly before publishing.
+    name: "Freedom Paws Service Dogs Foundation",
+    url: "https://freedompawsservicedogs.org/",
+    description:
+      "Chillicothe, Illinois 501(c)(3) founded in 2018 that provides trained service dogs to veterans and first responders who endure post-traumatic stress disorder (PTSD), training dogs and recipients together with the aim of restoring independence, resilience, and hope.",
+    needCategoryIds: ["mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "First Responder", "Disabled"],
+    cost: "No charge — the foundation trains the dogs and the veterans 'without charging a fee' (own site)",
+    geographicScope: "Chillicothe (Peoria area), Illinois",
+    state: "Illinois",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans and first responders diagnosed with PTSD; applicants apply through the organization's 'Heroes: Apply Here' form (own site)",
+    phone: "309-232-8942",
+  },
+  {
+    // TODO(verify): cost is not stated on the org's own site; hours are not listed on the org's own site.
+    name: "Thresholds Veterans Project",
+    url: "https://www.thresholds.org/programs-services/veterans-project",
+    description:
+      "Illinois behavioral health provider whose Veterans Project serves members of the armed forces experiencing PTSD, trauma, substance use disorders, and more, integrating homeless outreach, housing services, supported employment, peer-driven supports, substance use treatment, and integrated physical and mental health services. Its SSVF program helps very low-income veteran families who are homeless or at imminent risk of homelessness.",
+    needCategoryIds: ["mental-health", "housing-transportation", "career-education", "purpose-community"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Chicago, adjacent suburbs, and surrounding counties in Illinois",
+    state: "Illinois",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans experiencing mental illness, trauma, substance use, homelessness, or unemployment; SSVF serves veteran families who are homeless or at imminent risk and have very low income (less than 50% of area median income) (own site)",
+    phone: "(773) 572-5321",
+  },
+  {
+    // TODO(verify): cost is not stated on the org's own site; hours are not listed on the org's own site.
+    name: "A Safe Haven Foundation",
+    url: "https://www.asafehaven.org/veteran-housing",
+    description:
+      "Chicago-based 501(c)(3) dedicated to transforming lives by providing treatment, housing, support services, and career pathways to individuals in crisis. Its Veteran Housing program offers veteran transitional, permanent supportive, and affordable housing across Chicagoland and Northwest Indiana, along with individualized case management, mental health counseling, substance use disorder treatment, vocational training, and employment readiness programs.",
+    needCategoryIds: ["housing-transportation", "mental-health", "career-education", "financial-assistance"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Chicagoland area and Northwest Indiana",
+    state: "Illinois",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans must be 18 years or older and honorably discharged from military service, and must be experiencing or at risk of homelessness and/or in financial crisis (own site)",
+    phone: "(773) 435-8300",
+  },
+  {
+    // TODO(verify): cost is not stated on the org's own site; hours are not listed on the org's own site.
+    name: "100 Club of Illinois",
+    url: "https://www.100clubil.org/",
+    description:
+      "Nonprofit that provides resources, financial support, access to training, and moral support to the families of first responders killed in the line of duty and to active-duty first responders throughout Illinois. Programs include family assistance, educational assistance for surviving dependents, and first responder wellness and training through its statewide Frontline Resource Network.",
+    needCategoryIds: ["financial-assistance", "family-support", "career-education", "purpose-community"],
+    audienceTags: ["Family", "Survivor", "First Responder", "Law Enforcement", "Fire", "EMS"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide Illinois (all 102 counties)",
+    state: "Illinois",
+    verifiedDate: "2026-10-09",
+    eligibility: "Families of first responders killed in the line of duty (as determined by federal criteria) and active-duty first responders; all sworn federal, state, county, and local first responders stationed in Illinois are included (own site)",
+    phone: "(312) 265-0920",
+  },
+  {
+    // TODO(verify): hotline hours are not stated on the org's own site — confirm current intake hours directly.
+    name: "Land of Lincoln Legal Aid",
+    url: "https://lincolnlegal.org/",
+    description:
+      "Nonprofit corporation that provides free civil legal services to eligible low-income and senior residents of central and southern Illinois, prioritizing legal assistance to veterans and the active military to obtain and preserve income and health benefits, prevent homelessness, and promote family stability. It serves a 65-county area and partners with the Illinois Armed Forces Legal Aid Network (IL-AFLAN).",
+    needCategoryIds: ["legal-benefits", "financial-assistance", "housing-transportation"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family"],
+    cost: "Free — provides free civil legal aid and 'never charge[s] for services' (own site)",
+    geographicScope: "65 counties in central and southern Illinois",
+    state: "Illinois",
+    verifiedDate: "2026-10-09",
+    eligibility: "Eligible low-income and senior residents of central and southern Illinois; the organization prioritizes legal assistance to veterans and the active military (own site)",
+    phone: "877-342-7891",
   },
 
   // ---------------------------------------------------------------------
@@ -11888,6 +14032,184 @@ export const RESOURCES: Resource[] = [
     state: "Ohio",
     verifiedDate: "2026-10-08",
   },
+  {
+    name: "4 Paws for Ability",
+    url: "https://www.4pawsforability.org/",
+    description:
+      "Nonprofit based in Xenia, Ohio that breeds, raises, trains, and places task-trained service dogs with children and veterans with disabilities. Founded in 1998, it places dogs trained for mobility, hearing, seizure response, and behavior disruption, focusing veteran placements on recent-combat veterans whose primary disability is a mobility or hearing impairment resulting from a combat injury. Veteran recipients receive their service dog at no cost.",
+    needCategoryIds: ["equipment-grants", "mental-health", "family-support"],
+    audienceTags: ["Veteran", "Disabled", "Family"],
+    cost: "Veterans receive their service dog at no cost; for other placements clients pay $17,000 while 4 Paws covers all remaining costs (own fact sheet)",
+    geographicScope: "Based in Xenia, Ohio; places service dogs across the United States",
+    state: "Ohio",
+    verifiedDate: "2026-10-09",
+    eligibility: "Focuses veteran placements on recent-combat veterans whose primary disability is a mobility or hearing impairment from combat injury; also places dogs with children with disabilities and some adults",
+    hours: "Weekdays 9:30 a.m.–4 p.m. (own site)",
+    phone: "(937) 374-0385",
+  },
+  {
+    // TODO(verify): cost varies by event and several 2026 events list 'TBA' — reconfirm current pricing and eligibility.
+    name: "Ohio Military Kids",
+    url: "https://ohio4h.org/statewide-programs/ohio-military-kids",
+    description:
+      "Partnership between Ohio State University Extension 4-H and the Ohio National Guard Family Readiness and Warrior Support that supports the youth of military families throughout the deployment cycle. It delivers recreational, social, and educational programs — including hero camps, troop and family camps, teen and youth residential camps, and parent workshops — and also serves Gold Star Families; veterans' children and families are eligible up to 12 months after separation from service.",
+    needCategoryIds: ["family-support", "purpose-community", "outdoor-programs"],
+    audienceTags: ["Family", "Guard/Reserve", "Active Military", "Veteran", "Gold Star"],
+    cost: "Varies by event — some events are free, while family camps are listed at $60–$100 per person depending on branch or component (own site)",
+    geographicScope: "Ohio (statewide, including Kelleys Island and multiple Ohio 4-H camp locations)",
+    state: "Ohio",
+    verifiedDate: "2026-10-09",
+    eligibility: "Youth and families of current or recently separated service members (within 12 months of separation), any branch or component; Gold Star Families are eligible (own site)",
+    phone: "614-247-8160",
+  },
+  {
+    name: "Ohio C.O.P.S. (Ohio Concerns of Police Survivors)",
+    url: "https://www.ohiocops.org/",
+    description:
+      "Ohio chapter of the national Concerns of Police Survivors, which provides resources, peer support, and Hands-On Programs to rebuild the lives of surviving families and co-workers of law enforcement officers killed in the line of duty as determined by federal criteria. Chartered in Ohio in 1999, it serves survivors statewide and connects them to national retreats, scholarships, and the C.O.P.S. Kids counseling reimbursement and summer camp programs.",
+    needCategoryIds: ["family-support", "mental-health", "financial-assistance"],
+    audienceTags: ["Survivor", "Family", "Law Enforcement", "Coworker"],
+    cost: "Free — there is no membership fee to join C.O.P.S., for the price paid is already too high (own site)",
+    geographicScope: "All of Ohio (some programs administered by the national office)",
+    state: "Ohio",
+    verifiedDate: "2026-10-09",
+    eligibility: "Survivors and co-workers (spouses, children, parents, siblings, significant others, affected co-workers) of officers killed in the line of duty per federal government criteria (own site)",
+    phone: "(614) 772-9505",
+  },
+  {
+    // TODO(verify): reconfirm the current retreat schedule and full eligibility details directly.
+    name: "First Responders' Bridge",
+    url: "https://firstrespondersbridge.org/",
+    description:
+      "Westerville, Ohio nonprofit that offers expense-free, confidential three-day retreats for active and retired first responders and their significant others who have experienced a traumatic or life-altering event or are dealing with depression, anxiety, or post-traumatic stress. It serves police, firefighters, EMS, corrections officers, dispatchers, and their families, bringing in peer speakers and clinicians, and offers Ohio attendees limited free follow-up sessions.",
+    needCategoryIds: ["mental-health", "family-support", "purpose-community"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Dispatch", "Corrections", "Family"],
+    cost: "Expense-free — retreats are offered expense-free and strictly confidential (own site)",
+    geographicScope: "Based in Westerville, Ohio; serves first responders and their significant others from across the country",
+    state: "Ohio",
+    verifiedDate: "2026-10-09",
+    eligibility: "Active and retired first responders and their significant others who have experienced a traumatic or life-altering event or are experiencing depression, anxiety, or post-traumatic stress (own site)",
+    phone: "614-271-4981",
+  },
+  {
+    name: "Frontline Freedom",
+    url: "https://frontlinefreedom.org/",
+    description:
+      "Ohio-based nonprofit that provides expense-free outdoor experiences — including backpacking, hiking, camping, and fly-fishing trips — for current and retired frontline workers to promote mental wellness. It serves Ohio law enforcement officers, corrections officers, firefighters, paramedics and EMTs, healthcare workers, and 911 call-takers and dispatchers, and connects participants with experienced responders who understand mental health challenges.",
+    needCategoryIds: ["outdoor-programs", "mental-health", "purpose-community"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Dispatch", "Corrections", "Healthcare"],
+    cost: "Expense-free — expense-free outdoor experiences and fully-funded trips (own site)",
+    geographicScope: "Ohio (statewide)",
+    state: "Ohio",
+    verifiedDate: "2026-10-09",
+    eligibility: "Current and retired Ohio frontline workers, including law enforcement, corrections, fire, paramedics and EMTs, healthcare workers, and 911 call-takers and dispatchers (own site)",
+    phone: "(833) 884-1810",
+  },
+  {
+    // TODO(verify): office hours were not confirmed on LASCO's own site.
+    name: "Legal Aid of Southeast and Central Ohio (LASCO)",
+    url: "https://www.lasco.org/",
+    description:
+      "Nonprofit that provides free civil (noncriminal) legal aid and advocacy for people with low incomes, veterans, and seniors across 36 counties in southeast and central Ohio. Formed when Southeastern Ohio Legal Services merged with the Legal Aid Society of Columbus, it helps with housing, public benefits, family law, consumer and debt problems, reentry, and veterans' matters through offices in eight Ohio communities.",
+    needCategoryIds: ["legal-benefits"],
+    audienceTags: ["Veteran", "Family", "Survivor", "Disabled"],
+    cost: "Free — free noncriminal legal help for people with low incomes, veterans, and seniors (own site)",
+    geographicScope: "36 counties in southeast and central Ohio, with offices in Athens, Newark, Chillicothe, Columbus, Marion, New Philadelphia, Portsmouth, and Steubenville",
+    state: "Ohio",
+    verifiedDate: "2026-10-09",
+    eligibility: "People with low incomes, veterans, and seniors within its 36-county service area (own site)",
+    phone: "(888) 246-4420",
+  },
+  {
+    // TODO(verify): cost, eligibility specifics, and hours are not stated on the org's own site — confirm 501(c)(3) status directly.
+    name: "Ohio Farmer Veteran Coalition",
+    url: "https://ohiofarmerveteran.org/",
+    description:
+      "Alexandria, Ohio-based nonprofit that supports military veterans transitioning into agricultural careers through educational workshops on sustainable farming practices and business development, guidance on accessing grants, loans, and technical assistance, and networking and mentorship opportunities connecting veteran farmers with agricultural professionals and local organizations. It also points members to the national Farmer Veteran Coalition network and the combined Ohio Proud / Homegrown By Heroes label.",
+    needCategoryIds: ["career-education", "purpose-community"],
+    audienceTags: ["Veteran"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Ohio",
+    state: "Ohio",
+    verifiedDate: "2026-10-09",
+    eligibility: "Military veterans in Ohio interested in beginning or growing agricultural careers (own site)",
+  },
+  {
+    // Own site (https://www.voaohin.org/mission-vision/): the organization describes itself as a "faith-based organization" that seeks to "put faith into action".
+    // TODO(verify): cost is not stated on the org's own site — confirm current admissions and referral requirements.
+    name: "Volunteers of America Ohio & Indiana — Veteran Housing",
+    url: "https://www.voaohin.org/services/veteran-housing",
+    description:
+      "Volunteers of America Ohio & Indiana operates a Veterans Resource Center and veteran housing services across Ohio and Indiana, including rapid rehousing, homelessness prevention, permanent supportive housing, emergency housing, and case management, with the goal of moving veterans into employment and independent housing. It runs veteran housing programs in Cincinnati, Cleveland, Columbus, Dayton, and Sandusky under a Housing First approach that does not require an initial commitment to sobriety.",
+    needCategoryIds: ["housing-transportation", "mental-health", "career-education"],
+    audienceTags: ["Veteran", "Family", "Disabled"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Ohio and Indiana; Ohio locations in Cincinnati, Cleveland, Columbus, Dayton, and Sandusky",
+    state: "Ohio",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans who are formerly homeless or at risk of homelessness; Housing First — no initial sobriety or substance-free commitment required (own site)",
+    phone: "Cincinnati (513) 322-5170; Cleveland (216) 541-9000; Columbus (614) 849-0145; Dayton (937) 253-7042; Sandusky (419) 626-6505",
+    faithBased: true,
+    faithAffiliationSource: "https://www.voaohin.org/mission-vision/",
+  },
+  {
+    // TODO(verify): cost, eligibility for veteran service dogs, and a phone number are not stated on the org's own site.
+    name: "Central Ohio Canine Foundation",
+    url: "https://www.centralohiocaninefoundation.org/",
+    description:
+      "501(c)(3) that supports local K-9s by helping to fund police, fire, search and rescue, and service dogs for veterans, and by supporting the handlers who work with them. Founded by a K-9 handler who initially needed equipment for his own police dog, it serves Crawford, Delaware, Franklin, Knox, Licking, Marion, Morrow, Richland, and Union counties in central Ohio.",
+    needCategoryIds: ["equipment-grants"],
+    audienceTags: ["Law Enforcement", "Fire", "First Responder", "Veteran"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Crawford, Delaware, Franklin, Knox, Licking, Marion, Morrow, Richland, and Union counties in central Ohio",
+    state: "Ohio",
+    verifiedDate: "2026-10-09",
+    eligibility: "K-9 units and handlers in central Ohio; service dogs for veterans (own site)",
+  },
+  {
+    // TODO(verify): cost is not stated on the org's own site — confirm current placement and eligibility details.
+    name: "Veteran Companion Animal Services (VCAS)",
+    url: "https://www.vcascharity.org/",
+    description:
+      "501(c)(3) public charity based in Delaware, Ohio whose mission is to enrich the lives of veterans, military families, and dogs through the human-animal bond. It places rescue and shelter dogs with veterans who can benefit from companionship, aiming to help those dealing with physical or mental health issues such as PTSD, depression, anxiety, and social isolation, and also provides dog training and alumni outings.",
+    needCategoryIds: ["purpose-community", "mental-health"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Based in Delaware, Ohio; places dogs with veterans (own site notes a chapters program)",
+    state: "Ohio",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans and military families; places rescue and shelter dogs with veterans who can benefit from companionship (own site)",
+    phone: "(614) 918-8221",
+  },
+  {
+    // TODO(verify): cost and hours are not stated on the org's own site.
+    name: "Ohio Office of First Responder Wellness",
+    url: "https://publicsafety.ohio.gov/what-we-do/our-programs/office-of-first-responder-wellness",
+    description:
+      "Unit within the Ohio Department of Public Safety's Office of Criminal Justice Services that provides holistic wellness resources and serves as a reference for first responder agencies and personnel across Ohio. It supports law enforcement, fire, emergency medical services, dispatch, corrections, and Ohio-based military with training and resources to address post-traumatic stress and other traumas unique to first-responder careers, and offers wellness courses, quarterly wellness calls, and a First Responder Family Wellness Day.",
+    needCategoryIds: ["mental-health", "family-support", "purpose-community"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Dispatch", "Corrections", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Ohio (statewide)",
+    state: "Ohio",
+    verifiedDate: "2026-10-09",
+    eligibility: "Ohio's first responder community, including law enforcement, fire, emergency medical services, dispatch, corrections, and Ohio-based military (own site)",
+  },
+  {
+    // TODO(verify): cost and specific eligibility for direct aid are not stated on the org's own site — confirm current program details.
+    name: "Veterans' Outreach",
+    url: "https://veteransoutreach.org/",
+    description:
+      "501(c)(3) headquartered in Youngstown, Ohio with the mission of honoring and serving all veterans through a 'hand up, not a hand out.' Its programs provide direct financial and practical assistance for needs such as rent, utilities, groceries, transportation, home and auto repairs, furniture, appliances, and medical bills, alongside an employment program, a food pantry, and a Heroes' Closet.",
+    needCategoryIds: ["financial-assistance", "housing-transportation", "purpose-community"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Headquartered in Youngstown, Ohio; also operates offices in Alabama, Florida, and Kentucky",
+    state: "Ohio",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans — the own site states it serves 'all veterans'; specific eligibility is not stated",
+    phone: "330-755-5792",
+  },
 
   // ---------------------------------------------------------------------
   // Pennsylvania Regional
@@ -11974,6 +14296,192 @@ export const RESOURCES: Resource[] = [
     // Own site motto: "Helping Veterans through Christ and the Great Outdoors"; includes a Prayer Request page.
     faithBased: true,
     faithAffiliationSource: "https://www.heroesneveralone.org/Mission_Outdoors",
+  },
+  {
+    // TODO(verify): cost not stated on the org's own site; no phone number published.
+    name: "Keystone Warriors",
+    url: "https://keystonewarriors.org/",
+    description:
+      "Eastern Pennsylvania 501(c)(3) founded in 2009 that provides emergency financial assistance, daily-needs resources, physical training, and counseling/mentorship to post-9/11 wounded warriors with ties to Pennsylvania. Funds support local veterans and their families, with some donated to national post-9/11 wounded-veteran organizations.",
+    needCategoryIds: ["financial-assistance", "mental-health", "sports-fitness", "family-support"],
+    audienceTags: ["Veteran", "Family", "Disabled"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Eastern Pennsylvania; serves veterans located in or with ties to Pennsylvania",
+    state: "Pennsylvania",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "Servicemen and women wounded in service on or since 9/11 with a VA rating and a better than honorable discharge (own site).",
+  },
+  {
+    // TODO(verify): cost not explicitly stated on the site; confirm whether the Veterans Unstoppable program is free for first responders.
+    name: "Valor Clinic Foundation",
+    url: "https://valorclinic.org/",
+    description:
+      "Pennsylvania-based 501(c)(3) providing non-medical support to veterans who are homeless or at-risk, including outreach, shelter support, food assistance, benefits navigation, and peer support through its Veterans Unstoppable program. It also welcomes first responders, noting that 'Our first responders deal with challenges similar to those faced by our Veterans.'",
+    needCategoryIds: ["housing-transportation", "mental-health", "financial-assistance", "purpose-community"],
+    audienceTags: ["Veteran", "First Responder", "Law Enforcement", "Disabled"],
+    cost: "Not stated on the org's own site",
+    geographicScope:
+      "Pennsylvania (office at 'Paul's House' in Kunkletown, Carbon County); also lists managers in Ohio and Georgia",
+    state: "Pennsylvania",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "The org states it helps those who served in all six services including the Reserves, Space Force, and National Guard, and does not help veterans with dishonorable discharges or in lieu of court-martial discharges.",
+    phone: "570-664-6468",
+  },
+  {
+    // TODO(verify): cost not stated on the site; confirm income guidelines for specific programs (e.g., SSVF).
+    name: "Veterans Leadership Program of Western PA",
+    url: "https://www.veteransleadershipprogram.org/",
+    description:
+      "Pittsburgh-based 501(c)(3) founded in 1982 that serves veterans with housing, wellness, career development, and supportive services regardless of VA eligibility, discharge status, or length of service. The org reports serving over 8,000 veterans annually across a 30-county service area.",
+    needCategoryIds: ["housing-transportation", "career-education", "mental-health", "financial-assistance"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "30 counties across Pennsylvania, New York, and Ohio; offices in Pittsburgh, Johnstown, and Erie, PA",
+    state: "Pennsylvania",
+    verifiedDate: "2026-10-09",
+    phone: "844-VLP-VETS",
+    hours: "8:30AM-4:30PM Monday - Friday.",
+  },
+  {
+    // TODO(verify): cost not stated on site; confirm bed capacity and current intake process.
+    name: "Veterans Place of Washington Boulevard",
+    url: "https://www.veteransplaceusa.org/",
+    description:
+      "Pittsburgh nonprofit, founded in 1996, that provides transitional housing, a veterans resource center, workforce development, recovery support, and wellness services to veterans experiencing homelessness in Western Pennsylvania, pairing housing with case management aimed at moving veterans into permanent housing.",
+    needCategoryIds: ["housing-transportation", "career-education", "mental-health", "family-support"],
+    audienceTags: ["Veteran"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Pittsburgh and Western Pennsylvania",
+    state: "Pennsylvania",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "Primary requirements are that individuals seeking services are homeless (or experiencing a housing crisis), have served in a branch of the United States Military at some point in their lives, and did not receive a dishonorable discharge (own site).",
+    phone: "412-363-0500",
+    hours: "Resource Center / Homeless Veterans Day Program: Monday-Friday, 8:00am-4:00pm.",
+  },
+  {
+    // TODO(verify): the site states services are free via a Scholarship Fund but also references insurance billing when coordinating with a counselor/therapist — confirm which route applies.
+    name: "Pennsylvania Warhorse",
+    url: "https://pennsylvaniawarhorse.org/",
+    description:
+      "Pennsylvania 501(c)(3) providing equine-assisted therapy with off-the-track Thoroughbreds to improve the physical, mental, and emotional health of veterans and first responders affected by PTSD and their loved ones. No medical diagnosis is required to participate.",
+    needCategoryIds: ["mental-health", "outdoor-programs", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "First Responder", "Family"],
+    cost: "Free — the org states 'Our Scholarship Fund allows us to provide these services free of charge to those who need it most.'",
+    geographicScope: "Annville/Myerstown, Pennsylvania (near Ft. Indiantown Gap, Lebanon County)",
+    state: "Pennsylvania",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "First responders and military members do NOT need a medical diagnosis to participate; available to service members of all ages and any branch (whether or not deployed), and emergency personnel whether in the field or hospital (own site).",
+    phone: "717-945-4616",
+  },
+  {
+    // TODO(verify): cost not stated on the site; confirm whether retreats/workshops are free.
+    name: "Gunny's Ridge",
+    url: "https://gunnysridge.org/",
+    description:
+      "Washington County, PA nonprofit that brings veterans and first responders together for resilience-building through challenging outdoor group activities, farming, woodworking workshops, and leadership training on 100 acres of rural woods and meadow in Burgettstown, PA.",
+    needCategoryIds: ["outdoor-programs", "mental-health", "purpose-community", "sports-fitness"],
+    audienceTags: ["Veteran", "First Responder"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Washington County, Pennsylvania (Burgettstown)",
+    state: "Pennsylvania",
+    verifiedDate: "2026-10-09",
+    phone: "412-297-6630",
+  },
+  {
+    // TODO(verify): the site does not state a service-area restriction or waitlist length; confirm application timelines.
+    name: "Tails of Valor",
+    url: "https://www.tailsofvalor.org/",
+    description:
+      "Coopersburg, PA 501(c)(3) that provides distinctly trained service canines and non-medicinal, canine-assisted therapies free of charge to veterans, law enforcement, and emergency personnel diagnosed with PTSI and/or TBI. Its campus is in Upper Bucks County-Lower Lehigh County.",
+    needCategoryIds: ["mental-health", "family-support", "purpose-community"],
+    audienceTags: ["Veteran", "Law Enforcement", "Fire", "EMS", "Disabled"],
+    cost: "Free — the org states 'Our programs are free to our Veterans, Law Enforcement and Emergency Personnel.'",
+    geographicScope: "Upper Bucks County-Lower Lehigh County, Pennsylvania (Coopersburg)",
+    state: "Pennsylvania",
+    verifiedDate: "2026-10-09",
+    phone: "267-733-7294",
+  },
+  {
+    // Own site (Visit Aurelius page): "Adventures in Training With a Purpose is a Christian Nonprofit Organization".
+    // TODO(verify): confirm current program capacity and enrollment windows.
+    name: "Adventures in Training with a Purpose (Aurelius)",
+    url: "https://adventurestraining.org/visit-aurelius/",
+    description:
+      "Wexford, PA nonprofit offering a free, 12-week integrated 'Mind, Body and Soul' program — including TMS, one-on-one counseling, exercise-physiology coaching, bloodwork, and nature adventure trips — to active military, veterans, and first responders suffering from PTSD and depression. The org reports a 24-participant pilot program.",
+    needCategoryIds: ["mental-health", "sports-fitness", "outdoor-programs", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "First Responder"],
+    cost: "Free — the org states its program is '100% confidential, stigma-free and free of charge.'",
+    geographicScope: "Just outside Pittsburgh, Pennsylvania (Wexford, PA)",
+    state: "Pennsylvania",
+    verifiedDate: "2026-10-09",
+    phone: "(724) 967-1628",
+    faithBased: true,
+    faithAffiliationSource: "https://adventurestraining.org/visit-aurelius/",
+  },
+  {
+    // TODO(verify): cost not stated on the site; confirm whether activities are free and whether the paid apprenticeship is currently open.
+    name: "Glenn Hope Care Farm",
+    url: "https://glennhopecarefarm.org/",
+    description:
+      "Veteran-operated nonprofit care farm on 43 acres in York County, PA that supports the physical and mental health of local veterans and their families through on-farm 'Green Care' activities, employment, and paid apprenticeship opportunities. A portion of the food produced is donated to veterans and veteran organizations.",
+    needCategoryIds: ["outdoor-programs", "purpose-community", "career-education", "family-support"],
+    audienceTags: ["Veteran", "Family", "Disabled"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "York County, Pennsylvania and surrounding areas",
+    state: "Pennsylvania",
+    verifiedDate: "2026-10-09",
+  },
+  {
+    // TODO(verify): cost not explicitly stated on the page; confirm whether the line is statewide or Bucks County-only.
+    name: "Lenape Valley Foundation — FiRST Responder Support Team",
+    url: "https://www.lenapevf.org/services/first-responder-support-team/",
+    description:
+      "A confidential and anonymous peer support line for all first responders and their loved ones, answered by current and former first responders who understand the unique struggles of the job. It is a program of Lenape Valley Foundation, a Bucks County behavioral-health nonprofit.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Dispatch", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Bucks County, Pennsylvania",
+    crisisResource: true,
+    crisisAudience: "first-responders",
+    state: "Pennsylvania",
+    verifiedDate: "2026-10-09",
+    availability: "Available 24/7/365.",
+    phone: "267-893-5400",
+  },
+  {
+    // TODO(verify): exact county service area not spelled out on the CISM page; confirm with the org.
+    name: "EMMCO West — Critical Incident Stress Management (CISM) Team",
+    url: "https://www.emmco.org/content/cismt/",
+    description:
+      "A free, confidential Critical Incident Stress Management team of specially trained volunteer peers and mental health professionals from EMS, fire, police, and dispatch that provides defusing, debriefing, and one-on-one peer support to emergency responders after critical incidents. Operated by EMMCO West Inc., a regional EMS council based in Meadville, PA.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Dispatch", "Corrections"],
+    cost: "Free — the org describes it as 'A Free, Confidential Resource for Emergency Responders'",
+    geographicScope: "Northwest Pennsylvania (EMMCO West region; based in Meadville, PA)",
+    crisisResource: true,
+    crisisAudience: "first-responders",
+    state: "Pennsylvania",
+    verifiedDate: "2026-10-09",
+    availability: "Available 24/7/365.",
+    phone: "(814) 337-5380",
+  },
+  {
+    // TODO(verify): confirm definition of 'qualifying first responder' and which PA regions are served.
+    name: "RIT — Rapid Intervention Team",
+    url: "https://ritfirstresponder.org/",
+    description:
+      "Pennsylvania 501(c)(3) whose mission is to save the volunteer fire service by developing programs to recruit, retain, and reward volunteer first responders. It offers a First Responder Benefits Package that includes life insurance, a counseling/assistance program, telemedicine, pharmacy discounts, and financial-wellness education.",
+    needCategoryIds: ["financial-assistance", "mental-health", "family-support"],
+    audienceTags: ["First Responder", "Fire", "EMS", "Family"],
+    cost: "Free — RIT's First Responder Benefits Package is available free of charge to any qualifying first responder (own site)",
+    geographicScope: "Pennsylvania (volunteer first responders)",
+    state: "Pennsylvania",
+    verifiedDate: "2026-10-09",
+    phone: "(570) 279-6099",
   },
 ];
 
