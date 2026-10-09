@@ -9,13 +9,13 @@ import { MissionProgress } from "@/components/campaign/mission-progress";
 import { CampaignCard } from "@/components/campaign/campaign-card";
 import { RevealGrid, RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import { EmptyState } from "@/components/shared/empty-state";
+import { CampaignJournalEntryCard } from "@/components/campaign/campaign-journal-entry";
 import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
 import { getAllocationBreakdown } from "@/lib/data/allocation";
 import { getCampaign } from "@/lib/data/campaign";
 import { getPartners } from "@/lib/data/partners";
 import { CONTRIBUTION_MECHANISMS } from "@/lib/content/campaigns";
-import { getCampaignJournalEntries } from "@/lib/content/campaign-journal";
-import { formatDateLong } from "@/lib/utils";
+import { getLatestCampaignJournalEntries } from "@/lib/content/campaign-journal";
 import {
   CAMPAIGN_URL,
   DONATE_LINK,
@@ -30,6 +30,9 @@ import {
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 import { formatCurrency } from "@/lib/utils";
+
+/** However many entries exist, /campaigns only ever teases this many — the rest live on /campaigns/journal. */
+const JOURNAL_TEASER_COUNT = 2;
 
 // generateMetadata so the fundraising-goal figure below reads the live
 // Supabase-driven value instead of a separately hand-typed dollar figure
@@ -77,7 +80,7 @@ export default async function CampaignsPage() {
   const allocationBreakdown = await getAllocationBreakdown(campaign);
   const current = MOVEMENT_CAMPAIGNS.filter(isCurrentCampaign);
   const beneficiaryNames = beneficiaries.map((b) => b.name);
-  const journalEntries = getCampaignJournalEntries();
+  const journalEntries = getLatestCampaignJournalEntries(JOURNAL_TEASER_COUNT);
 
   return (
     <>
@@ -169,12 +172,15 @@ export default async function CampaignsPage() {
         </Container>
       </section>
 
-      {/* Campaign Journal — mission-wide announcements (new efforts
+      {/* Campaign Journal teaser — mission-wide announcements (new efforts
           launching, cross-campaign milestones), not any single campaign's
-          own journal/training log. See src/lib/content/campaign-journal.ts
-          for how to publish a new entry. */}
+          own journal/training log. Only the latest JOURNAL_TEASER_COUNT
+          entries render here, however many exist in total — the full
+          archive lives at /campaigns/journal so this page stays a fixed
+          size. See src/lib/content/campaign-journal.ts for how to publish
+          a new entry. */}
       <section id="journal" className="scroll-mt-20 border-t border-ink/10 py-16 sm:py-20">
-        <Container className="max-w-2xl">
+        <Container>
           <RevealOnScroll>
             <SectionHeading
               eyebrow="Campaign Journal"
@@ -190,36 +196,20 @@ export default async function CampaignsPage() {
               />
             </div>
           ) : (
-            <RevealGrid>
-              <div className="mt-8 space-y-8">
-                {journalEntries.map((entry) => (
-                  <article key={entry.id} id={entry.id} className="scroll-mt-20 border-t border-ink/10 pt-8 first:border-t-0 first:pt-0">
-                    <time dateTime={entry.date} className="text-xs font-semibold uppercase tracking-widest text-bronze">
-                      {formatDateLong(entry.date)}
-                    </time>
-                    <h3 className="mt-2 font-display text-xl font-bold uppercase tracking-tight text-ink sm:text-2xl">
-                      {entry.title}
-                    </h3>
-                    <p className="mt-3 text-base leading-relaxed text-charcoal-light">{entry.summary}</p>
-                    <div className="mt-3 space-y-3">
-                      {entry.body.map((paragraph, i) => (
-                        <p key={i} className="text-base leading-relaxed text-charcoal-light">
-                          {paragraph}
-                        </p>
-                      ))}
-                    </div>
-                    {entry.link && (
-                      <Link
-                        href={entry.link.href}
-                        className="mt-4 inline-block text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
-                      >
-                        {entry.link.label} &rarr;
-                      </Link>
-                    )}
-                  </article>
-                ))}
-              </div>
-            </RevealGrid>
+            <>
+              <RevealGrid>
+                <div className="mt-8 grid gap-5 sm:grid-cols-2">
+                  {journalEntries.map((entry) => (
+                    <CampaignJournalEntryCard key={entry.id} entry={entry} variant="teaser" />
+                  ))}
+                </div>
+              </RevealGrid>
+              <p className="mt-6">
+                <Link href="/campaigns/journal" className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark">
+                  View the Full Campaign Journal &rarr;
+                </Link>
+              </p>
+            </>
           )}
         </Container>
       </section>
