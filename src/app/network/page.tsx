@@ -5,7 +5,7 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { CTAButton } from "@/components/shared/cta-button";
 import { CTASection } from "@/components/shared/cta-section";
 import { PartnerCard } from "@/components/partners/partner-card";
-import { PartnerLogoWall } from "@/components/partners/partner-logo-wall";
+import { PresentingPartnerFeature } from "@/components/partners/presenting-partner-feature";
 import { PartnerLogoDisclosure } from "@/components/partners/partner-logo-disclosure";
 import { getPartners } from "@/lib/data/partners";
 import { getMissionPartners, isCampaignPartner } from "@/lib/data/mission-partners";
@@ -193,8 +193,10 @@ export default async function NetworkPage() {
                   </div>
 
                   {group.presentingPartners.length > 0 && (
-                    <div className="mt-5">
-                      <PartnerLogoWall presentingPartners={group.presentingPartners} otherPartners={[]} />
+                    <div className="mt-5 space-y-6">
+                      {group.presentingPartners.map((partner) => (
+                        <PresentingPartnerFeature key={partner.id} partner={partner} />
+                      ))}
                     </div>
                   )}
 

@@ -4501,6 +4501,186 @@ export const RESOURCES: Resource[] = [
     state: "Arkansas",
     verifiedDate: "2026-08-27",
   },
+  {
+    // TODO(verify): the own site does not state any fee for VSO assistance; free service is not explicitly claimed.
+    name: "Arkansas Department of Veterans Affairs",
+    url: "https://www.veterans.arkansas.gov/veteran-services-1",
+    description:
+      "State agency formed in 1923 that connects Arkansas veterans and their eligible dependents to state and federal benefits through a statewide network of accredited district and county Veteran Service Officers. Headquarters in Little Rock provide veteran services directly and deploy VSOs across the state's districts.",
+    needCategoryIds: ["legal-benefits"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide — Arkansas",
+    state: "Arkansas",
+    verifiedDate: "2026-10-09",
+    eligibility: "Arkansas veterans and their eligible dependents.",
+    availability:
+      "Business hours for veteran services are 8:00am - 5:00pm, Monday - Friday, excluding state holidays; VSO lookup via the site's veteran services map.",
+    phone: "(501) 683-2382",
+    hours: "8:00am - 5:00pm, Monday - Friday, excluding state holidays.",
+  },
+  {
+    // TODO(verify): own site lists no phone number (contact is via web form), and cost for agency critical-incident debriefings is not stated.
+    name: "Arkansas Law Enforcement Assistance Program (ARLEAP)",
+    url: "https://arleap.org/",
+    description:
+      "Arkansas nonprofit founded in 2018 providing first responders and their families with training, critical incident debriefings, and Post Critical Incident Seminars. Peer team members are trained through the International Critical Incident Stress Foundation (ICISF) and the National FOP's Power in Peers program.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Dispatch", "Corrections", "Family"],
+    cost: "Free — the org states 'PCIS is available at NO COST to sworn law enforcement officers, firefighters, EMS personnel, dispatchers, and their spouses or significant others. Food and lodging are provided on site.'",
+    geographicScope: "Statewide — Arkansas",
+    state: "Arkansas",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "Dispatchers, law enforcement officers, EMS personnel, firefighters, corrections staff, and their significant others, including state, federal, local, private, volunteer, and retired responders throughout Arkansas (own site).",
+    availability:
+      "Next Post Critical Incident Seminar: July 11-14, 2027 at Central Baptist College in Conway, AR; debriefings requested for agencies via the contact form.",
+  },
+  {
+    // TODO(verify): own site does not state program costs or formal eligibility criteria, and lists no phone number or street address; event dates are posted on Facebook rather than the site.
+    name: "The Kitchen Table Foundation",
+    url: "https://thekitchentablefoundation.org/",
+    description:
+      "Arkansas nonprofit supporting first responder mental health and wellness through peer support gatherings, including monthly meetups at The Local Tavern, an annual stair climb, and seasonal community and family nights. Connects responders in need with peer teams, responder-ready counseling, and crisis resources.",
+    needCategoryIds: ["mental-health", "purpose-community"],
+    audienceTags: ["First Responder", "Fire", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Arkansas",
+    state: "Arkansas",
+    verifiedDate: "2026-10-09",
+    availability: "Monthly meetups at The Local Tavern, an annual stair climb, and seasonal community and family nights; dates posted on Facebook.",
+  },
+  {
+    // TODO(verify): own site does not state cost for individual counseling or agency training services, nor formal eligibility criteria.
+    name: "Responder 1st",
+    url: "https://www.responder1st.org/",
+    description:
+      "Prairie Grove-based assistance program led by a licensed professional counselor and a law enforcement officer, offering traumatic incident debriefings, Post Critical Incident Seminars, and ICISF peer-team training to Arkansas public safety personnel and their families. Program leaders are certified through the International Critical Incident Stress Foundation (ICISF).",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Family"],
+    cost: "Free — the org states 'There is no fee other than travel expenses' (Post Critical Incident Seminar)",
+    geographicScope: "Arkansas (Prairie Grove-based)",
+    state: "Arkansas",
+    verifiedDate: "2026-10-09",
+    availability: "Post Critical Incident Seminar is an intensive three-day workshop at a confidential location, provided after the first responder registers.",
+    phone: "479-445-7726 / 479-445-7724",
+  },
+  {
+    name: "Camp Jack (Jack Williams Veterans Resource Center)",
+    url: "https://campjack.org/",
+    description:
+      "Veteran resource center in Harrison offering VA claim assistance with veteran volunteers, financial aid through combined veteran resources, a weekly food pantry, and benefits information for veterans and their families in Northwest Arkansas. Founded in October 2020 by local American Legion, VFW, and DAV leaders and named for Medal of Honor recipient Jack Williams.",
+    needCategoryIds: ["legal-benefits", "financial-assistance", "purpose-community"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Northwest Arkansas (Harrison, Boone County)",
+    state: "Arkansas",
+    verifiedDate: "2026-10-09",
+    availability: "Veteran food pantry available every Wednesday, 10 AM - 12 PM (registration required).",
+    phone: "870-517-5044",
+    hours: "Mon-Thurs. 9 AM - 3 PM; food pantry Wednesdays 10 AM - 12 PM.",
+  },
+  {
+    // TODO(verify): own site does not state further eligibility criteria, hours, or a phone number (contact is via WhatsApp or email; the Bentonville address is a mailbox).
+    name: "Arkansas Veterans Village",
+    url: "https://arveteransvillage.org/",
+    description:
+      "Northwest Arkansas nonprofit supplying shelter in the form of hotel stays and support to homeless veterans while they wait for permanent housing such as a VASH voucher. Run entirely by volunteers with no office-space or salary costs, funded through donations and an annual golf tournament at Paradise Valley Athletic Club in Fayetteville.",
+    needCategoryIds: ["housing-transportation"],
+    audienceTags: ["Veteran"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Northwest Arkansas (Rogers/Bentonville-based)",
+    state: "Arkansas",
+    verifiedDate: "2026-10-09",
+    eligibility: "Qualifying homeless veterans waiting for permanent housing (VASH — Veteran Affairs Supportive Housing) to become available.",
+  },
+  {
+    // TODO(verify): own site does not state program costs or formal eligibility criteria for VSSP, groups, or anger management services.
+    name: "Scars and Stripes, Inc.",
+    url: "https://www.scarsandstripesinc.org/home",
+    description:
+      "Hot Springs nonprofit delivering early-intervention veteran support through a Veteran Stability and Support Program addressing housing instability, financial strain, transportation, benefits access, and other crisis precursors. Also operates veteran peer support groups, suicide prevention outreach, crisis support, justice-involved veteran assistance, and certified anger management groups.",
+    needCategoryIds: ["mental-health", "housing-transportation", "financial-assistance"],
+    audienceTags: ["Veteran"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Hot Springs, Arkansas area",
+    state: "Arkansas",
+    verifiedDate: "2026-10-09",
+  },
+  {
+    // TODO(verify): own site does not state a participation cost for veteran hunting/fishing weekends; it notes all required gear is provided.
+    name: "Darby's Warrior Support",
+    url: "https://darbyswarriorsupport.org/",
+    description:
+      "Arkansas nonprofit in Searcy hosting veterans, active-duty service members, and their families for restorative outdoor experiences at the 9,000-square-foot Patriot Outpost lodge. Programs include Friday-to-Monday hunting and fishing weekends with all required gear provided, plus a Youth Hunting Program that reconnects soldiers and their children.",
+    needCategoryIds: ["outdoor-programs", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Arkansas (Searcy-based)",
+    state: "Arkansas",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "The org states: 'All 9/11 generation combat veterans are eligible, though DWS' target population is the Special Operations community'",
+    phone: "(931) 220-2919",
+  },
+  {
+    // TODO(verify): own site does not state program costs or formal eligibility criteria.
+    name: "Our Vets — West Memphis",
+    url: "https://ourvets.org/",
+    description:
+      "West Memphis nonprofit guiding veterans through benefits guidance and VA paperwork, housing support including adaptive housing grants for disabled veterans, addiction recovery connections, and mental health care focused on crisis intervention, suicide prevention, and peer support. Serves veterans and their families from a physical location on McCain Boulevard in West Memphis.",
+    needCategoryIds: ["legal-benefits", "housing-transportation", "mental-health"],
+    audienceTags: ["Veteran", "Disabled", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "West Memphis, Arkansas",
+    state: "Arkansas",
+    verifiedDate: "2026-10-09",
+    phone: "(901) 213-7680",
+  },
+  {
+    // TODO(verify): own site does not state whether services are free of charge.
+    name: "SSVF Arkansas (St. Francis House)",
+    url: "https://ssvfarkansas.org/",
+    description:
+      "Statewide homelessness-prevention and rapid re-housing program for veteran families, operated by St. Francis House, Inc. of Little Rock, offering case management and temporary financial assistance for security deposits, rent, utilities, childcare, and moving costs. Three offices in Little Rock/North Little Rock, Fayetteville, and Jonesboro cover all Arkansas counties.",
+    needCategoryIds: ["housing-transportation", "financial-assistance"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide — Arkansas (offices in Little Rock/North Little Rock, Fayetteville, Jonesboro)",
+    state: "Arkansas",
+    verifiedDate: "2026-10-09",
+    eligibility: "Low-income Veterans or Veteran Families who are considered literally homeless (by VA guidelines) or at imminent risk of becoming homeless.",
+    availability: "Intake via the Get Help form on the program site; all services and any financial assistance are provided case-by-case.",
+  },
+  {
+    // TODO(verify): own site does not state costs or eligibility criteria for its first-responder and veteran programs, and dedicated program pages for them could not be located.
+    name: "The Mandy Foundation",
+    url: "https://www.themandyfoundation.org/",
+    description:
+      "Arkansas suicide-prevention nonprofit offering a First Responder Suicide Prevention Program covering occupational stress, peer support, and culture-informed prevention, plus Guardian Network training for community members, first responders, and veterans. Also provides veteran-focused suicide prevention education and peer support and free, facilitated peer support groups.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["First Responder", "Veteran", "Family"],
+    cost:
+      "Not stated on the org's own site for first-responder and veteran programs; own site describes its peer support groups as 'Free, facilitated peer support groups'",
+    geographicScope: "Statewide — Arkansas (\"across Arkansas and beyond\")",
+    state: "Arkansas",
+    verifiedDate: "2026-10-09",
+    phone: "501-226-6187 (Information)",
+  },
+  {
+    // TODO(verify): own site does not state program costs or formal eligibility criteria on the pages checked.
+    name: "Sheep Dog Impact Assistance",
+    url: "https://sheepdogia.org/",
+    description:
+      "Rogers-based national nonprofit founded in 2010 that serves military members, veterans, first responders, and their families through Get Off The Couch programming built on posttraumatic growth. Programs include Outdoor Adventures, Warrior PATHH, Homefront support, and Continued Service disaster response volunteering.",
+    needCategoryIds: ["outdoor-programs", "mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "First Responder", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "National — headquartered in Rogers, Arkansas",
+    state: "Arkansas",
+    verifiedDate: "2026-10-09",
+    phone: "417-812-6035",
+  },
 
   // ---------------------------------------------------------------------
   // Louisiana Regional
@@ -4565,6 +4745,170 @@ export const RESOURCES: Resource[] = [
     geographicScope: "South Louisiana",
     state: "Louisiana",
     verifiedDate: "2026-08-27",
+  },
+  {
+    name: "Bastion",
+    url: "https://joinbastion.org/",
+    description:
+      "New Orleans nonprofit that began as America's first intentional community for disabled veterans and families, providing cost-free resources, programs, and clinical services — including a Veteran Wellness Center and wellness programs with special support for TBI and PTSD — to veterans across New Orleans and beyond.",
+    needCategoryIds: ["mental-health", "purpose-community", "family-support"],
+    audienceTags: ["Veteran", "Disabled", "Family"],
+    cost: "Free — cost-free services, resources, and programming",
+    geographicScope: "New Orleans, Louisiana (programming also in San Antonio)",
+    state: "Louisiana",
+    verifiedDate: "2026-10-09",
+    eligibility: "Bastion serves all veterans seeking support and community in their post-military lives, regardless of disability status or discharge status.",
+    phone: "888-737-5577",
+  },
+  {
+    name: "Healing Protectors",
+    url: "https://healingprotectors.org/",
+    description:
+      "Baton Rouge nonprofit led by Marine veteran therapist Beau Laviolette, LCSW, offering free evidence-based trauma therapy (EMDR and IFS) and free nature retreats for veterans in Louisiana, with peer support groups and family and relational support.",
+    needCategoryIds: ["mental-health", "outdoor-programs"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free — all services are free for veterans in Louisiana; nature retreats are completely free",
+    geographicScope: "Louisiana — therapy sessions in Baton Rouge, retreats in Louisiana's natural settings",
+    state: "Louisiana",
+    verifiedDate: "2026-10-09",
+    phone: "(504) 261-8654",
+  },
+  {
+    name: "Behind The Line",
+    url: "https://officialbehindtheline.org/",
+    description:
+      "Louisiana nonprofit standing beside first responders and their families across the state, providing mental-health resources, professional counseling resources, peer support networks, crisis intervention, emergency financial assistance, and family support after line-of-duty injury or loss.",
+    needCategoryIds: ["mental-health", "financial-assistance", "family-support"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Dispatch", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide — Louisiana",
+    state: "Louisiana",
+    verifiedDate: "2026-10-09",
+  },
+  {
+    name: "Southern Law Enforcement Foundation",
+    url: "https://slefoundation.com/",
+    description:
+      "Nonprofit of trained Critical Incident Stress Management (CISM) and peer-support teams — consisting of state, parish, and local law enforcement, mental health professionals, and chaplains — providing confidential inter-agency support for critical incident stress to law enforcement officers and their families across Louisiana upon request.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Law Enforcement", "First Responder", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide — Louisiana",
+    state: "Louisiana",
+    verifiedDate: "2026-10-09",
+    phone: "504-274-5206",
+  },
+  {
+    name: "Guardian Day Foundation",
+    url: "https://guardianday.org/",
+    description:
+      "Louisiana nonprofit that since 2021 has raised over $425,000 to help first responders and their families during times of crisis, medical hardship, and financial strain, funding grants and a First Responder Scholarship Fund for police, fire, and EMS families.",
+    needCategoryIds: ["financial-assistance", "family-support"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Family"],
+    cost: "Not stated on the org's own site (the foundation provides grants to first responders and their families)",
+    geographicScope:
+      "Capital Region Louisiana — Ascension, East Baton Rouge, West Baton Rouge, East Feliciana, West Feliciana, Iberville, Livingston, Pointe Coupee, and St. Helena parishes",
+    state: "Louisiana",
+    verifiedDate: "2026-10-09",
+    phone: "(225) 250-8854",
+  },
+  {
+    name: "Woody's Home for Veterans",
+    url: "https://wh4v.com/",
+    description:
+      "Shreveport nonprofit established in 2003 providing a stable home environment for homeless veterans in need of ongoing psychiatric care, with psychiatric and supportive care in a community of fellow servicemembers; states it relies on public generosity to ensure no veteran is ever turned away.",
+    needCategoryIds: ["housing-transportation", "mental-health"],
+    audienceTags: ["Veteran"],
+    cost: "Not stated on the org's own site — the home relies on donations so that no veteran is ever turned away",
+    geographicScope: "Shreveport, Louisiana (Northwest Louisiana)",
+    state: "Louisiana",
+    verifiedDate: "2026-10-09",
+    eligibility: "Homeless veterans in need of ongoing psychiatric care.",
+    phone: "318-425-1928",
+  },
+  {
+    name: "Veterans Corner",
+    url: "https://veteranscorner.vet/",
+    description:
+      "Lafayette-based 501(c)(3) founded by Navy veteran Gregory Ganier in 2012, connecting veterans with resources, employment assistance, and affordable housing in Southwest Louisiana, and developing a Pilot Home Program to help veterans secure a home, avoid foreclosure, or remain in their current residence.",
+    needCategoryIds: ["housing-transportation", "career-education"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Southwest Louisiana and beyond",
+    state: "Louisiana",
+    verifiedDate: "2026-10-09",
+  },
+  {
+    name: "Louisiana Lavender House",
+    url: "https://lalavenderh.org/",
+    description:
+      "Baton Rouge nonprofit providing veterans and their families hands-on assistance with VA benefits applications, financial literacy and budgeting, job readiness and career placement, mental-health referrals, and housing resources, with a special focus on female veterans and a long-term vision of transitional housing for women veterans and their families.",
+    needCategoryIds: ["legal-benefits", "career-education", "housing-transportation"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Baton Rouge, Louisiana",
+    state: "Louisiana",
+    verifiedDate: "2026-10-09",
+    phone: "225-772-0301",
+  },
+  {
+    name: "Acadiana Veteran Alliance",
+    url: "https://www.supportava.org/",
+    description:
+      "Lafayette-area nonprofit and resource for veterans and transitioning military through integrated Work, Heal, and Give programs: Stellate Ganglion Block injection procedures and trauma-informed telehealth counseling to combat post-traumatic stress, career and entrepreneurship support, and community peer-to-peer engagement.",
+    needCategoryIds: ["mental-health", "career-education", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military"],
+    cost:
+      "Free — site states 12 free trauma-informed telehealth counseling sessions; other program costs not stated on the org's own site",
+    geographicScope: "Acadiana region (Lafayette, LA area)",
+    state: "Louisiana",
+    verifiedDate: "2026-10-09",
+  },
+  {
+    name: "Got Your 6 Louisiana",
+    url: "https://gy6la.org/",
+    description:
+      "Shreveport/Bossier City nonprofit supporting the SBC first responder community by providing and networking resources including health services, mental health services, counseling, recovery, therapy, and employment assistance; grew out of VetFest Louisiana and continues to serve veterans alongside first responders.",
+    needCategoryIds: ["mental-health", "career-education", "purpose-community"],
+    audienceTags: ["First Responder", "Veteran", "Law Enforcement", "Fire", "EMS"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Shreveport/Bossier City, Louisiana",
+    state: "Louisiana",
+    verifiedDate: "2026-10-09",
+  },
+  {
+    // Own site (About page): "FAITH — Guided by faith, grounded in hope"
+    name: "Once Was Inc",
+    url: "https://oncewasinc.org/",
+    description:
+      "Veteran-led nonprofit standing in the gap for Louisiana veterans who live more than 50 miles from VA hospitals and military resources, connecting them to housing, healthcare, monthly Meals of Remembrance in Calcasieu and Lafayette parishes, holiday essentials through Service Saturdays, VA benefit consultations, mentorship, and mental-health support.",
+    needCategoryIds: ["housing-transportation", "mental-health", "family-support"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Acadiana and Southwest Louisiana (Calcasieu and Lafayette parishes) and beyond",
+    state: "Louisiana",
+    verifiedDate: "2026-10-09",
+    eligibility: "Louisiana veterans who live more than 50 miles from VA hospitals and military resources, and their families.",
+    availability: "Monthly Meals of Remembrance gatherings in Calcasieu and Lafayette Parishes; Service Saturdays held on Easter, Thanksgiving, and Christmas.",
+    phone: "(832) 594-4321",
+    faithBased: true,
+    faithAffiliationSource: "https://oncewasinc.org/about-us/",
+  },
+  {
+    // Own site (Our History page): "A ministry of presence — be present, listen and love."
+    name: "Louisiana Fire Chaplain Network",
+    url: "https://www.louisianafirechaplains.com/",
+    description:
+      "Statewide network organized in 2011 of fire chaplains serving Louisiana's city, parish, and volunteer fire departments through a ministry of presence — disaster response upon request of local authorities, support for victims and survivors of critical incidents, assistance with firefighter funerals and memorials, and a confidential listening ear to fire personnel in crisis.",
+    needCategoryIds: ["mental-health", "family-support", "purpose-community"],
+    audienceTags: ["Fire", "First Responder", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide — Louisiana (nine regions)",
+    state: "Louisiana",
+    verifiedDate: "2026-10-09",
+    phone: "318-347-8940",
+    faithBased: true,
+    faithAffiliationSource: "https://www.louisianafirechaplains.com/our-history",
   },
 
   // ---------------------------------------------------------------------
@@ -4636,6 +4980,198 @@ export const RESOURCES: Resource[] = [
     state: "Oklahoma",
     verifiedDate: "2026-08-27",
   },
+  {
+    name: "Dale K. Graham Veterans Foundation",
+    url: "https://www.dalekgrahamveteransfoundation.org/",
+    description:
+      "Nonprofit that guides veterans and their families through the complexities of the VA claims process, offering claims, appeals, and surviving spouse services, referrals, and resources at no cost to the veteran. Walk-in support is available at offices in Norman, Lawton, and Altus, with claim writing by appointment.",
+    needCategoryIds: ["legal-benefits"],
+    audienceTags: ["Veteran", "Family", "Survivor"],
+    cost: "Free — the org states services are provided 'always at no cost to the veteran'",
+    geographicScope: "Central and southwest Oklahoma — Norman, Lawton, and Altus offices",
+    state: "Oklahoma",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans and their family members (the org states 'Whether you're a veteran or family member, we're here to help').",
+    availability: "New remote clients are temporarily paused; in-person appointments are still available. Walk-in services without an appointment; claim writing services by appointment only.",
+    phone: "405-550-8806",
+    hours: "Norman: Monday through Thursday, 9am-12pm; Lawton: Tuesday through Thursday, 9am-12pm; Altus: Monday and Friday, 9am-12pm.",
+  },
+  {
+    name: "Oklahoma First Responder Wellness Division",
+    url: "https://oklahoma.gov/okfrwd.html",
+    description:
+      "State division created by law in April 2022 that provides Oklahoma first responders with certified peer support, critical incident stress management, trauma counseling, and mental and physical wellness training. Its Oklahoma City office is staffed with certified peer members and trauma counselors, and it brings mental and physical training to agencies across the state.",
+    needCategoryIds: ["mental-health", "sports-fitness"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Dispatch"],
+    cost: "Free — the org states 'All services are FREE'",
+    geographicScope: "Statewide — Oklahoma (office in Oklahoma City)",
+    state: "Oklahoma",
+    verifiedDate: "2026-10-09",
+    eligibility: "The org states 'We are here to serve every Oklahoma First Responder by way of support.'",
+    availability:
+      "For urgent matters during non-business hours the site directs people to the Central Communications Center at (405) 425-2323 to ask for a First Responder Team member; emergencies call 911.",
+    phone: "(405) 425-2323",
+    hours: "Monday - Friday 0900 - 1500; closed Saturday and Sunday.",
+  },
+  {
+    // TODO(verify): cost of Rally Points and dollar terms of grants/scholarships are not stated on the org's own site.
+    name: "EAGLE OPS Foundation",
+    url: "https://eagleops.org/",
+    description:
+      "Owasso-based veteran-founded 501(c)(3) that hosts recurring 'Rally Points' — social, fitness, and outdoor gatherings such as golf nights, guided fishing trips, firepit nights, and softball — plus resource navigation, volunteer projects, and emergency grants, scholarships, and assistance for veterans in crisis. The org states it touches more than 4,000 veterans and their families each year.",
+    needCategoryIds: ["purpose-community", "financial-assistance", "outdoor-programs"],
+    audienceTags: ["Veteran", "Active Military", "Family", "Civilian Supporter"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide — Oklahoma (headquartered in Owasso; events listed across Oklahoma)",
+    state: "Oklahoma",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "Serves veterans, service members, and their families, plus supporters: the org states 'Whether you're a veteran seeking support, a family member looking for connection, or a patriot wanting to give back, Eagle OPS is here for you.'",
+    availability: "Rally Point dates and locations are published on the org's online calendar (eagleops.org/calendar).",
+    phone: "918-600-1911",
+  },
+  {
+    name: "Emergency Responders Assistance Program (ERAP)",
+    url: "https://erapna.org/oklahoma-emergency-responders-assistance-program-erap/",
+    description:
+      "Oklahoma City 501(c)(3) that underwrites Emergency Responders Critical Incident Seminars (ERCIS), seminars led by mental health workers and emergency responder peers to mitigate the effects of critical incidents on first responders, including PTSD, substance abuse, family violence, and suicide. The org states it has funded 28 seminars in Oklahoma and Arizona since 2015.",
+    needCategoryIds: ["mental-health", "family-support"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Dispatch"],
+    cost: "Emergency responder and spouse participants do not have any financial obligations in attending the seminars.",
+    geographicScope: "Oklahoma (HQ Oklahoma City); seminars have also been held in Arizona",
+    state: "Oklahoma",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "The org states it serves 'Fire, Law Enforcement, 911 call takers/dispatchers, EMS, Medical Examiners, and Crime Scene Investigators' and their significant others.",
+    availability: "Seminar dates are posted on the org's Event Dates page; participants register through the Oklahoma registration form on erapna.org.",
+    phone: "405-519-1861",
+  },
+  {
+    // TODO(verify): the specific fee amount is not published on the org's own site.
+    name: "Rescue Pod",
+    url: "https://www.rescuepod.org/",
+    description:
+      "Tulsa-based therapeutic debriefing service for EMS professionals, providing one two-hour group debriefing at the location of the requester's service, led by two licensed therapists using trauma-informed therapy. The session includes mental health education, after-care assistance connecting to helpful services, and individual wellness follow-up with each group participant.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["EMS"],
+    cost: "The org states it offers 'an individualized fee for group debriefing, based on service funding', to support EMS professionals' mental health and wellness; exact fee not published",
+    geographicScope: "Tulsa, Oklahoma (delivered on-site at the requesting EMS service)",
+    state: "Oklahoma",
+    verifiedDate: "2026-10-09",
+    eligibility: "EMS professionals; sessions are held 'at the location of your service.'",
+    phone: "918-809-5924",
+  },
+  {
+    // TODO(verify): cost of services and food pantry eligibility/fees are not stated on the org's own site.
+    name: "Coffee Bunker",
+    url: "https://coffeebunker.org/",
+    description:
+      "Tulsa veterans center providing a drop-in Connection Table for peer support, transition services for employment and education, financial and VA claims assistance, housing assistance, legal appointments, chaplain hours, an on-site library, and a Pantry for Patriots food pantry. The center serves veterans and their families from active duty, National Guard, and Reserve service.",
+    needCategoryIds: ["purpose-community", "career-education", "mental-health"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Tulsa, Oklahoma",
+    state: "Oklahoma",
+    verifiedDate: "2026-10-09",
+    eligibility: "The org states 'This commitment includes veterans and their families from active duty service, National Guard, and Reserves.'",
+    hours:
+      "Connection Table: Monday-Friday 8am-4pm; Food pantry: Tuesday/Thursday 8am-5pm; Legal assistance: Wednesday 1:30-3:30pm by appointment; VA claims assistance: Friday 9am-12:30pm by appointment; Chaplain hours: Monday 10am-2pm.",
+    phone: "918-637-3878",
+  },
+  {
+    // TODO(verify): cost and eligibility details for honor guard services are not stated on the org's own site.
+    name: "Honoring America's Warriors",
+    url: "https://honoringamericaswarriors.org/",
+    description:
+      "Oklahoma City 501(c)(3) that provides a full funeral detail or augmented funeral honors for veterans' families, peer-to-peer activities that allow veterans to be with other veterans in a non-clinical environment, and service dogs and training for disabled veterans coping with anxiety or depression.",
+    needCategoryIds: ["purpose-community", "mental-health"],
+    audienceTags: ["Veteran", "Disabled", "Family", "Survivor"],
+    cost: "Service dogs and training are provided 'at no cost' to disabled veterans; cost of other services is not stated on the org's own site",
+    geographicScope: "Statewide — Oklahoma ('exclusive to Oklahoma'; office in Oklahoma City)",
+    state: "Oklahoma",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "Funeral honors for veterans' families; service dogs for 'disabled veterans who cope with anxiety or depression that could lead to veteran suicide.'",
+    phone: "405-948-4376 (listed as 405-948-HERO)",
+  },
+  {
+    // TODO(verify): cost of services and explicit intake criteria are not stated on the org's Veterans page.
+    name: "Oklahoma Center of Empowerment",
+    url: "https://ocoe.org/veterans/",
+    description:
+      "Tulsa nonprofit whose veteran program is built to 'put the needs of the homeless and disabled veteran first,' offering career development, resume consulting, interview training, job development and placement, and education resources through its sister school Achieve Career Institute. The org also states it offers resources to assist with housing for veterans in its employment program or needing sober living.",
+    needCategoryIds: ["career-education", "housing-transportation"],
+    audienceTags: ["Veteran", "Family", "Disabled"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Tulsa, Oklahoma",
+    state: "Oklahoma",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "Programs assist 'veterans and their families in need of services at various stages of transitioning out of military service,' with priority on homeless and disabled veterans.",
+    phone: "(918) 346-6341",
+  },
+  {
+    // TODO(verify): cost of outings is not stated on the org's own site, and no contact phone number is listed (contact is via form/email).
+    name: "Oklahoma Heroes Outdoors",
+    url: "https://oklahomaheroesoutdoors.org/",
+    description:
+      "Choctaw-based 501(c)(3) dedicated to supporting active duty members, veterans, and first responders in Oklahoma by providing hunting, fishing, and other outdoor activities so they can decompress, connect with nature, and bond with others who understand their experiences. The org states its mission supports participants' physical, mental, and spiritual wellness.",
+    needCategoryIds: ["outdoor-programs", "mental-health"],
+    audienceTags: ["Veteran", "Active Military", "First Responder"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide — Oklahoma (based in Choctaw)",
+    state: "Oklahoma",
+    verifiedDate: "2026-10-09",
+    eligibility: "Dedicated to 'supporting active duty, veterans and first responders in our state.'",
+  },
+  {
+    // TODO(verify): cost of services and support groups is not stated on the org's own site.
+    name: "Reveille Bridge Veterans Foundation",
+    url: "https://reveillebridge.org/",
+    description:
+      "Norman-based 501(c)(3) focused on veteran suicide prevention by training families to be active members in the healing process of their veteran and by hosting support groups, entertainment, training, and community activities at its open-doors space.",
+    needCategoryIds: ["family-support", "purpose-community", "mental-health"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Norman, Oklahoma",
+    state: "Oklahoma",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans and their families: the org states 'We train families to be active members in the healing process of their Veteran.'",
+    hours: "The org states it opens its doors at 5 PM on weekdays and 10 AM on weekends.",
+    phone: "405-362-0504",
+  },
+  {
+    // TODO(verify): cost and eligibility criteria for individual benefits are not stated on the agency's homepage; the linked service-officer and benefits pages were not separately verified.
+    name: "Oklahoma Department of Veterans Affairs",
+    url: "https://oklahoma.gov/veterans.html",
+    description:
+      "State agency that helps Oklahoma veterans with claims and benefits through a service-officer locator, administers state veteran benefits and a veteran registry, and directly operates veterans homes and long-term care, a state veterans cemetery, and a State Approving Agency for veterans' education.",
+    needCategoryIds: ["legal-benefits", "housing-transportation"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide — Oklahoma (Central Office in Oklahoma City; Muskogee office)",
+    state: "Oklahoma",
+    verifiedDate: "2026-10-09",
+    phone: "855-701-6382 (toll free); 405-523-4000 (Central Office local); ODVA Hotline 833-993-0234",
+  },
+  {
+    // Own site (our Mission, homepage): "Our mission is to help other veterans and service members find peace through a relationship with Jesus Christ."
+    name: "Taloka Creek Ministries",
+    url: "https://talokacreekministries.com/",
+    description:
+      "Stigler-based 501(c)(3) ministry that brings small groups of veterans and service members out for a few days during most weeks of hunting season with all expenses paid, including meals, lodging, hunting license, tags, and clothing if needed. Attendees apply through the site's application to attend.",
+    needCategoryIds: ["outdoor-programs", "mental-health"],
+    audienceTags: ["Veteran", "Active Military"],
+    cost: "Free — 'all expenses paid': meals, lodging, hunting license, tags, and clothing are provided for attendees",
+    geographicScope: "Stigler, Oklahoma (southeast Oklahoma)",
+    state: "Oklahoma",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "Veterans and service members; the org states 'Our mission is to help other veterans and service members find peace through a relationship with Jesus Christ', selected in small groups via the site's application to attend.",
+    availability: "The org plans to bring a small group out for a few days most weeks of hunting season; apply through the Application to attend on the org's site.",
+    faithBased: true,
+    faithAffiliationSource: "https://talokacreekministries.com/",
+  },
 
   // ---------------------------------------------------------------------
   // Missouri Regional
@@ -4705,6 +5241,196 @@ export const RESOURCES: Resource[] = [
     state: "Missouri",
     verifiedDate: "2026-08-27",
     eligibility: "Membership is built for combat veterans; family members participate through their veteran's membership.",
+  },
+  {
+    // TODO(verify): cost to first responders for therapy sessions is not stated on the org's own site; the site says services are grant- and donation-funded.
+    name: "Missouri First Responder Provider Network",
+    url: "https://mofrpn.org/",
+    description:
+      "Statewide 501(c)(3) network that confidentially connects Missouri's first responders with licensed clinicians who specialize in first responder culture, plus a Critical Incident Support Network (CISN) delivering peer support, defusings, and debriefings after critical incidents.",
+    needCategoryIds: ["mental-health", "purpose-community"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Dispatch", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide — Missouri",
+    state: "Missouri",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "Self-referral by Missouri first responders; CISN peer support also serves first responders and their families (own site).",
+    availability: "Self-referral through the FRPN helpline or online provider map (own site).",
+    phone: "765-843-3776",
+  },
+  {
+    // TODO(verify): the org's own site lists no phone number (web-form contact only) and does not state rent or other costs to residents.
+    name: "Missouri Veterans Endeavor (MOVE)",
+    url: "https://www.move-stl.org/",
+    description:
+      "St. Louis nonprofit operating long-term housing for homeless veterans and their families, pairing housing with financial assistance and clinical case management; the site states it is solely donor-funded without federal assistance.",
+    needCategoryIds: ["housing-transportation", "financial-assistance", "family-support"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "St. Louis region, Missouri",
+    state: "Missouri",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "Proof of veteran status (DD214), minimum income of $1,000 per month, background check, participation in clinical case management, and proof of homelessness via case manager or peer support specialist referral (own site).",
+    hours: "Staff accessible 24/7; on-site Monday through Friday (own site).",
+  },
+  {
+    // TODO(verify): eligibility and scheduling details for Food for Vets and Trees for Vets beyond event registration are not stated on the org's own site.
+    name: "The Kaufman Fund",
+    url: "https://www.thekaufmanfund.org/",
+    description:
+      "St. Louis 501(c)(3) aiding veterans with life's basic necessities through Food for Vets food drives, free tax preparation for veterans, Trees for Vets, and referrals to utility, housing, and wellness resources.",
+    needCategoryIds: ["financial-assistance", "family-support"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free for Tax Prep for Vets — the org states 'The returns are done for free to Veterans'; cost of other programs not stated on the org's own site",
+    geographicScope: "St. Louis region, Missouri",
+    state: "Missouri",
+    verifiedDate: "2026-10-09",
+    phone: "314-455-9415",
+  },
+  {
+    name: "The BackStoppers",
+    url: "https://backstoppers.org/",
+    description:
+      "Provides immediate and long-term financial assistance to families of police officers, firefighters, and publicly-funded paramedics and EMTs killed or catastrophically injured in the line of duty, covering debt elimination, insurance and cost-of-living support, and education costs, plus a Cardiac Wellness Program for first responders.",
+    needCategoryIds: ["financial-assistance", "family-support", "career-education"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Family", "Survivor"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "28 counties across Missouri and Illinois",
+    state: "Missouri",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "Police officers, firefighters and volunteer firefighters, and publicly-funded paramedics and EMTs killed, catastrophically injured, or suffering a fatal line-of-duty medical event; families assisted include the surviving spouse and dependent children (own site).",
+    phone: "314-692-0200",
+  },
+  {
+    // Own site (History page) identifies Catholic Charities of Kansas City-St. Joseph as a faith-based agency of the Diocese of Kansas City-St. Joseph.
+    name: "Catholic Charities of Kansas City-St. Joseph — Veteran Services",
+    url: "https://catholiccharities-kcsj.org/veteran-services/",
+    description:
+      "Delivers Supportive Services for Veteran Families (SSVF) through a veteran-led team, covering rapid re-housing, homelessness prevention, case management, financial assistance, employment support, and referrals for veterans experiencing or at risk of homelessness.",
+    needCategoryIds: ["housing-transportation", "financial-assistance", "career-education"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Kansas City and St. Joseph region, Missouri",
+    state: "Missouri",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans experiencing homelessness or at risk of becoming homeless and their households, under VA SSVF criteria (own site).",
+    phone: "816-659-8263",
+    hours: "Mon. through Thurs. 8:30 a.m. to 4 p.m. (own site).",
+    faithBased: true,
+    faithAffiliationSource: "https://catholiccharities-kcsj.org/who-we-are/history/",
+  },
+  {
+    name: "St. Michael's Veterans Center",
+    url: "https://smvets.org/",
+    description:
+      "Operates a 24-acre Kansas City campus of permanent supportive housing — 179 affordable homes as of 2026 — for veterans experiencing homelessness or living with a disability, with wraparound support for employment, physical and mental health, and trauma and addiction management.",
+    needCategoryIds: ["housing-transportation", "mental-health", "career-education"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Kansas City, Missouri",
+    state: "Missouri",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans experiencing homelessness or living with a disability (own site).",
+    phone: "816-921-0201",
+  },
+  {
+    name: "Welcome Home — Missouri",
+    url: "https://www.welcomeveterans.org/",
+    description:
+      "Columbia, Missouri veterans shelter serving homeless and at-risk veterans with emergency and transitional shelter, permanent housing assistance, meals, employment assistance, transportation, and case management.",
+    needCategoryIds: ["housing-transportation", "career-education", "family-support"],
+    audienceTags: ["Veteran", "Family", "Disabled"],
+    cost: "Free — the org states 'All at no cost to the Veteran'",
+    geographicScope: "Mid-Missouri",
+    state: "Missouri",
+    verifiedDate: "2026-10-09",
+    eligibility: "Homeless veterans, veterans at risk of becoming homeless, and their families; veteran-only shelter (own site).",
+    hours: "Office Hours: 9am-5pm (M-F) (own site).",
+    phone: "573-443-8001",
+  },
+  {
+    name: "Mizzou Law Veterans Clinic",
+    url: "https://veteransclinic.missouri.edu/",
+    description:
+      "University of Missouri School of Law clinic where law students, supervised by experienced attorneys, represent veterans free of charge with discharge upgrades and VA disability compensation claims, plus rural veteran outreach through Tigers for Troops.",
+    needCategoryIds: ["legal-benefits"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free — the org states 'We represent veterans (free of charge)'",
+    geographicScope: "Statewide — Missouri (Columbia-based)",
+    state: "Missouri",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans seeking discharge upgrades or VA disability compensation claims; the clinic does not handle criminal or civil matters (own site).",
+    availability: "Intake by phone or email; representation cannot be guaranteed due to high demand (own site).",
+    phone: "573-882-7630",
+  },
+  {
+    name: "Kansas City Fisher House",
+    url: "https://www.kcfisherhouse.org/",
+    description:
+      "Sixteen-suite home away from home at the Kansas City VA Medical Center, opened in 2022, where families of veterans receiving VA medical care can stay while their loved one is hospitalized.",
+    needCategoryIds: ["housing-transportation", "family-support"],
+    audienceTags: ["Veteran", "Family", "Caregiver"],
+    cost: "Free — 'a place to stay, free of charge' (own site)",
+    geographicScope: "Kansas City, Missouri",
+    state: "Missouri",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "Guests need a referral from social workers or clinical staff and a permanent address more than 50 miles from the Kansas City VA campus; rooms are assigned first-come, first-served (own site).",
+    phone: "816-701-3232",
+  },
+  {
+    // Own site (History page) identifies St. Patrick Center as an agency of Catholic Charities of St. Louis.
+    name: "St. Patrick Center — Veterans Programs",
+    url: "https://www.stpatrickcenter.org/programs",
+    description:
+      "Runs veteran-specific housing programs in St. Louis, including Supportive Services for Veteran Families (SSVF) with case management, homelessness prevention, and rapid housing transitions, and Veterans Grant and Per Diem (GPD) programs addressing housing instability.",
+    needCategoryIds: ["housing-transportation", "family-support"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope:
+      "St. Louis city and county plus Franklin, Jefferson, Lincoln, St. Charles, St. Francois, Warren, and Washington counties (own site)",
+    state: "Missouri",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans or households with a veteran who are homeless or at risk of homelessness (own site).",
+    phone: "314-356-0657",
+    hours: "Monday-Friday, 8:00 am-4:30 pm (own site).",
+    faithBased: true,
+    faithAffiliationSource: "https://www.stpatrickcenter.org/history",
+  },
+  {
+    // Own site (homepage) identifies Peterson Outdoors Ministries as a faith-based outdoor ministry serving participants of all backgrounds.
+    name: "Peterson Outdoors Ministries",
+    url: "https://www.petersonoutdoors.org/",
+    description:
+      "Faith-based outdoor recreational therapy organization operating the 214-acre Lodge of Hope campus in Missouri, offering hunting, fishing, kayaking, and retreat programs for veterans, active-duty military, first responders, and youth and adults with disabilities or life-threatening illnesses.",
+    needCategoryIds: ["outdoor-programs", "mental-health", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "First Responder", "Disabled", "Gold Star", "Family"],
+    cost: "Free — the org states 'There is no cost to participants'",
+    geographicScope: "Missouri (Lodge of Hope campus); participants from 30+ states",
+    state: "Missouri",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans, active-duty military, first responders, and youth and adults with disabilities or life-threatening illnesses (own site).",
+    phone: "417-529-0115",
+    faithBased: true,
+    faithAffiliationSource: "https://www.petersonoutdoors.org/",
+  },
+  {
+    // TODO(verify): the org's own site lists no phone number (contact via web form) and does not state cost or income limits for financial assistance.
+    name: "First Responder Support — Boone County, Missouri",
+    url: "https://www.mofrs.org/",
+    description:
+      "Boone County nonprofit serving first responders in Boone County with financial assistance, mental health and substance use support, a resilience scholarship program, Shop with a HERO, and crisis planning for first responders and their families.",
+    needCategoryIds: ["mental-health", "financial-assistance", "purpose-community"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Dispatch", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Boone County, Missouri",
+    state: "Missouri",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "Firefighters, EMTs, emergency telecommunications, and law enforcement officers serving municipalities in Boone County (own site).",
   },
 
   // ---------------------------------------------------------------------
@@ -7137,6 +7863,196 @@ export const RESOURCES: Resource[] = [
     state: "Montana",
     verifiedDate: "2026-08-27",
   },
+  {
+    // TODO(verify): monthly contribution amount never stated on the org's own site — confirm before final cost framing.
+    name: "Impact Montana",
+    url: "https://impactmontana.org/",
+    description:
+      "Montana nonprofit using its Thrive Factors model — one-on-one support, training and development, community health and wellness services, and social connection — to help the state's service members, veterans, first responders, and their families thrive.",
+    needCategoryIds: ["mental-health", "purpose-community", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "First Responder", "Family"],
+    cost: "Participant monthly contribution to Impact Montana is part of program participation; amount not stated on the org's own site",
+    geographicScope: "Statewide — Montana",
+    state: "Montana",
+    verifiedDate: "2026-10-09",
+    availability:
+      "Hand-Up Project and Live2Thrive programming not currently open to new participants; the 90 Day Live2Thrive Challenge is open to service members, veterans, first responders, and immediate family members by interest form.",
+  },
+  {
+    name: "Montana Warrior Foundation",
+    url: "https://www.montanawarrior.com/",
+    description:
+      "Montana nonprofit providing donor-funded scholarships and support that cover costs of vetted healing programs and professional counseling — including travel, lodging, and participation — for the state's military members, veterans, first responders, and their families.",
+    needCategoryIds: ["financial-assistance", "mental-health", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "First Responder", "Law Enforcement", "Fire", "EMS", "Military Spouse", "Family"],
+    cost: "Scholarship-funded; the org states it covers approved program costs including travel, lodging, and participation — no fee to participants stated on the org's own site",
+    geographicScope: "Statewide — Montana",
+    state: "Montana",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "U.S. active-duty military, veterans, and first responders (law enforcement, fire, EMS) who have completed basic/academy training and served a minimum of six months (DD214 required for veterans), plus spouses of eligible service members and first responders.",
+    availability: "Currently accepting support applications; scholarship funding begins to be awarded after February 1, 2026 as resources become available.",
+  },
+  {
+    name: "Great Plains Veterans Services Center",
+    url: "https://www.greatplainsveterans.org/",
+    description:
+      "Veterans services center with main office in Box Elder and branch offices in Browning and Fort Belknap, offering benefits assistance, employment referral, VA health-care navigation, direct needs assistance (grocery, bill, and heating help), and transportation to VA medical appointments.",
+    needCategoryIds: ["financial-assistance", "housing-transportation", "career-education"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "North-central Montana (Box Elder main office; Browning and Fort Belknap branch offices)",
+    state: "Montana",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "Primarily serves veterans throughout rural North Central Montana, including the Rocky Boy's, Fort Belknap, and Blackfeet reservations.",
+    availability: "Direct in-person assistance is in-person only and available upon approval.",
+    phone: "(406) 395-5610",
+  },
+  {
+    name: "Veterans Navigation Network",
+    url: "https://www.veteransnavigation.org/",
+    description:
+      "Billings-based navigation hub connecting veterans, service members, and families with VA benefits, health care, housing, employment, and community support through peer mentorship, serving every Montana county including rural and tribal communities.",
+    needCategoryIds: ["purpose-community", "career-education", "housing-transportation"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "Free — the org states 'All services are free.'",
+    geographicScope: "Statewide — Montana (every county, including rural and tribal communities)",
+    state: "Montana",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans, service members, and their families.",
+    phone: "(406) 435-9308",
+    hours: "Monday-Friday, 8:00 AM-5:00 PM.",
+  },
+  {
+    // TODO(verify): whether the pantry, thrift store, and DME loans are free to veterans is not stated on the org's own site.
+    name: "Northwest Montana Veterans Stand Down & Food Pantry",
+    url: "https://veteransfoodpantry.org/",
+    description:
+      "Kalispell-based 501(c)(3) operating a veterans food pantry, thrift store, and durable medical equipment (DME) loan program at 1349 Hwy 2 East, plus an annual Stand Down in Libby that has assisted as many as 2,500 veterans in a single weekend.",
+    needCategoryIds: ["financial-assistance", "equipment-grants", "family-support"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Kalispell / Flathead Valley and Northwest Montana",
+    state: "Montana",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans and their families in the Flathead Valley and Northwest Montana region.",
+    phone: "(406) 756-7304",
+    hours:
+      "Food pantry: Monday-Friday, 10:00 AM-3:00 PM; thrift store: Monday-Friday, 10:00 AM-4:30 PM; DME medical loans: Monday-Friday, 10:00 AM-3:00 PM.",
+  },
+  {
+    name: "Valor in the Valley",
+    url: "https://vitv.us/",
+    description:
+      "Belgrade-based nonprofit providing veterans clinical rehabilitation, alternative and holistic therapies, mental health counseling, Veteran Service Officer benefits help, and vocational job support in trades such as welding, automotive repair, and wildland firefighting.",
+    needCategoryIds: ["mental-health", "career-education", "legal-benefits"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free — the org states services are 'at no cost to the veteran and their families'",
+    geographicScope: "Southwestern Montana (Belgrade)",
+    state: "Montana",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans in need and their families.",
+    phone: "406-694-9119 (main); 406-517-8166 (Veteran Service Officer)",
+    hours: "Monday-Friday, 9:00 AM-5:00 PM.",
+  },
+  {
+    // TODO(verify): phone on the clinic page is the law school's main line; confirm a direct clinic number if one exists.
+    name: "Veterans Advocacy Clinic — University of Montana",
+    url: "https://www.umt.edu/law/academics/clinics/veterans-advocacy.php",
+    description:
+      "Pro bono legal clinic at the University of Montana School of Law providing representation and consultation to low-income Montana veterans on VA disability claims and appeals, DoD discharge upgrades, and other legal issues connected to military service.",
+    needCategoryIds: ["legal-benefits"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free — 'pro bono legal advocacy' (stated on the org's own site)",
+    geographicScope: "Statewide — Montana (Missoula-based clinic serving rural and urban communities)",
+    state: "Montana",
+    verifiedDate: "2026-10-09",
+    eligibility: "Low-income veterans; capacity is limited, so the clinic may not be able to take on every matter.",
+    availability: "Accepting inquiries through an online intake form.",
+    phone: "(406) 243-4311",
+  },
+  {
+    // TODO(verify): detailed scholarship award/eligibility criteria (on the org's Funding page) were not confirmed in this pass — verify before publishing specifics.
+    name: "Grateful Nation Montana",
+    url: "https://www.gratefulnationmontana.com/",
+    description:
+      "Montana nonprofit that facilitates college educations for the children of Montana soldiers killed while on active duty in Iraq or Afghanistan, linking eligible students with scholarship funding and non-monetary support such as campus involvement, tutoring, and counseling.",
+    needCategoryIds: ["family-support", "career-education"],
+    audienceTags: ["Gold Star", "Family", "Survivor"],
+    cost: "Not applicable — college scholarship funding; no fee to students stated on the org's own site",
+    geographicScope: "Statewide — Montana",
+    state: "Montana",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "Children of soldiers killed while on active duty in Iraq or Afghanistan; the org currently focuses solely on Montana military families.",
+  },
+  {
+    name: "Montana Warriors on the Water",
+    url: "https://www.montanawarriorsonthewater.com/",
+    description:
+      "Miles City-based nonprofit founded in 2015 providing outdoor recreational therapy to U.S. veterans and active-duty personnel at no cost, including a weeklong Fort Peck Lake fishing trip, a Labor Day women's veterans fishing retreat, and a cow elk hunt near Big Timber.",
+    needCategoryIds: ["outdoor-programs", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military"],
+    cost: "Free — the org states 'All excursions and equipment are provided to the participants at no cost.'",
+    geographicScope: "Eastern Montana (Miles City / Fort Peck Lake, Big Timber) — trips open to veterans nationwide",
+    state: "Montana",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "Veterans of the United States Military (active-duty personnel also served); applications require a copy of service record (DD-214 or Record Brief).",
+    availability:
+      "Seasonal, by application — site notice states current applications are closed after reaching quota; Fort Peck trip applications are solicited each January.",
+  },
+  {
+    name: "Big Sky Valor Outdoors",
+    url: "https://bigskyvaloroutdoors.org/",
+    description:
+      "Bozeman-area nonprofit founded by a Marine Corps and Fire Service veteran offering free hunting, fly-fishing, and hiking outings to veterans and sworn public safety officers on Montana public and private lands.",
+    needCategoryIds: ["outdoor-programs", "purpose-community"],
+    audienceTags: ["Veteran", "First Responder"],
+    cost: "Free — the org states 'All of our trips are 100% free for eligible veterans and public safety officers.'",
+    geographicScope: "Bozeman, MT / southwest Montana",
+    state: "Montana",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans who have served in the armed forces and sworn public safety officers.",
+    availability: "By appointment only — trips and appointments scheduled in advance via email and intake form.",
+  },
+  {
+    // TODO(verify): whether trips are free to participants is not stated on the org's own site.
+    name: "Montana Vet Program (MVP)",
+    url: "https://www.mtvetprogram.org/",
+    description:
+      "Great Falls-based nonprofit running Veteran Led Therapeutic Adventure Trips (VLTAT) — multi-day Smith River float missions and backcountry hikes carrying its 75-lb 'Pig-Egg' of fallen service members' dog tags — for struggling veterans, with designated trips open to spouses, plus Smith River conservation work with Montana Fish, Wildlife & Parks.",
+    needCategoryIds: ["outdoor-programs", "mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "Military Spouse"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide — Montana (Great Falls-based; Smith River and Montana backcountry)",
+    state: "Montana",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "Site describes trips for 'our country's struggling veterans'; two 2026 trips are veterans-only and two are open to spouses.",
+    availability:
+      "Scheduled trips — 2026 dates listed: May 21-24, June 11-14, August 6-9, September 3-6, plus an invite-only 8-day expedition at the end of August; application/intake form required.",
+  },
+  {
+    // Own site (homepage mission line): "Bible-based chaplain services for law enforcement, emergency services, and citizens within central Montana."
+    // TODO(verify): the site has no separate About/Mission page, so the faith quote is from the homepage mission line; cost for agency or community requests is not stated on the site.
+    name: "Chaplains of Central Montana",
+    url: "https://chaplainsofcentralmt.org/",
+    description:
+      "Lewistown-based 501(c)(3) providing Bible-based chaplain services to central Montana first responders and citizens, including on-scene incident response at law enforcement's request, ride-alongs, personal counseling for first responders, and critical-incident stress-management debriefings.",
+    needCategoryIds: ["mental-health", "purpose-community"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Lewistown / Fergus County and central Montana",
+    state: "Montana",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "Serves the Fergus County Sheriff's Office with relationships to Lewistown Police, Lewistown Fire, and Central Montana Medical Center; also provides care to citizens touched by traumatic events.",
+    phone: "(406) 366-1485 (call or text)",
+    faithBased: true,
+    faithAffiliationSource: "https://chaplainsofcentralmt.org/",
+  },
 
   // ---------------------------------------------------------------------
   // Idaho Regional
@@ -8239,6 +9155,81 @@ export const RESOURCES: Resource[] = [
     state: "Alaska",
     verifiedDate: "2026-08-27",
     eligibility: "Most benefits require discharge under other-than-dishonorable conditions.",
+  },
+  {
+    name: "Alaska Warrior Partnership",
+    url: "https://www.alaskawarriorpartnership.org/",
+    description:
+      "Alaska-based community integration program that connects veterans, service members, and military families to resources across the state, including employment, housing, benefits, healthcare, education, and social connection through a statewide network of community partners and volunteers.",
+    needCategoryIds: ["career-education", "financial-assistance", "housing-transportation", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Military Spouse", "Family", "Caregiver"],
+    cost: "Free",
+    geographicScope: "Statewide — Alaska",
+    state: "Alaska",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans, active duty service members, National Guard, reservists, and their families residing in Alaska.",
+  },
+  {
+    // TODO(verify): exact pricing and scholarship terms for adaptive programs are not explicitly quoted on the org's own site.
+    name: "Challenge Alaska",
+    url: "https://challengealaska.org/",
+    description:
+      "Nonprofit adaptive recreation organization that provides year-round sports, recreation, and education programs for people with disabilities, including specialized opportunities for veterans and active-duty military with disabilities.",
+    needCategoryIds: ["sports-fitness", "outdoor-programs", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "Disabled"],
+    cost: "Not stated on the org's own site — the org emphasizes that cost should not be a barrier and offers scholarships",
+    geographicScope: "Anchorage, Alaska (with some outreach programs)",
+    state: "Alaska",
+    verifiedDate: "2026-10-09",
+    eligibility: "Individuals with disabilities, including veterans and active-duty military with disabilities.",
+    availability: "Year-round programs; registration required.",
+    phone: "(907) 344-7399",
+  },
+  {
+    name: "Alaska Housing Finance Corporation — Veterans Programs",
+    url: "https://www.ahfc.us/",
+    description:
+      "State housing finance agency that administers veteran-specific home loan and housing assistance programs, including the Veterans Mortgage Program and related resources to help Alaska veterans achieve affordable homeownership.",
+    needCategoryIds: ["housing-transportation", "financial-assistance"],
+    audienceTags: ["Veteran", "Active Military", "Disabled"],
+    cost: "Program fees vary; loans/assistance terms stated per program",
+    geographicScope: "Statewide — Alaska",
+    state: "Alaska",
+    verifiedDate: "2026-10-09",
+    eligibility: "Eligible veterans and service members as defined by AHFC and applicable federal/state program criteria.",
+    availability: "Year-round; apply through approved lenders or AHFC.",
+    phone: "(907) 330-8444",
+  },
+  {
+    name: "Alaska Hero Flight",
+    url: "https://www.alaskaheroflight.org/",
+    description:
+      "All-volunteer nonprofit that provides free air transportation for Alaska veterans and active-duty military to access medical care not available in their home communities, including specialty appointments and follow-up care.",
+    needCategoryIds: ["housing-transportation", "financial-assistance"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Disabled"],
+    cost: "Free",
+    geographicScope: "Statewide — Alaska",
+    state: "Alaska",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "Alaska-based veterans and active-duty military who need to travel for medical care not available locally; application required.",
+    availability: "As needed; flights coordinated based on mission availability.",
+    phone: "(907) 529-0700",
+  },
+  {
+    // TODO(verify): could not confirm specific cost or detailed eligibility criteria from the org's own site.
+    name: "Alaska Native Veterans Association",
+    url: "https://anvachiefs.org/",
+    description:
+      "Organization representing Alaska Native veterans that provides advocacy, support, and referral services to help Alaska Native veterans access benefits, cultural connection, and community resources.",
+    needCategoryIds: ["legal-benefits", "purpose-community", "family-support"],
+    audienceTags: ["Veteran", "Family", "Caregiver"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide — Alaska",
+    state: "Alaska",
+    verifiedDate: "2026-10-09",
+    eligibility: "Alaska Native veterans; family members may be served through programs.",
+    availability: "Year-round; contact for current services.",
   },
 
   // ---------------------------------------------------------------------
@@ -9976,6 +10967,158 @@ export const RESOURCES: Resource[] = [
     geographicScope: "Statewide",
     state: "Delaware",
     verifiedDate: "2026-08-27",
+  },
+  {
+    // TODO(verify): cost of the housing, SSVF, and Female Veterans Grant programs is not stated on the org's own site — only the outpatient-care funding note (Medicaid) is published.
+    name: "Delaware Center for Homeless Veterans",
+    url: "https://dchv.org/",
+    description:
+      "Wilmington-based Delaware nonprofit founded in 2009 that provides housing and supportive services for homeless veterans across the state — 51 units of permanent housing, a Supportive Services for Veteran Families (SSVF) program, a Female Veterans Grant and Per Diem Program, and a DSAM-licensed outpatient program.",
+    needCategoryIds: ["housing-transportation", "mental-health"],
+    audienceTags: ["Veteran"],
+    cost: "Not stated on the org's own site — licensed DSAM outpatient care accepts Medicaid",
+    geographicScope: "Statewide (Delaware)",
+    state: "Delaware",
+    verifiedDate: "2026-10-09",
+    eligibility: "Homeless veterans in Delaware.",
+    phone: "302-691-7411",
+  },
+  {
+    name: "Delaware Veterans Home",
+    url: "https://vethome.delaware.gov/",
+    description:
+      "State-operated 144-bed skilled nursing and long-term care home in Milford, Delaware, providing 24-hour medical and nursing care, hospice care, and transportation to local medical appointments; veterans who are 100% VA disabled incur no fee and the Home does not bill veterans who are 70% or more disabled.",
+    needCategoryIds: ["housing-transportation"],
+    audienceTags: ["Veteran", "Disabled", "Family"],
+    cost: "Cost varies based on payer source and insurance plans (own site)",
+    geographicScope: "Statewide (Delaware) / Milford",
+    state: "Delaware",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "Honorably discharged veterans with at least 180 days of service (National Guard and Reserve included), veterans retirement-eligible at age 60, or Gold Star family members; Delaware residency of at least one year and a medically determined need for long-term care.",
+    availability: "No defined visiting hours — family members have 24-hour access to the facility.",
+    phone: "302-424-8572",
+  },
+  {
+    name: "Wilmington Vet Center",
+    url: "https://www.va.gov/wilmington-vet-center",
+    description:
+      "Community-based VA counseling center in Wilmington offering confidential, non-medical individual, couples, family, and group counseling for PTSD, depression, anxiety, grief, and military sexual trauma — including evidence-based therapies such as CPT and EMDR — for veterans, service members, and their families.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family", "Survivor"],
+    cost: "Free — at no cost in a non-medical setting",
+    geographicScope: "Wilmington, Delaware / New Castle County",
+    state: "Delaware",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "Veterans and service members (including National Guard and Reserve) who served in a combat theater or area of hostility, experienced military sexual trauma, or meet other listed service requirements; any character of discharge, and no VA health-care enrollment required.",
+    availability:
+      "After-hours sessions by appointment (evenings and weekends); Dover satellite clinic open Tuesdays and Thursdays; 24/7 call center at 877-927-8387.",
+    phone: "302-994-1660",
+    hours: "Monday–Friday 8:00 a.m.–4:30 p.m.; closed Saturday and Sunday; non-traditional hours vary — call for current schedule.",
+  },
+  {
+    name: "Delaware's Veteran Treatment Court",
+    url: "https://vets.delaware.gov/delawares-veteran-treatment-court/",
+    description:
+      "Statewide problem-solving court, running in Delaware since 2011, that diverts justice-involved veterans away from the criminal justice system into treatment for substance abuse, alcohol issues, and PTSD, supported by volunteer veteran mentors.",
+    needCategoryIds: ["legal-benefits", "mental-health"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide (Delaware)",
+    state: "Delaware",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "Voluntary entry for veterans (including active duty and reserves) with honorable or other-than-honorable discharges, accepted case by case based on criminal history; no sex offenders; participants must follow treatment recommendations from VA and TASC and appear for regular status conferences.",
+    availability: "Ongoing statewide program established in Delaware since 2011; over 75 participants.",
+  },
+  {
+    name: "Veterans Watchmaker Initiative",
+    url: "https://vwmi.org/",
+    description:
+      "Watchmaking school in Odessa, Delaware, that trains veterans — especially veterans with disabilities — in precision watchmaking, with all programs provided free of charge to the veteran.",
+    needCategoryIds: ["career-education", "purpose-community"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Free — the org states 'All our programs are free of charge to the veteran'",
+    geographicScope: "Odessa, Delaware",
+    state: "Delaware",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans, with a focus on veterans with disabilities.",
+    phone: "302-378-7088",
+    hours: "Monday–Friday 8:30 a.m.–4:30 p.m.",
+  },
+  {
+    name: "Reins of Honor",
+    url: "https://reinsofhonor.org/",
+    description:
+      "Townsend, Delaware 501(c)(3) offering equine assisted psychotherapy co-facilitated by a master's-level clinician and a certified equine specialist, plus equine connection sessions and group opportunities, exclusively to military service members and veterans, delivered by an EAGALA Military Certified team.",
+    needCategoryIds: ["mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military"],
+    cost: "Not stated on the org's own site — the org states all services are provided by the generosity of community partners",
+    geographicScope: "Delaware (Townsend-based)",
+    state: "Delaware",
+    verifiedDate: "2026-10-09",
+    eligibility: "Exclusively for military service members and veterans.",
+    phone: "302-218-1463",
+  },
+  {
+    name: "People's Place Veterans Outreach",
+    url: "https://peoplesplace2.com/services/veterans-outreach",
+    description:
+      "Veterans Outreach program run by People's Place in collaboration with the Delaware Commission of Veterans Affairs, serving veterans from lower New Castle County to the Delaware-Maryland border with state and federal VA benefits guidance, mental health counseling referrals, case management, and door-to-door transportation to appointments and medical facilities.",
+    needCategoryIds: ["legal-benefits", "mental-health", "housing-transportation"],
+    audienceTags: ["Veteran"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Lower New Castle County to the Delaware-Maryland border",
+    state: "Delaware",
+    verifiedDate: "2026-10-09",
+    eligibility: "Veterans residing from lower New Castle County to the Delaware-Maryland line.",
+    phone: "302-236-5301",
+  },
+  {
+    // Org's own site describes the nonprofit as "Christ-centered," serving veterans and families and guided by a published Statement of Faith (see faithAffiliationSource).
+    name: "Veterans Outreach Ministries",
+    url: "https://www.veteransoutreachministries.org/",
+    description:
+      "Christ-centered nonprofit serving veterans and their families throughout Delaware, Maryland, and Pennsylvania with outreach programs, fellowship opportunities, and resources designed to support healing, connection, and community, guided by a published Statement of Faith.",
+    needCategoryIds: ["purpose-community", "family-support"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Delaware / Maryland / Pennsylvania",
+    state: "Delaware",
+    verifiedDate: "2026-10-09",
+    phone: "302-229-1819",
+    faithBased: true,
+    faithAffiliationSource: "https://www.veteransoutreachministries.org/about/",
+  },
+  {
+    name: "The Shaffer Foundation of Delaware",
+    url: "https://www.shafferfoundation.com/",
+    description:
+      "Lewes, Delaware nonprofit, active since 2022, that honors and supports Delaware's first responders and their families through its annual Rally for Our First Responders, car show, Dine to Donate, 5K, and a First Responder Scholarship Fund that helps support the education of first responders and their families.",
+    needCategoryIds: ["career-education", "family-support", "purpose-community"],
+    audienceTags: ["Law Enforcement", "Fire", "EMS", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide (Delaware)",
+    state: "Delaware",
+    verifiedDate: "2026-10-09",
+    eligibility: "First responders and their families in Delaware.",
+    phone: "302-233-2076",
+  },
+  {
+    // TODO(verify): the Commission's standalone Mental Health and Wellness page currently has no published body content; program scope beyond direct contact with the administrator is not described on the org's own site.
+    name: "Delaware State Fire Commission — Mental Health & Wellness",
+    url: "https://statefirecommission.delaware.gov/mental-health-administrator/",
+    description:
+      "Delaware State Fire Commission program that provides a dedicated Mental Health and Wellness Administrator — a licensed social worker with Critical Incident Stress Management training — as the point of contact for mental-health services and assistance for Delaware's fire and EMS personnel.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Fire", "EMS"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide (Delaware)",
+    state: "Delaware",
+    verifiedDate: "2026-10-09",
+    availability: "Contact the Mental Health and Wellness Administrator for upcoming services and assistance.",
+    phone: "302-241-2667",
   },
 
   // ---------------------------------------------------------------------

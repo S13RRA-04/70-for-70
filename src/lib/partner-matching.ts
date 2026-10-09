@@ -15,3 +15,19 @@ export function findProvidingPartner(row: BikeBuildComponentRow, partners: Missi
   const notes = row.notes?.toLowerCase() ?? "";
   return partners.find((p) => p.name.length > 2 && notes.includes(p.name.toLowerCase())) ?? null;
 }
+
+/**
+ * The reverse lookup — every bike-build component row whose notes credit a
+ * given partner by name, for that partner's own profile page
+ * (/network/partners/[slug]) to show what it actually backed. Same
+ * best-effort substring match as findProvidingPartner, just read in the
+ * other direction; a partner with zero matches (true for almost everyone
+ * outside the Tri bike build) simply renders nothing.
+ */
+export function findBackedComponents(partnerName: string, rows: BikeBuildComponentRow[]): BikeBuildComponentRow[] {
+  if (partnerName.length <= 2) return [];
+  const needle = partnerName.toLowerCase();
+  return rows.filter(
+    (row) => (row.status === "confirmed" || row.status === "complete") && (row.notes?.toLowerCase().includes(needle) ?? false),
+  );
+}

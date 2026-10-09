@@ -5,9 +5,10 @@ import { TiltCard } from "@/components/shared/tilt-card";
 import { PartnerRoleBadge } from "@/components/partners/partner-role-badge";
 import { TeamBenefitBadge } from "@/components/partners/team-benefit-badge";
 import { TIER_THEME } from "@/lib/tier-theme";
-import { MISSION_PARTNER_TIERS } from "@/lib/constants";
+import { MISSION_PARTNER_TIERS, formatAssociatedCampaigns } from "@/lib/constants";
 import type { MissionPartnerRow, MissionPartnerTier } from "@/types/database";
 import { Card } from "@/components/shared/card";
+import { partnerProfileHref } from "@/lib/data/partner-profile";
 
 /** Untiered-card fallback — smaller and quieter than any formal sponsorship tier. See TIER_THEME for the tiered equivalents. */
 const UNTIERED_CARD = {
@@ -88,7 +89,7 @@ export function MissionPartnerCard({
 
       {partner.associated_campaigns && partner.associated_campaigns.length > 0 && (
         <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-charcoal-light">
-          Supports: {partner.associated_campaigns.join(", ")}
+          Supporting Campaign: {formatAssociatedCampaigns(partner.associated_campaigns)}
         </p>
       )}
 
@@ -98,17 +99,26 @@ export function MissionPartnerCard({
         </div>
       )}
 
-      {partner.website_url && (
+      <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2">
         <Link
-          href={partner.website_url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-5 inline-flex w-fit items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bronze"
+          href={partnerProfileHref(partner.name)}
+          className="inline-flex w-fit items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bronze"
         >
-          Visit Partner
-          <ExternalLink size={13} aria-hidden />
+          Partner Story
         </Link>
-      )}
+
+        {partner.website_url && (
+          <Link
+            href={partner.website_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex w-fit items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bronze"
+          >
+            Visit Partner
+            <ExternalLink size={13} aria-hidden />
+          </Link>
+        )}
+      </div>
       </Card>
     </TiltCard>
   );

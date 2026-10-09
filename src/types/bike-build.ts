@@ -100,3 +100,25 @@ export interface BikeBuildContributor {
   role: string;
   note: string;
 }
+
+/**
+ * One clickable marker on the interactive bike diagram
+ * (InteractiveBikeDiagram). Deliberately a curated subset of
+ * BIKE_BUILD_COMPONENT_STATUS — not every row, just the parts worth a
+ * dedicated spot on the diagram — and never duplicates that row's status or
+ * notes; see getDiagramHotspotDetail, which looks both up live.
+ */
+export interface BikeBuildDiagramHotspot {
+  /** Stable id for this marker (aria-label, React key) — not a page anchor. */
+  id: string;
+  label: string;
+  /** Position in the diagram's 400x220 viewBox coordinate space. */
+  x: number;
+  y: number;
+  /** Exact `component` values from BIKE_BUILD_COMPONENT_STATUS this marker summarizes. */
+  componentNames: string[];
+  /** Exact `name` from BIKE_BUILD_CONFIRMED_CONTRIBUTORS, when a sponsor's support is the headline story for this spot. */
+  contributorName?: string;
+  /** BIKE_BUILD_TIMELINE entry id this marker deep-links to for the full story/photos. */
+  relatedEntryId: string;
+}

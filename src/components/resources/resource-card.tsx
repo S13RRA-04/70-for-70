@@ -1,9 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, ExternalLink } from "lucide-react";
+import { ChevronDown, Copy, Check, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { NEED_CATEGORIES, type Resource } from "@/lib/content/resources";
+import { SITE_URL } from "@/lib/constants";
+import { trackEvent } from "@/lib/analytics/plausible";
+
+/** "2026-10-09" -> "Oct 2026" — compact enough for a dense card footer; the full ISO date is still in the title attribute for anyone who wants it. */
+function formatVerifiedMonth(iso: string): string {
+  const date = new Date(`${iso}T12:00:00Z`);
+  return new Intl.DateTimeFormat("en-US", { month: "short", year: "numeric", timeZone: "UTC" }).format(date);
+}
 
 /** Deterministic accent per card so the grid isn't monochrome — not tied to category, purely visual rhythm. */
 const AVATAR_ACCENTS = [
@@ -27,6 +35,7 @@ function accentForName(name: string): string {
  */
 export function ResourceCard({ resource }: { resource: Resource }) {
   const [expanded, setExpanded] = useState(false);
+  const [copied, setCopied] = useState(false);
   const initial = resource.name.trim().charAt(0).toUpperCase();
   // Plain text, not another pill — audience tags already cover that
   // treatment below, and giving every field its own pill reads as clutter.
@@ -37,6 +46,23 @@ export function ResourceCard({ resource }: { resource: Resource }) {
   const isLongDescription = resource.description.length > 160;
   const hasDetails = Boolean(categoryLabel || resource.availability || resource.eligibility || resource.verificationStatus || isLongDescription);
   const resourceId = resource.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+
+  // Shares a deep link into the directory's existing search — there's no
+  // dedicated per-resource page to link to, so this re-finds the same card
+  // via its own name (which the directory's search already matches against)
+  // plus a hash the directory scrolls to on load (see ResourceDirectory's
+  // hash-scroll effect).
+  async function handleCopyLink() {
+    const url = `${SITE_URL}/resources?q=${encodeURIComponent(resource.name)}#${resourceId}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      trackEvent("resource_result_click", { resource: resource.name, action: "copy_link" });
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Clipboard API unavailable — no-op.
+    }
+  }
 
   return (
     <div
@@ -117,17 +143,35 @@ export function ResourceCard({ resource }: { resource: Resource }) {
           <span className="font-semibold text-ink">{resource.cost}</span>
           <span className="mx-1.5 text-ink/20">·</span>
           {resource.geographicScope}
+          {resource.verifiedDate && (
+            <>
+              <span className="mx-1.5 text-ink/20">·</span>
+              <span title={`Last reviewed ${resource.verifiedDate}`}>
+                Reviewed {formatVerifiedMonth(resource.verifiedDate)}
+              </span>
+            </>
+          )}
         </div>
-        <a
-          href={resource.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-analytics-event="resource_outbound_click"
-          className="group inline-flex shrink-0 items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
-        >
-          Visit
-          <ExternalLink size={12} aria-hidden="true" className="transition-transform group-hover:translate-x-0.5" />
-        </a>
+        <div className="flex shrink-0 items-center gap-3">
+          <button
+            type="button"
+            onClick={handleCopyLink}
+            aria-label={copied ? "Link copied" : "Copy link to this resource"}
+            className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-charcoal-light hover:text-ink"
+          >
+            {copied ? <Check size={12} aria-hidden="true" /> : <Copy size={12} aria-hidden="true" />}
+          </button>
+          <a
+            href={resource.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-analytics-event="resource_outbound_click"
+            className="group inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
+          >
+            Visit
+            <ExternalLink size={12} aria-hidden="true" className="transition-transform group-hover:translate-x-0.5" />
+          </a>
+        </div>
       </div>
     </div>
   );

@@ -47,6 +47,25 @@ function toResourceScope(raw: string | null): ResourceScope {
   return raw === "national" || raw === "state" ? raw : "all";
 }
 
+/**
+ * "Relevance" is the data's own curated order (see resources.ts's doc
+ * comment — entries are grouped by need category on purpose), not a search
+ * ranking; there's no scoring to rank by, so it's really "as curated."
+ * "Recent" uses verifiedDate, falling back to last for any entry missing
+ * one rather than treating an unset date as "oldest" or "newest" — either
+ * would misrepresent entries research hasn't dated yet.
+ */
+type ResourceSort = "relevance" | "name" | "recent";
+const SORT_LABELS: Record<ResourceSort, string> = {
+  relevance: "Relevance",
+  name: "Name (A–Z)",
+  recent: "Recently Verified",
+};
+
+function toResourceSort(raw: string | null): ResourceSort {
+  return raw === "name" || raw === "recent" ? raw : "relevance";
+}
+
 function FilterRow({
   label,
   options,
@@ -98,6 +117,7 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
   const [search, setSearch] = useState(() => params.get("q") ?? "");
   const [stateFilter, setStateFilter] = useState<string | null>(() => params.get("state"));
   const [scope, setScope] = useState<ResourceScope>(() => toResourceScope(params.get("scope")));
+  const [sort, setSort] = useState<ResourceSort>(() => toResourceSort(params.get("sort")));
   const [accessFilters, setAccessFilters] = useState<string[]>([]);
   // Below `lg:`, the filter chip stack (3 groups, up to ~20 buttons total)
   // starts collapsed so a mobile visitor reaches search + results without
@@ -112,6 +132,12 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
   // first. Auto-opens when one of its own filters is active so deep links do
   // not hide applied state.
   const [moreFiltersOpen, setMoreFiltersOpen] = useState(false);
+  // The state map used to render open, full-width, above search — forcing
+  // every visitor through it even though most people come here to search or
+  // browse by need, not by state. Collapsed by default now, same
+  // auto-opens-when-its-filter-is-active pattern as moreFiltersOpen below,
+  // so a deep link with ?state= still shows the map it came from.
+  const [mapOpen, setMapOpen] = useState(false);
   const filterTriggerRef = useRef<HTMLButtonElement>(null);
   const filterPanelRef = useRef<HTMLDivElement>(null);
 
@@ -188,6 +214,7 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
       setSearch(params.get("q") ?? "");
       setStateFilter(params.get("state"));
       setScope(toResourceScope(params.get("scope")));
+      setSort(toResourceSort(params.get("sort")));
     }
   }
 
@@ -202,6 +229,7 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
       if (search) next.set("q", search);
       if (stateFilter) next.set("state", stateFilter);
       if (scope !== "all") next.set("scope", scope);
+      if (sort !== "relevance") next.set("sort", sort);
       const nextKey = next.toString();
       if (nextKey === paramsKey) return;
       setIsSelfWrite(true);
@@ -209,7 +237,7 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
     }, 300);
     return () => clearTimeout(timeout);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [needIds, audience, search, stateFilter, scope]);
+  }, [needIds, audience, search, stateFilter, scope, sort]);
 
   const activeStates = useMemo(() => {
     const states = new Set<string>();
@@ -260,6 +288,23 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
     });
   }, [resources, needIds, audience, stateFilter, scope, accessFilters, search]);
 
+  const sortedResults = useMemo(() => {
+    if (sort === "relevance") return results;
+    const copy = [...results];
+    if (sort === "name") {
+      copy.sort((a, b) => a.name.localeCompare(b.name));
+    } else {
+      // "recent" — no verifiedDate sorts last, never treated as newest or oldest.
+      copy.sort((a, b) => {
+        if (!a.verifiedDate && !b.verifiedDate) return 0;
+        if (!a.verifiedDate) return 1;
+        if (!b.verifiedDate) return -1;
+        return b.verifiedDate.localeCompare(a.verifiedDate);
+      });
+    }
+    return copy;
+  }, [results, sort]);
+
   // Tracked on its own debounce (not folded into the URL-sync effect above)
   // so it fires once per pause in typing, carrying the result count at that
   // moment — not on every keystroke, and not for an empty/cleared query.
@@ -272,9 +317,25 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
     return () => clearTimeout(timeout);
   }, [search, results.length]);
 
-  // Drives the collapsible chip panel's own auto-open — search and the
-  // state map are always visible outside that panel, so they don't need to
-  // force it open.
+  // Lands a copied resource link (see ResourceCard's handleCopyLink) on the
+  // actual card, not just the top of the filtered list — results render
+  // from a search match on the resource's own name, so the matching card is
+  // always present once results settle. Runs once results stop changing
+  // (not on every keystroke/filter tweak) so it doesn't fight a visitor who
+  // starts typing their own search.
+  useEffect(() => {
+    const hash = window.location.hash.slice(1);
+    if (!hash || results.length === 0) return;
+    const el = document.querySelector(`[data-resource-id="${hash}"]`);
+    if (!el) return;
+    el.scrollIntoView({ behavior: "smooth", block: "center" });
+    el.classList.add("ring-2", "ring-bronze", "ring-offset-2");
+    const timeout = setTimeout(() => el.classList.remove("ring-2", "ring-bronze", "ring-offset-2"), 2500);
+    return () => clearTimeout(timeout);
+  }, [results.length]);
+
+  // Drives the collapsible chip panel's own auto-open — search is always
+  // visible outside that panel, so it doesn't need to force it open.
   const chipFilterCount = [needIds.length > 0, Boolean(audience), scope !== "all", accessFilters.length > 0].filter(Boolean).length;
   // Drives the toggle button's "N Active" badge and whether a "Clear all"
   // control appears — this one DOES count search/state, since both are
@@ -283,6 +344,7 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
   // searched or only picked a state saw a bare "Filters" label that
   // understated how filtered the view already was.
   const totalActiveFilterCount = chipFilterCount + (search ? 1 : 0) + (stateFilter ? 1 : 0);
+  const showMap = mapOpen || Boolean(stateFilter);
   const moreFiltersActiveCount = (scope !== "all" ? 1 : 0) + accessFilters.length;
   const showMoreFilters = moreFiltersOpen || moreFiltersActiveCount > 0;
 
@@ -297,39 +359,60 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
 
   return (
     <div>
-      {/* Lets a keyboard user bypass ~50 individually-tabbable state shapes
-          to reach search/filters directly — sr-only until focused. */}
+      {/* Lets a keyboard user bypass the "Browse by State" toggle (and, once
+          open, ~50 individually-tabbable state shapes) to reach search
+          directly — sr-only until focused. */}
       <a
         href="#resource-search"
         className="sr-only focus:not-sr-only focus:absolute focus:z-10 focus:rounded-sm focus:bg-ink focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:uppercase focus:tracking-wide focus:text-off-white"
       >
-        Skip the map, go to search &amp; filters
+        Skip to search &amp; filters
       </a>
 
-      {/* Full-width on its own — a real US choropleth needs real room; small
-          Northeast states are unusable squeezed into a sidebar column. */}
+      {/* Collapsed by default (see mapOpen/showMap above) — most visitors
+          come here to search or filter by need, not browse a US map, and a
+          full-width choropleth forced above the fold pushed that below a
+          long scroll for everyone else. Still full-width, not squeezed into
+          the sidebar column, once opened — small Northeast states need the
+          room. */}
       <div className="rounded-sm border border-ink/10 bg-sand-light p-5 sm:p-6">
-        <div className="flex flex-wrap items-baseline justify-between gap-2">
-          <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-            Where Are You?
-          </p>
-          {stateFilter && (
-            <button
-              type="button"
-              onClick={() => setStateFilter(null)}
-              className="text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
-            >
-              {stateFilter} &middot; Clear
-            </button>
-          )}
-        </div>
-        <p className="mt-1 text-xs text-charcoal-light/80">
-          Bronze states have region-specific resources; every state still shows nationwide
-          programs.
-        </p>
-        <div className="mx-auto mt-4 max-w-3xl">
-          <StateMap activeStates={activeStates} selected={stateFilter} onSelect={setStateFilter} />
-        </div>
+        <button
+          type="button"
+          onClick={() => setMapOpen((v) => !v)}
+          aria-expanded={showMap}
+          aria-controls="resource-state-map"
+          className="flex w-full flex-wrap items-baseline justify-between gap-2 text-left"
+        >
+          <span className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+            {stateFilter ? `Browsing ${stateFilter}` : "Browse by State"}
+          </span>
+          <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-bronze">
+            {showMap ? "Hide Map" : "Show Map"}
+            <ChevronDown size={14} aria-hidden="true" className={cn("transition-transform", showMap && "rotate-180")} />
+          </span>
+        </button>
+        {showMap && (
+          <div id="resource-state-map">
+            <div className="mt-3 flex flex-wrap items-baseline justify-between gap-2">
+              <p className="text-xs text-charcoal-light/80">
+                Bronze states have region-specific resources; every state still shows nationwide
+                programs.
+              </p>
+              {stateFilter && (
+                <button
+                  type="button"
+                  onClick={() => setStateFilter(null)}
+                  className="shrink-0 text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
+                >
+                  Clear State
+                </button>
+              )}
+            </div>
+            <div className="mx-auto mt-4 max-w-3xl">
+              <StateMap activeStates={activeStates} selected={stateFilter} onSelect={setStateFilter} />
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-6">
@@ -452,15 +535,31 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
               {stateFilter && (scope === "state" ? ` in ${stateFilter} only` : ` in ${stateFilter} + nationwide`)}
               {!stateFilter && scope !== "all" && ` · ${SCOPE_LABELS[scope]} only`}
             </p>
-            {totalActiveFilterCount > 0 && (
-              <button
-                type="button"
-                onClick={clearAllFilters}
-                className="text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
-              >
-                Clear All Filters
-              </button>
-            )}
+            <div className="flex shrink-0 items-center gap-3">
+              <label className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                Sort
+                <select
+                  value={sort}
+                  onChange={(e) => setSort(toResourceSort(e.target.value))}
+                  className="rounded-sm border border-ink/20 bg-off-white px-2 py-1 text-xs font-semibold uppercase tracking-wide text-ink"
+                >
+                  {(Object.keys(SORT_LABELS) as ResourceSort[]).map((value) => (
+                    <option key={value} value={value}>
+                      {SORT_LABELS[value]}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              {totalActiveFilterCount > 0 && (
+                <button
+                  type="button"
+                  onClick={clearAllFilters}
+                  className="text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
+                >
+                  Clear All Filters
+                </button>
+              )}
+            </div>
           </div>
 
           {totalActiveFilterCount > 0 && (
@@ -489,7 +588,7 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
           ) : (
             <RevealGrid>
               <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-                {results.map((resource) => (
+                {sortedResults.map((resource) => (
                   <ResourceCard key={resource.name} resource={resource} />
                 ))}
               </div>

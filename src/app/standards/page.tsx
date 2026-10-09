@@ -103,7 +103,7 @@ export default function StandardsPage() {
             as="h1"
             eyebrow="Standards"
             title="How Resources Are Reviewed"
-            description={`${SITE_NAME} lists ${RESOURCES.length} programs and services. Every one goes through the same review before it appears — here is exactly what that involves, and what it does not mean.`}
+            description={`${SITE_NAME} lists ${RESOURCES.length} resources — vetted programs and services. Every one goes through the same review before it appears — here is exactly what that involves, and what it does not mean.`}
           />
         </Container>
       </section>
