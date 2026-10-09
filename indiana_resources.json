@@ -1,0 +1,150 @@
+{
+  "accepted": [
+    {
+      "name": "INvets",
+      "url": "https://www.invets.org/",
+      "description": "Statewide Indiana nonprofit founded by veterans that helps transitioning service members, veterans, Guard/Reserve, and military spouses find meaningful civilian careers and connect to community resources across Indiana.",
+      "needCategoryIds": ["career-education", "purpose-community"],
+      "audienceTags": ["Veteran", "Active Military", "Guard/Reserve", "Military Spouse"],
+      "cost": "Free",
+      "geographicScope": "Indiana statewide",
+      "eligibility": "U.S. veterans, transitioning service members, Guard/Reserve, and military spouses."
+    },
+    {
+      "name": "Indy Honor Flight",
+      "url": "https://indyhonorflight.org/",
+      "description": "Indianapolis-based Honor Flight hub providing all-expenses-paid trips to Washington, D.C., for veterans to visit their memorials, with volunteer guardians and a mission to honor veterans for their service.",
+      "needCategoryIds": ["purpose-community"],
+      "audienceTags": ["Veteran", "Disabled", "Family", "Caregiver"],
+      "cost": "Free to veterans; guardians pay their own way or are sponsored",
+      "geographicScope": "Indiana (primarily central Indiana; serves veterans across the state)",
+      "eligibility": "Veterans of World War II, Korean War, Vietnam War, and terminally ill veterans from any era (as stated on site).",
+      "availability": "Trips scheduled seasonally; applications accepted year-round."
+    },
+    {
+      "name": "Military Assistance Mission (MAM)",
+      "url": "https://mamindiana.org/",
+      "description": "Indiana-based nonprofit providing emergency financial assistance grants to active-duty military, Guard/Reserve, veterans, and their families facing short-term financial hardship to help cover basic needs like housing, utilities, food, and transportation.",
+      "needCategoryIds": ["financial-assistance", "family-support"],
+      "audienceTags": ["Veteran", "Active Military", "Guard/Reserve", "Family", "Military Spouse"],
+      "cost": "Free to applicants (grant)",
+      "geographicScope": "Indiana statewide",
+      "eligibility": "Active-duty military, Guard/Reserve, veterans, or their families in Indiana experiencing a short-term financial crisis."
+    },
+    {
+      "name": "HVAF of Indiana",
+      "url": "https://hvaf.org/",
+      "description": "Indianapolis-based nonprofit serving veterans experiencing homelessness or housing instability by providing housing, employment services, case management, and basic needs support throughout central Indiana.",
+      "needCategoryIds": ["housing-transportation", "career-education", "family-support"],
+      "audienceTags": ["Veteran", "Disabled", "Family"],
+      "cost": "Free",
+      "geographicScope": "Central Indiana (Indianapolis metro and surrounding areas)",
+      "eligibility": "U.S. veterans experiencing homelessness or at risk of homelessness."
+    },
+    {
+      "name": "Indiana Warrior Partnership",
+      "url": "https://indianawarriorpartnership.org/",
+      "description": "Statewide Indiana program connecting veterans and their families with community-based resources, care coordination, and support services to address employment, education, housing, health, and wellness needs.",
+      "needCategoryIds": ["purpose-community", "family-support", "career-education"],
+      "audienceTags": ["Veteran", "Active Military", "Guard/Reserve", "Family", "Military Spouse"],
+      "cost": "Free",
+      "geographicScope": "Indiana statewide",
+      "eligibility": "Veterans, transitioning service members, Guard/Reserve, and their families in Indiana."
+    },
+    {
+      "name": "Indiana Gold Star Families",
+      "url": "https://ingoldstarfamilies.org/",
+      "description": "Indiana-based nonprofit supporting families of fallen service members through community events, peer connection, remembrance activities, and assistance navigating resources available to Gold Star Families.",
+      "needCategoryIds": ["family-support", "purpose-community"],
+      "audienceTags": ["Gold Star", "Survivor", "Family"],
+      "cost": "Free",
+      "geographicScope": "Indiana statewide",
+      "eligibility": "Families of service members who died in the line of duty or as a result of military service."
+    },
+    {
+      "name": "The Hundred Club of Indiana",
+      "url": "https://100clubindiana.org/",
+      "description": "Indiana nonprofit providing financial assistance, scholarships, and support to the families of law enforcement officers, firefighters, EMS, and corrections officers who have died or been catastrophically injured in the line of duty.",
+      "needCategoryIds": ["financial-assistance", "family-support"],
+      "audienceTags": ["First Responder", "Law Enforcement", "Fire", "EMS", "Corrections", "Family", "Survivor"],
+      "cost": "Free to eligible families",
+      "geographicScope": "Indiana statewide",
+      "eligibility": "Families of Indiana first responders killed or catastrophically injured in the line of duty.",
+      "phone": "317-684-9853",
+      "hours": "Monday–Friday, 8:30 a.m.–4:30 p.m. ET"
+    },
+    {
+      "name": "Indiana Fallen Heroes Foundation",
+      "url": "https://www.indianafallenheroes.org/",
+      "description": "Indiana-based nonprofit honoring and supporting fallen public safety officers and their families by providing financial assistance, scholarships, and remembrance events for families of law enforcement, fire, EMS, and corrections personnel.",
+      "needCategoryIds": ["financial-assistance", "family-support", "purpose-community"],
+      "audienceTags": ["First Responder", "Law Enforcement", "Fire", "EMS", "Corrections", "Family", "Survivor"],
+      "cost": "Free to eligible families",
+      "geographicScope": "Indiana statewide",
+      "eligibility": "Families of Indiana public safety officers who died in the line of duty.",
+      "availability": "Applications reviewed as received; support provided based on stated eligibility."
+    },
+    {
+      "name": "Hoosier Burn Camp",
+      "url": "https://hoosierburncamp.org/",
+      "description": "Indiana nonprofit providing a week-long summer camp experience for children ages 8–18 who have experienced burn injuries, along with year-round activities designed to build confidence, connection, and support for campers and their families.",
+      "needCategoryIds": ["family-support", "purpose-community", "mental-health"],
+      "audienceTags": ["Family", "Disabled", "Civilian Supporter"],
+      "cost": "Free to campers (all expenses covered)",
+      "geographicScope": "Indiana statewide (camp held in Indiana)",
+      "eligibility": "Children ages 8–18 in Indiana who have sustained a burn injury."
+    },
+    {
+      "name": "Guardian Revival",
+      "url": "https://guardianrevival.org/",
+      "description": "Indiana-based nonprofit providing confidential, trauma-informed mental health retreats and peer support programs specifically designed for first responders, including law enforcement, fire, EMS, dispatch, corrections, and healthcare workers.",
+      "needCategoryIds": ["mental-health", "purpose-community"],
+      "audienceTags": ["First Responder", "Law Enforcement", "Fire", "EMS", "Dispatch", "Corrections", "Healthcare"],
+      "cost": "Free to participants (retreats and programming are donor-funded)",
+      "geographicScope": "Indiana statewide (retreats held in Indiana)",
+      "eligibility": "Active or retired first responders (law enforcement, fire, EMS, dispatch, corrections, healthcare)."
+    }
+  ],
+  "rejected": [
+    {
+      "name": "Disabled American Veterans (DAV) - chapters",
+      "reason": "Chapter/department of national organization already listed in the file (DAV); rejected per instructions to avoid duplicating chapters of national orgs already listed."
+    },
+    {
+      "name": "Veterans of Foreign Wars (VFW) Department of Indiana",
+      "reason": "State department/chapter structure of national VFW already listed in the file; rejected to avoid duplicating national org chapters."
+    },
+    {
+      "name": "The American Legion - Indiana Headquarters",
+      "reason": "State headquarters of national American Legion already listed in the file context; rejected as a chapter/department of national org."
+    },
+    {
+      "name": "Team Red, White & Blue",
+      "reason": "National organization already listed in the file; Indiana presence is chapter-based - rejected as national org chapter."
+    },
+    {
+      "name": "Wounded Warrior Project - Soldier Ride",
+      "reason": "National organization already listed in the file; rejected as national org already represented."
+    },
+    {
+      "name": "Stand Down Indy",
+      "reason": "One-off annual event, not an ongoing support organization with year-round programs as described; rejected per event-based exclusion."
+    },
+    {
+      "name": "Indiana County Veteran Service Officers",
+      "reason": "Already exists in the file as an Indiana entry; rejected to avoid duplication."
+    },
+    {
+      "name": "Indiana Military Family Relief Fund",
+      "reason": "Already exists in the file as an Indiana entry; rejected to avoid duplication."
+    },
+    {
+      "name": "Heroes New Hope Foundation",
+      "reason": "Already exists in the file as an Indiana entry; rejected to avoid duplication."
+    },
+    {
+      "name": "Disabled Veterans Outdoor Wildlife Experience (DVOWED)",
+      "reason": "Already exists in the file as an Indiana entry; rejected to avoid duplication."
+    }
+  ]
+}
