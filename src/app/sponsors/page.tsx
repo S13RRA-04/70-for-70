@@ -16,7 +16,7 @@ import { EmptyState } from "@/components/shared/empty-state";
 import { CAMPAIGN_NAME, CAMPAIGN_URL, EVENT22_CAMPAIGN_URL, MISSION_PARTNER_TIERS } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, CAMPAIGN_HOME_CRUMB, jsonLdScriptProps } from "@/lib/json-ld";
-import { RevealGrid } from "@/components/shared/reveal-on-scroll";
+import { RevealGrid, RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import type { MissionPartnerRow, PartnerType } from "@/types/database";
 
 export const metadata = pageMetadata({
@@ -132,6 +132,7 @@ export default async function SponsorsPage() {
           {/* Presenting Partner — the most visually dominant level, or a tasteful "open" placeholder. */}
           <section className="border-b border-ink/10 bg-ink py-16 sm:py-20">
             <Container>
+              <RevealOnScroll>
               <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                 <h2 className="font-display text-3xl font-bold uppercase tracking-tight text-off-white sm:text-4xl">
                   {PRESENTING_PARTNER_TIER.name}
@@ -165,6 +166,7 @@ export default async function SponsorsPage() {
                   <PresentingPartnerPlaceholder />
                 )}
               </div>
+              </RevealOnScroll>
             </Container>
           </section>
 
@@ -212,15 +214,17 @@ export default async function SponsorsPage() {
       {teamBenefitPartner && (
         <section className="border-b border-ink/10 py-16 sm:py-20">
           <Container className="max-w-4xl">
-            <TeamBenefitPartnerFeature
-              partner={teamBenefitPartner}
-              categories={["Wetsuits", "Swim Shorts / Apparel", "Goggles", "Swim Gear & Accessories"]}
-              benefitTitle="Team Equipment Benefit"
-              benefitCopy="Approved Tri For the 22 team members have access to special XTERRA pricing. Qualifying purchases also generate equipment credit for Tri For the 22 that can be redeemed for training and race equipment."
-              disclaimer="Product availability, pricing and team benefits are subject to change. Team pricing is available only to approved Tri For the 22 team members."
-              ctaHref="/get-involved/triathlon-team#team-equipment-benefits"
-              ctaLabel="Learn About Team Benefits"
-            />
+            <RevealOnScroll>
+              <TeamBenefitPartnerFeature
+                partner={teamBenefitPartner}
+                categories={["Wetsuits", "Swim Shorts / Apparel", "Goggles", "Swim Gear & Accessories"]}
+                benefitTitle="Team Equipment Benefit"
+                benefitCopy="Approved Tri For the 22 team members have access to special XTERRA pricing. Qualifying purchases also generate equipment credit for Tri For the 22 that can be redeemed for training and race equipment."
+                disclaimer="Product availability, pricing and team benefits are subject to change. Team pricing is available only to approved Tri For the 22 team members."
+                ctaHref="/get-involved/triathlon-team#team-equipment-benefits"
+                ctaLabel="Learn About Team Benefits"
+              />
+            </RevealOnScroll>
           </Container>
         </section>
       )}

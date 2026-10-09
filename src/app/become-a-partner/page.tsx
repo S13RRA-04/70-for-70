@@ -2,7 +2,7 @@ import { getMissionPartners, isCampaignPartner } from "@/lib/data/mission-partne
 import { Container } from "@/components/shared/container";
 import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
-import { RevealGrid } from "@/components/shared/reveal-on-scroll";
+import { RevealGrid, RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import { CTAButton } from "@/components/shared/cta-button";
 import { SponsorshipProgression } from "@/components/sponsors/sponsorship-progression";
 import { DonateVsPartner } from "@/components/sponsors/donate-vs-partner";
@@ -69,6 +69,7 @@ export default async function BecomeAPartnerPage() {
       {/* Partnership levels — the recruitment ladder, moved from /sponsors. */}
       <section className="border-t border-ink/10 py-16 sm:py-20">
         <Container>
+          <RevealOnScroll>
           <SectionHeading eyebrow="Partnership Levels" title="Where Your Support Lands" align="center" />
           <div className="mt-10">
             <SponsorshipProgression />
@@ -93,12 +94,14 @@ export default async function BecomeAPartnerPage() {
               </span>
             ))}
           </div>
+          </RevealOnScroll>
         </Container>
       </section>
 
       {/* Current Gear & Support Needs — moved from /sponsors. */}
       <section className="border-t border-ink/10 py-16 sm:py-20">
         <Container>
+          <RevealOnScroll>
           <SectionHeading
             eyebrow="Current Campaign Needs"
             title="Want to Help in a Specific Way?"
@@ -107,13 +110,16 @@ export default async function BecomeAPartnerPage() {
           <div className="mt-8">
             <CurrentGearNeeds partners={generalPartners} />
           </div>
+          </RevealOnScroll>
         </Container>
       </section>
 
       {/* Donate vs. Partner — moved from /sponsors; kept explicit. */}
       <section className="border-t border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container className="max-w-4xl">
-          <DonateVsPartner />
+          <RevealOnScroll>
+            <DonateVsPartner />
+          </RevealOnScroll>
         </Container>
       </section>
 

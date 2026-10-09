@@ -5,7 +5,7 @@ import { getMissionPartners } from "@/lib/data/mission-partners";
 import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
-import { RevealGrid } from "@/components/shared/reveal-on-scroll";
+import { RevealGrid, RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import { PartnerLogo } from "@/components/shared/partner-logo";
 import { ExternalDonateButton } from "@/components/shared/external-donate-button";
 import { DonationTrackingNote } from "@/components/shared/donation-tracking-note";
@@ -234,7 +234,8 @@ export default async function RuckHomePage() {
       {/* What is RuckUp22 */}
       <section className="relative overflow-hidden border-b border-off-white/10 bg-ink py-16 text-off-white sm:py-24">
         <Image src="/topo-map.png" alt="" fill aria-hidden="true" className="object-cover opacity-[0.06]" />
-        <Container className="relative grid gap-8 lg:grid-cols-[0.7fr_1.3fr] lg:items-center">
+        <RevealOnScroll as="div" className="relative">
+        <Container className="grid gap-8 lg:grid-cols-[0.7fr_1.3fr] lg:items-center">
           <p aria-hidden="true" className="font-display text-[10rem] font-bold leading-none text-olive sm:text-[14rem]">22</p>
           <div><p className="text-xs font-semibold uppercase tracking-[0.2em] text-sand">The Cause</p><h2 className="mt-2 font-display text-4xl font-semibold uppercase">Why 22?</h2>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-off-white/75">
@@ -247,29 +248,50 @@ export default async function RuckHomePage() {
           </p>
           </div>
         </Container>
+        </RevealOnScroll>
       </section>
 
       {/* Event details */}
       <section id="event" className="scroll-mt-24 border-b border-ink/10 py-16 sm:py-20">
         <Container>
+          <RevealOnScroll>
           <SectionHeading
             eyebrow="The Event"
             title={RUCK_EVENT_INFO.name}
             description={`${RUCK_EVENT_INFO.eventDateDisplay} — ${RUCK_EVENT_INFO.location}`}
           />
           <dl className="mt-8 grid gap-px bg-ink/10 sm:grid-cols-2 lg:grid-cols-3">
-            {[["Date", "October 24, 2026"], ["Start", "0800 Central"], ["Location", "Huntsville, Alabama"], ["Distance", "22 Miles"], ["Organizer", RUCK_EVENT_ORGANIZER.name], ["Registration", "Open"]].map(([label, value]) => <div key={label} className="bg-off-white p-6"><dt className="text-xs font-semibold uppercase tracking-widest text-olive">{label}</dt><dd className="mt-2 font-display text-xl font-semibold uppercase text-ink">{value}</dd></div>)}
+            {[
+              ["Date", RUCK_EVENT_INFO.eventDateDisplay.split(" · ")[0]],
+              ["Start", RUCK_EVENT_INFO.eventDateDisplay.split(" · ")[1] ?? "0800"],
+              ["Location", RUCK_EVENT_INFO.location],
+              ["Distance", "22 Miles"],
+              ["Organizer", RUCK_EVENT_ORGANIZER.name],
+              ["Registration", "Open"],
+            ].map(([label, value]) => <div key={label} className="bg-off-white p-6"><dt className="text-xs font-semibold uppercase tracking-widest text-olive">{label}</dt><dd className="mt-2 font-display text-xl font-semibold uppercase text-ink">{value}</dd></div>)}
           </dl>
           <div className="mt-8 grid gap-6 lg:grid-cols-2"><p className="text-sm leading-relaxed text-charcoal-light">{RUCK_EVENT_INFO.locationDetail}</p><p className="text-sm leading-relaxed text-charcoal-light">{RUCK_EVENT_INFO.formatNote}</p></div>
-          <a
-            href={RUCK.primaryCta.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-8 inline-flex items-center gap-1.5 rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-dark"
-          >
-            Register on Eventbee
-            <ExternalLink size={14} aria-hidden />
-          </a>
+          <div className="mt-8 flex flex-wrap gap-4">
+            <a
+              href={RUCK.primaryCta.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-dark"
+            >
+              Register on Eventbee
+              <ExternalLink size={14} aria-hidden />
+            </a>
+            <a
+              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(RUCK_EVENT_INFO.location)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 rounded-sm border border-ink/20 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-ink transition-colors hover:bg-ink/5"
+            >
+              Get Directions
+              <ExternalLink size={14} aria-hidden />
+            </a>
+          </div>
+          </RevealOnScroll>
         </Container>
       </section>
 
@@ -277,6 +299,7 @@ export default async function RuckHomePage() {
       {campaignPartners.length > 0 && (
         <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
           <Container>
+            <RevealOnScroll>
             <SectionHeading eyebrow="With Thanks To" title="Campaign Partners" />
             <div className="mt-8 flex flex-wrap items-center gap-8">
               {campaignPartners.map((partner) => (
@@ -298,6 +321,7 @@ export default async function RuckHomePage() {
                 </a>
               ))}
             </div>
+            </RevealOnScroll>
           </Container>
         </section>
       )}
@@ -305,14 +329,14 @@ export default async function RuckHomePage() {
       {/* Beneficiaries */}
       <section id="beneficiaries" className="scroll-mt-24 py-16 sm:py-20">
         <Container>
-          <div className="border-l-4 border-olive bg-sand-light p-6 sm:p-8">
+          <RevealOnScroll as="div" className="border-l-4 border-olive bg-sand-light p-6 sm:p-8">
           <SectionHeading
             eyebrow="RuckUp22 Event Proceeds"
             title="Registration Supports Two Event Beneficiaries"
             description={`Registration and ticket proceeds for ${RUCK_EVENT_INFO.name}, organized by ${RUCK_EVENT_ORGANIZER.name} (EIN ${RUCK_EVENT_ORGANIZER.ein}), support these organizations.`}
           />
           <p className="mt-5 font-display text-lg font-semibold uppercase text-olive">RuckUp22 <span aria-hidden="true">↓</span> Battle Buddy Foundation + Tunnel to Towers</p>
-          </div>
+          </RevealOnScroll>
           <RevealGrid>
             <div className="mt-6 grid gap-6 lg:grid-cols-2">
               {RUCK_EVENT_BENEFICIARIES.map((b) => (
@@ -334,6 +358,7 @@ export default async function RuckHomePage() {
 
           {campaignBeneficiaries.length > 0 && (
             <div className="mt-16 border-t-4 border-ink pt-8">
+              <RevealOnScroll>
               <SectionHeading
                 eyebrow="Cody's Ruck Campaign"
                 title="A Separate Path Into The $70K Mission"
@@ -353,6 +378,7 @@ export default async function RuckHomePage() {
                   Explore the Full $70K Mission &rarr;
                 </a>
               </div>
+              </RevealOnScroll>
               <RevealGrid>
                 <div className="mt-8 grid gap-6 lg:grid-cols-2">
                   {campaignBeneficiaries.map((partner) => (

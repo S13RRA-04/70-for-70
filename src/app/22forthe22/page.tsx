@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { RevealGrid } from "@/components/shared/reveal-on-scroll";
+import { RevealGrid, RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import { getCurrentEventConfig } from "@/lib/data/event-config";
 import { getGiveawayPrizes } from "@/lib/data/giveaway-prizes";
 import { getEventActivityLog } from "@/lib/data/event-activity-log";
@@ -107,6 +107,7 @@ export default async function EventPage() {
       {/* What Is 22 For the 22? */}
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container className="max-w-2xl">
+          <RevealOnScroll>
           <SectionHeading eyebrow="The Challenge" title="What Is 22 For the 22?" />
           <p className="mt-5 text-base leading-relaxed text-charcoal-light">{EVENT_WHAT_IS_CONTENT.intro}</p>
           <p className="mt-5 font-display text-2xl font-bold uppercase tracking-tight text-bronze sm:text-3xl">
@@ -122,12 +123,14 @@ export default async function EventPage() {
               </p>
             ))}
           </div>
+          </RevealOnScroll>
         </Container>
       </section>
 
       {/* How This Supports Tri For the 22 */}
       <section className="border-b border-ink/10 py-16 sm:py-20">
         <Container className="max-w-2xl">
+          <RevealOnScroll>
           <SectionHeading eyebrow={EVENT_TRI_CONNECTION_CONTENT.eyebrow} title={EVENT_TRI_CONNECTION_CONTENT.heading} />
           <div className="mt-5 space-y-4">
             {EVENT_TRI_CONNECTION_CONTENT.paragraphs.map((paragraph, i) => (
@@ -147,6 +150,7 @@ export default async function EventPage() {
               </Link>
             ))}
           </div>
+          </RevealOnScroll>
         </Container>
       </section>
 
@@ -154,23 +158,26 @@ export default async function EventPage() {
       <section id="how-it-works" className="scroll-mt-20 py-16 sm:py-20">
         <Container>
           <SectionHeading eyebrow="How It Works" title="Register. Move. Track. Repeat." />
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
-            {EVENT_HOW_IT_WORKS_STEPS.map((step, i) => (
-              <div key={step.id} className="rounded-sm border border-ink/10 bg-off-white p-6">
-                <span className="font-display text-2xl font-bold text-bronze">{i + 1}</span>
-                <p className="mt-2 font-display text-base font-bold uppercase tracking-wide text-ink">
-                  {step.title}
-                </p>
-                <p className="mt-2 text-sm leading-relaxed text-charcoal-light">{step.description}</p>
-              </div>
-            ))}
-          </div>
+          <RevealGrid>
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+              {EVENT_HOW_IT_WORKS_STEPS.map((step, i) => (
+                <div key={step.id} className="rounded-sm border border-ink/10 bg-off-white p-6">
+                  <span className="font-display text-2xl font-bold text-bronze">{i + 1}</span>
+                  <p className="mt-2 font-display text-base font-bold uppercase tracking-wide text-ink">
+                    {step.title}
+                  </p>
+                  <p className="mt-2 text-sm leading-relaxed text-charcoal-light">{step.description}</p>
+                </div>
+              ))}
+            </div>
+          </RevealGrid>
         </Container>
       </section>
 
       {/* Make the 22 Your Own (formerly "Challenge Format") */}
       <section className="border-y border-ink/10 bg-ink py-16 text-off-white sm:py-20">
         <Container className="max-w-2xl">
+          <RevealOnScroll>
           <SectionHeading title="Make the 22 Your Own" tone="dark" />
           <div className="mt-5 space-y-2">
             {EVENT_CHALLENGE_FORMAT_CONTENT.intro.map((line, i) => (
@@ -186,12 +193,14 @@ export default async function EventPage() {
           </ul>
           <p className="mt-6 text-base leading-relaxed text-off-white/80">{EVENT_CHALLENGE_FORMAT_CONTENT.closing}</p>
           <p className="mt-6 text-sm leading-relaxed text-off-white/60">{SAFETY_LANGUAGE_PARAGRAPHS[0]}</p>
+          </RevealOnScroll>
         </Container>
       </section>
 
       {/* Movement Looks Different for Everyone */}
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container className="max-w-2xl">
+          <RevealOnScroll>
           <SectionHeading title={EVENT_ACCESSIBILITY_CONTENT.title} />
           <div className="mt-5 space-y-2">
             {EVENT_ACCESSIBILITY_CONTENT.paragraphs.map((paragraph, i) => (
@@ -200,6 +209,7 @@ export default async function EventPage() {
               </p>
             ))}
           </div>
+          </RevealOnScroll>
         </Container>
       </section>
 
@@ -207,6 +217,7 @@ export default async function EventPage() {
       {event.registration_open ? (
         <section id="register" className="border-b border-ink/10 bg-off-white py-16 sm:py-20">
           <Container className="max-w-2xl">
+            <RevealOnScroll>
             <SectionHeading
               eyebrow="Register"
               title="Register Free"
@@ -218,6 +229,7 @@ export default async function EventPage() {
             <div className="mt-8">
               <EventRegistrationForm />
             </div>
+            </RevealOnScroll>
           </Container>
         </section>
       ) : (
@@ -231,6 +243,7 @@ export default async function EventPage() {
       {/* Session Tracker */}
       <section id="tracker" className="scroll-mt-20 border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container className="max-w-3xl">
+          <RevealOnScroll>
           <SectionHeading eyebrow="Your Progress" title="22-Session Tracker" description="Mark off each session as you complete it. Saved on this device only." />
           <div className="mt-8">
             <SessionTracker />
@@ -254,6 +267,7 @@ export default async function EventPage() {
               Open the For the 22 App
             </a>
           </div>
+          </RevealOnScroll>
         </Container>
       </section>
 
@@ -264,20 +278,22 @@ export default async function EventPage() {
       {event.merch_url && (
         <section className="border-y border-ink/10 bg-off-white py-16 sm:py-20">
           <Container className="max-w-2xl">
-            <SectionHeading
-              eyebrow="Event Shirt"
-              title="Get the 22 For the 22 Event Shirt"
-              description="Shirt purchase is optional and does not affect giveaway eligibility or odds."
-            />
-            <a
-              href={event.merch_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-analytics-event="22_merch_click"
-              className="mt-6 inline-flex rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
-            >
-              Get the Event Shirt
-            </a>
+            <RevealOnScroll>
+              <SectionHeading
+                eyebrow="Event Shirt"
+                title="Get the 22 For the 22 Event Shirt"
+                description="Shirt purchase is optional and does not affect giveaway eligibility or odds."
+              />
+              <a
+                href={event.merch_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-analytics-event="22_merch_click"
+                className="mt-6 inline-flex rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
+              >
+                Get the Event Shirt
+              </a>
+            </RevealOnScroll>
           </Container>
         </section>
       )}
@@ -288,6 +304,7 @@ export default async function EventPage() {
           counts plus the shared $70K Mission total every campaign feeds. */}
       <section className="py-16 sm:py-20">
         <Container className="max-w-2xl">
+          <RevealOnScroll>
           <SectionHeading
             eyebrow="Support the Mission"
             title={`Move the ${MISSION_NAME}`}
@@ -313,6 +330,7 @@ export default async function EventPage() {
           >
             Explore the Full $70K Mission &rarr;
           </a>
+          </RevealOnScroll>
         </Container>
       </section>
 
@@ -335,17 +353,19 @@ export default async function EventPage() {
       {/* Safety */}
       <section className="border-t border-ink/10 py-10">
         <Container className="max-w-2xl">
-          <div className="space-y-2">
-            {SAFETY_LANGUAGE_PARAGRAPHS.map((paragraph, i) => (
-              <p key={i} className="text-sm leading-relaxed text-charcoal-light">
-                {paragraph}
-              </p>
-            ))}
-          </div>
-          <p className="mt-3 text-xs leading-relaxed text-charcoal-light/80">{GIVEAWAY_ODDS_DISCLOSURE}</p>
-          <Link href="/rules" data-analytics-event="22_rules_view" className="mt-3 inline-flex text-xs font-semibold uppercase tracking-wide text-bronze hover:underline">
-            Read the Official Rules &rarr;
-          </Link>
+          <RevealOnScroll>
+            <div className="space-y-2">
+              {SAFETY_LANGUAGE_PARAGRAPHS.map((paragraph, i) => (
+                <p key={i} className="text-sm leading-relaxed text-charcoal-light">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+            <p className="mt-3 text-xs leading-relaxed text-charcoal-light/80">{GIVEAWAY_ODDS_DISCLOSURE}</p>
+            <Link href="/rules" data-analytics-event="22_rules_view" className="mt-3 inline-flex text-xs font-semibold uppercase tracking-wide text-bronze hover:underline">
+              Read the Official Rules &rarr;
+            </Link>
+          </RevealOnScroll>
         </Container>
       </section>
 

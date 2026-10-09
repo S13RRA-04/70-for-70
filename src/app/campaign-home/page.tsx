@@ -331,7 +331,7 @@ export default async function CampaignHomePage() {
           Campaign above as the page's "what's happening now" block. */}
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container>
-          <div className="grid gap-10 lg:grid-cols-12 lg:items-center">
+          <RevealOnScroll className="grid gap-10 lg:grid-cols-12 lg:items-center">
           <div className="lg:col-span-7">
           <div className="border-y border-ink/10 py-6 sm:py-8">
             <MissionProgress
@@ -364,7 +364,7 @@ export default async function CampaignHomePage() {
               <Link href="/journal/building-the-bike" className="mt-3 inline-flex text-xs font-semibold uppercase tracking-widest text-bronze-light">See the bike build &rarr;</Link>
             </div>
           </div>
-          </div>
+          </RevealOnScroll>
         </Container>
       </section>
 
@@ -420,7 +420,7 @@ export default async function CampaignHomePage() {
           belongs to, not telling a personal story a photo would suit. */}
       <section className="border-b border-ink/10 bg-ink py-16 text-off-white sm:py-20">
         <Container>
-          <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
+          <RevealOnScroll className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
             <div className="flex justify-center lg:order-2 lg:col-span-5">
               <div className="relative aspect-square w-full max-w-[260px]">
                 <Image src="/logo-white.png" alt="" fill className="object-contain" sizes="260px" />
@@ -448,7 +448,7 @@ export default async function CampaignHomePage() {
                 </a>
               </div>
             </div>
-          </div>
+          </RevealOnScroll>
         </Container>
       </section>
 
@@ -457,20 +457,22 @@ export default async function CampaignHomePage() {
           this) reads early, well before the founder story. */}
       <section className="border-b border-ink/10 py-16 sm:py-20">
         <Container>
-          <SectionHeading
-            eyebrow="Standing With the Mission"
-            title="Organizations Standing With the Mission"
-            description="These businesses, clubs, and organizations contribute equipment, services, expertise, visibility, financial support, or community reach to help For The 22 move forward."
-          />
-          <div className="mt-8">
-            <PartnerLogoWall presentingPartners={presentingPartners} otherPartners={otherPartners} />
-          </div>
-          <Link
-            href="/become-a-partner"
-            className="mt-8 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
-          >
-            Become a Partner &rarr;
-          </Link>
+          <RevealOnScroll>
+            <SectionHeading
+              eyebrow="Standing With the Mission"
+              title="Organizations Standing With the Mission"
+              description="These businesses, clubs, and organizations contribute equipment, services, expertise, visibility, financial support, or community reach to help For The 22 move forward."
+            />
+            <div className="mt-8">
+              <PartnerLogoWall presentingPartners={presentingPartners} otherPartners={otherPartners} />
+            </div>
+            <Link
+              href="/become-a-partner"
+              className="mt-8 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
+            >
+              Become a Partner &rarr;
+            </Link>
+          </RevealOnScroll>
         </Container>
       </section>
 
@@ -622,20 +624,22 @@ export default async function CampaignHomePage() {
       {/* 11. ForThe22.org cross-promo */}
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container className="max-w-2xl text-center">
-          <h2 className="font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
-            Need Support? Start Here.
-          </h2>
-          <p className="mt-3 text-base leading-relaxed text-charcoal-light">
-            For The 22 connects veterans, first responders, and their families with vetted resources across mental
-            health, physical wellness, faith, family support, career development, financial assistance, community,
-            and more.
-          </p>
-          <a
-            href={`${SITE_URL}/resources`}
-            className="mt-6 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
-          >
-            Explore Resources at ForThe22.org &rarr;
-          </a>
+          <RevealOnScroll>
+            <h2 className="font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
+              Need Support? Start Here.
+            </h2>
+            <p className="mt-3 text-base leading-relaxed text-charcoal-light">
+              For The 22 connects veterans, first responders, and their families with vetted resources across mental
+              health, physical wellness, faith, family support, career development, financial assistance, community,
+              and more.
+            </p>
+            <a
+              href={`${SITE_URL}/resources`}
+              className="mt-6 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
+            >
+              Explore Resources at ForThe22.org &rarr;
+            </a>
+          </RevealOnScroll>
         </Container>
       </section>
 
