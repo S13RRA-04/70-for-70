@@ -197,7 +197,7 @@ export default async function PartnerProfilePage({ params }: { params: Promise<{
                 ))}
               </ul>
               <Link
-                href={`${CAMPAIGN_URL}/journal/building-the-bike#component-status`}
+                href={`${CAMPAIGN_URL}/bike#component-status`}
                 className="mt-4 inline-block text-sm font-semibold text-bronze hover:text-bronze-dark"
               >
                 See the full bike build &rarr;

@@ -92,6 +92,17 @@ const nextConfig: NextConfig = {
       { source: "/updates", destination: "/journal", permanent: true },
       { source: "/updates/:slug", destination: "/journal/:slug", permanent: true },
 
+      // Memorable vanity URL for the bike-build story — the campaign's best
+      // sponsor-story content deserves a short, promotable link rather than
+      // another page; the real content still lives at /journal/building-the-bike
+      // (see that page's own doc comment). Config redirects run ahead of
+      // src/middleware.ts's host-split logic, so a request for this exact
+      // path resolves here first regardless of host — an org-host visit
+      // (forthe22.org/bike) takes one extra hop through this same relative
+      // redirect before middleware's existing /journal handling sends it to
+      // the campaign host, same two-hop shape /updates already has above.
+      { source: "/bike", destination: "/journal/building-the-bike", permanent: true },
+
       // Retired org-domain routes — athlete recruitment/onboarding is
       // closed pending written federal ethics approval (see
       // src/lib/content/athletes.ts, athlete-agreement.ts). These used to

@@ -151,7 +151,7 @@ export default async function SponsorsPage() {
                         partner={partner}
                         secondaryLinkHref={
                           partner.designation === OFFICIAL_BICYCLE_SUPPORT_DESIGNATION
-                            ? "/journal/building-the-bike"
+                            ? "/bike"
                             : undefined
                         }
                         secondaryLinkLabel={
