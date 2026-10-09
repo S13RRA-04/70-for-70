@@ -7447,6 +7447,151 @@ export const RESOURCES: Resource[] = [
     state: "Nevada",
     verifiedDate: "2026-08-27",
   },
+  {
+    // TODO(verify): the Nevada NDVS registry describes emergency financial assistance for qualifying veterans, but the org's own site doesn't mention it — recheck before adding that claim.
+    name: "Charlie-Mike Foundation",
+    url: "https://charliemikefoundation.org/",
+    description:
+      "Henderson-based veteran-led nonprofit connecting veterans, transitioning service members, Guard and Reserve members, and military families with career-readiness and resume workshops, entrepreneurship programming, mentorship, peer support, and resource navigation across Southern Nevada.",
+    needCategoryIds: ["career-education", "purpose-community", "mental-health"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Southern Nevada (Henderson-based)",
+    state: "Nevada",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "Veterans, transitioning service members, Guard & Reserve, and military families (audiences listed on the org's own site).",
+    phone: "855-939-3267 ext. 0",
+  },
+  {
+    name: "Horsemanship for Heroes",
+    url: "https://horsemanship4heroes.org/",
+    description:
+      "South Reno nonprofit and PATH Intl. Premiere Accredited Center offering equine-assisted psychotherapy and learning to veterans, emergency responders, and their immediate family members — building confidence, emotional regulation, and peer connection through working with horses.",
+    needCategoryIds: ["mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "First Responder", "Family"],
+    cost: "Free — \"All services are provided at no cost to Veterans, first responders, and their immediate family members\"",
+    geographicScope: "South Reno, Nevada (Northern Nevada)",
+    state: "Nevada",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "Veterans, emergency responders, and their immediate family members; operates on a referral basis (partners include Nevada Peer Support Network and Reno-area veterans organizations; Post-9/11 veterans can be referred through Wounded Warrior Project).",
+    availability: "Referral basis — interested participants complete and return a Participant Registration Packet.",
+    phone: "(775) 462-8445",
+  },
+  {
+    name: "Nevada Police Foundation",
+    url: "https://nevadapolicefoundation.org/",
+    description:
+      "Sparks-based official nonprofit of the Nevada Sheriffs & Chiefs Association assisting officers of all statewide law enforcement agencies and their families through an Officer Family Assistance fund, an Officer Wellness Program, safety-equipment funding, sponsored training, a First Responder Scholarship program, and youth outreach.",
+    needCategoryIds: ["financial-assistance", "mental-health", "equipment-grants"],
+    audienceTags: ["Law Enforcement", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide — Nevada (Sparks-based mailing address)",
+    state: "Nevada",
+    verifiedDate: "2026-10-09",
+    eligibility: "Officers of all statewide law enforcement agencies and their families (own site).",
+  },
+  {
+    name: "Nevada Military Support Alliance",
+    url: "https://nvmilitarysupport.org/",
+    description:
+      "Reno-based 501(c)(3) providing financial aid and resource navigation to Nevada service members, veterans, and their families through a Soldier Assistance Request, plus a Fallen Hero Survivor request connecting bereaved families with financial assistance and survivor-benefit resources.",
+    needCategoryIds: ["financial-assistance", "family-support"],
+    audienceTags: ["Active Military", "Guard/Reserve", "Veteran", "Family", "Survivor"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide — Nevada (Reno-based)",
+    state: "Nevada",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "Nevada service members and their families; applicants are asked for proof of Nevada residency, marriage/birth certificates where applicable, and a copy of their most recent tax return (own site).",
+  },
+  {
+    name: "U.S.VETS - Las Vegas",
+    url: "https://usvets.org/locations/las-vegas/",
+    description:
+      "Las Vegas operation of national nonprofit U.S.VETS, running three residential facilities and a community support office with about 330 beds of transitional and permanent housing, a workforce program returning more than 110 veterans to employment each year, rapid re-housing and homeless-prevention services for over 400 veteran households annually, SSVF support, free individual and group counseling with substance-use treatment, and VA-funded suicide-prevention case management.",
+    needCategoryIds: ["housing-transportation", "career-education", "mental-health"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free — \"free mental health services ... to eligible veterans\"; housing program cost not stated on the org's own site",
+    geographicScope: "Las Vegas / Clark County, Nevada",
+    state: "Nevada",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "Veterans and their families; SSVF \"assists low-income families who are homeless or at risk of becoming homeless\"; mental-health services for eligible veterans (own site).",
+    phone: "702-366-0456",
+  },
+  {
+    name: "SHARE Village Las Vegas (Veterans Village)",
+    url: "https://sharelasvegas.org/",
+    description:
+      "Las Vegas nonprofit, formerly known as Veterans Village, providing nightly transitional and permanent affordable housing for veterans and families, running a community food pantry, and delivering home repairs through its Veterans Home Makeover Project for senior veterans and those with accessibility or maintenance challenges.",
+    needCategoryIds: ["housing-transportation", "financial-assistance", "family-support"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site — housing is described only as \"affordable\"",
+    geographicScope: "Las Vegas, Nevada",
+    state: "Nevada",
+    verifiedDate: "2026-10-09",
+    eligibility: "United States veterans and their families (own site).",
+    phone: "725-228-2292",
+    hours: "Community pantry: Thursdays 8 a.m. until supplies run out (own site)",
+  },
+  {
+    name: "Veterans Care Charity",
+    url: "https://veteranscarecharity.org/",
+    description:
+      "Las Vegas-founded nonprofit distributing socks, blankets, hygiene kits, and comfort items to homeless and at-risk veterans through outreach with partner organizations, alongside emergency support and shelter assistance, veteran family support, and health, wellness, and counseling resource referrals.",
+    needCategoryIds: ["financial-assistance", "housing-transportation", "family-support"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Las Vegas, Nevada (org states the effort has grown \"nationwide\")",
+    state: "Nevada",
+    verifiedDate: "2026-10-09",
+    phone: "(702) 347-7040",
+  },
+  {
+    name: "Nevada Department of Wildlife - Disabled Veteran License",
+    url: "https://www.ndow.org/apply-buy/apply-buy-slaps",
+    description:
+      "Nevada Department of Wildlife benefit issuing a Resident Disabled Veteran Specialty Combination Hunting and Fishing License for $15.00 to Nevada residents with a VA service-connected disability rated at 50 percent or more, valid for one year from the date of purchase.",
+    needCategoryIds: ["outdoor-programs", "financial-assistance"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "$15.00 — \"Resident Disabled Veteran Specialty Combination Hunting and Fishing License - $15.00\" (own site application)",
+    geographicScope: "Statewide",
+    state: "Nevada",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "Actual bona fide Nevada resident veterans with a service-connected disability considered 50 percent or more by the VA who have received an honorable discharge or certificate of satisfactory service (own site application).",
+    phone: "855-542-6369",
+  },
+  {
+    name: "HOBS - Helping Our Brothers & Sisters",
+    url: "https://www.hobs4hope.org/",
+    description:
+      "Las Vegas-based all-volunteer nonprofit providing mentoring and short-term financial assistance to U.S. combat veterans, emphasizing those living with PTSD and other chronic issues, and uniquely positioned to support LGBTQ veterans denied recognition because of their sexual orientation, including help re-engaging with the VA and other nonprofits.",
+    needCategoryIds: ["financial-assistance", "mental-health", "purpose-community"],
+    audienceTags: ["Veteran"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Las Vegas, Nevada and the Washington, DC metro area (two primary operating areas per own site)",
+    state: "Nevada",
+    verifiedDate: "2026-10-09",
+    eligibility:
+      "U.S. combat veterans, with emphasis on those living with PTSD and other chronic issues; support for LGBTQ veterans who faced discrimination (own site).",
+  },
+  {
+    // TODO(verify): Veterans Treatment Court-specific eligibility, referral process, and program length aren't published on the AOC overview page — check county court VTC pages (e.g., Las Vegas Justice Court VTC, (702) 671-3317).
+    name: "Nevada Veterans Treatment Courts",
+    url: "https://nvcourts.gov/aoc/programs_and_services/specialty_courts/overview",
+    description:
+      "Nevada Administrative Office of the Courts specialty (problem-solving) court program including six Veterans Treatment Courts within the state's network of 84 Specialty Court programs; like Nevada's other specialty courts they coordinate the judiciary, prosecution, defense bar, probation, law enforcement, and treatment and mental-health services to reduce repeat criminal behavior.",
+    needCategoryIds: ["legal-benefits", "mental-health"],
+    audienceTags: ["Veteran"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide — Nevada (six Veterans Treatment Courts; specialty courts operate in every county)",
+    state: "Nevada",
+    verifiedDate: "2026-10-09",
+    phone: "(702) 486-9395",
+  },
 
   // ---------------------------------------------------------------------
   // California Regional
