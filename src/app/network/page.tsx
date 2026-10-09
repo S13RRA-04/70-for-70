@@ -63,10 +63,12 @@ export default async function NetworkPage() {
       otherPartners: partners.filter((p) => p.tier !== "presenting-partner"),
     };
   }).filter((group) => group.partners.length > 0);
-  // Defensive, not expected in practice — every mission_partners row should
-  // carry an associated_campaigns tag matching one of the groups above (see
-  // supabase/2026-10-08-tag-tri-mission-partners.sql). Surfaced rather than
-  // silently dropped so a future untagged row doesn't just vanish from here.
+  // A null/untagged associated_campaigns is intentional, not an oversight —
+  // it's how a row opts out of being tied to one campaign (see
+  // supabase/2026-10-09-inertmugs-overall-supporter.sql and
+  // supabase/2026-10-08-tag-tri-mission-partners.sql, which backfilled every
+  // other then-null row to a real campaign tag once that distinction
+  // existed). Rendered below as "Initiative Supporters."
   const taggedPartnerIds = new Set(campaignPartnerGroups.flatMap((group) => group.partners.map((p) => p.id)));
   const untaggedPartners = campaignPartners.filter((p) => !taggedPartnerIds.has(p.id));
 
@@ -171,7 +173,11 @@ export default async function NetworkPage() {
               directly. That support — plus every donation link routing straight to a
               beneficiary&apos;s own platform rather than through the campaign — is why 100% of
               each donation reaches the beneficiary it was given to. Each campaign has its own
-              partners, grouped below by which effort they actually support.
+              partners, grouped below by which effort they actually support, plus a space for
+              Initiative Supporters backing {SITE_NAME} as a whole rather than any single campaign.
+            </p>
+            <p className="mt-4 text-sm font-semibold uppercase tracking-wide text-bronze-text">
+              {campaignPartners.length} partners network-wide, across every campaign below.
             </p>
 
             <div className="mt-8 space-y-10">
@@ -209,9 +215,17 @@ export default async function NetworkPage() {
 
               {untaggedPartners.length > 0 && (
                 <div className="border-t border-ink/10 pt-8">
-                  <h3 className="font-display text-base font-bold uppercase tracking-wide text-ink">
-                    General Mission Partners
-                  </h3>
+                  <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+                    <h3 className="font-display text-base font-bold uppercase tracking-wide text-ink">
+                      Initiative Supporters
+                    </h3>
+                    <span className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                      {untaggedPartners.length} Supporter{untaggedPartners.length === 1 ? "" : "s"}
+                    </span>
+                  </div>
+                  <p className="mt-2 text-sm text-charcoal-light">
+                    Backing {SITE_NAME} as a whole, not any single campaign.
+                  </p>
                   <div className="mt-5">
                     <PartnerLogoDisclosure partners={untaggedPartners} />
                   </div>
