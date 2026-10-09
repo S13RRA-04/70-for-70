@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getJournalEntries, groupByMonth } from "@/lib/data/journal";
 import { Container } from "@/components/shared/container";
-import { RevealGrid } from "@/components/shared/reveal-on-scroll";
+import { RevealGrid, RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
@@ -183,7 +183,7 @@ export default async function JournalPage(props: PageProps<"/journal">) {
       {featuredEntry && (
         <section className="py-14 sm:py-16">
           <Container>
-            <div className="grid gap-8 lg:grid-cols-[1.65fr_1fr] lg:items-start">
+            <RevealOnScroll className="grid gap-8 lg:grid-cols-[1.65fr_1fr] lg:items-start">
               <div>
                 <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-bronze">Latest</p>
                 <JournalCard entry={featuredEntry} featured readMoreLabel="Read the Journal Entry →" />
@@ -224,7 +224,7 @@ export default async function JournalPage(props: PageProps<"/journal">) {
                   See Full Training Dashboard &rarr;
                 </Link>
               </div>
-            </div>
+            </RevealOnScroll>
           </Container>
         </section>
       )}
@@ -270,11 +270,13 @@ export default async function JournalPage(props: PageProps<"/journal">) {
                     <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
                       {group.label}
                     </h3>
-                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-                      {group.entries.map((entry) => (
-                        <JournalCard key={entry.id} entry={entry} isLatest={entry.id === latestEntry?.id} />
-                      ))}
-                    </div>
+                    <RevealGrid>
+                      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+                        {group.entries.map((entry) => (
+                          <JournalCard key={entry.id} entry={entry} isLatest={entry.id === latestEntry?.id} />
+                        ))}
+                      </div>
+                    </RevealGrid>
                   </div>
                 ))}
 
@@ -298,45 +300,51 @@ export default async function JournalPage(props: PageProps<"/journal">) {
       {/* 5. Road So Far — narrative timeline, moved below the archive. */}
       <section className="border-t border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container>
-          <SectionHeading eyebrow="The Campaign" title="Road to Chattanooga" />
-          <div className="mt-6">
-            <RoadSoFar milestones={milestones} />
-          </div>
+          <RevealOnScroll>
+            <SectionHeading eyebrow="The Campaign" title="Road to Chattanooga" />
+            <div className="mt-6">
+              <RoadSoFar milestones={milestones} />
+            </div>
+          </RevealOnScroll>
         </Container>
       </section>
 
       {/* 6. Current training — four summary metrics only; the full dashboard lives on /the-race. */}
       <section className="py-14 sm:py-16">
         <Container>
-          <SectionHeading eyebrow="Behind the Miles" title="Current Training" />
-          <div className="mt-6">
-            <CurrentTrainingSummary rows={performanceSnapshot.rows} />
-          </div>
-          <Link
-            href="/the-race"
-            className="mt-6 inline-block text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
-          >
-            See Full Training Dashboard &rarr;
-          </Link>
+          <RevealOnScroll>
+            <SectionHeading eyebrow="Behind the Miles" title="Current Training" />
+            <div className="mt-6">
+              <CurrentTrainingSummary rows={performanceSnapshot.rows} />
+            </div>
+            <Link
+              href="/the-race"
+              className="mt-6 inline-block text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
+            >
+              See Full Training Dashboard &rarr;
+            </Link>
 
-          <div className="mt-6 rounded-sm border border-bronze/30 bg-bronze/5 px-5 py-4">
-            <p className="text-sm text-charcoal-light">
-              Want to race for the mission?{" "}
-              <Link href="/get-involved/triathlon-team" className="font-semibold text-bronze hover:text-bronze-dark">
-                Join the Triathlon Team &rarr;
-              </Link>
-            </p>
-          </div>
+            <div className="mt-6 rounded-sm border border-bronze/30 bg-bronze/5 px-5 py-4">
+              <p className="text-sm text-charcoal-light">
+                Want to race for the mission?{" "}
+                <Link href="/get-involved/triathlon-team" className="font-semibold text-bronze hover:text-bronze-dark">
+                  Join the Triathlon Team &rarr;
+                </Link>
+              </p>
+            </div>
+          </RevealOnScroll>
         </Container>
       </section>
 
       {/* 7. Campaign impact / mission. */}
       <section className="border-t border-ink/10 bg-sand-light py-14 sm:py-16">
         <Container>
-          <SectionHeading eyebrow="Campaign Impact" title="The Mission Behind the Miles" />
-          <div className="mt-6 max-w-2xl">
-            <FundraisingImpactStrip stats={fundraisingStats} />
-          </div>
+          <RevealOnScroll>
+            <SectionHeading eyebrow="Campaign Impact" title="The Mission Behind the Miles" />
+            <div className="mt-6 max-w-2xl">
+              <FundraisingImpactStrip stats={fundraisingStats} />
+            </div>
+          </RevealOnScroll>
         </Container>
       </section>
 

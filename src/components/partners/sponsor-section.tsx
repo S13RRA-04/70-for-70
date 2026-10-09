@@ -1,5 +1,6 @@
 import { Container } from "@/components/shared/container";
 import { MissionPartnerCard } from "@/components/partners/mission-partner-card";
+import { RevealGrid } from "@/components/shared/reveal-on-scroll";
 import { TIER_THEME } from "@/lib/tier-theme";
 import { MISSION_PARTNER_TIERS } from "@/lib/constants";
 import type { MissionPartnerRow, MissionPartnerTier } from "@/types/database";
@@ -39,11 +40,13 @@ export function SponsorSection({
           <p className="text-sm text-charcoal-light">{tierInfo.range} in qualifying campaign support</p>
         </div>
 
-        <div className={`mt-6 grid gap-6 ${theme.gridCols}`}>
-          {partners.map((partner) => (
-            <MissionPartnerCard key={partner.id} partner={partner} tier={tier} />
-          ))}
-        </div>
+        <RevealGrid>
+          <div className={`mt-6 grid gap-6 ${theme.gridCols}`}>
+            {partners.map((partner) => (
+              <MissionPartnerCard key={partner.id} partner={partner} tier={tier} />
+            ))}
+          </div>
+        </RevealGrid>
       </Container>
     </section>
   );
