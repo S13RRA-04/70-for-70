@@ -46,7 +46,7 @@ export const BIKE_BUILD_STATUS_SUMMARY: BikeBuildStatusSummaryItem[] = [
     label: "Frame / Build",
     status: "pending",
     statusLabel: "Nearly Complete",
-    detail: "Donated 2012 Stradalli carbon frame now looks like a complete race bike — wheels with tires and tubes, handlebar/tape, seatpost, bottom bracket, aerobars, brifters, crankset, pedals, saddle, headset, rear derailleur, and both brake calipers are all installed.",
+    detail: "Donated 2012 Stradalli carbon frame now looks like a complete race bike — wheels with tires and tubes, handlebar/tape, seatpost, bottom bracket, aerobars, brifters, crankset, pedals, saddle, headset, both derailleurs, chain, and both brake calipers are all installed.",
   },
   {
     label: "Fit Confirmation",
@@ -76,13 +76,13 @@ export const BIKE_BUILD_STATUS_SUMMARY: BikeBuildStatusSummaryItem[] = [
     label: "Remaining Purchases",
     status: "needed",
     statusLabel: "In Progress",
-    detail: "Nearly everything has arrived and gone on — the replacement seat tube collar and chain are in hand awaiting installation. Only the front derailleur is still awaiting delivery, and race tires still need to be ordered.",
+    detail: "The front derailleur and chain have arrived and gone on. Only race tires still need to be ordered.",
   },
   {
     label: "Final Assembly",
     status: "pending",
     statusLabel: "Nearly Complete",
-    detail: "As of October 5, 2026, everything but the front derailleur and chain is installed. The front derailleur didn't arrive over the weekend as expected and is now on hold again, with delivery expected today — once it's in hand, it's installation, tuning, and a first shakedown ride.",
+    detail: "As of October 9, 2026, the front and rear derailleurs and the chain are installed — every component on the bike is now physically in place. What's left is derailleur tuning, cable finishing, drivetrain adjustments, brake checks, torque checks, and a full once-over before the first ride.",
   },
   {
     label: "First Outdoor Ride",
@@ -143,9 +143,9 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
   },
   {
     component: "Front Derailleur",
-    status: "needed",
-    statusLabel: "Ordered — Awaiting Delivery",
-    notes: "Shimano FD-R7000 clamp-on front derailleur — purchased for $59.40, sidestepping the earlier braze-on-plus-adapter plan since the Stradalli doesn't have an integrated braze-on mount; the last part still awaiting delivery.",
+    status: "confirmed",
+    statusLabel: "Installed",
+    notes: "Shimano FD-R7000 clamp-on front derailleur — purchased for $59.40, sidestepping the earlier braze-on-plus-adapter plan since the Stradalli doesn't have an integrated braze-on mount; installed October 9, 2026 alongside the chain.",
   },
   {
     component: "Rear Derailleur",
@@ -222,8 +222,8 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
   {
     component: "Shifter Cables & Housing",
     status: "confirmed",
-    statusLabel: "Mostly Installed",
-    notes: "Boao Universal Bike Brake Cable Kit (a combined shift- and brake-cable housing set) — purchased September 18, 2026 for $10.76, delivered September 20, 2026; routed and connected to the rear derailleur the weekend of September 26-27, 2026 — the front-derailleur run is still pending its installation.",
+    statusLabel: "Installed — Finishing Pending",
+    notes: "Boao Universal Bike Brake Cable Kit (a combined shift- and brake-cable housing set) — purchased September 18, 2026 for $10.76, delivered September 20, 2026; routed and connected to the rear derailleur the weekend of September 26-27, 2026, and to the front derailleur October 9, 2026. Final cable tension/finishing still pending.",
   },
   {
     component: "Handlebar Tape",
@@ -234,8 +234,8 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
   {
     component: "Chain",
     status: "confirmed",
-    statusLabel: "In Hand",
-    notes: "Shimano 105 CN-HG601-11, 11-speed, 116-link — ordered September 19, 2026 for $26.48, arrived September 25, 2026. Three pairs of quick links ($9.17) purchased alongside it.",
+    statusLabel: "Installed",
+    notes: "Shimano 105 CN-HG601-11, 11-speed, 116-link — ordered September 19, 2026 for $26.48, arrived September 25, 2026, installed October 9, 2026 alongside the front derailleur. Three pairs of quick links ($9.17) purchased alongside it.",
   },
   {
     component: "Assembly Grease",
@@ -265,7 +265,7 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
     component: "Assembly",
     status: "pending",
     statusLabel: "Nearly Complete",
-    notes: "As of September 30, 2026: everything is installed except the front derailleur and chain — wheels, tires and tubes, handlebar, bar tape, seatpost, bottom bracket, aerobars, brifters, crankset, pedals, saddle, headset spacers/top cap, rear derailleur, and both brake calipers are all on. Waiting on the front derailleur to arrive; once it does, install it and the chain, adjust everything, and take it for a first test ride.",
+    notes: "As of October 9, 2026: every component is physically installed — wheels, tires and tubes, handlebar, bar tape, seatpost, bottom bracket, aerobars, brifters, crankset, pedals, saddle, headset spacers/top cap, both derailleurs, chain, and both brake calipers. What's left is derailleur tuning, cable finishing, drivetrain adjustments, brake checks, torque checks, and a full once-over before the first ride.",
   },
   {
     component: "Pre-Race Tune-Up",
@@ -1317,6 +1317,53 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "I'm expecting the front derailleur to be delivered today. If it shows up, I'll get it installed and try to get the Stradalli road-worthy in time for a training ride on Wednesday.",
     ],
     relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+  },
+  {
+    id: "drivetrain-installed",
+    date: "2026-10-09",
+    displayDate: "October 9, 2026",
+    title: "Drivetrain Installed — Almost Ready to Ride",
+    summary:
+      "The derailleurs and chain are finally installed on the Stradalli. There's still tuning, cable finishing, and a full once-over left, but the bike has crossed the line from a pile of parts into a bike that needs finishing.",
+    status: "Derailleurs and chain installed",
+    photos: [
+      {
+        src: "/journal/building-the-bike/drivetrain-installed-full-bike.jpeg",
+        alt: "The Stradalli Sorrento on the Feedback Sports repair stand in the garage, fully assembled with wrapped cockpit, aerobars, and complete drivetrain.",
+        caption: "The whole bike, up on the stand tonight — drivetrain complete, cockpit wrapped.",
+        width: 1512,
+        height: 2016,
+      },
+      {
+        src: "/journal/building-the-bike/drivetrain-installed-crankset-chain.jpeg",
+        alt: "Close-up of the Stradalli's installed crankset, cassette, and chain, with the Vittoria Zaffiro EVO tire visible on the front wheel.",
+        caption: "The chain, finally on — crankset, cassette, and derailleurs all connected.",
+        width: 2016,
+        height: 1512,
+      },
+    ],
+    technicalDetails: {
+      heading: "Status",
+      items: [
+        { label: "Front Derailleur", value: "Installed" },
+        { label: "Rear Derailleur", value: "Already installed; now connected to a complete drivetrain" },
+        { label: "Chain", value: "Installed" },
+        {
+          label: "Still To Do",
+          value: "Derailleur tuning, cable finishing, drivetrain adjustments, brake checks, torque checks, full once-over",
+        },
+      ],
+    },
+    body: [
+      "Big step tonight: the derailleurs and chain are finally installed on the Stradalli.",
+      "There's still a fair amount of work left before I trust it on the road — derailleur tuning, cable finishing, drivetrain adjustments, brake checks, torque checks, and a full once-over — but the bike has crossed an important line.",
+      "It's no longer a pile of parts becoming a bike.",
+      "It's a bike that needs finishing.",
+      "After all the cleaning, troubleshooting, replacement parts, cable routing, drivetrain work, and more time in the garage than I'd probably care to admit, all that's really standing between me and the first training ride is a few more hours of wrenching.",
+      "That first ride is going to feel earned.",
+      "Movement Creates Momentum.",
+    ],
+    relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
     featured: true,
   },
 ];
@@ -1414,11 +1461,11 @@ export const BIKE_BUILD_BEFORE_AFTER: { before: BikeBuildPhoto; after: BikeBuild
     height: 1800,
   },
   after: {
-    src: "/journal/building-the-bike/tires-and-tubes-installed.jpeg",
-    alt: "The Stradalli Sorrento on the Feedback Sports repair stand with training tires and tubes mounted on both wheels, nearly fully assembled.",
-    caption: "September 30, 2026 — the same frame, tires on and nearly ready to ride.",
-    width: 2856,
-    height: 2142,
+    src: "/journal/building-the-bike/drivetrain-installed-full-bike.jpeg",
+    alt: "The Stradalli Sorrento on the Feedback Sports repair stand in the garage, fully assembled with wrapped cockpit, aerobars, and complete drivetrain.",
+    caption: "October 9, 2026 — the same frame, drivetrain complete and nearly ready to ride.",
+    width: 1512,
+    height: 2016,
   },
 };
 
