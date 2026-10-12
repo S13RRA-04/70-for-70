@@ -3,6 +3,7 @@ import { RevealGrid } from "@/components/shared/reveal-on-scroll";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
 import { StravaFollowBadge } from "@/components/shared/strava-follow-badge";
+import { ScrollProgressRail } from "@/components/shared/scroll-progress-rail";
 import { RaceHero } from "@/components/campaign/race-hero";
 import { RaceAtAGlance } from "@/components/campaign/race-at-a-glance";
 import { TheGoalTargets } from "@/components/campaign/the-goal-targets";
@@ -46,6 +47,26 @@ const RACE_BREADCRUMB_JSON_LD = breadcrumbJsonLd([
   CAMPAIGN_HOME_CRUMB,
   { name: "The Race", url: `${CAMPAIGN_URL}/the-race` },
 ]);
+
+/**
+ * Jump navigation for the page's own major sections (ScrollProgressRail,
+ * same primitive the homepage uses) — the explicit fix for a first-time
+ * visitor otherwise having to scroll linearly past the whole "sports-science
+ * workbook" to reach, say, the course or the competition data. Content isn't
+ * reduced, just reachable directly. "Course" and "Training" reuse ids
+ * RaceHero's own CTA buttons and the main nav (CAMPAIGN_NAV_GROUPS in
+ * src/lib/constants.ts) already link to — kept exactly as-is so those don't
+ * silently break.
+ */
+const RACE_RAIL_SECTIONS = [
+  { id: "overview", label: "Overview" },
+  { id: "goal", label: "The Goal" },
+  { id: "course", label: "Course" },
+  { id: "road-to-chattanooga", label: "Plan" },
+  { id: "training-status", label: "Training" },
+  { id: "competition", label: "Competition" },
+  { id: "equipment", label: "Bike" },
+];
 
 /** The 4 trend metrics shown in "The Work Is Working" — one representative benchmark per discipline, plus the supporting VO2 Max indicator. */
 const TREND_METRICS = [
@@ -107,11 +128,12 @@ export default async function RacePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(RACE_BREADCRUMB_JSON_LD)} />
+      <ScrollProgressRail sections={RACE_RAIL_SECTIONS} />
 
       {/* 1. THE RACE — cinematic hero, event identity */}
       <RaceHero />
 
-      <section className="border-b border-ink/10 bg-sand-light py-12 sm:py-16">
+      <section id="overview" className="scroll-mt-24 border-b border-ink/10 bg-sand-light py-12 sm:py-16">
         <Container>
           {/* Light eyebrow, not a full SectionHeading — this strip is a
               compressed restatement of data shown elsewhere on the page
@@ -144,7 +166,7 @@ export default async function RacePage() {
           <CampaignPhaseBanner phase={phase} />
 
           {/* 2. THE GOAL */}
-          <div className="mt-8">
+          <div id="goal" className="mt-8 scroll-mt-24">
             <SectionHeading eyebrow="The Goal" title="What Does a Podium Take?" />
             <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
               Not just a finish — a placement goal, backed by what recent-year age-group podium finishers at this
@@ -218,7 +240,7 @@ export default async function RacePage() {
           <div id="training-status" className="mt-16 scroll-mt-24">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <SectionHeading eyebrow="Right Now" title="Current Training Status" />
-              <StravaFollowBadge />
+              {/* DIAGNOSTIC-TEMP-DISABLED <StravaFollowBadge /> */}
             </div>
             <div className="mt-6">
               <TrainingStatusSnapshot rows={performanceSnapshot.rows} />
@@ -341,7 +363,7 @@ export default async function RacePage() {
           </div>
 
           {/* 6. THE DATA — historical results, deepest content, comes last */}
-          <div className="mt-16">
+          <div id="competition" className="mt-16 scroll-mt-24">
             <SectionHeading eyebrow="The Competition" title="Times to Beat" />
             <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
               M35–39 age-group results at IRONMAN 70.3 Chattanooga, 2022–2026 — the real numbers behind the goal
@@ -353,7 +375,7 @@ export default async function RacePage() {
           </div>
 
           {/* Equipment — compact teasers only; the full stories live in the Journal. */}
-          <div className="mt-16">
+          <div id="equipment" className="mt-16 scroll-mt-24">
             <SectionHeading eyebrow="The Equipment" title="Building the Bike, Dialing In the Gear" />
             <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
               Cycling is the newest discipline here, and it started without a bike at all. The full stories of

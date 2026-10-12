@@ -129,7 +129,7 @@ function buildContentSecurityPolicy(nonce: string): string {
     // allowlisted by host, so no nonce is needed for either script.
     `script-src 'self' https://challenges.cloudflare.com https://plausible.io 'nonce-${nonce}'${isDev ? " 'unsafe-eval'" : ""}`,
     "style-src 'self' 'unsafe-inline'",
-    `img-src 'self' data: blob:${supabaseOrigin ? ` ${supabaseOrigin}` : ""} https://img.youtube.com`,
+    `img-src 'self' data: blob:${supabaseOrigin ? ` ${supabaseOrigin}` : ""} https://img.youtube.com https://badges.strava.com`,
     "font-src 'self' data:",
     `connect-src 'self'${supabaseOrigin ? ` ${supabaseOrigin} ${supabaseOrigin.replace("https://", "wss://")}` : ""} https://challenges.cloudflare.com https://plausible.io`,
     // The Journal's click-to-play video facade (src/lib/video-url.ts), plus the

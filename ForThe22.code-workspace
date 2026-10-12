@@ -3,6 +3,9 @@
 		{
 			"name": "70 for 70",
 			"path": "."
+		},
+		{
+			"path": "../../../../Downloads/Images"
 		}
 	],
 	"settings": {}

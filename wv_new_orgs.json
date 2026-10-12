@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Louis A. Johnson VA Medical Center",
+    "url": "https://www.va.gov/clarksburg-health-care/",
+    "description": "VA medical center in Clarksburg providing primary care, specialty care, mental health, and rehabilitation services for eligible veterans.",
+    "needCategoryIds": [
+      "mental-health",
+      "housing-transportation"
+    ],
+    "audienceTags": [
+      "Veteran",
+      "Disabled"
+    ],
+    "cost": "Free",
+    "geographicScope": "Northern and central West Virginia",
+    "state": "West Virginia",
+    "verifiedDate": "2026-10-09",
+    "eligibility": "Eligible veterans enrolled in VA health care",
+    "phone": "304-623-3461",
+    "hours": "24/7"
+  }
+]

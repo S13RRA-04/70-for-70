@@ -81,15 +81,15 @@ export const BIKE_BUILD_STATUS_SUMMARY: BikeBuildStatusSummaryItem[] = [
   },
   {
     label: "Final Assembly",
-    status: "pending",
-    statusLabel: "Nearly Complete",
-    detail: "As of October 9, 2026, the front and rear derailleurs and the chain are installed — every component on the bike is now physically in place. What's left is derailleur tuning, cable finishing, drivetrain adjustments, brake checks, torque checks, and a full once-over before the first ride.",
+    status: "complete",
+    statusLabel: "Complete",
+    detail: "As of October 11, 2026, final tuning, cable finishing, drivetrain adjustments, brake checks, and torque checks are done — the Stradalli is a finished bicycle.",
   },
   {
     label: "First Outdoor Ride",
-    status: "pending",
-    statusLabel: "Pending",
-    detail: "Not yet — will be marked complete only once it actually happens.",
+    status: "complete",
+    statusLabel: "Complete",
+    detail: "Done — the first test ride happened October 11, 2026.",
   },
   {
     label: "Race-Day Tune-Up",
@@ -264,9 +264,9 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
   },
   {
     component: "Assembly",
-    status: "pending",
-    statusLabel: "Nearly Complete",
-    notes: "As of October 9, 2026: every component is physically installed — wheels, tires and tubes, handlebar, bar tape, seatpost, bottom bracket, aerobars, brifters, crankset, pedals, saddle, headset spacers/top cap, both derailleurs, chain, and both brake calipers. What's left is derailleur tuning, cable finishing, drivetrain adjustments, brake checks, torque checks, and a full once-over before the first ride.",
+    status: "complete",
+    statusLabel: "Complete",
+    notes: "As of October 11, 2026: final tuning, cable finishing, drivetrain adjustments, brake checks, and torque checks are done. The Stradalli is a complete, race-configured bicycle.",
   },
   {
     component: "Pre-Race Tune-Up",
@@ -276,9 +276,9 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
   },
   {
     component: "First Outdoor Ride",
-    status: "pending",
-    statusLabel: "Pending",
-    notes: "Not marked complete until it happens.",
+    status: "complete",
+    statusLabel: "Complete",
+    notes: "Completed October 11, 2026.",
   },
 ];
 
@@ -339,8 +339,6 @@ export const BIKE_BUILD_CONVERSATIONS_IN_PROGRESS: BikeBuildContributor[] = [
  */
 export const BIKE_BUILD_PHOTO_ROADMAP: { label: string; description: string }[] = [
   { label: "The Mechanic's Inspection", description: "Bruce evaluating the frame and components in person." },
-  { label: "First Completed Bike", description: "Only once it's actually assembled — not before." },
-  { label: "First Outdoor Ride", description: "The first time this bike actually goes anywhere." },
   { label: "Final Race Configuration", description: "The bike as it lines up at IRONMAN 70.3 Chattanooga." },
 ];
 
@@ -1365,6 +1363,68 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "Movement Creates Momentum.",
     ],
     relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+  },
+  {
+    id: "bike-complete-first-ride",
+    date: "2026-10-11",
+    displayDate: "October 11, 2026",
+    title: "The Bike Is Complete — First Test Ride Done",
+    summary:
+      "The finishing list from last week is closed out, the Stradalli is a complete bicycle, and it has made its first test ride. Huge thanks to Montgomery Bicycle Club, Redshift Sports, Praxis, ISM Saddles, and Feedback Sports.",
+    status: "Build complete — first ride done",
+    contributors: ["Betsy & MBC", "Redshift Sports", "Praxis", "ISM Saddles", "Feedback Sports"],
+    photos: [
+      {
+        src: "/journal/building-the-bike/bike-complete-full-side.jpeg",
+        alt: "The fully assembled Stradalli Sorrento leaning against a wooden fence outdoors, with aerobars, wrapped drop bars, and a complete drivetrain.",
+        caption: "Complete, outdoors, and no longer on the stand. This is the bike going to Chattanooga.",
+        width: 2856,
+        height: 2142,
+      },
+      {
+        src: "/journal/building-the-bike/bike-complete-cockpit-brifters.jpeg",
+        alt: "A head-on view of the Stradalli's cockpit showing the Shimano 105 brifters, wrapped drop bars, and Redshift Sports aerobars.",
+        caption: "The cockpit, head-on — Shimano 105 brifters, wrapped bars, Redshift aerobars.",
+        width: 2856,
+        height: 2142,
+      },
+      {
+        src: "/journal/building-the-bike/bike-complete-drivetrain-detail.jpeg",
+        alt: "Close-up of the Stradalli's installed Praxis crankset, chain, cassette, and front derailleur.",
+        caption: "The Praxis crankset and the rest of the drivetrain, fully connected and turning.",
+        width: 2856,
+        height: 2142,
+      },
+      {
+        src: "/journal/building-the-bike/bike-complete-saddle-seatpost.jpeg",
+        alt: "Close-up of the ISM PR 3.0 saddle mounted on the Redshift Sports Dual Position seatpost.",
+        caption: "The ISM saddle on the Redshift seatpost — two sponsor contributions in one shot.",
+        width: 2142,
+        height: 2856,
+      },
+    ],
+    technicalDetails: {
+      heading: "Status",
+      items: [
+        { label: "Final Assembly", value: "Complete" },
+        { label: "First Test Ride", value: "Complete — October 11, 2026" },
+      ],
+    },
+    body: [
+      "The list from last week's update — derailleur tuning, cable finishing, drivetrain adjustments, brake checks, torque checks, a full once-over — is done.",
+      "The Stradalli is a complete bicycle. And it's no longer a claim made from a garage: it's gone out, shifted through its gears, stopped on both brakes, and come back in one piece. The first test ride is done.",
+      "It wasn't about speed, and it wasn't supposed to be. It was about finding out whether months of sourcing, inventory, troubleshooting, and wrenching actually add up to a bike that works the way a bike is supposed to work. It does.",
+      "A project like this doesn't finish on its own, and this one very much didn't. Huge thank you's are due.",
+      "To Montgomery Bicycle Club — and especially Betsy — for identifying the donated frame in the first place, cataloguing what was available, and connecting this build with the people and parts that got it here. None of the rest of this happens without that first lead.",
+      "To Redshift Sports, for the aero bars, the seatpost, and the seatpost shim that shaped the entire cockpit and riding position.",
+      "To Praxis, for the crankset and bottom bracket that turned an open compatibility question into one of the strongest confirmed pieces of this build.",
+      "To ISM Saddles, for the saddle this bike is actually ridden on — and the shirt that came with it.",
+      "To Feedback Sports, for the repair stand that held this frame steady through every stage of assembly between a bare carbon frame and tonight.",
+      "What started as a donated 2012 Stradalli frame and a long list of open questions is now a finished race bike that's been ridden. From here, the work changes.",
+      "Building the bike is done. Building the engine starts now.",
+      "Movement Creates Momentum.",
+    ],
+    relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
     featured: true,
   },
 ];
@@ -1462,11 +1522,11 @@ export const BIKE_BUILD_BEFORE_AFTER: { before: BikeBuildPhoto; after: BikeBuild
     height: 1800,
   },
   after: {
-    src: "/journal/building-the-bike/drivetrain-installed-full-bike.jpeg",
-    alt: "The Stradalli Sorrento on the Feedback Sports repair stand in the garage, fully assembled with wrapped cockpit, aerobars, and complete drivetrain.",
-    caption: "October 9, 2026 — the same frame, drivetrain complete and nearly ready to ride.",
-    width: 1512,
-    height: 2016,
+    src: "/journal/building-the-bike/bike-complete-full-side.jpeg",
+    alt: "The fully assembled Stradalli Sorrento leaning against a wooden fence outdoors, with aerobars, wrapped drop bars, and a complete drivetrain.",
+    caption: "October 11, 2026 — the same frame, now a finished bike with a first test ride behind it.",
+    width: 2856,
+    height: 2142,
   },
 };
 
