@@ -165,6 +165,7 @@ export default async function RuckHomePage() {
     (RUCK_EVENT_INFO.beneficiaries as readonly string[]).includes(p.name),
   );
   const campaignPartners = missionPartners.filter((p) => p.associated_campaigns?.includes("ruck"));
+  const goruckPartner = campaignPartners.find((p) => p.name === "GORUCK");
 
   return (
     <>
@@ -322,6 +323,45 @@ export default async function RuckHomePage() {
               ))}
             </div>
             </RevealOnScroll>
+
+            {/* Latest campaign update — plain page content, not a Supabase
+                row or a journal system; Ruck stays a deliberately minimal
+                single page (see AGENTS.md). */}
+            {goruckPartner && (
+              <RevealOnScroll>
+                <div className="mt-12 grid overflow-hidden rounded-sm border border-ink/10 bg-off-white sm:grid-cols-2">
+                  <div className="relative aspect-[4/3] sm:aspect-auto">
+                    <Image
+                      src="/ruck/goruck-donation.jpeg"
+                      alt="GORUCK gear donated to Ruck For The 22 — a Rucker, a 20lb ruck plate, and a pair of Mackall 45 rucking shoes"
+                      fill
+                      className="object-cover"
+                      sizes="(min-width: 640px) 50vw, 100vw"
+                    />
+                  </div>
+                  <div className="flex flex-col justify-center p-6 sm:p-8">
+                    <p className="text-xs font-semibold uppercase tracking-widest text-bronze">Campaign Update</p>
+                    <h3 className="mt-2 font-display text-xl font-bold uppercase tracking-tight text-ink sm:text-2xl">
+                      GORUCK Resupplies the Ruck
+                    </h3>
+                    <p className="mt-4 text-sm leading-relaxed text-charcoal-light">
+                      Huge shoutout and thank you to GORUCK for supporting the campaign with a donation of a
+                      Rucker, a 20lb ruck plate, and a pair of their new Mackall 45 rucking shoes.
+                    </p>
+                    {goruckPartner.website_url && (
+                      <a
+                        href={goruckPartner.website_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-4 inline-block text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
+                      >
+                        Visit GORUCK &rarr;
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </RevealOnScroll>
+            )}
           </Container>
         </section>
       )}
