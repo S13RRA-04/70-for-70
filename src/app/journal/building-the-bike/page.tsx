@@ -13,6 +13,7 @@ import { ContributorsSection } from "@/components/journal/bike-build/contributor
 import { PhotoRoadmap } from "@/components/journal/bike-build/photo-roadmap";
 import { InteractiveBikeDiagram, type DiagramHotspotData } from "@/components/journal/bike-build/interactive-bike-diagram";
 import { RevealOnScroll } from "@/components/shared/reveal-on-scroll";
+import { ShareButtons } from "@/components/shared/share-buttons";
 import {
   BIKE_BUILD_BEFORE_AFTER,
   BIKE_BUILD_COMPONENT_STATUS,
@@ -129,7 +130,7 @@ export default async function BuildingTheBikePage() {
 
         <div className="mt-5 flex flex-wrap items-center gap-3">
           <span className="rounded-full bg-bronze px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-ink">
-            Build In Progress
+            Build Complete — Race Tires Still Needed
           </span>
           <p className="text-sm text-off-white/70">
             Last updated <time dateTime={lastUpdated}>{formatDateLong(lastUpdated)}</time>
@@ -139,12 +140,24 @@ export default async function BuildingTheBikePage() {
         <p className="mt-6 max-w-2xl text-lg italic text-off-white/85">{BIKE_BUILD_INTRO}</p>
 
         <p className="mt-4 max-w-2xl text-base text-off-white/75">
-          Cycling is Cody&apos;s newest discipline — the one with the least history and the most unknowns. Whatever
-          bike comes out of this process ultimately has to carry him through the 56-mile bike leg of his first
-          IRONMAN 70.3{RACE_INFO.raceLocation ? `, in ${RACE_INFO.raceLocation}` : ""}. It is not there yet. This
-          page tracks the honest, occasionally absurd process of getting it there.
+          Cycling is Cody&apos;s newest discipline — the one with the least history and the most unknowns. This bike
+          has to carry him through the 56-mile bike leg of his first IRONMAN 70.3
+          {RACE_INFO.raceLocation ? `, in ${RACE_INFO.raceLocation}` : ""}. It&apos;s built, and it&apos;s been
+          ridden — the only thing left on the list is race tires. This page tracks the honest, occasionally absurd
+          process of getting it there.
         </p>
       </CampaignPageHero>
+
+      <section className="border-b border-ink/10 py-6">
+        <Container className="flex flex-wrap items-center justify-between gap-3">
+          <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">Share This Build</p>
+          <ShareButtons
+            url={CANONICAL_URL}
+            title={`${PAGE_TITLE} | ${CAMPAIGN_NAME}`}
+            analyticsEvent="bike_build_share_click"
+          />
+        </Container>
+      </section>
 
       <section className="border-b border-ink/10 py-16 sm:py-20">
         <Container className="max-w-4xl">
@@ -334,7 +347,7 @@ export default async function BuildingTheBikePage() {
       <CTASection
         eyebrow="Keep It Moving"
         title="Help Carry This Forward"
-        description="The mission this bike is being built for still needs support of its own. The Stradalli build has now secured its Shimano 105 2×11 brifters, and the focus is shifting toward final fit, remaining consumables, aerobar compatibility, assembly, and testing."
+        description="The mission this bike is being built for still needs support of its own. The Stradalli is built, fitted, and ridden — the last item on the build sheet is a set of race tires."
         buttons={[
           { label: "Support the Mission", href: "/donate" },
           { label: "Can You Help Complete the Build?", href: "/contact", variant: "secondary" },

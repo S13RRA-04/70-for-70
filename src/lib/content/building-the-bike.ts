@@ -45,15 +45,15 @@ export const BIKE_BUILD_HERO_PHOTO = {
 export const BIKE_BUILD_STATUS_SUMMARY: BikeBuildStatusSummaryItem[] = [
   {
     label: "Frame / Build",
-    status: "pending",
-    statusLabel: "Nearly Complete",
-    detail: "Donated 2012 Stradalli carbon frame now looks like a complete race bike — wheels with tires and tubes, handlebar/tape, seatpost, bottom bracket, aerobars, brifters, crankset, pedals, saddle, headset, both derailleurs, chain, and both brake calipers are all installed.",
+    status: "complete",
+    statusLabel: "Complete",
+    detail: "Donated 2012 Stradalli carbon frame is now a complete race bike — wheels with tires and tubes, handlebar/tape, seatpost, bottom bracket, aerobars, brifters, crankset, pedals, saddle, headset, both derailleurs, chain, and both brake calipers are all installed and the first test ride is done.",
   },
   {
     label: "Fit Confirmation",
-    status: "pending",
-    statusLabel: "Pending",
-    detail: "Requires an in-person evaluation, preferably a professional fitting.",
+    status: "confirmed",
+    statusLabel: "Confirmed",
+    detail: "Confirmed by the completed build and first test ride, October 11, 2026.",
   },
   {
     label: "Major Component Gap",
@@ -74,10 +74,10 @@ export const BIKE_BUILD_STATUS_SUMMARY: BikeBuildStatusSummaryItem[] = [
     detail: "Full inventory taken September 19, 2026 — frame, wheelset, cockpit, crankset, saddle, and controls all confirmed in hand.",
   },
   {
-    label: "Remaining Purchases",
+    label: "Race Tires",
     status: "needed",
-    statusLabel: "In Progress",
-    detail: "The front derailleur and chain have arrived and gone on. Only race tires still need to be ordered.",
+    statusLabel: "Needed",
+    detail: "The only item left on the build. Training tires are mounted and the bike is rideable — race tires (targeting Continental GP5000s) still need to be ordered and swapped on before race day.",
   },
   {
     label: "Final Assembly",
@@ -109,14 +109,14 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
   {
     component: "Frame",
     status: "confirmed",
-    statusLabel: "In Assembly",
-    notes: "2012 Stradalli carbon frame, sourced through Betsy and the Montgomery Bicycle Club community.",
+    statusLabel: "Complete",
+    notes: "2012 Stradalli carbon frame, sourced through Betsy and the Montgomery Bicycle Club community — now a complete, ridden bicycle.",
   },
   {
     component: "Fit",
-    status: "pending",
-    statusLabel: "Pending",
-    notes: "Stack and front-end height require confirmation.",
+    status: "confirmed",
+    statusLabel: "Confirmed",
+    notes: "Stack and front-end height confirmed workable by the completed build and first test ride, October 11, 2026.",
   },
   {
     component: "Bottom Bracket",
@@ -205,8 +205,8 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
   {
     component: "Seat Tube Collar",
     status: "confirmed",
-    statusLabel: "In Hand",
-    notes: "Quick-release aluminium alloy seatpost collar, to clamp the Redshift Sports seatpost in the frame — the first order (September 21, 2026, $9.71) turned out to be the wrong size; the correct-size replacement ($9.67) has arrived and still needs to be installed.",
+    statusLabel: "Installed",
+    notes: "Quick-release aluminium alloy seatpost collar, to clamp the Redshift Sports seatpost in the frame — the first order (September 21, 2026, $9.71) turned out to be the wrong size; the correct-size replacement ($9.67) is installed.",
   },
   {
     component: "Saddle",
@@ -223,8 +223,8 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
   {
     component: "Shifter Cables & Housing",
     status: "confirmed",
-    statusLabel: "Installed — Finishing Pending",
-    notes: "Boao Universal Bike Brake Cable Kit (a combined shift- and brake-cable housing set) — purchased September 18, 2026 for $10.76, delivered September 20, 2026; routed and connected to the rear derailleur the weekend of September 26-27, 2026, and to the front derailleur October 9, 2026. Final cable tension/finishing still pending.",
+    statusLabel: "Installed",
+    notes: "Boao Universal Bike Brake Cable Kit (a combined shift- and brake-cable housing set) — purchased September 18, 2026 for $10.76, delivered September 20, 2026; routed and connected to the rear derailleur the weekend of September 26-27, 2026, and to the front derailleur October 9, 2026. Final cable tension finished October 11, 2026.",
   },
   {
     component: "Handlebar Tape",
@@ -292,7 +292,7 @@ export const BIKE_BUILD_CONFIRMED_CONTRIBUTORS: BikeBuildContributor[] = [
   {
     name: "Bruce",
     role: "Fit and mechanical assessment",
-    note: "Raised the fit question that's currently gating the build, and is evaluating the frame and components in person.",
+    note: "Raised the fit question early on and evaluated the frame and components in person — confirmed by the completed build and first test ride.",
   },
   {
     name: "Praxis",
@@ -1550,9 +1550,9 @@ const STATUS_WORD: Record<string, string> = {
 /** Which BIKE_BUILD_COMPONENT_STATUS row backs each teaser highlight, and the label shown for it. */
 const TEASER_HIGHLIGHTS: { component: string; label: string }[] = [
   { component: "Frame", label: "Frame" },
-  { component: "Remaining Drivetrain", label: "Drivetrain" },
   { component: "Fit", label: "Fit" },
   { component: "Assembly", label: "Assembly" },
+  { component: "Race Tires", label: "Race Tires" },
 ];
 
 export interface BikeBuildStatusOverview {
