@@ -133,6 +133,26 @@ function EntryDetail({ entry }: { entry: BikeBuildTimelineEntry }) {
         ))}
       </div>
 
+      {entry.video && (
+        <figure className="mt-5 overflow-hidden rounded-sm border border-ink/10">
+          <video
+            src={entry.video.src}
+            poster={entry.video.poster}
+            controls
+            playsInline
+            preload="metadata"
+            className="aspect-[9/16] w-full max-w-xs bg-ink sm:max-w-sm"
+          >
+            Your browser doesn&apos;t support embedded video.{" "}
+            <a href={entry.video.src} className="underline">
+              Download the clip instead
+            </a>
+            .
+          </video>
+          <figcaption className="bg-off-white px-3 py-2 text-xs text-charcoal-light">{entry.video.caption}</figcaption>
+        </figure>
+      )}
+
       {entry.technicalDetails && (
         <div className="mt-5 rounded-sm border border-ink/10 bg-off-white p-4">
           <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">

@@ -47,6 +47,16 @@ export interface BikeBuildPhoto {
   isEstimate?: boolean;
 }
 
+/** A self-hosted clip (public/journal/building-the-bike/*.mp4) — distinct from JournalVideoEmbed, which is for the Supabase-backed journal's YouTube/Vimeo posts, not this static content module. Keep clips small (H.264 mp4, well under Cloudflare Workers' ~25 MiB per-asset static-file limit). */
+export interface BikeBuildVideo {
+  src: string;
+  /** Poster frame shown before play, same aspect ratio as the video. */
+  poster: string;
+  width: number;
+  height: number;
+  caption: string;
+}
+
 export interface BikeBuildTechnicalDetail {
   label: string;
   value: string;
@@ -75,6 +85,7 @@ export interface BikeBuildTimelineEntry {
   body: string[];
   status: string;
   photos?: BikeBuildPhoto[];
+  video?: BikeBuildVideo;
   technicalDetails?: {
     heading: string;
     /** Shown beneath the heading — e.g. "Approximate — not a verified manufacturer geometry chart." */

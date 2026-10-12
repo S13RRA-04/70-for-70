@@ -1373,6 +1373,13 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "The finishing list from last week is closed out, the Stradalli is a complete bicycle, and it has made its first test ride. Huge thanks to Montgomery Bicycle Club, Redshift Sports, Praxis, ISM Saddles, and Feedback Sports.",
     status: "Build complete — first ride done",
     contributors: ["Betsy & MBC", "Redshift Sports", "Praxis", "ISM Saddles", "Feedback Sports"],
+    video: {
+      src: "/journal/building-the-bike/bike-complete-first-ride.mp4",
+      poster: "/journal/building-the-bike/bike-complete-first-ride-poster.jpg",
+      width: 506,
+      height: 900,
+      caption: "A quick word from the garage — the build's done, the first ride happened, and the thank-you's are overdue.",
+    },
     photos: [
       {
         src: "/journal/building-the-bike/bike-complete-full-side.jpeg",
