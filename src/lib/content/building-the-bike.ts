@@ -1447,6 +1447,19 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
     summary:
       "The Stradalli's first real training ride is in the books — a striking contrast from the old aluminum Trek, and a clear punch list (shifting, brakes, saddle fit) to dial in before race day.",
     status: "First training ride done — fine-tuning shifting, brakes, and saddle fit",
+    technicalDetails: {
+      heading: "Ride Stats",
+      note: "From Strava — Morning Ride, Madison County, Alabama.",
+      items: [
+        { label: "Distance", value: "8.24 mi" },
+        { label: "Moving Time", value: "38:00" },
+        { label: "Elevation Gain", value: "97 ft" },
+        { label: "Avg Speed", value: "13.0 mph" },
+        { label: "Max Speed", value: "22.4 mph" },
+        { label: "Avg Power (Strava estimate)", value: "93 W" },
+        { label: "Conditions", value: "Clear, 76°F (feels like 82°F)" },
+      ],
+    },
     body: [
       "The first training ride on the Stradalli is officially in the books.",
       "After weeks of gathering components, working through mechanical challenges, turning wrenches, and watching this bike slowly come together in the garage, I finally got to take it out on the road.",
