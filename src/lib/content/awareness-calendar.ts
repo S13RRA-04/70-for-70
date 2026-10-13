@@ -685,10 +685,13 @@ export const AWARENESS_CALENDAR: AwarenessEntry[] = [
     priority: true,
     summary: "A particularly strong opportunity to recognize firefighters, law enforcement, EMS, and dispatch personnel.",
     description:
-      "Feature first responder stories and announce outreach to police, fire, EMS, and dispatch organizations.",
+      "National First Responders Day honors the police officers, firefighters, paramedics, and dispatchers who answer the call when everyone else is running the other way. For The 22 marks it by spotlighting first responder stories, connecting them with resources built for the job they do, and rallying supporters behind the organizations serving that community year-round.",
     actionCTA: { label: "Find First Responder Resources", href: "/resources" },
-    resourceLinks: [{ label: "Support the Mission", href: `${CAMPAIGN_URL}/donate` }],
-    bannerLeadDays: 6,
+    resourceLinks: [
+      { label: "Support the Mission", href: `${CAMPAIGN_URL}/donate` },
+      { label: "Meet Our Beneficiaries", href: `${CAMPAIGN_URL}/beneficiaries` },
+    ],
+    bannerLeadDays: 9,
     bannerCopy: "October 28 is National First Responder Day. Thank you to the police officers, firefighters, paramedics, and dispatchers who show up for everyone else.",
   },
 
@@ -740,13 +743,14 @@ export const AWARENESS_CALENDAR: AwarenessEntry[] = [
     priority: true,
     summary: "Honors all who have served in the U.S. Armed Forces.",
     description:
-      "Run a coordinated campaign featuring veteran stories, resource links, and donation opportunities.",
+      "Veterans Day honors every man and woman who has worn the uniform of the United States Armed Forces — not just those who served in wartime. For The 22 marks it by turning appreciation into action: spotlighting veteran stories, connecting veterans with the resources and community that carry them from service to what comes next, and inviting supporters to back the organizations doing that work year-round.",
     actionCTA: { label: "Support Veterans Through the Mission", href: `${CAMPAIGN_URL}/donate` },
     resourceLinks: [
       { label: "Read Veteran Stories", href: `${CAMPAIGN_URL}/journal` },
       { label: "Meet Our Beneficiaries", href: `${CAMPAIGN_URL}/beneficiaries` },
+      { label: "Find Local Resources", href: "/resources" },
     ],
-    bannerLeadDays: 7,
+    bannerLeadDays: 9,
     bannerCopy: "November 11 is Veterans Day. Thank you to everyone who has served in the U.S. Armed Forces.",
   },
   {
@@ -817,6 +821,18 @@ function toDateOnly(d: Date): Date {
   return new Date(d.getFullYear(), d.getMonth(), d.getDate());
 }
 
+/**
+ * Parses a YYYY-MM-DD string as local midnight. `new Date("2026-11-11")`
+ * parses as UTC midnight, and toDateOnly then reads the year/month/day back
+ * off that instant in local time — which rolls back to Nov 10 in any
+ * timezone west of UTC (all of the US). Every explicit dateRule's
+ * startDate/endDate must go through this, never a bare `new Date(iso)`.
+ */
+function parseLocalDate(iso: string): Date {
+  const [year, month, day] = iso.split("-").map(Number);
+  return new Date(year, month - 1, day);
+}
+
 function lastDayOfMonth(year: number, month0: number): Date {
   return new Date(year, month0 + 1, 0);
 }
@@ -852,9 +868,9 @@ export function getNextOccurrence(
   }
 
   // explicit
-  const end = rule.endDate ? toDateOnly(new Date(rule.endDate)) : toDateOnly(new Date(rule.startDate));
+  const end = rule.endDate ? parseLocalDate(rule.endDate) : parseLocalDate(rule.startDate);
   if (end.getTime() < today.getTime()) return null;
-  return { date: toDateOnly(new Date(rule.startDate)), endDate: rule.endDate ? end : undefined };
+  return { date: parseLocalDate(rule.startDate), endDate: rule.endDate ? end : undefined };
 }
 
 /** Whole calendar days from `now` to an entry's next occurrence — same date-only diffing as campaign-phase.ts's getDaysToRace, so there's no disagreement at a day boundary. */
@@ -882,28 +898,56 @@ export function getUpcomingEntries(
 }
 
 /**
- * True when `now` falls inside an entry's banner window — its next
- * occurrence (or occurrence range) minus `bannerLeadDays`, through the end
- * of the occurrence. Only called for entries with bannerLeadDays set; see
- * AwarenessEntryBanner.
+ * The date this entry's banner window opens, or null if it isn't open
+ * today. Only called for entries with bannerLeadDays set. A month-long
+ * entry's window is its entire span, every year — there's no not-yet-started
+ * lead-in to compute, unlike a dated entry, so its "start" is just the 1st.
  */
-export function isInBannerWindow(entry: AwarenessEntry, now: Date = new Date()): boolean {
-  if (entry.bannerLeadDays === undefined) return false;
+function getBannerWindowStart(entry: AwarenessEntry, now: Date): Date | null {
+  if (entry.bannerLeadDays === undefined) return null;
   const rule = entry.dateRule;
   const today = toDateOnly(now);
 
   if (rule.type === "month") {
-    // A month-long entry is "in window" for its entire span, every year —
-    // there's no not-yet-started lead-in to compute, unlike a dated entry.
-    return today.getMonth() + 1 === rule.month;
+    if (today.getMonth() + 1 !== rule.month) return null;
+    return new Date(today.getFullYear(), rule.month - 1, 1);
   }
 
   const next = getNextOccurrence(entry, now);
-  if (!next) return false;
+  if (!next) return null;
   const windowStart = new Date(next.date);
   windowStart.setDate(windowStart.getDate() - entry.bannerLeadDays);
   const windowEnd = next.endDate ?? next.date;
-  return today.getTime() >= windowStart.getTime() && today.getTime() <= windowEnd.getTime();
+  if (today.getTime() < windowStart.getTime() || today.getTime() > windowEnd.getTime()) return null;
+  return windowStart;
+}
+
+/** True when `now` falls inside an entry's banner window. Only called for entries with bannerLeadDays set; see AwarenessEntryBanner. */
+export function isInBannerWindow(entry: AwarenessEntry, now: Date = new Date()): boolean {
+  return getBannerWindowStart(entry, now) !== null;
+}
+
+/**
+ * Among all entries whose banner window is open today, picks the one whose
+ * window opened most recently — the most specific, time-boxed observance
+ * wins over a whole-month one that's been open since the 1st. For example,
+ * Veterans Day's own window (opening a handful of days before Nov 11)
+ * outranks National Veterans and Military Families Month (open all of
+ * November) once both are active, so Nov 11 itself gets a Veterans-Day-
+ * specific banner instead of being shadowed by the month-long one. Ties
+ * (same-day window starts) fall back to calendar/array order.
+ */
+export function getActiveBannerEntry(
+  entries: AwarenessEntry[],
+  now: Date = new Date(),
+): AwarenessEntry | null {
+  let best: { entry: AwarenessEntry; start: Date } | null = null;
+  for (const entry of entries) {
+    const start = getBannerWindowStart(entry, now);
+    if (start === null) continue;
+    if (!best || start.getTime() > best.start.getTime()) best = { entry, start };
+  }
+  return best?.entry ?? null;
 }
 
 /** Ranks other entries by shared categories — same approach as resources.ts's findSimilarResources. Ties broken alphabetically for a stable order. */

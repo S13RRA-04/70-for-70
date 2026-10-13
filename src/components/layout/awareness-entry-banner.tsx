@@ -1,13 +1,15 @@
 import { Container } from "@/components/shared/container";
-import { AWARENESS_CALENDAR, isInBannerWindow } from "@/lib/content/awareness-calendar";
+import { AWARENESS_CALENDAR, getActiveBannerEntry } from "@/lib/content/awareness-calendar";
 
 /**
  * Generic, data-driven sitewide banner — replaces the old one-off
- * FirstResponderDayBanner file pair. Shows the first AWARENESS_CALENDAR
- * entry (in array/calendar order) whose bannerLeadDays window is currently
- * open; renders nothing the rest of the year. Adding a new priority
- * observance's banner going forward means setting bannerLeadDays +
- * bannerCopy on its content entry, not writing a new component.
+ * FirstResponderDayBanner file pair. Shows whichever AWARENESS_CALENDAR
+ * entry's bannerLeadDays window is currently open (see
+ * getActiveBannerEntry for how overlapping windows, e.g. Veterans Day
+ * inside National Veterans and Military Families Month, are resolved);
+ * renders nothing the rest of the year. Adding a new priority observance's
+ * banner going forward means setting bannerLeadDays + bannerCopy on its
+ * content entry, not writing a new component.
  *
  * September's Suicide Prevention Month intentionally has no bannerLeadDays
  * set, so it never competes with this banner — it stays on its own bespoke
@@ -16,7 +18,7 @@ import { AWARENESS_CALENDAR, isInBannerWindow } from "@/lib/content/awareness-ca
  */
 export function AwarenessEntryBanner() {
   const now = new Date();
-  const active = AWARENESS_CALENDAR.find((entry) => entry.bannerLeadDays !== undefined && isInBannerWindow(entry, now));
+  const active = getActiveBannerEntry(AWARENESS_CALENDAR, now);
   if (!active) return null;
 
   return (
