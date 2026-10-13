@@ -20,6 +20,7 @@ import { CountUpNumber } from "@/components/shared/count-up-number";
 import { PresentingPartnerFeature } from "@/components/partners/presenting-partner-feature";
 import { MissionPartnerCard } from "@/components/partners/mission-partner-card";
 import { RevealGrid } from "@/components/shared/reveal-on-scroll";
+import { AWARENESS_CALENDAR, getUpcomingEntries } from "@/lib/content/awareness-calendar";
 import { ABOUT_CONTENT, findAboutSubsection } from "@/lib/content/about";
 import { OUTER_RING_COLORS } from "@/lib/ring-colors";
 import { getMissionMetrics } from "@/lib/data/mission-metrics";
@@ -111,6 +112,7 @@ export default async function HomePage() {
   ]);
 
   const currentCampaigns = MOVEMENT_CAMPAIGNS.filter(isCurrentCampaign);
+  const upcomingObservances = getUpcomingEntries(AWARENESS_CALENDAR, 3);
   const generalPartners = missionPartners.filter(isCampaignPartner);
   const presentingPartners = generalPartners.filter((p) => p.tier === "presenting-partner");
   const otherPartners = generalPartners.filter((p) => p.tier !== "presenting-partner");
@@ -344,6 +346,52 @@ export default async function HomePage() {
               <p className="mt-8 text-center">
                 <Link href="/campaigns" className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark">
                   See All Campaigns &rarr;
+                </Link>
+              </p>
+            </RevealOnScroll>
+          </Container>
+        </section>
+      )}
+
+      {/* Upcoming Observances — the Awareness & Action Calendar's homepage
+          teaser. Next 3 soonest entries, org-wide (this file is the org
+          homepage only — campaign-home.tsx is the separate Tri homepage,
+          so this never leaks into Tri/Ruck/22). Remembrance-tone entries
+          don't get a donate-style CTA here either, same tone rule as the
+          detail page. */}
+      {upcomingObservances.length > 0 && (
+        <section className="border-b border-ink/10 py-16 sm:py-20">
+          <Container>
+            <RevealOnScroll>
+              <SectionHeading
+                eyebrow="Awareness & Action"
+                title="What's Coming Up"
+                description="Veteran, first-responder, military-family, mental-health, and remembrance observances on the horizon."
+              />
+            </RevealOnScroll>
+            <RevealOnScroll className="mt-10">
+              <div className="grid gap-4 sm:grid-cols-3">
+                {upcomingObservances.map((entry) => (
+                  <Link
+                    key={entry.slug}
+                    href={`/awareness/${entry.slug}`}
+                    className="hover-lift group flex flex-col rounded-sm border border-ink/10 bg-off-white p-5 hover:border-bronze/40"
+                  >
+                    <p className="text-xs font-semibold uppercase tracking-widest text-bronze">
+                      {entry.daysUntil === 0 ? "Today" : `${entry.daysUntil} Day${entry.daysUntil === 1 ? "" : "s"} Away`}
+                    </p>
+                    <p className="mt-1.5 font-display text-lg font-semibold uppercase tracking-wide text-ink group-hover:text-bronze">
+                      {entry.name}
+                    </p>
+                    <p className="mt-1 text-sm text-charcoal-light">{entry.displayDate}</p>
+                  </Link>
+                ))}
+              </div>
+            </RevealOnScroll>
+            <RevealOnScroll>
+              <p className="mt-8 text-center">
+                <Link href="/awareness" className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark">
+                  See the Full Calendar &rarr;
                 </Link>
               </p>
             </RevealOnScroll>

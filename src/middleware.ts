@@ -361,6 +361,7 @@ function applyLaunchGate(request: NextRequest, onCampaignHost: boolean, renderHe
 const ORG_PATH_PREFIXES = [
   "/about",
   "/resources",
+  "/awareness",
   "/veteran-brands",
   "/crisis",
   "/advocacy",

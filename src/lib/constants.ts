@@ -261,6 +261,7 @@ export const ORG_NAV_LINKS: NavEntry[] = [
   {
     label: "More",
     children: [
+      { label: "Awareness Calendar", href: "/awareness" },
       { label: "For The 22 Store", href: "/store" },
       { label: "Shop With Purpose", href: "/veteran-brands" },
       { label: "Press & Media", href: "/press" },

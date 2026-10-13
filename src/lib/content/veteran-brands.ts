@@ -445,4 +445,13 @@ export const SERVICE_BRANDS: ServiceBrand[] = [
       "A veteran-owned whiskey and gear company founded in December 2020 by veterans of combat and military service, built to cultivate community among those who served — one sip at a time — with limited-run whiskey drops and apparel.",
     categoryIds: ["veteran-owned"],
   },
+  {
+    name: "INERTmugs",
+    typeId: "gear",
+    url: "https://www.inertmugs.com",
+    product: "Tactical tumblers, mugs & EDC gear",
+    description:
+      "Founded by Tyler, a Marine Corps EOD technician who survived four separate IED blasts in Sangin, Afghanistan and was awarded the Purple Heart. Partners with other veteran-owned brands and supports organizations including the EOD Warrior Foundation.",
+    categoryIds: ["veteran-owned", "gives-back"],
+  },
 ];
