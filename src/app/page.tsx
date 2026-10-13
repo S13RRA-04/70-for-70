@@ -10,6 +10,7 @@ import {
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTAButton } from "@/components/shared/cta-button";
+import { FORM_CONTROL_CLASS_COMPACT } from "@/components/forms/form-parts";
 import { CrisisQuickLink } from "@/components/shared/crisis-quick-link";
 import { ScrollProgressRail } from "@/components/shared/scroll-progress-rail";
 import { RevealOnScroll } from "@/components/shared/reveal-on-scroll";
@@ -195,71 +196,65 @@ export default async function HomePage() {
           ?need=/?audience=/?q= deep-link contract — teases the actual
           518-resource product instead of recreating a simplified copy of
           it. Crisis access stays a paired dark panel, not its own band. */}
-      <section id="resources" className="relative z-10 scroll-mt-20 bg-sand-light pb-16 pt-0 sm:pb-24">
+      <section id="resources" className="scroll-mt-20 border-t-4 border-bronze bg-sand-light py-16 sm:py-24">
         <Container>
-          <RevealOnScroll className="relative -mt-8 border-t-4 border-bronze bg-sand-light px-5 pt-12 shadow-[0_-18px_50px_rgba(18,23,28,0.16)] sm:-mt-12 sm:px-10 sm:pt-14 lg:px-14">
+          <RevealOnScroll>
             <SectionHeading
               eyebrow="Our Core Mission"
               title="Find the Support You Need"
               description={`${metrics.resources} vetted resources for veterans, first responders, and their families. Find the ones that fit you.`}
             />
           </RevealOnScroll>
-          <RevealOnScroll className="mt-10 px-5 sm:px-10 lg:px-14">
+          <RevealOnScroll className="mt-10">
             <div className="grid gap-8 lg:grid-cols-12 lg:gap-8">
               <div className="lg:col-span-8 xl:col-span-9">
                 <form
                   action="/resources"
-                  className="grid gap-4 rounded-sm border-2 border-bronze/40 bg-off-white p-6 shadow-sm sm:grid-cols-3 sm:items-end sm:p-8"
+                  className="rounded-sm border border-ink/15 bg-off-white p-6 shadow-sm sm:p-8"
                 >
-                  <label className="block text-sm">
-                    <span className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-                      I am a&hellip;
-                    </span>
-                    <select
-                      name="audience"
-                      defaultValue=""
-                      className="mt-2 block w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
-                    >
-                      <option value="">Anyone</option>
-                      {QUICK_FINDER_AUDIENCES.map((tag) => (
-                        <option key={tag} value={tag}>
-                          {tag}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                  <label className="block text-sm">
-                    <span className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-                      I need&hellip;
-                    </span>
-                    <select
-                      name="need"
-                      defaultValue=""
-                      className="mt-2 block w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
-                    >
-                      <option value="">Anything</option>
-                      {NEED_CATEGORIES.map((category) => (
-                        <option key={category.id} value={category.id}>
-                          {category.label}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                  <div className="flex items-end gap-2">
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    <label className="block text-sm">
+                      <span className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                        I am a&hellip;
+                      </span>
+                      <select name="audience" defaultValue="" className={FORM_CONTROL_CLASS_COMPACT}>
+                        <option value="">Anyone</option>
+                        {QUICK_FINDER_AUDIENCES.map((tag) => (
+                          <option key={tag} value={tag}>
+                            {tag}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    <label className="block text-sm">
+                      <span className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                        I need&hellip;
+                      </span>
+                      <select name="need" defaultValue="" className={FORM_CONTROL_CLASS_COMPACT}>
+                        <option value="">Anything</option>
+                        {NEED_CATEGORIES.map((category) => (
+                          <option key={category.id} value={category.id}>
+                            {category.label}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                  </div>
+                  <div className="mt-5 flex flex-col gap-3 sm:flex-row">
                     <label className="block flex-1 text-sm">
                       <span className="sr-only">Search resources</span>
                       <input
                         type="text"
                         name="q"
-                        placeholder="Search…"
-                        className="block w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2.5 text-sm text-ink outline-none focus-visible:border-bronze focus-visible:ring-2 focus-visible:ring-bronze/40"
+                        placeholder="Search by keyword…"
+                        className={FORM_CONTROL_CLASS_COMPACT}
                       />
                     </label>
                     <button
                       type="submit"
-                      className="inline-flex shrink-0 items-center rounded-sm bg-bronze-text px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
+                      className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-sm bg-bronze-text px-6 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-dark"
                     >
-                      Find
+                      Find Resources
                     </button>
                   </div>
                 </form>
