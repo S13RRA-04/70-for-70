@@ -608,7 +608,7 @@ export const SEED_MISSION_PARTNERS: MissionPartnerRow[] = [
     support_type: "Athletic training shirt",
     geographic_scope: null,
     active: true,
-    display_order: 10,
+    display_order: 17,
     agreement_status: null,
     logo_permission: true,
     relationship_start: null,

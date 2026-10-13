@@ -16,7 +16,7 @@ values (
   'gear-partner',
   'Athletic training shirt',
   array['tri', 'ruck'],
-  10,
+  17,
   '/partners/american-lineage-logo.png',
   '/partners/american-lineage-logo.png',
   'dark',
