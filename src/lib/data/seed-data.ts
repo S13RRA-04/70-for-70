@@ -592,6 +592,33 @@ export const SEED_MISSION_PARTNERS: MissionPartnerRow[] = [
     designation: null,
   },
   {
+    id: "seed-mission-partner-american-lineage",
+    name: "American Lineage",
+    relationship_label: "Apparel Partner",
+    description:
+      "American Lineage is a USA-made athletic apparel company — donated a training shirt to support Cody's athletic training for Ruck For The 22 and Tri For The 22.",
+    // Logo is a white mark on a transparent background — needs a dark
+    // container everywhere it renders (see logo_background below, and the
+    // Stradalli entry above for the same pattern).
+    logo_url: "/partners/american-lineage-logo.png",
+    logo_light_url: "/partners/american-lineage-logo.png",
+    logo_dark_url: null,
+    logo_background: "dark",
+    website_url: "https://americanlineage.com",
+    support_type: "Athletic training shirt",
+    geographic_scope: null,
+    active: true,
+    display_order: 10,
+    agreement_status: null,
+    logo_permission: true,
+    relationship_start: null,
+    relationship_end: null,
+    associated_campaigns: ["tri", "ruck"],
+    partner_type: "gear-partner",
+    tier: "campaign-supporter",
+    designation: null,
+  },
+  {
     id: "seed-mission-partner-inertmugs",
     name: "INERTmugs",
     relationship_label: "Ally",
