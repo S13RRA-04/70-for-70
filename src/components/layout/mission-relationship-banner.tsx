@@ -5,8 +5,8 @@ import { SITE_URL } from "@/lib/constants";
  * Tri-only — states the campaign/mission relationship above the header on
  * every page, so it's never ambiguous that Tri For The 22 is one campaign
  * under the larger For The 22 mission. Same slim-band pattern as
- * AwarenessBanner/EventAnnouncementBanner, just unconditional rather than
- * date/event-gated: the relationship is permanent, not seasonal.
+ * AwarenessBanner, just unconditional rather than date-gated: the
+ * relationship is permanent, not seasonal.
  */
 export function MissionRelationshipBanner() {
   return (

@@ -26,10 +26,11 @@ function GiveawayMoreComingCard() {
 }
 
 /**
- * The 22 For the 22 Giveaway section — reused on both /22forthe22 (the
- * event page) and /sponsors ("Support 22 For the 22"). Takes prizes and
- * mission partners already fetched by the caller (no fetch here) and joins
- * them locally.
+ * The 22 For the 22 Giveaway section — lives on /22forthe22 (the event
+ * page) only; /sponsors (tri.forthe22.org) keeps just a teaser link into
+ * it, not this section itself (see that page's doc comment). Takes prizes
+ * and mission partners already fetched by the caller (no fetch here) and
+ * joins them locally.
  */
 export function EventGiveawaySection({
   prizes,

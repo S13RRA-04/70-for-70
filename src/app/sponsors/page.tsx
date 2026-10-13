@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { getMissionPartners, isCampaignPartner } from "@/lib/data/mission-partners";
 import { getCurrentEventConfig } from "@/lib/data/event-config";
-import { getGiveawayPrizes } from "@/lib/data/giveaway-prizes";
 import { Container } from "@/components/shared/container";
 import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
@@ -10,7 +9,6 @@ import { SponsorSection } from "@/components/partners/sponsor-section";
 import { PresentingPartnerFeature, PresentingPartnerPlaceholder } from "@/components/partners/presenting-partner-feature";
 import { TeamBenefitPartnerFeature } from "@/components/partners/team-benefit-partner-feature";
 import { PartnershipStoryBreak } from "@/components/sponsors/partnership-story-break";
-import { EventGiveawaySection } from "@/components/22-for-the-22/event-giveaway-section";
 import { CTAButton } from "@/components/shared/cta-button";
 import { EmptyState } from "@/components/shared/empty-state";
 import { CAMPAIGN_NAME, CAMPAIGN_URL, EVENT22_CAMPAIGN_URL, MISSION_PARTNER_TIERS } from "@/lib/constants";
@@ -87,7 +85,6 @@ const OFFICIAL_BICYCLE_SUPPORT_DESIGNATION = "Official Bicycle Support Partner";
  */
 export default async function SponsorsPage() {
   const [partners, currentEvent] = await Promise.all([getMissionPartners(), getCurrentEventConfig()]);
-  const giveawayPrizes = currentEvent ? await getGiveawayPrizes(currentEvent.id) : [];
   const generalPartners = partners.filter(isCampaignPartner).filter((p) => p.associated_campaigns?.includes("tri"));
 
   const presentingPartners = generalPartners.filter((p) => p.tier === "presenting-partner");
@@ -230,10 +227,16 @@ export default async function SponsorsPage() {
       )}
 
       {currentEvent && (
-        <section className="border-b border-ink/10 bg-sand-light">
-          <EventGiveawaySection prizes={giveawayPrizes} partners={partners} />
-          <Container className="pb-16">
-            <CTAButton href={EVENT22_CAMPAIGN_URL}>See the Full 22 For the 22 Event Page</CTAButton>
+        <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
+          <Container className="max-w-2xl text-center">
+            <SectionHeading
+              eyebrow="22 For the 22"
+              title="A Free Giveaway, Tied to the Mission"
+              description="22 For the 22 is its own challenge and giveaway, run entirely on its own site — entries, prizes, and full details live there, not here."
+            />
+            <div className="mt-6">
+              <CTAButton href={EVENT22_CAMPAIGN_URL}>See the Full 22 For the 22 Event Page</CTAButton>
+            </div>
           </Container>
         </section>
       )}

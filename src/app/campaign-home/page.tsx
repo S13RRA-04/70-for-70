@@ -14,9 +14,6 @@ import { CampaignStatusBar } from "@/components/campaign/campaign-status-bar";
 import { CampaignPhaseBanner } from "@/components/campaign/campaign-phase-banner";
 import { getCampaignPhase } from "@/lib/campaign-phase";
 import { MerchTicker } from "@/components/campaign/merch-ticker";
-import { EventPromoSection } from "@/components/campaign/event-promo-section";
-import { getCurrentEventConfig } from "@/lib/data/event-config";
-import { isEventPromoWindowNow } from "@/lib/22-for-the-22/event-status";
 import { PartnerLogo } from "@/components/shared/partner-logo";
 import { PartnerLogoWall } from "@/components/partners/partner-logo-wall";
 import { Container } from "@/components/shared/container";
@@ -185,22 +182,21 @@ const MISSION_CAMPAIGN_CARDS: MissionCampaignCard[] = [
  * /sponsors, /get-involved) — this page previews and links to them, it
  * doesn't duplicate them.
  *
- * A conditional section — EventPromoSection, between the hero and Live
- * Campaign Status — only renders during 22 For the 22's promo window (see
- * isEventPromoWindowNow), so the homepage doesn't carry stale event content
- * most of the year.
+ * 22 For the 22 content/promotion intentionally does not live here (or
+ * anywhere else on tri.forthe22.org) — that campaign is fully self-contained
+ * at 22.forthe22.org (src/app/22forthe22/*). See EVENT_TRI_CONNECTION_CONTENT
+ * in src/lib/content/22-for-the-22.ts for the one-way link back to Tri that
+ * lives on 22's own page instead.
  */
 export default async function CampaignHomePage() {
-  const [campaign, partners, missionPartners, currentEvent, fundraisingStats, latestEntries] = await Promise.all([
+  const [campaign, partners, missionPartners, fundraisingStats, latestEntries] = await Promise.all([
     getCampaign(),
     getPartners(),
     getMissionPartners(),
-    getCurrentEventConfig(),
     getFundraisingImpactStats(),
     getLatestJournalEntries(3),
   ]);
   const allocationBreakdown = await getAllocationBreakdown(campaign);
-  const showEventPromo = currentEvent && isEventPromoWindowNow(currentEvent.starts_at, currentEvent.ends_at);
   const phase = getCampaignPhase();
 
   // Keep the public partner metric and the visible wall on one canonical set.
@@ -280,9 +276,6 @@ export default async function CampaignHomePage() {
           </div>
         </Container>
       </section>
-
-      {/* Conditional section — see this page's doc comment. */}
-      {showEventPromo && currentEvent && <EventPromoSection event={currentEvent} />}
 
       <CampaignStatusBar
         amountRaised={fundraisingStats.amountRaised}
