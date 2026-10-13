@@ -41,7 +41,32 @@ export interface CampaignMaterial {
 
 export const APPROVED_PHOTOS: ApprovedPhoto[] = [];
 export const PRESS_RELEASES: PressRelease[] = [];
-export const MEDIA_COVERAGE: MediaCoverageItem[] = [];
+export const MEDIA_COVERAGE: MediaCoverageItem[] = [
+  {
+    outlet: "DV Radio Network",
+    title: "Rucking Through Veteran PTSD — Podcast",
+    date: "2026-10-10",
+    url: "https://dvradionetwork.podbean.com/e/rucking-through-veteran-ptsd/",
+  },
+  {
+    outlet: "DV Radio Network",
+    title: "Rucking Through Veteran PTSD — Video",
+    date: "2026-10-10",
+    url: "https://rumble.com/embed/v7ei15s/?pub=3buze8",
+  },
+  {
+    outlet: "DV Radio Network",
+    title: "Interview Clip — Facebook",
+    date: "2026-10-10",
+    url: "https://www.facebook.com/photo/?fbid=1753352850124579",
+  },
+  {
+    outlet: "DV Radio Network",
+    title: "Interview Clip — Instagram",
+    date: "2026-10-10",
+    url: "https://www.instagram.com/p/DeaZ_saGxl2/",
+  },
+];
 
 /** Print-ready campaign materials for tabling, sponsors, and community outreach — shown in the Campaign Materials section of the campaign press page. */
 export const CAMPAIGN_MATERIALS: CampaignMaterial[] = [
