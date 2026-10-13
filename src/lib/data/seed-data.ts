@@ -588,7 +588,7 @@ export const SEED_MISSION_PARTNERS: MissionPartnerRow[] = [
     relationship_end: null,
     associated_campaigns: ["ruck"],
     partner_type: "gear-partner",
-    tier: null,
+    tier: "advocate",
     designation: null,
   },
   {
