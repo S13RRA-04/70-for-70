@@ -9,6 +9,7 @@ import { SponsorSection } from "@/components/partners/sponsor-section";
 import { PresentingPartnerFeature, PresentingPartnerPlaceholder } from "@/components/partners/presenting-partner-feature";
 import { TeamBenefitPartnerFeature } from "@/components/partners/team-benefit-partner-feature";
 import { PartnershipStoryBreak } from "@/components/sponsors/partnership-story-break";
+import { PartnerSupportDisclaimer } from "@/components/partners/partner-support-disclaimer";
 import { CTAButton } from "@/components/shared/cta-button";
 import { EmptyState } from "@/components/shared/empty-state";
 import { CAMPAIGN_NAME, CAMPAIGN_URL, EVENT22_CAMPAIGN_URL, MISSION_PARTNER_TIERS } from "@/lib/constants";
@@ -114,6 +115,12 @@ export default async function SponsorsPage() {
           description={`${CAMPAIGN_NAME} is being built with the help of businesses, organizations, and communities contributing equipment, services, expertise, and financial support on the road to IRONMAN 70.3 Chattanooga.`}
         />
       </CampaignPageHero>
+
+      <section className="border-b border-ink/10 bg-off-white py-8">
+        <Container>
+          <PartnerSupportDisclaimer />
+        </Container>
+      </section>
 
       {!hasAnyCurrentPartners ? (
         <section className="py-16 sm:py-20">

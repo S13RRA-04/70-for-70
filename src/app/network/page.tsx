@@ -7,6 +7,7 @@ import { CTASection } from "@/components/shared/cta-section";
 import { PartnerCard } from "@/components/partners/partner-card";
 import { PresentingPartnerFeature } from "@/components/partners/presenting-partner-feature";
 import { PartnerLogoDisclosure } from "@/components/partners/partner-logo-disclosure";
+import { PartnerSupportDisclaimer } from "@/components/partners/partner-support-disclaimer";
 import { getPartners } from "@/lib/data/partners";
 import { getMissionPartners, isCampaignPartner } from "@/lib/data/mission-partners";
 import { getMissionMetrics } from "@/lib/data/mission-metrics";
@@ -179,6 +180,7 @@ export default async function NetworkPage() {
             <p className="mt-4 text-sm font-semibold uppercase tracking-wide text-bronze-text">
               {campaignPartners.length} partners network-wide, across every campaign below.
             </p>
+            <PartnerSupportDisclaimer className="mt-4" />
 
             <div className="mt-8 space-y-10">
               {campaignPartnerGroups.map((group) => (

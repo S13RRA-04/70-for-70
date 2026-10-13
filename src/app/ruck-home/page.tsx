@@ -7,6 +7,7 @@ import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { RevealGrid, RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import { PartnerLogo } from "@/components/shared/partner-logo";
+import { PartnerSupportDisclaimer } from "@/components/partners/partner-support-disclaimer";
 import { ExternalDonateButton } from "@/components/shared/external-donate-button";
 import { DonationTrackingNote } from "@/components/shared/donation-tracking-note";
 import { MissionProgress } from "@/components/campaign/mission-progress";
@@ -302,6 +303,7 @@ export default async function RuckHomePage() {
           <Container>
             <RevealOnScroll>
             <SectionHeading eyebrow="With Thanks To" title="Campaign Partners" />
+            <PartnerSupportDisclaimer className="mt-4" />
             <div className="mt-8 flex flex-wrap items-center gap-8">
               {campaignPartners.map((partner) => (
                 <a
