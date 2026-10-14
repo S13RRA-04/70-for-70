@@ -24,7 +24,7 @@ export function RaceStatCard({
       >
         {label}
       </p>
-      <p className="mt-2 text-balance font-display text-2xl font-bold uppercase leading-tight tracking-tight text-ink sm:text-3xl">
+      <p className="mt-2 text-balance font-display text-3xl uppercase leading-tight text-ink sm:text-4xl">
         {value}
       </p>
       {detail && <p className="mt-1 text-sm text-charcoal-light">{detail}</p>}

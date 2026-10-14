@@ -1,5 +1,5 @@
 import { Container } from "@/components/shared/container";
-import { SectionHeading } from "@/components/shared/section-heading";
+import { PageHero } from "@/components/shared/page-hero";
 import { SectionSubnav } from "@/components/shared/section-subnav";
 import { CTASection } from "@/components/shared/cta-section";
 import { RevealGrid } from "@/components/shared/reveal-on-scroll";
@@ -23,16 +23,12 @@ export default function VeteranBrandsPage() {
 
   return (
     <>
-      <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container>
-          <SectionHeading
-            as="h1"
-            eyebrow="Shop With Purpose"
-            title="Brands That Support Veterans & First Responders"
-            description={`Every brand listed here is veteran-owned, first-responder-owned, gives back a share of what you spend to those causes, or some combination of the three — separated by what they actually sell, from coffee to apparel to gear. ${SITE_NAME} doesn't receive anything from these purchases — this is just a curated way to point everyday spending toward people who served.`}
-          />
-        </Container>
-      </section>
+      <PageHero
+        pillar="mobilization"
+        eyebrow="Shop with purpose"
+        title="Brands that support veterans & first responders"
+        description={`Every brand listed here is veteran-owned, first-responder-owned, gives back a share of what you spend to those causes, or some combination of the three — separated by what they actually sell, from coffee to apparel to gear. ${SITE_NAME} doesn't receive anything from these purchases — this is just a curated way to point everyday spending toward people who served.`}
+      />
 
       <SectionSubnav
         items={sections.map((section) => ({
@@ -55,7 +51,7 @@ export default function VeteranBrandsPage() {
                       {type.description}
                     </p>
                   </div>
-                  <span className="text-xs font-semibold uppercase tracking-widest text-bronze-text">
+                  <span className="text-xs font-bold uppercase tracking-[0.2em] text-bronze-text">
                     {brands.length} {brands.length === 1 ? "Store" : "Stores"}
                   </span>
                 </div>

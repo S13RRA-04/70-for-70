@@ -37,7 +37,7 @@ function RaceDayNotActivated() {
       <section className="border-b border-ink/10 bg-ink py-16 text-off-white sm:py-24">
         <Container className="max-w-xl">
           <p className="text-sm font-semibold uppercase tracking-[0.3em] text-bronze-light">Race Day</p>
-          <h1 className="mt-4 text-balance font-display text-4xl font-bold uppercase tracking-tight sm:text-5xl">
+          <h1 className="mt-4 text-balance font-display text-4xl uppercase sm:text-5xl">
             Race Day Live Isn&apos;t Active Yet
           </h1>
           <p className="mt-3 text-base text-off-white/75">
@@ -85,7 +85,7 @@ export default async function LivePage() {
 
           {status.isLive ? (
             <>
-              <h1 className="mt-4 text-balance font-display text-4xl font-bold uppercase tracking-tight sm:text-5xl">
+              <h1 className="mt-4 text-balance font-display text-4xl uppercase sm:text-5xl">
                 Cody is {status.currentDiscipline ? DISCIPLINE_LABEL[status.currentDiscipline] : "racing"}
               </h1>
               <p className="mt-3 text-lg text-off-white/85">
@@ -111,13 +111,13 @@ export default async function LivePage() {
               )}
             </>
           ) : (
-            <h1 className="mt-4 text-balance font-display text-4xl font-bold uppercase tracking-tight sm:text-5xl">
+            <h1 className="mt-4 text-balance font-display text-4xl uppercase sm:text-5xl">
               Race Day Hasn&apos;t Started Yet
             </h1>
           )}
 
           <div className="mt-10 max-w-xl rounded-sm border border-off-white/15 bg-ink/40 p-6 backdrop-blur-sm">
-            <p className="font-display text-3xl font-semibold tabular-nums sm:text-4xl">
+            <p className="font-display text-4xl tabular-nums sm:text-4xl">
               {formatCurrency(campaign.amount_raised)}{" "}
               <span className="text-lg font-medium text-off-white/70">raised</span>
             </p>
@@ -155,7 +155,7 @@ export default async function LivePage() {
                 {recentDonations.map((donation) => (
                   <li
                     key={donation.id}
-                    className="flex items-center justify-between rounded-sm border border-ink/10 bg-off-white p-4 text-sm"
+                    className="flex items-center justify-between rounded-xl border border-line bg-white p-4 text-sm"
                   >
                     <div>
                       <p className="font-medium text-ink">

@@ -37,7 +37,7 @@ export default function CampaignJournalPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container className="max-w-2xl">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">
             <Link href="/campaigns" className="hover:underline">
               Campaigns
             </Link>{" "}

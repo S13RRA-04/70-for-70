@@ -20,7 +20,7 @@ export function SponsorWall({ sponsors }: { sponsors: SponsorRow[] }) {
   if (tiersWithSponsors.length === 0) {
     return (
       <div>
-        <p className="text-xs font-semibold uppercase tracking-widest text-bronze">
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">
           Commercial Supporters
         </p>
         <div className="mt-3">
@@ -34,7 +34,7 @@ export function SponsorWall({ sponsors }: { sponsors: SponsorRow[] }) {
     <div className="space-y-10">
       {tiersWithSponsors.map((tier) => (
         <div key={tier}>
-          <p className="text-xs font-semibold uppercase tracking-widest text-bronze">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">
             {TIER_LABELS[tier]}
           </p>
           {/* Presenting is a single standout sponsor, not a wall — kept at a fixed

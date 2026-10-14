@@ -9,7 +9,7 @@ import {
 } from "@/lib/content/bike-progress";
 import { RACE_INFO } from "@/lib/constants";
 
-const HEAD_CELL = "px-4 py-3 text-xs font-semibold uppercase tracking-widest text-charcoal-light";
+const HEAD_CELL = "px-4 py-3 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light";
 const BODY_CELL = "px-4 py-3 align-top";
 const ROW = "border-b border-ink/10 bg-off-white last:border-0";
 
@@ -43,8 +43,8 @@ export function ChattanoogaBikeBuild() {
     <div>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {COURSE_DEMAND_CARDS.map((card) => (
-          <div key={card.label} className="rounded-sm border border-ink/10 bg-off-white p-4 text-center">
-            <p className="font-display text-2xl font-semibold text-ink">{card.value}</p>
+          <div key={card.label} className="rounded-xl border border-line bg-white p-4 text-center">
+            <p className="font-display text-3xl text-ink">{card.value}</p>
             <p className="text-xs uppercase tracking-wide text-charcoal-light">{card.label}</p>
           </div>
         ))}
@@ -55,25 +55,25 @@ export function ChattanoogaBikeBuild() {
       </p>
 
       <div className="mt-10">
-        <h3 className="font-display text-sm font-semibold uppercase tracking-wide text-ink">
+        <h3 className="font-display text-base uppercase text-ink">
           Current Training Ride
         </h3>
         <p className="mt-1 text-xs text-charcoal-light">{BIKE_PROGRESS.date}</p>
 
-        <div className="mt-4 rounded-sm border border-ink/10 bg-off-white p-6">
+        <div className="mt-4 rounded-xl border border-line bg-white p-6">
           <dl className="grid grid-cols-2 gap-4 sm:grid-cols-4">
             {BASELINE_FACTS.map((fact) => (
               <div key={fact.label}>
-                <dt className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                <dt className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
                   {fact.label}
                 </dt>
-                <dd className="mt-1 font-display text-lg font-semibold text-ink">{fact.value}</dd>
+                <dd className="mt-1 font-display text-xl text-ink">{fact.value}</dd>
               </div>
             ))}
           </dl>
 
           <div className="mt-6 border-t border-ink/10 pt-4">
-            <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
               Heart-Rate Distribution
             </p>
             <div className="mt-3 space-y-2">
@@ -96,7 +96,7 @@ export function ChattanoogaBikeBuild() {
       </div>
 
       <div className="mt-10">
-        <h3 className="font-display text-sm font-semibold uppercase tracking-wide text-ink">Signs of Progress</h3>
+        <h3 className="font-display text-base uppercase text-ink">Signs of Progress</h3>
         <div className="mt-4 overflow-x-auto rounded-sm border border-ink/10">
           <table className="w-full min-w-[420px] border-collapse text-left text-sm">
             <thead>
@@ -127,11 +127,11 @@ export function ChattanoogaBikeBuild() {
       </div>
 
       <div className="mt-10">
-        <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
           Current Fitness <span aria-hidden>&rarr;</span> Development Benchmarks{" "}
           <span aria-hidden>&rarr;</span> <span className="text-bronze">Race Performance Target</span>
         </p>
-        <h3 className="mt-2 font-display text-sm font-semibold uppercase tracking-wide text-ink">The Road to 56</h3>
+        <h3 className="mt-2 font-display text-base uppercase text-ink">The Road to 56</h3>
 
         <div className="mt-6 overflow-hidden rounded-sm bg-off-white shadow-sm">
           <Image

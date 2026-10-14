@@ -19,7 +19,7 @@ const MEASURED_CATEGORY_ORDER: PerformanceMetricCategory[] = ["swim", "bike", "a
 function CategoryGroup({ category, rows }: { category: PerformanceMetricCategory; rows: PerformanceSnapshotRow[] }) {
   return (
     <div>
-      <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
         {CATEGORY_LABELS[category]}
       </p>
       <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
@@ -65,7 +65,7 @@ export function PerformanceMetricsPanel({
 
   return (
     <div>
-      <p className="text-xs font-semibold uppercase tracking-widest text-bronze">
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">
         Updated {formatDateLong(recordedOn)}
       </p>
 
@@ -77,7 +77,7 @@ export function PerformanceMetricsPanel({
 
       {trainingPeaksRows.length > 0 && (
         <div className="mt-6 rounded-sm border border-dashed border-ink/15 bg-sand-light/40 p-5">
-          <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
             Platform-Calculated — TrainingPeaks
           </p>
           <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">

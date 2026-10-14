@@ -40,7 +40,7 @@ export default function CampaignTermsPage() {
           <div className="space-y-12">
             {CAMPAIGN_TERMS_SECTIONS.map((section) => (
               <div key={section.id} id={section.id}>
-                <h2 className="font-display text-xl font-semibold uppercase tracking-tight text-ink sm:text-2xl">
+                <h2 className="font-display text-2xl uppercase text-ink sm:text-3xl">
                   {section.heading}
                 </h2>
                 <div className="mt-3 space-y-3">
@@ -54,7 +54,7 @@ export default function CampaignTermsPage() {
             ))}
 
             <div id="contact">
-              <h2 className="font-display text-xl font-semibold uppercase tracking-tight text-ink sm:text-2xl">
+              <h2 className="font-display text-2xl uppercase text-ink sm:text-3xl">
                 Contact
               </h2>
               <p className="mt-3 text-base leading-relaxed text-charcoal-light">

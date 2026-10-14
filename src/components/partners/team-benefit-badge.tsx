@@ -24,7 +24,7 @@ export function TeamBenefitBadge() {
         title={TEAM_BENEFIT_TOOLTIP}
         aria-expanded={open}
         aria-controls={tooltipId}
-        className="inline-flex items-center rounded-full border border-bronze/40 bg-bronze/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest text-bronze"
+        className="inline-flex items-center rounded-full border border-bronze/40 bg-bronze/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-bronze"
       >
         Team Benefit
       </button>

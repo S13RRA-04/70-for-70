@@ -15,7 +15,7 @@ export function GearJourneyIndexCard({ lastUpdated }: { lastUpdated: string }) {
   return (
     <Link
       href="/journal/gear-journey"
-      className="hover-lift group flex flex-col overflow-hidden rounded-sm border border-ink/10 bg-off-white hover:border-bronze/30 sm:flex-row"
+      className="hover-lift group flex flex-col overflow-hidden rounded-xl border border-line bg-white hover:border-bronze/30 sm:flex-row"
     >
       <div className="relative aspect-[16/9] w-full shrink-0 bg-sand-light sm:w-1/2">
         <Image
@@ -26,15 +26,15 @@ export function GearJourneyIndexCard({ lastUpdated }: { lastUpdated: string }) {
           className="object-contain p-6"
           sizes="(min-width: 640px) 50vw, 100vw"
         />
-        <span className="absolute left-3 top-3 rounded-full bg-bronze-text px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-off-white">
+        <span className="absolute left-3 top-3 rounded-full bg-bronze-text px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-off-white">
           Ongoing Series
         </span>
       </div>
       <div className="flex flex-1 flex-col justify-center p-6 sm:p-8">
-        <p className="text-xs font-semibold uppercase tracking-widest text-bronze">
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">
           Ongoing Series &middot; Updated {formatDateLong(lastUpdated)}
         </p>
-        <h3 className="mt-2 font-display text-2xl font-semibold uppercase tracking-wide text-ink group-hover:text-bronze sm:text-3xl">
+        <h3 className="mt-2 font-display text-3xl uppercase text-ink group-hover:text-bronze sm:text-4xl">
           The Gear Journey
         </h3>
         <p className="mt-2 text-base text-charcoal-light">

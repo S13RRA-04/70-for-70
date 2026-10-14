@@ -17,8 +17,8 @@ export default function NotFound() {
   return (
     <section className="flex min-h-[70vh] items-center bg-off-white py-20">
       <Container className="max-w-2xl text-center">
-        <p className="font-display text-7xl font-bold text-bronze sm:text-8xl">404</p>
-        <h1 className="mt-4 font-display text-2xl font-semibold uppercase tracking-tight text-ink sm:text-3xl">
+        <p className="font-display text-7xl text-bronze sm:text-8xl">404</p>
+        <h1 className="mt-4 font-display text-3xl uppercase text-ink sm:text-4xl">
           Page Not Found
         </h1>
         <p className="mt-3 text-base leading-relaxed text-charcoal-light">

@@ -10,7 +10,7 @@ import {
   RACE_AGE_GROUP_YEARLY,
 } from "@/lib/content/race-benchmarks";
 
-const HEAD_CELL = "px-4 py-3 text-xs font-semibold uppercase tracking-widest text-charcoal-light";
+const HEAD_CELL = "px-4 py-3 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light";
 const BODY_CELL = "px-4 py-3 align-top";
 const ROW = "border-b border-ink/10 bg-off-white last:border-0";
 const DASH = "—";
@@ -22,8 +22,8 @@ const SUMMARY_YEARS = [...RACE_AGE_GROUP_YEARLY]
 
 function AccordionSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <details className="rounded-sm border border-ink/10 bg-off-white">
-      <summary className="cursor-pointer list-none px-5 py-4 font-display text-sm font-semibold uppercase tracking-wide text-ink [&::-webkit-details-marker]:hidden">
+    <details className="rounded-xl border border-line bg-white">
+      <summary className="cursor-pointer list-none px-5 py-4 font-display text-base uppercase text-ink [&::-webkit-details-marker]:hidden">
         {title}
       </summary>
       <div className="border-t border-ink/10 p-5">{children}</div>
@@ -74,13 +74,13 @@ export function RaceBenchmarks() {
 
   return (
     <div>
-      <p className="text-xs font-semibold uppercase tracking-widest text-bronze">
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">
         Recent {RACE_AGE_GROUP_YEARLY[0]?.year ? `M35–39` : ""} Winning Performances
       </p>
       <ul className="mt-3 space-y-1.5">
         {SUMMARY_YEARS.map((row) => (
           <li key={row.year} className="flex items-baseline gap-3 text-sm">
-            <span className="w-12 font-display font-semibold text-ink">{row.year}</span>
+            <span className="w-12 font-display text-ink">{row.year}</span>
             <span className="text-charcoal-light">—</span>
             <span className={row.note ? "text-charcoal-light" : "font-semibold text-ink"}>
               {row.note ? "shortened race" : row.finish}
@@ -129,7 +129,7 @@ export function RaceBenchmarks() {
               intermediate benchmark between &ldquo;sub-5&rdquo; and the front of the division.
             </p>
             <div>
-              <h4 className="font-display text-sm font-semibold uppercase tracking-wide text-ink">
+              <h4 className="font-display text-base uppercase text-ink">
                 M35–39 Winning Time, by Year
               </h4>
               <div className="mt-3 overflow-x-auto rounded-sm border border-ink/10">

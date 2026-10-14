@@ -3,7 +3,7 @@ import { PROMO_KIT_HASHTAGS, PROMO_KIT_HASHTAGS_TEXT } from "@/lib/content/22-fo
 
 export function HashtagBlock() {
   return (
-    <div className="rounded-sm border border-ink/10 bg-off-white p-5">
+    <div className="rounded-xl border border-line bg-white p-5">
       <div className="flex flex-wrap gap-2">
         {PROMO_KIT_HASHTAGS.map((tag) => (
           <span

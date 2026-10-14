@@ -117,7 +117,7 @@ function DetailPanel({ data }: { data: DiagramHotspotData | null }) {
 
   return (
     <div id="bike-diagram-detail-panel" className="rounded-sm border border-bronze/30 bg-bronze/5 p-5 sm:p-6">
-      <h3 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">{hotspot.label}</h3>
+      <h3 className="font-display text-xl uppercase text-ink">{hotspot.label}</h3>
 
       <ul className="mt-3 space-y-2.5">
         {rows.map((row) => (
@@ -175,7 +175,7 @@ export function InteractiveBikeDiagram({ hotspots }: { hotspots: DiagramHotspotD
   return (
     <div className="grid gap-8 lg:grid-cols-[3fr_2fr] lg:items-start">
       <div
-        className="relative w-full rounded-sm border border-ink/10 bg-off-white p-4"
+        className="relative w-full rounded-xl border border-line bg-white p-4"
         style={{ aspectRatio: `${BIKE_VIEWBOX.width} / ${BIKE_VIEWBOX.height}` }}
       >
         {/*

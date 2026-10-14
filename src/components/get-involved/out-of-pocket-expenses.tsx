@@ -9,12 +9,12 @@ import { formatCurrency } from "@/lib/utils";
 
 function CategoryAccordion({ category }: { category: ExpenseCategory }) {
   return (
-    <details className="rounded-sm border border-ink/10 bg-off-white">
+    <details className="rounded-xl border border-line bg-white">
       <summary className="flex cursor-pointer list-none items-baseline justify-between gap-4 px-5 py-4 [&::-webkit-details-marker]:hidden">
-        <span className="font-display text-sm font-semibold uppercase tracking-wide text-ink">
+        <span className="font-display text-base uppercase text-ink">
           {category.category}
         </span>
-        <span className="font-display text-base font-bold tabular-nums text-bronze">
+        <span className="font-display text-lg tabular-nums text-bronze">
           {formatCurrency(category.subtotal, { cents: true })}
         </span>
       </summary>
@@ -66,10 +66,10 @@ export function OutOfPocketExpenses() {
             </dd>
           </div>
           <div className="flex items-baseline justify-between border-t border-bronze/30 pt-2.5">
-            <dt className="font-display text-sm font-bold uppercase tracking-wide text-ink">
+            <dt className="font-display text-base uppercase text-ink">
               Total Out of Pocket
             </dt>
-            <dd className="font-display text-xl font-bold tabular-nums text-bronze">
+            <dd className="font-display text-2xl tabular-nums text-bronze">
               {formatCurrency(TOTAL_OUT_OF_POCKET, { cents: true })}
             </dd>
           </div>

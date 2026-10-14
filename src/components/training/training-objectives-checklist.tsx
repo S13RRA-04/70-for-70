@@ -127,14 +127,14 @@ function CategoryCard({
   const hasCurrent = objectives.some((o) => o.status === "in_progress");
 
   return (
-    <details className="mb-4 break-inside-avoid rounded-sm border border-ink/10 bg-off-white p-5" open={hasCurrent}>
+    <details className="mb-4 break-inside-avoid rounded-xl border border-line bg-white p-5" open={hasCurrent}>
       <summary className="cursor-pointer list-none">
         <span className="flex items-center justify-between gap-2">
-          <span className="flex items-center gap-2 font-display text-sm font-semibold uppercase tracking-wide text-ink">
+          <span className="flex items-center gap-2 font-display text-base uppercase text-ink">
             <Icon size={16} className="text-bronze" aria-hidden="true" />
             {CATEGORY_LABELS[category]}
           </span>
-          <span className="shrink-0 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+          <span className="shrink-0 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
             {doneCount} of {objectives.length}
           </span>
         </span>
@@ -171,10 +171,10 @@ export function TrainingObjectivesChecklist({ objectives }: { objectives: Traini
   return (
     <div>
       <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <p className="font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
+        <p className="font-display text-3xl uppercase text-ink sm:text-4xl">
           Road to Race Ready
         </p>
-        <p className="font-display text-lg font-semibold text-ink">
+        <p className="font-display text-xl text-ink">
           {totalDone} <span className="text-charcoal-light">/ {total} Benchmarks</span>
         </p>
       </div>
@@ -191,7 +191,7 @@ export function TrainingObjectivesChecklist({ objectives }: { objectives: Traini
           style={{ width: `${percent}%` }}
         />
       </div>
-      <p className="mt-1.5 text-xs font-semibold uppercase tracking-widest text-charcoal-light">{percent}%</p>
+      <p className="mt-1.5 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">{percent}%</p>
 
       <div className="mt-8 columns-1 gap-4 sm:columns-2 lg:columns-3">
         {CATEGORY_ORDER.filter((category) => grouped[category].length > 0).map((category) => (

@@ -16,20 +16,20 @@ export function RegistrationSuccess() {
       data-analytics-event="22_registration_complete"
       className="rounded-sm border border-olive/30 bg-olive/10 p-8"
     >
-      <p className="font-display text-2xl font-semibold uppercase tracking-wide text-ink">
+      <p className="font-display text-3xl uppercase text-ink">
         {REGISTRATION_SUCCESS_CONTENT.headline}
       </p>
-      <p className="mt-1 font-display text-base font-semibold uppercase tracking-wide text-bronze">
+      <p className="mt-1 font-display text-lg uppercase text-bronze">
         {REGISTRATION_SUCCESS_CONTENT.subheadline}
       </p>
 
       <p className="mt-4 text-base text-charcoal-light">{REGISTRATION_SUCCESS_CONTENT.body}</p>
 
-      <p className="mt-5 text-xs font-semibold uppercase tracking-widest text-charcoal-light">Next</p>
+      <p className="mt-5 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">Next</p>
       <ol className="mt-2 space-y-1.5">
         {REGISTRATION_SUCCESS_CONTENT.nextSteps.map((step, i) => (
           <li key={step} className="flex items-start gap-2 text-sm text-charcoal-light">
-            <span className="font-display font-semibold text-bronze">{i + 1}.</span>
+            <span className="font-display text-bronze">{i + 1}.</span>
             {step}
           </li>
         ))}
@@ -47,7 +47,7 @@ export function RegistrationSuccess() {
         <Link
           href="/promokit"
           data-analytics-event="promokit_view_assets_click"
-          className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-sm border border-ink/20 px-6 py-3.5 text-sm font-semibold uppercase tracking-wide text-ink transition-colors hover:bg-ink/5 sm:w-auto"
+          className="action-control inline-flex items-center justify-center font-bold min-h-[44px] w-full gap-2 border-2 border-navy px-6 py-3.5 text-[15px] text-navy transition-colors hover:bg-white sm:w-auto"
         >
           <Download size={16} aria-hidden />
           {REGISTRATION_SUCCESS_CONTENT.secondaryCta}

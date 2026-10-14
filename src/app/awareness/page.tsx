@@ -1,5 +1,5 @@
 import { Container } from "@/components/shared/container";
-import { SectionHeading } from "@/components/shared/section-heading";
+import { PageHero } from "@/components/shared/page-hero";
 import { CTASection } from "@/components/shared/cta-section";
 import { AwarenessDirectory } from "@/components/awareness/awareness-directory";
 import { AWARENESS_CALENDAR } from "@/lib/content/awareness-calendar";
@@ -22,16 +22,12 @@ export const metadata = pageMetadata({
 export default function AwarenessCalendarPage() {
   return (
     <>
-      <section className="border-b border-ink/10 bg-sand-light py-12 sm:py-16">
-        <Container>
-          <SectionHeading
-            as="h1"
-            eyebrow="Awareness & Action"
-            title="The Awareness & Action Calendar"
-            description={`A year of veteran, first-responder, military-family, mental-health, and remembrance observances — curated by ${SITE_NAME}, with the dates we actually build campaigns and storytelling around called out below.`}
-          />
-        </Container>
-      </section>
+      <PageHero
+        pillar="mobilization"
+        eyebrow="Awareness & action"
+        title="The Awareness & Action Calendar"
+        description={`A year of veteran, first-responder, military-family, mental-health, and remembrance observances — curated by ${SITE_NAME}, with the dates we actually build campaigns and storytelling around called out below.`}
+      />
 
       <section className="py-12 sm:py-16">
         <Container>

@@ -51,7 +51,7 @@ export default async function TheStoryPage() {
           <div className="relative min-h-[320px] overflow-hidden rounded-sm lg:col-span-5 lg:min-h-[460px] lg:translate-x-8">
             <Image src="/about/trail.jpg" alt="Cody training on a trail" fill sizes="(min-width: 1024px) 42vw, 100vw" className="object-cover" />
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/85 to-transparent p-6 pt-20 text-off-white">
-              <p className="font-display text-xl font-semibold uppercase">A new mission, carried forward one mile at a time.</p>
+              <p className="font-display text-2xl uppercase">A new mission, carried forward one mile at a time.</p>
             </div>
           </div>
           </div>
@@ -78,7 +78,7 @@ export default async function TheStoryPage() {
           <FocusScrollSection>
             <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
             <div className="lg:col-span-7">
-            <h2 className="font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
+            <h2 className="font-display text-3xl uppercase text-ink sm:text-4xl">
               {HOW_THIS_BEGAN.heading}
             </h2>
             <div className="mt-5 space-y-4 text-base leading-relaxed text-charcoal-light">
@@ -98,7 +98,7 @@ export default async function TheStoryPage() {
       <section className="border-t border-ink/10 bg-sand-light py-16 sm:py-24">
         <Container className="max-w-2xl">
           <FocusScrollSection>
-            <h2 className="font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
+            <h2 className="font-display text-3xl uppercase text-ink sm:text-4xl">
               {WHY_ENDURANCE.heading}
             </h2>
             <p className="mt-4 max-w-lg text-lg leading-relaxed text-ink">{WHY_ENDURANCE.body[0]}</p>
@@ -118,7 +118,7 @@ export default async function TheStoryPage() {
               <Image src="/partners/mighty-oaks-logo.png" alt="Mighty Oaks Warrior Programs" fill sizes="(min-width: 1024px) 36vw, 100vw" className="object-contain p-10" />
             </div>
             <div className="lg:col-span-7">
-            <h2 className="font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
+            <h2 className="font-display text-3xl uppercase text-ink sm:text-4xl">
               Who This Supports
             </h2>
             <p className="mt-5 text-base leading-relaxed text-charcoal-light">{BENEFICIARY_EXPLANATION}</p>
@@ -133,7 +133,7 @@ export default async function TheStoryPage() {
           <FocusScrollSection>
             <span
               aria-hidden="true"
-              className="font-display text-6xl font-bold leading-none text-bronze-light sm:text-7xl"
+              className="font-display text-6xl leading-none text-bronze-light sm:text-7xl"
             >
               22
             </span>
@@ -147,7 +147,7 @@ export default async function TheStoryPage() {
       <section className="border-t border-ink/10 py-16 sm:py-24">
         <Container className="max-w-2xl">
           <FocusScrollSection>
-            <h2 className="font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
+            <h2 className="font-display text-3xl uppercase text-ink sm:text-4xl">
               {BEYOND_CHATTANOOGA.heading}
             </h2>
             <div className="mt-5 space-y-4 text-base leading-relaxed text-charcoal-light">

@@ -27,11 +27,11 @@ export function TrainingMetricsPanel({ entry }: { entry: JournalEntryRow }) {
   if (metrics.length === 0) return null;
 
   return (
-    <dl className="mt-8 grid grid-cols-2 gap-4 rounded-sm border border-ink/10 bg-off-white p-5 sm:grid-cols-3">
+    <dl className="mt-8 grid grid-cols-2 gap-4 rounded-xl border border-line bg-white p-5 sm:grid-cols-3">
       {metrics.map((metric) => (
         <div key={metric.label}>
-          <dt className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">{metric.label}</dt>
-          <dd className="mt-1 font-display text-lg font-semibold text-ink">{metric.value}</dd>
+          <dt className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">{metric.label}</dt>
+          <dd className="mt-1 font-display text-xl text-ink">{metric.value}</dd>
         </div>
       ))}
     </dl>

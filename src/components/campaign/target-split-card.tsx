@@ -32,7 +32,7 @@ export function TargetSplitCard({
         {label}
       </p>
       <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-charcoal-light/70">Target</p>
-      <p className="mt-1 text-balance font-display text-2xl font-bold text-ink sm:text-3xl">{primary}</p>
+      <p className="mt-1 text-balance font-display text-3xl text-ink sm:text-4xl">{primary}</p>
       {secondary && <p className="mt-2 text-sm text-charcoal-light">{secondary}</p>}
     </div>
   );

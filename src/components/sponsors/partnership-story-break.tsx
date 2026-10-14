@@ -23,7 +23,7 @@ export function PartnershipStoryBreak() {
 
       <div className="absolute inset-0 flex items-end">
         <div className="mx-auto w-full max-w-[min(94vw,1560px)] px-4 pb-10 sm:px-6 sm:pb-14">
-          <h2 className="max-w-2xl text-balance font-display text-3xl font-bold uppercase leading-tight tracking-tight text-off-white sm:text-4xl">
+          <h2 className="max-w-2xl text-balance font-display text-4xl uppercase leading-tight text-off-white sm:text-4xl">
             These aren&apos;t logos on a page. They&apos;re parts of the mission.
           </h2>
           <p className="mt-4 max-w-xl text-base leading-relaxed text-off-white/80">

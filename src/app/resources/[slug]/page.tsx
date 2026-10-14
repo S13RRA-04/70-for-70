@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ExternalLink, ShieldCheck } from "lucide-react";
 import { Container } from "@/components/shared/container";
+import { PageHero } from "@/components/shared/page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
 import { RevealGrid, RevealOnScroll } from "@/components/shared/reveal-on-scroll";
@@ -83,26 +84,23 @@ function StateResourcesView({ state }: { state: USStateGridEntry }) {
 
   return (
     <>
-      <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container>
-          <SectionHeading
-            as="h1"
-            eyebrow="Resources by State"
-            title={`Resources in ${state.name}`}
-            description={
-              local.length > 0
-                ? `${local.length} resource${local.length === 1 ? "" : "s"} local to ${state.name}, plus every nationwide program available here too.`
-                : `No region-specific pass has been done for ${state.name} yet — every nationwide program below is still available to you.`
-            }
-          />
-          <Link
-            href={`/resources?state=${encodeURIComponent(state.name)}`}
-            className="mt-6 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
-          >
-            Search &amp; Filter All Resources &rarr;
-          </Link>
-        </Container>
-      </section>
+      <PageHero
+        pillar="connection"
+        eyebrow="Resources by state"
+        title={`Resources in ${state.name}`}
+        description={
+          local.length > 0
+            ? `${local.length} resource${local.length === 1 ? "" : "s"} local to ${state.name}, plus every nationwide program available here too.`
+            : `No region-specific pass has been done for ${state.name} yet — every nationwide program below is still available to you.`
+        }
+      >
+        <Link
+          href={`/resources?state=${encodeURIComponent(state.name)}`}
+          className="font-bold text-help underline underline-offset-2 hover:text-help-dark"
+        >
+          Search &amp; filter all resources &rarr;
+        </Link>
+      </PageHero>
 
       {local.length > 0 && (
         <section className="py-16 sm:py-20">
@@ -219,14 +217,14 @@ function ResourceDetailView({
 
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container className="max-w-3xl">
-          <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
             <Link href="/resources" className="hover:text-ink hover:underline">
               Resources
             </Link>
             {categoryLabels[0] && ` / ${categoryLabels[0]}`}
           </p>
 
-          <h1 className="mt-3 text-balance font-display text-3xl font-bold uppercase tracking-tight text-ink sm:text-4xl">
+          <h1 className="mt-3 text-balance font-display text-4xl uppercase text-ink sm:text-4xl">
             {resource.name}
           </h1>
 
@@ -244,7 +242,7 @@ function ResourceDetailView({
               {resource.audienceTags.map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-full border border-ink/15 bg-off-white px-2.5 py-1 text-[11px] font-semibold uppercase tracking-widest text-charcoal-light"
+                  className="rounded-full border border-ink/15 bg-off-white px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-charcoal-light"
                 >
                   {tag}
                 </span>
@@ -290,7 +288,7 @@ function ResourceDetailView({
 
             {(resource.whyIncluded || resource.faithAffiliationSource || resource.confidentialityPolicyUrl) && (
               <div className="mt-8 border-t border-ink/10 pt-6">
-                <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">Source &amp; Notes</p>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">Source &amp; Notes</p>
                 {resource.whyIncluded && <p className="mt-2 text-sm leading-relaxed text-charcoal-light">{resource.whyIncluded}</p>}
                 {resource.faithAffiliationSource && (
                   <p className="mt-2 text-sm">

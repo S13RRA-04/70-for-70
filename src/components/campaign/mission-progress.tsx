@@ -30,7 +30,7 @@ export function MissionProgress({
     <div className={className}>
       <p
         className={cn(
-          "text-xs font-semibold uppercase tracking-[0.2em]",
+          "text-xs font-bold uppercase tracking-[0.2em]",
           isDark ? "text-bronze-light" : "text-bronze-text",
         )}
       >

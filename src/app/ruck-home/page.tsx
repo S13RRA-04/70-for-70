@@ -91,7 +91,7 @@ function BeneficiaryCard({
   const hasLinks = Boolean(data.websiteUrl || data.donationUrl);
 
   return (
-    <div className="flex flex-col gap-6 rounded-sm border border-ink/10 bg-off-white p-6 sm:flex-row sm:p-8">
+    <div className="flex flex-col gap-6 rounded-xl border border-line bg-white p-6 sm:flex-row sm:p-8">
       <div className="shrink-0 sm:w-48">
         <PartnerLogo
           name={data.name}
@@ -103,8 +103,8 @@ function BeneficiaryCard({
         />
       </div>
       <div className="flex flex-1 flex-col">
-        <p className="text-xs font-semibold uppercase tracking-widest text-bronze">{eyebrow}</p>
-        <h3 className="mt-1.5 font-display text-2xl font-semibold uppercase tracking-wide text-ink">
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">{eyebrow}</p>
+        <h3 className="mt-1.5 font-display text-3xl uppercase text-ink">
           {data.name}
         </h3>
         {data.verified && (
@@ -122,7 +122,7 @@ function BeneficiaryCard({
                 target="_blank"
                 rel="noopener noreferrer"
                 data-analytics-event="beneficiary_selected"
-                className="inline-flex items-center gap-1.5 rounded-sm border border-ink/20 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
+                className="action-control inline-flex items-center justify-center font-bold gap-1.5 border-2 border-navy px-4 py-2 text-[15px] text-navy hover:bg-white"
               >
                 Learn More
                 <ExternalLink size={13} aria-hidden />
@@ -189,18 +189,18 @@ export default async function RuckHomePage() {
           <div>
             <a
               href={ORG_HOME_LINK.href}
-              className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light hover:underline"
+              className="text-xs font-bold uppercase tracking-[0.2em] text-bronze-light hover:underline"
             >
               {SITE_NAME} Presents
             </a>
-            <h1 className="mt-3 text-balance font-display text-hero font-bold uppercase leading-[0.95] tracking-tight">
+            <h1 className="mt-3 text-balance font-display text-hero uppercase leading-[0.95]">
               {RUCK.name}
             </h1>
 
             <div className="mt-7 grid max-w-2xl grid-cols-2 gap-px bg-off-white/15 sm:grid-cols-3">
-              <div className="col-span-2 bg-ink/90 p-5 sm:col-span-1"><p className="font-display text-6xl font-bold leading-none text-sand">22</p><p className="mt-1 text-xs font-semibold uppercase tracking-widest text-off-white/65">Miles</p></div>
-              <div className="bg-ink/90 p-5"><p className="font-display text-2xl font-bold uppercase text-off-white">Oct 24</p><p className="mt-1 text-xs font-semibold uppercase tracking-widest text-off-white/65">2026</p></div>
-              <div className="bg-ink/90 p-5"><p className="font-display text-2xl font-bold uppercase text-off-white">0800</p><p className="mt-1 text-xs font-semibold uppercase tracking-widest text-off-white/65">Start</p></div>
+              <div className="col-span-2 bg-ink/90 p-5 sm:col-span-1"><p className="font-display text-6xl leading-none text-sand">22</p><p className="mt-1 text-xs font-bold uppercase tracking-[0.2em] text-off-white/65">Miles</p></div>
+              <div className="bg-ink/90 p-5"><p className="font-display text-3xl uppercase text-off-white">Oct 24</p><p className="mt-1 text-xs font-bold uppercase tracking-[0.2em] text-off-white/65">2026</p></div>
+              <div className="bg-ink/90 p-5"><p className="font-display text-3xl uppercase text-off-white">0800</p><p className="mt-1 text-xs font-bold uppercase tracking-[0.2em] text-off-white/65">Start</p></div>
             </div>
             <p className="mt-5 text-sm font-semibold uppercase tracking-[0.16em] text-sand">Huntsville, Alabama</p>
 
@@ -225,9 +225,9 @@ export default async function RuckHomePage() {
           </div>
 
           <div className="border-l-4 border-olive bg-off-white/5 p-7 backdrop-blur-sm sm:p-9">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sand">Event status</p>
-            <p className="mt-2 font-display text-4xl font-bold uppercase leading-tight text-off-white">Registration Open</p>
-            <p className="mt-5 font-display text-2xl font-semibold text-sand">October 24, 2026 · 0800</p>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-sand">Event status</p>
+            <p className="mt-2 font-display text-4xl uppercase leading-tight text-off-white">Registration Open</p>
+            <p className="mt-5 font-display text-3xl text-sand">October 24, 2026 · 0800</p>
             <p className="mt-4 text-sm leading-relaxed text-off-white/70">Join Cody in Huntsville for the full distance, or walk your own distance with your community.</p>
           </div>
         </Container>
@@ -238,8 +238,8 @@ export default async function RuckHomePage() {
         <Image src="/topo-map.png" alt="" fill aria-hidden="true" className="object-cover opacity-[0.06]" />
         <RevealOnScroll as="div" className="relative">
         <Container className="grid gap-8 lg:grid-cols-[0.7fr_1.3fr] lg:items-center">
-          <p aria-hidden="true" className="font-display text-[10rem] font-bold leading-none text-olive sm:text-[14rem]">22</p>
-          <div><p className="text-xs font-semibold uppercase tracking-[0.2em] text-sand">The Cause</p><h2 className="mt-2 font-display text-4xl font-semibold uppercase">Why 22?</h2>
+          <p aria-hidden="true" className="font-display text-[10rem] leading-none text-olive sm:text-[14rem]">22</p>
+          <div><p className="text-xs font-bold uppercase tracking-[0.2em] text-sand">The Cause</p><h2 className="mt-2 font-display text-4xl uppercase">Why 22?</h2>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-off-white/75">
             22 has become a widely recognized symbol of veteran suicide awareness. It&apos;s historically
             significant, but it isn&apos;t the current national number — the VA&apos;s most recent data (2023)
@@ -254,7 +254,7 @@ export default async function RuckHomePage() {
       </section>
 
       {/* Event details */}
-      <section id="event" className="scroll-mt-24 border-b border-ink/10 py-16 sm:py-20">
+      <section id="event" className="scroll-mt-28 border-b border-ink/10 py-16 sm:py-20">
         <Container>
           <RevealOnScroll>
           <SectionHeading
@@ -270,7 +270,7 @@ export default async function RuckHomePage() {
               ["Distance", "22 Miles"],
               ["Organizer", RUCK_EVENT_ORGANIZER.name],
               ["Registration", "Open"],
-            ].map(([label, value]) => <div key={label} className="bg-off-white p-6"><dt className="text-xs font-semibold uppercase tracking-widest text-olive">{label}</dt><dd className="mt-2 font-display text-xl font-semibold uppercase text-ink">{value}</dd></div>)}
+            ].map(([label, value]) => <div key={label} className="bg-off-white p-6"><dt className="text-xs font-bold uppercase tracking-[0.2em] text-olive">{label}</dt><dd className="mt-2 font-display text-2xl uppercase text-ink">{value}</dd></div>)}
           </dl>
           <div className="mt-8 grid gap-6 lg:grid-cols-2"><p className="text-sm leading-relaxed text-charcoal-light">{RUCK_EVENT_INFO.locationDetail}</p><p className="text-sm leading-relaxed text-charcoal-light">{RUCK_EVENT_INFO.formatNote}</p></div>
           <div className="mt-8 flex flex-wrap gap-4">
@@ -287,7 +287,7 @@ export default async function RuckHomePage() {
               href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(RUCK_EVENT_INFO.location)}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-sm border border-ink/20 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-ink transition-colors hover:bg-ink/5"
+              className="action-control inline-flex items-center justify-center font-bold gap-1.5 border-2 border-navy px-6 py-3 text-[15px] text-navy transition-colors hover:bg-white"
             >
               Get Directions
               <ExternalLink size={14} aria-hidden />
@@ -331,7 +331,7 @@ export default async function RuckHomePage() {
                 single page (see AGENTS.md). */}
             {goruckPartner && (
               <RevealOnScroll>
-                <div className="mt-12 grid overflow-hidden rounded-sm border border-ink/10 bg-off-white sm:grid-cols-2">
+                <div className="mt-12 grid overflow-hidden rounded-xl border border-line bg-white sm:grid-cols-2">
                   <div className="relative aspect-[4/3] sm:aspect-auto">
                     <Image
                       src="/ruck/goruck-donation.jpeg"
@@ -342,8 +342,8 @@ export default async function RuckHomePage() {
                     />
                   </div>
                   <div className="flex flex-col justify-center p-6 sm:p-8">
-                    <p className="text-xs font-semibold uppercase tracking-widest text-bronze">Campaign Update</p>
-                    <h3 className="mt-2 font-display text-xl font-bold uppercase tracking-tight text-ink sm:text-2xl">
+                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">Campaign Update</p>
+                    <h3 className="mt-2 font-display text-2xl uppercase text-ink sm:text-3xl">
                       GORUCK Resupplies the Ruck
                     </h3>
                     <p className="mt-4 text-sm leading-relaxed text-charcoal-light">
@@ -369,7 +369,7 @@ export default async function RuckHomePage() {
       )}
 
       {/* Beneficiaries */}
-      <section id="beneficiaries" className="scroll-mt-24 py-16 sm:py-20">
+      <section id="beneficiaries" className="scroll-mt-28 py-16 sm:py-20">
         <Container>
           <RevealOnScroll as="div" className="border-l-4 border-olive bg-sand-light p-6 sm:p-8">
           <SectionHeading
@@ -377,7 +377,7 @@ export default async function RuckHomePage() {
             title="Registration Supports Two Event Beneficiaries"
             description={`Registration and ticket proceeds for ${RUCK_EVENT_INFO.name}, organized by ${RUCK_EVENT_ORGANIZER.name} (EIN ${RUCK_EVENT_ORGANIZER.ein}), support these organizations.`}
           />
-          <p className="mt-5 font-display text-lg font-semibold uppercase text-olive">RuckUp22 <span aria-hidden="true">↓</span> Battle Buddy Foundation + Tunnel to Towers</p>
+          <p className="mt-5 font-display text-xl uppercase text-olive">RuckUp22 <span aria-hidden="true">↓</span> Battle Buddy Foundation + Tunnel to Towers</p>
           </RevealOnScroll>
           <RevealGrid>
             <div className="mt-6 grid gap-6 lg:grid-cols-2">
@@ -406,7 +406,7 @@ export default async function RuckHomePage() {
                 title="A Separate Path Into The $70K Mission"
                 description={`Alongside RuckUp22 itself, Cody's own Ruck For The 22 effort supports the same causes as ${CAMPAIGNS.tri.name} — and contributes to For The 22's shared ${formatCurrency(fundraisingStats.fundraisingGoal)} mission goal.`}
               />
-              <p className="mt-5 font-display text-lg font-semibold uppercase text-ink">Cody&apos;s Ruck Campaign <span aria-hidden="true">↓</span> The $70K Mission <span aria-hidden="true">↓</span> {campaignBeneficiaries.length} verified {campaignBeneficiaries.length === 1 ? "beneficiary" : "beneficiaries"}</p>
+              <p className="mt-5 font-display text-xl uppercase text-ink">Cody&apos;s Ruck Campaign <span aria-hidden="true">↓</span> The $70K Mission <span aria-hidden="true">↓</span> {campaignBeneficiaries.length} verified {campaignBeneficiaries.length === 1 ? "beneficiary" : "beneficiaries"}</p>
               <div className="mt-6 rounded-sm border border-ink/10 bg-sand-light p-6 lg:max-w-3xl">
                 <MissionProgress totalRaised={fundraisingStats.amountRaised} goal={fundraisingStats.fundraisingGoal} />
                 <p className="mt-4 text-xs text-charcoal-light">

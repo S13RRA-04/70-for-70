@@ -24,7 +24,7 @@ export function Timeline({ entries }: { entries: TimelineEntry[] }) {
             className="absolute -left-[29px] top-1 h-3 w-3 rounded-full border-2 border-bronze bg-off-white"
           />
           <div className="flex-1">
-            <p className="font-display text-lg font-bold text-bronze">{entry.year}</p>
+            <p className="font-display text-xl text-bronze">{entry.year}</p>
             <p className="mt-0.5 text-sm text-charcoal-light">{entry.label}</p>
             {entry.resultsUrl && (
               <a

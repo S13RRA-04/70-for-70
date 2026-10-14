@@ -27,11 +27,11 @@ export function BikeBuildStatusPreview({ overview, photo, contributorNames }: Bi
       </div>
 
       <div>
-        <p className="text-xs font-semibold uppercase tracking-widest text-bronze">{overview.badge}</p>
-        <p className="mt-2 font-display text-5xl font-bold tabular-nums text-ink sm:text-6xl">
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">{overview.badge}</p>
+        <p className="mt-2 font-display text-5xl tabular-nums text-ink sm:text-6xl">
           <PercentCountUp value={percent} />
         </p>
-        <p className="mt-1 text-sm font-semibold uppercase tracking-widest text-charcoal-light">Build Status</p>
+        <p className="mt-1 text-sm font-bold uppercase tracking-[0.2em] text-charcoal-light">Build Status</p>
 
         <p className="mt-4 text-base text-charcoal-light">
           {overview.confirmedCount} of {overview.totalCount} components confirmed.

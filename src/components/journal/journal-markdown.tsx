@@ -4,10 +4,10 @@ import { cn } from "@/lib/utils";
 
 const components: Components = {
   h2: ({ ...props }) => (
-    <h2 className="mt-8 font-display text-xl font-semibold uppercase tracking-wide text-ink" {...props} />
+    <h2 className="mt-8 font-display text-2xl uppercase text-ink" {...props} />
   ),
   h3: ({ ...props }) => (
-    <h3 className="mt-6 font-display text-base font-semibold uppercase tracking-wide text-ink" {...props} />
+    <h3 className="mt-6 font-display text-lg uppercase text-ink" {...props} />
   ),
   p: ({ ...props }) => <p className="mt-4 leading-relaxed text-charcoal-light" {...props} />,
   a: ({ ...props }) => (

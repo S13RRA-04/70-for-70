@@ -10,10 +10,9 @@ interface CTAButtonProps {
   tone?: "dark" | "light";
   size?: "md" | "lg";
   /**
-   * Primary-variant fill color. Defaults to "bronze" so every existing call
-   * site is unaffected — "black" opts into the rebrand's anchor-black
-   * accent and should only be used by components that have been migrated
-   * to the new foundation (nav, footer, mobile menu). "emergency" is
+   * Primary-variant fill color. "bronze" is the legacy name for the default
+   * (navy, or olive on Ruck — see --property-action). "black" is the jet
+   * remembrance fill. "emergency" is
    * reserved for crisis CTAs ("Need Help Now") only — a fixed solid fill
    * regardless of `tone`, so it reads the same reserved way everywhere it
    * appears. Not meant to be applied retroactively across the site in one
@@ -38,8 +37,8 @@ interface CTAButtonProps {
 }
 
 const SIZE_CLASSES = {
-  md: "px-6 py-3 text-sm",
-  lg: "px-8 py-4 text-base",
+  md: "px-5 text-[15px]",
+  lg: "min-h-[50px] px-6 text-base",
 } as const;
 
 export function CTAButton({
@@ -56,25 +55,25 @@ export function CTAButton({
   "data-analytics-event": analyticsEvent,
 }: CTAButtonProps) {
   const classes = cn(
-    "action-control inline-flex items-center gap-1.5 font-semibold uppercase tracking-wide",
+    "action-control inline-flex items-center justify-center gap-2 font-bold",
     SIZE_CLASSES[size],
     variant === "primary" &&
       (accent === "emergency"
-        ? "bg-signal text-off-white hover:bg-signal-dark"
+        ? "bg-signal text-white hover:bg-signal-dark"
         : accent === "black"
-          ? "bg-anchor text-off-white hover:bg-anchor-light"
+          ? "bg-jet text-white hover:bg-navy"
           : tone === "dark"
-            ? "bg-bronze text-ink hover:bg-bronze-light"
+            ? "bg-white text-navy hover:bg-paper"
             : "property-button-primary"),
     variant === "secondary" &&
       (tone === "dark"
-        ? "border border-off-white/40 text-off-white hover:bg-off-white/10"
-        : "border border-ink/20 text-ink hover:bg-ink/5"),
+        ? "border-2 border-white text-white hover:bg-white/10"
+        : "border-2 border-navy bg-white/60 text-navy hover:bg-white"),
     variant === "ghost" &&
       (tone === "dark"
-        ? "text-off-white/70 hover:text-off-white"
-        : "text-ink/70 hover:text-ink"),
-    ariaCurrent && "ring-2 ring-offset-2 ring-ink/40",
+        ? "text-white/75 hover:text-white"
+        : "text-navy hover:text-help"),
+    ariaCurrent && "ring-2 ring-offset-2 ring-navy/40",
     className,
   );
 

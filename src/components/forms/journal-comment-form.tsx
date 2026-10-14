@@ -37,7 +37,7 @@ export function JournalCommentForm({ journalEntryId }: { journalEntryId: string 
   if (status === "success") {
     return (
       <div role="status" className="rounded-sm border border-olive/30 bg-olive/10 p-6 text-ink">
-        <p className="font-display text-lg font-semibold uppercase tracking-wide">Comment Received</p>
+        <p className="font-display text-xl uppercase">Comment Received</p>
         <p className="mt-1 text-sm text-charcoal-light">
           Thanks for reading — it&apos;ll appear here once it&apos;s reviewed.
         </p>

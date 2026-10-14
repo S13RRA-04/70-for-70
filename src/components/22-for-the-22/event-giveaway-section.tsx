@@ -9,7 +9,7 @@ import type { GiveawayPrizeRow, MissionPartnerRow } from "@/types/database";
 function GiveawayMoreComingCard() {
   return (
     <div className="flex flex-col justify-center rounded-sm border border-dashed border-ink/20 bg-sand-light/40 p-6 text-center">
-      <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">More Prizes Incoming</p>
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">More Prizes Incoming</p>
       <p className="mt-3 text-sm text-charcoal-light">
         We&apos;re reaching out to veteran-owned, first responder-owned, outdoor, endurance, and
         service-focused brands to build the giveaway prize package.
@@ -47,8 +47,8 @@ export function EventGiveawaySection({
   return (
     <section id="giveaway" data-analytics-event="giveaway_section_view" className="py-16 sm:py-20">
       <Container>
-        <p className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-bronze">22 For the 22 Giveaway</p>
-        <h2 className="text-balance font-display text-3xl font-semibold uppercase tracking-tight text-ink sm:text-4xl">
+        <p className="mb-2 text-sm font-bold uppercase tracking-[0.2em] text-bronze">22 For the 22 Giveaway</p>
+        <h2 className="text-balance font-display text-4xl uppercase text-ink sm:text-4xl">
           Free Registration. Free Entry.
         </h2>
         <p className="mt-3 max-w-2xl text-base text-charcoal-light/90">
@@ -62,17 +62,17 @@ export function EventGiveawaySection({
 
         {prizes.length > 0 && (
           <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
-            <div className="rounded-sm border border-ink/10 bg-off-white px-5 py-4">
-              <p className="font-display text-2xl font-semibold tabular-nums text-ink sm:text-3xl">
+            <div className="rounded-xl border border-line bg-white px-5 py-4">
+              <p className="font-display text-3xl tabular-nums text-ink sm:text-4xl">
                 {summary.prizeCount}
               </p>
-              <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-charcoal-light">Prizes</p>
+              <p className="mt-1 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">Prizes</p>
             </div>
-            <div className="rounded-sm border border-ink/10 bg-off-white px-5 py-4">
-              <p className="font-display text-2xl font-semibold tabular-nums text-ink sm:text-3xl">
+            <div className="rounded-xl border border-line bg-white px-5 py-4">
+              <p className="font-display text-3xl tabular-nums text-ink sm:text-4xl">
                 {summary.brandCount}
               </p>
-              <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-charcoal-light">Supporters</p>
+              <p className="mt-1 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">Supporters</p>
             </div>
           </div>
         )}

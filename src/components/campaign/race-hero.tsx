@@ -35,15 +35,15 @@ export function RaceHero() {
             <p className="text-sm font-semibold uppercase tracking-[0.3em] text-bronze-light">
               The Road to Chattanooga
             </p>
-            <h1 className="mt-4 text-balance font-display text-5xl font-bold uppercase leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl">
+            <h1 className="mt-4 text-balance font-display text-5xl uppercase leading-[0.95] sm:text-6xl lg:text-7xl">
               IRONMAN 70.3
               <br />
               Chattanooga
             </h1>
-            <p className="mt-5 text-balance font-display text-2xl font-semibold uppercase tracking-tight text-off-white/90 sm:text-3xl">
+            <p className="mt-5 text-balance font-display text-3xl uppercase text-off-white/90 sm:text-4xl">
               70.3 Miles. One Finish Line.
             </p>
-            <p className="mt-5 text-sm font-semibold uppercase tracking-widest text-off-white/70">
+            <p className="mt-5 text-sm font-bold uppercase tracking-[0.2em] text-off-white/70">
               {RACE_INFO.raceDate && (
                 <>
                   {new Date(RACE_INFO.raceDate).toLocaleDateString("en-US", {
@@ -97,7 +97,7 @@ export function RaceHero() {
             />
             {RACE_INFO.raceDate && (
               <div className="w-full max-w-xs rounded-sm border border-off-white/15 bg-off-white/5 p-5 backdrop-blur-sm">
-                <p className="text-center text-xs font-semibold uppercase tracking-widest text-off-white/60">
+                <p className="text-center text-xs font-bold uppercase tracking-[0.2em] text-off-white/60">
                   Race Day
                 </p>
                 <div className="mt-3">

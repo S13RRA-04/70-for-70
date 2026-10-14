@@ -86,7 +86,7 @@ function FilterRow({
 }) {
   return (
     <div>
-      <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">{label}</p>
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">{label}</p>
       <div className="mt-2.5 flex flex-wrap gap-2">
         <FilterChip label="All" active={activeValues.length === 0} onClick={() => onSelect(null)} size={chipSize} />
         {options.map((option) => (
@@ -406,7 +406,7 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
           aria-controls="resource-state-map"
           className="flex w-full flex-wrap items-baseline justify-between gap-2 text-left"
         >
-          <span className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+          <span className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
             {stateFilter ? `Browsing ${stateFilter}` : "Browse by State"}
           </span>
           <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-bronze">
@@ -446,7 +446,7 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
             onChange={setSearch}
             label="Search resources"
             placeholder="Search organizations, services, or needs…"
-            className="scroll-mt-20"
+            className="scroll-mt-28"
           />
 
           <button
@@ -483,7 +483,7 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
           >
             <div className="flex items-center justify-between border-b border-ink/10 pb-3 lg:hidden">
               <div>
-                <p className="font-display text-lg font-semibold uppercase text-ink">Filter Resources</p>
+                <p className="font-display text-xl uppercase text-ink">Filter Resources</p>
                 <p className="text-xs text-charcoal-light">{results.length} results</p>
               </div>
               <button type="button" onClick={() => setFiltersOpen(false)} className="inline-flex h-11 w-11 items-center justify-center rounded-sm border border-ink/15 bg-off-white" aria-label="Close filters">
@@ -511,7 +511,7 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
                 onClick={() => setMoreFiltersOpen((v) => !v)}
                 aria-expanded={showMoreFilters}
                 aria-controls="resource-more-filters"
-                className="flex w-full items-center justify-between text-xs font-semibold uppercase tracking-widest text-charcoal-light hover:text-ink"
+                className="flex w-full items-center justify-between text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light hover:text-ink"
               >
                 <span>More Filters{moreFiltersActiveCount > 0 ? ` · ${moreFiltersActiveCount} Active` : ""}</span>
                 <ChevronDown size={14} aria-hidden="true" className={cn("transition-transform", showMoreFilters && "rotate-180")} />
@@ -549,7 +549,7 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
             {/* aria-live so a screen-reader user hears the updated count after
                 a chip/search/map change, instead of having to re-navigate
                 here to discover the list changed at all. */}
-            <p aria-live="polite" className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+            <p aria-live="polite" className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
               {results.length} {results.length === 1 ? "resource" : "resources"}
               {needIds.length > 0 &&
                 ` · ${needIds.map((id) => NEED_CATEGORIES.find((c) => c.id === id)?.label).filter(Boolean).join(", ")}`}
@@ -559,7 +559,7 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
               {!stateFilter && scope !== "all" && ` · ${SCOPE_LABELS[scope]} only`}
             </p>
             <div className="flex shrink-0 flex-wrap items-center gap-3">
-              <label className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+              <label className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
                 Sort
                 <select
                   value={sort}
@@ -645,7 +645,7 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
                   <button
                     type="button"
                     onClick={() => setVisibleCount((count) => count + RESULTS_PAGE_SIZE)}
-                    className="rounded-sm border border-ink/20 bg-off-white px-6 py-3 text-sm font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
+                    className="action-control inline-flex items-center justify-center font-bold border-2 border-navy bg-off-white px-6 py-3 text-[15px] text-navy hover:bg-white"
                   >
                     Load More Resources
                   </button>

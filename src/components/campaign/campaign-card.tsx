@@ -41,21 +41,21 @@ export function CampaignCard({ campaign }: { campaign: MovementCampaign }) {
   const Icon = CAMPAIGN_ICONS[campaign.slug];
 
   return (
-    <div className="grid gap-6 border border-ink/10 bg-off-white p-7 sm:grid-cols-[auto_1fr] sm:items-start sm:gap-7 sm:p-8">
+    <div className="grid gap-6 rounded-xl border border-line bg-white p-7 sm:grid-cols-[auto_1fr] sm:items-start sm:gap-7 sm:p-8">
       {Icon && (
         <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-sm bg-bronze/10 text-bronze sm:h-24 sm:w-24">
           <Icon className="h-9 w-9 sm:h-10 sm:w-10" aria-hidden="true" />
         </div>
       )}
       <div>
-        <p className="text-xs font-semibold uppercase tracking-widest text-bronze">{statusLine}</p>
-        <h3 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">{statusLine}</p>
+        <h3 className="mt-2 font-display text-3xl uppercase text-ink sm:text-4xl">
           {campaign.name}
         </h3>
         {campaign.description && (
           <p className="mt-4 max-w-xl text-base leading-relaxed text-charcoal-light">{campaign.description}</p>
         )}
-        <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+        <p className="mt-4 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
           Contributes to {MISSION_NAME}
         </p>
         {campaign.url && (

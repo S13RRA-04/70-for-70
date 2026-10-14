@@ -35,7 +35,7 @@ export default async function EventRulesPage() {
           &larr; Back to 22 For the 22
         </Link>
 
-        <h1 className="mt-4 font-display text-3xl font-semibold uppercase tracking-tight text-ink sm:text-4xl">
+        <h1 className="mt-4 font-display text-4xl uppercase text-ink sm:text-4xl">
           Official Rules
         </h1>
         <p className="mt-2 text-sm text-charcoal-light">22 For the 22 Free Giveaway/Sweepstakes</p>
@@ -50,7 +50,7 @@ export default async function EventRulesPage() {
           <div className="mt-8 space-y-8">
             {EVENT_RULES_PLACEHOLDER_SECTIONS.map((section) => (
               <section key={section.id}>
-                <h2 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+                <h2 className="font-display text-xl uppercase text-ink">
                   {section.heading}
                 </h2>
                 <div className="mt-2 space-y-2">

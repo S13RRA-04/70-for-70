@@ -52,12 +52,12 @@ export function RaceLogistics() {
   return (
     <div className="grid gap-4 lg:grid-cols-3">
       {LEG_CARDS.map((leg) => (
-        <div key={leg.label} className="rounded-sm border border-ink/10 bg-off-white p-6">
-          <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+        <div key={leg.label} className="rounded-xl border border-line bg-white p-6">
+          <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
             <leg.Icon size={14} className="text-bronze" aria-hidden />
             {leg.label}
           </p>
-          <p className="mt-2 font-display text-3xl font-bold text-ink">{leg.distance}</p>
+          <p className="mt-2 font-display text-4xl text-ink">{leg.distance}</p>
           <p className="mt-1 text-sm font-semibold text-bronze">{leg.headline}</p>
 
           <ul className="mt-3 flex flex-wrap gap-1.5">
@@ -76,7 +76,7 @@ export function RaceLogistics() {
           <dl className="mt-4 space-y-2 text-sm">
             {leg.facts.map((fact) => (
               <div key={fact.label} className="border-t border-ink/10 pt-2">
-                <dt className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">{fact.label}</dt>
+                <dt className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">{fact.label}</dt>
                 <dd className="font-semibold text-ink">{fact.value}</dd>
               </div>
             ))}

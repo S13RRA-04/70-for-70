@@ -21,7 +21,7 @@ export function PartnerLogoDisclosure({ partners }: { partners: MissionPartnerRo
   return (
     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
       {partners.map((partner) => (
-        <details key={partner.id} className="group rounded-sm border border-ink/10 bg-off-white open:bg-sand-light/50">
+        <details key={partner.id} className="group rounded-xl border border-line bg-white open:bg-sand-light/50">
           <summary className="flex cursor-pointer list-none items-center justify-center p-2 marker:content-none">
             <PartnerLogo
               name={partner.name}
@@ -33,8 +33,8 @@ export function PartnerLogoDisclosure({ partners }: { partners: MissionPartnerRo
             />
           </summary>
           <div className="space-y-1.5 border-t border-ink/10 p-4 text-sm">
-            <p className="font-display text-sm font-semibold uppercase tracking-wide text-ink">{partner.name}</p>
-            <p className="text-xs font-semibold uppercase tracking-widest text-bronze">{partner.relationship_label}</p>
+            <p className="font-display text-base uppercase text-ink">{partner.name}</p>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">{partner.relationship_label}</p>
             {partner.support_type && <p className="text-xs text-charcoal-light">{partner.support_type}</p>}
             <p className="text-xs leading-relaxed text-charcoal-light">{partner.description}</p>
             {partner.associated_campaigns && partner.associated_campaigns.length > 0 && (

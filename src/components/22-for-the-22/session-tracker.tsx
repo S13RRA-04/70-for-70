@@ -94,7 +94,7 @@ export function SessionTracker() {
   return (
     <div>
       <div className="flex flex-wrap items-baseline justify-between gap-3">
-        <p className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+        <p className="font-display text-2xl uppercase text-ink">
           {completedCount} OF {TOTAL_SESSIONS} COMPLETE
         </p>
         <p className="text-sm font-semibold uppercase tracking-wide text-charcoal-light">
@@ -118,7 +118,7 @@ export function SessionTracker() {
               aria-label={`Session ${session} of ${TOTAL_SESSIONS}, ${isDone ? "complete" : "not complete"}`}
               data-analytics-event="tracker_session_toggle"
               className={cn(
-                "flex min-h-[44px] items-center justify-center rounded-sm border font-display text-sm font-semibold tabular-nums transition-colors",
+                "flex min-h-[44px] items-center justify-center rounded-sm border font-display text-base tabular-nums transition-colors",
                 isDone
                   ? "border-bronze bg-bronze-text text-off-white"
                   : "border-ink/20 bg-off-white text-ink hover:border-bronze/50",
@@ -134,7 +134,7 @@ export function SessionTracker() {
 
       {reachedMilestone && (
         <div className="mt-6 rounded-sm border border-bronze/30 bg-bronze/10 p-5">
-          <p className="text-xs font-semibold uppercase tracking-widest text-bronze">Milestone Reached</p>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">Milestone Reached</p>
           <p className="mt-2 text-sm text-ink">{reachedMilestone.caption}</p>
           <div className="mt-3 flex flex-wrap items-center gap-3">
             <CopyButton

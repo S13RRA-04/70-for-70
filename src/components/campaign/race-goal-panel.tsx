@@ -1,7 +1,7 @@
 import type { GoalMetric } from "@/lib/content/race-goal";
 import { RACE_GOAL } from "@/lib/content/race-goal";
 
-const HEAD_CELL = "px-4 py-3 text-xs font-semibold uppercase tracking-widest text-charcoal-light";
+const HEAD_CELL = "px-4 py-3 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light";
 const BODY_CELL = "px-4 py-3 align-top";
 const ROW = "border-b border-ink/10 bg-off-white last:border-0";
 const DASH = "—";
@@ -33,15 +33,15 @@ const SPLIT_ROWS = [
 export function RaceGoalPanel() {
   return (
     <div className="rounded-sm border border-bronze/40 bg-bronze/10 p-8">
-      <p className="text-xs font-semibold uppercase tracking-widest text-bronze">{RACE_GOAL.ageGroup} Age Group</p>
-      <p className="mt-2 text-balance font-display text-4xl font-bold uppercase leading-none tracking-tight text-ink sm:text-5xl">
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">{RACE_GOAL.ageGroup} Age Group</p>
+      <p className="mt-2 text-balance font-display text-4xl uppercase leading-none text-ink sm:text-5xl">
         Podium.
         <br />
         {RACE_GOAL.ageGroup}.
       </p>
       <p className="mt-2 text-sm font-medium text-charcoal-light">{RACE_GOAL.placementLabel}</p>
-      <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-charcoal-light">Target Finish</p>
-      <p className="mt-1 font-display text-2xl font-bold text-bronze sm:text-3xl">{RACE_GOAL.targetFinish.podium}</p>
+      <p className="mt-4 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">Target Finish</p>
+      <p className="mt-1 font-display text-3xl text-bronze sm:text-4xl">{RACE_GOAL.targetFinish.podium}</p>
 
       <div className="mt-8 overflow-x-auto rounded-sm border border-ink/10">
         <table className="w-full min-w-[720px] border-collapse text-left text-sm">

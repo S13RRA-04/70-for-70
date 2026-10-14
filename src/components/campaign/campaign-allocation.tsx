@@ -19,8 +19,8 @@ export function CampaignAllocation({ breakdown }: { breakdown: AllocationBreakdo
   if (!breakdown || breakdown.byOrganization.length === 0) return null;
 
   return (
-    <div className="rounded-sm border border-ink/10 bg-off-white p-5">
-      <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+    <div className="rounded-xl border border-line bg-white p-5">
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
         How Donations Are Credited
       </p>
       <p className="mt-1 text-sm text-charcoal-light">{POLICY_LABELS[breakdown.policy]}</p>

@@ -30,7 +30,7 @@ export function ShareButtons({ url, title, className, analyticsEvent = "share_cl
   }
 
   const linkButtonClass =
-    "inline-flex min-h-[44px] items-center gap-1.5 rounded-sm border border-ink/20 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-ink hover:bg-ink/5";
+    "action-control inline-flex items-center justify-center font-bold min-h-[44px] gap-1.5 border-2 border-navy px-3 py-1.5 text-[15px] text-navy hover:bg-white";
 
   return (
     <div className={cn("flex flex-wrap items-center gap-2", className)}>

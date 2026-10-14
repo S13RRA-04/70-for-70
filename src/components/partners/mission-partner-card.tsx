@@ -71,7 +71,7 @@ export function MissionPartnerCard({
         )
       )}
 
-      <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-bronze">
+      <p className="mt-1 text-xs font-bold uppercase tracking-[0.2em] text-bronze">
         {partner.relationship_label}
       </p>
 

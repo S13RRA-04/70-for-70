@@ -14,13 +14,13 @@ export function GiveawayPrizeCard({ prize, partner }: { prize: GiveawayPrizeRow;
   const displayName = partner?.name ?? prize.brand;
 
   return (
-    <div className="flex flex-col rounded-sm border border-ink/10 bg-off-white p-6">
+    <div className="flex flex-col rounded-xl border border-line bg-white p-6">
       <div className="flex items-start justify-between gap-3">
-        <span className="inline-flex items-center rounded-full bg-bronze-text px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-off-white">
+        <span className="inline-flex items-center rounded-full bg-bronze-text px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-off-white">
           Confirmed Giveaway Supporter
         </span>
         {prize.featured && (
-          <span className="inline-flex items-center rounded-full border border-bronze/40 bg-bronze/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-bronze">
+          <span className="inline-flex items-center rounded-full border border-bronze/40 bg-bronze/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-bronze">
             Featured Prize
           </span>
         )}
@@ -49,25 +49,25 @@ export function GiveawayPrizeCard({ prize, partner }: { prize: GiveawayPrizeRow;
         />
       ) : null}
 
-      <h3 className="mt-4 font-display text-xl font-semibold uppercase tracking-wide text-ink">{displayName}</h3>
+      <h3 className="mt-4 font-display text-2xl uppercase text-ink">{displayName}</h3>
 
       <div className="mt-3 space-y-2 text-sm">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">Prize</p>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">Prize</p>
           <p className="mt-0.5 text-ink">
             {prize.quantity > 1 ? `${prize.quantity}× ${prize.prize_name}` : prize.prize_name}
           </p>
         </div>
         {(prize.retail_value_min !== null || prize.retail_value_max !== null) && (
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">Retail Value</p>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">Retail Value</p>
             <p className="mt-0.5 text-ink">
               Approximately {formatValueRange(prize.retail_value_min ?? prize.retail_value_max ?? 0, prize.retail_value_max ?? prize.retail_value_min ?? 0)}
             </p>
           </div>
         )}
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">Winner Count</p>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">Winner Count</p>
           <p className="mt-0.5 text-ink">{prize.winner_count}</p>
         </div>
         <p className={prize.status === "received" ? "font-medium text-olive" : "text-charcoal-light"}>

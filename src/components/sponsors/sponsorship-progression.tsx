@@ -59,11 +59,11 @@ export function SponsorshipProgression() {
 
         {/* Presenting Partner — the premium destination step */}
         <div className="flex flex-col rounded-sm border-2 border-bronze bg-ink p-6 text-off-white lg:flex-1">
-          <p className="font-display text-lg font-bold uppercase tracking-wide text-off-white">
+          <p className="font-display text-xl uppercase text-off-white">
             {presenting.name}
           </p>
           <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-bronze-light">{presenting.range}</p>
-          <p className="mt-3 font-display text-sm font-bold uppercase tracking-wide text-bronze-light">
+          <p className="mt-3 font-display text-base uppercase text-bronze-light">
             Go All the Way to Chattanooga.
           </p>
 
@@ -90,8 +90,8 @@ export function SponsorshipProgression() {
 
         {/* Endpoint */}
         <div className="flex flex-col items-center justify-center rounded-sm border-2 border-dashed border-bronze/60 bg-bronze/5 p-6 text-center lg:w-52 lg:shrink-0">
-          <p className="font-display text-lg font-bold uppercase tracking-wide text-ink">Chattanooga</p>
-          <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-bronze">70.3</p>
+          <p className="font-display text-xl uppercase text-ink">Chattanooga</p>
+          <p className="mt-1 text-xs font-bold uppercase tracking-[0.2em] text-bronze">70.3</p>
         </div>
       </div>
     </div>

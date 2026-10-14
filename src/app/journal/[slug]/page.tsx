@@ -117,11 +117,11 @@ export default async function JournalEntryPage(props: PageProps<"/journal/[slug]
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(entryJsonLd(entry))} />
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(entryBreadcrumbJsonLd(entry))} />
       <Container className="max-w-3xl">
-        <Link href="/journal" className="text-xs font-semibold uppercase tracking-widest text-charcoal-light hover:text-ink">
+        <Link href="/journal" className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light hover:text-ink">
           The Journal / {entry.primary_category}
         </Link>
 
-        <div className="mt-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-bronze">
+        <div className="mt-3 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-bronze">
           <span>{entry.primary_category}</span>
           {entry.published_at && (
             <>
@@ -133,7 +133,7 @@ export default async function JournalEntryPage(props: PageProps<"/journal/[slug]
           <span>{estimateReadingMinutes(entry.body)} min read</span>
         </div>
 
-        <h1 className="mt-3 text-balance font-display text-3xl font-semibold uppercase tracking-tight text-ink sm:text-4xl">
+        <h1 className="mt-3 text-balance font-display text-4xl uppercase text-ink sm:text-4xl">
           {entry.title}
         </h1>
 
@@ -177,7 +177,7 @@ export default async function JournalEntryPage(props: PageProps<"/journal/[slug]
         <PartnerMentionsFooter partnerMentions={entry.partnerMentions} beneficiaryMentions={entry.beneficiaryMentions} />
 
         <div className="mt-10 border-t border-ink/10 pt-6">
-          <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-charcoal-light">Share This Entry</p>
+          <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">Share This Entry</p>
           <ShareButtons url={`${CAMPAIGN_URL}/journal/${entry.slug}`} title={`${entry.title} | Tri For The 22`} />
         </div>
 
@@ -198,7 +198,7 @@ export default async function JournalEntryPage(props: PageProps<"/journal/[slug]
             {adjacent.prev && (
               <Link
                 href={`/journal/${adjacent.prev.slug}`}
-                className="hover-lift group flex items-center gap-4 rounded-sm border border-ink/10 bg-off-white p-4"
+                className="hover-lift group flex items-center gap-4 rounded-xl border border-line bg-white p-4"
               >
                 <div className="relative aspect-[4/3] w-20 shrink-0 overflow-hidden rounded-sm bg-sand-light">
                   {adjacent.prev.image_url ? (
@@ -214,10 +214,10 @@ export default async function JournalEntryPage(props: PageProps<"/journal/[slug]
                   )}
                 </div>
                 <div className="min-w-0">
-                  <span className="text-xs font-semibold uppercase tracking-widest text-bronze">
+                  <span className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">
                     &larr; Previous Update
                   </span>
-                  <p className="mt-1 truncate font-display font-semibold text-ink group-hover:text-bronze">
+                  <p className="mt-1 truncate font-display text-ink group-hover:text-bronze">
                     {adjacent.prev.title}
                   </p>
                 </div>
@@ -226,7 +226,7 @@ export default async function JournalEntryPage(props: PageProps<"/journal/[slug]
             {adjacent.next && (
               <Link
                 href={`/journal/${adjacent.next.slug}`}
-                className="hover-lift group flex items-center gap-4 rounded-sm border border-ink/10 bg-off-white p-4 text-right sm:flex-row-reverse"
+                className="hover-lift group flex items-center gap-4 rounded-xl border border-line bg-white p-4 text-right sm:flex-row-reverse"
               >
                 <div className="relative aspect-[4/3] w-20 shrink-0 overflow-hidden rounded-sm bg-sand-light">
                   {adjacent.next.image_url ? (
@@ -242,10 +242,10 @@ export default async function JournalEntryPage(props: PageProps<"/journal/[slug]
                   )}
                 </div>
                 <div className="min-w-0">
-                  <span className="text-xs font-semibold uppercase tracking-widest text-bronze">
+                  <span className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">
                     Next Update &rarr;
                   </span>
-                  <p className="mt-1 truncate font-display font-semibold text-ink group-hover:text-bronze">
+                  <p className="mt-1 truncate font-display text-ink group-hover:text-bronze">
                     {adjacent.next.title}
                   </p>
                 </div>

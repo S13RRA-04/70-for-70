@@ -133,13 +133,13 @@ export default async function RacePage() {
       {/* 1. THE RACE — cinematic hero, event identity */}
       <RaceHero />
 
-      <section id="overview" className="scroll-mt-24 border-b border-ink/10 bg-sand-light py-12 sm:py-16">
+      <section id="overview" className="scroll-mt-28 border-b border-ink/10 bg-sand-light py-12 sm:py-16">
         <Container>
           {/* Light eyebrow, not a full SectionHeading — this strip is a
               compressed restatement of data shown elsewhere on the page
               (see RaceAtAGlance's own doc comment), not its own editorial
               section. It previously had no framing at all. */}
-          <p className="mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-bronze-text">
+          <p className="mb-5 text-xs font-bold uppercase tracking-[0.2em] text-bronze-text">
             Race at a Glance
           </p>
           <RaceAtAGlance />
@@ -166,7 +166,7 @@ export default async function RacePage() {
           <CampaignPhaseBanner phase={phase} />
 
           {/* 2. THE GOAL */}
-          <div id="goal" className="mt-8 scroll-mt-24">
+          <div id="goal" className="mt-8 scroll-mt-28">
             <SectionHeading eyebrow="The Goal" title="What Does a Podium Take?" />
             <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
               Not just a finish — a placement goal, backed by what recent-year age-group podium finishers at this
@@ -189,7 +189,7 @@ export default async function RacePage() {
           </div>
 
           {/* 4. THE COURSE */}
-          <div id="course" className="mt-16 scroll-mt-24">
+          <div id="course" className="mt-16 scroll-mt-28">
             <SectionHeading eyebrow="Race Day" title="The Course" />
             <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
               What race day actually looks like — course details and cutoff times for each leg.
@@ -207,7 +207,7 @@ export default async function RacePage() {
           </div>
 
           {/* 5. THE PLAN */}
-          <div id="road-to-chattanooga" className="mt-16 scroll-mt-24">
+          <div id="road-to-chattanooga" className="mt-16 scroll-mt-28">
             <SectionHeading eyebrow="The Plan" title="Road to Chattanooga" />
             <div className="mt-6">
               <TrainingTimeline currentIndex={getCurrentTrainingPhaseIndex()} raceDateLabel={raceDateLabel} />
@@ -220,12 +220,12 @@ export default async function RacePage() {
                     <a
                       key={entry.id}
                       href={`/journal/${entry.slug}`}
-                      className="hover-lift block rounded-sm border border-ink/10 bg-off-white p-5 transition-colors hover:border-bronze"
+                      className="hover-lift block rounded-xl border border-line bg-white p-5 transition-colors hover:border-bronze"
                     >
-                    <p className="text-xs font-semibold uppercase tracking-widest text-bronze">
+                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">
                       {entry.primary_category}
                     </p>
-                    <p className="mt-1 font-display text-sm font-semibold uppercase tracking-wide text-ink">
+                    <p className="mt-1 font-display text-base uppercase text-ink">
                       {entry.title}
                     </p>
                     <p className="mt-1 text-sm text-charcoal-light">{entry.summary}</p>
@@ -237,7 +237,7 @@ export default async function RacePage() {
           </div>
 
           {/* Current Training Status — a snapshot, with the full training dashboard behind a disclosure */}
-          <div id="training-status" className="mt-16 scroll-mt-24">
+          <div id="training-status" className="mt-16 scroll-mt-28">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <SectionHeading eyebrow="Right Now" title="Current Training Status" />
               {/* DIAGNOSTIC-TEMP-DISABLED <StravaFollowBadge /> */}
@@ -253,7 +253,7 @@ export default async function RacePage() {
 
               <div className="mt-8 space-y-16">
                 <div>
-                  <h3 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+                  <h3 className="font-display text-xl uppercase text-ink">
                     Performance Trends
                   </h3>
                   <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
@@ -268,7 +268,7 @@ export default async function RacePage() {
                 </div>
 
                 <div>
-                  <h3 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+                  <h3 className="font-display text-xl uppercase text-ink">
                     Benchmarks
                   </h3>
                   <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
@@ -284,7 +284,7 @@ export default async function RacePage() {
                 </div>
 
                 <div>
-                  <h3 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+                  <h3 className="font-display text-xl uppercase text-ink">
                     Today&apos;s Recovery
                   </h3>
                   <div className="mt-6">
@@ -294,43 +294,43 @@ export default async function RacePage() {
 
                 {hasTrainingVolume && (
                   <div>
-                    <h3 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+                    <h3 className="font-display text-xl uppercase text-ink">
                       Road to 70.3
                     </h3>
                     <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
                       {trainingStats.swimSessions !== null && (
-                        <div className="rounded-sm border border-ink/10 bg-off-white p-4 text-center">
-                          <p className="font-display text-2xl font-semibold text-ink">{trainingStats.swimSessions}</p>
+                        <div className="rounded-xl border border-line bg-white p-4 text-center">
+                          <p className="font-display text-3xl text-ink">{trainingStats.swimSessions}</p>
                           <p className="text-xs text-charcoal-light">Swim Sessions</p>
                         </div>
                       )}
                       {trainingStats.bikeMiles !== null && (
-                        <div className="rounded-sm border border-ink/10 bg-off-white p-4 text-center">
-                          <p className="font-display text-2xl font-semibold text-ink">{trainingStats.bikeMiles}</p>
+                        <div className="rounded-xl border border-line bg-white p-4 text-center">
+                          <p className="font-display text-3xl text-ink">{trainingStats.bikeMiles}</p>
                           <p className="text-xs text-charcoal-light">Miles Ridden</p>
                         </div>
                       )}
                       {trainingStats.runMiles !== null && (
-                        <div className="rounded-sm border border-ink/10 bg-off-white p-4 text-center">
-                          <p className="font-display text-2xl font-semibold text-ink">{trainingStats.runMiles}</p>
+                        <div className="rounded-xl border border-line bg-white p-4 text-center">
+                          <p className="font-display text-3xl text-ink">{trainingStats.runMiles}</p>
                           <p className="text-xs text-charcoal-light">Miles Run</p>
                         </div>
                       )}
                       {trainingStats.totalHours !== null && (
-                        <div className="rounded-sm border border-ink/10 bg-off-white p-4 text-center">
-                          <p className="font-display text-2xl font-semibold text-ink">{trainingStats.totalHours}</p>
+                        <div className="rounded-xl border border-line bg-white p-4 text-center">
+                          <p className="font-display text-3xl text-ink">{trainingStats.totalHours}</p>
                           <p className="text-xs text-charcoal-light">Total Training Hours</p>
                         </div>
                       )}
                       {trainingStats.weeksCompleted !== null && (
-                        <div className="rounded-sm border border-ink/10 bg-off-white p-4 text-center">
-                          <p className="font-display text-2xl font-semibold text-ink">{trainingStats.weeksCompleted}</p>
+                        <div className="rounded-xl border border-line bg-white p-4 text-center">
+                          <p className="font-display text-3xl text-ink">{trainingStats.weeksCompleted}</p>
                           <p className="text-xs text-charcoal-light">Weeks Completed</p>
                         </div>
                       )}
                       {trainingStats.weeksRemaining !== null && (
                         <div className="rounded-sm border border-bronze/40 bg-bronze/10 p-4 text-center">
-                          <p className="font-display text-2xl font-semibold text-ink">{trainingStats.weeksRemaining}</p>
+                          <p className="font-display text-3xl text-ink">{trainingStats.weeksRemaining}</p>
                           <p className="text-xs text-bronze">Weeks to Race</p>
                         </div>
                       )}
@@ -339,8 +339,8 @@ export default async function RacePage() {
                 )}
 
                 {milestoneEntries.length > 0 && (
-                  <div className="max-w-xl rounded-sm border border-ink/10 bg-off-white p-8">
-                    <h3 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+                  <div className="max-w-xl rounded-xl border border-line bg-white p-8">
+                    <h3 className="font-display text-xl uppercase text-ink">
                       Training Milestones
                     </h3>
                     <ul className="mt-4 space-y-3">
@@ -363,7 +363,7 @@ export default async function RacePage() {
           </div>
 
           {/* 6. THE DATA — historical results, deepest content, comes last */}
-          <div id="competition" className="mt-16 scroll-mt-24">
+          <div id="competition" className="mt-16 scroll-mt-28">
             <SectionHeading eyebrow="The Competition" title="Times to Beat" />
             <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
               M35–39 age-group results at IRONMAN 70.3 Chattanooga, 2022–2026 — the real numbers behind the goal
@@ -375,7 +375,7 @@ export default async function RacePage() {
           </div>
 
           {/* Equipment — compact teasers only; the full stories live in the Journal. */}
-          <div id="equipment" className="mt-16 scroll-mt-24">
+          <div id="equipment" className="mt-16 scroll-mt-28">
             <SectionHeading eyebrow="The Equipment" title="Building the Bike, Dialing In the Gear" />
             <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
               Cycling is the newest discipline here, and it started without a bike at all. The full stories of

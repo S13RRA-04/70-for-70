@@ -155,7 +155,7 @@ export function ExternalDonateButton({
         <div className="p-6">
           <h3
             id="donate-confirm-heading"
-            className="font-display text-lg font-semibold uppercase tracking-wide"
+            className="font-display text-xl uppercase"
           >
             Leaving This Site
           </h3>
@@ -182,7 +182,7 @@ export function ExternalDonateButton({
             <button
               type="button"
               onClick={() => dialogRef.current?.close()}
-              className="rounded-sm border border-ink/20 px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
+              className="action-control inline-flex items-center justify-center font-bold border-2 border-navy px-5 py-2.5 text-[15px] text-navy hover:bg-white"
             >
               Cancel
             </button>
@@ -209,7 +209,7 @@ export function ExternalDonateButton({
               <HoneypotField id={honeypotId} />
               <h3
                 id="donate-report-heading"
-                className="font-display text-lg font-semibold uppercase tracking-wide"
+                className="font-display text-xl uppercase"
               >
                 Welcome Back
               </h3>
@@ -306,7 +306,7 @@ export function ExternalDonateButton({
                 <button
                   type="button"
                   onClick={closeReportDialog}
-                  className="rounded-sm border border-ink/20 px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
+                  className="action-control inline-flex items-center justify-center font-bold border-2 border-navy px-5 py-2.5 text-[15px] text-navy hover:bg-white"
                 >
                   Skip
                 </button>

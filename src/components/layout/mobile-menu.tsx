@@ -268,7 +268,7 @@ export function MobileMenu({ open, onClose, navLinks, pathname, campaignSlug, tr
 function ParentInitiativeGroup({ link }: { link: NavLink }) {
   return (
     <div className="mt-5 border-t border-ink/10 pt-5">
-      <p className="px-3 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+      <p className="px-3 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
         Parent Initiative
       </p>
       <a
@@ -294,7 +294,7 @@ function MobileNavGroup({
 }) {
   return (
     <div className={className}>
-      <p className="px-3 text-xs font-semibold uppercase tracking-widest text-charcoal-light">{label}</p>
+      <p className="px-3 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">{label}</p>
       <ul className="mt-2 flex flex-col gap-1">
         {links.map((link) => (
           <li key={link.href}>

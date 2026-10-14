@@ -34,7 +34,7 @@ export function MissionPanel({
       <span
         aria-hidden="true"
         className={cn(
-          "font-display font-semibold",
+          "font-display",
           featured ? "text-lg text-bronze-light" : "text-sm text-bronze",
         )}
       >
@@ -42,7 +42,7 @@ export function MissionPanel({
       </span>
       <h3
         className={cn(
-          "font-display font-bold uppercase tracking-tight",
+          "font-display uppercase",
           featured ? "mt-5 text-4xl sm:text-6xl" : "mt-3 text-xl sm:text-2xl",
           featured ? "text-off-white" : "text-ink",
         )}

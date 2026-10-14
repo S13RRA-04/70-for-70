@@ -41,7 +41,7 @@ export function DonationTrackingNote({
   return (
     <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-sm border border-bronze/40 bg-bronze/10 px-4 py-3">
       <div>
-        <p className="text-xs font-semibold uppercase tracking-widest text-bronze">
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">
           Add This Note To Your Gift
         </p>
         <p className="mt-0.5 text-sm text-charcoal-light">
@@ -53,7 +53,7 @@ export function DonationTrackingNote({
         type="button"
         onClick={handleCopy}
         className={cn(
-          "inline-flex shrink-0 items-center gap-1.5 rounded-sm border border-ink/20 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-ink transition-colors hover:bg-ink/5",
+          "action-control inline-flex items-center justify-center font-bold shrink-0 gap-1.5 border-2 border-navy px-3 py-1.5 text-[15px] text-navy transition-colors hover:bg-white",
         )}
       >
         {copied ? <Check size={13} aria-hidden /> : <Copy size={13} aria-hidden />}

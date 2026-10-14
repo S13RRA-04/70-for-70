@@ -12,9 +12,9 @@ export function MilestoneHeadline({ entry }: { entry: JournalEntryRow }) {
   return (
     <div className="mt-8 rounded-sm border border-bronze/30 bg-bronze/10 px-6 py-8 text-center">
       {entry.milestone_kind && (
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze">{KIND_LABELS[entry.milestone_kind]}</p>
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">{KIND_LABELS[entry.milestone_kind]}</p>
       )}
-      <p className="mt-2 text-balance font-display text-4xl font-semibold uppercase tracking-tight text-ink sm:text-5xl">
+      <p className="mt-2 text-balance font-display text-4xl uppercase text-ink sm:text-5xl">
         {entry.milestone_value}
       </p>
     </div>

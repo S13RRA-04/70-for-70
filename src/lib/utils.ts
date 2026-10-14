@@ -1,5 +1,19 @@
 import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { extendTailwindMerge } from "tailwind-merge";
+
+/**
+ * tailwind-merge only knows Tailwind's default font sizes, so it reads the
+ * custom type scale from globals.css (text-section, text-hero, …) as a text
+ * COLOR — and silently drops it whenever a real color class follows in the
+ * same cn() call. Registering the scale keeps size and color independent.
+ */
+const twMerge = extendTailwindMerge({
+  extend: {
+    theme: {
+      text: ["hero-sm", "hero", "hero-lg", "display", "section", "subsection"],
+    },
+  },
+});
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

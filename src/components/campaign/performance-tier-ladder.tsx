@@ -18,7 +18,7 @@ export function PerformanceTierLadder() {
             className={`rounded-sm p-6 ${
               isPodium
                 ? "border-2 border-bronze bg-bronze/10"
-                : "border border-ink/10 bg-off-white"
+                : "rounded-xl border border-line bg-white"
             }`}
           >
             <p

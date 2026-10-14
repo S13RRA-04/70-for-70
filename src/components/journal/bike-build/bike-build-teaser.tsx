@@ -17,10 +17,10 @@ export function BikeBuildTeaser({ teaser, className }: { teaser: BikeBuildTeaser
         className,
       )}
     >
-      <p className="text-xs font-semibold uppercase tracking-widest text-bronze">
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">
         Latest Bike-Build Update &middot; {teaser.displayDate}
       </p>
-      <p className="mt-1 font-display text-lg font-semibold uppercase tracking-wide text-ink">{teaser.title}</p>
+      <p className="mt-1 font-display text-xl uppercase text-ink">{teaser.title}</p>
       <p className="mt-1 text-sm text-charcoal-light">{teaser.summary}</p>
       <span className="mt-2 inline-block text-xs font-semibold uppercase tracking-wide text-bronze">
         Read the Full Story &rarr;

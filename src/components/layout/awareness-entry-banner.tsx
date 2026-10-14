@@ -37,7 +37,7 @@ export function AwarenessEntryBanner() {
         {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- intentional, see comment above */}
         <a
           href={`/awareness/${active.slug}`}
-          className="text-xs font-semibold uppercase tracking-widest text-off-white underline decoration-2 decoration-bronze underline-offset-4 hover:text-off-white/80 sm:text-sm"
+          className="text-xs font-bold uppercase tracking-[0.2em] text-off-white underline decoration-2 decoration-bronze underline-offset-4 hover:text-off-white/80 sm:text-sm"
         >
           Learn More
         </a>

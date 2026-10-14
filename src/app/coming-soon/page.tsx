@@ -47,16 +47,16 @@ export default async function ComingSoonPage(props: PageProps<"/coming-soon">) {
         <Image src="/campaign-logo-white.png" alt="" aria-hidden="true" width={64} height={64} priority />
         {/* Oversized splash-screen hero, same reason the homepage hero bypasses
             SectionHeading too — its fixed text-3xl/4xl scale would shrink this. */}
-        <p className="mt-6 text-xs font-semibold uppercase tracking-[0.25em] text-bronze-light">
+        <p className="mt-6 text-xs font-bold uppercase tracking-[0.2em] text-bronze-light">
           {SITE_NAME} &middot; Current Campaign
         </p>
-        <h1 className="mt-3 text-balance font-display text-4xl font-bold uppercase leading-[0.95] tracking-tight sm:text-6xl">
+        <h1 className="mt-3 text-balance font-display text-4xl uppercase leading-[0.95] sm:text-6xl">
           {CAMPAIGN_NAME}
         </h1>
-        <p className="mt-4 font-display text-lg font-semibold uppercase tracking-tight text-off-white/90 sm:text-xl">
+        <p className="mt-4 font-display text-xl uppercase text-off-white/90 sm:text-2xl">
           {RACE_TOTAL_DISTANCE} Miles. {formatCurrency(FUNDRAISING_GOAL)}. One Mission.
         </p>
-        <p className="mt-5 max-w-md text-sm font-semibold uppercase tracking-widest text-bronze-light">
+        <p className="mt-5 max-w-md text-sm font-bold uppercase tracking-[0.2em] text-bronze-light">
           Campaign Launch Coming Soon
         </p>
 
@@ -75,7 +75,7 @@ export default async function ComingSoonPage(props: PageProps<"/coming-soon">) {
 
         {CONTACT_EMAIL && (
           <div className="mt-10">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-off-white/60">
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-off-white/60">
               Follow the Road to {RACE_TOTAL_DISTANCE}
             </p>
             <EmailSignupForm tone="dark" />

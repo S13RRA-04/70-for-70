@@ -1,56 +1,79 @@
 @import "tailwindcss";
 
 :root {
-  --color-ink: #15150f;
-  --color-charcoal: #232620;
-  --color-charcoal-light: #2f322a;
-  --color-olive: #454f37;
-  --color-olive-dark: #313823;
-  --color-sand: #d8cdac;
-  --color-sand-light: #ece5d3;
-  --color-off-white: #f6f3ea;
-  --color-bronze: #a97a4c;
-  --color-bronze-light: #c99a6c;
+  /*
+   * Brand palette — "Steady Ground · Brand Edition" (design D). Every color
+   * comes from the ring mark, and each does ONE job on the page:
+   *
+   *   navy    #121E3D  primary: buttons, headings, mission band, footer
+   *   olive   #4B5521  endurance: campaigns, events, rucks, races
+   *   help    #0A6AA6  awareness: crisis bar, 988, resource finder ONLY —
+   *                    so "blue" always means help
+   *   gold    #F5D000  community/progress: the $70K bar and small
+   *                    highlights, on navy only (never text on paper)
+   *   purpose #C8162B  accent only: the ≠ mark, the word Purpose. Never
+   *                    buttons or backgrounds — red at scale reads as alarm
+   *   jet     #111111  remembrance: the "Because 22 ≠ 0" band, once
+   *
+   *   impact  #17734A  impact pillar: raised totals, the $70K bar,
+   *                    beneficiary outcomes
+   *
+   * Rough proportion: paper 60 · navy 16 · olive 9 · help 6 · jet 4 ·
+   * impact 3 · gold 2 · purpose 1. Steel/silver live in the ring + stripe.
+   */
+  --color-paper: #f4f2ec;
+  --color-navy: #121e3d;
+  --color-navy-hover: #1e2e57;
+  --color-navy-rule: #22325e;
+  --color-help: #0a6aa6;
+  --color-help-dark: #08578a;
+  --color-impact: #17734a;
+  --color-impact-tint: #e6ede8;
+  --color-gold: #f5d000;
+  --color-purpose: #c8162b;
+  --color-jet: #111111;
+  --color-steel: #3a4f6b;
+  --color-line: #dedad0;
+  --color-mist: #c3c9d6;
+  --color-muted: #4a4d52;
+  --color-copy: #3e4247;
 
   /*
-   * The bronze scale has FOUR steps, and which one is correct depends entirely
-   * on the surface behind it. Getting this wrong is invisible in code review
-   * and fails WCAG AA, so the roles are spelled out here.
-   *
-   * Note the asymmetry: TEXT wants the DARK end of the scale on light
-   * surfaces, but FILLS want the LIGHT end on dark surfaces. A single fill
-   * token cannot serve both, which is why CTAButton, EmailSignupForm and
-   * CampaignPhaseBanner take a `tone` prop instead of hardcoding one fill.
-   *
-   *   bronze       #a97a4c  FILLS + decoration on DARK surfaces, and text on
-   *                          ink/charcoal (4.86:1). On light surfaces use it
-   *                          for border-bronze rules and bg-bronze/10 chips
-   *                          only — off-white text on it is 3.39:1, which
-   *                          passes the 3:1 large-text bar and FAILS 4.5:1.
-   *   bronze-light #c99a6c  TEXT on ink/charcoal/anchor only (7.26:1). It is
-   *                          LIGHTER than bronze, so on off-white it drops to
-   *                          2.27:1 — it must never appear on a light surface.
-   *   bronze-text  #744d24  TEXT and FILLS on the light surfaces
-   *                          (off-white 6.69:1, sand-light 5.91:1,
-   *                          sand 4.68:1). This is the default button fill
-   *                          wherever the page is light.
-   *   bronze-dark  #5a3a1a  hover/active on a light surface. Hover must go
-   *                          DARKER, never lighter: bronze-light on hover is
-   *                          the inverted-hover bug, and it was the single
-   *                          most replicated defect on the site.
-   *
-   * bronze-text is 2.47:1 against ink, so a darkened fill placed on a DARK
-   * band drops below the 3:1 UI-boundary bar and the button disappears. Dark
-   * surfaces therefore keep `bg-bronze` and switch the LABEL to `text-ink`
-   * (4.86:1) and the hover to `hover:bg-bronze-light`. Light surfaces use
-   * `bg-bronze-text` with `text-off-white` and `hover:bg-bronze-dark`.
-   *
-   * bronze and bronze-light are deliberately NOT changed — ~380 text-bronze
-   * and ~100 bg-bronze call sites depend on their current values, and
-   * darkening bronze in place would break the dark bands that use it.
+   * Legacy token names, remapped onto the brand palette so the ~4,000
+   * existing call sites re-theme without being touched. New code should
+   * prefer the semantic names above.
+   *   ink -> navy (dark bands + heading text), charcoal -> navy-hover,
+   *   charcoal-light -> muted body gray, sand/sand-light -> warm neutrals,
+   *   off-white -> paper.
    */
-  --color-bronze-text: #744d24;
-  --color-bronze-dark: #5a3a1a;
+  --color-ink: var(--color-navy);
+  --color-charcoal: var(--color-navy-hover);
+  --color-charcoal-light: var(--color-muted);
+  --color-olive: #4b5521;
+  --color-olive-dark: #3a421a;
+  --color-sand: var(--color-line);
+  /* Muted bands are white with hairline borders, per the mockup. */
+  --color-sand-light: #ffffff;
+  --color-off-white: var(--color-paper);
+
+  /*
+   * The legacy "bronze" accent is CONTEXT-AWARE. `text-bronze` is used both
+   * on paper and inside dark bands, and no single hue reads at 4.5:1 on both
+   * #f4f2ec and #121e3d. So the light-surface values live here, and the
+   * dark-surface block further down (.bg-ink, .property-footer-shell, …)
+   * re-points the same variables at gold for everything inside that band.
+   * This works because @theme inline compiles `text-bronze` to
+   * `color: var(--color-bronze)`, resolved at the element, not at :root.
+   *
+   *   bronze        accent text/rules/chips   paper: steel   dark: gold
+   *   bronze-light  text on dark only          gold
+   *   bronze-text   fills + text on paper      navy (the primary button)
+   *   bronze-dark   hover on paper             navy-hover
+   */
+  --color-bronze: var(--color-steel);
+  --color-bronze-light: var(--color-gold);
+  --color-bronze-text: var(--color-navy);
+  --color-bronze-dark: var(--color-navy-hover);
 
   /*
    * Foundation-rebuild tokens (additive). The ink/charcoal/olive/sand/bronze
@@ -74,15 +97,11 @@
    * Crisis/emergency CTA fill only (CTAButton's accent="emergency") — a
    * single reserved color so "Need Help Now" reads as a distinct, recognized
    * signal instead of competing with the bronze primary CTA or reusing the
-   * anchor-black secondary treatment. Deliberately a muted brick/rust, not a
-   * saturated alert red, to stay on-brand (see the spec's "avoid generic
-   * red/white/blue patriotism" direction) while still reading as reserved.
-   * off-white text on signal is 6.87:1 (verified); signal-dark is the
-   * hover/active state, darker per the same "hover must go darker" rule as
-   * the bronze scale above.
+   * anchor-black secondary treatment. Under the brand palette this is the
+   * help blue — "blue always means help". White on help is 5.6:1.
    */
-  --color-signal: #8c3a2b;
-  --color-signal-dark: #6e2d22;
+  --color-signal: var(--color-help);
+  --color-signal-dark: var(--color-help-dark);
 
   /*
    * National Suicide Prevention Month (September) identification accents —
@@ -102,7 +121,7 @@
   --color-awareness-navy: #2b2d70;
 
   --background: var(--color-off-white);
-  --foreground: var(--color-ink);
+  --foreground: var(--color-jet);
 
   /*
    * Shared motion-timing system — three tiers, one shared easing curve.
@@ -143,24 +162,24 @@
    * breakpoints remain the only responsive system; xs is the one additive
    * step for compact controls and 2xl is pinned explicitly for consistency.
    */
-  --text-display: clamp(2.25rem, 6vw, 4.5rem);
-  --text-section: clamp(1.875rem, 4vw, 3rem);
+  --text-display: clamp(2.75rem, 6vw, 5rem);
+  --text-section: clamp(2rem, 4.5vw, 3.5rem);
   --text-subsection: clamp(1.25rem, 2.5vw, 1.75rem);
   --space-section: clamp(3.5rem, 7vw, 6rem);
   --space-section-tight: clamp(2.5rem, 5vw, 4rem);
   --space-stack: clamp(1.25rem, 3vw, 2rem);
   --space-card: clamp(1.25rem, 2.5vw, 2rem);
-  --radius-control: 0.125rem;
-  --radius-card: 0.125rem;
+  --radius-control: 0.5rem;
+  --radius-card: 0.75rem;
   --control-height: 2.75rem;
-  --border-subtle: color-mix(in srgb, var(--color-ink) 12%, transparent);
+  --border-subtle: var(--color-line);
 
-  /* Default property flavor: For The 22 — institutional/editorial. */
-  --property-accent: var(--color-bronze);
-  --property-accent-readable: var(--color-bronze-text);
-  --property-accent-light: var(--color-bronze-light);
-  --property-action: var(--color-bronze-text);
-  --property-action-hover: var(--color-bronze-dark);
+  /* Default property flavor: For The 22 — navy primary, steel accents. */
+  --property-accent: var(--color-steel);
+  --property-accent-readable: var(--color-steel);
+  --property-accent-light: var(--color-gold);
+  --property-action: var(--color-navy);
+  --property-action-hover: var(--color-navy-hover);
   --property-action-text: var(--color-off-white);
   --property-surface: var(--color-off-white);
   --property-surface-muted: var(--color-sand-light);
@@ -168,28 +187,49 @@
 }
 
 /* One system, four flavors. Components consume semantic property variables. */
-html[data-property="tri"] {
-  --property-surface-muted: #eee7d8;
+/* Campaign hosts are endurance-coded: olive accent instead of steel. */
+html[data-property="tri"],
+html[data-property="ruck"],
+html[data-property="22"] {
+  --color-bronze: var(--color-olive);
+  --property-accent: var(--color-olive);
+  --property-accent-readable: var(--color-olive);
 }
 
 html[data-property="ruck"] {
-  --property-accent: var(--color-olive);
-  --property-accent-readable: var(--color-olive-dark);
-  --property-accent-light: var(--color-sand);
   --property-action: var(--color-olive);
   --property-action-hover: var(--color-olive-dark);
-  --property-action-text: var(--color-off-white);
-  --property-surface-muted: var(--color-sand-light);
 }
 
 html[data-property="live"] {
   --property-surface: var(--color-ink);
   --property-surface-muted: var(--color-charcoal);
-  --property-dark: #0d0d0b;
+  --property-dark: var(--color-jet);
 }
 
-html[data-property="22"] {
-  --property-surface-muted: #eee8da;
+/*
+ * Dark-band context (see the bronze note in :root). Anything painted with a
+ * dark fill re-points the legacy accent at gold for its descendants, and
+ * light surfaces nested inside a dark band point it back. Custom properties
+ * inherit, so this needs no per-call-site changes.
+ */
+.bg-ink, .bg-charcoal, .bg-navy, .bg-jet, .bg-anchor, .bg-olive, .bg-olive-dark,
+.bg-property-dark, .property-footer-shell,
+[class~="bg-ink/95"], [class~="bg-ink/90"], [class~="bg-ink/80"] {
+  --color-bronze: var(--color-gold);
+  --color-bronze-text: var(--color-gold);
+  --color-bronze-dark: #ffe45c;
+}
+
+.bg-off-white, .bg-sand-light, .bg-sand, .bg-paper, .bg-white, .ui-card {
+  --color-bronze: var(--color-steel);
+  --color-bronze-text: var(--color-navy);
+  --color-bronze-dark: var(--color-navy-hover);
+}
+
+html:is([data-property="tri"], [data-property="ruck"], [data-property="22"])
+  :is(.bg-off-white, .bg-sand-light, .bg-sand, .bg-paper, .bg-white, .ui-card) {
+  --color-bronze: var(--color-olive);
 }
 
 @theme inline {
@@ -216,6 +256,23 @@ html[data-property="22"] {
   --color-signal: var(--color-signal);
   --color-signal-dark: var(--color-signal-dark);
 
+  --color-paper: var(--color-paper);
+  --color-navy: var(--color-navy);
+  --color-navy-hover: var(--color-navy-hover);
+  --color-navy-rule: var(--color-navy-rule);
+  --color-help: var(--color-help);
+  --color-help-dark: var(--color-help-dark);
+  --color-impact: var(--color-impact);
+  --color-impact-tint: var(--color-impact-tint);
+  --color-gold: var(--color-gold);
+  --color-purpose: var(--color-purpose);
+  --color-jet: var(--color-jet);
+  --color-steel: var(--color-steel);
+  --color-line: var(--color-line);
+  --color-mist: var(--color-mist);
+  --color-muted: var(--color-muted);
+  --color-copy: var(--color-copy);
+
   --color-awareness-teal: var(--color-awareness-teal);
   --color-awareness-purple: var(--color-awareness-purple);
   --color-awareness-navy: var(--color-awareness-navy);
@@ -223,8 +280,13 @@ html[data-property="22"] {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
-  --font-display: var(--font-oswald);
-  --font-sans: var(--font-inter);
+  --font-display: var(--font-anton);
+  --font-sans: var(--font-public-sans);
+
+  /* Brand radii: 8px controls, 12px cards. rounded-sm is the site-wide
+     default (600+ call sites), so it carries the control radius. */
+  --radius-sm: 0.5rem;
+  --radius-card: 0.75rem;
 
   --text-hero-sm: var(--text-hero-sm);
   --text-hero: var(--text-hero);
@@ -254,17 +316,23 @@ html[data-property="22"] {
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
+  /* Paper grain from the brand mockup — only shows through where a section
+     doesn't paint its own solid fill. */
+  background-image: url(/brand/paper-grain.webp);
+  background-size: 512px 512px;
   color: var(--foreground);
 }
 
 @layer base {
   * {
-    border-color: theme(colors.charcoal / 15%);
+    border-color: var(--color-line);
   }
 
   html {
     scroll-behavior: smooth;
+    /* Anton ships one weight — never let the browser fake a bold of it. */
+    font-synthesis-weight: none;
   }
 
   body {
@@ -273,10 +341,11 @@ body {
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+    letter-spacing: 0.005em;
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-bronze);
+    outline: 2px solid var(--color-help);
     outline-offset: 2px;
   }
 
@@ -311,6 +380,30 @@ body {
   .action-control:disabled {
     cursor: not-allowed;
     opacity: 0.4;
+  }
+
+  /* Brand display treatments (design D). */
+  .text-outline {
+    color: #ffffff;
+    -webkit-text-stroke: 3px var(--color-jet);
+    paint-order: stroke fill;
+    text-shadow: 4px 4px 0 rgb(17 17 17 / 0.12);
+  }
+
+  /* Worn-print speckle knocked out of large Anton headlines. */
+  .text-worn {
+    -webkit-mask-image: url(/brand/worn-mask.png);
+    mask-image: url(/brand/worn-mask.png);
+    -webkit-mask-size: 600px 600px;
+    mask-size: 600px 600px;
+  }
+
+  /* Tracked-caps label — eyebrows, stat captions, meta. */
+  .label-caps {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
   }
 
   .text-balance {
@@ -572,9 +665,14 @@ body {
   }
 
   .ui-card {
-    border: 1px solid color-mix(in srgb, var(--property-dark) 12%, transparent);
+    border: 1px solid var(--color-line);
+    background: #ffffff;
+    border-radius: var(--radius-card);
+  }
+
+  html[data-property="live"] .ui-card {
+    border-color: color-mix(in srgb, #ffffff 12%, transparent);
     background: var(--property-surface);
-    border-radius: 0.125rem;
   }
 
   .ui-card-muted {

@@ -22,7 +22,7 @@ export function BrandCard({ brand }: { brand: ServiceBrand }) {
       target="_blank"
       rel="noopener noreferrer"
       data-analytics-event="veteran_brand_click"
-      className="hover-lift group flex flex-col rounded-sm border border-ink/10 bg-off-white p-5 transition-colors hover:border-bronze/40"
+      className="hover-lift group flex flex-col rounded-xl border border-line bg-white p-5 transition-colors hover:border-bronze/40"
     >
       <div className="flex items-start gap-3">
         <span
@@ -32,7 +32,7 @@ export function BrandCard({ brand }: { brand: ServiceBrand }) {
           {initial}
         </span>
         <div className="min-w-0">
-          <p className="font-display text-sm font-semibold uppercase leading-tight tracking-wide text-ink">
+          <p className="font-display text-base uppercase leading-tight text-ink">
             {brand.name}
           </p>
           <p className="mt-0.5 text-xs text-charcoal-light">{brand.product}</p>
@@ -45,7 +45,7 @@ export function BrandCard({ brand }: { brand: ServiceBrand }) {
         {brand.categoryIds.map((id) => (
           <span
             key={id}
-            className="rounded-full border border-ink/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-charcoal-light"
+            className="rounded-full border border-ink/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.2em] text-charcoal-light"
           >
             {SERVICE_BRAND_CATEGORIES.find((c) => c.id === id)?.label}
           </span>

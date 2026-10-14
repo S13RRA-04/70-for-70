@@ -52,7 +52,7 @@ export default async function TriathlonTeamPage() {
           </p>
 
           <div className="mt-8 rounded-sm border border-bronze/30 bg-bronze/10 p-5">
-            <p className="text-sm font-semibold uppercase tracking-widest text-bronze">
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-bronze">
               Important
             </p>
             <p className="mt-2 text-sm leading-relaxed text-charcoal-light">
@@ -63,8 +63,8 @@ export default async function TriathlonTeamPage() {
           </div>
 
           {teamBenefitPartner && (
-            <div id="team-equipment-benefits" className="mt-12 scroll-mt-24">
-              <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+            <div id="team-equipment-benefits" className="mt-12 scroll-mt-28">
+              <h2 className="font-display text-2xl uppercase text-ink">
                 Team Equipment Benefits
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-charcoal-light">
@@ -73,7 +73,7 @@ export default async function TriathlonTeamPage() {
                 do not guarantee free equipment.
               </p>
 
-              <div className="mt-6 flex flex-col gap-5 rounded-sm border border-ink/10 bg-off-white p-6 sm:flex-row sm:items-start">
+              <div className="mt-6 flex flex-col gap-5 rounded-xl border border-line bg-white p-6 sm:flex-row sm:items-start">
                 <PartnerLogo
                   name={teamBenefitPartner.name}
                   logoUrl={teamBenefitPartner.logo_url}
@@ -83,7 +83,7 @@ export default async function TriathlonTeamPage() {
                   className="h-20 w-full shrink-0 sm:w-44"
                 />
                 <div className="flex-1">
-                  <p className="font-display text-base font-bold uppercase tracking-wide text-ink">
+                  <p className="font-display text-lg uppercase text-ink">
                     {teamBenefitPartner.name}{" "}
                     <span className="text-bronze">— {teamBenefitPartner.relationship_label}</span>
                   </p>

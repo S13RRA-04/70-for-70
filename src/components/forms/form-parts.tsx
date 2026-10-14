@@ -116,7 +116,7 @@ export function FormSuccess({ title, children }: { title: string; children: Reac
       <div className="flex items-start gap-3">
         <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-olive" aria-hidden="true" />
         <div>
-          <p className="font-display text-lg font-semibold uppercase tracking-wide">{title}</p>
+          <p className="font-display text-xl uppercase">{title}</p>
           <div className="mt-1 text-sm text-charcoal-light">{children}</div>
         </div>
       </div>

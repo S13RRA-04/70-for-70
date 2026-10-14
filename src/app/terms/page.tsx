@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Container } from "@/components/shared/container";
-import { SectionHeading } from "@/components/shared/section-heading";
+import { PageHero } from "@/components/shared/page-hero";
 import { TERMS_LAST_UPDATED, TERMS_SECTIONS } from "@/lib/content/terms";
 import { CONTACT_EMAIL } from "@/lib/constants";
 import { formatDateLong } from "@/lib/utils";
@@ -15,28 +15,28 @@ export const metadata = pageMetadata({
 export default function TermsPage() {
   return (
     <>
-      <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container>
-          <SectionHeading as="h1" eyebrow="Legal" title="Site Terms" />
-          <p className="mt-3 text-sm text-charcoal-light">
-            Last updated {formatDateLong(TERMS_LAST_UPDATED)}
-          </p>
-          <p className="mt-4 max-w-2xl text-sm text-charcoal-light">
+      <PageHero
+        eyebrow="Legal"
+        title="Site terms"
+        description={
+          <p>
             See also our{" "}
-            <Link href="/privacy" className="text-bronze hover:underline">
-              Privacy Policy
+            <Link href="/privacy" className="font-bold text-navy underline underline-offset-2 hover:text-help">
+              privacy policy
             </Link>
             .
           </p>
-        </Container>
-      </section>
+        }
+      >
+        <p className="label-caps text-steel">Last updated {formatDateLong(TERMS_LAST_UPDATED)}</p>
+      </PageHero>
 
       <section className="py-16 sm:py-20">
         <Container className="max-w-3xl">
           <div className="space-y-12">
             {TERMS_SECTIONS.map((section) => (
               <div key={section.id} id={section.id}>
-                <h2 className="font-display text-xl font-semibold uppercase tracking-tight text-ink sm:text-2xl">
+                <h2 className="font-display text-2xl uppercase text-ink sm:text-3xl">
                   {section.heading}
                 </h2>
                 <div className="mt-3 space-y-3">
@@ -50,7 +50,7 @@ export default function TermsPage() {
             ))}
 
             <div id="contact">
-              <h2 className="font-display text-xl font-semibold uppercase tracking-tight text-ink sm:text-2xl">
+              <h2 className="font-display text-2xl uppercase text-ink sm:text-3xl">
                 Contact
               </h2>
               <p className="mt-3 text-base leading-relaxed text-charcoal-light">

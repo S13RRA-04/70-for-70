@@ -243,17 +243,14 @@ export function isCurrentCampaign(
  * fundraiser for named beneficiaries, not a mission-cost store.
  */
 /**
- * Render note: Header special-cases two entries by href rather than adding
- * a "cta" flag to NavEntry — "/resources" renders as the primary CTA button
- * ("Find Resources") and "/crisis" as the reserved emergency CTA ("Need Help
- * Now", CTAButton accent="emergency"), so the two highest-intent actions
- * stand apart from the plain-link items between them instead of competing
- * with them visually. Order here is still the real display order for every
- * entry, CTA or not.
+ * Render note: Header special-cases "/crisis" by href rather than adding a
+ * "cta" flag to NavEntry — it renders as the reserved help-blue CTA ("Get
+ * Help Now", CTAButton accent="emergency"), preceded by an outlined Donate
+ * button, so the highest-intent actions sit apart from the plain links.
+ * Order here is still the real display order for every entry.
  */
 export const ORG_NAV_LINKS: NavEntry[] = [
-  { label: "Find Resources", href: "/resources" },
-  { label: "Mission", href: "/mission" },
+  { label: "Resources", href: "/resources" },
   { label: "Campaigns", href: "/campaigns" },
   { label: "Network", href: "/network" },
   { label: "Impact", href: "/impact" },
@@ -261,6 +258,7 @@ export const ORG_NAV_LINKS: NavEntry[] = [
   {
     label: "More",
     children: [
+      { label: "Mission", href: "/mission" },
       { label: "Awareness Calendar", href: "/awareness" },
       { label: "For The 22 Store", href: "/store" },
       { label: "Shop With Purpose", href: "/veteran-brands" },
@@ -268,7 +266,7 @@ export const ORG_NAV_LINKS: NavEntry[] = [
       { label: "Contact", href: "/contact" },
     ],
   },
-  { label: "Need Help Now", href: "/crisis" },
+  { label: "Get Help Now", href: "/crisis" },
 ];
 
 /**

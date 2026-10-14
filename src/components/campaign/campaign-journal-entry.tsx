@@ -23,17 +23,17 @@ export function CampaignJournalEntryCard({ entry, variant = "full", className }:
   const header = (
     <div className="flex items-start gap-4">
       {entry.image && (
-        <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-sm border border-ink/10 bg-off-white">
+        <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl border border-line bg-white">
           <Image src={entry.image.src} alt={entry.image.alt} fill className="object-contain p-1.5" sizes="48px" />
         </div>
       )}
       <div className="min-w-0">
-        <time dateTime={entry.date} className="text-xs font-semibold uppercase tracking-widest text-bronze">
+        <time dateTime={entry.date} className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">
           {formatDateLong(entry.date)}
         </time>
         <h3
           className={cn(
-            "mt-1 font-display font-bold uppercase tracking-tight text-ink",
+            "mt-1 font-display uppercase text-ink",
             isTeaser ? "text-lg" : "text-xl sm:text-2xl",
           )}
         >
@@ -48,7 +48,7 @@ export function CampaignJournalEntryCard({ entry, variant = "full", className }:
       <Link
         href={`/campaigns/journal#${entry.id}`}
         className={cn(
-          "hover-lift block rounded-sm border border-ink/10 bg-off-white p-5 transition-colors hover:bg-sand-light",
+          "hover-lift block rounded-xl border border-line bg-white p-5 transition-colors hover:bg-sand-light",
           className,
         )}
       >
@@ -62,7 +62,7 @@ export function CampaignJournalEntryCard({ entry, variant = "full", className }:
   }
 
   return (
-    <article id={entry.id} className={cn("scroll-mt-20", className)}>
+    <article id={entry.id} className={cn("scroll-mt-28", className)}>
       {header}
       <p className="mt-3 text-base leading-relaxed text-charcoal-light">{entry.summary}</p>
       <div className="mt-3 space-y-3">
@@ -83,7 +83,7 @@ export function CampaignJournalEntryCard({ entry, variant = "full", className }:
         </a>
       )}
       <div className="mt-6 border-t border-ink/10 pt-5">
-        <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-charcoal-light">Share This Update</p>
+        <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">Share This Update</p>
         <ShareButtons
           url={`${SITE_URL}/campaigns/journal#${entry.id}`}
           title={`${entry.title} | For The 22`}

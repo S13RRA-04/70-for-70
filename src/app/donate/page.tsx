@@ -47,7 +47,7 @@ export default async function DonatePage() {
             tone="dark"
             breakdown={allocationBreakdown}
           />
-          <p className="mt-4 text-sm font-semibold uppercase tracking-widest text-bronze-light">
+          <p className="mt-4 text-sm font-bold uppercase tracking-[0.2em] text-bronze-light">
             {formatNumber(miles.milesFunded, 2)} of {miles.totalDistance} Miles Funded
           </p>
         </div>
@@ -80,7 +80,7 @@ export default async function DonatePage() {
 
       <section className="border-t border-ink/10 py-10 sm:py-12">
         <Container className="max-w-3xl">
-          <details className="group rounded-sm border border-ink/10 bg-off-white p-5">
+          <details className="group rounded-xl border border-line bg-white p-5">
             <summary className="cursor-pointer text-sm font-semibold uppercase tracking-wide text-ink marker:content-none">
               <span className="inline-flex items-center gap-2">
                 <span aria-hidden="true" className="transition-transform group-open:rotate-90">
@@ -93,9 +93,9 @@ export default async function DonatePage() {
             <div className="mt-4 space-y-4">
               <div className="space-y-3">
                 {partners.map((partner) => (
-                  <div key={partner.id} className="rounded-sm border border-ink/10 bg-off-white p-4">
+                  <div key={partner.id} className="rounded-xl border border-line bg-white p-4">
                     <div className="flex flex-wrap items-center gap-2">
-                      <p className="font-display text-sm font-semibold uppercase tracking-wide text-ink">
+                      <p className="font-display text-base uppercase text-ink">
                         {partner.name}
                       </p>
                       {partner.nonprofit_status_verified && (

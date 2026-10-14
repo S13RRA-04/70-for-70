@@ -71,7 +71,7 @@ export function ScrollProgressRail({ sections }: { sections: RailSection[] }) {
               <a
                 href={`#${s.id}`}
                 className={cn(
-                  "flex items-center gap-2 text-[10px] font-semibold uppercase tracking-widest transition-colors",
+                  "flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] transition-colors",
                   activeId === s.id ? "text-bronze" : "text-charcoal-light/50 hover:text-charcoal-light",
                 )}
               >

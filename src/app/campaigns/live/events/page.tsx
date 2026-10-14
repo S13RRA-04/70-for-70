@@ -52,8 +52,8 @@ export default async function LiveEventsPage() {
           <RevealGrid>
             <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {UPCOMING_LIVE_PERFORMERS.map((performer) => (
-                <article key={performer.name} className="rounded-sm border border-ink/10 bg-off-white p-6">
-                  <h2 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+                <article key={performer.name} className="rounded-xl border border-line bg-white p-6">
+                  <h2 className="font-display text-xl uppercase text-ink">
                     {performer.name}
                   </h2>
                   <p className="mt-3 text-sm leading-relaxed text-charcoal-light">{performer.details}</p>
@@ -84,14 +84,14 @@ export default async function LiveEventsPage() {
                   <Link
                     key={event.id}
                     href={`/${event.slug}`}
-                    className="hover-lift flex flex-col rounded-sm border border-ink/10 bg-off-white p-6"
+                    className="hover-lift flex flex-col rounded-xl border border-line bg-white p-6"
                   >
                     {event.starts_at && (
-                      <p className="text-xs font-semibold uppercase tracking-widest text-bronze">
+                      <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">
                         {formatDateLong(event.starts_at)}
                       </p>
                     )}
-                    <h2 className="mt-2 font-display text-lg font-semibold uppercase tracking-wide text-ink">
+                    <h2 className="mt-2 font-display text-xl uppercase text-ink">
                       {event.title}
                     </h2>
                     {event.venue_name && (

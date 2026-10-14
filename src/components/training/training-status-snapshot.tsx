@@ -24,12 +24,12 @@ export function TrainingStatusSnapshot({ rows }: { rows: PerformanceSnapshotRow[
         {DISCIPLINE_METRICS.map(({ key, label, Icon }) => {
           const row = byMetricKey.get(key);
           return (
-            <div key={key} className="rounded-sm border border-ink/10 bg-off-white p-5">
-              <p className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+            <div key={key} className="rounded-xl border border-line bg-white p-5">
+              <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
                 <Icon size={14} className="text-bronze" aria-hidden />
                 {label}
               </p>
-              <p className="mt-2 font-display text-2xl font-bold text-ink">{row?.value_display ?? "TBD"}</p>
+              <p className="mt-2 font-display text-3xl text-ink">{row?.value_display ?? "TBD"}</p>
               {row && <p className="mt-1 text-xs text-charcoal-light">{row.label}</p>}
             </div>
           );

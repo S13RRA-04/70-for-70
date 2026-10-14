@@ -17,7 +17,7 @@ export function MissionFinale({ totalRaised, goal }: { totalRaised: number; goal
   return (
     <section className="bg-ink py-20 text-off-white sm:py-28">
       <div className="mx-auto max-w-2xl px-4 text-center sm:px-6">
-        <p className="text-balance font-display text-3xl font-bold uppercase tracking-tight sm:text-4xl">
+        <p className="text-balance font-display text-4xl uppercase sm:text-4xl">
           70.3 Is the Distance.
           <br />
           <span className="text-bronze-light">The Mission Is Bigger.</span>

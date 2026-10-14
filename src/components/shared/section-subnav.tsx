@@ -41,7 +41,7 @@ export function SectionSubnav({ items }: { items: SubnavItem[] }) {
   return (
     <nav
       aria-label="Page sections"
-      className="sticky top-16 z-30 border-y border-ink/10 bg-off-white/95 backdrop-blur"
+      className="sticky top-[79px] z-30 border-y border-line bg-paper/95 backdrop-blur"
     >
       <Container>
         <div className="flex gap-2 overflow-x-auto py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">

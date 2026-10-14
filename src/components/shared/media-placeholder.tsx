@@ -35,7 +35,7 @@ export function MediaPlaceholder({
       {Icon ? (
         <Icon size={40} strokeWidth={1.5} className="text-off-white/20" />
       ) : (
-        <span className="font-display text-3xl font-semibold uppercase tracking-widest text-off-white/15">
+        <span className="font-display text-4xl uppercase text-off-white/15">
           70
         </span>
       )}

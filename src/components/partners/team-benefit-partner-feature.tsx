@@ -40,10 +40,10 @@ export function TeamBenefitPartnerFeature({
         />
 
         <div className="flex-1">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">
             {partner.relationship_label}
           </p>
-          <h3 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
+          <h3 className="mt-2 font-display text-3xl uppercase text-ink sm:text-4xl">
             {partner.name}
           </h3>
 
@@ -63,7 +63,7 @@ export function TeamBenefitPartnerFeature({
           </div>
 
           <div className="mt-6 rounded-sm border border-bronze/30 bg-bronze/5 p-5">
-            <p className="text-xs font-semibold uppercase tracking-widest text-bronze">{benefitTitle}</p>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">{benefitTitle}</p>
             <p className="mt-2 text-sm leading-relaxed text-charcoal-light">{benefitCopy}</p>
           </div>
 

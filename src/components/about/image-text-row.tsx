@@ -33,9 +33,9 @@ export function ImageTextRow({
       </div>
       <div className={cn("lg:col-span-7", reverse && "lg:order-1")}>
         {eyebrow && (
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze">{eyebrow}</p>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">{eyebrow}</p>
         )}
-        <h2 className="mt-2 font-display text-2xl font-semibold uppercase tracking-tight text-ink sm:text-3xl">
+        <h2 className="mt-2 font-display text-3xl uppercase text-ink sm:text-4xl">
           {heading}
         </h2>
         <div className="mt-5 space-y-4">{children}</div>

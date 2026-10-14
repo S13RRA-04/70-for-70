@@ -15,9 +15,9 @@ export function DonateVsPartner() {
       <SectionHeading align="center" title="Two Ways to Support. One Mission." />
 
       <div className="mt-10 grid gap-6 sm:grid-cols-2">
-        <div className="flex flex-col rounded-sm border border-ink/10 bg-off-white p-8 text-center">
-          <p className="text-xs font-semibold uppercase tracking-widest text-bronze">Donate</p>
-          <h3 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight text-ink">
+        <div className="flex flex-col rounded-xl border border-line bg-white p-8 text-center">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">Donate</p>
+          <h3 className="mt-2 font-display text-3xl uppercase text-ink">
             Support the Beneficiaries
           </h3>
           <p className="mt-3 flex-1 text-sm leading-relaxed text-charcoal-light">
@@ -29,9 +29,9 @@ export function DonateVsPartner() {
           </CTAButton>
         </div>
 
-        <div className="flex flex-col rounded-sm border border-ink/10 bg-off-white p-8 text-center">
-          <p className="text-xs font-semibold uppercase tracking-widest text-bronze">Partner</p>
-          <h3 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight text-ink">
+        <div className="flex flex-col rounded-xl border border-line bg-white p-8 text-center">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">Partner</p>
+          <h3 className="mt-2 font-display text-3xl uppercase text-ink">
             Get the Campaign to the Start Line
           </h3>
           <p className="mt-3 flex-1 text-sm leading-relaxed text-charcoal-light">

@@ -24,6 +24,7 @@ import {
   Users,
 } from "lucide-react";
 import { Container } from "@/components/shared/container";
+import { PageHero } from "@/components/shared/page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
 import { ORG_SUPPORTING_LINE, ORG_SUPPORTING_STATEMENT, ORG_TAGLINE, SITE_NAME } from "@/lib/constants";
@@ -161,29 +162,29 @@ const WHAT_WE_ARE_NOT = [
 export default function MissionPage() {
   return (
     <>
-      {/* Hero — asymmetrical rather than a centered text column; the ring-
-          color strip echoes the branch/sector colors "Who We Serve" uses
-          just below, tying the two together instead of introducing an
-          unrelated visual. */}
-      <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container>
-          <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
-            <div className="lg:col-span-8">
-              <SectionHeading as="h1" eyebrow="Our Mission" title={ORG_TAGLINE} description={ORG_SUPPORTING_STATEMENT} />
-            </div>
-            <div className="flex flex-col items-center lg:col-span-4">
-              <div className="relative aspect-square w-full max-w-[180px]">
-                <Image src="/logo.png" alt="" aria-hidden="true" fill className="object-contain" sizes="180px" />
-              </div>
-              <div className="mt-4 flex h-1 w-40 overflow-hidden rounded-full" aria-hidden="true">
-                {OUTER_RING_COLORS.map((ring) => (
-                  <span key={ring.branch} className="flex-1" style={{ backgroundColor: ring.hex }} />
-                ))}
-              </div>
-            </div>
+      <PageHero
+        eyebrow="Our mission"
+        title={ORG_TAGLINE}
+        description={ORG_SUPPORTING_STATEMENT}
+        aside={
+          <div className="flex justify-center lg:justify-end">
+            <Image
+              src="/brand/ring-logo.webp"
+              alt=""
+              aria-hidden="true"
+              width={240}
+              height={240}
+              priority
+              className="h-[200px] w-[200px] object-contain sm:h-[240px] sm:w-[240px]"
+            />
           </div>
-        </Container>
-      </section>
+        }
+      >
+        <p className="label-caps">
+          <span className="text-help">Connection</span> · <span className="text-olive">Mobilization</span> ·{" "}
+          <span className="text-impact">Impact</span>
+        </p>
+      </PageHero>
 
       {/* Who We Serve — chip row, not a bullet list */}
       <section className="bg-off-white py-16 sm:py-20">
@@ -203,7 +204,7 @@ export default function MissionPage() {
                   aria-hidden="true"
                 />
                 <span className="text-sm font-semibold uppercase tracking-wide text-ink">{label}</span>
-                <span className="text-[10px] font-medium uppercase tracking-wider text-charcoal-light">
+                <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-charcoal-light">
                   {color.color}
                 </span>
               </li>
@@ -218,9 +219,9 @@ export default function MissionPage() {
           <SectionHeading eyebrow="How We Help" title="What We Connect People To" />
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
             {RESOURCE_AREAS.map((area) => (
-              <div key={area.title} className="flex flex-col border border-ink/10 bg-off-white p-6">
+              <div key={area.title} className="flex flex-col rounded-xl border border-line bg-white p-6">
                 <area.icon className="h-6 w-6 text-bronze" aria-hidden="true" />
-                <h3 className="mt-4 font-display text-base font-bold uppercase tracking-tight text-ink">
+                <h3 className="mt-4 font-display text-lg uppercase text-ink">
                   {area.title}
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-charcoal-light">{area.description}</p>
@@ -242,7 +243,7 @@ export default function MissionPage() {
             <div className="relative min-h-[420px] overflow-hidden rounded-sm lg:sticky lg:top-28 lg:col-span-5 lg:min-h-[560px]">
               <Image src="/about/navy-green.jpg" alt="A veteran in uniform" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-transparent to-transparent" />
-              <blockquote className="absolute inset-x-0 bottom-0 p-7 font-display text-2xl font-semibold uppercase leading-tight text-off-white">
+              <blockquote className="absolute inset-x-0 bottom-0 p-7 font-display text-3xl uppercase leading-tight text-off-white">
                 The need does not end when the uniform comes off.
               </blockquote>
             </div>
@@ -250,7 +251,7 @@ export default function MissionPage() {
             {THE_REALITY.map((item) => (
               <div key={item.title} className="border border-ink/10 bg-sand-light/40 p-8">
                 <item.icon className="h-6 w-6 text-bronze" aria-hidden="true" />
-                <h3 className="mt-4 font-display text-xl font-bold uppercase tracking-tight text-ink">
+                <h3 className="mt-4 font-display text-2xl uppercase text-ink">
                   {item.title}
                 </h3>
                 <div className="mt-3 space-y-3 text-base leading-relaxed text-charcoal-light">
@@ -283,7 +284,7 @@ export default function MissionPage() {
             {HOW_TO_HELP.map((item) => (
               <div key={item.title} className="border border-off-white/15 p-6">
                 <item.icon className="h-6 w-6 text-bronze-light" aria-hidden="true" />
-                <h3 className="mt-4 font-display text-sm font-bold uppercase tracking-wide text-off-white">
+                <h3 className="mt-4 font-display text-base uppercase text-off-white">
                   {item.title}
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-off-white/70">{item.body}</p>
@@ -300,8 +301,8 @@ export default function MissionPage() {
           <div className="mt-8 grid gap-6 sm:grid-cols-2">
             {HOW_IT_WORKS.map((step, i) => (
               <div key={step.number} className="relative border border-ink/10 bg-sand-light/40 p-8">
-                <span className="font-display text-5xl font-bold text-bronze/60">{step.number}</span>
-                <h3 className="mt-3 font-display text-xl font-semibold uppercase tracking-tight text-ink">
+                <span className="font-display text-5xl text-bronze/60">{step.number}</span>
+                <h3 className="mt-3 font-display text-2xl uppercase text-ink">
                   {step.title}
                 </h3>
                 <p className="mt-2 text-base leading-relaxed text-charcoal-light">{step.body}</p>
@@ -335,14 +336,14 @@ export default function MissionPage() {
         <Container>
           <SectionHeading eyebrow="Connect + Mobilize" title="How We Move the Mission Forward" />
           <div className="mx-auto mt-6 max-w-2xl border-y border-bronze/30 py-6 text-center">
-            <p className="font-display text-2xl font-semibold uppercase tracking-tight text-ink sm:text-3xl">
+            <p className="font-display text-3xl uppercase text-ink sm:text-4xl">
               {ORG_SUPPORTING_LINE}
             </p>
           </div>
           <div className="mt-8 grid gap-6 sm:grid-cols-2">
             <div className="border border-ink/10 bg-sand-light/40 p-8">
               <Link2 className="h-6 w-6 text-bronze" aria-hidden="true" />
-              <h3 className="mt-4 font-display text-xl font-semibold uppercase tracking-tight text-ink">
+              <h3 className="mt-4 font-display text-2xl uppercase text-ink">
                 Connect
               </h3>
               <p className="mt-2 text-base leading-relaxed text-charcoal-light">
@@ -358,7 +359,7 @@ export default function MissionPage() {
             </div>
             <div className="border border-ink/10 bg-sand-light/40 p-8">
               <Megaphone className="h-6 w-6 text-bronze" aria-hidden="true" />
-              <h3 className="mt-4 font-display text-xl font-semibold uppercase tracking-tight text-ink">
+              <h3 className="mt-4 font-display text-2xl uppercase text-ink">
                 Mobilize
               </h3>
               <p className="mt-2 text-base leading-relaxed text-charcoal-light">
@@ -373,7 +374,7 @@ export default function MissionPage() {
               </Link>
             </div>
           </div>
-          <p className="mx-auto mt-10 max-w-2xl text-balance text-center font-display text-xl font-semibold uppercase tracking-tight text-ink sm:text-2xl">
+          <p className="mx-auto mt-10 max-w-2xl text-balance text-center font-display text-2xl uppercase text-ink sm:text-3xl">
             For The 22 does not exist to duplicate good programs. It exists to help people find
             them — and help those programs find more support.
           </p>
@@ -389,7 +390,7 @@ export default function MissionPage() {
               <div key={item.title} className="flex gap-4 border border-off-white/15 p-6">
                 <Ban className="h-5 w-5 shrink-0 text-off-white/40" aria-hidden="true" />
                 <div>
-                  <h3 className="font-display text-base font-bold uppercase tracking-tight text-off-white">
+                  <h3 className="font-display text-lg uppercase text-off-white">
                     {item.title}
                   </h3>
                   <p className="mt-1.5 text-sm leading-relaxed text-off-white/70">{item.body}</p>

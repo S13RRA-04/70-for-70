@@ -108,7 +108,7 @@ export default async function GetInvolvedPage() {
                 className="flex flex-col rounded-sm border border-off-white/15 bg-off-white/5 p-6"
               >
                 <pathway.icon size={26} className="text-bronze-light" aria-hidden />
-                <h3 className="mt-4 font-display text-lg font-semibold uppercase tracking-wide">
+                <h3 className="mt-4 font-display text-xl uppercase">
                   {pathway.title}
                 </h3>
                 <p className="mt-2 flex-1 text-sm text-off-white/75">{pathway.description}</p>
@@ -123,7 +123,7 @@ export default async function GetInvolvedPage() {
 
             <div className="flex flex-col rounded-sm border border-off-white/15 bg-off-white/5 p-6">
               <Share2 size={26} className="text-bronze-light" aria-hidden />
-              <h3 className="mt-4 font-display text-lg font-semibold uppercase tracking-wide">Share the Mission</h3>
+              <h3 className="mt-4 font-display text-xl uppercase">Share the Mission</h3>
               <p className="mt-2 flex-1 text-sm text-off-white/75">
                 Help carry the mission further — share it with someone who&apos;d want to be part of it.
               </p>
@@ -190,7 +190,7 @@ export default async function GetInvolvedPage() {
       <section className="border-t border-ink/10 py-10 sm:py-12">
         <Container className="max-w-2xl">
           <div className="rounded-sm border border-ink/10 bg-sand-light p-6 text-center sm:p-8">
-            <p className="font-display text-2xl font-bold tabular-nums text-ink">
+            <p className="font-display text-3xl tabular-nums text-ink">
               Personally invested in the mission: {formatCurrency(TOTAL_OUT_OF_POCKET, { cents: true })}
             </p>
             <p className="mt-2 text-sm text-charcoal-light">
@@ -218,7 +218,7 @@ export default async function GetInvolvedPage() {
 
           <div className="mt-10 flex flex-col gap-6 border-t border-ink/10 pt-8 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
                 Get Campaign Updates
               </p>
               <div className="mt-3">
@@ -226,7 +226,7 @@ export default async function GetInvolvedPage() {
               </div>
             </div>
             <div>
-              <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+              <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
                 Share {CAMPAIGN_NAME}
               </p>
               <ShareButtons
@@ -241,7 +241,7 @@ export default async function GetInvolvedPage() {
               href={RACE_INFO.registrationUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-8 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-charcoal-light hover:text-ink"
+              className="mt-8 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light hover:text-ink"
             >
               Register for the Race
               <ExternalLink size={13} aria-hidden />

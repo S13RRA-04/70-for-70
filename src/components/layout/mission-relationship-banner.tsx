@@ -19,7 +19,7 @@ export function MissionRelationshipBanner() {
         </p>
         <a
           href={SITE_URL}
-          className="text-xs font-semibold uppercase tracking-widest text-off-white underline decoration-2 decoration-bronze underline-offset-4 hover:text-off-white/80 sm:text-sm"
+          className="text-xs font-bold uppercase tracking-[0.2em] text-off-white underline decoration-2 decoration-bronze underline-offset-4 hover:text-off-white/80 sm:text-sm"
         >
           Explore ForThe22.org <span aria-hidden="true">&#8599;</span>
         </a>

@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Handshake, MapPinned, Megaphone, Users } from "lucide-react";
 import { Container } from "@/components/shared/container";
-import { SectionHeading } from "@/components/shared/section-heading";
+import { PageHero } from "@/components/shared/page-hero";
 import { CTAButton } from "@/components/shared/cta-button";
 import { CTASection } from "@/components/shared/cta-section";
 import { MissionProgress } from "@/components/campaign/mission-progress";
@@ -52,35 +52,34 @@ export default async function ImpactPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
-      {/* Hero */}
-      <section className="overflow-hidden border-b border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container>
-          <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
-          <div className="lg:col-span-7">
-          <SectionHeading
-            as="h1"
-            eyebrow="Impact"
-            title="Mission in Motion"
-            description={`${SITE_NAME} moves the mission two ways: connecting people to support that already exists, and mobilizing communities to fund the organizations doing the work. This is the live picture of both.`}
-          />
+      <PageHero
+        pillar="impact"
+        eyebrow="03 · Impact"
+        title="Mission in motion"
+        description={`${SITE_NAME} moves the mission two ways: connecting people to support that already exists, and mobilizing communities to fund the organizations doing the work. This is the live picture of both.`}
+        aside={
+          <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
+            <Image
+              src="/about/hiking.jpg"
+              alt="Moving forward together on the trail"
+              fill
+              priority
+              sizes="(min-width: 1024px) 34vw, 100vw"
+              className="object-cover"
+            />
           </div>
-          <div className="relative min-h-[300px] overflow-hidden rounded-sm lg:col-span-5 lg:min-h-[420px] lg:translate-x-8">
-            <Image src="/about/hiking.jpg" alt="Moving forward together on the trail" fill sizes="(min-width: 1024px) 42vw, 100vw" className="object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-ink/75 via-transparent to-transparent" />
-          </div>
-          </div>
-        </Container>
-      </section>
+        }
+      />
 
       {/* Connecting People */}
       <section className="py-16 sm:py-20">
         <Container>
           <div className="border border-ink/10 border-l-4 border-l-bronze bg-off-white p-8 lg:ml-0 lg:mr-24">
             <MapPinned className="h-6 w-6 text-bronze" aria-hidden="true" />
-            <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-bronze">
+            <p className="mt-4 text-xs font-bold uppercase tracking-[0.2em] text-bronze">
               Connecting People
             </p>
-            <h2 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
+            <h2 className="mt-2 font-display text-3xl uppercase text-ink sm:text-4xl">
               A Directory Built Around Real Need
             </h2>
             <p className="mt-4 text-base leading-relaxed text-charcoal-light">
@@ -91,10 +90,10 @@ export default async function ImpactPage() {
             <dl className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
               {connectStats.map((stat) => (
                 <div key={stat.label} className="rounded-sm border border-ink/10 bg-sand-light/60 p-4 text-center">
-                  <dd className="font-display text-2xl font-semibold text-ink sm:text-3xl">
+                  <dd className="font-display text-3xl text-ink sm:text-4xl">
                     {stat.value}
                   </dd>
-                  <dt className="mt-1 text-[11px] font-semibold uppercase tracking-widest text-charcoal-light">
+                  <dt className="mt-1 text-[11px] font-bold uppercase tracking-[0.2em] text-charcoal-light">
                     {stat.label}
                   </dt>
                 </div>
@@ -112,10 +111,10 @@ export default async function ImpactPage() {
         <Container>
           <div className="border border-ink/10 border-r-4 border-r-bronze bg-off-white p-8 lg:ml-24 lg:mr-0">
             <Megaphone className="h-6 w-6 text-bronze" aria-hidden="true" />
-            <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-bronze">
+            <p className="mt-4 text-xs font-bold uppercase tracking-[0.2em] text-bronze">
               Mobilizing Support
             </p>
-            <h2 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
+            <h2 className="mt-2 font-display text-3xl uppercase text-ink sm:text-4xl">
               Direct Funding, Shared Goal
             </h2>
             <p className="mt-4 text-base leading-relaxed text-charcoal-light">
@@ -135,10 +134,10 @@ export default async function ImpactPage() {
             <dl className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
               {supportStats.map((stat) => (
                 <div key={stat.label} className="rounded-sm border border-ink/10 bg-sand-light/60 p-4 text-center">
-                  <dd className="font-display text-2xl font-semibold text-ink sm:text-3xl">
+                  <dd className="font-display text-3xl text-ink sm:text-4xl">
                     {stat.value}
                   </dd>
-                  <dt className="mt-1 text-[11px] font-semibold uppercase tracking-widest text-charcoal-light">
+                  <dt className="mt-1 text-[11px] font-bold uppercase tracking-[0.2em] text-charcoal-light">
                     {stat.label}
                   </dt>
                 </div>
@@ -162,7 +161,7 @@ export default async function ImpactPage() {
           <div className="grid gap-6 sm:grid-cols-2">
             <div className="border border-ink/10 p-6">
               <Users className="h-6 w-6 text-bronze" aria-hidden="true" />
-              <h3 className="mt-4 font-display text-lg font-bold uppercase tracking-tight text-ink">
+              <h3 className="mt-4 font-display text-xl uppercase text-ink">
                 Who It Reaches
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-charcoal-light">
@@ -173,7 +172,7 @@ export default async function ImpactPage() {
             </div>
             <div className="border border-ink/10 p-6">
               <Handshake className="h-6 w-6 text-bronze" aria-hidden="true" />
-              <h3 className="mt-4 font-display text-lg font-bold uppercase tracking-tight text-ink">
+              <h3 className="mt-4 font-display text-xl uppercase text-ink">
                 How Funds Reach Beneficiaries
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-charcoal-light">
@@ -186,7 +185,7 @@ export default async function ImpactPage() {
               </CTAButton>
             </div>
           </div>
-          <p className="mt-8 text-xs uppercase tracking-widest text-charcoal-light">
+          <p className="mt-8 text-xs uppercase tracking-[0.2em] text-charcoal-light">
             Fundraising totals verified {lastUpdated}
           </p>
         </Container>

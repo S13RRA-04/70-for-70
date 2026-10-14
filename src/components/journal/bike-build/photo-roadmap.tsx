@@ -15,9 +15,9 @@ export function PhotoRoadmap({ slots }: { slots: { label: string; description: s
             <MediaPlaceholder discipline="bike" />
           </div>
           <div className="p-3">
-            <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">{slot.label}</p>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">{slot.label}</p>
             <p className="mt-1 text-xs text-charcoal-light/80">{slot.description}</p>
-            <p className="mt-1 text-[11px] font-semibold uppercase tracking-widest text-bronze">Photo Coming Soon</p>
+            <p className="mt-1 text-[11px] font-bold uppercase tracking-[0.2em] text-bronze">Photo Coming Soon</p>
           </div>
         </div>
       ))}

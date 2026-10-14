@@ -185,12 +185,12 @@ export default async function JournalPage(props: PageProps<"/journal">) {
           <Container>
             <RevealOnScroll className="grid gap-8 lg:grid-cols-[1.65fr_1fr] lg:items-start">
               <div>
-                <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-bronze">Latest</p>
+                <p className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-bronze">Latest</p>
                 <JournalCard entry={featuredEntry} featured readMoreLabel="Read the Journal Entry →" />
               </div>
 
               <div className="rounded-sm border border-ink/10 bg-sand-light p-6">
-                <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
                   For The 22 Mission Status
                 </p>
                 <div className="mt-4">
@@ -200,19 +200,19 @@ export default async function JournalPage(props: PageProps<"/journal">) {
                   />
                 </div>
                 <div className="mt-6 grid grid-cols-2 gap-3">
-                  <div className="rounded-sm border border-ink/10 bg-off-white px-4 py-3">
-                    <p className="font-display text-xl font-semibold tabular-nums text-ink">
+                  <div className="rounded-xl border border-line bg-white px-4 py-3">
+                    <p className="font-display text-2xl tabular-nums text-ink">
                       {fundraisingStats.milesFunded}/{fundraisingStats.milesTotal}
                     </p>
-                    <p className="mt-0.5 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                    <p className="mt-0.5 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
                       Miles Funded
                     </p>
                   </div>
-                  <div className="rounded-sm border border-ink/10 bg-off-white px-4 py-3">
-                    <p className="font-display text-xl font-semibold tabular-nums text-ink">
+                  <div className="rounded-xl border border-line bg-white px-4 py-3">
+                    <p className="font-display text-2xl tabular-nums text-ink">
                       {fundraisingStats.supporterCount}
                     </p>
-                    <p className="mt-0.5 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                    <p className="mt-0.5 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
                       Supporters
                     </p>
                   </div>
@@ -267,7 +267,7 @@ export default async function JournalPage(props: PageProps<"/journal">) {
                       i === 0 && !showFilters ? "" : "mt-10 border-t border-ink/10 pt-10"
                     }
                   >
-                    <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                    <h3 className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
                       {group.label}
                     </h3>
                     <RevealGrid>
@@ -285,7 +285,7 @@ export default async function JournalPage(props: PageProps<"/journal">) {
                     <Link
                       href={buildJournalHref({ category: activeCategory, page: page + 1 })}
                       scroll={false}
-                      className="inline-flex items-center gap-1.5 rounded-sm border border-ink/20 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-ink transition-all duration-150 hover:bg-ink/5 active:scale-[0.97]"
+                      className="action-control inline-flex items-center justify-center font-bold gap-1.5 border-2 border-navy px-6 py-3 text-[15px] text-navy transition-all duration-150 hover:bg-white active:scale-[0.97]"
                     >
                       Load More
                     </Link>
@@ -360,7 +360,7 @@ export default async function JournalPage(props: PageProps<"/journal">) {
       {/* 8. Email signup. */}
       <section className="py-16 sm:py-20">
         <Container className="max-w-xl text-center">
-          <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
             Follow the Road to Chattanooga
           </p>
           <p className="mt-2 mb-6 text-sm text-charcoal-light">

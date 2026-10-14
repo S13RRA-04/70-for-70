@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Container } from "@/components/shared/container";
-import { SectionHeading } from "@/components/shared/section-heading";
+import { PageHero } from "@/components/shared/page-hero";
 import { PRIVACY_LAST_UPDATED, PRIVACY_SECTIONS } from "@/lib/content/privacy";
 import { CONTACT_EMAIL } from "@/lib/constants";
 import { formatDateLong } from "@/lib/utils";
@@ -15,21 +15,16 @@ export const metadata = pageMetadata({
 export default function PrivacyPage() {
   return (
     <>
-      <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container>
-          <SectionHeading as="h1" eyebrow="Legal" title="Privacy Policy" />
-          <p className="mt-3 text-sm text-charcoal-light">
-            Last updated {formatDateLong(PRIVACY_LAST_UPDATED)}
-          </p>
-        </Container>
-      </section>
+      <PageHero eyebrow="Legal" title="Privacy policy">
+        <p className="label-caps text-steel">Last updated {formatDateLong(PRIVACY_LAST_UPDATED)}</p>
+      </PageHero>
 
       <section className="py-16 sm:py-20">
         <Container className="max-w-3xl">
           <div className="space-y-12">
             {PRIVACY_SECTIONS.map((section) => (
               <div key={section.id} id={section.id}>
-                <h2 className="font-display text-xl font-semibold uppercase tracking-tight text-ink sm:text-2xl">
+                <h2 className="font-display text-2xl uppercase text-ink sm:text-3xl">
                   {section.heading}
                 </h2>
                 <div className="mt-3 space-y-3">
@@ -43,7 +38,7 @@ export default function PrivacyPage() {
             ))}
 
             <div id="contact">
-              <h2 className="font-display text-xl font-semibold uppercase tracking-tight text-ink sm:text-2xl">
+              <h2 className="font-display text-2xl uppercase text-ink sm:text-3xl">
                 Contact
               </h2>
               <p className="mt-3 text-base leading-relaxed text-charcoal-light">

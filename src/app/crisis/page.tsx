@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { Phone, MessageSquare, ExternalLink } from "lucide-react";
-import { Container } from "@/components/shared/container";
-import { SectionHeading } from "@/components/shared/section-heading";
-import { CTAButton } from "@/components/shared/cta-button";
+import { PageHero } from "@/components/shared/page-hero";
 import { getCrisisResources, type Resource } from "@/lib/content/resources";
 import { SITE_NAME } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
@@ -13,36 +11,75 @@ export const metadata = pageMetadata({
   canonical: "/crisis",
 });
 
+/** Help blue is reserved for exactly these actions — see the palette note in globals.css. */
 function CrisisResourceCard({ resource }: { resource: Resource }) {
   return (
-    <div className="rounded-sm border border-ink/10 bg-off-white p-5 sm:p-6">
-      <p className="font-display text-lg font-semibold uppercase tracking-wide text-ink">{resource.name}</p>
-      <p className="mt-1.5 text-sm leading-relaxed text-charcoal-light">{resource.description}</p>
-      <div className="mt-4 flex flex-wrap gap-2.5">
+    <div className="flex flex-col gap-3 rounded-xl border border-line bg-white p-6 sm:p-7">
+      <p className="font-display text-[26px] uppercase leading-none text-navy">{resource.name}</p>
+      <p className="text-base leading-relaxed text-copy">{resource.description}</p>
+      <div className="mt-2 flex flex-wrap items-center gap-2.5">
         {resource.phone && (
-          <CTAButton href={`tel:${resource.phone}`} external size="md">
-            <Phone size={14} aria-hidden="true" />
+          <a
+            href={`tel:${resource.phone}`}
+            className="action-control inline-flex min-h-[50px] items-center gap-2 bg-help px-5 font-bold text-white hover:bg-help-dark"
+          >
+            <Phone size={16} aria-hidden="true" />
             Call {resource.phone}
-          </CTAButton>
+          </a>
         )}
         {resource.text && (
-          <CTAButton href={`sms:${resource.text}`} external variant="secondary" size="md">
-            <MessageSquare size={14} aria-hidden="true" />
+          <a
+            href={`sms:${resource.text}`}
+            className="action-control inline-flex min-h-[50px] items-center gap-2 border-2 border-help px-5 font-bold text-help hover:bg-help hover:text-white"
+          >
+            <MessageSquare size={16} aria-hidden="true" />
             Text {resource.text}
-          </CTAButton>
+          </a>
         )}
-        {/* Plain <a>, not CTAButton — needs target="_blank"/rel, which CTAButton doesn't support. */}
         <a
           href={resource.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 rounded-sm border border-ink/20 px-4 py-2.5 text-sm font-semibold uppercase tracking-wide text-ink transition-colors hover:bg-ink/5"
+          className="inline-flex min-h-11 items-center gap-1.5 px-2 font-bold text-navy hover:text-help hover:underline"
         >
-          Visit Site
-          <ExternalLink size={12} aria-hidden="true" />
+          Visit site
+          <ExternalLink size={14} aria-hidden="true" />
         </a>
       </div>
     </div>
+  );
+}
+
+function CrisisGroup({
+  id,
+  label,
+  title,
+  description,
+  resources,
+}: {
+  id?: string;
+  label: string;
+  title: string;
+  description?: string;
+  resources: Resource[];
+}) {
+  return (
+    <section id={id} aria-labelledby={id ? `${id}-heading` : undefined} className="scroll-mt-28 border-t border-line">
+      <div className="mx-auto grid max-w-[1240px] gap-x-16 gap-y-8 px-6 py-16 sm:py-20 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
+        <div className="flex flex-col gap-3 lg:sticky lg:top-32 lg:self-start">
+          <p className="label-caps text-help">{label}</p>
+          <h2 id={id ? `${id}-heading` : undefined} className="font-display text-[clamp(36px,4vw,48px)] uppercase leading-none text-navy">
+            {title}
+          </h2>
+          {description && <p className="max-w-sm text-base leading-relaxed text-copy">{description}</p>}
+        </div>
+        <div className="grid gap-4">
+          {resources.map((resource) => (
+            <CrisisResourceCard key={resource.name} resource={resource} />
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -53,77 +90,85 @@ export default function CrisisPage() {
 
   return (
     <>
-      <section className="border-b border-ink/10 bg-sand-light py-12 sm:py-16">
-        <Container className="max-w-2xl">
-          <SectionHeading
-            as="h1"
-            eyebrow="Need Help Now?"
-            title="Crisis Support"
-            description={`${SITE_NAME} is not a crisis-response service. The organizations below are equipped to provide immediate support, free and confidential.`}
-          />
-        </Container>
-      </section>
+      <PageHero
+        pillar="connection"
+        eyebrow="Connection · Need help now"
+        title="Crisis support"
+        description={`${SITE_NAME} is not a crisis-response service. The organizations below are equipped to provide immediate support — free and confidential.`}
+        aside={
+          <div className="flex flex-col gap-3 rounded-xl bg-help p-8 text-white">
+            <p className="label-caps text-[#d3e6f3]">Veterans Crisis Line · 24/7</p>
+            <p className="font-display text-[88px] leading-none">988</p>
+            <p className="text-base leading-relaxed text-[#e3eef6]">
+              Press 1 to reach responders who understand service. In immediate danger, call 911.
+            </p>
+            <div className="mt-1 flex flex-wrap gap-2.5">
+              <a
+                href="tel:988"
+                className="action-control inline-flex min-h-[50px] items-center bg-white px-5 font-bold text-help hover:bg-paper"
+              >
+                Call 988, press 1
+              </a>
+              <a
+                href="sms:838255"
+                className="action-control inline-flex min-h-[50px] items-center border-2 border-white px-5 font-bold text-white hover:bg-white/10"
+              >
+                Text 838255
+              </a>
+            </div>
+          </div>
+        }
+      />
 
       {/* Universal fallback — applies regardless of who you are, shown first */}
-      <section className="py-10 sm:py-12">
-        <Container className="max-w-2xl space-y-4">
-          {general.map((resource) => (
-            <CrisisResourceCard key={resource.name} resource={resource} />
-          ))}
-        </Container>
-      </section>
+      <CrisisGroup
+        label="Anyone"
+        title="Start here"
+        description="These lines serve everyone, any time — you don't need to be a veteran or first responder."
+        resources={general}
+      />
+      <CrisisGroup id="veterans" label="Veterans" title="For veterans" resources={veterans} />
+      <CrisisGroup
+        id="first-responders"
+        label="First responders"
+        title="For those who answer the call"
+        description="Law enforcement, fire, EMS, dispatch, and corrections."
+        resources={firstResponders}
+      />
 
-      <section id="veterans" className="scroll-mt-20 border-t border-ink/10 py-10 sm:py-12">
-        <Container className="max-w-2xl">
-          <h2 className="font-display text-xl font-bold uppercase tracking-tight text-ink">Veterans</h2>
-          <div className="mt-5 space-y-4">
-            {veterans.map((resource) => (
-              <CrisisResourceCard key={resource.name} resource={resource} />
-            ))}
+      <section id="emergency" aria-labelledby="emergency-heading" className="scroll-mt-28 bg-navy text-white">
+        <div className="mx-auto flex max-w-[1240px] flex-wrap items-center justify-between gap-8 px-6 py-16 sm:py-20">
+          <div className="flex max-w-2xl flex-col gap-3">
+            <p className="label-caps text-mist">Immediate emergency</p>
+            <h2 id="emergency-heading" className="font-display text-[clamp(40px,5vw,64px)] uppercase leading-none">
+              If a life is in danger, call 911.
+            </h2>
+            <p className="text-lg leading-relaxed text-mist">
+              If there is an immediate threat to life or safety, call 911 or go to the nearest emergency room.
+            </p>
           </div>
-        </Container>
-      </section>
-
-      <section id="first-responders" className="scroll-mt-20 border-t border-ink/10 py-10 sm:py-12">
-        <Container className="max-w-2xl">
-          <h2 className="font-display text-xl font-bold uppercase tracking-tight text-ink">
-            First Responders
-          </h2>
-          <div className="mt-5 space-y-4">
-            {firstResponders.map((resource) => (
-              <CrisisResourceCard key={resource.name} resource={resource} />
-            ))}
-          </div>
-        </Container>
-      </section>
-
-      <section id="emergency" className="scroll-mt-20 border-t border-ink/10 bg-ink py-10 text-off-white sm:py-12">
-        <Container className="max-w-2xl">
-          <h2 className="font-display text-xl font-bold uppercase tracking-tight">Immediate Emergency</h2>
-          <p className="mt-3 text-sm leading-relaxed text-off-white/80">
-            If there is an immediate threat to life or safety, call 911 or go to the nearest
-            emergency room.
-          </p>
-          <CTAButton href="tel:911" external accent="emergency" className="mt-5">
-            <Phone size={14} aria-hidden="true" />
+          <a
+            href="tel:911"
+            className="action-control inline-flex min-h-[56px] items-center gap-2 bg-white px-7 text-lg font-bold text-navy hover:bg-paper"
+          >
+            <Phone size={18} aria-hidden="true" />
             Call 911
-          </CTAButton>
-        </Container>
+          </a>
+        </div>
       </section>
 
-      <section className="border-t border-ink/10 py-8">
-        <Container className="max-w-2xl">
-          <p className="text-xs leading-relaxed text-charcoal-light">
-            These listings are informational and not an endorsement or guarantee of service.{" "}
-            {SITE_NAME} is not a medical, legal, or crisis-response provider. Program availability,
-            hours, and contact methods may change — confirm current information directly with each
-            organization. For non-crisis support, see the full{" "}
-            <Link href="/resources" className="font-semibold text-bronze hover:underline">
-              Resources directory
+      <section className="py-10">
+        <div className="mx-auto max-w-[1240px] px-6">
+          <p className="max-w-3xl text-sm leading-relaxed text-muted">
+            These listings are informational and not an endorsement or guarantee of service. {SITE_NAME} is not a
+            medical, legal, or crisis-response provider. Program availability, hours, and contact methods may change —
+            confirm current information directly with each organization. For non-crisis support, see the full{" "}
+            <Link href="/resources" className="font-bold text-navy underline underline-offset-2 hover:text-help">
+              resources directory
             </Link>
             .
           </p>
-        </Container>
+        </div>
       </section>
     </>
   );

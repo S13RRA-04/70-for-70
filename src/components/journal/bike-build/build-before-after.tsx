@@ -5,7 +5,7 @@ import type { BikeBuildPhoto } from "@/types/bike-build";
 
 function Frame({ photo, label }: { photo: BikeBuildPhoto; label: string }) {
   return (
-    <figure className="flex-1 overflow-hidden rounded-sm border border-ink/10 bg-off-white">
+    <figure className="flex-1 overflow-hidden rounded-xl border border-line bg-white">
       <PhotoLightbox src={photo.src} alt={photo.alt} caption={photo.caption} width={photo.width} height={photo.height}>
         <div className="relative aspect-[4/3] w-full bg-sand-light">
           <Image
@@ -19,7 +19,7 @@ function Frame({ photo, label }: { photo: BikeBuildPhoto; label: string }) {
         </div>
       </PhotoLightbox>
       <figcaption className="border-t border-ink/10 bg-off-white px-4 py-3">
-        <p className="text-xs font-semibold uppercase tracking-widest text-bronze">{label}</p>
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">{label}</p>
         <p className="mt-1 text-sm text-charcoal-light">{photo.caption}</p>
       </figcaption>
     </figure>

@@ -67,7 +67,7 @@ export function ResourceCard({ resource }: { resource: Resource }) {
   return (
     <div
       data-resource-id={resourceId}
-      className="flex flex-col rounded-sm border border-ink/10 bg-off-white p-5 transition-colors duration-150 focus-within:border-bronze/50"
+      className="flex flex-col rounded-xl border border-line bg-white p-5 transition-colors duration-150 focus-within:border-bronze/50"
     >
       <div className="flex items-start gap-3">
         <span
@@ -76,7 +76,7 @@ export function ResourceCard({ resource }: { resource: Resource }) {
         >
           {initial}
         </span>
-        <p className="min-w-0 font-display text-sm font-semibold uppercase leading-tight tracking-wide text-ink">
+        <p className="min-w-0 font-display text-base uppercase leading-tight text-ink">
           {resource.name}
         </p>
       </div>
@@ -89,13 +89,13 @@ export function ResourceCard({ resource }: { resource: Resource }) {
         {resource.audienceTags.slice(0, 3).map((tag) => (
           <span
             key={tag}
-            className="rounded-full border border-ink/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-charcoal-light"
+            className="rounded-full border border-ink/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.2em] text-charcoal-light"
           >
             {tag}
           </span>
         ))}
         {resource.audienceTags.length > 3 && (
-          <span className="px-1 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-charcoal-light">
+          <span className="px-1 py-0.5 text-[10px] font-bold uppercase tracking-[0.2em] text-charcoal-light">
             +{resource.audienceTags.length - 3} more
           </span>
         )}

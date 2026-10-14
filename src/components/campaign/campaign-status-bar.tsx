@@ -58,7 +58,7 @@ export function CampaignStatusBar({
             glance-at-this-number strip, not its own heavy editorial
             section. It previously had no framing at all, unlike every
             other section on the page. */}
-        <p className="mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-bronze-text">
+        <p className="mb-5 text-xs font-bold uppercase tracking-[0.2em] text-bronze-text">
           Live Campaign Status
         </p>
         <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
@@ -74,10 +74,10 @@ export function CampaignStatusBar({
                 stats.length % 2 !== 0 && i === stats.length - 1 && "col-span-2 sm:col-span-1",
               )}
             >
-              <p className="font-display text-2xl font-bold tabular-nums text-ink sm:text-3xl">
+              <p className="font-display text-3xl tabular-nums text-ink sm:text-4xl">
                 <CountUpNumber value={stat.value} formatter={stat.formatter} />
               </p>
-              <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+              <p className="mt-1 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
                 {stat.label}
               </p>
               {stat.sublabel && <p className="mt-0.5 text-xs text-charcoal-light/75">{stat.sublabel}</p>}

@@ -20,22 +20,22 @@ export function PerformanceProgression() {
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {DISCIPLINES.map(({ label, Icon, metric }) => (
-        <div key={label} className="rounded-sm border border-ink/10 bg-off-white p-5">
-          <p className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+        <div key={label} className="rounded-xl border border-line bg-white p-5">
+          <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
             <Icon size={14} className="text-bronze" aria-hidden />
             {label}
           </p>
 
           <div className="mt-4 space-y-3">
             <div>
-              <p className="text-[10px] font-semibold uppercase tracking-widest text-charcoal-light/70">Current</p>
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-charcoal-light/70">Current</p>
               <p className="mt-0.5 text-sm font-semibold text-ink">{metric.current}</p>
             </div>
             <div aria-hidden="true" className="text-charcoal-light/40">
               &darr;
             </div>
             <div>
-              <p className="text-[10px] font-semibold uppercase tracking-widest text-charcoal-light/70">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-charcoal-light/70">
                 Next Milestone
               </p>
               <p className="mt-0.5 text-sm font-semibold text-ink">{metric.competitive}</p>
@@ -44,7 +44,7 @@ export function PerformanceProgression() {
               &darr;
             </div>
             <div className="rounded-sm bg-bronze/10 p-2">
-              <p className="text-[10px] font-semibold uppercase tracking-widest text-bronze">Podium Target</p>
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-bronze">Podium Target</p>
               <p className="mt-0.5 text-sm font-bold text-ink">{metric.podium}</p>
             </div>
           </div>

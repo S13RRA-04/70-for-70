@@ -90,11 +90,11 @@ export function Countdown({ targetIso }: { targetIso: string | null }) {
       {units.map((unit) => (
         <div
           key={unit.label}
-          className="rounded-sm border border-ink/10 bg-off-white px-2 py-3 text-center"
+          className="rounded-xl border border-line bg-white px-2 py-3 text-center"
         >
           <p
             className={cn(
-              "font-display text-2xl font-semibold tabular-nums text-ink transition-opacity duration-300 sm:text-3xl",
+              "font-display text-3xl tabular-nums text-ink transition-opacity duration-300 sm:text-4xl",
               // Soft fade once the real value replaces the SSR-safe "--"
               // placeholder on mount, instead of an instant swap that reads
               // as a glitch. Doesn't re-fire on every per-second tick after
@@ -104,7 +104,7 @@ export function Countdown({ targetIso }: { targetIso: string | null }) {
           >
             {unit.value === null ? "--" : String(unit.value).padStart(2, "0")}
           </p>
-          <p className="mt-1 text-[11px] font-medium uppercase tracking-widest text-charcoal-light">
+          <p className="mt-1 text-[11px] font-medium uppercase tracking-[0.2em] text-charcoal-light">
             {unit.label}
           </p>
         </div>

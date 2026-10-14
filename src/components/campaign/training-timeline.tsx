@@ -39,7 +39,7 @@ export function TrainingTimeline({
             <div className="flex flex-col items-center lg:w-full lg:flex-row">
               <span
                 className={cn(
-                  "flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 font-display text-sm font-bold",
+                  "flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 font-display text-base",
                   isCurrent
                     ? "border-bronze bg-bronze-text text-off-white"
                     : isPast
@@ -63,7 +63,7 @@ export function TrainingTimeline({
             <div className="lg:mt-3 lg:pr-4">
               <p
                 className={cn(
-                  "font-display text-base font-bold uppercase tracking-wide",
+                  "font-display text-lg uppercase",
                   isCurrent ? "text-bronze" : "text-ink",
                 )}
               >
@@ -84,7 +84,7 @@ export function TrainingTimeline({
             </span>
           </div>
           <div className="lg:mt-3">
-            <p className="font-display text-base font-bold uppercase tracking-wide text-ink">Race</p>
+            <p className="font-display text-lg uppercase text-ink">Race</p>
             <p className="mt-1 text-sm leading-snug text-charcoal-light">
               IRONMAN 70.3 Chattanooga
               <br />

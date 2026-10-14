@@ -11,6 +11,7 @@ import {
   ShoppingBag,
 } from "lucide-react";
 import { Container } from "@/components/shared/container";
+import { PageHero } from "@/components/shared/page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
 import { getPartners } from "@/lib/data/partners";
@@ -63,17 +64,12 @@ export default async function TransparencyPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
 
-      {/* Hero */}
-      <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container className="max-w-2xl">
-          <SectionHeading
-            as="h1"
-            eyebrow="Transparency"
-            title="How the Mission Handles Money, Partnerships, and Trust"
-            description={`Where donations go, how ${SITE_NAME} selects the resources and beneficiaries it points people to, what a campaign partnership means, and the organization's actual legal status — plainly stated, not implied.`}
-          />
-        </Container>
-      </section>
+      <PageHero
+        pillar="impact"
+        eyebrow="Transparency"
+        title="How the mission handles money, partnerships, and trust"
+        description={`Where donations go, how ${SITE_NAME} selects the resources and beneficiaries it points people to, what a campaign partnership means, and the organization's actual legal status — plainly stated, not implied.`}
+      />
 
       {/* How Donations Work */}
       <section className="py-16 sm:py-20">

@@ -138,7 +138,7 @@ export default async function SponsorsPage() {
             <Container>
               <RevealOnScroll>
               <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                <h2 className="font-display text-3xl font-bold uppercase tracking-tight text-off-white sm:text-4xl">
+                <h2 className="font-display text-4xl uppercase text-off-white sm:text-4xl">
                   {PRESENTING_PARTNER_TIER.name}
                 </h2>
                 <p className="text-sm text-off-white/60">
@@ -187,7 +187,7 @@ export default async function SponsorsPage() {
           {campaignPartnersAndServices.length > 0 && (
             <section className="border-t border-ink/10 bg-sand-light/50 py-12 sm:py-14">
               <Container>
-                <h2 className="font-display text-lg font-bold uppercase tracking-tight text-ink">
+                <h2 className="font-display text-xl uppercase text-ink">
                   Campaign Partners &amp; Services
                 </h2>
                 <p className="mt-1 max-w-2xl text-sm text-charcoal-light">
@@ -253,8 +253,8 @@ export default async function SponsorsPage() {
       {/* Final CTA */}
       <section className="border-b border-ink/10 bg-ink py-16 text-center sm:py-20">
         <Container className="max-w-2xl">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">Support the Mission</p>
-          <p className="mt-2 font-display text-3xl font-bold uppercase tracking-tight text-off-white sm:text-4xl">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze-light">Support the Mission</p>
+          <p className="mt-2 font-display text-4xl uppercase text-off-white sm:text-4xl">
             Join the Mission
           </p>
           <p className="mt-3 text-base text-off-white/80">

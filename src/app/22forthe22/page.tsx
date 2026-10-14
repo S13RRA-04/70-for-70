@@ -110,10 +110,10 @@ export default async function EventPage() {
           <RevealOnScroll>
           <SectionHeading eyebrow="The Challenge" title="What Is 22 For the 22?" />
           <p className="mt-5 text-base leading-relaxed text-charcoal-light">{EVENT_WHAT_IS_CONTENT.intro}</p>
-          <p className="mt-5 font-display text-2xl font-bold uppercase tracking-tight text-bronze sm:text-3xl">
+          <p className="mt-5 font-display text-3xl uppercase text-bronze sm:text-4xl">
             {EVENT_WHAT_IS_CONTENT.statLine}
           </p>
-          <p className="mt-2 font-display text-sm font-bold uppercase tracking-[0.2em] text-ink">
+          <p className="mt-2 font-display text-base uppercase tracking-[0.2em] text-ink">
             {EVENT_WHAT_IS_CONTENT.tagline}
           </p>
           <div className="mt-5 space-y-4">
@@ -155,15 +155,15 @@ export default async function EventPage() {
       </section>
 
       {/* How It Works */}
-      <section id="how-it-works" className="scroll-mt-20 py-16 sm:py-20">
+      <section id="how-it-works" className="scroll-mt-28 py-16 sm:py-20">
         <Container>
           <SectionHeading eyebrow="How It Works" title="Register. Move. Track. Repeat." />
           <RevealGrid>
             <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
               {EVENT_HOW_IT_WORKS_STEPS.map((step, i) => (
-                <div key={step.id} className="rounded-sm border border-ink/10 bg-off-white p-6">
-                  <span className="font-display text-2xl font-bold text-bronze">{i + 1}</span>
-                  <p className="mt-2 font-display text-base font-bold uppercase tracking-wide text-ink">
+                <div key={step.id} className="rounded-xl border border-line bg-white p-6">
+                  <span className="font-display text-3xl text-bronze">{i + 1}</span>
+                  <p className="mt-2 font-display text-lg uppercase text-ink">
                     {step.title}
                   </p>
                   <p className="mt-2 text-sm leading-relaxed text-charcoal-light">{step.description}</p>
@@ -241,7 +241,7 @@ export default async function EventPage() {
       )}
 
       {/* Session Tracker */}
-      <section id="tracker" className="scroll-mt-20 border-b border-ink/10 bg-sand-light py-16 sm:py-20">
+      <section id="tracker" className="scroll-mt-28 border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container className="max-w-3xl">
           <RevealOnScroll>
           <SectionHeading eyebrow="Your Progress" title="22-Session Tracker" description="Mark off each session as you complete it. Saved on this device only." />
@@ -249,8 +249,8 @@ export default async function EventPage() {
             <SessionTracker />
           </div>
 
-          <div className="mt-8 rounded-sm border border-ink/10 bg-off-white p-6 text-center">
-            <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+          <div className="mt-8 rounded-xl border border-line bg-white p-6 text-center">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
               Tracking On the Go
             </p>
             <p className="mt-2 text-sm text-charcoal-light">
@@ -372,7 +372,7 @@ export default async function EventPage() {
       {/* Get Involved cross-link */}
       <section className="border-t border-ink/10 bg-ink py-16 text-off-white sm:py-20">
         <Container className="max-w-2xl text-center">
-          <p className="font-display text-2xl font-semibold uppercase tracking-wide">Want to Do More?</p>
+          <p className="font-display text-3xl uppercase">Want to Do More?</p>
           <p className="mt-3 text-base text-off-white/75">
             Sponsor the event, donate a giveaway prize, or volunteer alongside the mission.
           </p>

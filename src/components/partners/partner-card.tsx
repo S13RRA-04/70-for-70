@@ -44,11 +44,11 @@ export function PartnerCard({
       </div>
 
       <div className="flex flex-1 flex-col">
-        <p className="text-xs font-semibold uppercase tracking-widest text-bronze">
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">
           Official Campaign Beneficiary
         </p>
 
-        <h3 className="mt-1.5 font-display text-2xl font-semibold uppercase tracking-wide text-ink">
+        <h3 className="mt-1.5 font-display text-3xl uppercase text-ink">
           {partner.name}
         </h3>
 
@@ -61,7 +61,7 @@ export function PartnerCard({
 
         {partner.what_they_do && (
           <div className="mt-4">
-            <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
               What They Do
             </p>
             <p className="mt-1 text-sm text-charcoal-light">{partner.what_they_do}</p>
@@ -69,7 +69,7 @@ export function PartnerCard({
         )}
 
         <div className="mt-4">
-          <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
             About This Partnership
           </p>
           <p className="mt-1 text-sm text-charcoal-light">{partner.description}</p>
@@ -77,7 +77,7 @@ export function PartnerCard({
 
         {(allocatedAmount !== undefined || partner.distribution_status) && (
           <div className="mt-4">
-            <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
               Funding &amp; Distribution
             </p>
             {allocatedAmount !== undefined && (
@@ -109,7 +109,7 @@ export function PartnerCard({
               target="_blank"
               rel="noopener noreferrer"
               data-analytics-event="beneficiary_selected"
-              className="inline-flex items-center gap-1.5 rounded-sm border border-ink/20 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
+              className="action-control inline-flex items-center justify-center font-bold gap-1.5 border-2 border-navy px-4 py-2 text-[15px] text-navy hover:bg-white"
             >
               Learn More
               <ExternalLink size={13} aria-hidden />

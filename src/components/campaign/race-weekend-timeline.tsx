@@ -15,7 +15,7 @@ export function RaceWeekendTimeline() {
               className="absolute -left-[29px] top-1.5 h-3 w-3 rounded-full border-2 border-bronze bg-off-white"
               aria-hidden="true"
             />
-            <p className="font-display text-lg font-bold uppercase tracking-tight text-ink">{day.day}</p>
+            <p className="font-display text-xl uppercase text-ink">{day.day}</p>
             <div className="mt-2 space-y-2">
               {day.items.map((item) => (
                 <div key={item.label} className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:gap-3">

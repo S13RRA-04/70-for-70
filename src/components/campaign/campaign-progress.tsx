@@ -106,7 +106,7 @@ export function CampaignProgress({
       <div className="mt-3 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
         <p
           className={cn(
-            "font-display text-2xl font-semibold tabular-nums sm:text-3xl",
+            "font-display text-3xl tabular-nums sm:text-4xl",
             isDark ? "text-off-white" : "text-ink",
           )}
         >

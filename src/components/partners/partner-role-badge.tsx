@@ -14,11 +14,11 @@ export function PartnerRoleBadge({
 }) {
   if (variant === "category") {
     return (
-      <span className="inline-flex w-fit items-center rounded-full bg-sand px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest text-charcoal-light">
+      <span className="inline-flex w-fit items-center rounded-full bg-sand px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-charcoal-light">
         {label}
       </span>
     );
   }
 
-  return <p className="text-xs font-semibold uppercase tracking-widest text-ink">{label}</p>;
+  return <p className="text-xs font-bold uppercase tracking-[0.2em] text-ink">{label}</p>;
 }

@@ -25,10 +25,7 @@ export function SectionHeading({
       {eyebrow && (
         <p
           className={cn(
-            "mb-2 text-sm font-semibold uppercase tracking-[0.2em]",
-            // bronze-text, not bronze: an eyebrow is 14px semibold, so it's
-            // "normal text" for WCAG and needs 4.5:1 — bronze only reaches 3.39
-            // on off-white. See the bronze scale's roles in globals.css.
+            "label-caps mb-3",
             isDark ? "property-eyebrow-dark" : "property-eyebrow",
           )}
         >
@@ -37,8 +34,10 @@ export function SectionHeading({
       )}
       <Heading
         className={cn(
-          "text-balance text-section font-semibold uppercase tracking-tight",
-          isDark ? "text-off-white" : "text-ink",
+          "text-balance font-display uppercase",
+          // A page's H1 gets the hero scale + worn print; section titles stay on the section step.
+          Heading === "h1" ? "text-worn text-[clamp(44px,6vw,84px)] leading-[0.95]" : "text-section leading-none",
+          isDark ? "text-white" : "text-navy",
         )}
       >
         {title}
@@ -46,8 +45,8 @@ export function SectionHeading({
       {description && (
         <p
           className={cn(
-            "mt-3 max-w-2xl text-base",
-            isDark ? "text-off-white/75" : "text-charcoal-light/90",
+            "mt-4 max-w-2xl text-base leading-relaxed sm:text-lg",
+            isDark ? "text-mist" : "text-[#3e4247]",
             align === "center" && "mx-auto",
           )}
         >

@@ -19,10 +19,10 @@ export default function ShopPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
       <section className="border-b border-ink/10 bg-ink py-16 text-off-white sm:py-24">
         <Container className="max-w-2xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-bronze-light">
+          <p className="text-sm font-bold uppercase tracking-[0.2em] text-bronze-light">
             Fundraiser
           </p>
-          <h1 className="mt-3 text-balance font-display text-4xl font-bold uppercase leading-[0.95] tracking-tight sm:text-5xl">
+          <h1 className="mt-3 text-balance font-display text-4xl uppercase leading-[0.95] sm:text-5xl">
             {CAMPAIGN_NAME} Shop
           </h1>
           <p className="mt-5 max-w-lg text-base leading-relaxed text-off-white/80">
@@ -35,10 +35,10 @@ export default function ShopPage() {
       <section className="py-16 sm:py-20">
         <Container className="max-w-2xl">
           <RevealOnScroll>
-            <p className="text-xs font-semibold uppercase tracking-widest text-bronze">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">
               Beneficiary Store
             </p>
-            <h2 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
+            <h2 className="mt-2 font-display text-3xl uppercase text-ink sm:text-4xl">
               Bonfire
             </h2>
             <p className="mt-4 max-w-lg text-base leading-relaxed text-charcoal-light">

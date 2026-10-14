@@ -20,12 +20,12 @@ export function CampaignByTheNumbers({ goal, beneficiaryCount }: { goal: number;
   return (
     <dl className="grid grid-cols-3 gap-4">
       {stats.map((stat) => (
-        <div key={stat.label} className="rounded-sm border border-ink/10 bg-off-white p-5 text-center">
+        <div key={stat.label} className="rounded-xl border border-line bg-white p-5 text-center">
           <dt className="sr-only">{stat.label}</dt>
-          <dd className="font-display text-3xl font-semibold text-ink sm:text-4xl">
+          <dd className="font-display text-4xl text-ink sm:text-4xl">
             {stat.value}
           </dd>
-          <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+          <p className="mt-1 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
             {stat.label}
           </p>
         </div>

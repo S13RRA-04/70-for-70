@@ -47,10 +47,10 @@ function EntryCard({ entry }: { entry: AwarenessEntry }) {
   return (
     <Link
       href={`/awareness/${entry.slug}`}
-      className="hover-lift group flex flex-col rounded-sm border border-ink/10 bg-off-white p-5 hover:border-bronze/40"
+      className="hover-lift group flex flex-col rounded-xl border border-line bg-white p-5 hover:border-bronze/40"
     >
-      <p className="text-xs font-semibold uppercase tracking-widest text-bronze">{entry.displayDate}</p>
-      <p className="mt-1.5 font-display text-base font-semibold uppercase tracking-wide text-ink group-hover:text-bronze">
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">{entry.displayDate}</p>
+      <p className="mt-1.5 font-display text-lg uppercase text-ink group-hover:text-bronze">
         {entry.name}
       </p>
       <p className="mt-2 text-sm leading-relaxed text-charcoal-light">{entry.summary}</p>
@@ -82,28 +82,28 @@ export default async function AwarenessEntryPage({
     <article>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(breadcrumbJsonLdData)} />
 
-      <section className={`border-b border-ink/10 py-16 sm:py-20 ${isRemembrance ? "bg-ink text-off-white" : "bg-sand-light"}`}>
+      <section className={`border-b border-line pb-16 pt-16 sm:pb-20 sm:pt-24 ${isRemembrance ? "bg-jet text-paper" : ""}`}>
         <Container className="max-w-3xl">
           <p
-            className={`text-xs font-semibold uppercase tracking-widest ${isRemembrance ? "text-off-white/70" : "text-charcoal-light"}`}
+            className={`label-caps text-xs ${isRemembrance ? "text-[#bdbdbd]" : "text-muted"}`}
           >
-            <Link href="/awareness" className={isRemembrance ? "hover:text-off-white hover:underline" : "hover:text-ink hover:underline"}>
+            <Link href="/awareness" className={isRemembrance ? "hover:text-white hover:underline" : "hover:text-navy hover:underline"}>
               Awareness &amp; Action Calendar
             </Link>
             {labels[0] && ` / ${labels[0]}`}
           </p>
 
-          <p className={`mt-3 text-sm font-semibold uppercase tracking-widest ${isRemembrance ? "text-bronze-light" : "text-bronze"}`}>
+          <p className={`label-caps mt-4 ${isRemembrance ? "text-[#bdbdbd]" : "text-olive"}`}>
             {entry.displayDate}
           </p>
 
           <h1
-            className={`mt-2 text-balance font-display text-3xl font-bold uppercase tracking-tight sm:text-4xl ${isRemembrance ? "text-off-white" : "text-ink"}`}
+            className={`text-worn mt-3 text-balance font-display text-[clamp(44px,6vw,80px)] uppercase leading-[0.95] ${isRemembrance ? "text-white" : "text-navy"}`}
           >
             {entry.name}
           </h1>
 
-          <p className={`mt-5 max-w-2xl text-base leading-relaxed ${isRemembrance ? "text-off-white/80" : "text-charcoal-light"}`}>
+          <p className={`mt-6 max-w-2xl text-lg leading-relaxed sm:text-xl ${isRemembrance ? "text-[#cfcfcf]" : "text-copy"}`}>
             {entry.description ?? entry.summary}
           </p>
 

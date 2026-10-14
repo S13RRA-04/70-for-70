@@ -63,7 +63,7 @@ export function ChapterRail({ chapters }: { chapters: AboutChapter[] }) {
       <nav
         aria-label="Chapters"
         className={cn(
-          "fixed left-6 top-1/2 z-20 hidden -translate-y-1/2 transition-opacity duration-300 xl:block",
+          "fixed left-6 top-1/2 z-20 hidden -translate-y-1/2 transition-opacity duration-300 min-[1700px]:block",
           quiet ? "pointer-events-none opacity-0" : "opacity-100",
         )}
       >
@@ -74,7 +74,7 @@ export function ChapterRail({ chapters }: { chapters: AboutChapter[] }) {
                 href={`#${chapter.id}`}
                 aria-current={activeId === chapter.id ? "true" : undefined}
                 className={cn(
-                  "flex items-center gap-2 text-[10px] font-semibold uppercase tracking-widest transition-colors",
+                  "flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] transition-colors",
                   activeId === chapter.id ? "text-bronze" : "text-charcoal-light/50 hover:text-charcoal-light",
                 )}
               >
@@ -95,9 +95,9 @@ export function ChapterRail({ chapters }: { chapters: AboutChapter[] }) {
       {active && (
         <div
           aria-hidden="true"
-          className="sticky top-16 z-30 border-y border-ink/10 bg-off-white/95 py-2.5 text-center backdrop-blur xl:hidden"
+          className="sticky top-[79px] z-30 border-y border-line bg-paper/95 py-2.5 text-center backdrop-blur min-[1700px]:hidden"
         >
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-charcoal-light">
+          <span className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
             {String(activeIndex + 1).padStart(2, "0")} / {String(chapters.length).padStart(2, "0")}
             <span className="text-bronze"> — {active.label}</span>
           </span>

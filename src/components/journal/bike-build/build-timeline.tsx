@@ -26,7 +26,7 @@ export function BuildTimeline({ entries }: { entries: BikeBuildTimelineEntry[] }
           key={entry.id}
           id={entry.id}
           className={cn(
-            "relative scroll-mt-24 border-l-2 pl-6 sm:pl-8",
+            "relative scroll-mt-28 border-l-2 pl-6 sm:pl-8",
             entry.featured ? "border-bronze" : "border-ink/10",
           )}
         >
@@ -47,7 +47,7 @@ export function BuildTimeline({ entries }: { entries: BikeBuildTimelineEntry[] }
           >
             <summary className="flex cursor-pointer list-none items-start justify-between gap-3 [&::-webkit-details-marker]:hidden">
               <div className="min-w-0">
-                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-semibold uppercase tracking-widest text-bronze">
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-bold uppercase tracking-[0.2em] text-bronze">
                   <time dateTime={entry.date}>{entry.displayDate}</time>
                   <span aria-hidden="true" className="text-charcoal-light/40">
                     &middot;
@@ -58,7 +58,7 @@ export function BuildTimeline({ entries }: { entries: BikeBuildTimelineEntry[] }
                   )}
                 </div>
 
-                <h3 className="mt-2 flex items-center gap-2 font-display text-xl font-semibold uppercase tracking-wide text-ink sm:text-2xl">
+                <h3 className="mt-2 flex items-center gap-2 font-display text-2xl uppercase text-ink sm:text-3xl">
                   {entry.title}
                   <a
                     href={`#${entry.id}`}
@@ -91,7 +91,7 @@ export function BuildTimeline({ entries }: { entries: BikeBuildTimelineEntry[] }
 
             {entry.technicalDetails && (
               <div className="mt-5 rounded-sm border border-ink/10 bg-sand-light/60 p-4">
-                <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
                   {entry.technicalDetails.heading}
                 </p>
                 {entry.technicalDetails.note && (
@@ -112,7 +112,7 @@ export function BuildTimeline({ entries }: { entries: BikeBuildTimelineEntry[] }
 
             {entry.costTable && (
               <div className="mt-5">
-                <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
                   {entry.costTable.heading}
                 </p>
                 {entry.costTable.note && (
@@ -122,10 +122,10 @@ export function BuildTimeline({ entries }: { entries: BikeBuildTimelineEntry[] }
                   <table className="w-full min-w-[420px] border-collapse text-left text-sm">
                     <thead>
                       <tr className="border-b border-ink/10 bg-sand-light">
-                        <th scope="col" className="px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                        <th scope="col" className="px-4 py-2.5 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
                           Part
                         </th>
-                        <th scope="col" className="px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                        <th scope="col" className="px-4 py-2.5 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
                           Estimated Cost
                         </th>
                       </tr>
@@ -208,7 +208,7 @@ export function BuildTimeline({ entries }: { entries: BikeBuildTimelineEntry[] }
           aria-hidden="true"
           className="absolute -left-[7px] top-1.5 h-3 w-3 rounded-full border-2 border-off-white bg-ink/20"
         />
-        <p className="font-display text-sm font-semibold uppercase tracking-[0.3em] text-charcoal-light/70">
+        <p className="font-display text-base uppercase tracking-[0.3em] text-charcoal-light/70">
           To Be Continued
         </p>
       </li>

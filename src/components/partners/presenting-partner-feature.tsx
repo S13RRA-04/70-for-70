@@ -52,13 +52,13 @@ export function PresentingPartnerFeature({
         />
 
         <div className="flex-1">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">Presenting Partner</p>
-          <h3 className="mt-2 font-display text-3xl font-bold uppercase tracking-tight text-off-white sm:text-4xl">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze-light">Presenting Partner</p>
+          <h3 className="mt-2 font-display text-4xl uppercase text-off-white sm:text-4xl">
             {partner.name}
           </h3>
 
           {partner.designation && (
-            <p className="mt-2 text-xs font-semibold uppercase tracking-widest text-off-white/80">
+            <p className="mt-2 text-xs font-bold uppercase tracking-[0.2em] text-off-white/80">
               {partner.designation}
             </p>
           )}
@@ -109,8 +109,8 @@ export function PresentingPartnerPlaceholder() {
         aria-hidden="true"
       />
       <div className="relative flex flex-col items-center gap-4 p-10 text-center sm:p-14">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">Presenting Partner</p>
-        <h3 className="font-display text-2xl font-bold uppercase tracking-tight text-off-white sm:text-3xl">
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze-light">Presenting Partner</p>
+        <h3 className="font-display text-3xl uppercase text-off-white sm:text-4xl">
           Presenting Partner Opportunity Available
         </h3>
         <p className="max-w-lg text-sm leading-relaxed text-off-white/70">

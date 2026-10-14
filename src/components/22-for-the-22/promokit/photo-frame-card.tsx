@@ -12,7 +12,7 @@ export function PhotoFrameCard({ asset }: { asset: PromoKitAsset }) {
   const href = promoKitAssetHref(asset);
 
   return (
-    <div className="flex flex-col overflow-hidden rounded-sm border border-ink/10 bg-off-white">
+    <div className="flex flex-col overflow-hidden rounded-xl border border-line bg-white">
       <div className="relative flex items-center justify-center overflow-hidden bg-gradient-to-br from-ink via-charcoal to-ink p-4">
         <div className="relative w-full max-w-[220px]" style={{ aspectRatio: `${asset.width} / ${asset.height}` }}>
           <Image
@@ -24,7 +24,7 @@ export function PhotoFrameCard({ asset }: { asset: PromoKitAsset }) {
         </div>
       </div>
       <div className="flex flex-1 flex-col p-5">
-        <p className="font-display text-sm font-semibold uppercase tracking-wide text-ink">{asset.label}</p>
+        <p className="font-display text-base uppercase text-ink">{asset.label}</p>
         <p className="mt-1 text-sm text-charcoal-light">{asset.description}</p>
         <p className="mt-2 text-xs italic text-charcoal-light/70">
           Shown over a neutral sample background — the download is a transparent PNG.
@@ -34,7 +34,7 @@ export function PhotoFrameCard({ asset }: { asset: PromoKitAsset }) {
           download={asset.fileName}
           data-analytics-event="promokit_asset_download"
           data-asset-id={asset.id}
-          className="mt-4 inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-sm border border-ink/20 px-4 py-2.5 text-xs font-semibold uppercase tracking-wide text-ink transition-colors hover:bg-ink/5"
+          className="action-control inline-flex items-center justify-center font-bold mt-4 min-h-[44px] gap-1.5 border-2 border-navy px-4 py-2.5 text-[15px] text-navy transition-colors hover:bg-white"
         >
           <Download size={14} aria-hidden />
           Download Transparent PNG

@@ -114,7 +114,7 @@ export default async function BuildingTheBikePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BIKE_BUILD_BREADCRUMB_JSON_LD)} />
 
       <CampaignPageHero>
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze-light">
           <Link href="/journal" className="hover:underline">
             The Journal
           </Link>{" "}
@@ -129,7 +129,7 @@ export default async function BuildingTheBikePage() {
         />
 
         <div className="mt-5 flex flex-wrap items-center gap-3">
-          <span className="rounded-full bg-bronze px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-ink">
+          <span className="rounded-full bg-bronze px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-ink">
             Build Complete — Race Tires Still Needed
           </span>
           <p className="text-sm text-off-white/70">
@@ -150,7 +150,7 @@ export default async function BuildingTheBikePage() {
 
       <section className="border-b border-ink/10 py-6">
         <Container className="flex flex-wrap items-center justify-between gap-3">
-          <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">Share This Build</p>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">Share This Build</p>
           <ShareButtons
             url={CANONICAL_URL}
             title={`${PAGE_TITLE} | ${CAMPAIGN_NAME}`}
@@ -161,7 +161,7 @@ export default async function BuildingTheBikePage() {
 
       <section className="border-b border-ink/10 py-16 sm:py-20">
         <Container className="max-w-4xl">
-          <p className="text-center text-xs font-semibold uppercase tracking-widest text-bronze">Then and Now</p>
+          <p className="text-center text-xs font-bold uppercase tracking-[0.2em] text-bronze">Then and Now</p>
           <div className="mt-4">
             <BuildBeforeAfter before={BIKE_BUILD_BEFORE_AFTER.before} after={BIKE_BUILD_BEFORE_AFTER.after} />
           </div>
@@ -191,10 +191,10 @@ export default async function BuildingTheBikePage() {
             description="A snapshot, not a finish line. Nothing below is marked done until it actually is — see the full timeline and component board further down for the details behind each line."
           />
           <div className="mt-8 flex flex-wrap items-baseline gap-3">
-            <p className="font-display text-5xl font-bold tabular-nums text-ink sm:text-6xl">
+            <p className="font-display text-5xl tabular-nums text-ink sm:text-6xl">
               <PercentCountUp value={buildPercent} />
             </p>
-            <p className="text-sm font-semibold uppercase tracking-widest text-charcoal-light">
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-charcoal-light">
               Build Status — {statusOverview.confirmedCount} of {statusOverview.totalCount} components confirmed
             </p>
           </div>
@@ -217,7 +217,7 @@ export default async function BuildingTheBikePage() {
         </Container>
       </section>
 
-      <section id="component-status" className="scroll-mt-24 border-b border-ink/10 bg-sand-light py-16 sm:py-20">
+      <section id="component-status" className="scroll-mt-28 border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container>
           <SectionHeading
             eyebrow="Part by Part"
@@ -275,7 +275,7 @@ export default async function BuildingTheBikePage() {
           <p className="text-center text-xs font-semibold uppercase tracking-[0.3em] text-bronze-light">
             Why It Matters
           </p>
-          <h2 className="mt-3 text-center text-balance font-display text-4xl font-bold uppercase leading-[0.95] tracking-tight sm:text-5xl">
+          <h2 className="mt-3 text-center text-balance font-display text-4xl uppercase leading-[0.95] sm:text-5xl">
             More Than a Bike
           </h2>
 

@@ -112,8 +112,8 @@ function Node({
 /** Full entry content — body, technical details, cost table, photos, contributors, related links. Same shape the old flat "How We Got Here" list used to render, now living inside a node's expanded panel. */
 function EntryDetail({ entry }: { entry: BikeBuildTimelineEntry }) {
   return (
-    <div id={entry.id} className="scroll-mt-24">
-      <h3 className="flex items-center gap-2 font-display text-lg font-semibold uppercase tracking-wide text-ink sm:text-xl">
+    <div id={entry.id} className="scroll-mt-28">
+      <h3 className="flex items-center gap-2 font-display text-xl uppercase text-ink sm:text-2xl">
         {entry.title}
         <a
           href={`#${entry.id}`}
@@ -123,7 +123,7 @@ function EntryDetail({ entry }: { entry: BikeBuildTimelineEntry }) {
           <Link2 size={15} aria-hidden="true" />
         </a>
       </h3>
-      <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-bronze">{entry.status}</p>
+      <p className="mt-1 text-xs font-bold uppercase tracking-[0.2em] text-bronze">{entry.status}</p>
 
       <div className="mt-3 space-y-3">
         {entry.body.map((paragraph, i) => (
@@ -154,8 +154,8 @@ function EntryDetail({ entry }: { entry: BikeBuildTimelineEntry }) {
       )}
 
       {entry.technicalDetails && (
-        <div className="mt-5 rounded-sm border border-ink/10 bg-off-white p-4">
-          <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+        <div className="mt-5 rounded-xl border border-line bg-white p-4">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
             {entry.technicalDetails.heading}
           </p>
           {entry.technicalDetails.note && (
@@ -176,7 +176,7 @@ function EntryDetail({ entry }: { entry: BikeBuildTimelineEntry }) {
 
       {entry.costTable && (
         <div className="mt-5">
-          <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
             {entry.costTable.heading}
           </p>
           {entry.costTable.note && (
@@ -186,10 +186,10 @@ function EntryDetail({ entry }: { entry: BikeBuildTimelineEntry }) {
             <table className="w-full min-w-[420px] border-collapse text-left text-sm">
               <thead>
                 <tr className="border-b border-ink/10 bg-sand-light">
-                  <th scope="col" className="px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                  <th scope="col" className="px-4 py-2.5 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
                     Part
                   </th>
-                  <th scope="col" className="px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                  <th scope="col" className="px-4 py-2.5 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
                     Estimated Cost
                   </th>
                 </tr>
@@ -513,7 +513,7 @@ export function BuildTimelineNodes({ nodes }: { nodes: BikeBuildTimelineNode[] }
             style={{ left: preview.left, top: preview.top }}
             className="pointer-events-none absolute z-30 hidden w-56 -translate-x-1/2 -translate-y-full rounded-sm border border-ink/10 bg-ink px-3 py-2.5 text-off-white shadow-lg sm:block"
           >
-            <p className="text-[10px] font-semibold uppercase tracking-widest text-bronze-light">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-bronze-light">
               {preview.node.displayDate}
             </p>
             <div className="mt-1 space-y-1">

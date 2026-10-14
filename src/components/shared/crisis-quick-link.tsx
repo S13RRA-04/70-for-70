@@ -15,9 +15,9 @@ export function CrisisQuickLink() {
     <div
       id="crisis"
       aria-label="Crisis support"
-      className="flex h-full scroll-mt-24 flex-col border-t-4 border-signal bg-ink p-6 text-off-white"
+      className="flex h-full scroll-mt-28 flex-col border-t-4 border-signal bg-ink p-6 text-off-white"
     >
-      <p className="text-xs font-bold uppercase tracking-widest text-bronze-light">Need Help Now?</p>
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze-light">Need Help Now?</p>
       <p className="mt-2 text-sm leading-relaxed text-off-white/70">
         If you or someone you know is in immediate danger, call{" "}
         <a
@@ -36,7 +36,7 @@ export function CrisisQuickLink() {
           </p>
           <span
             aria-hidden="true"
-            className="font-display text-2xl font-bold leading-none text-bronze-light"
+            className="font-display text-3xl leading-none text-bronze-light"
           >
             988
           </span>

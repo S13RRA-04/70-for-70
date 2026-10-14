@@ -15,7 +15,7 @@ export function EventSupporterCard({ partner }: { partner: MissionPartnerRow }) 
   const badge = partner.partner_type === "giveaway-supporter" ? "Giveaway Supporter" : "Campaign Supporter";
 
   return (
-    <div className="flex flex-col rounded-sm border border-ink/10 bg-off-white p-6">
+    <div className="flex flex-col rounded-xl border border-line bg-white p-6">
       {partner.logo_permission && (
         <PartnerLogo
           name={partner.name}
@@ -27,8 +27,8 @@ export function EventSupporterCard({ partner }: { partner: MissionPartnerRow }) 
         />
       )}
 
-      <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-bronze">{badge}</p>
-      <p className="mt-1 font-display text-lg font-semibold uppercase tracking-wide text-ink">{partner.name}</p>
+      <p className="mt-4 text-xs font-bold uppercase tracking-[0.2em] text-bronze">{badge}</p>
+      <p className="mt-1 font-display text-xl uppercase text-ink">{partner.name}</p>
       <p className="mt-2 text-sm text-charcoal-light">{partner.description}</p>
 
       {partner.website_url && (

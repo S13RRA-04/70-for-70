@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Container } from "@/components/shared/container";
-import { SectionHeading } from "@/components/shared/section-heading";
+import { PageHero } from "@/components/shared/page-hero";
 import { CTAButton } from "@/components/shared/cta-button";
 import { BrandColorBreakdown } from "@/components/about/mark-diagram";
 import { getPartners } from "@/lib/data/partners";
@@ -36,11 +36,14 @@ const BREADCRUMB_JSON_LD = breadcrumbJsonLd([
 
 /** The site's working UI palette, not the mark's symbolic colors — what a reporter actually needs to quote/reproduce brand colors at a glance. */
 const PRIMARY_PALETTE = [
-  { name: "Ink", hex: "#15150f" },
-  { name: "Bronze", hex: "#a97a4c" },
-  { name: "Olive", hex: "#454f37" },
-  { name: "Sand", hex: "#d8cdac" },
-  { name: "Off-White", hex: "#f6f3ea" },
+  { name: "Navy", hex: "#121E3D" },
+  { name: "Olive", hex: "#4B5521" },
+  { name: "Awareness Blue", hex: "#0A6AA6" },
+  { name: "Impact Green", hex: "#17734A" },
+  { name: "Community Yellow", hex: "#F5D000" },
+  { name: "Purpose Red", hex: "#C8162B" },
+  { name: "Black", hex: "#111111" },
+  { name: "Paper", hex: "#F4F2EC" },
 ] as const;
 
 export default async function PressPage() {
@@ -58,17 +61,17 @@ export default async function PressPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
-      <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container>
-          <SectionHeading as="h1" eyebrow="Press & Media" title="Media Resources" />
-        </Container>
-      </section>
+      <PageHero
+        eyebrow="Press & media"
+        title="Media resources"
+        description="Key facts, the founder bio, current campaigns and beneficiaries, logo downloads, brand colors, and a media contact for coverage of For The 22."
+      />
 
       {/* Mission at a Glance */}
       <section className="py-16 sm:py-20">
         <Container className="max-w-3xl space-y-14">
           <div>
-            <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+            <h2 className="font-display text-2xl uppercase text-ink">
               Mission at a Glance
             </h2>
             <p className="mt-1 text-sm font-semibold uppercase tracking-wide text-bronze-text">
@@ -85,14 +88,14 @@ export default async function PressPage() {
           {/* Key Numbers — every value from the same shared getters the rest
               of the site reads, never hand-entered. */}
           <div>
-            <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+            <h2 className="font-display text-2xl uppercase text-ink">
               Key Numbers
             </h2>
             <dl className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-5">
               {keyNumbers.map((stat) => (
                 <div key={stat.label} className="rounded-sm border border-ink/10 bg-sand-light/60 p-4 text-center">
-                  <dd className="font-display text-2xl font-semibold text-ink">{stat.value}</dd>
-                  <dt className="mt-1 text-[11px] font-semibold uppercase tracking-widest text-charcoal-light">
+                  <dd className="font-display text-3xl text-ink">{stat.value}</dd>
+                  <dt className="mt-1 text-[11px] font-bold uppercase tracking-[0.2em] text-charcoal-light">
                     {stat.label}
                   </dt>
                 </div>
@@ -102,13 +105,13 @@ export default async function PressPage() {
 
           {/* Founder Bio */}
           <div>
-            <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+            <h2 className="font-display text-2xl uppercase text-ink">
               Founder Bio
             </h2>
             <p className="mt-1 text-sm text-charcoal-light">Cody Hitson — Founder, For The 22</p>
             <div className="mt-4 space-y-4">
               <div className="border-l-2 border-bronze/50 pl-4">
-                <p className="text-xs font-semibold uppercase tracking-widest text-bronze">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">
                   Short Bio (≈50 words)
                 </p>
                 <p className="mt-2 text-sm leading-relaxed text-charcoal-light">
@@ -116,7 +119,7 @@ export default async function PressPage() {
                 </p>
               </div>
               <div className="border-l-2 border-bronze/50 pl-4">
-                <p className="text-xs font-semibold uppercase tracking-widest text-bronze">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">
                   Full Bio (≈150 words)
                 </p>
                 {FOUNDER_BIO_LONG.map((paragraph) => (
@@ -137,7 +140,7 @@ export default async function PressPage() {
 
           {/* Current Campaigns */}
           <div>
-            <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+            <h2 className="font-display text-2xl uppercase text-ink">
               Current Campaigns
             </h2>
             <ul className="mt-4 grid gap-4 sm:grid-cols-2">
@@ -151,11 +154,11 @@ export default async function PressPage() {
                   .filter(Boolean)
                   .join(" · ");
                 return (
-                  <li key={campaign.name} className="border border-ink/10 bg-off-white p-5">
-                    <p className="text-xs font-semibold uppercase tracking-widest text-bronze">
+                  <li key={campaign.name} className="rounded-xl border border-line bg-white p-5">
+                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">
                       {statusLine}
                     </p>
-                    <p className="mt-1 font-display text-lg font-semibold uppercase tracking-tight text-ink">
+                    <p className="mt-1 font-display text-xl uppercase text-ink">
                       {campaign.name}
                     </p>
                     {"description" in campaign && (
@@ -187,7 +190,7 @@ export default async function PressPage() {
 
           {/* Current Beneficiaries */}
           <div>
-            <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+            <h2 className="font-display text-2xl uppercase text-ink">
               Current Beneficiaries
             </h2>
             <p className="mt-3 text-base leading-relaxed text-charcoal-light">
@@ -218,13 +221,13 @@ export default async function PressPage() {
               rather than showing an empty state or fabricated logos. */}
           {MEDIA_COVERAGE.length > 0 && (
             <div>
-              <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+              <h2 className="font-display text-2xl uppercase text-ink">
                 Media Coverage
               </h2>
               <ul className="mt-4 space-y-3">
                 {MEDIA_COVERAGE.map((item) => (
                   <li key={item.url} className="border-l-2 border-bronze/50 pl-4">
-                    <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
                       {item.outlet}
                     </p>
                     <a
@@ -242,7 +245,7 @@ export default async function PressPage() {
           )}
 
           <div>
-            <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+            <h2 className="font-display text-2xl uppercase text-ink">
               Organization Summary
             </h2>
             <p className="mt-3 text-base leading-relaxed text-charcoal-light">
@@ -253,19 +256,19 @@ export default async function PressPage() {
           </div>
 
           <div>
-            <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+            <h2 className="font-display text-2xl uppercase text-ink">
               Logo Downloads
             </h2>
             <p className="mt-1 text-sm text-charcoal-light">
               The icon mark is available below, shown on both light and dark backgrounds.
             </p>
             <div className="mt-3 flex flex-wrap gap-4">
-              <div className="inline-flex flex-col items-start gap-3 rounded-sm border border-ink/10 bg-off-white p-6">
+              <div className="inline-flex flex-col items-start gap-3 rounded-xl border border-line bg-white p-6">
                 <Image src="/logo.png" alt="For The 22 logo mark" width={140} height={140} />
                 <a
                   href="/logo.png"
                   download
-                  className="inline-flex rounded-sm border border-ink/20 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
+                  className="action-control inline-flex items-center justify-center font-bold border-2 border-navy px-4 py-2 text-[15px] text-navy hover:bg-white"
                 >
                   Download (Light Background)
                 </a>
@@ -288,8 +291,8 @@ export default async function PressPage() {
             </div>
           </div>
 
-          <div id="brand-colors" className="scroll-mt-20">
-            <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+          <div id="brand-colors" className="scroll-mt-28">
+            <h2 className="font-display text-2xl uppercase text-ink">
               Brand Colors
             </h2>
             <p className="mt-1 text-sm text-charcoal-light">Primary palette used across the site.</p>
@@ -327,7 +330,7 @@ export default async function PressPage() {
           </div>
 
           <div>
-            <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+            <h2 className="font-display text-2xl uppercase text-ink">
               Media Contact
             </h2>
             <p className="mt-3 text-base leading-relaxed text-charcoal-light">
@@ -348,7 +351,7 @@ export default async function PressPage() {
           </div>
 
           <div>
-            <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+            <h2 className="font-display text-2xl uppercase text-ink">
               Campaign Media Kit
             </h2>
             <p className="mt-3 text-base leading-relaxed text-charcoal-light">

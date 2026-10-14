@@ -61,7 +61,7 @@ export function CampaignPhaseBanner({
       <div>
         <p
           className={cn(
-            "text-xs font-semibold uppercase tracking-widest",
+            "text-xs font-bold uppercase tracking-[0.2em]",
             isRaceDay ? "text-ink" : isDark ? "text-bronze-light" : "text-bronze-text",
           )}
         >

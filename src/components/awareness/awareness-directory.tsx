@@ -19,14 +19,14 @@ function EntryCard({ entry }: { entry: AwarenessEntry }) {
   return (
     <Link
       href={`/awareness/${entry.slug}`}
-      className="hover-lift group flex flex-col rounded-sm border border-ink/10 bg-off-white p-5 hover:border-bronze/40"
+      className="hover-lift group flex flex-col rounded-xl border border-line bg-white p-5 hover:border-bronze/40"
     >
-      <p className="text-xs font-semibold uppercase tracking-widest text-bronze">{entry.displayDate}</p>
-      <p className="mt-1.5 font-display text-lg font-semibold uppercase tracking-wide text-ink group-hover:text-bronze">
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">{entry.displayDate}</p>
+      <p className="mt-1.5 font-display text-xl uppercase text-ink group-hover:text-bronze">
         {entry.name}
       </p>
       <p className="mt-2 flex-1 text-sm leading-relaxed text-charcoal-light">{entry.summary}</p>
-      <p className="mt-3 text-[11px] font-semibold uppercase tracking-widest text-charcoal-light/70">
+      <p className="mt-3 text-[11px] font-bold uppercase tracking-[0.2em] text-charcoal-light/70">
         {TONE_LABEL[entry.tone]}
       </p>
     </Link>
@@ -70,7 +70,7 @@ export function AwarenessDirectory({ entries }: { entries: AwarenessEntry[] }) {
       />
 
       <div className="mt-5">
-        <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">Filter by Who It&apos;s For</p>
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">Filter by Who It&apos;s For</p>
         <div className="mt-2.5 flex flex-wrap gap-2">
           <FilterChip label="All" active={categoryIds.length === 0} onClick={() => setCategoryIds([])} />
           {AWARENESS_CATEGORIES.map((category) => (
@@ -96,7 +96,7 @@ export function AwarenessDirectory({ entries }: { entries: AwarenessEntry[] }) {
         <>
           {priorityEntries.length > 0 && (
             <div className="mt-8">
-              <p className="text-xs font-semibold uppercase tracking-widest text-bronze">Campaign Opportunities</p>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">Campaign Opportunities</p>
               <p className="mt-1 max-w-2xl text-sm text-charcoal-light">
                 Not every observance gets a campaign built around it &mdash; these are the ones that do.
               </p>
@@ -112,7 +112,7 @@ export function AwarenessDirectory({ entries }: { entries: AwarenessEntry[] }) {
 
           {otherEntries.length > 0 && (
             <div className="mt-10">
-              <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
                 {priorityEntries.length > 0 ? "The Rest of the Calendar" : "Observances"}
               </p>
               <RevealGrid>

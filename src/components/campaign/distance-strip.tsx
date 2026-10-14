@@ -24,8 +24,8 @@ export function DistanceStrip() {
             <div key={leg.label} className="flex items-center gap-3 sm:gap-3">
               <div className="flex flex-col items-center gap-1.5 text-center">
                 <leg.Icon size={22} className="text-bronze" aria-hidden />
-                <p className="font-display text-2xl font-semibold text-ink">{leg.distance}</p>
-                <p className="text-[11px] font-semibold uppercase tracking-widest text-charcoal-light">
+                <p className="font-display text-3xl text-ink">{leg.distance}</p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-charcoal-light">
                   {leg.label} · mi
                 </p>
               </div>
@@ -42,8 +42,8 @@ export function DistanceStrip() {
           </span>
 
           <div className="flex flex-col items-center gap-1.5 rounded-sm border border-bronze/40 bg-bronze/10 px-6 py-3 text-center">
-            <p className="font-display text-3xl font-bold text-ink">{RACE_TOTAL_DISTANCE}</p>
-            <p className="text-[11px] font-semibold uppercase tracking-widest text-bronze">Total · mi</p>
+            <p className="font-display text-4xl text-ink">{RACE_TOTAL_DISTANCE}</p>
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-bronze">Total · mi</p>
           </div>
         </div>
       </Container>

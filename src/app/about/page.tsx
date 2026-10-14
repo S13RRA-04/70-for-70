@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { LifeBuoy, Quote } from "lucide-react";
 import { Container } from "@/components/shared/container";
+import { PageHero } from "@/components/shared/page-hero";
 import { CTASection } from "@/components/shared/cta-section";
 import { ChapterRail } from "@/components/about/chapter-rail";
 import { ImageTextRow } from "@/components/about/image-text-row";
@@ -48,27 +49,34 @@ export default function AboutPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(ABOUT_PERSON_JSON_LD)} />
 
       {/* Founder's Story intro */}
-      <section id="founders-story" className="scroll-mt-28 border-b border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container>
-          <RevealOnScroll>
-            <ImageTextRow
-              image={{ src: ABOUT_CONTENT.portraitUrl ?? "/about/hiking.jpg", alt: ABOUT_CONTENT.name }}
-              eyebrow="Founder's Story"
-              heading="Why For The 22 Exists"
-            >
-              <p className="text-sm font-medium uppercase tracking-wide text-charcoal-light">
-                {ABOUT_CONTENT.name} — {ABOUT_CONTENT.tagline}
-              </p>
-              <p className="text-base leading-relaxed text-charcoal-light">
-                For The 22 grew out of a Navy deployment to Afghanistan, the years of struggle that
-                followed, and a recovery that started with faith and community. This is the story of
-                how one veteran&apos;s fight to find a way forward became a mission to help others
-                find theirs.
-              </p>
-            </ImageTextRow>
-          </RevealOnScroll>
-        </Container>
-      </section>
+      <PageHero
+        id="founders-story"
+        eyebrow="Founder's story"
+        title="Why For The 22 exists"
+        description={
+          <p>
+            For The 22 grew out of a Navy deployment to Afghanistan, the years of struggle that followed, and a
+            recovery that started with faith and community. This is the story of how one veteran&apos;s fight to
+            find a way forward became a mission to help others find theirs.
+          </p>
+        }
+        aside={
+          <div className="relative mx-auto aspect-[4/5] w-full max-w-[380px] overflow-hidden rounded-xl">
+            <Image
+              src={ABOUT_CONTENT.portraitUrl ?? "/about/hiking.jpg"}
+              alt={ABOUT_CONTENT.name}
+              fill
+              priority
+              sizes="(min-width: 1024px) 380px, 100vw"
+              className="object-cover"
+            />
+          </div>
+        }
+      >
+        <p className="label-caps text-steel">
+          {ABOUT_CONTENT.name} — {ABOUT_CONTENT.tagline}
+        </p>
+      </PageHero>
 
       <ChapterRail chapters={ABOUT_CHAPTERS} />
 
@@ -76,7 +84,7 @@ export default function AboutPage() {
       <section id="service" className="scroll-mt-28 border-b border-ink/10 bg-off-white py-16 sm:py-24">
         <span id="my-story" aria-hidden="true" className="block scroll-mt-28 sm:scroll-mt-32" />
         <Container>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze">01 — Service</p>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">01 — Service</p>
           <RevealOnScroll className="mt-6">
             <ImageTextRow image={myStory.image!} heading={myStory.heading} reverse>
               {myStory.body.map((paragraph, i) => (
@@ -111,9 +119,9 @@ export default function AboutPage() {
         <Container>
           <div className="grid gap-10 lg:grid-cols-12 lg:items-start lg:gap-16">
           <div className="lg:col-span-7 lg:pt-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">02 — After</p>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze-light">02 — After</p>
           <RevealOnScroll>
-            <h2 className="mt-2 font-display text-2xl font-semibold uppercase tracking-tight sm:text-3xl">
+            <h2 className="mt-2 font-display text-3xl uppercase sm:text-4xl">
               {after.heading}
             </h2>
             <div className="mt-6 space-y-4">
@@ -138,9 +146,9 @@ export default function AboutPage() {
         <Container>
           <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze">03 — Turning Point</p>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">03 — Turning Point</p>
           <RevealOnScroll variant="rise">
-            <blockquote className="mt-8 border-l-2 border-bronze pl-6 font-display text-xl font-medium italic leading-relaxed text-ink sm:text-2xl">
+            <blockquote className="mt-8 border-l-2 border-bronze pl-6 font-display text-2xl italic leading-relaxed text-ink sm:text-3xl">
               <Quote className="h-8 w-8 text-bronze/30" aria-hidden="true" />
               <p className="mt-3">&ldquo;{testimony.pullQuote!.text}&rdquo;</p>
               <footer className="mt-3 text-sm font-semibold not-italic uppercase tracking-wide text-bronze">
@@ -168,9 +176,9 @@ export default function AboutPage() {
       {/* For The 22 */}
       <section id="for-the-22" className="scroll-mt-28 pt-16 sm:pt-24">
         <Container className={READING_COLUMN}>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze">04 — For The 22</p>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">04 — For The 22</p>
           <RevealOnScroll>
-            <h2 className="mt-2 font-display text-2xl font-semibold uppercase tracking-tight text-ink sm:text-3xl">
+            <h2 className="mt-2 font-display text-3xl uppercase text-ink sm:text-4xl">
               {theIdea.heading}
             </h2>
             <div className="mt-5 space-y-4">
@@ -180,7 +188,7 @@ export default function AboutPage() {
                 </p>
               ))}
             </div>
-            <blockquote className="mt-6 border-l-2 border-bronze pl-6 font-display text-lg font-medium italic leading-relaxed text-ink sm:text-xl">
+            <blockquote className="mt-6 border-l-2 border-bronze pl-6 font-display text-xl italic leading-relaxed text-ink sm:text-2xl">
               <Quote className="h-6 w-6 text-bronze/30" aria-hidden="true" />
               <p className="mt-2">
                 There is another veteran somewhere trying to figure out what comes next — another
@@ -200,7 +208,7 @@ export default function AboutPage() {
           <RevealOnScroll>
             <div className="grid gap-4 lg:grid-cols-[1.3fr_1fr] lg:items-start">
               <div data-rail-quiet className="bg-ink px-6 py-14 text-off-white sm:px-16 sm:py-20">
-                <span className="font-display text-7xl font-bold leading-none text-bronze-light sm:text-8xl">
+                <span className="font-display text-7xl leading-none text-bronze-light sm:text-8xl">
                   22
                 </span>
                 <div className="mt-6 max-w-lg space-y-4">
@@ -215,7 +223,7 @@ export default function AboutPage() {
               <div className="border border-bronze/30 bg-off-white p-6">
                 <div className="flex items-center gap-3">
                   <LifeBuoy className="h-6 w-6 shrink-0 text-bronze" aria-hidden="true" />
-                  <p className="text-sm font-semibold uppercase tracking-widest text-bronze">
+                  <p className="text-sm font-bold uppercase tracking-[0.2em] text-bronze">
                     Need Help Now?
                   </p>
                 </div>
@@ -241,10 +249,10 @@ export default function AboutPage() {
           className="scroll-mt-28 mt-14 w-full bg-ink py-24 text-off-white sm:mt-20 sm:py-36"
         >
           <RevealOnScroll className="mx-auto max-w-2xl px-4 text-center sm:px-6">
-            <p className="text-balance font-display text-6xl font-bold uppercase leading-none tracking-tight sm:text-8xl">
+            <p className="text-balance font-display text-6xl uppercase leading-none sm:text-8xl">
               Black.
             </p>
-            <p className="mt-4 font-display text-lg font-semibold uppercase tracking-tight text-bronze-light sm:text-xl">
+            <p className="mt-4 font-display text-xl uppercase text-bronze-light sm:text-2xl">
               Because 22 &ne; 0.
             </p>
             <div className="mx-auto mt-8 max-w-md space-y-3">
@@ -261,9 +269,9 @@ export default function AboutPage() {
       {/* The Mark */}
       <section id="the-mark" className="scroll-mt-28 border-b border-ink/10 bg-off-white py-16 sm:py-24">
         <Container>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze">05 — The Mark</p>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">05 — The Mark</p>
           <RevealOnScroll>
-            <h2 className="mt-2 font-display text-2xl font-semibold uppercase tracking-tight text-ink sm:text-3xl">
+            <h2 className="mt-2 font-display text-3xl uppercase text-ink sm:text-4xl">
               Nothing in the mark is decorative.
             </h2>
             <div className="mt-12">
@@ -281,9 +289,9 @@ export default function AboutPage() {
       {/* Where the Mission Is Going — closes on For The 22's future, not Cody's story */}
       <section id="mission-going" className="scroll-mt-28 border-b border-ink/10 bg-ink py-16 text-off-white sm:py-24">
         <Container className={READING_COLUMN}>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">06 — What&apos;s Next</p>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze-light">06 — What&apos;s Next</p>
           <RevealOnScroll>
-            <h2 className="mt-2 font-display text-2xl font-semibold uppercase tracking-tight sm:text-3xl">
+            <h2 className="mt-2 font-display text-3xl uppercase sm:text-4xl">
               {missionGoing.heading}
             </h2>
             <div className="mt-6 space-y-4">

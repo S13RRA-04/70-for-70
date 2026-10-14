@@ -1,645 +1,727 @@
 import Link from "next/link";
 import Image from "next/image";
-import {
-  ChevronDown,
-  Handshake,
-  HeartHandshake,
-  Share2,
-  Footprints,
-} from "lucide-react";
-import { Container } from "@/components/shared/container";
-import { SectionHeading } from "@/components/shared/section-heading";
 import { CTAButton } from "@/components/shared/cta-button";
-import { FORM_CONTROL_CLASS_COMPACT } from "@/components/forms/form-parts";
-import { CrisisQuickLink } from "@/components/shared/crisis-quick-link";
 import { ScrollProgressRail } from "@/components/shared/scroll-progress-rail";
 import { RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import { NEED_CATEGORIES } from "@/lib/content/resources";
-import { MissionProgress } from "@/components/campaign/mission-progress";
-import { CampaignCard } from "@/components/campaign/campaign-card";
-import { CountUpNumber } from "@/components/shared/count-up-number";
-import { PresentingPartnerFeature } from "@/components/partners/presenting-partner-feature";
-import { MissionPartnerCard } from "@/components/partners/mission-partner-card";
-import { RevealGrid } from "@/components/shared/reveal-on-scroll";
-import { AWARENESS_CALENDAR, getUpcomingEntries } from "@/lib/content/awareness-calendar";
+import { AWARENESS_CALENDAR, getNextOccurrence, getUpcomingEntries } from "@/lib/content/awareness-calendar";
 import { ABOUT_CONTENT, findAboutSubsection } from "@/lib/content/about";
-import { OUTER_RING_COLORS } from "@/lib/ring-colors";
 import { getMissionMetrics } from "@/lib/data/mission-metrics";
 import { getPartners } from "@/lib/data/partners";
 import { getMissionPartners, isCampaignPartner } from "@/lib/data/mission-partners";
-import {
-  CAMPAIGN_URL,
-  MOVEMENT_CAMPAIGNS,
-  ORG_SUPPORTING_STATEMENT,
-  ORG_TAGLINE,
-  SITE_NAME,
-  isCurrentCampaign,
-} from "@/lib/constants";
+import { CAMPAIGN_URL, MOVEMENT_CAMPAIGNS, ORG_TAGLINE, isCurrentCampaign } from "@/lib/constants";
+import { cn } from "@/lib/utils";
+import type { MovementCampaign } from "@/types/organization";
 
-/** Who the directory serves — a quiet inline line under the resource categories, not a repeated icon grid (the categories above already show "what you need"; this just confirms "who this is for"). */
-const WHO_WE_SERVE = [
-  "Veterans",
-  "Law Enforcement",
-  "Fire",
-  "EMS",
-  "Dispatch",
-  "Corrections",
-  "Families & Caregivers",
-] as const;
+/**
+ * Org homepage — "Steady Ground · Brand Edition" (design D), organized
+ * around the three mission pillars: 01 Connection (help blue), 02
+ * Mobilization (olive), 03 Impact (green). Each pillar's color is used only
+ * for that pillar's labels/marks; navy carries structure everywhere.
+ */
 
 const RAIL_SECTIONS = [
-  { id: "resources", label: "Resources" },
-  { id: "network", label: "Network" },
-  { id: "campaigns", label: "Campaigns" },
-  { id: "mission", label: "The Mission" },
-  { id: "why-22", label: "Meaning" },
+  { id: "connection", label: "Connection" },
+  { id: "mobilization", label: "Mobilization" },
+  { id: "impact", label: "Impact" },
+  { id: "why-22", label: "Why 22" },
   { id: "story", label: "Story" },
 ];
 
-/** The curated "I am a…" set for the homepage quick-finder — real audienceTags values from the resource data (see PRIMARY_AUDIENCE_TAGS in resource-directory.tsx for the fuller filter-row set), kept small here since this is a teaser, not the directory itself. */
+/** Real audienceTags values from the resource data — see PRIMARY_AUDIENCE_TAGS in resource-directory.tsx for the fuller set. */
 const QUICK_FINDER_AUDIENCES = ["Veteran", "Active Military", "Law Enforcement", "Fire", "EMS", "Family"] as const;
 
-/**
- * Homepage "Get Involved" options (secondary path for visitors who arrive
- * wanting to help — see the credibility plan's §21). Deliberately routed
- * through existing destinations: participate → /campaigns, partner → Tri's
- * partnership form (absolute URL, org host would 308 a relative link),
- * support → Tri's donate page, share → /resources. Resource discovery
- * stays the primary CTA elsewhere on the page; this section renders after
- * it and uses secondary-weight styling.
- */
-const GET_INVOLVED_OPTIONS = [
-  {
-    icon: Footprints,
-    title: "Participate",
-    body: "Join an active challenge or event.",
-    href: "/campaigns",
-    cta: "See the Campaigns",
-    external: false,
+/** Homepage-length copy for each athletic campaign card; the full descriptions live on /campaigns. */
+const CAMPAIGN_CARD_COPY: Record<string, { blurb: string; cta: string }> = {
+  ruck: {
+    blurb: "RuckUp22 in Huntsville. Ruck all 22 miles, or walk any distance with family and friends.",
+    cta: "Join the ruck",
   },
-  {
-    icon: Handshake,
-    title: "Partner",
-    body: "Businesses and organizations can contribute equipment, services, funding, expertise, or reach.",
-    href: `${CAMPAIGN_URL}/become-a-partner`,
-    cta: "Become a Partner",
-    external: true,
+  "22": {
+    blurb: "22 sessions of 22 minutes of movement, at your own pace, across a 22-hour window.",
+    cta: "Take part",
   },
-  {
-    icon: HeartHandshake,
-    title: "Support",
-    body: "Donate through a current beneficiary campaign.",
-    href: `${CAMPAIGN_URL}/donate`,
-    cta: "Donate",
-    external: true,
+  tri: {
+    blurb: "IRONMAN 70.3 Chattanooga — the race that started The $70K Mission.",
+    cta: "Follow the journey",
   },
-  {
-    icon: Share2,
-    title: "Share",
-    body: "Help get trusted resources in front of the people who need them.",
-    href: "/resources",
-    cta: "Find Resources to Share",
-    external: false,
-  },
-] as const;
+};
+
+const DAY_MS = 86_400_000;
+
+function parseDate(value: string): Date {
+  return new Date(`${value}T12:00:00Z`);
+}
+
+function daysFromToday(value: string): number {
+  return Math.ceil((parseDate(value).getTime() - Date.now()) / DAY_MS);
+}
+
+const shortDate = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
+const shortDateYear = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+  timeZone: "UTC",
+});
+
+function campaignDateLine(campaign: MovementCampaign): string | null {
+  if (!campaign.startDate) return null;
+  if (!campaign.endDate) return shortDateYear.format(parseDate(campaign.startDate));
+  const start = parseDate(campaign.startDate);
+  const end = parseDate(campaign.endDate);
+  return `${shortDate.format(start)}–${end.getUTCDate()}, ${end.getUTCFullYear()}`;
+}
+
+/** Filled pill when the event is within a month; outlined status otherwise. */
+function campaignPill(campaign: MovementCampaign): { label: string; filled: boolean } {
+  const days = campaign.startDate ? daysFromToday(campaign.startDate) : null;
+  if (days !== null && days >= 0 && days <= 30) {
+    return { label: days === 0 ? "Today" : `In ${days} day${days === 1 ? "" : "s"}`, filled: true };
+  }
+  if (campaign.status === "active") return { label: "Training now", filled: false };
+  return { label: "Upcoming", filled: false };
+}
+
+const usd = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+const count = new Intl.NumberFormat("en-US");
+
+/** Tracked-caps eyebrow. */
+function Label({ className, children }: { className?: string; children: React.ReactNode }) {
+  return <span className={cn("label-caps", className)}>{children}</span>;
+}
+
+/** A radio rendered as a pill — the quick-finder stays a plain GET form, no client JS. */
+function Chip({ name, value, label, defaultChecked }: { name: string; value: string; label: string; defaultChecked?: boolean }) {
+  return (
+    <label className="inline-flex min-h-11 cursor-pointer items-center rounded-full border-[1.5px] border-[#c9cdd3] bg-white px-4 text-[15px] font-semibold text-jet transition-colors hover:border-navy has-[:checked]:border-navy has-[:checked]:bg-navy has-[:checked]:text-white has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-help">
+      <input type="radio" name={name} value={value} defaultChecked={defaultChecked} className="sr-only" />
+      {label}
+    </label>
+  );
+}
 
 export default async function HomePage() {
   const why22 = findAboutSubsection("why-22");
-  const theIdea = findAboutSubsection("the-idea");
   const [metrics, beneficiaries, missionPartners] = await Promise.all([
     getMissionMetrics(),
     getPartners(),
     getMissionPartners(),
   ]);
 
-  const currentCampaigns = MOVEMENT_CAMPAIGNS.filter(isCurrentCampaign);
+  const [taglineFirst, ...taglineRest] = ORG_TAGLINE.split(/(?<=\.)\s+/);
+
+  const current = MOVEMENT_CAMPAIGNS.filter(isCurrentCampaign);
+  const athleticCampaigns = current
+    .filter((c) => c.slug in CAMPAIGN_CARD_COPY)
+    .sort((a, b) => (a.startDate ?? "9999").localeCompare(b.startDate ?? "9999"));
+  const liveCampaign = MOVEMENT_CAMPAIGNS.find((c) => c.slug === "live" && c.url);
+
   const upcomingObservances = getUpcomingEntries(AWARENESS_CALENDAR, 3);
+
   const generalPartners = missionPartners.filter(isCampaignPartner);
   const presentingPartners = generalPartners.filter((p) => p.tier === "presenting-partner");
-  const otherPartners = generalPartners.filter((p) => p.tier !== "presenting-partner");
-  // A curated handful, not the full wall — otherPartners is already ordered
-  // by display_order, so this is "whoever's placed first," not a random cut.
-  // See AGENTS.md-adjacent plan: a logo wall reads fine at 4-8 partners, not
-  // at 20 — the rest get their due on /network instead.
-  const featuredPartners = otherPartners.slice(0, 6);
+  const namedPartners = generalPartners.filter((p) => p.tier !== "presenting-partner").slice(0, 6);
+  const remainingPartnerCount = generalPartners.length - presentingPartners.length - namedPartners.length;
 
-  const networkStats = [
-    { value: metrics.resources, label: "Resources" },
-    { value: metrics.activeCampaigns, label: "Active Campaigns" },
-    { value: metrics.campaignPartners, label: "Campaign Partners" },
-    { value: metrics.beneficiaries, label: "Current Beneficiaries" },
-  ].filter((stat): stat is { value: number; label: string } => stat.value !== null);
+  const raised = metrics.totalRaised;
+  const goal = metrics.fundraisingGoal;
+  const percent = raised !== null && goal ? Math.min(100, (raised / goal) * 100) : null;
+
+  const pillars = [
+    {
+      id: "connection",
+      number: "01",
+      title: "Connection",
+      color: "text-help",
+      body: "Connecting veterans, first responders, and their families to trusted resources, people, organizations, and community.",
+      stat: metrics.resources !== null ? count.format(metrics.resources) : null,
+      statLabel: "vetted resources",
+    },
+    {
+      id: "mobilization",
+      number: "02",
+      title: "Mobilization",
+      color: "text-olive",
+      body: "Turning awareness into action — getting communities, partners, artists, brands, and supporters involved.",
+      stat:
+        metrics.activeCampaigns !== null && metrics.campaignPartners !== null
+          ? `${metrics.activeCampaigns} · ${metrics.campaignPartners}`
+          : null,
+      statLabel: "campaigns · partners",
+    },
+    {
+      id: "impact",
+      number: "03",
+      title: "Impact",
+      color: "text-impact",
+      body: "Converting participation into measurable support — funding, visibility, access, and tangible outcomes for the people doing the work.",
+      stat: raised !== null ? usd.format(raised) : null,
+      statLabel:
+        metrics.beneficiaries !== null
+          ? `raised for ${metrics.beneficiaries} nonprofit${metrics.beneficiaries === 1 ? "" : "s"}`
+          : "raised",
+    },
+  ];
 
   return (
     <>
       <ScrollProgressRail sections={RAIL_SECTIONS} />
 
-      {/* ACT I — "What we do": hero, resource finder, crisis support.
-          Hero — Tier 1: full-bleed photo, oversized type, full desktop viewport height */}
-      <section className="relative overflow-hidden bg-ink text-off-white lg:flex lg:min-h-[88vh] lg:items-end">
-        <Image
-          src="/topo-map.png"
-          alt=""
-          fill
-          priority
+      {/* Hero — ring mark between the two brush-stroke edges. */}
+      <section className="relative overflow-hidden">
+        <svg
           aria-hidden="true"
-          className="object-cover opacity-80 motion-safe:animate-hero-drift"
+          viewBox="0 0 1440 820"
+          preserveAspectRatio="xMidYMid slice"
+          className="absolute inset-0 h-full w-full"
+        >
+          <g fill="none" stroke="#111111" strokeWidth="1" opacity="0.10">
+            <path d="M380 40 C 520 10, 640 70, 760 40 S 980 0, 1100 50" />
+            <path d="M370 70 C 520 40, 640 100, 760 70 S 990 30, 1110 80" />
+            <path d="M360 100 C 520 70, 640 130, 760 100 S 1000 60, 1120 110" />
+            <path d="M330 740 C 470 700, 600 780, 740 740 S 960 690, 1110 750" />
+            <path d="M320 770 C 470 730, 600 810, 740 770 S 970 720, 1120 780" />
+            <path d="M310 800 C 470 760, 600 840, 740 800 S 980 750, 1130 810" />
+          </g>
+        </svg>
+        {/* eslint-disable-next-line @next/next/no-img-element -- decorative edge art sized to the section's height, which next/image can't express */}
+        <img
+          src="/brand/edge-left.webp"
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute left-0 top-0 h-full w-auto max-w-[24vw] object-cover object-right opacity-35 md:opacity-100"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/20" aria-hidden="true" />
-
-        <Container className="relative w-full py-24 sm:py-32 lg:pb-24">
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-bronze-light">
-            {SITE_NAME}
-            <sup className="text-[0.6em] font-medium tracking-normal">™</sup>
-          </p>
-          <div
-            aria-hidden="true"
-            className="mt-4 flex h-1 w-40 overflow-hidden rounded-full"
-          >
-            {OUTER_RING_COLORS.map((ring) => (
-              <span key={ring.branch} className="flex-1" style={{ backgroundColor: ring.hex }} />
-            ))}
-          </div>
-          <h1 className="mt-5 text-balance font-display text-hero-lg font-bold uppercase leading-[0.95] tracking-tight">
-            {ORG_TAGLINE}
+        {/* eslint-disable-next-line @next/next/no-img-element -- see above */}
+        <img
+          src="/brand/edge-right.webp"
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute right-0 top-0 h-full w-auto max-w-[20vw] object-cover object-left opacity-35 md:opacity-100"
+        />
+        <div className="relative mx-auto flex max-w-[860px] flex-col items-center gap-[26px] px-6 pb-[88px] pt-[72px] text-center">
+          <Image
+            src="/brand/ring-logo.webp"
+            alt="For The 22 logo"
+            width={220}
+            height={220}
+            priority
+            className="h-[180px] w-[180px] object-contain sm:h-[220px] sm:w-[220px]"
+          />
+          <Label>
+            <span className="text-help">Connection</span> · <span className="text-olive">Mobilization</span> ·{" "}
+            <span className="text-impact">Impact</span>
+          </Label>
+          <h1 className="text-worn font-display text-[clamp(56px,7.4vw,108px)] uppercase leading-none">
+            <span className="text-outline">{taglineFirst}</span>
+            {taglineRest.length > 0 && (
+              <>
+                <br />
+                <span className="text-navy">{taglineRest.join(" ")}</span>
+              </>
+            )}
           </h1>
-          <p className="mt-5 max-w-xl text-base leading-relaxed text-off-white/80 sm:text-lg">
-            {ORG_SUPPORTING_STATEMENT}
+          <p className="max-w-[620px] text-xl leading-relaxed text-copy">
+            We connect veterans, first responders, and their families to trusted support — and turn community action
+            into real results for the people and organizations doing the work.
           </p>
-
-          <div className="mt-10 flex flex-wrap items-center gap-4">
-            {/* Tri's hero CTA already opts into the magnetic hover as its
-                one highest-intent action per page; this hero's equivalent
-                button had no documented reason not to match. */}
-            <CTAButton href="/resources" size="lg" magnetic>
-              Find Resources
+          <div className="flex flex-wrap justify-center gap-3">
+            <CTAButton href="#connection" size="lg">
+              Find resources
             </CTAButton>
-            <CTAButton href="/crisis" variant="secondary" tone="dark" size="lg">
-              Get Help Now
+            <CTAButton href="#mobilization" size="lg" variant="secondary">
+              Get involved
             </CTAButton>
           </div>
-
-          <a
-            href="#crisis"
-            className="mt-12 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-off-white/60 transition-colors hover:text-off-white"
-          >
-            Need Help Now?
-            <ChevronDown size={14} aria-hidden="true" />
-          </a>
-        </Container>
+        </div>
       </section>
 
-      {/* Find the Support You Need — Tier 1: now the first thing after the
-          hero, ahead of the Ecosystem proof band below, so a first-time
-          visitor sees what the org does before how big it's gotten. The
-          quick-finder is a plain GET form into the real directory's existing
-          ?need=/?audience=/?q= deep-link contract — teases the actual
-          518-resource product instead of recreating a simplified copy of
-          it. Crisis access stays a paired dark panel, not its own band. */}
-      <section id="resources" className="scroll-mt-20 border-t-4 border-bronze bg-sand-light py-16 sm:py-24">
-        <Container>
-          <RevealOnScroll>
-            <SectionHeading
-              eyebrow="Our Core Mission"
-              title="Find the Support You Need"
-              description={`${metrics.resources} vetted resources for veterans, first responders, and their families. Find the ones that fit you.`}
-            />
-          </RevealOnScroll>
-          <RevealOnScroll className="mt-10">
-            <div className="grid gap-8 lg:grid-cols-12 lg:gap-8">
-              <div className="lg:col-span-8 xl:col-span-9">
-                <form
-                  action="/resources"
-                  className="rounded-sm border border-ink/15 bg-off-white p-6 shadow-sm sm:p-8"
-                >
-                  <div className="grid gap-5 sm:grid-cols-2">
-                    <label className="block text-sm">
-                      <span className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-                        I am a&hellip;
-                      </span>
-                      <select name="audience" defaultValue="" className={FORM_CONTROL_CLASS_COMPACT}>
-                        <option value="">Anyone</option>
-                        {QUICK_FINDER_AUDIENCES.map((tag) => (
-                          <option key={tag} value={tag}>
-                            {tag}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                    <label className="block text-sm">
-                      <span className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-                        I need&hellip;
-                      </span>
-                      <select name="need" defaultValue="" className={FORM_CONTROL_CLASS_COMPACT}>
-                        <option value="">Anything</option>
-                        {NEED_CATEGORIES.map((category) => (
-                          <option key={category.id} value={category.id}>
-                            {category.label}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                  </div>
-                  <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-                    <label className="block flex-1 text-sm">
-                      <span className="sr-only">Search resources</span>
-                      <input
-                        type="text"
-                        name="q"
-                        placeholder="Search by keyword…"
-                        className={FORM_CONTROL_CLASS_COMPACT}
-                      />
-                    </label>
-                    <button
-                      type="submit"
-                      className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-sm bg-bronze-text px-6 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-dark"
-                    >
-                      Find Resources
-                    </button>
-                  </div>
-                </form>
-
-                <p className="mt-6 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
-                  Built for {WHO_WE_SERVE.join(" · ")}
-                </p>
-
-                <div className="mt-4 flex flex-wrap items-center gap-4">
-                  <CTAButton href="/resources" variant="ghost">
-                    Browse All Resources &rarr;
-                  </CTAButton>
-                </div>
-              </div>
-              <div className="lg:col-span-4 xl:col-span-3">
-                <CrisisQuickLink />
-              </div>
-            </div>
-          </RevealOnScroll>
-        </Container>
-      </section>
-
-      {/* ACT II — "What is happening": ecosystem proof, campaigns, partners,
-          and the $70K Mission, as one contiguous run rather than split
-          across the page by the Act III memorial section.
-          Network Snapshot — Tier 2: the institutional proof band, now after
-          "what we do" rather than before it, so scale reads as evidence
-          backing the mission instead of the first thing a new visitor sees.
-          Values from getMissionMetrics()/getFundraisingImpactStats(), never
-          hardcoded. */}
-      <section id="network" className="scroll-mt-20 border-y border-ink/10 bg-off-white py-14 sm:py-16">
-        <Container>
-          <RevealOnScroll>
-            <div className="overflow-hidden border border-ink/10 bg-sand-light/35">
-              <div className="grid lg:grid-cols-[0.8fr_2.2fr]">
-              <div className="bg-ink p-7 text-off-white sm:p-9">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">The Ecosystem</p>
-                <p className="mt-3 font-display text-2xl font-semibold uppercase leading-tight">One mission.<br />Four connected systems.</p>
-                <Link href="/network" className="mt-5 inline-flex text-xs font-semibold uppercase tracking-wide text-bronze-light hover:text-off-white">Explore the Network &rarr;</Link>
-              </div>
-              <dl className="relative grid grid-cols-2 sm:grid-cols-4">
-                <div className="absolute left-[12.5%] right-[12.5%] top-1/2 hidden h-px bg-bronze/35 sm:block" aria-hidden="true" />
-                {networkStats.map((stat) => (
-                  <div key={stat.label} className="relative flex min-h-32 flex-col justify-center border-ink/10 p-5 text-center odd:border-r sm:min-h-40 sm:border-r sm:last:border-r-0">
-                    <span className="absolute left-1/2 top-1/2 hidden h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-off-white bg-bronze sm:block" aria-hidden="true" />
-                    <dd className="relative z-10 mb-7 font-display text-3xl font-semibold text-ink sm:text-4xl">
-                      <CountUpNumber value={stat.value} />
-                    </dd>
-                    <dt className="relative z-10 text-[11px] font-semibold uppercase tracking-widest text-charcoal-light">
-                      {stat.label}
-                    </dt>
-                  </div>
-                ))}
-              </dl>
-              </div>
-              <p className="border-t border-ink/10 px-7 py-4 text-sm text-charcoal-light">Resources connect people to help. Campaigns create momentum. Partners expand reach. Beneficiaries deliver the work.</p>
-            </div>
-          </RevealOnScroll>
-        </Container>
-      </section>
-
-      {/* Current Campaigns — Tier 2: the movement in motion right now. Uses
-          the same CampaignCard as /campaigns' full index so the two never
-          render divergent copies of the same data; this teases 1-2 cards and
-          points to the full index rather than repeating every campaign. */}
-      {currentCampaigns.length > 0 && (
-        <section id="campaigns" className="scroll-mt-20 border-b border-ink/10 bg-off-white py-16 sm:py-20">
-          <Container>
-            <RevealOnScroll>
-              <SectionHeading
-                eyebrow="Right Now"
-                title="The Movement in Motion"
-                description="Current campaigns turning endurance, events, and community participation into direct support for the mission."
-              />
-            </RevealOnScroll>
-            <RevealOnScroll className="mt-10">
-              <div className="grid gap-5 lg:grid-cols-2">
-                {currentCampaigns.map((campaign) => (
-                  <CampaignCard key={campaign.name} campaign={campaign} />
-                ))}
-              </div>
-            </RevealOnScroll>
-            <RevealOnScroll>
-              <p className="mt-8 text-center">
-                <Link href="/campaigns" className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark">
-                  See All Campaigns &rarr;
-                </Link>
-              </p>
-            </RevealOnScroll>
-          </Container>
-        </section>
-      )}
-
-      {/* Upcoming Observances — the Awareness & Action Calendar's homepage
-          teaser. Next 3 soonest entries, org-wide (this file is the org
-          homepage only — campaign-home.tsx is the separate Tri homepage,
-          so this never leaks into Tri/Ruck/22). Remembrance-tone entries
-          don't get a donate-style CTA here either, same tone rule as the
-          detail page. */}
-      {upcomingObservances.length > 0 && (
-        <section className="border-b border-ink/10 py-16 sm:py-20">
-          <Container>
-            <RevealOnScroll>
-              <SectionHeading
-                eyebrow="Awareness & Action"
-                title="What's Coming Up"
-                description="Veteran, first-responder, military-family, mental-health, and remembrance observances on the horizon."
-              />
-            </RevealOnScroll>
-            <RevealOnScroll className="mt-10">
-              <div className="grid gap-4 sm:grid-cols-3">
-                {upcomingObservances.map((entry) => (
-                  <Link
-                    key={entry.slug}
-                    href={`/awareness/${entry.slug}`}
-                    className="hover-lift group flex flex-col rounded-sm border border-ink/10 bg-off-white p-5 hover:border-bronze/40"
-                  >
-                    <p className="text-xs font-semibold uppercase tracking-widest text-bronze">
-                      {entry.daysUntil === 0 ? "Today" : `${entry.daysUntil} Day${entry.daysUntil === 1 ? "" : "s"} Away`}
-                    </p>
-                    <p className="mt-1.5 font-display text-lg font-semibold uppercase tracking-wide text-ink group-hover:text-bronze">
-                      {entry.name}
-                    </p>
-                    <p className="mt-1 text-sm text-charcoal-light">{entry.displayDate}</p>
-                  </Link>
-                ))}
-              </div>
-            </RevealOnScroll>
-            <RevealOnScroll>
-              <p className="mt-8 text-center">
-                <Link href="/awareness" className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark">
-                  See the Full Calendar &rarr;
-                </Link>
-              </p>
-            </RevealOnScroll>
-          </Container>
-        </section>
-      )}
-
-      {/* Backing the Mission — Tier 2: at 20 campaign partners network-wide,
-          a full logo wall reads as a sponsor footer, not a credibility
-          signal. Presenting partners get the same full-weight feature
-          treatment /network and /sponsors use; a curated handful of
-          featuredPartners get real story cards (category, contribution,
-          description) instead of a bare logo; everyone else is one click
-          away on /network, not crammed in here. */}
-      {(presentingPartners.length > 0 || featuredPartners.length > 0) && (
-        <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
-          <Container>
-            <RevealOnScroll>
-              <SectionHeading eyebrow="Backing the Mission" title="Organizations Behind the Movement" />
-            </RevealOnScroll>
-
-            {presentingPartners.length > 0 && (
-              <RevealOnScroll className="mt-10">
-                <div className="space-y-6">
-                  {presentingPartners.map((partner) => (
-                    <PresentingPartnerFeature key={partner.id} partner={partner} />
-                  ))}
-                </div>
-              </RevealOnScroll>
-            )}
-
-            {featuredPartners.length > 0 && (
-              <RevealOnScroll className="mt-12">
-                <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">Featured Partners</p>
-                <RevealGrid step={45}>
-                  <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-                    {featuredPartners.map((partner) => (
-                      <MissionPartnerCard
-                        key={partner.id}
-                        partner={partner}
-                        tier={partner.tier === "presenting-partner" ? undefined : (partner.tier ?? undefined)}
-                      />
-                    ))}
-                  </div>
-                </RevealGrid>
-              </RevealOnScroll>
-            )}
-
-            <RevealOnScroll>
-              <p className="mt-10 text-center">
-                <Link href="/network" className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark">
-                  {generalPartners.length} organizations support the mission &rarr;
-                </Link>
-              </p>
-            </RevealOnScroll>
-          </Container>
-        </section>
-      )}
-
-      {/* $70K Mission — closes out "what is happening" (Act II) alongside
-          campaigns and partners above, rather than sitting isolated after
-          the Why-22 memorial section below. The one active initiative, not
-          the org's identity. Beneficiary names come from real data
-          (getPartners()), never invented; the progress bar reads the same
-          canonical campaign total every other money-displaying page reads. */}
-      <section id="mission" className="scroll-mt-20 overflow-hidden border-t border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container>
-          <RevealOnScroll className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-14">
-            <div className="lg:col-span-7">
-            <div className="border-y border-ink/10 py-6 sm:py-8">
-              {metrics.totalRaised !== null && metrics.fundraisingGoal !== null && (
-                <MissionProgress totalRaised={metrics.totalRaised} goal={metrics.fundraisingGoal} />
+      {/* Three pillars */}
+      <section aria-labelledby="pillars-heading" className="border-y border-line bg-white">
+        <h2 id="pillars-heading" className="sr-only">
+          Our mission pillars
+        </h2>
+        <div className="mx-auto grid max-w-[1240px] px-6 md:grid-cols-3">
+          {pillars.map((pillar, i) => (
+            <a
+              key={pillar.id}
+              href={`#${pillar.id}`}
+              className={cn(
+                "group flex flex-col gap-3 border-[#ece9e1] py-10 text-jet max-md:border-b max-md:last:border-b-0 md:px-8",
+                i === 0 && "md:pl-0",
+                i === pillars.length - 1 ? "md:pr-0" : "md:border-r",
               )}
-            </div>
-            {beneficiaries.length > 0 && (
-              <p className="mt-5 text-sm text-charcoal-light">
-                Supporting {beneficiaries.map((p) => p.name).join(" and ")}.
-              </p>
-            )}
-            <CTAButton href="/70k" className="mt-6">
-              Explore The $70K Mission &rarr;
-            </CTAButton>
-            </div>
-            <div className="relative min-h-[320px] overflow-hidden rounded-sm lg:col-span-5 lg:min-h-[430px] lg:translate-x-8">
-              <Image
-                src="/journal/building-the-bike/looks-like-a-bike-full.jpeg"
-                alt="The Tri For The 22 campaign bike during its build"
-                fill
-                sizes="(min-width: 1024px) 42vw, 100vw"
-                className="object-cover"
-              />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/90 to-transparent p-6 pt-24 text-off-white">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">Mission in motion</p>
-                <p className="mt-2 max-w-sm font-display text-xl font-semibold uppercase leading-tight">Every mile, event, and partnership feeds one shared goal.</p>
+            >
+              <div className="flex items-baseline justify-between gap-3">
+                <span className={cn("font-display text-[40px] uppercase leading-none", pillar.color)}>
+                  {pillar.title}
+                </span>
+                <Label className="text-xs text-[#6a6d72]">{pillar.number}</Label>
               </div>
-            </div>
-          </RevealOnScroll>
-        </Container>
+              <span className="flex-grow text-base leading-relaxed text-copy">{pillar.body}</span>
+              {pillar.stat && (
+                <div className="flex items-baseline gap-2.5 border-t border-[#ece9e1] pt-3.5">
+                  <span className="font-display text-[32px] leading-none text-navy">{pillar.stat}</span>
+                  <span className="text-[15px] text-muted">{pillar.statLabel}</span>
+                </div>
+              )}
+            </a>
+          ))}
+        </div>
       </section>
 
-      {/* Why 22 + Black — Act III: "why it matters" begins here, after the
-          "what is happening" act above closes with the $70K Mission. Sparse,
-          poster-like memorial composition, typography-led. */}
-      {why22 && (
-        <section id="why-22" className="scroll-mt-20 bg-ink py-24 text-off-white sm:py-32">
-          <Container>
-            <RevealOnScroll>
-              <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
-                <div>
-                  <span
-                    aria-hidden="true"
-                    className="font-display text-8xl font-bold leading-none text-bronze-light sm:text-9xl"
-                  >
-                    22
-                  </span>
-                  <div className="mt-6 space-y-4">
-                    {why22.body.map((paragraph, i) => (
-                      <p key={i} className="text-base leading-relaxed text-off-white/75">
-                        {paragraph}
-                      </p>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="border-t border-off-white/15 pt-10 lg:border-l lg:border-t-0 lg:pl-16 lg:pt-0">
-                  <p className="text-balance font-display text-6xl font-bold uppercase leading-none tracking-tight sm:text-7xl">
-                    Black.
-                  </p>
-                  <p className="mt-2 font-display text-lg font-semibold uppercase tracking-tight text-bronze-light sm:text-xl">
-                    Because 22 &ne; 0.
-                  </p>
-                  <p className="mt-5 max-w-md text-base leading-relaxed text-off-white/75">
-                    Black represents mourning. We wear it for the veterans and first responders
-                    who are no longer here.
-                  </p>
-                  <Link
-                    href="/about#why-black"
-                    className="mt-5 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze-light transition-colors hover:text-bronze"
-                  >
-                    Why We Wear Black &rarr;
-                  </Link>
-                </div>
-              </div>
-            </RevealOnScroll>
-          </Container>
-        </section>
-      )}
-
-      {/* Why I Started This — Tier 2: shrunk founder teaser, one image/paragraph/pull-quote, pointing to the full story on /mission rather than retelling it here */}
-      {theIdea && (
-        <section id="story" className="scroll-mt-20 bg-sand-light py-16 sm:py-24">
-          <Container>
-            <RevealOnScroll>
-              <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
-                <div className="relative aspect-[4/5] overflow-hidden rounded-sm lg:col-span-5">
-                  <Image
-                    src={ABOUT_CONTENT.portraitUrl ?? "/about/hiking.jpg"}
-                    alt={ABOUT_CONTENT.name}
-                    fill
-                    sizes="(min-width: 1024px) 40vw, 100vw"
-                    className="object-cover"
-                  />
-                </div>
-                <div className="lg:col-span-7">
-                  <SectionHeading eyebrow="Why I Started This" title="Finding the Right Support" />
-                  <p className="mt-5 max-w-xl text-base leading-relaxed text-charcoal-light">
-                    {theIdea.body[0]}
-                  </p>
-                  <blockquote className="mt-6 max-w-xl border-l-2 border-bronze pl-5 font-display text-xl font-semibold uppercase leading-snug tracking-tight text-ink sm:text-2xl">
-                    There is another veteran somewhere trying to figure out what comes next.
-                    Another who needs a mission. Another who needs a team.
-                  </blockquote>
-                  <Link
-                    href="/about#my-story"
-                    className="mt-6 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze transition-colors hover:text-bronze-dark"
-                  >
-                    Read My Story &rarr;
-                  </Link>
-                </div>
-              </div>
-            </RevealOnScroll>
-          </Container>
-        </section>
-      )}
-
-      {/* Get Involved — secondary path for visitors who arrive wanting to
-          help (credibility plan §21). Placed after the primary resource
-          journey and the story so it never competes with Find Resources;
-          the final CTA below still closes on resource discovery. */}
-      <section id="get-involved" className="scroll-mt-20 bg-sand-light py-16 sm:py-20">
-        <Container>
-          <RevealOnScroll>
-            <SectionHeading
-              eyebrow="Get Involved"
-              title="Want to Move the Mission Forward?"
-              description="Not everyone who lands here is looking for help. If you're here to give it, four ways in:"
-            />
-          </RevealOnScroll>
-          <RevealOnScroll className="mt-10">
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {GET_INVOLVED_OPTIONS.map((option) => (
-                <div key={option.title} className="flex flex-col border border-ink/10 bg-off-white p-6">
-                  <option.icon className="h-6 w-6 text-bronze" aria-hidden="true" />
-                  <h3 className="mt-4 font-display text-lg font-bold uppercase tracking-tight text-ink">
-                    {option.title}
-                  </h3>
-                  <p className="mt-2 flex-1 text-sm leading-relaxed text-charcoal-light">
-                    {option.body}
-                  </p>
-                  {option.external ? (
-                    <a
-                      href={option.href}
-                      className="mt-4 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze transition-colors hover:text-bronze-dark"
-                    >
-                      {option.cta} &rarr;
-                    </a>
-                  ) : (
-                    <Link
-                      href={option.href}
-                      className="mt-4 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze transition-colors hover:text-bronze-dark"
-                    >
-                      {option.cta} &rarr;
-                    </Link>
-                  )}
-                </div>
-              ))}
-            </div>
-            <p className="mt-8 text-center text-sm text-charcoal-light">
-              Curious what all of this adds up to?{" "}
-              <Link href="/impact" className="font-semibold text-bronze hover:text-bronze-dark">
-                See the impact &rarr;
+      {/* 01 · Connection — quick-finder + crisis */}
+      <section id="connection" aria-labelledby="find-heading" className="scroll-mt-28">
+        <div className="mx-auto flex max-w-[1240px] flex-wrap gap-x-16 gap-y-10 px-6 pb-10 pt-20 sm:pt-[104px]">
+          <RevealOnScroll className="flex flex-[1_1_300px] flex-col gap-4">
+            <Label className="text-help">01 · Connection</Label>
+            <h2
+              id="find-heading"
+              className="text-worn font-display text-[clamp(44px,5vw,64px)] uppercase leading-none text-navy"
+            >
+              The right help, matched to you.
+            </h2>
+            <p className="max-w-[400px] text-lg leading-relaxed text-copy">
+              Resources, people, organizations, and community — every listing meets our{" "}
+              <Link href="/standards" className="text-help underline underline-offset-2">
+                resource standards
               </Link>
+              .
             </p>
           </RevealOnScroll>
-        </Container>
+
+          <form
+            action="/resources"
+            className="flex min-w-0 flex-[999_1_560px] flex-col gap-7 rounded-xl border border-line bg-white p-6 shadow-[0_1px_0_#dedad0,0_12px_32px_rgba(18,30,61,0.06)] sm:p-8"
+          >
+            <fieldset>
+              <legend className="mb-3 text-base font-bold">I am a…</legend>
+              <div className="flex flex-wrap gap-2">
+                <Chip name="audience" value="" label="Anyone" defaultChecked />
+                {QUICK_FINDER_AUDIENCES.map((tag) => (
+                  <Chip key={tag} name="audience" value={tag} label={tag} />
+                ))}
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend className="mb-3 text-base font-bold">I&apos;m looking for…</legend>
+              <div className="flex flex-wrap gap-2">
+                <Chip name="need" value="" label="Anything" defaultChecked />
+                {NEED_CATEGORIES.map((category) => (
+                  <Chip key={category.id} name="need" value={category.id} label={category.label} />
+                ))}
+              </div>
+            </fieldset>
+            <div className="flex flex-wrap items-end gap-3">
+              <label className="flex flex-[1_1_260px] flex-col gap-2">
+                <span className="text-base font-bold">Or search by keyword</span>
+                <input
+                  type="search"
+                  name="q"
+                  placeholder="Peer support, service dogs, scholarships…"
+                  className="min-h-[52px] rounded-lg border-[1.5px] border-[#c9cdd3] bg-[#fafaf8] px-4 text-[17px] text-jet placeholder:text-[#6a6d72] focus-visible:border-help"
+                />
+              </label>
+              <button
+                type="submit"
+                className="action-control inline-flex min-h-[52px] items-center justify-center bg-navy px-6 text-base font-bold text-white hover:bg-navy-hover"
+              >
+                Show resources
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div className="mx-auto grid max-w-[1240px] gap-5 px-6 pb-20 sm:pb-[104px] md:grid-cols-2">
+          <div id="crisis" className="flex scroll-mt-28 flex-col gap-3 rounded-xl bg-help p-8 text-white sm:p-9">
+            <Label className="text-[#d3e6f3]">Need help now? · Veterans Crisis Line</Label>
+            <h2 className="font-display text-[88px] leading-none sm:text-[104px]">988</h2>
+            <p className="text-[17px] leading-relaxed text-[#e3eef6]">
+              Free, confidential, 24/7. Press 1 to reach responders who understand service. In immediate danger, call
+              911.
+            </p>
+            <div className="mt-1.5 flex flex-wrap gap-2.5">
+              <a
+                href="tel:988"
+                className="action-control inline-flex min-h-[50px] items-center bg-white px-6 font-bold text-help hover:bg-paper"
+              >
+                Call 988, press 1
+              </a>
+              <a
+                href="sms:838255"
+                className="action-control inline-flex min-h-[50px] items-center border-2 border-white px-6 font-bold text-white hover:bg-white/10"
+              >
+                Text 838255
+              </a>
+            </div>
+          </div>
+          <div className="flex flex-col gap-3.5 rounded-xl border border-line bg-white p-8 sm:p-9">
+            <Label className="text-help">First responders</Label>
+            <p className="font-display text-[40px] uppercase leading-none text-navy">
+              Support built for those who answer the call.
+            </p>
+            <p className="text-lg leading-relaxed text-copy">
+              Crisis lines and peer support for law enforcement, fire, EMS, dispatch, and corrections.
+            </p>
+            <Link
+              href="/crisis#first-responders"
+              className="action-control mt-auto inline-flex min-h-[50px] items-center self-start border-2 border-help px-6 font-bold text-help hover:bg-help hover:text-white"
+            >
+              View support
+            </Link>
+          </div>
+        </div>
       </section>
 
-      {/* Final CTA — Tier 1: closing call to action, resource-finding stays the point to the last line */}
-      <section id="find-resources" className="scroll-mt-20 bg-ink py-20 text-off-white sm:py-28">
-        <Container className="max-w-3xl text-center">
-          <p className="text-balance font-display text-hero-sm font-bold uppercase leading-[0.95] tracking-tight">
-            Where Can We Help You Find Support?
-          </p>
-          <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-off-white/75">
-            Search the directory, or reach out directly if you&apos;re not sure where to start.
-          </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <CTAButton href="/resources" size="lg">
-              Find Resources
-            </CTAButton>
+      {/* 02 · Mobilization — campaigns on navy */}
+      <section id="mobilization" aria-labelledby="mob-heading" className="scroll-mt-28 bg-navy text-white">
+        <div className="mx-auto flex max-w-[1240px] flex-col gap-10 px-6 py-20 sm:py-[104px]">
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <div className="flex flex-col gap-4">
+              <Label className="text-[#b9c46a]">02 · Mobilization</Label>
+              <h2 id="mob-heading" className="text-worn font-display text-[clamp(48px,6vw,80px)] uppercase leading-none">
+                Awareness into action.
+              </h2>
+            </div>
+            <p className="max-w-[440px] text-lg leading-relaxed text-mist">
+              Every campaign feeds The $70K Mission — rucks, races, movement challenges, and a concert series that bring
+              communities, partners, artists, and brands into the work.
+            </p>
           </div>
-        </Container>
+
+          <div className="flex flex-wrap items-center gap-x-7 gap-y-3 border-t border-navy-rule pt-9">
+            <Image
+              src="/brand/movement-creates-momentum.webp"
+              alt="Movement creates momentum"
+              width={320}
+              height={138}
+              className="h-auto w-[320px] max-w-full"
+            />
+            <Label className="text-mist">Athletic campaigns</Label>
+          </div>
+
+          {athleticCampaigns.length > 0 && (
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {athleticCampaigns.map((campaign) => {
+                const copy = CAMPAIGN_CARD_COPY[campaign.slug];
+                const pill = campaignPill(campaign);
+                const dateLine = campaignDateLine(campaign);
+                return (
+                  <article
+                    key={campaign.id}
+                    className="bg-paper flex min-h-[280px] flex-col gap-3 rounded-xl p-7 text-jet"
+                  >
+                    <div className="flex justify-between gap-2 text-sm">
+                      <span
+                        className={cn(
+                          "rounded-full px-3 font-bold",
+                          pill.filled
+                            ? "bg-olive py-1 text-white"
+                            : "border-[1.5px] border-olive py-[3px] text-olive",
+                        )}
+                      >
+                        {pill.label}
+                      </span>
+                      {dateLine && <span className="text-muted">{dateLine}</span>}
+                    </div>
+                    <h3 className="mt-2 font-display text-4xl uppercase leading-none">{campaign.name}</h3>
+                    <p className="flex-grow text-base leading-relaxed text-copy">{copy.blurb}</p>
+                    <a href={campaign.url} className="font-bold text-navy hover:text-help hover:underline">
+                      {copy.cta} →
+                    </a>
+                  </article>
+                );
+              })}
+            </div>
+          )}
+
+          {liveCampaign?.url && (
+            <a
+              href={liveCampaign.url}
+              className="flex flex-wrap items-center justify-between gap-x-8 gap-y-3 rounded-xl border border-[#2c3d6b] px-7 py-6 text-white transition-colors hover:border-mist"
+            >
+              <div className="flex flex-col gap-1.5">
+                <Label className="text-xs text-mist">
+                  Benefit concert series{liveCampaign.status === "in-development" && " · Coming soon"}
+                </Label>
+                <span className="font-display text-[32px] uppercase leading-none">{liveCampaign.name}</span>
+                <span className="text-base text-mist">
+                  Artists, veterans, first responders, and families — tickets, sponsorships, and auctions all count
+                  toward the mission.
+                </span>
+              </div>
+              <span className="font-bold text-gold">Get updates →</span>
+            </a>
+          )}
+        </div>
       </section>
+
+      {/* Mobilization · Get involved — banner bookend */}
+      <section aria-labelledby="join-heading" className="relative overflow-hidden">
+        {/* eslint-disable-next-line @next/next/no-img-element -- decorative edge art sized to the section's height */}
+        <img
+          src="/brand/edge-left.webp"
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute left-0 top-0 h-full w-auto max-w-[24vw] object-cover object-right opacity-35 md:opacity-90"
+        />
+        <div className="relative mx-auto flex max-w-[1040px] flex-col gap-9 px-6 py-20 sm:py-24">
+          <div className="flex flex-col items-center gap-3 text-center">
+            <Label className="text-olive">Mobilization · Get involved</Label>
+            <h2 id="join-heading" className="text-worn font-display text-[clamp(48px,6vw,80px)] uppercase leading-none">
+              <span className="text-outline">Here to give help?</span>
+              <br />
+              <span className="text-navy">Four ways in.</span>
+            </h2>
+          </div>
+          <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
+            <GetInvolvedCard href="/campaigns" title="Participate" cta="See campaigns">
+              Join a ruck, a race, or a movement challenge.
+            </GetInvolvedCard>
+            <GetInvolvedCard href={`${CAMPAIGN_URL}/become-a-partner`} external title="Partner" cta="Become a partner">
+              Brands, artists, and organizations: contribute gear, services, funding, expertise, or reach.
+            </GetInvolvedCard>
+            <GetInvolvedCard href={`${CAMPAIGN_URL}/donate`} external title="Donate" cta="Donate" dark>
+              Give directly through a beneficiary campaign.
+            </GetInvolvedCard>
+            <GetInvolvedCard href="/resources" title="Share" cta="Find resources">
+              Help trusted resources reach the people who need them.
+            </GetInvolvedCard>
+          </div>
+        </div>
+      </section>
+
+      {/* 03 · Impact */}
+      <section id="impact" aria-labelledby="impact-heading" className="scroll-mt-28 border-y border-line bg-white">
+        <div className="mx-auto flex max-w-[1240px] flex-col gap-12 px-6 py-20 sm:py-[104px]">
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <div className="flex flex-col gap-4">
+              <Label className="text-impact">03 · Impact</Label>
+              <h2
+                id="impact-heading"
+                className="text-worn font-display text-[clamp(48px,6vw,80px)] uppercase leading-none text-navy"
+              >
+                Participation, made measurable.
+              </h2>
+            </div>
+            <Link href="/impact" className="font-bold text-navy hover:text-help hover:underline">
+              See the full impact report →
+            </Link>
+          </div>
+
+          {raised !== null && goal !== null && percent !== null && (
+            <div className="flex flex-col gap-3">
+              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <div>
+                  <Label className="text-steel">The $70K Mission</Label>
+                  <br />
+                  <span className="font-display text-[56px] leading-none text-impact sm:text-[72px]">
+                    {usd.format(raised)}
+                  </span>{" "}
+                  <span className="ml-1.5 text-muted">raised</span>
+                </div>
+                <Label className="text-steel">Goal · {usd.format(goal)}</Label>
+              </div>
+              <div
+                role="progressbar"
+                aria-label={`Funds raised toward ${usd.format(goal)}`}
+                aria-valuemin={0}
+                aria-valuemax={goal}
+                aria-valuenow={raised}
+                className="h-4 overflow-hidden rounded-full border border-[#cbd9cf] bg-impact-tint"
+              >
+                <div className="h-full min-w-4 rounded-full bg-impact" style={{ width: `${percent}%` }} />
+              </div>
+            </div>
+          )}
+
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {beneficiaries.map((beneficiary) => (
+              <div
+                key={beneficiary.id}
+                className="flex flex-col gap-2 rounded-xl border border-line bg-[#f7f6f2] p-7"
+              >
+                <Label className="text-xs text-impact">Funding</Label>
+                <span className="font-display text-[32px] uppercase leading-none text-navy">{beneficiary.name}</span>
+                <span className="text-base text-copy">Beneficiary of The $70K Mission.</span>
+              </div>
+            ))}
+            {generalPartners.length > 0 && (
+              <div className="flex flex-col gap-2 rounded-xl border border-line bg-[#f7f6f2] p-7">
+                <Label className="text-xs text-impact">Access &amp; visibility</Label>
+                <span className="font-display text-[32px] uppercase leading-none text-navy">
+                  {generalPartners.length} partners
+                </span>
+                <span className="text-base leading-relaxed text-copy">
+                  {presentingPartners.length > 0 && (
+                    <>Led by presenting partners {presentingPartners.map((p) => p.name).join(" and ")}, with </>
+                  )}
+                  {presentingPartners.length === 0 && <>With </>}
+                  {namedPartners.map((p) => p.name).join(", ")}
+                  {remainingPartnerCount > 0 ? `, and ${remainingPartnerCount} more. ` : ". "}
+                  <Link href="/network" className="font-bold text-impact hover:underline">
+                    Meet them →
+                  </Link>
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Remembrance — the one jet-black band on the page. */}
+      {why22 && (
+        <section id="why-22" aria-labelledby="why-heading" className="scroll-mt-28 bg-jet text-paper">
+          <div className="mx-auto flex max-w-[1240px] flex-wrap items-center gap-x-20 gap-y-12 px-6 py-24 sm:py-28">
+            <div className="min-w-0 flex-[1_1_380px]">
+              <Image
+                src="/brand/because-22-white.webp"
+                alt="Because 22 does not equal 0"
+                width={1600}
+                height={1014}
+                sizes="(min-width: 768px) 500px, 100vw"
+                className="h-auto w-full max-w-[500px]"
+              />
+            </div>
+            <div className="flex min-w-0 flex-[999_1_460px] flex-col gap-5">
+              <Label className="text-[#bdbdbd]">Why 22 · Why we wear black</Label>
+              <h2 id="why-heading" className="font-display text-[clamp(40px,4.4vw,60px)] uppercase leading-none">
+                A symbol we carry, not a statistic we repeat.
+              </h2>
+              {why22.body.map((paragraph, i) => (
+                <p key={i} className="text-lg leading-relaxed text-[#cfcfcf]">
+                  {paragraph}
+                </p>
+              ))}
+              <Link href="/about#why-black" className="font-bold text-white underline underline-offset-4">
+                Why we wear black →
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Founder */}
+      <section id="story" aria-labelledby="founder-quote" className="scroll-mt-28">
+        <div className="mx-auto flex max-w-[1240px] flex-wrap items-center gap-x-[72px] gap-y-12 px-6 py-24 sm:py-28">
+          <div className="relative aspect-[4/5] min-w-0 flex-[1_1_360px] overflow-hidden rounded-xl bg-[#e3e0d6]">
+            {ABOUT_CONTENT.portraitUrl && (
+              <Image
+                src={ABOUT_CONTENT.portraitUrl}
+                alt={ABOUT_CONTENT.name}
+                fill
+                sizes="(min-width: 1024px) 40vw, 100vw"
+                className="object-cover"
+              />
+            )}
+          </div>
+          <div className="flex min-w-0 flex-[999_1_460px] flex-col gap-[22px]">
+            <Label className="text-steel">Why I started this</Label>
+            <blockquote>
+              <p
+                id="founder-quote"
+                className="text-[clamp(28px,3vw,40px)] font-semibold leading-tight text-navy"
+              >
+                “There is another veteran somewhere trying to figure out what comes next. Another who needs a mission.
+                Another who needs a team.”
+              </p>
+            </blockquote>
+            <p className="max-w-[540px] text-lg leading-relaxed text-copy">
+              People and organizations invested in me when it mattered most. For The 22 is how I return that
+              investment.
+            </p>
+            <div className="flex flex-wrap items-center gap-5">
+              <div>
+                <div className="font-bold">{ABOUT_CONTENT.name}</div>
+                <Label className="text-xs text-muted">Founder · Combat veteran</Label>
+              </div>
+              <CTAButton href="/about#my-story" variant="secondary">
+                Read my story
+              </CTAButton>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Awareness calendar */}
+      {upcomingObservances.length > 0 && (
+        <section aria-labelledby="cal-heading" className="border-t border-line">
+          <div className="mx-auto flex max-w-[1240px] flex-wrap items-start gap-x-[72px] gap-y-8 px-6 py-20 sm:py-[88px]">
+            <div className="flex flex-[1_1_320px] flex-col gap-3">
+              <Label className="text-steel">Awareness calendar</Label>
+              <h2 id="cal-heading" className="font-display text-5xl uppercase leading-none text-navy">
+                Days we pause to recognize.
+              </h2>
+              <Link href="/awareness" className="mt-2 font-bold text-navy hover:text-help hover:underline">
+                Full calendar →
+              </Link>
+            </div>
+            <ol className="min-w-0 flex-[999_1_560px] border-t border-line">
+              {upcomingObservances.map((entry) => {
+                // getUpcomingEntries only returns entries with a next occurrence.
+                const next = getNextOccurrence(entry);
+                if (!next) return null;
+                const when = new Intl.DateTimeFormat("en-US", {
+                  month: "short",
+                  ...(entry.dateRule.type !== "month" && { day: "numeric" }),
+                }).format(next.date);
+                return (
+                  <li key={entry.slug} className="border-b border-line">
+                    <Link
+                      href={`/awareness/${entry.slug}`}
+                      className="flex items-baseline gap-6 py-5 font-bold text-navy hover:text-help hover:underline"
+                    >
+                      <span className="min-w-24 font-display text-[26px] font-normal uppercase leading-none text-help">
+                        {when}
+                      </span>
+                      <span className="flex-1">{entry.name}</span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
+        </section>
+      )}
     </>
+  );
+}
+
+function GetInvolvedCard({
+  href,
+  title,
+  cta,
+  dark = false,
+  external = false,
+  children,
+}: {
+  href: string;
+  title: string;
+  cta: string;
+  dark?: boolean;
+  external?: boolean;
+  children: React.ReactNode;
+}) {
+  const className = cn(
+    "hover-lift flex min-h-[180px] flex-col gap-2 rounded-xl p-[26px]",
+    dark ? "bg-navy text-white" : "border border-line bg-white text-jet hover:border-navy/40",
+  );
+  const content = (
+    <>
+      <span className="font-display text-[30px] uppercase leading-none">{title}</span>
+      <span className={cn("flex-grow text-base leading-relaxed", dark ? "text-mist" : "text-copy")}>
+        {children}
+      </span>
+      <span className={cn("font-bold", dark ? "text-gold" : "text-navy")}>{cta} →</span>
+    </>
+  );
+  return external ? (
+    <a href={href} className={className}>
+      {content}
+    </a>
+  ) : (
+    <Link href={href} className={className}>
+      {content}
+    </Link>
   );
 }

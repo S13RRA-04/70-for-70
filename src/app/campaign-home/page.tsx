@@ -235,8 +235,8 @@ export default async function CampaignHomePage() {
         <Container className="relative py-16 sm:py-24">
           <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-8">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-bronze-light">For The 22</p>
-          <h1 className="mt-2 text-balance font-display text-hero font-bold uppercase leading-[0.95] tracking-tight">
+          <p className="text-sm font-bold uppercase tracking-[0.2em] text-bronze-light">For The 22</p>
+          <h1 className="mt-2 text-balance font-display text-hero uppercase leading-[0.95]">
             Movement Creates Momentum.
           </h1>
 
@@ -245,7 +245,7 @@ export default async function CampaignHomePage() {
             them — and their families — with trusted resources, community, recovery, purpose, and a path forward.
           </p>
 
-          <p className="mt-6 font-display text-2xl font-bold uppercase tracking-tight text-bronze-light sm:text-3xl">
+          <p className="mt-6 font-display text-3xl uppercase text-bronze-light sm:text-4xl">
             Because 22 &ne; 0.
           </p>
 
@@ -259,16 +259,16 @@ export default async function CampaignHomePage() {
           </div>
           <Link
             href="/journal"
-            className="mt-5 inline-flex text-xs font-semibold uppercase tracking-widest text-off-white/70 hover:text-off-white"
+            className="mt-5 inline-flex text-xs font-bold uppercase tracking-[0.2em] text-off-white/70 hover:text-off-white"
           >
             Follow the {CAMPAIGN_NAME} Campaign &rarr;
           </Link>
           </div>
           <div className="hidden lg:col-span-4 lg:block">
             <div className="border-l border-off-white/20 pl-7">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">Current pursuit</p>
-              <p className="mt-3 font-display text-5xl font-bold leading-none">{RACE_TOTAL_DISTANCE}</p>
-              <p className="mt-1 text-sm uppercase tracking-widest text-off-white/65">Miles to move the mission</p>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze-light">Current pursuit</p>
+              <p className="mt-3 font-display text-5xl leading-none">{RACE_TOTAL_DISTANCE}</p>
+              <p className="mt-1 text-sm uppercase tracking-[0.2em] text-off-white/65">Miles to move the mission</p>
               <div className="mt-7 h-px bg-off-white/20" />
               <p className="mt-7 text-sm leading-relaxed text-off-white/70">Training, bike build, fundraising, and race-day progress update as the campaign moves.</p>
             </div>
@@ -353,8 +353,8 @@ export default async function CampaignHomePage() {
           <div className="relative min-h-[340px] overflow-hidden rounded-sm lg:col-span-5 lg:min-h-[480px]">
             <Image src="/journal/building-the-bike/frame-hero.jpg" alt="Tri For The 22 bike frame during the campaign build" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/90 to-transparent p-6 pt-24 text-off-white">
-              <p className="font-display text-xl font-semibold uppercase">Built piece by piece. Backed mile by mile.</p>
-              <Link href="/journal/building-the-bike" className="mt-3 inline-flex text-xs font-semibold uppercase tracking-widest text-bronze-light">See the bike build &rarr;</Link>
+              <p className="font-display text-2xl uppercase">Built piece by piece. Backed mile by mile.</p>
+              <Link href="/journal/building-the-bike" className="mt-3 inline-flex text-xs font-bold uppercase tracking-[0.2em] text-bronze-light">See the bike build &rarr;</Link>
             </div>
           </div>
           </RevealOnScroll>
@@ -381,7 +381,7 @@ export default async function CampaignHomePage() {
                 <Link
                   key={partner.id}
                   href="/beneficiaries"
-                  className="hover-lift group flex flex-col rounded-sm border border-ink/10 bg-off-white p-6"
+                  className="hover-lift group flex flex-col rounded-xl border border-line bg-white p-6"
                 >
                   <PartnerLogo
                     name={partner.name}
@@ -483,10 +483,10 @@ export default async function CampaignHomePage() {
                   className={
                     i === MISSION_CAMPAIGN_CARDS.length - 1
                       ? "flex flex-col rounded-sm border-2 border-bronze bg-ink p-6 text-off-white"
-                      : "flex flex-col rounded-sm border border-ink/10 bg-off-white p-6"
+                      : "flex flex-col rounded-xl border border-line bg-white p-6"
                   }
                 >
-                  <h3 className="font-display text-lg font-semibold uppercase tracking-wide">{card.name}</h3>
+                  <h3 className="font-display text-xl uppercase">{card.name}</h3>
                   <p
                     className={
                       i === MISSION_CAMPAIGN_CARDS.length - 1
@@ -531,7 +531,7 @@ export default async function CampaignHomePage() {
               {INVOLVEMENT_CTAS.map((item) => (
                 <div key={item.title} className="flex flex-col rounded-sm border border-off-white/15 bg-off-white/5 p-6">
                   <item.icon size={26} className="text-bronze-light" aria-hidden />
-                  <h3 className="mt-4 font-display text-lg font-semibold uppercase tracking-wide">{item.title}</h3>
+                  <h3 className="mt-4 font-display text-xl uppercase">{item.title}</h3>
                   <p className="mt-2 flex-1 text-sm text-off-white/75">{item.description}</p>
                   <Link
                     href={item.href}
@@ -618,7 +618,7 @@ export default async function CampaignHomePage() {
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container className="max-w-2xl text-center">
           <RevealOnScroll>
-            <h2 className="font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
+            <h2 className="font-display text-3xl uppercase text-ink sm:text-4xl">
               Need Support? Start Here.
             </h2>
             <p className="mt-3 text-base leading-relaxed text-charcoal-light">

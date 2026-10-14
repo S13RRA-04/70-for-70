@@ -11,7 +11,7 @@ function TickerTrack({ hidden }: { hidden?: boolean }) {
   return (
     <div className="flex shrink-0 items-center" aria-hidden={hidden}>
       {TICKER_ITEMS.map((item, i) => (
-        <span key={i} className="flex items-center gap-3 whitespace-nowrap px-4 text-xs font-semibold uppercase tracking-widest text-off-white">
+        <span key={i} className="flex items-center gap-3 whitespace-nowrap px-4 text-xs font-bold uppercase tracking-[0.2em] text-off-white">
           {item}
           <ShoppingBag size={14} className="text-bronze-light" aria-hidden="true" />
         </span>

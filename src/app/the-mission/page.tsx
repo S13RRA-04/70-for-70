@@ -38,7 +38,7 @@ export default async function MissionPage() {
       <CampaignPageHero>
         <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:gap-16">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze-light">
               Current Campaign
             </p>
             <SectionHeading
@@ -62,8 +62,8 @@ export default async function MissionPage() {
                 <Image src="/journal/building-the-bike/loaner-bike-blue-trail.jpg" alt="Training ride during the Tri For The 22 campaign" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/10 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-7 text-off-white">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">The mission in one line</p>
-                  <p className="mt-2 font-display text-3xl font-bold uppercase leading-tight">Turn endurance into attention. Turn attention into support.</p>
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze-light">The mission in one line</p>
+                  <p className="mt-2 font-display text-4xl uppercase leading-tight">Turn endurance into attention. Turn attention into support.</p>
                 </div>
               </div>
             </aside>
@@ -71,7 +71,7 @@ export default async function MissionPage() {
             {MISSION_SECTIONS.map((section) => (
               <FocusScrollSection key={section.id}>
                 <div id={section.id} className="border-t border-ink/10 py-7 first:border-t-4 first:border-bronze first:pt-7">
-                  <h2 className="font-display text-2xl font-semibold uppercase tracking-tight text-ink sm:text-3xl">
+                  <h2 className="font-display text-3xl uppercase text-ink sm:text-4xl">
                     {section.heading}
                   </h2>
                   <div className="mt-4 space-y-4">

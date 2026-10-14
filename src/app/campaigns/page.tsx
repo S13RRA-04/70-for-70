@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { Backpack, Bike, Footprints, Music } from "lucide-react";
 import { Container } from "@/components/shared/container";
+import { PageHero } from "@/components/shared/page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTAButton } from "@/components/shared/cta-button";
 import { MissionProgress } from "@/components/campaign/mission-progress";
@@ -85,37 +85,24 @@ export default async function CampaignsPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
-      {/* Hero — plan's standard intro: what campaigns are for, org-wide. The
-          4-icon grid previews the portfolio below instead of leaving the
-          opposite side of the text empty. */}
-      <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container>
-          <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
-            <div className="lg:col-span-7">
-              <SectionHeading
-                as="h1"
-                eyebrow="Campaigns"
-                title="Movement That Moves the Mission"
-                description={`${SITE_NAME} turns movement, events, storytelling, and community participation into direct support for organizations serving veterans, first responders, and their families.`}
-              />
-              <p className="mt-4 text-sm font-semibold uppercase tracking-wide text-bronze">{MISSION_ORIGIN_LINE}</p>
-            </div>
-            <div className="lg:col-span-5">
-              <div className="grid grid-cols-2 gap-4">
-                {/* Fixed order (not Object.values on CAMPAIGN_ICONS) — a "22" key would otherwise sort first as an integer-like property key. */}
-                {[Bike, Backpack, Music, Footprints].map((Icon, i) => (
-                  <div
-                    key={i}
-                    className="flex aspect-square items-center justify-center rounded-sm border border-bronze/20 bg-off-white text-bronze"
-                  >
-                    <Icon className="h-9 w-9" aria-hidden="true" />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </Container>
-      </section>
+      <PageHero
+        pillar="mobilization"
+        eyebrow="02 · Mobilization"
+        title="Movement that moves the mission"
+        description={`${SITE_NAME} turns movement, events, storytelling, and community participation into direct support for organizations serving veterans, first responders, and their families.`}
+        aside={
+          <Image
+            src="/brand/movement-creates-momentum.webp"
+            alt="Movement creates momentum"
+            width={1200}
+            height={516}
+            priority
+            className="h-auto w-full max-w-[460px]"
+          />
+        }
+      >
+        <p className="label-caps text-olive">{MISSION_ORIGIN_LINE}</p>
+      </PageHero>
 
       {/* Current Mission — a campaign-index summary of the shared goal.
           MissionProgress already names the mission and states the "one
@@ -151,7 +138,7 @@ export default async function CampaignsPage() {
           <div className="relative min-h-[300px] overflow-hidden rounded-sm lg:col-span-5 lg:min-h-[400px]">
             <Image src="/the-race/chattanooga-river-bridge.jpg" alt="Chattanooga riverfront near the race course" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/90 to-transparent p-6 pt-20 text-off-white">
-              <p className="text-xs font-semibold uppercase tracking-widest text-bronze-light">One mission. Many ways in.</p>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze-light">One mission. Many ways in.</p>
             </div>
           </div>
           </RevealOnScroll>
@@ -179,7 +166,7 @@ export default async function CampaignsPage() {
           archive lives at /campaigns/journal so this page stays a fixed
           size. See src/lib/content/campaign-journal.ts for how to publish
           a new entry. */}
-      <section id="journal" className="scroll-mt-20 border-t border-ink/10 py-16 sm:py-20">
+      <section id="journal" className="scroll-mt-28 border-t border-ink/10 py-16 sm:py-20">
         <Container>
           <RevealOnScroll>
             <SectionHeading
@@ -228,8 +215,8 @@ export default async function CampaignsPage() {
           <RevealGrid>
             <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {CONTRIBUTION_MECHANISMS.map((mechanism) => (
-                <div key={mechanism.name} className="flex flex-col rounded-sm border border-ink/10 bg-off-white p-6">
-                  <h3 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+                <div key={mechanism.name} className="flex flex-col rounded-xl border border-line bg-white p-6">
+                  <h3 className="font-display text-xl uppercase text-ink">
                     {mechanism.name}
                   </h3>
                   <p className="mt-2 flex-1 text-sm text-charcoal-light">{mechanism.description}</p>
@@ -266,11 +253,11 @@ export default async function CampaignsPage() {
                 nonprofit organizations serving veterans, first responders, and their families.
               </p>
             </div>
-            <blockquote className="mt-8 border-l-2 border-bronze pl-5 font-display text-xl font-semibold uppercase tracking-tight text-bronze-light sm:text-2xl">
+            <blockquote className="mt-8 border-l-2 border-bronze pl-5 font-display text-2xl uppercase text-bronze-light sm:text-3xl">
               The $70K Mission has a finish line. {SITE_NAME} does not.
             </blockquote>
             <div className="mt-10">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze-light">
                 Areas of Future Focus
               </p>
               <div className="mt-3 flex flex-wrap gap-2">

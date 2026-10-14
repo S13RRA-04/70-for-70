@@ -124,7 +124,7 @@ export function TriathlonTeamApplicationForm() {
   if (status === "success") {
     return (
       <div role="status" className="rounded-sm border border-olive/30 bg-olive/10 p-8">
-        <p className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+        <p className="font-display text-2xl uppercase text-ink">
           Application Received
         </p>
         <p className="mt-3 text-base text-charcoal-light">
@@ -146,7 +146,7 @@ export function TriathlonTeamApplicationForm() {
 
       {/* Personal Information */}
       <div>
-        <h2 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+        <h2 className="font-display text-xl uppercase text-ink">
           Personal Information
         </h2>
         <div className="mt-4 grid gap-5 sm:grid-cols-2">
@@ -207,7 +207,7 @@ export function TriathlonTeamApplicationForm() {
 
       {/* Triathlon Background */}
       <div>
-        <h2 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+        <h2 className="font-display text-xl uppercase text-ink">
           Triathlon Background
         </h2>
         <div className="mt-4 space-y-5">
@@ -265,7 +265,7 @@ export function TriathlonTeamApplicationForm() {
 
       {/* Upcoming Racing */}
       <div>
-        <h2 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+        <h2 className="font-display text-xl uppercase text-ink">
           Upcoming Racing
         </h2>
         <div className="mt-4 space-y-5">
@@ -339,7 +339,7 @@ export function TriathlonTeamApplicationForm() {
 
       {/* Mission */}
       <div>
-        <h2 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">Mission</h2>
+        <h2 className="font-display text-xl uppercase text-ink">Mission</h2>
         <div className="mt-4">
           <Field id="tta-missionReason" label="Why do you want to race for Tri For The 22?" error={fieldErrors.missionReason}>
             <textarea
@@ -356,7 +356,7 @@ export function TriathlonTeamApplicationForm() {
 
       {/* Fundraising */}
       <div>
-        <h2 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">Fundraising</h2>
+        <h2 className="font-display text-xl uppercase text-ink">Fundraising</h2>
         <div className="mt-4 space-y-5">
           <YesNoGroup
             legend="Have you fundraised for a cause before?"
@@ -411,7 +411,7 @@ export function TriathlonTeamApplicationForm() {
 
       {/* Social / Outreach */}
       <div>
-        <h2 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+        <h2 className="font-display text-xl uppercase text-ink">
           Social / Outreach
         </h2>
         <p className="mt-1 text-sm text-charcoal-light">All optional.</p>
@@ -458,7 +458,7 @@ export function TriathlonTeamApplicationForm() {
 
       {/* Apparel */}
       <div>
-        <h2 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">Apparel</h2>
+        <h2 className="font-display text-xl uppercase text-ink">Apparel</h2>
         <div className="mt-4 max-w-xs">
           <Field id="tta-apparelSize" label="Shirt / Tri Apparel Size" error={fieldErrors.apparelSize}>
             <select
@@ -484,7 +484,7 @@ export function TriathlonTeamApplicationForm() {
 
       {/* Participation expectations */}
       <div className="rounded-sm border border-ink/10 bg-sand-light/60 p-6">
-        <h2 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+        <h2 className="font-display text-xl uppercase text-ink">
           What It Means to Join the Team
         </h2>
         <p className="mt-3 text-sm text-charcoal-light">Tri For The 22 athletes are expected to:</p>

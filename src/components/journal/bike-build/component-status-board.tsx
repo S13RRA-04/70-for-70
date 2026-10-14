@@ -32,17 +32,17 @@ export function ComponentStatusBoard({
       <table className="w-full min-w-[620px] border-collapse text-left text-sm">
         <thead>
           <tr className="border-b border-ink/10 bg-sand-light">
-            <th scope="col" className="px-4 py-3 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+            <th scope="col" className="px-4 py-3 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
               Component
             </th>
-            <th scope="col" className="px-4 py-3 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+            <th scope="col" className="px-4 py-3 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
               Status
             </th>
-            <th scope="col" className="px-4 py-3 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+            <th scope="col" className="px-4 py-3 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
               Notes
             </th>
             {actionHref && (
-              <th scope="col" className="px-4 py-3 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+              <th scope="col" className="px-4 py-3 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
                 <span className="sr-only">Action</span>
               </th>
             )}

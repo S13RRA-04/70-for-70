@@ -76,7 +76,7 @@ export default function GearJourneyPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(GEAR_JOURNEY_BREADCRUMB_JSON_LD)} />
 
       <CampaignPageHero>
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze-light">
           <Link href="/journal" className="hover:underline">
             The Journal
           </Link>{" "}
@@ -91,7 +91,7 @@ export default function GearJourneyPage() {
         />
 
         <div className="mt-5 flex flex-wrap items-center gap-3">
-          <span className="rounded-full bg-bronze px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-ink">
+          <span className="rounded-full bg-bronze px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-ink">
             Ongoing Series
           </span>
           <p className="text-sm text-off-white/70">
@@ -108,7 +108,7 @@ export default function GearJourneyPage() {
             {GEAR_JOURNEY_OPENING_POST.sections.map((section, i) => (
               <FocusScrollSection key={section.heading ?? `intro-${i}`}>
                 {section.heading && (
-                  <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink sm:text-2xl">
+                  <h2 className="font-display text-2xl uppercase text-ink sm:text-3xl">
                     {section.heading}
                   </h2>
                 )}

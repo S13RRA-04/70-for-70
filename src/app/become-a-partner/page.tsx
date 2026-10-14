@@ -56,8 +56,8 @@ export default async function BecomeAPartnerPage() {
           <RevealGrid>
             <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {SPONSOR_VALUE_PROPS.map((prop) => (
-                <div key={prop.id} className="rounded-sm border border-ink/10 bg-off-white p-6">
-                  <h3 className="font-display text-base font-bold uppercase tracking-wide text-ink">{prop.title}</h3>
+                <div key={prop.id} className="rounded-xl border border-line bg-white p-6">
+                  <h3 className="font-display text-lg uppercase text-ink">{prop.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-charcoal-light">{prop.body}</p>
                 </div>
               ))}
@@ -126,8 +126,8 @@ export default async function BecomeAPartnerPage() {
       {/* Final CTA */}
       <section className="border-t border-ink/10 bg-ink py-16 text-center sm:py-20">
         <Container className="max-w-2xl">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-bronze-light">Let&apos;s Talk</p>
-          <p className="mt-2 font-display text-3xl font-bold uppercase tracking-tight text-off-white sm:text-4xl">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze-light">Let&apos;s Talk</p>
+          <p className="mt-2 font-display text-4xl uppercase text-off-white sm:text-4xl">
             Ready to Partner?
           </p>
           <p className="mt-3 text-base text-off-white/80">

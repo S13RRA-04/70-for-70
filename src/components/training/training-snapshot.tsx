@@ -33,7 +33,7 @@ function WorkoutList({ workouts }: { workouts: WhoopTrainingSnapshot["recentWork
       {workouts.map((workout) => (
         <li
           key={workout.id}
-          className="flex items-center justify-between rounded-sm border border-ink/10 bg-off-white px-3 py-2 text-sm"
+          className="flex items-center justify-between rounded-xl border border-line bg-white px-3 py-2 text-sm"
         >
           <div>
             <p className="font-medium text-ink">{formatSportName(workout.sportName)}</p>
@@ -106,7 +106,7 @@ export function TrainingSnapshot({
 
       {visibleWorkouts.length > 0 && (
         <div className="mt-5">
-          <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
             {compact ? "Latest Session" : "Recent Workouts"}
           </p>
           <WorkoutList workouts={visibleWorkouts} />

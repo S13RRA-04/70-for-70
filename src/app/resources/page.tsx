@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { Container } from "@/components/shared/container";
-import { SectionHeading } from "@/components/shared/section-heading";
+import { PageHero } from "@/components/shared/page-hero";
 import { CTASection } from "@/components/shared/cta-section";
 import { MobileActionBar } from "@/components/shared/mobile-action-bar";
 import { ResourceDirectory } from "@/components/resources/resource-directory";
@@ -20,49 +20,45 @@ export default async function ResourcesPage() {
   const resources = await getResources();
   return (
     <>
-      <section className="border-b border-ink/10 bg-sand-light py-12 sm:py-16">
-        <Container>
-          <SectionHeading
-            as="h1"
-            eyebrow="Our Core Mission"
-            title="Resources for Those Who Serve"
-            description={`The primary mission of ${SITE_NAME} is simple: help veterans and first responders find the support, opportunities, and communities they need — across mental, physical, emotional, spiritual, family, career, financial, legal, and community support. Search or filter by what you need and who you are below.`}
-          />
-        </Container>
-      </section>
+      <PageHero
+        pillar="connection"
+        eyebrow="01 · Connection"
+        title="The right help, matched to you"
+        description={`${SITE_NAME} helps veterans, first responders, and their families find support across mental, physical, emotional, spiritual, family, career, financial, legal, and community needs. Answer a few questions, or search and filter the full directory.`}
+      />
 
-      <section className="bg-[linear-gradient(90deg,rgba(176,137,86,0.07)_1px,transparent_1px)] bg-[size:88px_100%] py-10 sm:py-14">
+      <section className="py-12 sm:py-16">
         <Container>
-          <div className="rounded-sm border border-ink/10 bg-off-white p-4 shadow-[0_18px_60px_rgba(18,23,28,0.08)] sm:p-7">
+          <div className="rounded-xl border border-line bg-white p-4 shadow-[0_1px_0_#dedad0,0_12px_32px_rgba(18,30,61,0.06)] sm:p-7">
             <ResourceNavigator resources={resources} />
           </div>
-          <div id="browse-resources" className="mt-8 scroll-mt-24 border-t-4 border-bronze bg-off-white p-4 shadow-[0_18px_60px_rgba(18,23,28,0.08)] sm:p-7">
+          <div id="browse-resources" className="mt-8 scroll-mt-28 rounded-xl border border-line bg-white p-4 shadow-[0_1px_0_#dedad0,0_12px_32px_rgba(18,30,61,0.06)] sm:p-7">
             <Suspense fallback={null}>
               <ResourceDirectory resources={resources} />
             </Suspense>
           </div>
-          <p className="mt-10 text-center text-sm text-charcoal-light">
+          <p className="mt-10 text-center text-base text-copy">
             Every listing is reviewed before it goes live.{" "}
-            <a href="/standards" className="font-semibold text-bronze hover:text-bronze-dark">
-              How Resources Are Reviewed &rarr;
+            <a href="/standards" className="font-bold text-help underline underline-offset-2 hover:text-help-dark">
+              How resources are reviewed &rarr;
             </a>
           </p>
           <div className="mt-8"><AskForThe22Form /></div>
-          <details className="mt-8 rounded-sm border border-ink/10 bg-off-white p-6 sm:p-8">
-            <summary className="cursor-pointer font-display text-lg font-semibold uppercase tracking-wide text-ink">Share private resource feedback</summary>
-            <p className="mt-2 max-w-2xl text-sm text-charcoal-light">Tell us whether a listing was useful or whether you connected. Individual responses are never displayed publicly.</p>
+          <details className="mt-8 rounded-xl border border-line bg-white p-6 sm:p-8">
+            <summary className="cursor-pointer font-display text-2xl uppercase text-navy">Share private resource feedback</summary>
+            <p className="mt-2 max-w-2xl text-base text-copy">Tell us whether a listing was useful or whether you connected. Individual responses are never displayed publicly.</p>
             <div className="mt-6"><ResourceFeedbackForm /></div>
           </details>
         </Container>
       </section>
 
       <CTASection
-        eyebrow="Know a Good One?"
-        title="Submit a Resource"
+        eyebrow="Know a good one?"
+        title="Submit a resource"
         description="If you know a program, grant, or community that belongs here, send it our way — every submission is reviewed before it's added. The directory is focused on nonprofit, government, and official veteran/first-responder programs, not commercial services or individually licensed professionals."
         buttons={
           CONTACT_EMAIL
-            ? [{ label: "Submit a Resource", href: `mailto:${CONTACT_EMAIL}?subject=Resource%20Submission` }]
+            ? [{ label: "Submit a resource", href: `mailto:${CONTACT_EMAIL}?subject=Resource%20Submission` }]
             : [{ label: "Contact Us", href: "/contact" }]
         }
       />

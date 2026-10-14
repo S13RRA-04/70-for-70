@@ -27,14 +27,14 @@ export function LiveEventPanel({
   return (
     <section className="border-y border-ink/10 bg-sand-light py-16 sm:py-20">
       <Container>
-        <p className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-bronze">Live Now</p>
-        <h2 className="text-balance font-display text-3xl font-semibold uppercase tracking-tight text-ink sm:text-4xl">
+        <p className="mb-2 text-sm font-bold uppercase tracking-[0.2em] text-bronze">Live Now</p>
+        <h2 className="text-balance font-display text-4xl uppercase text-ink sm:text-4xl">
           22 For the 22 Is Underway
         </h2>
 
         <div className="mt-8 grid gap-8 lg:grid-cols-2">
-          <div className="rounded-sm border border-ink/10 bg-off-white p-6">
-            <h3 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+          <div className="rounded-xl border border-line bg-white p-6">
+            <h3 className="font-display text-xl uppercase text-ink">
               Fundraising Progress
             </h3>
             <div className="mt-4">
@@ -52,8 +52,8 @@ export function LiveEventPanel({
             </Link>
           </div>
 
-          <div className="rounded-sm border border-ink/10 bg-off-white p-6">
-            <h3 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+          <div className="rounded-xl border border-line bg-white p-6">
+            <h3 className="font-display text-xl uppercase text-ink">
               Current Movement
             </h3>
             <div className="mt-4">
@@ -64,13 +64,13 @@ export function LiveEventPanel({
 
         {latestJournalEntries.length > 0 && (
           <div className="mt-8">
-            <h3 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">Live Updates</h3>
+            <h3 className="font-display text-xl uppercase text-ink">Live Updates</h3>
             <div className="mt-4 grid gap-4 sm:grid-cols-3">
               {latestJournalEntries.map((entry) => (
                 <Link
                   key={entry.id}
                   href={`/journal/${entry.slug}`}
-                  className="hover-lift rounded-sm border border-ink/10 bg-off-white p-5 hover:border-bronze/30"
+                  className="hover-lift rounded-xl border border-line bg-white p-5 hover:border-bronze/30"
                 >
                   <p className="text-sm font-semibold text-ink">{entry.title}</p>
                   <p className="mt-1 text-xs text-charcoal-light">{entry.summary}</p>

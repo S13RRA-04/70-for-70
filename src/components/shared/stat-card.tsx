@@ -19,10 +19,10 @@ export function StatCard({
         className,
       )}
     >
-      <p className="font-display text-2xl font-semibold tabular-nums text-ink sm:text-3xl">
+      <p className="font-display text-3xl tabular-nums text-ink sm:text-4xl">
         {value}
       </p>
-      <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+      <p className="mt-1 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
         {label}
       </p>
       {sublabel && <p className="mt-0.5 text-xs text-charcoal-light/80">{sublabel}</p>}

@@ -1,5 +1,5 @@
 import { Container } from "@/components/shared/container";
-import { SectionHeading } from "@/components/shared/section-heading";
+import { PageHero } from "@/components/shared/page-hero";
 import { RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import { CTAButton } from "@/components/shared/cta-button";
 import {
@@ -19,19 +19,19 @@ export const metadata = pageMetadata({
 
 export default function StorePage() {
   return (
+    <>
+    <PageHero
+      pillar="mobilization"
+      eyebrow="Store"
+      title="Shop the mission"
+      description={`${SITE_NAME} has two independent merchandise destinations. Choose the store based on where you want your purchase to make an impact.`}
+    />
     <section className="py-16 sm:py-20">
-      <Container className="max-w-4xl">
-        <SectionHeading
-          as="h1"
-          eyebrow="Store"
-          title="Shop the Mission"
-          description={`${SITE_NAME} has two independent merchandise destinations. Choose the store based on where you want your purchase to make an impact.`}
-        />
-
-        <div className="mt-10 grid gap-6 md:grid-cols-2">
-          <RevealOnScroll className="flex h-full flex-col border border-ink/10 bg-sand-light/40 p-6 sm:p-7">
-            <p className="text-xs font-semibold uppercase tracking-widest text-bronze-text">Organization Store</p>
-            <h2 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight text-ink">
+      <Container className="max-w-5xl">
+        <div className="grid gap-6 md:grid-cols-2">
+          <RevealOnScroll className="flex h-full flex-col rounded-xl border border-line bg-white p-6 sm:p-8">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze-text">Organization Store</p>
+            <h2 className="mt-2 font-display text-3xl uppercase text-ink">
               For The 22 on Exray
             </h2>
             <p className="mt-4 flex-1 text-sm leading-relaxed text-charcoal-light">
@@ -45,11 +45,11 @@ export default function StorePage() {
           </RevealOnScroll>
 
           <RevealOnScroll
-            className="flex h-full flex-col border border-ink/10 bg-off-white p-6 sm:p-7"
+            className="flex h-full flex-col rounded-xl border border-line bg-white p-6 sm:p-7"
             delay={80}
           >
-            <p className="text-xs font-semibold uppercase tracking-widest text-bronze-text">Beneficiary Fundraiser</p>
-            <h2 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight text-ink">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze-text">Beneficiary Fundraiser</p>
+            <h2 className="mt-2 font-display text-3xl uppercase text-ink">
               {CAMPAIGN_NAME} on Bonfire
             </h2>
             <p className="mt-4 flex-1 text-sm leading-relaxed text-charcoal-light">
@@ -64,5 +64,6 @@ export default function StorePage() {
         </div>
       </Container>
     </section>
+    </>
   );
 }

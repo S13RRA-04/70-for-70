@@ -29,7 +29,7 @@ export default async function CampaignPressPage() {
       <section className="py-16 sm:py-20">
         <Container className="max-w-3xl space-y-14">
           <div>
-            <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+            <h2 className="font-display text-2xl uppercase text-ink">
               Campaign Summary
             </h2>
             <p className="mt-3 text-base leading-relaxed text-charcoal-light">
@@ -43,7 +43,7 @@ export default async function CampaignPressPage() {
           </div>
 
           <div>
-            <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+            <h2 className="font-display text-2xl uppercase text-ink">
               Athlete Bio
             </h2>
             <p className="mt-3 text-base leading-relaxed text-charcoal-light">
@@ -61,7 +61,7 @@ export default async function CampaignPressPage() {
           </div>
 
           <div>
-            <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+            <h2 className="font-display text-2xl uppercase text-ink">
               Logo Downloads
             </h2>
             <p className="mt-1 text-sm text-charcoal-light">
@@ -69,7 +69,7 @@ export default async function CampaignPressPage() {
               Wordmark Downloads below for the type-only version.
             </p>
             <div className="mt-3 flex flex-wrap gap-4">
-              <div className="inline-flex flex-col items-start gap-3 rounded-sm border border-ink/10 bg-off-white p-6">
+              <div className="inline-flex flex-col items-start gap-3 rounded-xl border border-line bg-white p-6">
                 <Image
                   src="/campaign-logo.png"
                   alt={`${CAMPAIGN_NAME} campaign logo mark`}
@@ -79,7 +79,7 @@ export default async function CampaignPressPage() {
                 <a
                   href="/campaign-logo.png"
                   download
-                  className="inline-flex rounded-sm border border-ink/20 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
+                  className="action-control inline-flex items-center justify-center font-bold border-2 border-navy px-4 py-2 text-[15px] text-navy hover:bg-white"
                 >
                   Download (Light Background)
                 </a>
@@ -103,7 +103,7 @@ export default async function CampaignPressPage() {
           </div>
 
           <div>
-            <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+            <h2 className="font-display text-2xl uppercase text-ink">
               Wordmark Downloads
             </h2>
             <p className="mt-1 text-sm text-charcoal-light">
@@ -111,7 +111,7 @@ export default async function CampaignPressPage() {
               dark backgrounds.
             </p>
             <div className="mt-3 flex flex-wrap gap-4">
-              <div className="inline-flex flex-col items-start gap-3 rounded-sm border border-ink/10 bg-off-white p-6">
+              <div className="inline-flex flex-col items-start gap-3 rounded-xl border border-line bg-white p-6">
                 <Image
                   src="/campaign-wordmark-black.png"
                   alt={`${CAMPAIGN_NAME} wordmark`}
@@ -121,7 +121,7 @@ export default async function CampaignPressPage() {
                 <a
                   href="/campaign-wordmark-black.png"
                   download
-                  className="inline-flex rounded-sm border border-ink/20 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
+                  className="action-control inline-flex items-center justify-center font-bold border-2 border-navy px-4 py-2 text-[15px] text-navy hover:bg-white"
                 >
                   Download (Light Background)
                 </a>
@@ -146,7 +146,7 @@ export default async function CampaignPressPage() {
 
           {APPROVED_PHOTOS.length > 0 && (
             <div>
-              <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+              <h2 className="font-display text-2xl uppercase text-ink">
                 Approved Photos
               </h2>
               <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
@@ -167,7 +167,7 @@ export default async function CampaignPressPage() {
           )}
 
           <div>
-            <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+            <h2 className="font-display text-2xl uppercase text-ink">
               Beneficiary Organizations
             </h2>
             <ul className="mt-3 space-y-2">
@@ -189,7 +189,7 @@ export default async function CampaignPressPage() {
 
           {PRESS_RELEASES.length > 0 && (
             <div>
-              <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+              <h2 className="font-display text-2xl uppercase text-ink">
                 Press Releases
               </h2>
               <ul className="mt-3 space-y-2">
@@ -208,7 +208,7 @@ export default async function CampaignPressPage() {
 
           {MEDIA_COVERAGE.length > 0 && (
             <div>
-              <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+              <h2 className="font-display text-2xl uppercase text-ink">
                 Media Coverage
               </h2>
               <ul className="mt-3 space-y-2">
@@ -228,7 +228,7 @@ export default async function CampaignPressPage() {
           )}
 
           <div>
-            <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+            <h2 className="font-display text-2xl uppercase text-ink">
               Media Contact
             </h2>
             <p className="mt-3 text-base leading-relaxed text-charcoal-light">
@@ -250,7 +250,7 @@ export default async function CampaignPressPage() {
 
           {CAMPAIGN_MATERIALS.length > 0 && (
             <div>
-              <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+              <h2 className="font-display text-2xl uppercase text-ink">
                 Campaign Materials
               </h2>
               <p className="mt-1 text-sm text-charcoal-light">
@@ -259,8 +259,8 @@ export default async function CampaignPressPage() {
               </p>
               <div className="mt-3 grid gap-6 sm:grid-cols-2">
                 {CAMPAIGN_MATERIALS.map((material) => (
-                  <div key={material.label} className="rounded-sm border border-ink/10 bg-off-white p-6">
-                    <h3 className="font-display text-base font-semibold uppercase tracking-wide text-ink">
+                  <div key={material.label} className="rounded-xl border border-line bg-white p-6">
+                    <h3 className="font-display text-lg uppercase text-ink">
                       {material.label}
                     </h3>
                     <p className="mt-1 text-sm text-charcoal-light">{material.description}</p>

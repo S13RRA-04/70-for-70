@@ -48,7 +48,7 @@ export default function PromoKitPage() {
           title={PROMO_KIT_HERO_CONTENT.title}
           description={PROMO_KIT_HERO_CONTENT.description}
         />
-        <p className="mt-2 font-display text-lg font-semibold uppercase tracking-wide text-bronze-light">
+        <p className="mt-2 font-display text-xl uppercase text-bronze-light">
           {PROMO_KIT_HERO_CONTENT.tagline}
         </p>
 
@@ -196,7 +196,7 @@ export default function PromoKitPage() {
 
       <section className="border-t border-ink/10 bg-ink py-16 text-off-white sm:py-20">
         <Container className="max-w-2xl text-center">
-          <p className="font-display text-2xl font-semibold uppercase tracking-wide">Ready to Help Carry It?</p>
+          <p className="font-display text-3xl uppercase">Ready to Help Carry It?</p>
           <p className="mt-3 text-base text-off-white/75">
             Every optional share helps more people hear about the mission — no pressure, no requirement.
           </p>

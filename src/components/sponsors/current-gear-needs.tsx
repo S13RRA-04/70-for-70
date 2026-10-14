@@ -23,8 +23,8 @@ import type { MissionPartnerRow } from "@/types/database";
 export function CurrentGearNeeds({ partners = [] }: { partners?: MissionPartnerRow[] }) {
   return (
     <div className="rounded-sm border-2 border-bronze bg-bronze/5 p-6 sm:p-8">
-      <p className="text-xs font-semibold uppercase tracking-widest text-bronze">Help Make This Possible</p>
-      <h2 className="mt-1 font-display text-2xl font-semibold uppercase tracking-wide text-ink sm:text-3xl">
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">Help Make This Possible</p>
+      <h2 className="mt-1 font-display text-3xl uppercase text-ink sm:text-4xl">
         Current Gear &amp; Support Needs
       </h2>
       <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
@@ -44,9 +44,9 @@ export function CurrentGearNeeds({ partners = [] }: { partners?: MissionPartnerR
         {GEAR_NEEDS_CATEGORIES.map((category) => {
           const securedCount = category.items.filter((item) => item.status === "confirmed").length;
           return (
-            <details key={category.category} className="group rounded-sm border border-ink/10 bg-off-white">
+            <details key={category.category} className="group rounded-xl border border-line bg-white">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 [&::-webkit-details-marker]:hidden">
-                <span className="font-display text-sm font-semibold uppercase tracking-wide text-ink">
+                <span className="font-display text-base uppercase text-ink">
                   {category.category}{" "}
                   <span className="font-sans font-normal normal-case text-charcoal-light">
                     ({securedCount} of {category.items.length} secured)

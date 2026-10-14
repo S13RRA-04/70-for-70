@@ -28,14 +28,14 @@ export function EventHero({
             height={88}
             className="h-16 w-16 sm:h-20 sm:w-20"
           />
-          <h1 className="mt-6 text-balance font-display text-hero font-bold uppercase leading-[0.95] tracking-tight">
+          <h1 className="mt-6 text-balance font-display text-hero uppercase leading-[0.95]">
             {EVENT_HERO_CONTENT.headline}
           </h1>
           <p className="mt-4 max-w-xl text-lg font-semibold uppercase tracking-wide text-bronze-light sm:text-xl">
             {EVENT_HERO_CONTENT.supportingLine}
           </p>
 
-          <p className="mt-4 text-sm font-semibold uppercase tracking-widest text-off-white/70">
+          <p className="mt-4 text-sm font-bold uppercase tracking-[0.2em] text-off-white/70">
             {EVENT_HERO_CONTENT.dateDisplay}
           </p>
 

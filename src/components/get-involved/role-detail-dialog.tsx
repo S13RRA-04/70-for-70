@@ -22,13 +22,13 @@ export function RoleDetailDialog({ role }: { role: Role }) {
       <button
         type="button"
         onClick={() => dialogRef.current?.showModal()}
-        className="w-full rounded-sm border border-ink/10 bg-off-white p-6 text-left transition-colors hover:border-bronze/40 hover:bg-sand-light/40"
+        className="w-full rounded-xl border border-line bg-white p-6 text-left transition-colors hover:border-bronze/40 hover:bg-sand-light/40"
       >
-        <h3 className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+        <h3 className="font-display text-xl uppercase text-ink">
           {role.title}
         </h3>
         <p className="mt-2 text-sm leading-relaxed text-charcoal-light">{role.description}</p>
-        <span className="mt-3 inline-block text-xs font-semibold uppercase tracking-widest text-bronze">
+        <span className="mt-3 inline-block text-xs font-bold uppercase tracking-[0.2em] text-bronze">
           Learn More &amp; Sign Up
         </span>
       </button>
@@ -43,7 +43,7 @@ export function RoleDetailDialog({ role }: { role: Role }) {
       >
         <div className="p-6 sm:p-8">
           <div className="flex items-start justify-between gap-4">
-            <h3 id={headingId} className="font-display text-xl font-semibold uppercase tracking-wide">
+            <h3 id={headingId} className="font-display text-2xl uppercase">
               {role.title}
             </h3>
             <button
@@ -60,7 +60,7 @@ export function RoleDetailDialog({ role }: { role: Role }) {
 
           {role.details.length > 0 && (
             <div className="mt-5">
-              <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
                 What&apos;s Needed
               </p>
               <ul className="mt-2 space-y-1.5 text-sm text-charcoal-light">

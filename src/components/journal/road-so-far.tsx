@@ -34,7 +34,7 @@ export function RoadSoFar({ milestones }: { milestones: (JournalMilestone & { st
           >
             <span
               className={cn(
-                "text-[10px] font-semibold uppercase tracking-widest",
+                "text-[10px] font-bold uppercase tracking-[0.2em]",
                 isComplete || isCurrent ? "text-bronze" : "text-charcoal-light/60",
               )}
             >
@@ -42,7 +42,7 @@ export function RoadSoFar({ milestones }: { milestones: (JournalMilestone & { st
             </span>
             <h3
               className={cn(
-                "mt-1.5 font-display text-sm font-semibold uppercase tracking-wide",
+                "mt-1.5 font-display text-base uppercase",
                 isComplete || isCurrent ? "text-ink" : "text-charcoal-light",
               )}
             >

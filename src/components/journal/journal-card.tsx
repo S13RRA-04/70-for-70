@@ -31,7 +31,7 @@ export function JournalCard({
       <Link
         href={`/journal/${entry.slug}`}
         className={cn(
-          "hover-lift group flex flex-col overflow-hidden rounded-sm border border-ink/10 bg-off-white",
+          "hover-lift group flex flex-col overflow-hidden rounded-xl border border-line bg-white",
           featured && "sm:flex-row",
           className,
         )}
@@ -59,12 +59,12 @@ export function JournalCard({
           )}
 
           {entry.featured ? (
-            <span className="absolute left-3 top-3 rounded-full bg-bronze-text px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-off-white">
+            <span className="absolute left-3 top-3 rounded-full bg-bronze-text px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-off-white">
               Featured
             </span>
           ) : (
             isLatest && (
-              <span className="absolute left-3 top-3 rounded-full bg-ink px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-off-white">
+              <span className="absolute left-3 top-3 rounded-full bg-ink px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-off-white">
                 Latest
               </span>
             )
@@ -72,7 +72,7 @@ export function JournalCard({
         </div>
 
         <div className={cn("flex flex-1 flex-col p-5", featured && "sm:justify-center sm:p-8")}>
-          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-bronze">
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-bronze">
             <span>{entry.primary_category}</span>
             {entry.published_at && (
               <>
@@ -85,14 +85,14 @@ export function JournalCard({
           </div>
           <h3
             className={cn(
-              "mt-2 font-display font-semibold uppercase tracking-wide text-ink group-hover:text-bronze",
+              "mt-2 font-display uppercase text-ink group-hover:text-bronze",
               featured ? "text-2xl sm:text-3xl" : "text-lg",
             )}
           >
             {entry.title}
           </h3>
           {isMilestone && entry.milestone_value ? (
-            <p className={cn("mt-2 flex-1 font-display font-semibold tabular-nums text-ink", featured ? "text-3xl" : "text-2xl")}>
+            <p className={cn("mt-2 flex-1 font-display tabular-nums text-ink", featured ? "text-3xl" : "text-2xl")}>
               {entry.milestone_value}
             </p>
           ) : (

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Handshake, HeartHandshake, Network as NetworkIcon, Users } from "lucide-react";
 import { Container } from "@/components/shared/container";
-import { SectionHeading } from "@/components/shared/section-heading";
+import { PageHero } from "@/components/shared/page-hero";
 import { CTAButton } from "@/components/shared/cta-button";
 import { CTASection } from "@/components/shared/cta-section";
 import { PartnerCard } from "@/components/partners/partner-card";
@@ -76,27 +76,22 @@ export default async function NetworkPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
-      {/* Hero */}
-      <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container className="max-w-2xl">
-          <SectionHeading
-            as="h1"
-            eyebrow="The Network"
-            title="A Mission Is Only as Strong as Its Network"
-            description={`${SITE_NAME} is four things at once: a directory of resources, campaigns that fund organizations doing the work, the partners who back those campaigns, and the community that carries all of it forward. ${ORG_SUPPORTING_LINE}`}
-          />
-        </Container>
-      </section>
+      <PageHero
+        pillar="mobilization"
+        eyebrow="The network"
+        title="A mission is only as strong as its network"
+        description={`${SITE_NAME} is four things at once: a directory of resources, campaigns that fund organizations doing the work, the partners who back those campaigns, and the community that carries all of it forward. ${ORG_SUPPORTING_LINE}`}
+      />
 
       {/* 1 — Resource Network */}
       <section className="py-16 sm:py-20">
         <Container className="max-w-3xl">
-          <div className="border border-ink/10 bg-off-white p-8">
+          <div className="rounded-xl border border-line bg-white p-8">
             <NetworkIcon className="h-6 w-6 text-bronze" aria-hidden="true" />
-            <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-bronze">
+            <p className="mt-4 text-xs font-bold uppercase tracking-[0.2em] text-bronze">
               01 — Resource Network
             </p>
-            <h2 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
+            <h2 className="mt-2 font-display text-3xl uppercase text-ink sm:text-4xl">
               Programs, Services & Communities
             </h2>
             <p className="mt-4 text-base leading-relaxed text-charcoal-light">
@@ -109,7 +104,7 @@ export default async function NetworkPage() {
               </Link>
             </p>
             {metrics.resources !== null && (
-              <p className="mt-3 font-display text-xl font-semibold uppercase tracking-tight text-bronze">
+              <p className="mt-3 font-display text-2xl uppercase text-bronze">
                 {metrics.resources} resources and counting
               </p>
             )}
@@ -123,12 +118,12 @@ export default async function NetworkPage() {
       {/* 2 — Current Beneficiaries */}
       <section className="border-y border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container className="max-w-3xl">
-          <div className="border border-ink/10 bg-off-white p-8">
+          <div className="rounded-xl border border-line bg-white p-8">
             <HeartHandshake className="h-6 w-6 text-bronze" aria-hidden="true" />
-            <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-bronze">
+            <p className="mt-4 text-xs font-bold uppercase tracking-[0.2em] text-bronze">
               02 — Current Beneficiaries
             </p>
-            <h2 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
+            <h2 className="mt-2 font-display text-3xl uppercase text-ink sm:text-4xl">
               Where the Money Goes
             </h2>
             <p className="mt-4 text-base leading-relaxed text-charcoal-light">
@@ -161,12 +156,12 @@ export default async function NetworkPage() {
       {/* 3 — Campaign Partners */}
       <section className="py-16 sm:py-20">
         <Container className="max-w-3xl">
-          <div className="border border-ink/10 bg-off-white p-8">
+          <div className="rounded-xl border border-line bg-white p-8">
             <Handshake className="h-6 w-6 text-bronze" aria-hidden="true" />
-            <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-bronze">
+            <p className="mt-4 text-xs font-bold uppercase tracking-[0.2em] text-bronze">
               03 — Campaign Partners
             </p>
-            <h2 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
+            <h2 className="mt-2 font-display text-3xl uppercase text-ink sm:text-4xl">
               The Organizations & Businesses Behind the Campaigns
             </h2>
             <p className="mt-4 text-base leading-relaxed text-charcoal-light">
@@ -186,10 +181,10 @@ export default async function NetworkPage() {
               {campaignPartnerGroups.map((group) => (
                 <div key={group.tag} className="border-t border-ink/10 pt-8 first:border-t-0 first:pt-0">
                   <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
-                    <h3 className="font-display text-base font-bold uppercase tracking-wide text-ink">
+                    <h3 className="font-display text-lg uppercase text-ink">
                       {group.name}
                     </h3>
-                    <span className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                    <span className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
                       {group.partners.length} Partner{group.partners.length === 1 ? "" : "s"}
                     </span>
                   </div>
@@ -220,10 +215,10 @@ export default async function NetworkPage() {
               {untaggedPartners.length > 0 && (
                 <div className="border-t border-ink/10 pt-8">
                   <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
-                    <h3 className="font-display text-base font-bold uppercase tracking-wide text-ink">
+                    <h3 className="font-display text-lg uppercase text-ink">
                       Initiative Supporters
                     </h3>
-                    <span className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+                    <span className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
                       {untaggedPartners.length} Supporter{untaggedPartners.length === 1 ? "" : "s"}
                     </span>
                   </div>
@@ -248,12 +243,12 @@ export default async function NetworkPage() {
           links out, never invents counts or names) */}
       <section className="border-y border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container className="max-w-3xl">
-          <div className="border border-ink/10 bg-off-white p-8">
+          <div className="rounded-xl border border-line bg-white p-8">
             <Users className="h-6 w-6 text-bronze" aria-hidden="true" />
-            <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-bronze">
+            <p className="mt-4 text-xs font-bold uppercase tracking-[0.2em] text-bronze">
               04 — Community Network
             </p>
-            <h2 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight text-ink sm:text-3xl">
+            <h2 className="mt-2 font-display text-3xl uppercase text-ink sm:text-4xl">
               The People Who Carry It Forward
             </h2>
             <p className="mt-4 text-base leading-relaxed text-charcoal-light">
@@ -277,7 +272,7 @@ export default async function NetworkPage() {
       {/* Closer */}
       <section className="py-16 sm:py-20">
         <Container className="max-w-2xl text-center">
-          <p className="text-balance font-display text-xl font-semibold uppercase tracking-tight text-ink sm:text-2xl">
+          <p className="text-balance font-display text-2xl uppercase text-ink sm:text-3xl">
             Resources connect people. Campaigns mobilize support. Partners and community make it
             last.
           </p>

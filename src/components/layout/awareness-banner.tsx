@@ -33,7 +33,7 @@ export function AwarenessBanner() {
         <div className="flex items-center gap-4">
           <a
             href="tel:988"
-            className="text-xs font-semibold uppercase tracking-widest text-off-white underline decoration-2 underline-offset-4 hover:text-off-white/80 sm:text-sm"
+            className="text-xs font-bold uppercase tracking-[0.2em] text-off-white underline decoration-2 underline-offset-4 hover:text-off-white/80 sm:text-sm"
             style={{ textDecorationColor: "var(--color-awareness-teal)" }}
           >
             Call or Text 988
@@ -44,7 +44,7 @@ export function AwarenessBanner() {
               redirect. A full page load handles it fine. */}
           <a
             href="/crisis"
-            className="text-xs font-semibold uppercase tracking-widest text-off-white underline decoration-2 underline-offset-4 hover:text-off-white/80 sm:text-sm"
+            className="text-xs font-bold uppercase tracking-[0.2em] text-off-white underline decoration-2 underline-offset-4 hover:text-off-white/80 sm:text-sm"
             style={{ textDecorationColor: "var(--color-awareness-purple)" }}
           >
             Find Resources

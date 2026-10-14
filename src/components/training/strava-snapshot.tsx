@@ -63,7 +63,7 @@ export function StravaSnapshot({ snapshot }: { snapshot: StravaTrainingSnapshot 
           return (
             <li
               key={activity.id}
-              className="flex items-center justify-between rounded-sm border border-ink/10 bg-off-white px-3 py-2 text-sm"
+              className="flex items-center justify-between rounded-xl border border-line bg-white px-3 py-2 text-sm"
             >
               <div>
                 <p className="font-medium text-ink">{activity.name}</p>

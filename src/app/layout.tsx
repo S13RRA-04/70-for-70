@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
-import { Inter, Oswald } from "next/font/google";
+import { Anton, Public_Sans } from "next/font/google";
 import {
   CAMPAIGNS,
   CONTACT_EMAIL,
@@ -12,6 +12,7 @@ import {
 } from "@/lib/constants";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { CrisisBar } from "@/components/layout/crisis-bar";
 import { AwarenessBanner } from "@/components/layout/awareness-banner";
 import { AwarenessEntryBanner } from "@/components/layout/awareness-entry-banner";
 import { MissionRelationshipBanner } from "@/components/layout/mission-relationship-banner";
@@ -32,15 +33,15 @@ import "./globals.css";
  * display font is pending (FOIT). The brief flash of a fallback font is a
  * better trade than a blank headline on a slow connection.
  */
-const oswald = Oswald({
-  variable: "--font-oswald",
+const anton = Anton({
+  variable: "--font-anton",
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: "400",
   display: "swap",
 });
 
-const inter = Inter({
-  variable: "--font-inter",
+const publicSans = Public_Sans({
+  variable: "--font-public-sans",
   subsets: ["latin"],
   display: "swap",
 });
@@ -148,9 +149,9 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       data-property={mode === "app" ? "app" : (campaignSlug ?? "org")}
       data-scroll-behavior="smooth"
-      className={`${oswald.variable} ${inter.variable} h-full antialiased`}
+      className={`${anton.variable} ${publicSans.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-off-white text-ink">
+      <body className="min-h-full flex flex-col text-jet">
         <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(ORGANIZATION_JSON_LD)} />
         <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(ORG_WEBSITE_JSON_LD)} />
         {process.env.NODE_ENV === "production" && (
@@ -198,6 +199,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           </main>
         ) : (
           <>
+            <CrisisBar />
             <AwarenessBanner />
             <AwarenessEntryBanner />
             {campaignSlug === "tri" && <MissionRelationshipBanner />}

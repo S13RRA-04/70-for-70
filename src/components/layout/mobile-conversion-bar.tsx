@@ -61,7 +61,7 @@ export function MobileConversionBar({ mode, campaignSlug }: { mode: SiteMode; ca
         </a>
         <Link
           href="/#beneficiaries"
-          className="flex-1 rounded-sm border border-ink/20 bg-off-white px-4 py-3 text-center text-sm font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
+          className="action-control inline-flex items-center justify-center font-bold flex-1 border-2 border-navy bg-off-white px-4 py-3 text-center text-[15px] text-navy hover:bg-white"
         >
           Donate
         </Link>

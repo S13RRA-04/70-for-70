@@ -5,13 +5,14 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
-import { CAMPAIGNS, ORG_NAV_LINKS, SITE_NAME } from "@/lib/constants";
+import { CAMPAIGN_URL, CAMPAIGNS, ORG_NAV_LINKS, SITE_NAME } from "@/lib/constants";
 import type { CampaignSlug, SiteMode } from "@/lib/site-mode";
 import { isNavGroup, type NavGroup } from "@/types/content";
 import { cn } from "@/lib/utils";
 import { MobileMenu } from "@/components/layout/mobile-menu";
 import { Container } from "@/components/shared/container";
 import { CTAButton } from "@/components/shared/cta-button";
+import { BrandStripe } from "@/components/shared/brand-stripe";
 
 export function Header({
   mode,
@@ -61,36 +62,37 @@ export function Header({
   return (
     <header
       className={cn(
-        "property-nav-shell sticky top-0 z-40 border-b backdrop-blur transition-[background-color,box-shadow] duration-motion-ui ease-system",
+        "property-nav-shell sticky top-0 z-40 backdrop-blur transition-[background-color,box-shadow] duration-motion-ui ease-system",
         scrolled && "shadow-sm",
       )}
     >
-      <Container className="flex h-16 items-center justify-between">
-        <Link href="/" className="flex shrink-0 items-center gap-2.5">
+      <Container className="flex h-[74px] items-center justify-between gap-6">
+        <Link href="/" className="flex shrink-0 items-center gap-3">
           <Image
             src={campaign ? campaign.logoLight : "/logo.png"}
             alt=""
             aria-hidden="true"
-            width={36}
-            height={36}
+            width={50}
+            height={50}
+            className="h-11 w-11 object-contain sm:h-[50px] sm:w-[50px]"
             priority
           />
-          <span className="hidden whitespace-nowrap font-display text-xl font-semibold uppercase tracking-wide text-ink xs:inline-block">
+          <span className="hidden whitespace-nowrap font-display text-[26px] uppercase leading-none text-jet xs:inline-block">
             {campaign ? campaign.name : SITE_NAME}
             {!isCampaign && <sup className="text-[0.5em] font-medium tracking-normal">™</sup>}
           </span>
         </Link>
 
-        <div className="hidden items-center gap-6 xl:flex">
+        <div className="hidden items-center gap-5 xl:flex 2xl:gap-6">
           {campaign?.parentLink && (
             <a
               href={campaign.parentLink.href}
-              className="whitespace-nowrap text-xs font-semibold uppercase tracking-widest text-charcoal-light transition-colors hover:text-ink"
+              className="hidden whitespace-nowrap text-xs font-bold uppercase tracking-[0.14em] text-muted transition-colors hover:text-help min-[1600px]:inline"
             >
               {campaign.parentLink.label} <span aria-hidden="true">&#8599;</span>
             </a>
           )}
-          <nav aria-label="Primary" className="flex items-center gap-6">
+          <nav aria-label="Primary" className="flex items-center gap-5 2xl:gap-6">
             {navLinks.map((entry) => {
               if (isNavGroup(entry)) {
                 return (
@@ -104,26 +106,20 @@ export function Header({
                 );
               }
 
-              // The two highest-intent org-nav actions get CTA treatment
-              // instead of a plain link, so they stand apart from the
-              // informational items between them — see ORG_NAV_LINKS' doc
-              // comment in src/lib/constants.ts.
-              if (entry.href === "/resources") {
-                return (
-                  <CTAButton
-                    key={entry.href}
-                    href={entry.href}
-                    size="md"
-                    aria-current={pathname === entry.href ? "page" : undefined}
-                  >
-                    {entry.label}
-                  </CTAButton>
-                );
-              }
+              // The crisis entry gets the reserved help-blue CTA, preceded by
+              // the outlined Donate button — see ORG_NAV_LINKS' doc comment
+              // in src/lib/constants.ts. Donate is cross-domain (Tri hosts
+              // the donation flow), so it's a plain absolute link.
               if (entry.href === "/crisis") {
                 return (
+                  <div key={entry.href} className="flex items-center gap-2.5">
+                  <a
+                    href={`${CAMPAIGN_URL}/donate`}
+                    className="action-control inline-flex items-center border-2 border-navy bg-white/60 px-5 text-[15px] font-bold text-navy hover:bg-white"
+                  >
+                    Donate
+                  </a>
                   <CTAButton
-                    key={entry.href}
                     href={entry.href}
                     accent="emergency"
                     size="md"
@@ -141,6 +137,7 @@ export function Header({
                       />
                     )}
                   </CTAButton>
+                  </div>
                 );
               }
 
@@ -149,8 +146,8 @@ export function Header({
                   key={entry.href}
                   href={entry.href}
                   className={cn(
-                    "whitespace-nowrap border-b-2 border-transparent pb-0.5 text-sm font-medium uppercase tracking-wide text-charcoal transition-colors hover:text-property-accent-readable",
-                    pathname === entry.href && "border-property-accent text-property-accent-readable",
+                    "whitespace-nowrap border-b-2 border-transparent py-3 text-[13px] font-bold uppercase tracking-[0.14em] text-jet transition-colors hover:text-help",
+                    pathname === entry.href && "border-navy text-navy",
                   )}
                   aria-current={pathname === entry.href ? "page" : undefined}
                 >
@@ -163,14 +160,14 @@ export function Header({
           {campaign?.crisisLink && (
             <a
               href={campaign.crisisLink.href}
-              className="rounded-sm bg-signal px-5 py-2 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-signal-dark"
+              className="action-control inline-flex items-center whitespace-nowrap bg-help px-5 text-[15px] font-bold text-white hover:bg-help-dark"
             >
               {campaign.crisisLink.label}
             </a>
           )}
 
           {campaign && (
-            <CTAButton href={campaign.primaryCta.href} external={campaign.primaryCta.external} className="px-5 py-2">
+            <CTAButton href={campaign.primaryCta.href} external={campaign.primaryCta.external} className="whitespace-nowrap">
               {campaign.primaryCta.label}
             </CTAButton>
           )}
@@ -181,7 +178,7 @@ export function Header({
             <Link
               href="/resources"
               aria-current={pathname === "/resources" ? "page" : undefined}
-              className="rounded-sm px-3 py-2 text-sm font-semibold uppercase tracking-wide text-ink"
+              className="rounded-sm px-3 py-2 text-[13px] font-bold uppercase tracking-[0.14em] text-jet"
             >
               Resources
             </Link>
@@ -196,7 +193,7 @@ export function Header({
             <Link
               href="/crisis"
               aria-current={pathname === "/crisis" ? "page" : undefined}
-              className="rounded-sm bg-signal px-3 py-2 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-signal-dark"
+              className="rounded-sm bg-help px-3 py-2 text-sm font-bold text-white transition-colors hover:bg-help-dark"
             >
               Help Now
             </Link>
@@ -204,7 +201,7 @@ export function Header({
             campaign?.crisisLink && (
               <a
                 href={campaign.crisisLink.href}
-                className="rounded-sm bg-signal px-3 py-2 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-signal-dark"
+                className="rounded-sm bg-help px-3 py-2 text-sm font-bold text-white transition-colors hover:bg-help-dark"
               >
                 Help Now
               </a>
@@ -223,6 +220,7 @@ export function Header({
           </button>
         </div>
       </Container>
+      <BrandStripe />
 
       <MobileMenu
         open={open}
@@ -297,8 +295,8 @@ function NavDropdown({
         aria-controls={panelId}
         onClick={() => onOpenChange(!open)}
         className={cn(
-          "flex items-center gap-1 whitespace-nowrap border-b-2 border-transparent pb-0.5 text-sm font-medium uppercase tracking-wide text-charcoal transition-colors hover:text-property-accent-readable",
-          (isActive || open) && "border-property-accent text-property-accent-readable",
+          "flex items-center gap-1 whitespace-nowrap border-b-2 border-transparent py-3 text-[13px] font-bold uppercase tracking-[0.14em] text-jet transition-colors hover:text-help",
+          (isActive || open) && "border-navy text-navy",
         )}
       >
         {group.label}
@@ -309,7 +307,7 @@ function NavDropdown({
         <div
           id={panelId}
           aria-label={group.label}
-          className="absolute left-0 top-full z-50 mt-3 w-56 rounded-sm border border-ink/10 bg-off-white py-2 shadow-lg"
+          className="absolute left-0 top-full z-50 mt-1 w-60 rounded-xl border border-line bg-white py-2 shadow-[0_12px_32px_rgba(18,30,61,0.10)]"
         >
           {group.children.map((link) => (
             <Link
@@ -317,8 +315,8 @@ function NavDropdown({
               href={link.href}
               aria-current={pathname === link.href ? "page" : undefined}
               className={cn(
-                "block px-4 py-2 text-sm font-medium uppercase tracking-wide text-charcoal transition-colors hover:bg-sand-light hover:text-bronze",
-                pathname === link.href && "text-bronze",
+                "block px-4 py-2.5 text-[15px] font-semibold text-jet transition-colors hover:bg-paper hover:text-help",
+                pathname === link.href && "text-navy underline underline-offset-4",
               )}
               onClick={() => onOpenChange(false)}
             >

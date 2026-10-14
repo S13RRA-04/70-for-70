@@ -21,9 +21,9 @@ export function GivingLevels({ supporters }: { supporters: PublicSupporter[] }) 
       {[...DONOR_TIERS].reverse().map((tier) => {
         const tierSupporters = bySupporterTier.get(tier.name) ?? [];
         return (
-          <div key={tier.name} className="rounded-sm border border-ink/10 bg-off-white p-5">
+          <div key={tier.name} className="rounded-xl border border-line bg-white p-5">
             <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-              <p className="font-display text-sm font-semibold uppercase tracking-wide text-ink">{tier.name}</p>
+              <p className="font-display text-base uppercase text-ink">{tier.name}</p>
               <p className="text-sm font-semibold tabular-nums text-bronze">{formatCurrency(tier.threshold)}+</p>
             </div>
             <p className="mt-1.5 text-sm text-charcoal-light">{tier.benefit}</p>

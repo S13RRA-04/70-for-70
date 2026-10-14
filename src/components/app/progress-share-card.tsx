@@ -65,16 +65,16 @@ function drawCard(canvas: HTMLCanvasElement, props: ProgressShareCardProps) {
 
   ctx.textAlign = "center";
   ctx.fillStyle = "#c99a6c";
-  ctx.font = "600 42px Oswald, sans-serif";
+  ctx.font = "600 42px Anton, sans-serif";
   ctx.fillText(props.firstName.toUpperCase(), CARD_WIDTH / 2, 340);
 
   ctx.fillStyle = "#f6f3ea";
-  ctx.font = "700 84px Oswald, sans-serif";
+  ctx.font = "700 84px Anton, sans-serif";
   ctx.fillText(`${props.sessionCount} OF ${props.requiredSessions} COMPLETE`.length > 26 ? `${props.sessionCount} OF ${props.requiredSessions}` : `${props.sessionCount} OF ${props.requiredSessions} COMPLETE`, CARD_WIDTH / 2, 480);
 
   ctx.fillStyle = "#f6f3ea";
   ctx.globalAlpha = 0.7;
-  ctx.font = "500 32px Oswald, sans-serif";
+  ctx.font = "500 32px Anton, sans-serif";
   ctx.fillText(
     props.lastActivity ? lastActivityLine(props.lastActivity) : `${props.totalMinutes} MINUTES MOVED`,
     CARD_WIDTH / 2,
@@ -89,11 +89,11 @@ function drawCard(canvas: HTMLCanvasElement, props: ProgressShareCardProps) {
   ctx.stroke();
 
   ctx.fillStyle = "#f6f3ea";
-  ctx.font = "700 56px Oswald, sans-serif";
+  ctx.font = "700 56px Anton, sans-serif";
   ctx.fillText(props.eventName.toUpperCase(), CARD_WIDTH / 2, 720);
 
   ctx.fillStyle = "#c99a6c";
-  ctx.font = "600 40px Oswald, sans-serif";
+  ctx.font = "600 40px Anton, sans-serif";
   ctx.fillText("BECAUSE 22 ≠ 0.", CARD_WIDTH / 2, 800);
 }
 

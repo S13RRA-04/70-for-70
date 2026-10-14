@@ -74,9 +74,9 @@ export default function LiveAuctionPage() {
                 ["02", "Register and Bid", "Follow 32auctions' instructions to create an account and place your bid."],
                 ["03", "Watch for Updates", "32auctions handles bid activity and winner communications under the published auction terms."],
               ].map(([number, title, description]) => (
-                <li key={number} className="border border-ink/10 bg-off-white p-6">
-                  <p className="font-display text-2xl font-bold text-bronze/50">{number}</p>
-                  <h2 className="mt-3 font-display text-lg font-semibold uppercase tracking-tight text-ink">{title}</h2>
+                <li key={number} className="rounded-xl border border-line bg-white p-6">
+                  <p className="font-display text-3xl text-bronze/50">{number}</p>
+                  <h2 className="mt-3 font-display text-xl uppercase text-ink">{title}</h2>
                   <p className="mt-2 text-sm leading-relaxed text-charcoal-light">{description}</p>
                 </li>
               ))}
@@ -121,9 +121,9 @@ export default function LiveAuctionPage() {
 
 function AuctionDate({ label, value }: { label: string; value: string }) {
   return (
-    <div className="border border-ink/10 bg-off-white p-6 text-center">
-      <p className="text-xs font-semibold uppercase tracking-widest text-bronze-text">{label}</p>
-      <p className="mt-2 font-display text-xl font-semibold uppercase tracking-tight text-ink">{value}</p>
+    <div className="rounded-xl border border-line bg-white p-6 text-center">
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze-text">{label}</p>
+      <p className="mt-2 font-display text-2xl uppercase text-ink">{value}</p>
     </div>
   );
 }

@@ -55,9 +55,9 @@ export default async function MessagesPage() {
           ) : (
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
               {messages.map((entry) => (
-                <div key={entry.id} className="flex flex-col rounded-sm border border-ink/10 bg-off-white p-6">
+                <div key={entry.id} className="flex flex-col rounded-xl border border-line bg-white p-6">
                   <p className="text-sm leading-relaxed text-charcoal-light">&ldquo;{entry.message}&rdquo;</p>
-                  <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-ink">
+                  <p className="mt-4 text-xs font-bold uppercase tracking-[0.2em] text-ink">
                     {entry.anonymous ? "Anonymous" : entry.name}
                   </p>
                   <p className="mt-1 text-xs text-charcoal-light">{formatDateLong(entry.submitted_at)}</p>

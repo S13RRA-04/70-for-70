@@ -42,7 +42,7 @@ export function PerformanceTrendChart({
   if (points.length === 0) {
     return (
       <div className="rounded-sm border border-dashed border-ink/15 bg-off-white p-5 text-center">
-        <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">{label}</p>
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">{label}</p>
         <p className="mt-2 text-xs text-charcoal-light">No recorded data yet.</p>
       </div>
     );
@@ -52,9 +52,9 @@ export function PerformanceTrendChart({
 
   if (points.length === 1) {
     return (
-      <div className="rounded-sm border border-ink/10 bg-off-white p-5">
-        <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">{label}</p>
-        <p className="mt-2 font-display text-2xl font-semibold text-ink">{latest.value_display}</p>
+      <div className="rounded-xl border border-line bg-white p-5">
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">{label}</p>
+        <p className="mt-2 font-display text-3xl text-ink">{latest.value_display}</p>
         <p className="mt-1 text-xs text-charcoal-light">
           Establishing baseline — recorded {formatRecordedOn(latest.recorded_on)}.
         </p>
@@ -81,10 +81,10 @@ export function PerformanceTrendChart({
   const changedFavorably = latest.value_numeric! !== first.value_numeric!;
 
   return (
-    <div className="rounded-sm border border-ink/10 bg-off-white p-5">
+    <div className="rounded-xl border border-line bg-white p-5">
       <div className="flex items-baseline justify-between gap-2">
-        <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">{label}</p>
-        <p className="font-display text-lg font-semibold text-ink">{latest.value_display}</p>
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">{label}</p>
+        <p className="font-display text-xl text-ink">{latest.value_display}</p>
       </div>
 
       <svg

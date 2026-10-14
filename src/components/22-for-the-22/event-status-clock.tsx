@@ -40,11 +40,11 @@ function TimeGrid({ parts, units, label }: { parts: TimeParts | null; units: (ke
   return (
     <div className={`grid ${GRID_COLS_CLASS[units.length]} gap-3`} role="timer" aria-live="polite" aria-label={label}>
       {units.map((unit) => (
-        <div key={unit} className="rounded-sm border border-ink/10 bg-off-white px-2 py-3 text-center">
-          <p className="font-display text-2xl font-semibold tabular-nums text-ink sm:text-3xl">
+        <div key={unit} className="rounded-xl border border-line bg-white px-2 py-3 text-center">
+          <p className="font-display text-3xl tabular-nums text-ink sm:text-4xl">
             {parts === null ? "--" : String(parts[unit]).padStart(2, "0")}
           </p>
-          <p className="mt-1 text-[11px] font-medium uppercase tracking-widest text-charcoal-light">
+          <p className="mt-1 text-[11px] font-medium uppercase tracking-[0.2em] text-charcoal-light">
             {UNIT_LABELS[unit]}
           </p>
         </div>
@@ -95,7 +95,7 @@ export function EventStatusClock({
     const parts = mounted && now !== null ? diffToParts(start - now) : null;
     return (
       <div>
-        <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-off-white/60">
+        <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-off-white/60">
           Countdown to Start
         </p>
         <TimeGrid parts={parts} units={["days", "hours", "minutes", "seconds"]} label="Time remaining until 22 For the 22 begins" />
@@ -108,16 +108,16 @@ export function EventStatusClock({
     const remaining = mounted && now !== null ? diffToParts(end - now) : null;
     return (
       <div>
-        <p className="font-display text-2xl font-bold uppercase tracking-wide text-bronze-light sm:text-3xl">
+        <p className="font-display text-3xl uppercase text-bronze-light sm:text-4xl">
           We Are Moving
         </p>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           <div>
-            <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-off-white/60">Elapsed</p>
+            <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-off-white/60">Elapsed</p>
             <TimeGrid parts={elapsed} units={["hours", "minutes", "seconds"]} label="Time elapsed since 22 For the 22 began" />
           </div>
           <div>
-            <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-off-white/60">Remaining</p>
+            <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-off-white/60">Remaining</p>
             <TimeGrid parts={remaining} units={["hours", "minutes", "seconds"]} label="Time remaining in the event window" />
           </div>
         </div>
@@ -127,7 +127,7 @@ export function EventStatusClock({
 
   return (
     <div>
-      <p className="font-display text-2xl font-bold uppercase tracking-wide text-bronze-light sm:text-3xl">
+      <p className="font-display text-3xl uppercase text-bronze-light sm:text-4xl">
         Event Window Complete
       </p>
       <p className="mt-2 text-sm text-off-white/75">Thank you for moving with the mission.</p>

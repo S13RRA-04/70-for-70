@@ -71,9 +71,9 @@ export default async function PartnerProfilePage({ params }: { params: Promise<{
     <article>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(breadcrumbJsonLdData)} />
 
-      <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
+      <section className="border-b border-line pb-16 pt-16 sm:pb-20 sm:pt-24">
         <Container className="max-w-3xl">
-          <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
             <Link href="/network" className="hover:text-ink hover:underline">
               The Network
             </Link>{" "}
@@ -93,10 +93,10 @@ export default async function PartnerProfilePage({ params }: { params: Promise<{
             </div>
 
             <div className="flex-1">
-              <p className="text-xs font-semibold uppercase tracking-widest text-bronze">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">
                 {kind === "beneficiary" ? "Official Campaign Beneficiary" : "Mission Partner"}
               </p>
-              <h1 className="mt-1.5 text-balance font-display text-3xl font-bold uppercase tracking-tight text-ink sm:text-4xl">
+              <h1 className="text-worn mt-2 text-balance font-display text-[clamp(40px,5vw,64px)] uppercase leading-[0.95] text-navy">
                 {partner.name}
               </h1>
 
@@ -110,7 +110,7 @@ export default async function PartnerProfilePage({ params }: { params: Promise<{
               {kind === "mission" && (
                 <div className="mt-3 flex flex-wrap items-center gap-2">
                   {tierName && (
-                    <span className="inline-flex w-fit items-center rounded-full bg-ink px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest text-bronze-light">
+                    <span className="inline-flex w-fit items-center rounded-full bg-ink px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-bronze-light">
                       {tierName}
                     </span>
                   )}
@@ -119,7 +119,7 @@ export default async function PartnerProfilePage({ params }: { params: Promise<{
               )}
 
               {kind === "mission" && (
-                <p className="mt-2 text-sm font-semibold uppercase tracking-widest text-bronze">
+                <p className="mt-2 text-sm font-bold uppercase tracking-[0.2em] text-bronze">
                   {partner.relationship_label}
                 </p>
               )}
@@ -138,14 +138,14 @@ export default async function PartnerProfilePage({ params }: { params: Promise<{
         <Container className="max-w-3xl">
           {kind === "beneficiary" && partner.what_they_do && (
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">What They Do</p>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">What They Do</p>
               <p className="mt-2 text-base leading-relaxed text-charcoal-light">{partner.what_they_do}</p>
             </div>
           )}
 
           {kind === "mission" && partner.support_type && (
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
                 What They&apos;re Contributing
               </p>
               <p className="mt-2 text-base leading-relaxed text-charcoal-light">{partner.support_type}</p>
@@ -153,7 +153,7 @@ export default async function PartnerProfilePage({ params }: { params: Promise<{
           )}
 
           <div className="mt-6">
-            <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
               {kind === "beneficiary" ? "Why It Matters" : "The Story"}
             </p>
             <p className="mt-2 text-base leading-relaxed text-charcoal-light">{partner.description}</p>
@@ -167,7 +167,7 @@ export default async function PartnerProfilePage({ params }: { params: Promise<{
 
           {kind === "beneficiary" && partner.distribution_status && (
             <div className="mt-6">
-              <p className="text-xs font-semibold uppercase tracking-widest text-charcoal-light">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
                 Funding &amp; Distribution
               </p>
               <p className="mt-2 text-sm text-charcoal-light">
@@ -180,7 +180,7 @@ export default async function PartnerProfilePage({ params }: { params: Promise<{
 
           {backedComponents.length > 0 && (
             <div className="mt-10 rounded-sm border border-bronze/30 bg-bronze/5 p-6">
-              <p className="text-xs font-semibold uppercase tracking-widest text-bronze">On the Bike Build</p>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">On the Bike Build</p>
               <p className="mt-2 text-sm text-charcoal-light">
                 {partner.name} is credited on the Stradalli race-bike build currently underway for IRONMAN 70.3
                 Chattanooga:
@@ -211,7 +211,7 @@ export default async function PartnerProfilePage({ params }: { params: Promise<{
                 href={partner.website_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-sm border border-ink/20 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-ink hover:bg-ink/5"
+                className="action-control inline-flex items-center justify-center font-bold gap-1.5 border-2 border-navy px-4 py-2 text-[15px] text-navy hover:bg-white"
               >
                 Visit {partner.name}
                 <ExternalLink size={13} aria-hidden />
@@ -235,7 +235,7 @@ export default async function PartnerProfilePage({ params }: { params: Promise<{
 
       <section className="border-t border-ink/10 bg-sand-light py-14 sm:py-16">
         <Container className="max-w-2xl text-center">
-          <p className="text-balance font-display text-xl font-semibold uppercase tracking-tight text-ink">
+          <p className="text-balance font-display text-2xl uppercase text-ink">
             See Who Else Is Behind the Mission
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">

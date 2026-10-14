@@ -10,7 +10,7 @@ export function CurrentMovementLog({ entries }: { entries: EventActivityLogRow[]
     <ol className="space-y-3">
       {entries.map((entry) => (
         <li key={entry.id} className="flex items-baseline gap-3 border-t border-ink/10 pt-3 first:border-t-0 first:pt-0">
-          <span className="shrink-0 text-xs font-semibold uppercase tracking-widest text-bronze">
+          <span className="shrink-0 text-xs font-bold uppercase tracking-[0.2em] text-bronze">
             {entry.hour_label}
           </span>
           <span className="text-sm text-ink">

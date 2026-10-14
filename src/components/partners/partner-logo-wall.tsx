@@ -20,7 +20,7 @@ export function PartnerLogoWall({
     <div>
       {presentingPartners.length > 0 && (
         <div className="mb-8">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-bronze">Presenting Partner</p>
+          <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-bronze">Presenting Partner</p>
           <div className="grid gap-4 sm:grid-cols-2">
             {presentingPartners.map((partner) => (
               <PartnerLogo

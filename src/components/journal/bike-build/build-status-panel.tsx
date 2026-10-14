@@ -6,7 +6,7 @@ export function BuildStatusPanel({ items }: { items: BikeBuildStatusSummaryItem[
   return (
     <div className="grid gap-3 sm:grid-cols-2">
       {items.map((item) => (
-        <div key={item.label} className="rounded-sm border border-ink/10 bg-off-white p-4">
+        <div key={item.label} className="rounded-xl border border-line bg-white p-4">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <p className="text-sm font-semibold text-ink">{item.label}</p>
             <StatusBadge status={item.status} label={item.statusLabel} />

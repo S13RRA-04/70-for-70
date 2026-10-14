@@ -19,7 +19,7 @@ export function EmptyState({
 }) {
   return (
     <div className="rounded-sm border border-dashed border-ink/20 bg-off-white p-8 text-center">
-      <p className="font-display text-lg font-semibold uppercase tracking-wide text-ink">
+      <p className="font-display text-xl uppercase text-ink">
         {title}
       </p>
       {description && <p className="mt-2 text-sm text-charcoal-light">{description}</p>}
@@ -29,7 +29,7 @@ export function EmptyState({
             <button
               type="button"
               onClick={onAction.onClick}
-              className="inline-flex rounded-sm border border-ink/20 px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-ink transition-colors hover:bg-ink/5"
+              className="action-control inline-flex items-center justify-center font-bold border-2 border-navy px-5 py-2.5 text-[15px] text-navy transition-colors hover:bg-white"
             >
               {onAction.label}
             </button>

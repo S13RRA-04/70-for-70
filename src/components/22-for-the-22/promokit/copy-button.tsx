@@ -34,7 +34,7 @@ export function CopyButton({
       onClick={handleCopy}
       data-analytics-event={analyticsEvent}
       className={cn(
-        "inline-flex min-h-[44px] items-center gap-1.5 rounded-sm border border-ink/20 px-4 py-2.5 text-xs font-semibold uppercase tracking-wide text-ink transition-colors hover:bg-ink/5",
+        "action-control inline-flex items-center justify-center font-bold min-h-[44px] gap-1.5 border-2 border-navy px-4 py-2.5 text-[15px] text-navy transition-colors hover:bg-white",
         className,
       )}
     >

@@ -10,6 +10,7 @@ import {
   Users,
 } from "lucide-react";
 import { Container } from "@/components/shared/container";
+import { PageHero } from "@/components/shared/page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
 import { RESOURCES } from "@/lib/content/resources";
@@ -96,23 +97,18 @@ export default function StandardsPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
-      {/* Hero */}
-      <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container className="max-w-2xl">
-          <SectionHeading
-            as="h1"
-            eyebrow="Standards"
-            title="How Resources Are Reviewed"
-            description={`${SITE_NAME} lists ${RESOURCES.length} resources — vetted programs and services. Every one goes through the same review before it appears — here is exactly what that involves, and what it does not mean.`}
-          />
-        </Container>
-      </section>
+      <PageHero
+        pillar="connection"
+        eyebrow="Resource standards"
+        title="How resources are reviewed"
+        description={`${SITE_NAME} lists ${RESOURCES.length} resources — vetted programs and services. Every one goes through the same review before it appears — here is exactly what that involves, and what it does not mean.`}
+      />
 
       <section className="border-y border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container className="max-w-3xl">
           <SectionHeading eyebrow="Independence" title="What We Exclude" description="A listing must remain useful to the person seeking help, not merely useful to the provider." />
           <ul className="mt-7 grid gap-3 sm:grid-cols-2">
-            {EXCLUSIONS.map((item) => <li key={item} className="border border-ink/10 bg-off-white p-4 text-sm leading-relaxed text-charcoal-light">{item}</li>)}
+            {EXCLUSIONS.map((item) => <li key={item} className="rounded-xl border border-line bg-white p-4 text-sm leading-relaxed text-charcoal-light">{item}</li>)}
           </ul>
           <div className="mt-8 space-y-4 text-sm leading-relaxed text-charcoal-light">
             <p><strong className="text-ink">Commercial providers:</strong> Paid providers may be listed when their commercial status and costs are clear and they independently meet the same relevance and transparency standards.</p>
@@ -132,9 +128,9 @@ export default function StandardsPage() {
           <SectionHeading eyebrow="The Review" title="What We Check" />
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {REVIEW_CHECKS.map((check) => (
-              <div key={check.title} className="flex flex-col border border-ink/10 bg-off-white p-6">
+              <div key={check.title} className="flex flex-col rounded-xl border border-line bg-white p-6">
                 <check.icon className="h-6 w-6 text-bronze" aria-hidden="true" />
-                <h3 className="mt-4 font-display text-base font-bold uppercase tracking-tight text-ink">
+                <h3 className="mt-4 font-display text-lg uppercase text-ink">
                   {check.title}
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-charcoal-light">{check.body}</p>
@@ -200,9 +196,9 @@ export default function StandardsPage() {
               },
             ].map((item) => (
               <li key={item.step} className="flex gap-5 border border-ink/10 bg-sand-light/40 p-6">
-                <span className="font-display text-2xl font-bold text-bronze/40">{item.step}</span>
+                <span className="font-display text-3xl text-bronze/40">{item.step}</span>
                 <div>
-                  <h3 className="font-display text-lg font-semibold uppercase tracking-tight text-ink">
+                  <h3 className="font-display text-xl uppercase text-ink">
                     {item.title}
                   </h3>
                   <p className="mt-1 text-sm leading-relaxed text-charcoal-light">{item.body}</p>
