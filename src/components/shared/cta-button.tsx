@@ -21,6 +21,8 @@ interface CTAButtonProps {
   accent?: "bronze" | "black" | "emergency";
   /** Renders a plain <a> instead of next/link — for cross-domain links (see CAMPAIGN_HOME_LINK) where client-side routing doesn't apply. */
   external?: boolean;
+  /** Opens in a new tab with rel="noopener noreferrer" — for genuinely third-party destinations (e.g. an external auction/ticketing platform), distinct from `external`'s same-tab cross-subdomain nav. Requires `external`. */
+  newTab?: boolean;
   /**
    * Opt in to the magnetic hover (see src/components/shared/magnetic.tsx).
    * Intentionally off by default — the effect only reads as responsive on the
@@ -49,6 +51,7 @@ export function CTAButton({
   size = "md",
   accent = "bronze",
   external = false,
+  newTab = false,
   magnetic = false,
   className,
   "aria-current": ariaCurrent,
@@ -78,7 +81,13 @@ export function CTAButton({
   );
 
   const button = external ? (
-    <a href={href} className={classes} aria-current={ariaCurrent} data-analytics-event={analyticsEvent}>
+    <a
+      href={href}
+      className={classes}
+      aria-current={ariaCurrent}
+      data-analytics-event={analyticsEvent}
+      {...(newTab ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+    >
       {children}
       <ExternalLink size={14} aria-hidden="true" />
     </a>
