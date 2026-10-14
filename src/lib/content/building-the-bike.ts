@@ -93,9 +93,9 @@ export const BIKE_BUILD_STATUS_SUMMARY: BikeBuildStatusSummaryItem[] = [
   },
   {
     label: "Post-Ride Fine-Tuning",
-    status: "needed",
-    statusLabel: "Needed",
-    detail: "The October 13, 2026 training ride surfaced shifting (front derailleur chainring transitions, rear derailleur cable tension/indexing), stiff brake levers, and saddle height/fore-aft fit that still need dialing in before race day.",
+    status: "pending",
+    statusLabel: "In Progress",
+    detail: "The October 13, 2026 training ride surfaced shifting (front derailleur chainring transitions, rear derailleur cable tension/indexing), stiff brake levers, and saddle height/fore-aft fit that still need dialing in before race day. October 14, 2026: front shift cable tension adjusted, cockpit torqued down, and aerobar position locked in. Shifting is better but not perfect; saddle position and more shift tuning are next.",
   },
   {
     label: "Race-Day Tune-Up",
@@ -152,7 +152,7 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
     component: "Front Derailleur",
     status: "confirmed",
     statusLabel: "Installed",
-    notes: "Shimano FD-R7000 clamp-on front derailleur — purchased for $59.40, sidestepping the earlier braze-on-plus-adapter plan since the Stradalli doesn't have an integrated braze-on mount; installed October 9, 2026 alongside the chain. The October 13, 2026 training ride showed chainring shifts are still a little clunky — further adjustment needed.",
+    notes: "Shimano FD-R7000 clamp-on front derailleur — purchased for $59.40, sidestepping the earlier braze-on-plus-adapter plan since the Stradalli doesn't have an integrated braze-on mount; installed October 9, 2026 alongside the chain. The October 13, 2026 training ride showed chainring shifts are still a little clunky — further adjustment needed. Front shift cable tension adjusted October 14, 2026 — shifting improved but still not perfect; fine-tuning continues.",
   },
   {
     component: "Rear Derailleur",
@@ -170,7 +170,7 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
     component: "Handlebars & Stem",
     status: "confirmed",
     statusLabel: "Installed",
-    notes: "Specialized Hover drop handlebar on a Specialized V13 stem — handlebar installed September 21, 2026.",
+    notes: "Specialized Hover drop handlebar on a Specialized V13 stem — handlebar installed September 21, 2026. Cockpit/handlebar mounting torqued down October 14, 2026 so the bar no longer twists under pressure.",
   },
   {
     component: "Headset Spacers",
@@ -194,7 +194,7 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
     component: "Aerobars",
     status: "confirmed",
     statusLabel: "Installed",
-    notes: "Quick-Release Clip-on Aerobars, provided by Redshift Sports — an estimated $220 in-kind; installed September 21, 2026.",
+    notes: "Quick-Release Clip-on Aerobars, provided by Redshift Sports — an estimated $220 in-kind; installed September 21, 2026. Position locked down October 14, 2026.",
   },
   {
     component: "Seatpost",
@@ -218,19 +218,19 @@ export const BIKE_BUILD_COMPONENT_STATUS: BikeBuildComponentRow[] = [
     component: "Saddle",
     status: "confirmed",
     statusLabel: "Installed",
-    notes: "ISM PR 3.0 (60mm), provided by ISM Saddles — arrived August 28, 2026, installed September 22, 2026. The October 13, 2026 training ride showed height and fore-aft position still need dialing in.",
+    notes: "ISM PR 3.0 (60mm), provided by ISM Saddles — arrived August 28, 2026, installed September 22, 2026. The October 13, 2026 training ride showed height and fore-aft position still need dialing in — next up on the fine-tuning list.",
   },
   {
     component: "Pedals",
     status: "confirmed",
     statusLabel: "Installed",
-    notes: "RockBros clipless pedals with cleats, purchased online for $43.19 — arrived September 16, 2026, installed September 22, 2026.",
+    notes: "RockBros clipless pedals with cleats, purchased online for $43.19 — arrived September 16, 2026, installed September 22, 2026. Still practicing with clipless pedals on training rides.",
   },
   {
     component: "Shifter Cables & Housing",
     status: "confirmed",
     statusLabel: "Installed",
-    notes: "Boao Universal Bike Brake Cable Kit (a combined shift- and brake-cable housing set) — purchased September 18, 2026 for $10.76, delivered September 20, 2026; routed and connected to the rear derailleur the weekend of September 26-27, 2026, and to the front derailleur October 9, 2026. Final cable tension finished October 11, 2026.",
+    notes: "Boao Universal Bike Brake Cable Kit (a combined shift- and brake-cable housing set) — purchased September 18, 2026 for $10.76, delivered September 20, 2026; routed and connected to the rear derailleur the weekend of September 26-27, 2026, and to the front derailleur October 9, 2026. Final cable tension finished October 11, 2026; front shift cable tension re-adjusted October 14, 2026 after the first training ride.",
   },
   {
     component: "Handlebar Tape",
@@ -1486,6 +1486,35 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "The mission has always been about more than finishing a race. It's about showing what can happen when people come together, invest in one another, and refuse to stand still.",
       "This first ride was a reminder of just how far we've already come — and how much possibility lies ahead.",
       "We've still got some wrenching to do. But we're rolling.",
+      "Movement Creates Momentum.",
+    ],
+    relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+  },
+  {
+    id: "first-fine-tuning-session",
+    date: "2026-10-14",
+    displayDate: "October 14, 2026",
+    title: "Fine-Tuning, Round One: Shifting, Cockpit, and Aerobars",
+    summary:
+      "First pass at the post-ride punch list — front shift cable tension adjusted, cockpit torqued down, aerobars locked in place. Shifting isn't perfect yet, but it's progress.",
+    status: "Fine-tuning in progress — shifting improved; saddle position next",
+    technicalDetails: {
+      heading: "Adjustments",
+      items: [
+        { label: "Front Shift Cable", value: "Tension adjusted — improved, not perfect yet" },
+        { label: "Cockpit / Handlebar", value: "Torqued down — bar no longer twists under pressure" },
+        { label: "Aerobars", value: "Position locked down" },
+        { label: "Up Next", value: "More shift tuning, saddle position, clipless practice" },
+      ],
+    },
+    body: [
+      "Yesterday's first training ride handed me a punch list. Today I started working through it.",
+      "First up was the front shifting. I adjusted the front shift cable tension to clean up the transitions between the chainrings. It isn't perfect yet — but it's better than it was, and that's progress.",
+      "Next was the cockpit. I torqued the handlebar mounting down so the bar no longer twists when I put pressure on it. That's not a small thing. When you're leaning on the bars, especially in the aero position, you need to trust that the front end isn't going to move under you.",
+      "And speaking of the aero position: the aerobars are now locked down in place. No more drifting, no more second-guessing where they'll be when I reach for them.",
+      "None of this is glamorous work. It's small adjustments, a few turns of a wrench, and then getting back on the bike to see whether it made a difference. But that's how a bike goes from assembled to dialed in.",
+      "There's still more to do. The shifting needs more fine-tuning. The saddle position is next on the list. And I'm continuing to practice with the clipless pedals — getting in and out has to become second nature long before race day.",
+      "One adjustment at a time. One ride at a time.",
       "Movement Creates Momentum.",
     ],
     relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
