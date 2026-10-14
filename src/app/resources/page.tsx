@@ -21,6 +21,7 @@ export default async function ResourcesPage() {
   return (
     <>
       <PageHero
+        wide
         pillar="connection"
         eyebrow="01 · Connection"
         title="The right help, matched to you"
@@ -28,7 +29,7 @@ export default async function ResourcesPage() {
       />
 
       <section className="py-12 sm:py-16">
-        <Container>
+        <Container className="max-w-[min(96vw,2400px)]">
           <div className="rounded-xl border border-line bg-white p-4 shadow-[0_1px_0_#dedad0,0_12px_32px_rgba(18,30,61,0.06)] sm:p-7">
             <ResourceNavigator resources={resources} />
           </div>

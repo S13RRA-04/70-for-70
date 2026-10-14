@@ -9,7 +9,6 @@ import { StateMap } from "@/components/resources/state-map";
 import { EmptyState } from "@/components/shared/empty-state";
 import { FilterChip } from "@/components/shared/filter-chip";
 import { SearchField } from "@/components/shared/search-field";
-import { RevealGrid } from "@/components/shared/reveal-on-scroll";
 import { trackEvent } from "@/lib/analytics/plausible";
 import { cn } from "@/lib/utils";
 
@@ -438,8 +437,11 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
         )}
       </div>
 
-      <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-6">
-        <div className="space-y-3 lg:sticky lg:top-24 lg:col-span-4 lg:max-h-[calc(100vh-7rem)] lg:space-y-5 lg:overflow-y-auto lg:pr-1 xl:col-span-3">
+      {/* Fluid two-column layout: the filter rail takes a comfortable
+          15–20rem and the results take everything else, so wider screens get
+          more result columns instead of wider margins. */}
+      <div className="mt-8 grid gap-8 lg:grid-cols-[clamp(15rem,20vw,20rem)_minmax(0,1fr)] lg:items-start lg:gap-8">
+        <div className="space-y-3 lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:space-y-5 lg:overflow-y-auto lg:pr-1">
           <SearchField
             id="resource-search"
             value={search}
@@ -544,7 +546,7 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
           </div>
         </div>
 
-        <div className="lg:col-span-8 xl:col-span-9">
+        <div className="min-w-0">
           <div className="flex flex-wrap items-baseline justify-between gap-3">
             {/* aria-live so a screen-reader user hears the updated count after
                 a chip/search/map change, instead of having to re-navigate
@@ -629,13 +631,13 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
             </div>
           ) : (
             <>
-              <RevealGrid>
-                <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-                  {visibleResults.map((resource) => (
-                    <ResourceCard key={resource.name} resource={resource} />
-                  ))}
-                </div>
-              </RevealGrid>
+              {/* No scroll-reveal here: results are the page's primary content and
+                  must be visible before hydration and after every filter change. */}
+              <div className="mt-4 grid gap-4 grid-cols-[repeat(auto-fill,minmax(min(100%,16.5rem),1fr))]">
+                {visibleResults.map((resource) => (
+                  <ResourceCard key={resource.name} resource={resource} />
+                ))}
+              </div>
 
               {hasMoreResults && (
                 <div className="mt-8 flex flex-col items-center gap-2">

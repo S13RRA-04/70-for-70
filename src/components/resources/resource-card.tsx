@@ -138,7 +138,7 @@ export function ResourceCard({ resource }: { resource: Resource }) {
         </div>
       )}
 
-      <div className="mt-4 flex items-center justify-between gap-3 border-t border-ink/10 pt-3">
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-x-3 gap-y-2 border-t border-ink/10 pt-3">
         <div className="text-xs text-charcoal-light">
           <span className="font-semibold text-ink">{resource.cost}</span>
           <span className="mx-1.5 text-ink/20">·</span>
@@ -152,7 +152,7 @@ export function ResourceCard({ resource }: { resource: Resource }) {
             </>
           )}
         </div>
-        <div className="flex shrink-0 items-center gap-3">
+        <div className="ml-auto flex shrink-0 items-center gap-3">
           <button
             type="button"
             onClick={handleCopyLink}

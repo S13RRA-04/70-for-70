@@ -35,6 +35,7 @@ export function PageHero({
   children,
   aside,
   narrow = false,
+  wide = false,
   id,
   className,
 }: {
@@ -48,6 +49,8 @@ export function PageHero({
   aside?: React.ReactNode;
   /** Constrain to a reading width — for single-column pages like /crisis. */
   narrow?: boolean;
+  /** Match a full-width page body (e.g. the /resources directory) instead of the 1240px reading width. */
+  wide?: boolean;
   /** Anchor id for in-page links (e.g. /about#founders-story). */
   id?: string;
   className?: string;
@@ -64,7 +67,7 @@ export function PageHero({
       <div
         className={cn(
           "relative mx-auto grid items-center gap-x-16 gap-y-10 px-6 pb-14 pt-16 sm:pb-20 sm:pt-24",
-          narrow ? "max-w-3xl" : "max-w-[1240px]",
+          narrow ? "max-w-3xl" : wide ? "max-w-[min(96vw,2400px)] sm:px-6 lg:px-8" : "max-w-[1240px]",
           aside ? "lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)] lg:pr-[11vw] xl:pr-[9vw]" : "lg:pr-[12vw] xl:pr-[10vw]",
         )}
       >
