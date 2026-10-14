@@ -11,6 +11,7 @@ import { getPartners } from "@/lib/data/partners";
 import { getMissionPartners, isCampaignPartner } from "@/lib/data/mission-partners";
 import { CAMPAIGN_URL, MOVEMENT_CAMPAIGNS, ORG_TAGLINE, isCurrentCampaign } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+import { CampaignFilm } from "@/components/home/campaign-film";
 import type { MovementCampaign } from "@/types/organization";
 
 /**
@@ -168,36 +169,30 @@ export default async function HomePage() {
     <>
       <ScrollProgressRail sections={RAIL_SECTIONS} />
 
-      {/* Hero — ring mark between the two brush-stroke edges. */}
+      {/* Hero — topo texture fades in, the brush strokes paint in from each
+          edge, then the mark and copy rise in sequence (see the hero-* motion
+          utilities in globals.css; all of it is skipped under reduced motion). */}
       <section className="relative overflow-hidden">
-        <svg
-          aria-hidden="true"
-          viewBox="0 0 1440 820"
-          preserveAspectRatio="xMidYMid slice"
-          className="absolute inset-0 h-full w-full"
-        >
-          <g fill="none" stroke="#111111" strokeWidth="1" opacity="0.10">
-            <path d="M380 40 C 520 10, 640 70, 760 40 S 980 0, 1100 50" />
-            <path d="M370 70 C 520 40, 640 100, 760 70 S 990 30, 1110 80" />
-            <path d="M360 100 C 520 70, 640 130, 760 100 S 1000 60, 1120 110" />
-            <path d="M330 740 C 470 700, 600 780, 740 740 S 960 690, 1110 750" />
-            <path d="M320 770 C 470 730, 600 810, 740 770 S 970 720, 1120 780" />
-            <path d="M310 800 C 470 760, 600 840, 740 800 S 980 750, 1130 810" />
-          </g>
-        </svg>
-        {/* eslint-disable-next-line @next/next/no-img-element -- decorative edge art sized to the section's height, which next/image can't express */}
+        {/* eslint-disable-next-line @next/next/no-img-element -- full-bleed decorative texture */}
         <img
-          src="/brand/edge-left.webp"
+          src="/brand/hero-topo.webp"
           alt=""
           aria-hidden="true"
-          className="pointer-events-none absolute left-0 top-0 h-full w-auto max-w-[24vw] object-cover object-right opacity-35 md:opacity-100"
+          className="hero-fade pointer-events-none absolute inset-0 h-full w-full object-cover"
+        />
+        {/* eslint-disable-next-line @next/next/no-img-element -- decorative edge art sized to the section's height, which next/image can't express */}
+        <img
+          src="/brand/hero-paint-left.webp"
+          alt=""
+          aria-hidden="true"
+          className="hero-paint-l pointer-events-none absolute left-0 top-0 h-full w-[45vw] object-contain object-left-top opacity-35 md:w-auto md:max-w-[26vw] md:object-cover md:object-left md:opacity-100"
         />
         {/* eslint-disable-next-line @next/next/no-img-element -- see above */}
         <img
-          src="/brand/edge-right.webp"
+          src="/brand/hero-paint-right.webp"
           alt=""
           aria-hidden="true"
-          className="pointer-events-none absolute right-0 top-0 h-full w-auto max-w-[20vw] object-cover object-left opacity-35 md:opacity-100"
+          className="hero-paint-r pointer-events-none absolute right-0 top-0 h-full w-[45vw] object-contain object-right-top opacity-35 md:w-auto md:max-w-[26vw] md:object-cover md:object-right md:opacity-100"
         />
         <div className="relative mx-auto flex max-w-[860px] flex-col items-center gap-[26px] px-6 pb-[88px] pt-[72px] text-center">
           <Image
@@ -206,13 +201,13 @@ export default async function HomePage() {
             width={220}
             height={220}
             priority
-            className="h-[180px] w-[180px] object-contain sm:h-[220px] sm:w-[220px]"
+            className="hero-logo-in h-[180px] w-[180px] object-contain sm:h-[220px] sm:w-[220px]"
           />
-          <Label>
+          <Label className="hero-rise [animation-delay:450ms]">
             <span className="text-help">Connection</span> · <span className="text-olive">Mobilization</span> ·{" "}
             <span className="text-impact">Impact</span>
           </Label>
-          <h1 className="text-worn font-display text-[clamp(56px,7.4vw,108px)] uppercase leading-none">
+          <h1 className="hero-rise text-worn font-display text-[clamp(56px,7.4vw,108px)] uppercase leading-none [animation-delay:600ms]">
             <span className="text-outline">{taglineFirst}</span>
             {taglineRest.length > 0 && (
               <>
@@ -221,11 +216,11 @@ export default async function HomePage() {
               </>
             )}
           </h1>
-          <p className="max-w-[620px] text-xl leading-relaxed text-copy">
+          <p className="hero-rise max-w-[620px] text-xl leading-relaxed text-copy [animation-delay:750ms]">
             We connect veterans, first responders, and their families to trusted support — and turn community action
             into real results for the people and organizations doing the work.
           </p>
-          <div className="flex flex-wrap justify-center gap-3">
+          <div className="hero-rise flex flex-wrap justify-center gap-3 [animation-delay:900ms]">
             <CTAButton href="#connection" size="lg">
               Find resources
             </CTAButton>
@@ -400,6 +395,16 @@ export default async function HomePage() {
             <Label className="text-mist">Athletic campaigns</Label>
           </div>
 
+          <CampaignFilm
+            sources={[
+              { src: "/video/campaign-film.mp4", type: 'video/mp4; codecs="avc1.64001f, mp4a.40.2"' },
+              { src: "/video/campaign-film.webm", type: 'video/webm; codecs="vp9, opus"' },
+            ]}
+            poster="/video/campaign-film-poster.webp"
+            title="Watch the campaign film"
+            description="Rucks, rides, and the people who show up — 41 seconds, sound on."
+          />
+
           {athleticCampaigns.length > 0 && (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {athleticCampaigns.map((campaign) => {
@@ -409,7 +414,7 @@ export default async function HomePage() {
                 return (
                   <article
                     key={campaign.id}
-                    className="bg-paper flex min-h-[280px] flex-col gap-3 rounded-xl p-7 text-jet"
+                    className="lift view-rise bg-paper flex min-h-[280px] flex-col gap-3 rounded-xl p-7 text-jet"
                   >
                     <div className="flex justify-between gap-2 text-sm">
                       <span
@@ -491,6 +496,32 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Kinetic slogan band — the tagline as a slow olive marquee. Screen
+          readers get the line once; the repeated track is decorative. */}
+      <div className="overflow-hidden border-y border-[#3c441a] bg-olive py-[22px] text-white">
+        <p className="sr-only">{ORG_TAGLINE} Because 22 ≠ 0.</p>
+        <div aria-hidden="true" className="animate-marquee-slow flex w-max gap-10 whitespace-nowrap font-display text-[36px] uppercase leading-none sm:text-[44px]">
+          {[0, 1, 2, 3].map((copy) => (
+            <span key={copy} className="flex gap-10">
+              {[...ORG_TAGLINE.split(/(?<=\.)\s+/), "Because 22 ≠ 0"].map((phrase) => (
+                <span key={phrase} className="flex gap-10">
+                  <span>
+                    {phrase.includes("≠") ? (
+                      <>
+                        Because 22 <span className="text-gold">≠</span> 0
+                      </>
+                    ) : (
+                      phrase
+                    )}
+                  </span>
+                  <span className="text-gold">★</span>
+                </span>
+              ))}
+            </span>
+          ))}
+        </div>
+      </div>
+
       {/* 03 · Impact */}
       <section id="impact" aria-labelledby="impact-heading" className="scroll-mt-28 border-y border-line bg-white">
         <div className="mx-auto flex max-w-[1240px] flex-col gap-12 px-6 py-20 sm:py-[104px]">
@@ -530,7 +561,7 @@ export default async function HomePage() {
                 aria-valuenow={raised}
                 className="h-4 overflow-hidden rounded-full border border-[#cbd9cf] bg-impact-tint"
               >
-                <div className="h-full min-w-4 rounded-full bg-impact" style={{ width: `${percent}%` }} />
+                <div className="view-grow h-full min-w-4 rounded-full bg-impact" style={{ width: `${percent}%` }} />
               </div>
             </div>
           )}
@@ -703,7 +734,7 @@ function GetInvolvedCard({
   children: React.ReactNode;
 }) {
   const className = cn(
-    "hover-lift flex min-h-[180px] flex-col gap-2 rounded-xl p-[26px]",
+    "lift view-rise flex min-h-[180px] flex-col gap-2 rounded-xl p-[26px]",
     dark ? "bg-navy text-white" : "border border-line bg-white text-jet hover:border-navy/40",
   );
   const content = (
