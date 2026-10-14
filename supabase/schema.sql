@@ -693,7 +693,7 @@ create table if not exists public.mission_partners (
     partner_type is null or partner_type in (
       'campaign-sponsor', 'gear-partner', 'service-partner', 'print-partner',
       'accommodations-partner', 'training-partner', 'giveaway-supporter',
-      'team-benefit-partner'
+      'team-benefit-partner', 'athlete-affiliation'
     )
   ),
   -- Formal fair-market-value recognition level (cash + in-kind), shown on
@@ -747,6 +747,22 @@ alter table public.mission_partners add constraint mission_partners_partner_type
     'campaign-sponsor', 'gear-partner', 'service-partner', 'print-partner',
     'accommodations-partner', 'training-partner', 'giveaway-supporter',
     'team-benefit-partner'
+  )
+);
+
+-- Adds 'athlete-affiliation' — the reverse relationship from every other
+-- partner_type: a team/organization Cody personally represents (e.g. Blue70
+-- Racing), not one materially supporting the campaign. See
+-- 2026-10-14-athlete-affiliation-partner-type.sql and isCampaignPartner()
+-- in src/lib/data/mission-partners.ts, which excludes this type from the
+-- public "N Campaign Partners" stat and general sponsor wall the same way
+-- it already excludes giveaway-supporter.
+alter table public.mission_partners drop constraint if exists mission_partners_partner_type_check;
+alter table public.mission_partners add constraint mission_partners_partner_type_check check (
+  partner_type is null or partner_type in (
+    'campaign-sponsor', 'gear-partner', 'service-partner', 'print-partner',
+    'accommodations-partner', 'training-partner', 'giveaway-supporter',
+    'team-benefit-partner', 'athlete-affiliation'
   )
 );
 

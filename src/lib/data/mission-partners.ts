@@ -28,9 +28,16 @@ function isPubliclyEligible(partner: MissionPartnerRow): boolean {
  * partner — this was previously reimplemented ad hoc in three different
  * page files (and missed in a fourth), which is how the public "Campaign
  * Partners" count ended up disagreeing with itself across pages.
+ *
+ * Athlete affiliations (partner_type: "athlete-affiliation" — a team Cody
+ * personally represents, e.g. Blue70 Racing) are excluded the same way:
+ * they're not an organization materially supporting the campaign, so they
+ * don't belong in the "N Campaign Partners" stat or the general sponsor
+ * wall either. They get their own "Athletic Affiliations" section — see
+ * src/app/sponsors/page.tsx.
  */
 export function isCampaignPartner(partner: MissionPartnerRow): boolean {
-  return partner.partner_type !== "giveaway-supporter";
+  return partner.partner_type !== "giveaway-supporter" && partner.partner_type !== "athlete-affiliation";
 }
 
 /**

@@ -8,6 +8,7 @@ import { MissionPartnerCard } from "@/components/partners/mission-partner-card";
 import { SponsorSection } from "@/components/partners/sponsor-section";
 import { PresentingPartnerFeature, PresentingPartnerPlaceholder } from "@/components/partners/presenting-partner-feature";
 import { TeamBenefitPartnerFeature } from "@/components/partners/team-benefit-partner-feature";
+import { AthleteAffiliationFeature } from "@/components/campaign/athlete-affiliation-feature";
 import { PartnershipStoryBreak } from "@/components/sponsors/partnership-story-break";
 import { PartnerSupportDisclaimer } from "@/components/partners/partner-support-disclaimer";
 import { CTAButton } from "@/components/shared/cta-button";
@@ -80,9 +81,17 @@ const OFFICIAL_BICYCLE_SUPPORT_DESIGNATION = "Official Bicycle Support Partner";
  * PartnerRoleBadge and MissionPartnerRow.designation's doc comment).
  *
  * Section order: tier hierarchy → untiered campaign partners → a
- * team-benefit spotlight → the 22 For the 22 giveaway → a closing story
- * break → final CTA (which points to /become-a-partner for anyone wanting
- * to join this list, not a sales pitch on this page itself).
+ * team-benefit spotlight → athletic affiliations → the 22 For the 22
+ * giveaway → a closing story break → final CTA (which points to
+ * /become-a-partner for anyone wanting to join this list, not a sales
+ * pitch on this page itself).
+ *
+ * Athletic Affiliations is deliberately NOT part of generalPartners (see
+ * isCampaignPartner) — a team/organization Cody personally represents
+ * (partner_type: "athlete-affiliation", e.g. Blue70 Racing) isn't a
+ * campaign sponsor, so it's excluded from every tier list, the untiered
+ * grid, and the public partner count, and rendered in its own section
+ * instead so the distinction reads as structural, not just a caption.
  */
 export default async function SponsorsPage() {
   const [partners, currentEvent] = await Promise.all([getMissionPartners(), getCurrentEventConfig()]);
@@ -90,6 +99,9 @@ export default async function SponsorsPage() {
 
   const presentingPartners = generalPartners.filter((p) => p.tier === "presenting-partner");
   const teamBenefitPartner = generalPartners.find((p) => p.partner_type === "team-benefit-partner");
+  const athleteAffiliation = partners.find(
+    (p) => p.partner_type === "athlete-affiliation" && p.associated_campaigns?.includes("tri"),
+  );
 
   const tieredPartners: Record<string, MissionPartnerRow[]> = {};
   for (const tierId of TIERED_ORDER) {
@@ -228,6 +240,28 @@ export default async function SponsorsPage() {
                 ctaHref="/get-involved/triathlon-team#team-equipment-benefits"
                 ctaLabel="Learn About Team Benefits"
               />
+            </RevealOnScroll>
+          </Container>
+        </section>
+      )}
+
+      {/* Athletic Affiliations — a team/organization Cody personally represents, structurally distinct from every campaign-partner section above. */}
+      {athleteAffiliation && (
+        <section id="athletic-affiliations" className="scroll-mt-28 border-b border-ink/10 bg-off-white py-16 sm:py-20">
+          <Container className="max-w-4xl">
+            <RevealOnScroll>
+              <h2 className="font-display text-xl uppercase text-ink">Athletic Affiliations</h2>
+              <p className="mt-1 max-w-2xl text-sm text-charcoal-light">
+                Teams Cody has been selected to or personally represents during this build — distinct from the
+                campaign partners above, who are materially supporting Tri For The 22 itself.
+              </p>
+              <div className="mt-6">
+                <AthleteAffiliationFeature
+                  partner={athleteAffiliation}
+                  ctaHref="/journal/the-mission-just-picked-up-another-team"
+                  ctaLabel="Read the Announcement"
+                />
+              </div>
             </RevealOnScroll>
           </Container>
         </section>

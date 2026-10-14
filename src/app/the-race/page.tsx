@@ -16,6 +16,7 @@ import { CampaignPhaseBanner } from "@/components/campaign/campaign-phase-banner
 import { MissionFinale } from "@/components/campaign/mission-finale";
 import { BikeBuildTeaser } from "@/components/journal/bike-build/bike-build-teaser";
 import { GearJourneyTeaser } from "@/components/journal/gear-journey/gear-journey-teaser";
+import { AthleteAffiliationFeature } from "@/components/campaign/athlete-affiliation-feature";
 import { TrainingSnapshot } from "@/components/training/training-snapshot";
 import { TrainingStatusSnapshot } from "@/components/training/training-status-snapshot";
 import { PerformanceMetricsPanel } from "@/components/training/performance-metrics-panel";
@@ -27,6 +28,7 @@ import { getJournalEntries } from "@/lib/data/journal";
 import { getTrainingSnapshot } from "@/lib/whoop/client";
 import { getTrainingObjectives } from "@/lib/data/training-objectives";
 import { getLatestPerformanceSnapshot, getPerformanceMetricHistory } from "@/lib/data/performance-snapshots";
+import { getMissionPartners } from "@/lib/data/mission-partners";
 import { getCampaign } from "@/lib/data/campaign";
 import { getTrainingStats } from "@/lib/training-stats";
 import { formatDateLong } from "@/lib/utils";
@@ -87,7 +89,7 @@ const TREND_METRICS = [
  * competing with the race identity/goal/course/plan up top.
  */
 export default async function RacePage() {
-  const [entries, trainingSnapshot, trainingObjectives, performanceSnapshot, trainingStats, campaign, trendHistories] =
+  const [entries, trainingSnapshot, trainingObjectives, performanceSnapshot, trainingStats, campaign, trendHistories, missionPartners] =
     await Promise.all([
       getJournalEntries(),
       getTrainingSnapshot(),
@@ -96,7 +98,10 @@ export default async function RacePage() {
       getTrainingStats(),
       getCampaign(),
       Promise.all(TREND_METRICS.map((m) => getPerformanceMetricHistory(m.key))),
+      getMissionPartners(),
     ]);
+
+  const athleteAffiliation = missionPartners.find((p) => p.partner_type === "athlete-affiliation");
   // "Next three verified milestones" — the 3 most recent published
   // milestone entries (getJournalEntries() already sorts newest-first), not
   // fabricated upcoming goals.
@@ -387,6 +392,26 @@ export default async function RacePage() {
               <GearJourneyTeaser teaser={getGearJourneyTeaser()} />
             </div>
           </div>
+
+          {athleteAffiliation && (
+            <div id="athlete-affiliation" className="mt-16 scroll-mt-28">
+              <SectionHeading eyebrow="Athlete Affiliation" title="Representing Blue70 Racing" />
+              <p className="mt-2 max-w-2xl text-sm text-charcoal-light">
+                An athlete-team selection, not a campaign sponsorship — see{" "}
+                <a href="/sponsors#athletic-affiliations" className="font-semibold text-bronze hover:text-bronze-dark">
+                  how that distinction works
+                </a>
+                .
+              </p>
+              <div className="mt-6">
+                <AthleteAffiliationFeature
+                  partner={athleteAffiliation}
+                  ctaHref="/journal/the-mission-just-picked-up-another-team"
+                  ctaLabel="Follow the Road to Chattanooga"
+                />
+              </div>
+            </div>
+          )}
         </Container>
       </section>
 

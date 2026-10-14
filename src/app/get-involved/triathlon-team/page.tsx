@@ -72,6 +72,14 @@ export default async function TriathlonTeamPage() {
                 equipment more accessible to participating athletes. Benefits vary by partner and
                 do not guarantee free equipment.
               </p>
+              <p className="mt-2 text-xs leading-relaxed text-charcoal-light/70">
+                These benefits are available to any approved team member — distinct from Cody&apos;s
+                own personal race-team affiliations (e.g. Blue70 Racing), covered on{" "}
+                <a href="/the-race#athlete-affiliation" className="font-semibold text-bronze hover:text-bronze-dark">
+                  The Race page
+                </a>
+                .
+              </p>
 
               <div className="mt-6 flex flex-col gap-5 rounded-xl border border-line bg-white p-6 sm:flex-row sm:items-start">
                 <PartnerLogo

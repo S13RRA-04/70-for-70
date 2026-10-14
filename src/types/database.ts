@@ -418,7 +418,17 @@ export type PartnerType =
    * actual access details/discount code are never public; see
    * MissionPartnerRow.description for the public-safe summary only.
    */
-  | "team-benefit-partner";
+  | "team-benefit-partner"
+  /**
+   * The reverse relationship from every other value here: a team/
+   * organization Cody personally represents or was selected to (e.g. Blue70
+   * Racing), not one materially supporting the campaign financially or
+   * in-kind. Carries no tier, is excluded from isCampaignPartner() (see
+   * src/lib/data/mission-partners.ts) and the public "N Campaign Partners"
+   * stat, and renders in its own "Athletic Affiliations" section rather
+   * than the general sponsor grid.
+   */
+  | "athlete-affiliation";
 
 /**
  * Formal fair-market-value recognition level (cash + in-kind), shown on

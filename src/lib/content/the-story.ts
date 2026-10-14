@@ -50,6 +50,7 @@ export const MOVEMENT_TIMELINE = [
     image: { src: "/about/ultra-2.jpg", alt: "Cody racing solo on a wooded trail during an ultramarathon" },
     resultsUrl: "https://ultrarunning.com/calendar/runner/view/Cody-Hitson-f497dcec-6a5d-11ef-abe1-b606cb15cdaf",
   },
+  { year: "2026", label: "Selected for Blue70 Racing, blueseventy's athlete team within the Peak Athletic Collective" },
   { year: "2027", label: "IRONMAN 70.3 Chattanooga — May 16, Chattanooga, TN" },
 ] as const;
 

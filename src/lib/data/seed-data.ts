@@ -144,6 +144,30 @@ export const SEED_SPONSORS: SponsorRow[] = [];
 
 export const SEED_MISSION_PARTNERS: MissionPartnerRow[] = [
   {
+    id: "seed-mission-partner-blue70-racing",
+    name: "Blue70 Racing",
+    relationship_label: "Selected Athlete",
+    description:
+      "In October 2026, Cody was selected to join Blue70 Racing — blueseventy's athlete team within the Peak Athletic Collective — while training toward IRONMAN 70.3 Chattanooga.",
+    logo_url: "/partners/blue70-logo.png",
+    logo_light_url: null,
+    logo_dark_url: null,
+    logo_background: null,
+    website_url: "https://www.blueseventy.com",
+    support_type: null,
+    geographic_scope: null,
+    active: true,
+    display_order: 0,
+    agreement_status: null,
+    logo_permission: true,
+    relationship_start: "2026-10-01",
+    relationship_end: null,
+    associated_campaigns: ["tri"],
+    partner_type: "athlete-affiliation",
+    tier: null,
+    designation: "Peak Athletic Collective",
+  },
+  {
     id: "seed-mission-partner-project-echelon",
     name: "Project Echelon",
     relationship_label: "Ally",
