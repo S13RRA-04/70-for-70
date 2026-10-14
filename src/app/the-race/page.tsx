@@ -17,6 +17,8 @@ import { MissionFinale } from "@/components/campaign/mission-finale";
 import { BikeBuildTeaser } from "@/components/journal/bike-build/bike-build-teaser";
 import { GearJourneyTeaser } from "@/components/journal/gear-journey/gear-journey-teaser";
 import { AthleteAffiliationFeature } from "@/components/campaign/athlete-affiliation-feature";
+import { InstitutionalRecognition } from "@/components/shared/institutional-recognition";
+import { USAT_TOGETHER_WE_THRIVE_2026 } from "@/lib/content/recognitions";
 import { TrainingSnapshot } from "@/components/training/training-snapshot";
 import { TrainingStatusSnapshot } from "@/components/training/training-status-snapshot";
 import { PerformanceMetricsPanel } from "@/components/training/performance-metrics-panel";
@@ -387,6 +389,13 @@ export default async function RacePage() {
               getting one race-ready — and everything else in the kit, from wetsuit to running shoes — live in
               their own ongoing series in the Journal.
             </p>
+            <InstitutionalRecognition
+              recognition={USAT_TOGETHER_WE_THRIVE_2026}
+              variant="callout"
+              title="Supported through the 2026 USA Triathlon Together We Thrive Grant"
+              body="Grant funding helps offset eligible race, training, membership, and essential multisport-equipment costs associated with the campaign."
+              className="mt-6"
+            />
             <div className="mt-6 grid gap-6 sm:grid-cols-2">
               <BikeBuildTeaser teaser={getBikeBuildTeaser()} />
               <GearJourneyTeaser teaser={getGearJourneyTeaser()} />

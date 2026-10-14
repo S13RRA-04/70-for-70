@@ -23,6 +23,8 @@ import { CTASection } from "@/components/shared/cta-section";
 import { EmptyState } from "@/components/shared/empty-state";
 import { JournalCard } from "@/components/journal/journal-card";
 import { ShareButtons } from "@/components/shared/share-buttons";
+import { InstitutionalRecognition } from "@/components/shared/institutional-recognition";
+import { getRecognitionsForCampaign } from "@/lib/content/recognitions";
 import {
   CAMPAIGN_NAME,
   CAMPAIGN_URL,
@@ -174,7 +176,8 @@ const MISSION_CAMPAIGN_CARDS: MissionCampaignCard[] = [
  * one-line Latest Update pointer, Current Campaign (race state/countdown,
  * now with CampaignPhaseBanner), The $70K Mission (fundraising progress —
  * grouped with Current Campaign as the "what's happening now" block, ahead
- * of any explanatory copy), Who Your Support Helps, What Is For The 22,
+ * of any explanatory copy), Institutional Recognition (grants/selections
+ * from src/lib/content/recognitions.ts), Who Your Support Helps, What Is For The 22,
  * Organizations Standing With the Mission, Mission in Action, Ways to Get
  * Involved, Stories From the Mission, Why Cody Chose to Carry This Mission,
  * ForThe22.org CTA, Final CTA. Detailed follow-along content still lives on
@@ -203,6 +206,8 @@ export default async function CampaignHomePage() {
   const generalPartners = missionPartners.filter(isCampaignPartner);
   const presentingPartners = generalPartners.filter((p) => p.tier === "presenting-partner");
   const otherPartners = generalPartners.filter((p) => p.tier !== "presenting-partner");
+  // Grants/selections — never mixed into the partner wall or partner count.
+  const recognitions = getRecognitionsForCampaign("tri");
 
   const shareTitle = `I'm supporting ${CAMPAIGN_NAME} — ${formatCurrency(fundraisingStats.fundraisingGoal)} for veterans, first responders, and their families.`;
 
@@ -361,6 +366,21 @@ export default async function CampaignHomePage() {
         </Container>
       </section>
 
+      {/* Institutional Recognition — grants and official selections, read
+          as part of the "what's happening now" block, before the
+          explanatory sections. Kept apart from the partner wall below. */}
+      {recognitions.length > 0 && (
+        <section aria-label="Institutional recognition" className="border-b border-ink/10 bg-ink py-12 text-off-white sm:py-14">
+          <Container className="space-y-10">
+            {recognitions.map((recognition) => (
+              <RevealOnScroll key={recognition.id}>
+                <InstitutionalRecognition recognition={recognition} />
+              </RevealOnScroll>
+            ))}
+          </Container>
+        </section>
+      )}
+
       {/* 4. Who Your Support Helps */}
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container>
@@ -456,6 +476,21 @@ export default async function CampaignHomePage() {
               title="Organizations Standing With the Mission"
               description="These businesses, clubs, and organizations contribute equipment, services, expertise, visibility, financial support, or community reach to help For The 22 move forward."
             />
+            {recognitions.length > 0 && (
+              <div className="mt-8">
+                <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-bronze">Institutional Recognition</p>
+                <div className="grid gap-4 lg:grid-cols-2">
+                  {recognitions.map((recognition) => (
+                    <InstitutionalRecognition
+                      key={recognition.id}
+                      recognition={recognition}
+                      variant="listing"
+                      headingLevel="h3"
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
             <div className="mt-8">
               <PartnerLogoWall presentingPartners={presentingPartners} otherPartners={otherPartners} />
             </div>

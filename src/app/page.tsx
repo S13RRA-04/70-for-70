@@ -12,6 +12,8 @@ import { getMissionPartners, isCampaignPartner } from "@/lib/data/mission-partne
 import { CAMPAIGN_URL, MOVEMENT_CAMPAIGNS, ORG_TAGLINE, isCurrentCampaign } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { CampaignFilm } from "@/components/home/campaign-film";
+import { InstitutionalRecognition } from "@/components/shared/institutional-recognition";
+import { RECOGNITIONS } from "@/lib/content/recognitions";
 import type { MovementCampaign } from "@/types/organization";
 
 /**
@@ -438,6 +440,15 @@ export default async function HomePage() {
                     </div>
                     <h3 className="mt-2 font-display text-4xl uppercase leading-none">{campaign.name}</h3>
                     <p className="flex-grow text-base leading-relaxed text-copy">{copy.blurb}</p>
+                    {/* Campaign-scoped recognitions only (e.g. a Tri-specific grant) — sits on the card so it never reads as an endorsement of every For The 22 program. */}
+                    {RECOGNITIONS.filter((r) => r.campaign === campaign.slug).map((recognition) => (
+                      <InstitutionalRecognition
+                        key={recognition.id}
+                        recognition={recognition}
+                        variant="inline"
+                        className="border-t border-line pt-3 text-navy [&>svg]:text-olive"
+                      />
+                    ))}
                     <a href={campaign.url} className="font-bold text-navy hover:text-help hover:underline">
                       {copy.cta} →
                     </a>

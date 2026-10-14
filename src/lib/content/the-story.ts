@@ -15,6 +15,7 @@ export const HOW_THIS_BEGAN = {
   body: [
     "My next major goal is completing a 70.3-mile triathlon — 1.2 miles swimming, 56 miles cycling, and 13.1 miles running. Tri For The 22 began as a personal endurance challenge: train for the race, tell the story honestly, connect people with established resources, and encourage direct support for organizations already doing the work.",
     "I have benefited from people and organizations willing to invest in veterans when it mattered most. Now I want to return that investment. I cannot solve everything a veteran or first responder is carrying, but I can swim 1.2 miles, ride 56, run 13.1, and tell my story.",
+    "In October 2026, Tri For The 22 was selected as a USA Triathlon Together We Thrive Grant recipient, recognizing the campaign's work to create pathways into multisport while advancing its veteran and first-responder mission.",
   ],
 };
 
