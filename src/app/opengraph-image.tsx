@@ -1,6 +1,6 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import { getSiteMode } from "@/lib/site-mode";
+import { getActiveCampaignSlug, getSiteMode } from "@/lib/site-mode";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -21,11 +21,17 @@ export const contentType = "image/png";
  * card would show Tri For The 22's campaign branding, which is exactly
  * the bug this file used to have (hardcoded CAMPAIGN_NAME/SITE_TAGLINE
  * regardless of which domain the link pointed at).
+ *
+ * live.forthe22.org has its own card (public/og-live.png — the Live v3
+ * wordmark on paper; regenerate from public/brand/live/* if it changes).
+ * The other campaign hosts still share og-campaign.png.
  */
 export default async function OpengraphImage() {
   const mode = await getSiteMode();
   const isCampaign = mode === "campaign";
+  const campaignSlug = isCampaign ? await getActiveCampaignSlug() : null;
   const headerList = await headers();
   const origin = `https://${headerList.get("host")}`;
-  return NextResponse.redirect(new URL(isCampaign ? "/og-campaign.png" : "/og-org.png", origin));
+  const image = campaignSlug === "live" ? "/og-live.png" : isCampaign ? "/og-campaign.png" : "/og-org.png";
+  return NextResponse.redirect(new URL(image, origin));
 }

@@ -13,6 +13,8 @@ import {
   RACE_TOTAL_DISTANCE,
   SITE_NAME,
 } from "@/lib/constants";
+import { LIVE_CAMPAIGN_TAGLINE, LIVE_PILLARS } from "@/lib/content/live-campaign";
+import { getActiveCampaignSlug } from "@/lib/site-mode";
 import { formatCurrency } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -40,6 +42,39 @@ export default async function ComingSoonPage(props: PageProps<"/coming-soon">) {
   const searchParams = await props.searchParams;
   const scope = Array.isArray(searchParams.scope) ? searchParams.scope[0] : searchParams.scope;
   const isCampaignScope = scope === "campaign";
+
+  // CAMPAIGN_LIVE gates every campaign host at once, but the splash below
+  // is Tri's. Live has its own identity, so it gets its own splash rather
+  // than showing a concert-series visitor "70.3 Miles".
+  if (isCampaignScope && (await getActiveCampaignSlug()) === "live") {
+    return (
+      <section className="flex min-h-[85vh] flex-col items-center justify-center gap-5 px-6 py-20 text-center">
+        <h1 className="w-full">
+          <Image
+            src="/brand/live/wordmark.webp"
+            alt="For The 22: Live"
+            width={1092}
+            height={297}
+            priority
+            sizes="(min-width: 840px) 760px, 100vw"
+            className="mx-auto h-auto w-full max-w-[760px]"
+          />
+        </h1>
+        <p className="text-[15px] font-bold uppercase tracking-[0.42em]">{LIVE_CAMPAIGN_TAGLINE}</p>
+        <p className="text-sm font-semibold uppercase tracking-[0.24em] text-muted">{LIVE_PILLARS.join("  |  ")}</p>
+        <p className="label-caps mt-4 rounded-full bg-live-red px-4 py-2 text-xs text-white">Lineup announcing soon</p>
+        {CONTACT_EMAIL && (
+          <div className="mt-6 flex flex-col items-center">
+            <p className="label-caps mb-3 text-xs text-muted">Get on the list</p>
+            <EmailSignupForm idleLabel="Count me in" />
+          </div>
+        )}
+        <a href={ORG_HOME_LINK.href} className="mt-6 text-sm font-bold uppercase tracking-wide text-jet hover:text-live-red">
+          &larr; {ORG_HOME_LINK.label}
+        </a>
+      </section>
+    );
+  }
 
   if (isCampaignScope) {
     return (
