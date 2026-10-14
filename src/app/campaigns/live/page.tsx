@@ -12,7 +12,7 @@ import {
   LIVE_FUNDS_DISCLOSURE,
   UPCOMING_LIVE_PERFORMERS,
 } from "@/lib/content/live-campaign";
-import { LIVE_AUCTION } from "@/lib/content/live-auction";
+import { LIVE_AUCTION_ITEMS } from "@/lib/content/live-auction";
 import { CAMPAIGN_URL, LIVE_CAMPAIGN_URL, MISSION_NAME, SITE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
@@ -28,6 +28,8 @@ const BREADCRUMB_JSON_LD = breadcrumbJsonLd([
 ]);
 
 const CONTRIBUTION_ICONS = [Ticket, HandCoins, Handshake, Gavel, Music2, Shirt] as const;
+
+const FEATURED_AUCTION_ITEM = LIVE_AUCTION_ITEMS.find((item) => item.featured) ?? LIVE_AUCTION_ITEMS[0];
 
 export default async function LiveCampaignPage() {
   const fundraisingStats = await getFundraisingImpactStats();
@@ -71,20 +73,20 @@ export default async function LiveCampaignPage() {
       <section className="border-b border-off-white/10 bg-charcoal py-16 text-off-white sm:py-20">
         <Container>
           <RevealOnScroll className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
-          <div className="flex aspect-square max-w-md items-center justify-center border border-bronze/30 bg-ink"><div className="text-center"><Gavel className="mx-auto h-14 w-14 text-bronze-light" aria-hidden="true" /><p className="mt-5 text-xs font-bold uppercase tracking-[0.2em] text-off-white/60">Donated by</p><p className="mt-2 font-display text-4xl uppercase">{LIVE_AUCTION.donor}</p></div></div>
+          <div className="flex aspect-square max-w-md items-center justify-center border border-bronze/30 bg-ink"><div className="text-center"><Gavel className="mx-auto h-14 w-14 text-bronze-light" aria-hidden="true" /><p className="mt-5 text-xs font-bold uppercase tracking-[0.2em] text-off-white/60">Official image coming soon</p></div></div>
           <div>
           <SectionHeading
             tone="dark"
             eyebrow="Featured Auction"
-            title={LIVE_AUCTION.title}
-            description={`Bidding opens ${LIVE_AUCTION.opensOn}. Winner announced ${LIVE_AUCTION.winnerAnnouncement}.`}
+            title={FEATURED_AUCTION_ITEM.title}
+            description={`Bidding opens ${FEATURED_AUCTION_ITEM.opensOnLabel}. Bidding closes ${FEATURED_AUCTION_ITEM.closesOnLabel}.`}
           />
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-off-white/70">
-            {LIVE_AUCTION.description}
+            {FEATURED_AUCTION_ITEM.description}
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
-            <CTAButton href="/auction" tone="dark">Auction Details</CTAButton>
-            <CTAButton href={LIVE_AUCTION.biddingUrl} external variant="secondary" tone="dark">
+            <CTAButton href={`/auction#${FEATURED_AUCTION_ITEM.slug}`} tone="dark">Auction Details</CTAButton>
+            <CTAButton href={FEATURED_AUCTION_ITEM.biddingUrl} external newTab variant="secondary" tone="dark">
               View on 32auctions
             </CTAButton>
           </div>
