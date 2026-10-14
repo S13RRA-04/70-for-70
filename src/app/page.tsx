@@ -125,6 +125,13 @@ export default async function HomePage() {
   const namedPartners = generalPartners.filter((p) => p.tier !== "presenting-partner").slice(0, 6);
   const remainingPartnerCount = generalPartners.length - presentingPartners.length - namedPartners.length;
 
+  // Deliberately NOT part of generalPartners/the logo wall above — an
+  // athlete-affiliation row (Cody personally selected to a team) isn't a
+  // campaign partner, see isCampaignPartner(). Shown as a small, subordinate
+  // credential line, not another sponsor card — see The Race page for the
+  // fuller writeup.
+  const athleteAffiliation = missionPartners.find((p) => p.partner_type === "athlete-affiliation");
+
   const raised = metrics.totalRaised;
   const goal = metrics.fundraisingGoal;
   const percent = raised !== null && goal ? Math.min(100, (raised / goal) * 100) : null;
@@ -400,7 +407,7 @@ export default async function HomePage() {
               { src: "/video/campaign-film.mp4", type: 'video/mp4; codecs="avc1.64001f, mp4a.40.2"' },
               { src: "/video/campaign-film.webm", type: 'video/webm; codecs="vp9, opus"' },
             ]}
-            poster="/video/campaign-film-poster.webp"
+            poster="/media/campaign-film-poster.webp"
             title="Watch the campaign film"
             description="Rucks, rides, and the people who show up — 41 seconds, sound on."
           />
@@ -437,6 +444,27 @@ export default async function HomePage() {
                   </article>
                 );
               })}
+            </div>
+          )}
+
+          {athleteAffiliation && (
+            <div className="flex flex-wrap items-center gap-3 border-t border-navy-rule pt-6 text-sm">
+              {athleteAffiliation.logo_url && (
+                <Image
+                  src={athleteAffiliation.logo_url}
+                  alt={athleteAffiliation.name}
+                  width={96}
+                  height={64}
+                  className="h-7 w-auto shrink-0"
+                />
+              )}
+              <p className="text-mist">
+                <span className="font-bold text-white">
+                  Selected Athlete — {athleteAffiliation.name}
+                  {athleteAffiliation.designation && ` · ${athleteAffiliation.designation}`}
+                </span>
+                <span className="block sm:inline"> Representing {athleteAffiliation.name} on the road to IRONMAN 70.3 Chattanooga.</span>
+              </p>
             </div>
           )}
 
