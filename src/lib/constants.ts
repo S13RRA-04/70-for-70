@@ -346,10 +346,12 @@ export const EVENT22_NAV_LINKS: NavLink[] = [
   { label: "Rules", href: "/rules" },
 ];
 
+/** Mixes routes with anchors on the Live home page (#impact, #join, #list — see src/app/campaigns/live/page.tsx). */
 export const LIVE_NAV_LINKS: NavLink[] = [
-  { label: "Home", href: "/" },
-  { label: "Performances", href: "/events" },
+  { label: "Shows", href: "/events" },
+  { label: "Where It Goes", href: "/#impact" },
   { label: "Silent Auction", href: "/auction" },
+  { label: "Artists & Sponsors", href: "/#join" },
 ];
 
 /**
@@ -821,6 +823,8 @@ export const CAMPAIGNS: Record<
     navLinks: NavEntry[];
     logoLight: string;
     logoDark: string;
+    /** The mark already spells out the campaign name (Live's badge) — header/footer show it larger and drop the redundant text name. */
+    logoCarriesName?: boolean;
     primaryCta: NavLink & { external?: boolean };
     /** A small text link back to the permanent For The 22 parent mission. */
     parentLink?: NavLink;
@@ -855,14 +859,18 @@ export const CAMPAIGNS: Record<
   live: {
     name: LIVE_CAMPAIGN_NAME,
     url: LIVE_CAMPAIGN_URL,
-    tagline: "Music Moves the Mission.",
+    tagline: "Music With a Mission",
     description:
       "A virtual benefit concert series built around music, veteran stories, and direct support for organizations serving the veteran community.",
     navLinks: LIVE_NAV_LINKS,
-    logoLight: "/logo.png",
-    logoDark: "/logo-white.png",
-    primaryCta: { label: "Register", href: LIVE_REGISTRATION_URL, external: true },
+    // One badge for both surfaces — it carries its own white field, so it
+    // reads on paper and on jet alike.
+    logoLight: "/brand/live/badge.webp",
+    logoDark: "/brand/live/badge.webp",
+    logoCarriesName: true,
+    primaryCta: { label: "Get on the List", href: "/#list" },
     parentLink: PARENT_EVENT_LINK,
+    crisisLink: CRISIS_LINK,
   },
   "22": {
     name: EVENT22_CAMPAIGN_NAME,

@@ -53,31 +53,44 @@ export function Footer({
 
   return (
     <footer className="property-footer-shell relative overflow-hidden text-white">
-      <BrandStripe onNavy />
+      <BrandStripe onNavy variant={campaignSlug === "live" ? "live" : "org"} />
       <Container
         className={`relative grid gap-10 pb-14 pt-16 sm:grid-cols-2 ${
           campaignSlug === "tri"
             ? "lg:grid-cols-3 xl:grid-cols-6"
-            : campaignSlug === "ruck" || campaignSlug === "22"
+            : campaignSlug === "ruck" || campaignSlug === "22" || campaignSlug === "live"
               ? "lg:grid-cols-4"
               : "lg:grid-cols-3 xl:grid-cols-6"
         }`}
       >
         <div className={isCampaign ? "sm:col-span-2 lg:col-span-2" : "sm:col-span-2 lg:col-span-1"}>
-          <div className="flex items-center gap-2.5">
-            <Image
-              src={campaign ? campaign.logoDark : "/logo-white.png"}
-              alt=""
-              aria-hidden="true"
-              width={32}
-              height={32}
-            />
-            <p className="whitespace-nowrap font-display text-[26px] uppercase leading-none">
-              {campaign ? campaign.name : SITE_NAME}
-              {!isCampaign && <sup className="text-[0.5em] font-medium tracking-normal">™</sup>}
-            </p>
-          </div>
-          {campaignSlug === "tri" ? null : campaign ? (
+          {campaign?.logoCarriesName ? (
+            <div className="flex items-center gap-4">
+              <Image src={campaign.logoDark} alt="" aria-hidden="true" width={84} height={84} />
+              <div>
+                <p className="sr-only">{campaign.name}</p>
+                <p className="text-sm font-bold uppercase tracking-[0.42em]">{campaign.tagline}</p>
+                <p className="mt-1 max-w-xs text-sm text-off-white/70">
+                  A {SITE_NAME} campaign. For those who serve. For what comes next.
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2.5">
+              <Image
+                src={campaign ? campaign.logoDark : "/logo-white.png"}
+                alt=""
+                aria-hidden="true"
+                width={32}
+                height={32}
+              />
+              <p className="whitespace-nowrap font-display text-[26px] uppercase leading-none">
+                {campaign ? campaign.name : SITE_NAME}
+                {!isCampaign && <sup className="text-[0.5em] font-medium tracking-normal">™</sup>}
+              </p>
+            </div>
+          )}
+          {campaignSlug === "tri" || campaign?.logoCarriesName ? null : campaign ? (
             <p className="mt-3 max-w-sm text-sm text-off-white/70">A {SITE_NAME} campaign.</p>
           ) : (
             <>
@@ -85,7 +98,7 @@ export function Footer({
               <p className="label-caps mt-3 text-xs text-mist">Connection · Mobilization · Impact</p>
             </>
           )}
-          {campaign && <SocialLinks className="mt-4" />}
+          {null}
         </div>
 
         {campaignSlug === "tri" ? (
@@ -373,6 +386,73 @@ export function Footer({
                 <li>
                   <a href={`${legalBase}/terms`} className="transition-colors hover:text-white hover:underline">
                     Terms
+                  </a>
+                </li>
+                <li>
+                  <a href={ORG_HOME_LINK.href} className="transition-colors hover:text-white hover:underline">
+                    {ORG_HOME_LINK.label} <span aria-hidden="true">&#8599;</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </>
+        ) : campaignSlug === "live" && campaign ? (
+          <>
+            <div>
+              <p className="label-caps text-xs text-mist">
+                The Series
+              </p>
+              <ul className="mt-4 space-y-2 text-[15px] text-mist">
+                {campaign.navLinks.filter((entry): entry is NavLink => !isNavGroup(entry)).map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href} className="transition-colors hover:text-white hover:underline">
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+                <li>
+                  <Link href={campaign.primaryCta.href} className="transition-colors hover:text-white hover:underline">
+                    {campaign.primaryCta.label}
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <p className="label-caps text-xs text-mist">
+                Organization
+              </p>
+              <ul className="mt-4 space-y-2 text-[15px] text-mist">
+                {campaign.crisisLink && (
+                  <li>
+                    <a
+                      href={campaign.crisisLink.href}
+                      className="font-semibold text-off-white transition-colors hover:text-bronze-light"
+                    >
+                      {campaign.crisisLink.label}
+                    </a>
+                  </li>
+                )}
+                <li>
+                  <a href={`${SITE_URL}/70k`} className="transition-colors hover:text-white hover:underline">
+                    {MISSION_NAME} <span aria-hidden="true">&#8599;</span>
+                  </a>
+                </li>
+                <li>
+                  <a href={`${SITE_URL}/store`} className="transition-colors hover:text-white hover:underline">
+                    Shop <span aria-hidden="true">&#8599;</span>
+                  </a>
+                </li>
+                {CONTACT_EMAIL && (
+                  <li>
+                    <a href={`mailto:${CONTACT_EMAIL}`} className="transition-colors hover:text-white hover:underline">
+                      Contact
+                    </a>
+                  </li>
+                )}
+                <li>
+                  <a href={`${SITE_URL}/transparency`} className="transition-colors hover:text-white hover:underline">
+                    Transparency <span aria-hidden="true">&#8599;</span>
                   </a>
                 </li>
                 <li>

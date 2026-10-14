@@ -72,12 +72,22 @@ export function Header({
             src={campaign ? campaign.logoLight : "/logo.png"}
             alt=""
             aria-hidden="true"
-            width={50}
-            height={50}
-            className="h-11 w-11 object-contain sm:h-[50px] sm:w-[50px]"
+            width={campaign?.logoCarriesName ? 60 : 50}
+            height={campaign?.logoCarriesName ? 60 : 50}
+            className={
+              campaign?.logoCarriesName
+                ? "h-[52px] w-[52px] object-contain sm:h-[60px] sm:w-[60px]"
+                : "h-11 w-11 object-contain sm:h-[50px] sm:w-[50px]"
+            }
             priority
           />
-          <span className="hidden whitespace-nowrap font-display text-[26px] uppercase leading-none text-jet xs:inline-block">
+          <span
+            className={
+              campaign?.logoCarriesName
+                ? "sr-only"
+                : "hidden whitespace-nowrap font-display text-[26px] uppercase leading-none text-jet xs:inline-block"
+            }
+          >
             {campaign ? campaign.name : SITE_NAME}
             {!isCampaign && <sup className="text-[0.5em] font-medium tracking-normal">™</sup>}
           </span>
@@ -220,7 +230,7 @@ export function Header({
           </button>
         </div>
       </Container>
-      <BrandStripe />
+      <BrandStripe variant={campaignSlug === "live" ? "live" : "org"} />
 
       <MobileMenu
         open={open}

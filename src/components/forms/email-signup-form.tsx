@@ -15,7 +15,13 @@ const INPUT_BASE =
  * fill keeps its lighter bronze and the label switches to ink, because a
  * darkened fill would fall below the 3:1 boundary against the dark band.
  */
-export function EmailSignupForm({ tone = "light" }: { tone?: "dark" | "light" }) {
+export function EmailSignupForm({
+  tone = "light",
+  idleLabel = "Follow Campaign Updates",
+}: {
+  tone?: "dark" | "light";
+  idleLabel?: string;
+}) {
   const { status, errorMessage, fieldErrors, setTurnstileToken, turnstileRef, handleSubmit, submitDisabled } =
     useFormSubmit({
       endpoint: "/api/subscribe",
@@ -88,7 +94,7 @@ export function EmailSignupForm({ tone = "light" }: { tone?: "dark" | "light" })
       <FormSubmitButton
         disabled={submitDisabled}
         submitting={status === "submitting"}
-        idleLabel="Follow Campaign Updates"
+        idleLabel={idleLabel}
         submittingLabel="Subscribing…"
         data-analytics-event="mailing_list_signup"
         className={tone === "dark" ? "bg-bronze text-ink hover:bg-bronze-light" : undefined}
