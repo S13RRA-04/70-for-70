@@ -37,11 +37,11 @@ export function StageLoopVideo({ className }: { className?: string }) {
       loop
       playsInline
       preload="metadata"
-      poster="/media/live-stage-loop-poster.webp"
+      poster="/media/live-stage-loop-v2-poster.webp"
       className={className}
     >
-      <source src="/video/live-stage-loop.webm" type='video/webm; codecs="vp9"' />
-      <source src="/video/live-stage-loop.mp4" type='video/mp4; codecs="avc1.64001f"' />
+      <source src="/video/live-stage-loop-v2.webm" type='video/webm; codecs="vp9"' />
+      <source src="/video/live-stage-loop-v2.mp4" type='video/mp4; codecs="avc1.64001f"' />
     </video>
   );
 }

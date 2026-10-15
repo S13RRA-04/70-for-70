@@ -16,8 +16,8 @@ const FILMS: Record<string, { asset: string; type: string }> = {
   "campaign-film.mp4": { asset: "/media/campaign-film.mp4", type: "video/mp4" },
   "campaign-film.webm": { asset: "/media/campaign-film.webm", type: "video/webm" },
   // Muted 4s background loop behind the For The 22: Live show lineup.
-  "live-stage-loop.mp4": { asset: "/media/live-stage-loop.mp4", type: "video/mp4" },
-  "live-stage-loop.webm": { asset: "/media/live-stage-loop.webm", type: "video/webm" },
+  "live-stage-loop-v2.mp4": { asset: "/media/live-stage-loop-v2.mp4", type: "video/mp4" },
+  "live-stage-loop-v2.webm": { asset: "/media/live-stage-loop-v2.webm", type: "video/webm" },
 };
 
 const CACHE_CONTROL = "public, max-age=86400";
