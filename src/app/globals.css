@@ -776,17 +776,6 @@ body {
  * static frame of each is the designed resting state, not a broken one.
  */
 @layer components {
-  /* Swinging stage-light cone; positioned per instance via `left`/background. */
-  .live-beam {
-    position: absolute;
-    top: -20px;
-    width: 1400px;
-    height: 1000px;
-    margin-left: -700px;
-    transform-origin: 50% 0;
-    pointer-events: none;
-  }
-
   /* Ticket edge: half-circle notches punched out of both short sides. */
   .live-ticket-stub {
     -webkit-mask:
@@ -809,16 +798,8 @@ body {
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .live-sway-1 { animation: live-sway 9s ease-in-out infinite alternate; }
-    .live-sway-2 { animation: live-sway 11s ease-in-out -4s infinite alternate-reverse; }
-    .live-sway-3 { animation: live-sway 13s ease-in-out -7s infinite alternate; }
     .live-eq-bar { animation: live-pulse 1.1s ease-in-out infinite alternate; }
     .live-marquee { animation: live-marquee 50s linear infinite; }
-  }
-
-  @keyframes live-sway {
-    from { transform: rotate(-7deg); }
-    to { transform: rotate(7deg); }
   }
 
   @keyframes live-pulse {

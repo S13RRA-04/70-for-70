@@ -5,6 +5,7 @@ import { CTAButton } from "@/components/shared/cta-button";
 import { RevealGrid, RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import { EmailSignupForm } from "@/components/forms/email-signup-form";
 import { EqualizerBars } from "@/components/live/equalizer-bars";
+import { StageLoopVideo } from "@/components/live/stage-loop-video";
 import { TicketStub, type TicketStubProps } from "@/components/live/ticket-stub";
 import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
 import { getPublishedLiveEvents } from "@/lib/data/live-events";
@@ -30,12 +31,6 @@ export const metadata = pageMetadata({
 });
 
 const BREADCRUMB_JSON_LD = breadcrumbJsonLd([{ name: LIVE_CAMPAIGN_NAME, url: LIVE_CAMPAIGN_URL }]);
-
-const STAGE_BEAMS = [
-  { left: "18%", sway: "live-sway-1", background: "conic-gradient(from 165deg at 50% 0%, transparent 0deg, rgba(255,255,255,0.14) 10deg, transparent 20deg)" },
-  { left: "50%", sway: "live-sway-2", background: "conic-gradient(from 168deg at 50% 0%, transparent 0deg, rgba(255,255,255,0.10) 12deg, transparent 24deg)" },
-  { left: "82%", sway: "live-sway-3", background: "conic-gradient(from 165deg at 50% 0%, transparent 0deg, rgba(211,32,42,0.20) 10deg, transparent 20deg)" },
-] as const;
 
 const SHORT_DATE = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" });
 
@@ -136,17 +131,16 @@ export default async function LiveCampaignPage() {
 
       {/* One stage — the concert scene and the show lineup. */}
       <section id="shows" aria-labelledby="shows-heading" className="relative scroll-mt-24 overflow-hidden bg-live-stage text-white">
-        {STAGE_BEAMS.map((beam) => (
-          <span
-            key={beam.left}
-            aria-hidden="true"
-            className={`live-beam ${beam.sway}`}
-            style={{ left: beam.left, background: beam.background }}
-          />
-        ))}
-        {/* z-10 so the content always sits in front of the crowd silhouette below,
-            whose raised arms reach well up into the bottom padding. */}
-        <Container className="relative z-10 flex flex-col gap-11 pb-72 pt-section">
+        {/* Concert-footage loop, bottom-anchored so the crowd stays in frame
+            however tall the lineup grows. The gradient darkens the top, where
+            the heading and copy sit, and lets the lights and crowd read at the
+            bottom. */}
+        <StageLoopVideo className="pointer-events-none absolute inset-0 h-full w-full object-cover object-bottom" />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-b from-live-stage/85 via-live-stage/55 to-live-stage/10"
+        />
+        <Container className="relative z-10 flex flex-col gap-11 pb-56 pt-section">
           <div className="flex flex-wrap items-end justify-between gap-6">
             <h2
               id="shows-heading"
@@ -189,13 +183,6 @@ export default async function LiveCampaignPage() {
             Every show &amp; performer &rarr;
           </Link>
         </Container>
-        <Image
-          src="/brand/live/crowd.webp"
-          alt=""
-          width={2880}
-          height={440}
-          className="pointer-events-none absolute bottom-0 left-1/2 ml-[-1440px] w-[2880px] max-w-none"
-        />
       </section>
 
       {/* Marquee. The visible track is decorative; the sr-only line carries the words once. */}
