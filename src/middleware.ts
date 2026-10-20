@@ -301,6 +301,7 @@ function applyLaunchGate(request: NextRequest, onCampaignHost: boolean, renderHe
     url.pathname.startsWith("/api/whoop") ||
     url.pathname.startsWith("/crisis") ||
     url.pathname === "/sitemap.xml" ||
+    url.pathname === "/llms.txt" ||
     url.pathname === "/robots.txt" ||
     url.pathname === "/manifest.json" ||
     url.pathname === "/manifest.webmanifest"
@@ -447,6 +448,7 @@ const SHARED_PATH_PREFIXES = [
   "/crisis",
   "/coming-soon",
   "/sitemap.xml",
+  "/llms.txt",
   "/robots.txt",
   "/manifest.json",
   "/manifest.webmanifest",
