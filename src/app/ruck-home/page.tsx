@@ -11,6 +11,8 @@ import { PartnerSupportDisclaimer } from "@/components/partners/partner-support-
 import { ExternalDonateButton } from "@/components/shared/external-donate-button";
 import { DonationTrackingNote } from "@/components/shared/donation-tracking-note";
 import { MissionProgress } from "@/components/campaign/mission-progress";
+import { JournalVideoEmbed } from "@/components/journal/journal-video-embed";
+import { jsonLdScriptProps } from "@/lib/json-ld";
 import {
   CAMPAIGNS,
   ORG_HOME_LINK,
@@ -34,6 +36,32 @@ export const metadata = pageMetadata({
   description: RUCK.description,
   canonical: `${RUCK.url}/`,
 });
+
+/**
+ * 48 News (Huntsville) coverage of the event. Upload date and duration are the
+ * video's own values from its YouTube watch page — never estimated.
+ */
+const NEWS_COVERAGE = {
+  youtubeId: "RjwK9V9iTwI",
+  title: "RuckUp22 brings 22-mile walk for veteran suicide awareness to Huntsville",
+  outlet: "48 News",
+  uploadDate: "2026-10-24T17:05:32-07:00",
+  duration: "PT0M55S",
+};
+
+function buildNewsVideoJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    name: NEWS_COVERAGE.title,
+    description: `${NEWS_COVERAGE.outlet} coverage of ${RUCK_EVENT_INFO.name} in Huntsville, Alabama.`,
+    thumbnailUrl: `https://img.youtube.com/vi/${NEWS_COVERAGE.youtubeId}/hqdefault.jpg`,
+    uploadDate: NEWS_COVERAGE.uploadDate,
+    duration: NEWS_COVERAGE.duration,
+    embedUrl: `https://www.youtube.com/embed/${NEWS_COVERAGE.youtubeId}`,
+    contentUrl: `https://www.youtube.com/watch?v=${NEWS_COVERAGE.youtubeId}`,
+  };
+}
 
 function buildEventJsonLd() {
   return {
@@ -174,6 +202,7 @@ export default async function RuckHomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(buildEventJsonLd()).replace(/</g, "\\u003c") }}
       />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(buildNewsVideoJsonLd())} />
 
       {/* Hero */}
       <section className="relative overflow-hidden bg-ink text-off-white">
@@ -293,6 +322,34 @@ export default async function RuckHomePage() {
               <ExternalLink size={14} aria-hidden />
             </a>
           </div>
+          </RevealOnScroll>
+        </Container>
+      </section>
+
+      {/* Media coverage */}
+      <section id="in-the-news" className="scroll-mt-28 border-b border-ink/10 bg-ink py-16 text-off-white sm:py-20">
+        <Container className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center lg:gap-12">
+          <RevealOnScroll>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-sand">In the News</p>
+            <h2 className="mt-2 font-display text-4xl uppercase">{NEWS_COVERAGE.outlet} Covers RuckUp22</h2>
+            <p className="mt-5 text-base leading-relaxed text-off-white/75">{NEWS_COVERAGE.title}.</p>
+            <a
+              href={`https://www.youtube.com/watch?v=${NEWS_COVERAGE.youtubeId}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-sand hover:text-off-white"
+            >
+              Watch on YouTube
+              <ExternalLink size={14} aria-hidden />
+            </a>
+          </RevealOnScroll>
+          <RevealOnScroll>
+            <JournalVideoEmbed
+              provider="youtube"
+              videoId={NEWS_COVERAGE.youtubeId}
+              title={NEWS_COVERAGE.title}
+              fallbackImageUrl={null}
+            />
           </RevealOnScroll>
         </Container>
       </section>
