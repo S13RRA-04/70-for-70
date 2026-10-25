@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ExternalLink } from "lucide-react";
@@ -190,7 +191,7 @@ export default async function RuckMissionPage(props: PageProps<"/ruck-missions/[
       )}
 
       {/* Participation journal */}
-      {mission.journal.length > 0 && (
+      {(mission.journal.length > 0 || mission.specialEntry) && (
         <section id="journal" className="scroll-mt-28 border-b border-ink/10 py-16 sm:py-20">
           <Container>
             <RevealOnScroll>
@@ -200,9 +201,61 @@ export default async function RuckMissionPage(props: PageProps<"/ruck-missions/[
                 description={`Cody's own photos and videos from ${mission.name} on ${mission.dateDisplay}.`}
               />
             </RevealOnScroll>
-            <div className="mt-10">
-              <MissionJournal entries={mission.journal} />
-            </div>
+
+            {mission.specialEntry && (
+              <RevealOnScroll>
+                <article
+                  id={mission.specialEntry.id}
+                  className="mt-10 scroll-mt-28 overflow-hidden rounded-xl border border-line border-l-4 border-l-bronze bg-white"
+                >
+                  <div className="grid lg:grid-cols-[1.2fr_0.8fr]">
+                    <div className="p-6 sm:p-8">
+                      <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">Special Journal Entry</p>
+                      <h3 className="mt-2 font-display text-3xl uppercase text-ink">{mission.specialEntry.title}</h3>
+                      <div className="mt-5 space-y-4 text-base leading-relaxed text-charcoal">
+                        {mission.specialEntry.body.map((paragraph) => (
+                          <p key={paragraph}>{paragraph}</p>
+                        ))}
+                      </div>
+                      <p className="mt-5 font-display text-xl uppercase text-ink">— Cody</p>
+                      <div className="mt-6 flex flex-wrap gap-3">
+                        {mission.specialEntry.links.map((link) => (
+                          <a
+                            key={link.href}
+                            href={link.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="action-control inline-flex items-center gap-1.5 border-2 border-navy px-4 py-2 text-[15px] font-bold text-navy hover:bg-sand-light"
+                          >
+                            {link.label}
+                            <ExternalLink size={13} aria-hidden />
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-px bg-line lg:grid-cols-1">
+                      {mission.specialEntry.photos.map((photo) => (
+                        <div key={photo.src} className="relative aspect-[4/3] bg-ink">
+                          <Image
+                            src={photo.src}
+                            alt={photo.alt}
+                            fill
+                            sizes="(min-width: 1024px) 30vw, 50vw"
+                            className="object-cover"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </article>
+              </RevealOnScroll>
+            )}
+
+            {mission.journal.length > 0 && (
+              <div className="mt-10">
+                <MissionJournal entries={mission.journal} />
+              </div>
+            )}
           </Container>
         </section>
       )}

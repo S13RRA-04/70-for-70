@@ -1,3 +1,4 @@
+import { RUCK_CAMPAIGN_URL } from "@/lib/constants";
 import type { CampaignJournalEntry } from "@/types/campaign-journal";
 
 /**
@@ -32,6 +33,22 @@ export const CAMPAIGN_JOURNAL_ENTRIES: CampaignJournalEntry[] = [
     ],
     image: { src: "/partners/inertmugs-logo.png", alt: "INERTmugs logo" },
     link: { label: "Visit INERTmugs", href: "https://www.inertmugs.com/" },
+  },
+  {
+    id: "ruckup22-huntsville-complete",
+    date: "2026-10-24",
+    title: "Mission Accomplished: RuckUp22 Huntsville",
+    summary:
+      "On October 24, 2026, I completed the 22-mile 11th Annual RuckUp22 on the Aldridge Creek Greenway in Huntsville, Alabama — the first completed Ruck For The 22 mission.",
+    body: [
+      "On October 24, 2026, I rucked the full 22 miles of the 11th Annual RuckUp22 on the Aldridge Creek Greenway in Huntsville, Alabama, and finished with the 2026 RuckUp22 22-mile coin in hand.",
+      "It's the first completed Ruck For The 22 mission, and 48 News covered the event. The mission page has the coverage plus my photos and trail check-in videos from the day.",
+    ],
+    image: {
+      src: "/ruck/ruckup22-2026/img-6237.webp",
+      alt: "The 2026 RuckUp22 22-mile challenge coin",
+    },
+    link: { label: "See the Mission", href: `${RUCK_CAMPAIGN_URL}/missions/ruckup22-huntsville-2026` },
   },
 ];
 

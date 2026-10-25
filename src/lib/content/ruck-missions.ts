@@ -22,6 +22,17 @@ export interface RuckMediaCoverage {
   duration: string;
 }
 
+/** A featured, written journal entry shown above a mission's photo/video journal — e.g. a thank-you to supporters. */
+export interface RuckSpecialJournalEntry {
+  /** Stable #anchor on the mission page — never change after publishing. */
+  id: string;
+  title: string;
+  /** First person, one short paragraph per item. */
+  body: string[];
+  photos: { src: string; alt: string }[];
+  links: { label: string; href: string }[];
+}
+
 export interface RuckMission {
   slug: string;
   name: string;
@@ -47,6 +58,7 @@ export interface RuckMission {
    */
   amountRaised: number | null;
   journal: RuckJournalEntry[];
+  specialEntry?: RuckSpecialJournalEntry;
 }
 
 export const RUCK_MISSIONS: RuckMission[] = [
@@ -78,6 +90,29 @@ export const RUCK_MISSIONS: RuckMission[] = [
     ],
     amountRaised: null,
     journal: RUCKUP22_JOURNAL,
+    specialEntry: {
+      id: "thank-you-goruck-inertmugs",
+      title: "Thank You, GORUCK and INERTmugs",
+      body: [
+        "Twenty-two miles is never a solo effort, and two companies made this one possible.",
+        "Thank you to GORUCK for supporting this mission with a Rucker, a 20lb ruck plate, and a pair of their new Mackall 45 rucking shoes. Gear like that is built for exactly this kind of day, and having GORUCK in Ruck For The 22's corner means a lot.",
+        "And a huge thank you to Tyler at INERTmugs for keeping me hydrated. My INERTmugs tumbler was in my hand from the first coffee of the morning to every refuel along the Aldridge Creek Greenway. Tyler, a Marine Corps veteran, has backed For The 22 since our first phone call.",
+      ],
+      photos: [
+        {
+          src: "/ruck/goruck-donation.jpeg",
+          alt: "GORUCK gear donated to Ruck For The 22 — a Rucker, a 20lb ruck plate, and a pair of Mackall 45 rucking shoes",
+        },
+        {
+          src: "/ruck/ruckup22-2026/img-6235.webp",
+          alt: "Cody Hitson drinking from his green INERTmugs tumbler while rucking on the greenway",
+        },
+      ],
+      links: [
+        { label: "Visit GORUCK", href: "https://www.goruck.com" },
+        { label: "Visit INERTmugs", href: "https://www.inertmugs.com/" },
+      ],
+    },
   },
 ];
 
