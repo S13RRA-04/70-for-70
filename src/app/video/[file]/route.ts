@@ -1,5 +1,5 @@
 /**
- * Serves the homepage campaign film with HTTP Range support.
+ * Serves the site's self-hosted videos with HTTP Range support.
  *
  * Workers Static Assets ignores `Range` and always answers 200 with the full
  * body — and Safari/iOS refuses to play a <video> whose server won't return
@@ -18,6 +18,10 @@ const FILMS: Record<string, { asset: string; type: string }> = {
   // Muted 4s background loop behind the For The 22: Live show lineup.
   "live-stage-loop-v2.mp4": { asset: "/media/live-stage-loop-v2.mp4", type: "video/mp4" },
   "live-stage-loop-v2.webm": { asset: "/media/live-stage-loop-v2.webm", type: "video/webm" },
+  // Ruck For The 22 mission journal clips — see src/lib/content/ruckup22-journal.ts.
+  "ruckup22-2026-checkin-1.mp4": { asset: "/media/ruckup22-2026-checkin-1.mp4", type: "video/mp4" },
+  "ruckup22-2026-checkin-2.mp4": { asset: "/media/ruckup22-2026-checkin-2.mp4", type: "video/mp4" },
+  "ruckup22-2026-checkin-3.mp4": { asset: "/media/ruckup22-2026-checkin-3.mp4", type: "video/mp4" },
 };
 
 const CACHE_CONTROL = "public, max-age=86400";

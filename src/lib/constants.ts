@@ -100,9 +100,11 @@ export const CAMPAIGN_URL = process.env.NEXT_PUBLIC_CAMPAIGN_URL ?? "http://loca
 /**
  * The second campaign, Ruck For The 22 — ruck.forthe22.org in production.
  * Unlike Tri (a full personal-athlete site: mission, race, donate, journal,
- * admin), this is deliberately a single-page event microsite (see
- * src/app/ruck-home/page.tsx) — no training tracker, no dedicated fundraising
- * mechanism beyond direct donation, no dedicated Supabase schema. Defaults to
+ * admin), this is a deliberately small mission microsite: a home page with
+ * Completed / Next Missions tabs (src/app/ruck-home/page.tsx) plus one page
+ * per completed mission (src/app/ruck-missions/[slug]), all driven by
+ * RUCK_MISSIONS in src/lib/content/ruck-missions.ts — no training tracker, no
+ * dedicated fundraising mechanism beyond direct donation, no Supabase schema. Defaults to
  * the same local dev origin as SITE_URL/CAMPAIGN_URL — there's no real third
  * host in local dev.
  */
@@ -791,15 +793,17 @@ export const RUCK_EVENT_BENEFICIARIES = [
 ] as const;
 
 /**
- * Ruck's in-page section nav — anchors on the single /ruck-home page, not
- * separate routes (see RUCK_CAMPAIGN_URL's doc comment).
+ * Ruck's header nav — the home page's Completed / Next Missions tabs (the
+ * hash picks the tab, see MissionTabs) and its beneficiaries section. Each
+ * completed mission's own page lives at /missions/<slug>.
  */
 export const RUCK_NAV_LINKS: NavLink[] = [
-  { label: "The Event", href: "/#event" },
+  { label: "Completed Missions", href: "/#completed" },
+  { label: "Next Missions", href: "/#next" },
   { label: "Beneficiaries", href: "/#beneficiaries" },
 ];
 
-export const RUCK_REGISTER_LINK: NavLink = { label: "Register", href: RUCK_EVENT_INFO.ticketUrl };
+export const RUCK_DONATE_LINK: NavLink = { label: "Donate", href: "/#beneficiaries" };
 
 /**
  * Per-campaign header/footer branding, keyed by the CampaignSlug that
@@ -847,12 +851,12 @@ export const CAMPAIGNS: Record<
   ruck: {
     name: RUCK_CAMPAIGN_NAME,
     url: RUCK_CAMPAIGN_URL,
-    tagline: `${RUCK_EVENT_INFO.eventDateDisplay} · Huntsville, Alabama`,
-    description: `${RUCK_CAMPAIGN_NAME} — a community rucking event in Huntsville, Alabama, raising awareness and funds for veteran-focused nonprofit organizations.`,
+    tagline: "Rucking for Veteran Suicide Awareness",
+    description: `${RUCK_CAMPAIGN_NAME} — Cody Hitson's rucking missions raising awareness and funds for veteran-focused nonprofit organizations.`,
     navLinks: RUCK_NAV_LINKS,
     logoLight: "/logo.png",
     logoDark: "/ruck-logo-white.png",
-    primaryCta: { ...RUCK_REGISTER_LINK, external: true },
+    primaryCta: RUCK_DONATE_LINK,
     parentLink: PARENT_INITIATIVE_LINK,
     crisisLink: CRISIS_LINK,
   },

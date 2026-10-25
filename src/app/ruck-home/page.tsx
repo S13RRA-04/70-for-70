@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ExternalLink, ShieldCheck } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { getPartners } from "@/lib/data/partners";
 import { getMissionPartners } from "@/lib/data/mission-partners";
 import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
@@ -7,25 +7,28 @@ import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { RevealGrid, RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import { PartnerLogo } from "@/components/shared/partner-logo";
+import { EmptyState } from "@/components/shared/empty-state";
 import { PartnerSupportDisclaimer } from "@/components/partners/partner-support-disclaimer";
-import { ExternalDonateButton } from "@/components/shared/external-donate-button";
-import { DonationTrackingNote } from "@/components/shared/donation-tracking-note";
 import { MissionProgress } from "@/components/campaign/mission-progress";
-import { JournalVideoEmbed } from "@/components/journal/journal-video-embed";
-import { jsonLdScriptProps } from "@/lib/json-ld";
+import { BeneficiaryCard } from "@/components/ruck/beneficiary-card";
+import { MissionAccomplishedStamp } from "@/components/ruck/mission-accomplished-stamp";
+import { MissionTabs } from "@/components/ruck/mission-tabs";
+import {
+  COMPLETED_RUCK_MISSIONS,
+  UPCOMING_RUCK_MISSIONS,
+  type RuckMission,
+} from "@/lib/content/ruck-missions";
 import {
   CAMPAIGNS,
+  MISSION_NAME,
   ORG_HOME_LINK,
   RUCK_DONATION_TRACKING_CODE,
-  RUCK_EVENT_BENEFICIARIES,
   RUCK_EVENT_INFO,
-  RUCK_EVENT_ORGANIZER,
   SITE_NAME,
   SITE_URL,
 } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { formatCurrency } from "@/lib/utils";
-import type { LogoBackground } from "@/types/database";
 
 const RUCK = CAMPAIGNS.ruck;
 
@@ -37,152 +40,83 @@ export const metadata = pageMetadata({
   canonical: `${RUCK.url}/`,
 });
 
-/**
- * 48 News (Huntsville) coverage of the event. Upload date and duration are the
- * video's own values from its YouTube watch page — never estimated.
- */
-const NEWS_COVERAGE = {
-  youtubeId: "RjwK9V9iTwI",
-  title: "RuckUp22 brings 22-mile walk for veteran suicide awareness to Huntsville",
-  outlet: "48 News",
-  uploadDate: "2026-10-24T17:05:32-07:00",
-  duration: "PT0M55S",
-};
-
-function buildNewsVideoJsonLd() {
-  return {
-    "@context": "https://schema.org",
-    "@type": "VideoObject",
-    name: NEWS_COVERAGE.title,
-    description: `${NEWS_COVERAGE.outlet} coverage of ${RUCK_EVENT_INFO.name} in Huntsville, Alabama.`,
-    thumbnailUrl: `https://img.youtube.com/vi/${NEWS_COVERAGE.youtubeId}/hqdefault.jpg`,
-    uploadDate: NEWS_COVERAGE.uploadDate,
-    duration: NEWS_COVERAGE.duration,
-    embedUrl: `https://www.youtube.com/embed/${NEWS_COVERAGE.youtubeId}`,
-    contentUrl: `https://www.youtube.com/watch?v=${NEWS_COVERAGE.youtubeId}`,
-  };
+function missionHref(mission: RuckMission) {
+  return `/missions/${mission.slug}`;
 }
 
-function buildEventJsonLd() {
-  return {
-    "@context": "https://schema.org",
-    "@type": "Event",
-    name: RUCK_EVENT_INFO.name,
-    startDate: RUCK_EVENT_INFO.eventDate,
-    eventAttendanceMode: "https://schema.org/MixedEventAttendanceMode",
-    eventStatus: "https://schema.org/EventScheduled",
-    location: {
-      "@type": "Place",
-      name: RUCK_EVENT_INFO.location,
-      address: RUCK_EVENT_INFO.location,
-    },
-    description: RUCK_EVENT_INFO.formatNote,
-    url: RUCK.url,
-    // The event itself is organized by RuckUp 22, Inc., not For The 22 —
-    // see RUCK_EVENT_INFO's doc comment.
-    organizer: { "@type": "Organization", name: RUCK_EVENT_ORGANIZER.name, url: RUCK_EVENT_INFO.ticketUrl },
-  };
+/** What a completed mission's page holds — shown as chips on its card. */
+function missionHighlights(mission: RuckMission) {
+  const photos = mission.journal.filter((entry) => !entry.video).length;
+  const videos = mission.journal.length - photos;
+  return [
+    mission.mediaCoverage.length > 0 && `Media coverage · ${mission.mediaCoverage.map((c) => c.outlet).join(", ")}`,
+    mission.amountRaised !== null && `${formatCurrency(mission.amountRaised)} raised`,
+    mission.journal.length > 0 &&
+      `Journal · ${photos} photo${photos === 1 ? "" : "s"}${videos ? ` · ${videos} video${videos === 1 ? "" : "s"}` : ""}`,
+  ].filter((item): item is string => Boolean(item));
 }
 
-interface BeneficiaryCardData {
-  name: string;
-  description?: string | null;
-  websiteUrl?: string | null;
-  donationUrl?: string | null;
-  ein?: string | null;
-  verified?: boolean;
-  logo?: {
-    url: string | null;
-    lightUrl?: string | null;
-    darkUrl?: string | null;
-    background?: LogoBackground | null;
-  } | null;
-}
-
-/**
- * One beneficiary card, reused for both RuckUp22's own beneficiaries
- * (plain data — see RUCK_EVENT_BENEFICIARIES) and Cody's usual campaign
- * beneficiaries (Supabase `partners` rows). `trackingCode` is only passed
- * for the latter group, and only when that partner's donation platform
- * can't self-attribute a gift — RuckUp22's own beneficiaries have no such
- * arrangement with Cody/RuckUp 22, Inc., so they never show one.
- */
-function BeneficiaryCard({
-  eyebrow,
-  data,
-  trackingCode,
-}: {
-  eyebrow: string;
-  data: BeneficiaryCardData;
-  trackingCode?: string;
-}) {
-  const hasLinks = Boolean(data.websiteUrl || data.donationUrl);
-
+function CompletedMissionCard({ mission }: { mission: RuckMission }) {
   return (
-    <div className="flex flex-col gap-6 rounded-xl border border-line bg-white p-6 sm:flex-row sm:p-8">
-      <div className="shrink-0 sm:w-48">
-        <PartnerLogo
-          name={data.name}
-          logoUrl={data.logo?.url ?? null}
-          logoLightUrl={data.logo?.lightUrl}
-          logoDarkUrl={data.logo?.darkUrl}
-          background={data.logo?.background}
-          className="h-20"
-        />
-      </div>
-      <div className="flex flex-1 flex-col">
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">{eyebrow}</p>
-        <h3 className="mt-1.5 font-display text-3xl uppercase text-ink">
-          {data.name}
-        </h3>
-        {data.verified && (
-          <p className="mt-2 inline-flex w-fit items-center gap-1.5 rounded-full border border-olive/30 bg-olive/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-olive">
-            <ShieldCheck size={13} aria-hidden />
-            Verified 501(c)(3){data.ein ? ` · EIN ${data.ein}` : ""}
-          </p>
-        )}
-        {data.description && <p className="mt-4 text-sm text-charcoal-light">{data.description}</p>}
-        {hasLinks && (
-          <div className="mt-6 flex flex-wrap items-center gap-3">
-            {data.websiteUrl && (
-              <a
-                href={data.websiteUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-analytics-event="beneficiary_selected"
-                className="action-control inline-flex items-center justify-center font-bold gap-1.5 border-2 border-navy px-4 py-2 text-[15px] text-navy hover:bg-white"
-              >
-                Learn More
-                <ExternalLink size={13} aria-hidden />
-              </a>
-            )}
-            {data.donationUrl && (
-              <ExternalDonateButton
-                href={data.donationUrl}
-                orgName={data.name}
-                label={`Support ${data.name} Directly →`}
-              />
-            )}
-          </div>
-        )}
-        {data.donationUrl && trackingCode && (
-          <details className="mt-4 text-xs text-charcoal-light">
-            <summary className="cursor-pointer font-semibold uppercase tracking-wide text-olive">Donation attribution details</summary>
-            <DonationTrackingNote partnerName={data.name} trackingCode={trackingCode} />
-          </details>
+    <a
+      href={missionHref(mission)}
+      className="group grid overflow-hidden rounded-xl border border-line bg-white transition-shadow hover:shadow-md sm:grid-cols-[0.9fr_1.1fr]"
+    >
+      <div className="relative aspect-[4/3] bg-ink sm:aspect-auto sm:min-h-72">
+        {mission.cover && (
+          <Image
+            src={mission.cover.src}
+            alt={mission.cover.alt}
+            fill
+            sizes="(min-width: 640px) 45vw, 100vw"
+            className="object-cover"
+          />
         )}
       </div>
+      <div className="flex flex-col p-6 sm:p-8">
+        <MissionAccomplishedStamp date={mission.dateDisplay} className="self-start" />
+        <h3 className="mt-5 font-display text-3xl uppercase text-ink group-hover:text-navy">{mission.name}</h3>
+        <p className="mt-1.5 text-xs font-bold uppercase tracking-[0.16em] text-olive">
+          {mission.distanceMiles} Miles · {mission.location}
+        </p>
+        <p className="mt-4 text-sm leading-relaxed text-charcoal-light">{mission.summary}</p>
+        <ul className="mt-5 flex flex-wrap gap-2">
+          {missionHighlights(mission).map((item) => (
+            <li key={item} className="rounded-full bg-sand-light px-3 py-1 text-xs font-semibold text-charcoal">
+              {item}
+            </li>
+          ))}
+        </ul>
+        <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-bronze-text group-hover:text-bronze-dark">
+          View Mission
+          <ArrowRight size={15} aria-hidden className="transition-transform group-hover:translate-x-0.5" />
+        </span>
+      </div>
+    </a>
+  );
+}
+
+function UpcomingMissionCard({ mission }: { mission: RuckMission }) {
+  return (
+    <div className="rounded-xl border border-line bg-white p-6 sm:p-8">
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">Next Mission</p>
+      <h3 className="mt-2 font-display text-3xl uppercase text-ink">{mission.name}</h3>
+      <p className="mt-1.5 text-xs font-bold uppercase tracking-[0.16em] text-olive">
+        {mission.dateDisplay} · {mission.distanceMiles} Miles · {mission.location}
+      </p>
+      <p className="mt-4 text-sm leading-relaxed text-charcoal-light">{mission.summary}</p>
     </div>
   );
 }
 
 /**
- * Ruck For The 22's entire site — rendered at "/" on ruck.forthe22.org via a
- * transparent middleware rewrite (see src/middleware.ts). Deliberately one
- * page: hero, event details, beneficiaries, done. No training tracker, no
- * per-mile fundraising mechanism, no admin CRUD — see RUCK_CAMPAIGN_URL's
- * doc comment in src/lib/constants.ts for why. Any other path on this host
- * redirects back here (see applyRuckSingleHomeGuard in src/middleware.ts).
+ * Ruck For The 22's home on ruck.forthe22.org — rendered at "/" via a
+ * transparent middleware rewrite (see src/middleware.ts). Missions are data
+ * (RUCK_MISSIONS in src/lib/content/ruck-missions.ts): this page lists them
+ * on Completed / Next tabs, and each completed mission has its own page at
+ * /missions/<slug> (src/app/ruck-missions/[slug]) with its media coverage,
+ * amount raised, and participation journal. Any other path on this host
+ * redirects back here (see applyRuckGuard in src/middleware.ts).
  */
 export default async function RuckHomePage() {
   const [allPartners, missionPartners, fundraisingStats] = await Promise.all([
@@ -195,15 +129,11 @@ export default async function RuckHomePage() {
   );
   const campaignPartners = missionPartners.filter((p) => p.associated_campaigns?.includes("ruck"));
   const goruckPartner = campaignPartners.find((p) => p.name === "GORUCK");
+  const latestMission = COMPLETED_RUCK_MISSIONS[0];
+  const milesRucked = COMPLETED_RUCK_MISSIONS.reduce((sum, m) => sum + m.distanceMiles, 0);
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(buildEventJsonLd()).replace(/</g, "\\u003c") }}
-      />
-      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(buildNewsVideoJsonLd())} />
-
       {/* Hero */}
       <section className="relative overflow-hidden bg-ink text-off-white">
         <Image
@@ -214,7 +144,7 @@ export default async function RuckHomePage() {
           aria-hidden="true"
           className="object-cover opacity-[0.08]"
         />
-        <Container className="relative grid gap-10 py-14 sm:py-20 lg:min-h-[76vh] lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-16">
+        <Container className="relative grid gap-10 py-14 sm:py-20 lg:min-h-[70vh] lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-16">
           <div>
             <a
               href={ORG_HOME_LINK.href}
@@ -225,24 +155,27 @@ export default async function RuckHomePage() {
             <h1 className="mt-3 text-balance font-display text-hero uppercase leading-[0.95]">
               {RUCK.name}
             </h1>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-off-white/75">{RUCK.description}</p>
 
-            <div className="mt-7 grid max-w-2xl grid-cols-2 gap-px bg-off-white/15 sm:grid-cols-3">
-              <div className="col-span-2 bg-ink/90 p-5 sm:col-span-1"><p className="font-display text-6xl leading-none text-sand">22</p><p className="mt-1 text-xs font-bold uppercase tracking-[0.2em] text-off-white/65">Miles</p></div>
-              <div className="bg-ink/90 p-5"><p className="font-display text-3xl uppercase text-off-white">Oct 24</p><p className="mt-1 text-xs font-bold uppercase tracking-[0.2em] text-off-white/65">2026</p></div>
-              <div className="bg-ink/90 p-5"><p className="font-display text-3xl uppercase text-off-white">0800</p><p className="mt-1 text-xs font-bold uppercase tracking-[0.2em] text-off-white/65">Start</p></div>
+            <div className="mt-7 grid max-w-md grid-cols-2 gap-px bg-off-white/15">
+              <div className="bg-ink/90 p-5">
+                <p className="font-display text-6xl leading-none text-sand">{COMPLETED_RUCK_MISSIONS.length}</p>
+                <p className="mt-1 text-xs font-bold uppercase tracking-[0.2em] text-off-white/65">
+                  Mission{COMPLETED_RUCK_MISSIONS.length === 1 ? "" : "s"} Completed
+                </p>
+              </div>
+              <div className="bg-ink/90 p-5">
+                <p className="font-display text-6xl leading-none text-sand">{milesRucked}</p>
+                <p className="mt-1 text-xs font-bold uppercase tracking-[0.2em] text-off-white/65">Miles Rucked</p>
+              </div>
             </div>
-            <p className="mt-5 text-sm font-semibold uppercase tracking-[0.16em] text-sand">Huntsville, Alabama</p>
 
             <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4">
               <a
-                href={RUCK.primaryCta.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-analytics-event="ruck_register_click"
+                href="#completed"
                 className="inline-flex items-center gap-1.5 rounded-sm bg-bronze px-8 py-4 text-base font-semibold uppercase tracking-wide text-ink shadow-sm transition-colors hover:bg-bronze-light"
               >
-                {RUCK.primaryCta.label} on Eventbee
-                <ExternalLink size={16} aria-hidden />
+                View Missions
               </a>
               <a
                 href="#beneficiaries"
@@ -253,16 +186,27 @@ export default async function RuckHomePage() {
             </div>
           </div>
 
-          <div className="border-l-4 border-olive bg-off-white/5 p-7 backdrop-blur-sm sm:p-9">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-sand">Event status</p>
-            <p className="mt-2 font-display text-4xl uppercase leading-tight text-off-white">Registration Open</p>
-            <p className="mt-5 font-display text-3xl text-sand">October 24, 2026 · 0800</p>
-            <p className="mt-4 text-sm leading-relaxed text-off-white/70">Join Cody in Huntsville for the full distance, or walk your own distance with your community.</p>
-          </div>
+          {latestMission && (
+            <a
+              href={missionHref(latestMission)}
+              className="group block border-l-4 border-olive bg-off-white/5 p-7 backdrop-blur-sm transition-colors hover:bg-off-white/10 sm:p-9"
+            >
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-sand">Latest Mission</p>
+              <p className="mt-2 font-display text-4xl uppercase leading-tight text-off-white">{latestMission.name}</p>
+              <p className="mt-2 text-sm font-semibold uppercase tracking-[0.16em] text-sand">
+                {latestMission.dateDisplay} · {latestMission.distanceMiles} Miles
+              </p>
+              <MissionAccomplishedStamp tone="dark" className="mt-6" />
+              <span className="mt-6 flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-off-white/80 group-hover:text-off-white">
+                Coverage, Journal &amp; More
+                <ArrowRight size={15} aria-hidden />
+              </span>
+            </a>
+          )}
         </Container>
       </section>
 
-      {/* What is RuckUp22 */}
+      {/* Why 22 */}
       <section className="relative overflow-hidden border-b border-off-white/10 bg-ink py-16 text-off-white sm:py-24">
         <Image src="/topo-map.png" alt="" fill aria-hidden="true" className="object-cover opacity-[0.06]" />
         <RevealOnScroll as="div" className="relative">
@@ -274,7 +218,7 @@ export default async function RuckHomePage() {
             significant, but it isn&apos;t the current national number — the VA&apos;s most recent data (2023)
             puts the daily average at 17.5 Veterans lost to suicide, and law enforcement, fire, EMS,
             dispatch, and corrections face a version of the same crisis with far less complete
-            reporting. RuckUp22 turns that awareness into a physical act: rucking, walking, or hiking
+            reporting. Each mission turns that awareness into a physical act: rucking, walking, or hiking
             with those numbers in mind, alongside family, friends, and community.
           </p>
           </div>
@@ -282,79 +226,51 @@ export default async function RuckHomePage() {
         </RevealOnScroll>
       </section>
 
-      {/* Event details */}
-      <section id="event" className="scroll-mt-28 border-b border-ink/10 py-16 sm:py-20">
+      {/* Missions — Completed / Next tabs */}
+      <section id="missions" className="relative scroll-mt-28 border-b border-ink/10 py-16 sm:py-20">
+        {/* Hash targets for header links and shared URLs — MissionTabs reads the same hash to pick a tab. */}
+        <span id="completed" className="absolute top-0 scroll-mt-28" aria-hidden="true" />
+        <span id="next" className="absolute top-0 scroll-mt-28" aria-hidden="true" />
         <Container>
-          <RevealOnScroll>
           <SectionHeading
-            eyebrow="The Event"
-            title={RUCK_EVENT_INFO.name}
-            description={`${RUCK_EVENT_INFO.eventDateDisplay} — ${RUCK_EVENT_INFO.location}`}
+            eyebrow="Missions"
+            title="Ruck Missions"
+            description="Each completed mission has its own page with media coverage, what For The 22 raised, and Cody's journal from the day."
           />
-          <dl className="mt-8 grid gap-px bg-ink/10 sm:grid-cols-2 lg:grid-cols-3">
-            {[
-              ["Date", RUCK_EVENT_INFO.eventDateDisplay.split(" · ")[0]],
-              ["Start", RUCK_EVENT_INFO.eventDateDisplay.split(" · ")[1] ?? "0800"],
-              ["Location", RUCK_EVENT_INFO.location],
-              ["Distance", "22 Miles"],
-              ["Organizer", RUCK_EVENT_ORGANIZER.name],
-              ["Registration", "Open"],
-            ].map(([label, value]) => <div key={label} className="bg-off-white p-6"><dt className="text-xs font-bold uppercase tracking-[0.2em] text-olive">{label}</dt><dd className="mt-2 font-display text-2xl uppercase text-ink">{value}</dd></div>)}
-          </dl>
-          <div className="mt-8 grid gap-6 lg:grid-cols-2"><p className="text-sm leading-relaxed text-charcoal-light">{RUCK_EVENT_INFO.locationDetail}</p><p className="text-sm leading-relaxed text-charcoal-light">{RUCK_EVENT_INFO.formatNote}</p></div>
-          <div className="mt-8 flex flex-wrap gap-4">
-            <a
-              href={RUCK.primaryCta.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-dark"
-            >
-              Register on Eventbee
-              <ExternalLink size={14} aria-hidden />
-            </a>
-            <a
-              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(RUCK_EVENT_INFO.location)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="action-control inline-flex items-center justify-center font-bold gap-1.5 border-2 border-navy px-6 py-3 text-[15px] text-navy transition-colors hover:bg-white"
-            >
-              Get Directions
-              <ExternalLink size={14} aria-hidden />
-            </a>
-          </div>
-          </RevealOnScroll>
-        </Container>
-      </section>
-
-      {/* Media coverage */}
-      <section id="in-the-news" className="scroll-mt-28 border-b border-ink/10 bg-ink py-16 text-off-white sm:py-20">
-        <Container className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center lg:gap-12">
-          <RevealOnScroll>
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-sand">In the News</p>
-            <h2 className="mt-2 font-display text-4xl uppercase">{NEWS_COVERAGE.outlet} Covers RuckUp22</h2>
-            <p className="mt-5 text-base leading-relaxed text-off-white/75">{NEWS_COVERAGE.title}.</p>
-            <a
-              href={`https://www.youtube.com/watch?v=${NEWS_COVERAGE.youtubeId}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-sand hover:text-off-white"
-            >
-              Watch on YouTube
-              <ExternalLink size={14} aria-hidden />
-            </a>
-          </RevealOnScroll>
-          <RevealOnScroll>
-            <JournalVideoEmbed
-              provider="youtube"
-              videoId={NEWS_COVERAGE.youtubeId}
-              title={NEWS_COVERAGE.title}
-              fallbackImageUrl={null}
+          <div className="mt-8">
+            <MissionTabs
+              counts={{ completed: COMPLETED_RUCK_MISSIONS.length, next: UPCOMING_RUCK_MISSIONS.length }}
+              completed={
+                COMPLETED_RUCK_MISSIONS.length > 0 ? (
+                  <div className="grid gap-6">
+                    {COMPLETED_RUCK_MISSIONS.map((mission) => (
+                      <CompletedMissionCard key={mission.slug} mission={mission} />
+                    ))}
+                  </div>
+                ) : (
+                  <EmptyState title="No completed missions yet" />
+                )
+              }
+              next={
+                UPCOMING_RUCK_MISSIONS.length > 0 ? (
+                  <div className="grid gap-6 lg:grid-cols-2">
+                    {UPCOMING_RUCK_MISSIONS.map((mission) => (
+                      <UpcomingMissionCard key={mission.slug} mission={mission} />
+                    ))}
+                  </div>
+                ) : (
+                  <EmptyState
+                    title="Next mission coming soon"
+                    description={`The next ${RUCK.name} mission will be announced here.`}
+                  />
+                )
+              }
             />
-          </RevealOnScroll>
+          </div>
         </Container>
       </section>
 
-      {/* Campaign partners — e.g. GORUCK supporting RuckUp22 with event-day gear. */}
+      {/* Campaign partners — e.g. GORUCK supporting the campaign with gear. */}
       {campaignPartners.length > 0 && (
         <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
           <Container>
@@ -383,9 +299,7 @@ export default async function RuckHomePage() {
             </div>
             </RevealOnScroll>
 
-            {/* Latest campaign update — plain page content, not a Supabase
-                row or a journal system; Ruck stays a deliberately minimal
-                single page (see AGENTS.md). */}
+            {/* Campaign update — plain page content, not a Supabase row. */}
             {goruckPartner && (
               <RevealOnScroll>
                 <div className="mt-12 grid overflow-hidden rounded-xl border border-line bg-white sm:grid-cols-2">
@@ -425,92 +339,58 @@ export default async function RuckHomePage() {
         </section>
       )}
 
-      {/* Beneficiaries */}
+      {/* Beneficiaries — Cody's own Ruck For The 22 campaign. Each mission's
+          event-organizer beneficiaries live on that mission's page. */}
       <section id="beneficiaries" className="scroll-mt-28 py-16 sm:py-20">
         <Container>
-          <RevealOnScroll as="div" className="border-l-4 border-olive bg-sand-light p-6 sm:p-8">
+          <RevealOnScroll>
           <SectionHeading
-            eyebrow="RuckUp22 Event Proceeds"
-            title="Registration Supports Two Event Beneficiaries"
-            description={`Registration and ticket proceeds for ${RUCK_EVENT_INFO.name}, organized by ${RUCK_EVENT_ORGANIZER.name} (EIN ${RUCK_EVENT_ORGANIZER.ein}), support these organizations.`}
+            eyebrow="Cody's Ruck Campaign"
+            title={`A Path Into ${MISSION_NAME}`}
+            description={`${RUCK.name} supports the same causes as ${CAMPAIGNS.tri.name} — and contributes to ${SITE_NAME}'s shared ${formatCurrency(fundraisingStats.fundraisingGoal)} mission goal.`}
           />
-          <p className="mt-5 font-display text-xl uppercase text-olive">RuckUp22 <span aria-hidden="true">↓</span> Battle Buddy Foundation + Tunnel to Towers</p>
+          <div className="mt-6 rounded-sm border border-ink/10 bg-sand-light p-6 lg:max-w-3xl">
+            <MissionProgress totalRaised={fundraisingStats.amountRaised} goal={fundraisingStats.fundraisingGoal} />
+            <a
+              href={`${SITE_URL}/70k`}
+              className="mt-5 inline-flex text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
+            >
+              Explore {MISSION_NAME} &rarr;
+            </a>
+          </div>
           </RevealOnScroll>
-          <RevealGrid>
-            <div className="mt-6 grid gap-6 lg:grid-cols-2">
-              {RUCK_EVENT_BENEFICIARIES.map((b) => (
-                <BeneficiaryCard
-                  key={b.name}
-                  eyebrow="RuckUp22 Beneficiary"
-                  data={{
-                    name: b.name,
-                    description: b.description,
-                    websiteUrl: b.websiteUrl,
-                    donationUrl: b.donationUrl,
-                    ein: b.ein,
-                    verified: true,
-                  }}
-                />
-              ))}
-            </div>
-          </RevealGrid>
-
           {campaignBeneficiaries.length > 0 && (
-            <div className="mt-16 border-t-4 border-ink pt-8">
-              <RevealOnScroll>
-              <SectionHeading
-                eyebrow="Cody's Ruck Campaign"
-                title="A Separate Path Into The $70K Mission"
-                description={`Alongside RuckUp22 itself, Cody's own Ruck For The 22 effort supports the same causes as ${CAMPAIGNS.tri.name} — and contributes to For The 22's shared ${formatCurrency(fundraisingStats.fundraisingGoal)} mission goal.`}
-              />
-              <p className="mt-5 font-display text-xl uppercase text-ink">Cody&apos;s Ruck Campaign <span aria-hidden="true">↓</span> The $70K Mission <span aria-hidden="true">↓</span> {campaignBeneficiaries.length} verified {campaignBeneficiaries.length === 1 ? "beneficiary" : "beneficiaries"}</p>
-              <div className="mt-6 rounded-sm border border-ink/10 bg-sand-light p-6 lg:max-w-3xl">
-                <MissionProgress totalRaised={fundraisingStats.amountRaised} goal={fundraisingStats.fundraisingGoal} />
-                <p className="mt-4 text-xs text-charcoal-light">
-                  This reflects Cody&apos;s own Ruck For The 22 fundraising, not RuckUp22 Huntsville&apos;s
-                  registration/ticket proceeds — those go directly to RuckUp22&apos;s own event beneficiaries above.
-                </p>
-                <a
-                  href={`${SITE_URL}/70k`}
-                  className="mt-5 inline-flex text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
-                >
-                  Explore the Full $70K Mission &rarr;
-                </a>
+            <RevealGrid>
+              <div className="mt-8 grid gap-6 lg:grid-cols-2">
+                {campaignBeneficiaries.map((partner) => (
+                  <BeneficiaryCard
+                    key={partner.id}
+                    eyebrow="Ruck For The 22 Beneficiary"
+                    data={{
+                      name: partner.name,
+                      description: partner.what_they_do,
+                      websiteUrl: partner.website_url,
+                      donationUrl: partner.donation_url,
+                      ein: partner.ein,
+                      verified: partner.nonprofit_status_verified,
+                      logo: {
+                        url: partner.logo_url,
+                        lightUrl: partner.logo_light_url,
+                        darkUrl: partner.logo_dark_url,
+                        background: partner.logo_background,
+                      },
+                    }}
+                    trackingCode={partner.requires_donation_note ? RUCK_DONATION_TRACKING_CODE : undefined}
+                  />
+                ))}
               </div>
-              </RevealOnScroll>
-              <RevealGrid>
-                <div className="mt-8 grid gap-6 lg:grid-cols-2">
-                  {campaignBeneficiaries.map((partner) => (
-                    <BeneficiaryCard
-                      key={partner.id}
-                      eyebrow="Ruck For The 22 Beneficiary"
-                      data={{
-                        name: partner.name,
-                        description: partner.what_they_do,
-                        websiteUrl: partner.website_url,
-                        donationUrl: partner.donation_url,
-                        ein: partner.ein,
-                        verified: partner.nonprofit_status_verified,
-                        logo: {
-                          url: partner.logo_url,
-                          lightUrl: partner.logo_light_url,
-                          darkUrl: partner.logo_dark_url,
-                          background: partner.logo_background,
-                        },
-                      }}
-                      trackingCode={partner.requires_donation_note ? RUCK_DONATION_TRACKING_CODE : undefined}
-                    />
-                  ))}
-                </div>
-              </RevealGrid>
-            </div>
+            </RevealGrid>
           )}
 
           <p className="mt-8 max-w-2xl text-sm font-medium text-charcoal-light">
             Donations are made directly through each independent nonprofit organization&apos;s
-            authorized donation platform. Neither {SITE_NAME} nor {RUCK_EVENT_ORGANIZER.name}
-            receives, processes, or takes possession of charitable contributions made this way, and
-            neither issues tax receipts.
+            authorized donation platform. {SITE_NAME} does not receive, process, or take possession of
+            charitable contributions made this way, and does not issue tax receipts.
           </p>
         </Container>
       </section>

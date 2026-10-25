@@ -9,6 +9,7 @@ import {
   SITE_NAME,
   SITE_URL,
 } from "@/lib/constants";
+import { COMPLETED_RUCK_MISSIONS, UPCOMING_RUCK_MISSIONS } from "@/lib/content/ruck-missions";
 import { isCampaignLive, isOrgLive } from "@/lib/launch-gate";
 import { getActiveCampaignSlug } from "@/lib/site-mode";
 import { formatCurrency } from "@/lib/utils";
@@ -85,6 +86,16 @@ export async function GET() {
       sections.push(
         `${CAMPAIGN_NAME} is one campaign of ${SITE_NAME} (${SITE_URL}). Founder Cody Hitson is training for IRONMAN 70.3 Chattanooga on May 16, 2027 to raise funds for veteran-focused nonprofit organizations.`,
         `## Key pages\n\n${linkList(CAMPAIGN_URL, TRI_LINKS)}`,
+      );
+    } else if (campaignSlug === "ruck") {
+      const completed = COMPLETED_RUCK_MISSIONS.map(
+        (m) => `- [${m.name}](${baseUrl}/missions/${m.slug}): ${m.dateDisplay}, ${m.distanceMiles} miles, ${m.location}. ${m.summary}`,
+      );
+      const upcoming = UPCOMING_RUCK_MISSIONS.map((m) => `- ${m.name}: ${m.dateDisplay}, ${m.location}.`);
+      sections.push(
+        `${name} is one campaign of ${SITE_NAME} (${SITE_URL}). Each completed mission page has its media coverage, what ${SITE_NAME} raised, and Cody Hitson's journal from the day.`,
+        `## Completed missions\n\n${completed.join("\n")}`,
+        ...(upcoming.length > 0 ? [`## Next missions\n\n${upcoming.join("\n")}`] : []),
       );
     } else {
       sections.push(`${name} is one campaign of ${SITE_NAME}. See ${SITE_URL}/campaigns for every campaign and ${SITE_URL}/mission for the parent organization.`);

@@ -352,7 +352,7 @@ function applyLaunchGate(request: NextRequest, onCampaignHost: boolean, renderHe
  * Movement (forthe22.org) vs campaign page split — see README's
  * "Movement/Campaign Domain Split". These two prefix lists are Tri's own
  * campaign routes specifically (Ruck has none of its own — see
- * applyRuckSingleHomeGuard below); all hosts are served by this same app,
+ * applyRuckGuard below); all hosts are served by this same app,
  * and this is the only place that decides which pages belong to which. API
  * routes, shared assets, and /admin (including /admin/analytics, which
  * reports on every domain — see src/lib/analytics/cloudflare.ts) are
@@ -440,7 +440,7 @@ const LIVE_PATH_REWRITES: Record<string, string> = {
 
 /**
  * Paths that work identically regardless of which host is serving them —
- * never redirected/collapsed by the Ruck single-page guard below.
+ * never redirected/collapsed by the Ruck guard below.
  */
 const SHARED_PATH_PREFIXES = [
   "/admin",
@@ -455,25 +455,34 @@ const SHARED_PATH_PREFIXES = [
 ];
 
 /**
- * Ruck For The 22 is deliberately a single page (see RUCK_CAMPAIGN_URL's
- * doc comment in src/lib/constants.ts) — unlike Tri, it has no set of real
- * campaign routes of its own. Without this, ruck.forthe22.org/the-race (a
- * real route that exists for Tri) would render Tri's page content under
- * Ruck's header/footer branding. Collapse anything else on that host back
- * to "/" instead.
+ * Ruck For The 22's one-level mission pages: /missions/<slug> on the Ruck
+ * host is rewritten to the real route src/app/ruck-missions/[slug] (which
+ * 404s an unknown or not-yet-completed slug).
  */
-function applyRuckSingleHomeGuard(request: NextRequest, campaignSlug: CampaignSlug | null): Response | null {
+const RUCK_MISSION_PATH = /^\/missions\/([a-z0-9-]+)$/;
+
+/**
+ * Ruck For The 22 is deliberately small (see RUCK_CAMPAIGN_URL's doc comment
+ * in src/lib/constants.ts): "/" plus its /missions/<slug> pages — unlike
+ * Tri, it has no other campaign routes of its own. Without this,
+ * ruck.forthe22.org/the-race (a real route that exists for Tri) would render
+ * Tri's page content under Ruck's header/footer branding. Collapse anything
+ * else on that host back to "/" instead.
+ */
+function applyRuckGuard(request: NextRequest, campaignSlug: CampaignSlug | null): Response | null {
   if (campaignSlug !== "ruck") return null;
   const { pathname } = request.nextUrl;
-  if (pathname === "/" || matchesPathPrefix(pathname, SHARED_PATH_PREFIXES)) return null;
+  if (pathname === "/" || RUCK_MISSION_PATH.test(pathname) || matchesPathPrefix(pathname, SHARED_PATH_PREFIXES)) {
+    return null;
+  }
   return NextResponse.redirect(new URL("/", request.nextUrl), 308);
 }
 
-/** 22 For the 22's own real paths on its host — everything else collapses back to "/", same reasoning as applyRuckSingleHomeGuard above. */
+/** 22 For the 22's own real paths on its host — everything else collapses back to "/", same reasoning as applyRuckGuard above. */
 const EVENT22_OWN_PATHS = ["/", "/promokit", "/rules"];
 
 /**
- * Same idea as applyRuckSingleHomeGuard, sized for 22 For the 22's 3 real
+ * Same idea as applyRuckGuard, sized for 22 For the 22's 3 real
  * pages instead of just 1 — without this, 22.forthe22.org/the-race (a real
  * route that exists for Tri) would render Tri's page content under 22's
  * own header/footer branding.
@@ -521,7 +530,7 @@ function applyDomainSplit(
 ): Response | null {
   const url = request.nextUrl;
 
-  const ruckGuardResponse = applyRuckSingleHomeGuard(request, campaignSlug);
+  const ruckGuardResponse = applyRuckGuard(request, campaignSlug);
   if (ruckGuardResponse) return ruckGuardResponse;
 
   const event22GuardResponse = applyEvent22Guard(request, campaignSlug);
@@ -540,6 +549,13 @@ function applyDomainSplit(
           request: { headers: renderHeaders },
         })
       : null;
+  }
+
+  const ruckMission = campaignSlug === "ruck" ? RUCK_MISSION_PATH.exec(url.pathname) : null;
+  if (ruckMission) {
+    return NextResponse.rewrite(new URL(`/ruck-missions/${ruckMission[1]}`, url), {
+      request: { headers: renderHeaders },
+    });
   }
 
   if (campaignSlug === "22" && url.pathname in EVENT22_PATH_REWRITES) {

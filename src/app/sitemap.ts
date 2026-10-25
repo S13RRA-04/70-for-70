@@ -6,6 +6,7 @@ import { US_STATES_GRID } from "@/lib/content/us-states";
 import { slugifyResourceName } from "@/lib/content/resources";
 import { getResources } from "@/lib/data/resources";
 import { getPublishedLiveEvents } from "@/lib/data/live-events";
+import { COMPLETED_RUCK_MISSIONS } from "@/lib/content/ruck-missions";
 import { CAMPAIGN_URL, CAMPAIGNS, SITE_URL } from "@/lib/constants";
 import { getActiveCampaignSlug } from "@/lib/site-mode";
 import { isCampaignLive, isOrgLive } from "@/lib/launch-gate";
@@ -81,10 +82,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // uses to decide whether to show real content at all.
   const live = campaignSlug ? isCampaignLive() : isOrgLive();
 
-  // Ruck For The 22 is a single page (see src/app/ruck-home/page.tsx's doc
-  // comment) — nothing to enumerate beyond its own root.
+  // Ruck For The 22 is its home plus one page per completed mission (see
+  // src/app/ruck-home/page.tsx's doc comment).
   if (campaignSlug === "ruck") {
-    return [{ url: `${CAMPAIGNS.ruck.url}/`, lastModified: new Date() }];
+    const base = CAMPAIGNS.ruck.url;
+    if (!live) return [{ url: `${base}/`, lastModified: new Date() }];
+    return [
+      { url: `${base}/`, lastModified: new Date() },
+      ...COMPLETED_RUCK_MISSIONS.map((mission) => ({
+        url: `${base}/missions/${mission.slug}`,
+        lastModified: new Date(mission.date),
+      })),
+    ];
   }
 
   // 22 For the 22 has exactly 3 real pages — see EVENT22_PATH_REWRITES in
