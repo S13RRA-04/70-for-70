@@ -53,7 +53,7 @@ export function Footer({
 
   return (
     <footer className="property-footer-shell relative overflow-hidden text-white">
-      <BrandStripe variant={campaignSlug === "live" ? "live" : "org"} />
+      <BrandStripe />
       <Container
         className={`relative grid gap-10 pb-14 pt-16 sm:grid-cols-2 ${
           campaignSlug === "tri"
