@@ -15,6 +15,7 @@ import { Footer } from "@/components/layout/footer";
 import { CrisisBar } from "@/components/layout/crisis-bar";
 import { AwarenessBanner } from "@/components/layout/awareness-banner";
 import { AwarenessEntryBanner } from "@/components/layout/awareness-entry-banner";
+import { AnnouncementBanner } from "@/components/layout/announcement-banner";
 import { MissionRelationshipBanner } from "@/components/layout/mission-relationship-banner";
 import {
   MobileConversionBar,
@@ -131,6 +132,8 @@ const ORG_WEBSITE_JSON_LD = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: SITE_NAME,
+  // Spellings people actually search — helps Google match the site name.
+  alternateName: ["For the 22", "ForThe22", "forthe22.org"],
   url: SITE_URL,
   publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
 };
@@ -202,6 +205,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             <CrisisBar />
             <AwarenessBanner />
             <AwarenessEntryBanner />
+            <AnnouncementBanner />
             {campaignSlug === "tri" && <MissionRelationshipBanner />}
             <Header mode={mode} campaignSlug={campaignSlug} awarenessMonth={awarenessMonth} />
             <main id="main-content" className="flex-1">

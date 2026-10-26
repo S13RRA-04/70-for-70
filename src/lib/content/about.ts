@@ -155,9 +155,5 @@ export const ABOUT_CHAPTERS: AboutChapter[] = [
   { id: "mission-going", number: "06", label: "What's Next" },
 ];
 
-/**
- * Re-exported from src/lib/ring-colors.ts, which is the canonical source now
- * that other parts of the site (beyond this About page content module) need
- * the same ring-color data.
- */
-export { OUTER_RING_COLORS, INNER_RING_COLORS } from "@/lib/ring-colors";
+/** Re-exported from src/lib/ring-colors.ts, the canonical source. */
+export { MARK_COLORS } from "@/lib/ring-colors";
