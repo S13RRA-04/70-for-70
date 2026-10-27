@@ -110,6 +110,9 @@ export async function middleware(request: NextRequest) {
  *   login page and the app's auth pages talk to Supabase from the browser, and
  *   journal images are served from that project's Storage bucket. `*.supabase.co`
  *   would be simpler but would trust every other project's subdomain too.
+ * - The /resources map loads OpenStreetMap tiles (img-src) and geocodes
+ *   city/ZIP searches through OpenStreetMap's Nominatim (connect-src) — see
+ *   src/components/resources/resource-map.tsx.
  * - `upgrade-insecure-requests` is production-only; in local dev it would
  *   rewrite http://localhost asset and navigation URLs to https.
  */
@@ -129,9 +132,9 @@ function buildContentSecurityPolicy(nonce: string): string {
     // allowlisted by host, so no nonce is needed for either script.
     `script-src 'self' https://challenges.cloudflare.com https://plausible.io 'nonce-${nonce}'${isDev ? " 'unsafe-eval'" : ""}`,
     "style-src 'self' 'unsafe-inline'",
-    `img-src 'self' data: blob:${supabaseOrigin ? ` ${supabaseOrigin}` : ""} https://img.youtube.com https://badges.strava.com`,
+    `img-src 'self' data: blob:${supabaseOrigin ? ` ${supabaseOrigin}` : ""} https://img.youtube.com https://badges.strava.com https://tile.openstreetmap.org`,
     "font-src 'self' data:",
-    `connect-src 'self'${supabaseOrigin ? ` ${supabaseOrigin} ${supabaseOrigin.replace("https://", "wss://")}` : ""} https://challenges.cloudflare.com https://plausible.io`,
+    `connect-src 'self'${supabaseOrigin ? ` ${supabaseOrigin} ${supabaseOrigin.replace("https://", "wss://")}` : ""} https://challenges.cloudflare.com https://plausible.io https://nominatim.openstreetmap.org`,
     // The Journal's click-to-play video facade (src/lib/video-url.ts), plus the
     // Turnstile challenge iframe on the public forms.
     "frame-src https://www.youtube.com https://player.vimeo.com https://challenges.cloudflare.com",

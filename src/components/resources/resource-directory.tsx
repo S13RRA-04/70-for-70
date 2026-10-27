@@ -5,7 +5,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChevronDown, Check, Copy, X } from "lucide-react";
 import { NEED_CATEGORIES, slugifyResourceName, type Resource } from "@/lib/content/resources";
 import { ResourceCard } from "@/components/resources/resource-card";
-import { StateMap } from "@/components/resources/state-map";
+import { ResourceMap } from "@/components/resources/resource-map";
 import { EmptyState } from "@/components/shared/empty-state";
 import { FilterChip } from "@/components/shared/filter-chip";
 import { SearchField } from "@/components/shared/search-field";
@@ -243,12 +243,12 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [needIds, audience, search, stateFilter, scope, sort]);
 
-  const activeStates = useMemo(() => {
-    const states = new Set<string>();
+  const stateCounts = useMemo(() => {
+    const counts = new Map<string, number>();
     for (const resource of resources) {
-      if (resource.state) states.add(resource.state);
+      if (resource.state) counts.set(resource.state, (counts.get(resource.state) ?? 0) + 1);
     }
-    return states;
+    return counts;
   }, [resources]);
 
   const results = useMemo(() => {
@@ -382,8 +382,8 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
   return (
     <div>
       {/* Lets a keyboard user bypass the "Browse by State" toggle (and, once
-          open, ~50 individually-tabbable state shapes) to reach search
-          directly — sr-only until focused. */}
+          open, the map's location search and ~50 individually-tabbable state
+          pins) to reach search directly — sr-only until focused. */}
       <a
         href="#resource-search"
         className="sr-only focus:not-sr-only focus:absolute focus:z-10 focus:rounded-sm focus:bg-ink focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:uppercase focus:tracking-wide focus:text-off-white"
@@ -395,8 +395,8 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
           come here to search or filter by need, not browse a US map, and a
           full-width choropleth forced above the fold pushed that below a
           long scroll for everyone else. Still full-width, not squeezed into
-          the sidebar column, once opened — small Northeast states need the
-          room. */}
+          the sidebar column, once opened — the clustered Northeast pins need
+          the room. */}
       <div className="rounded-sm border border-ink/10 bg-sand-light p-5 sm:p-6">
         <button
           type="button"
@@ -417,8 +417,8 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
           <div id="resource-state-map">
             <div className="mt-3 flex flex-wrap items-baseline justify-between gap-2">
               <p className="text-xs text-charcoal-light/80">
-                Bronze states have region-specific resources; every state still shows nationwide
-                programs.
+                Each pin shows a state&apos;s region-specific resources. Search your city or ZIP, or
+                tap a pin — nationwide programs always show too.
               </p>
               {stateFilter && (
                 <button
@@ -430,8 +430,8 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
                 </button>
               )}
             </div>
-            <div className="mx-auto mt-4 max-w-3xl">
-              <StateMap activeStates={activeStates} selected={stateFilter} onSelect={setStateFilter} />
+            <div className="mx-auto mt-4 max-w-4xl">
+              <ResourceMap stateCounts={stateCounts} selected={stateFilter} onSelect={setStateFilter} />
             </div>
           </div>
         )}
