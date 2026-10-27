@@ -7,7 +7,7 @@
 // spec's "Offline Behavior" requirement. Bump CACHE_VERSION to invalidate
 // everything on the next deploy.
 
-const CACHE_VERSION = "for-the-22-v2";
+const CACHE_VERSION = "for-the-22-v1";
 const CORE_ASSETS = ["/app-icons/icon-192.png", "/app-icons/icon-512.png"];
 
 self.addEventListener("install", (event) => {

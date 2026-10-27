@@ -311,24 +311,22 @@ export default async function PressPage() {
               ))}
             </div>
 
-            <h3 className="mt-8 text-xs font-semibold uppercase tracking-wide text-charcoal-light">
-              The Mark&apos;s Three Colors
-            </h3>
-            <p className="mt-2 text-sm text-charcoal-light">
-              Every color in the ring is assigned, not decorative — and the ring is unbroken because none of
-              us carries the burden alone. See{" "}
-              <Link href="/about#the-mark" className="text-bronze hover:underline">
-                The Mark
-              </Link>{" "}
-              on the About page for what the star and &quot;22&quot; represent, and{" "}
-              <Link href="/news/three-colors-one-mission" className="text-bronze hover:underline">
-                Three Colors. One Mission.
-              </Link>{" "}
-              for the story behind the refined logo.
-            </p>
-            <div className="mt-4">
-              <BrandColorBreakdown />
-            </div>
+            <details className="mt-6">
+              <summary className="cursor-pointer text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark">
+                Full Mark Color Breakdown
+              </summary>
+              <p className="mt-3 text-sm text-charcoal-light">
+                Every color in the mark is assigned, not decorative — the outer ring to a branch of
+                the Armed Forces, the inner ring to a sector of first-responder service. See{" "}
+                <Link href="/about#the-mark" className="text-bronze hover:underline">
+                  The Mark
+                </Link>{" "}
+                on the About page for what the ring, star, and &quot;22&quot; represent.
+              </p>
+              <div className="mt-4">
+                <BrandColorBreakdown />
+              </div>
+            </details>
           </div>
 
           <div>

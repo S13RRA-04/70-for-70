@@ -7,7 +7,6 @@ import { slugifyResourceName } from "@/lib/content/resources";
 import { getResources } from "@/lib/data/resources";
 import { getPublishedLiveEvents } from "@/lib/data/live-events";
 import { COMPLETED_RUCK_MISSIONS } from "@/lib/content/ruck-missions";
-import { ANNOUNCEMENTS } from "@/lib/content/announcements";
 import { CAMPAIGN_URL, CAMPAIGNS, SITE_URL } from "@/lib/constants";
 import { getActiveCampaignSlug } from "@/lib/site-mode";
 import { isCampaignLive, isOrgLive } from "@/lib/launch-gate";
@@ -37,7 +36,6 @@ const ORG_ROUTES = [
   "/privacy",
   "/terms",
   "/press",
-  "/news",
 ];
 // /partners, /campaign-supporters, /partners/inquire, and /sponsors/request
 // are retired stubs (redirect to /beneficiaries or /sponsors) — excluded so
@@ -70,10 +68,6 @@ const CAMPAIGN_ROUTES = [
  * effectively ignored when fetched from forthe22.org, and vice versa. See
  * robots.ts, split the same way so each domain's Sitemap: line points back
  * at its own file.
- *
- * lastModified is only set where a real date exists (journal, missions,
- * resources, timelines). Static routes omit it — stamping every URL with
- * "now" on each request teaches Google to ignore the field entirely.
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const campaignSlug = await getActiveCampaignSlug();
@@ -92,9 +86,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // src/app/ruck-home/page.tsx's doc comment).
   if (campaignSlug === "ruck") {
     const base = CAMPAIGNS.ruck.url;
-    if (!live) return [{ url: `${base}/` }];
+    if (!live) return [{ url: `${base}/`, lastModified: new Date() }];
     return [
-      { url: `${base}/` },
+      { url: `${base}/`, lastModified: new Date() },
       ...COMPLETED_RUCK_MISSIONS.map((mission) => ({
         url: `${base}/missions/${mission.slug}`,
         lastModified: new Date(mission.date),
@@ -106,22 +100,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // src/middleware.ts.
   if (campaignSlug === "22") {
     const base = CAMPAIGNS["22"].url;
-    if (!live) return [{ url: `${base}/` }];
+    if (!live) return [{ url: `${base}/`, lastModified: new Date() }];
     return [
-      { url: `${base}/` },
-      { url: `${base}/promokit` },
-      { url: `${base}/rules` },
+      { url: `${base}/`, lastModified: new Date() },
+      { url: `${base}/promokit`, lastModified: new Date() },
+      { url: `${base}/rules`, lastModified: new Date() },
     ];
   }
 
   if (campaignSlug === "live") {
     const base = CAMPAIGNS.live.url;
-    if (!live) return [{ url: `${base}/` }];
+    if (!live) return [{ url: `${base}/`, lastModified: new Date() }];
     const liveEvents = await getPublishedLiveEvents();
     return [
-      { url: `${base}/` },
-      { url: `${base}/events` },
-      { url: `${base}/auction` },
+      { url: `${base}/`, lastModified: new Date() },
+      { url: `${base}/events`, lastModified: new Date() },
+      { url: `${base}/auction`, lastModified: new Date() },
       ...liveEvents.map((event) => ({
         url: `${base}/${event.slug}`,
         lastModified: new Date(event.updated_at),
@@ -130,22 +124,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   if (campaignSlug === "tri") {
-    if (!live) return [{ url: `${CAMPAIGN_URL}/` }];
+    if (!live) return [{ url: `${CAMPAIGN_URL}/`, lastModified: new Date() }];
     const entries = await getJournalEntries();
 
     const campaignEntries: MetadataRoute.Sitemap = CAMPAIGN_ROUTES.map((path) => ({
       url: `${CAMPAIGN_URL}${path}`,
+      lastModified: new Date(),
     }));
 
     const journalEntries: MetadataRoute.Sitemap = entries.map((entry) => ({
       url: `${CAMPAIGN_URL}/journal/${entry.slug}`,
-      lastModified: entry.published_at ? new Date(entry.published_at) : undefined,
+      lastModified: entry.published_at ? new Date(entry.published_at) : new Date(),
     }));
 
     // Static content-module route, not a journal_entries row — see
     // src/app/journal/building-the-bike/page.tsx's doc comment. Its
     // lastModified tracks the newest BIKE_BUILD_TIMELINE entry rather than
-    // the CAMPAIGN_ROUTES entries, which omit lastModified.
+    // the CAMPAIGN_ROUTES blanket "now" below.
     const bikeBuildEntry: MetadataRoute.Sitemap = [
       {
         url: `${CAMPAIGN_URL}/journal/building-the-bike`,
@@ -165,26 +160,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     return [...campaignEntries, ...journalEntries, ...bikeBuildEntry, ...gearJourneyEntry];
   }
 
-  if (!live) return [{ url: `${SITE_URL}/` }];
+  if (!live) return [{ url: `${SITE_URL}/`, lastModified: new Date() }];
 
   const orgEntries: MetadataRoute.Sitemap = ORG_ROUTES.map((path) => ({
     url: `${SITE_URL}${path}`,
+    lastModified: new Date(),
   }));
 
   const stateEntries: MetadataRoute.Sitemap = US_STATES_GRID.map((s) => ({
     url: `${SITE_URL}/resources/${s.code.toLowerCase()}`,
+    lastModified: new Date(),
   }));
 
   const resources = await getResources();
   const resourceEntries: MetadataRoute.Sitemap = resources.map((resource) => ({
     url: `${SITE_URL}/resources/${slugifyResourceName(resource.name)}`,
-    lastModified: resource.verifiedDate ? new Date(resource.verifiedDate) : undefined,
+    lastModified: resource.verifiedDate ? new Date(resource.verifiedDate) : new Date(),
   }));
 
-  const announcementEntries: MetadataRoute.Sitemap = ANNOUNCEMENTS.map((a) => ({
-    url: `${SITE_URL}/news/${a.slug}`,
-    lastModified: new Date(a.publishedAt),
-  }));
-
-  return [...orgEntries, ...stateEntries, ...resourceEntries, ...announcementEntries];
+  return [...orgEntries, ...stateEntries, ...resourceEntries];
 }

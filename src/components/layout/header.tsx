@@ -230,7 +230,7 @@ export function Header({
           </button>
         </div>
       </Container>
-      <BrandStripe />
+      <BrandStripe variant={campaignSlug === "live" ? "live" : "org"} />
 
       <MobileMenu
         open={open}

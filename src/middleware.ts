@@ -233,16 +233,13 @@ function applyAppHostRewrite(request: NextRequest, renderHeaders: Headers): Resp
  * Worker under forthe22.com (bare or "www.") gets a permanent redirect to
  * the real org domain, path and query preserved. Checked before the
  * launch gate and domain split, unconditionally — forthe22.com never
- * renders anything of its own. www.forthe22.org gets the same treatment —
- * the bare domain is canonical, www is only bound so typed URLs resolve.
+ * renders anything of its own.
  */
-const STRAY_HOSTNAMES = new Set(["forthe22.com", "www.forthe22.com", "www.forthe22.org"]);
-
 function applyStrayDomainRedirect(request: NextRequest): Response | null {
   const host = request.headers.get("host");
   if (!host) return null;
   const hostname = host.split(":")[0].toLowerCase();
-  if (!STRAY_HOSTNAMES.has(hostname)) return null;
+  if (hostname !== "forthe22.com" && hostname !== "www.forthe22.com") return null;
 
   const url = request.nextUrl;
   return NextResponse.redirect(`${SITE_URL}${url.pathname}${url.search}`, 308);
@@ -378,7 +375,6 @@ const ORG_PATH_PREFIXES = [
   "/transparency",
   "/70k",
   "/store",
-  "/news",
 ];
 const CAMPAIGN_PATH_PREFIXES = [
   "/the-mission",

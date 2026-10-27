@@ -9,7 +9,7 @@ import { ABOUT_CONTENT, findAboutSubsection } from "@/lib/content/about";
 import { getMissionMetrics } from "@/lib/data/mission-metrics";
 import { getPartners } from "@/lib/data/partners";
 import { getMissionPartners, isCampaignPartner } from "@/lib/data/mission-partners";
-import { CAMPAIGN_URL, MOVEMENT_CAMPAIGNS, ORG_TAGLINE, SITE_NAME, isCurrentCampaign } from "@/lib/constants";
+import { CAMPAIGN_URL, MOVEMENT_CAMPAIGNS, ORG_TAGLINE, isCurrentCampaign } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { CampaignFilm } from "@/components/home/campaign-film";
 import { InstitutionalRecognition } from "@/components/shared/institutional-recognition";
@@ -217,7 +217,6 @@ export default async function HomePage() {
             <span className="text-impact">Impact</span>
           </Label>
           <h1 className="hero-rise text-worn font-display text-[clamp(56px,7.4vw,108px)] uppercase leading-none [animation-delay:600ms]">
-            <span className="label-caps mb-4 block font-sans text-navy">{SITE_NAME}</span>
             <span className="text-outline">{taglineFirst}</span>
             {taglineRest.length > 0 && (
               <>
