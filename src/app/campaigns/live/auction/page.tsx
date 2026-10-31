@@ -11,7 +11,7 @@ import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 export const metadata = pageMetadata({
   title: "Online Silent Auction | For The 22: Live",
   description:
-    "Bid on a Gibson guitar donated through Gibson Gives and signed by Muscadine Bloodline, benefiting Mighty Oaks Warrior Programs through For the 22 — plus other donated items in the For The 22: Live online silent auction.",
+    "Bid on a Whiskey Myers signed Epiphone Les Paul Special with two 2027 concert tickets, November 1–22 — plus a Gibson guitar signed by Muscadine Bloodline, opening December 1, in the For The 22: Live online silent auction.",
   canonical: "/auction",
 });
 

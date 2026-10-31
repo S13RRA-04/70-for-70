@@ -7,9 +7,10 @@
  * ISO-8601 strings with an explicit UTC offset (same convention as
  * RACE_INFO.raceDate in constants.ts), so `new Date(iso).getTime()` is
  * timezone-correct wherever this runs. The window is half-open
- * [opensAt, closesAt) — closesAtIso is the instant bidding ends (midnight
- * at the start of the day *after* the last bidding day), so the last
- * bidding day itself still reads as open.
+ * [opensAt, closesAt) — closesAtIso is the instant bidding ends (the
+ * listing's closing time, or midnight at the start of the day *after* the
+ * last bidding day when there isn't one), so the last bidding day itself
+ * still reads as open until then.
  */
 export type AuctionStatus = "coming-soon" | "bidding-open" | "closed";
 

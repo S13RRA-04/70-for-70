@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Gavel } from "lucide-react";
+import { AuctionBidTracker } from "@/components/live/auction-bid-tracker";
 import { CTAButton } from "@/components/shared/cta-button";
 import { getCurrentAuctionStatus, type AuctionStatus } from "@/lib/live-auction-status";
 import type { LiveAuctionItem } from "@/lib/content/live-auction";
@@ -41,9 +42,15 @@ export function AuctionItemCard({ item }: { item: LiveAuctionItem }) {
       )}
     >
       <div className="grid gap-0 sm:grid-cols-[0.9fr_1.1fr]">
-        <div className="relative aspect-[4/3] sm:aspect-auto">
+        <div className={cn("relative sm:aspect-auto", item.image?.contain ? "aspect-[4/5] bg-[#0b0c0d] sm:min-h-[32rem]" : "aspect-[4/3]")}>
           {item.image ? (
-            <Image src={item.image.src} alt={item.image.alt} fill className="object-cover" sizes="(min-width: 640px) 40vw, 100vw" />
+            <Image
+              src={item.image.src}
+              alt={item.image.alt}
+              fill
+              className={item.image.contain ? "object-contain" : "object-cover"}
+              sizes="(min-width: 640px) 40vw, 100vw"
+            />
           ) : (
             <div className="flex h-full min-h-48 flex-col items-center justify-center gap-3 border-b border-off-white/10 bg-ink p-6 text-center sm:border-b-0 sm:border-r">
               <Gavel className="h-10 w-10 text-bronze-light" aria-hidden="true" />
@@ -78,6 +85,8 @@ export function AuctionItemCard({ item }: { item: LiveAuctionItem }) {
             )}
             {status === "closed" && <span className="text-xs text-off-white/50">Bidding has ended</span>}
           </div>
+
+          {item.tracker && <AuctionBidTracker item={item} tracker={item.tracker} status={status} />}
 
           <div className="mt-6">
             <CTAButton

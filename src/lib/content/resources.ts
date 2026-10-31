@@ -5894,6 +5894,104 @@ export const RESOURCES: Resource[] = [
     state: "Texas",
     verifiedDate: "2026-10-08",
   },
+  {
+    name: "Lone Star Legal Aid — Military and Veterans Unit",
+    url: "https://www.lonestarlegal.org/services/military-and-veterans-unit/",
+    description:
+      "Dedicated unit of Lone Star Legal Aid providing free civil legal help to low-income Texas veterans, their dependents and surviving spouses — including VA benefits and discharge-upgrade cases, family law, housing, consumer, employment and public-benefits issues.",
+    needCategoryIds: ["legal-benefits"],
+    audienceTags: ["Veteran", "Military Spouse", "Family", "Survivor"],
+    cost:
+      "Free — 'free civil legal services to low-income United States military veterans, their dependents, and surviving spouses' (lonestarlegal.org)",
+    geographicScope: "Texas — Lone Star Legal Aid's 72-county service area, including Houston",
+    state: "Texas",
+    verifiedDate: "2026-10-26",
+    eligibility:
+      "Veteran, spouse, surviving spouse or dependent child with a civil legal issue; lives in the service area; low income and limited assets; DD-214 or military/dependent ID required (own site)",
+    availability: "Phone intake Monday–Friday, 8:00 AM–4:00 PM; online and email applications accepted",
+    phone: "1-844-400-VETS",
+    hours: "Monday–Friday, 8:00 AM–4:00 PM",
+    organizationType: "nonprofit",
+    selfReferral: true,
+    virtualAvailable: true,
+    inPersonAvailable: true,
+  },
+  {
+    // NOTE: not veteran-specific — serves low-income older adults and people with disabilities broadly; included because disabled veterans qualify.
+    name: "Texas Ramp Project",
+    url: "https://texasramps.org/",
+    description:
+      "Statewide volunteer nonprofit that builds wheelchair ramps at no cost for low-income older adults and people with disabilities, using a network of 50 regional volunteer groups and referrals from healthcare providers and social-service agencies.",
+    needCategoryIds: ["housing-transportation", "equipment-grants"],
+    audienceTags: ["Veteran", "Disabled", "Family", "Caregiver"],
+    cost: "Free to the recipient — 'They are always free to clients' (texasramps.org/our-mission)",
+    geographicScope: "Texas — statewide network of 50 regional volunteer groups",
+    state: "Texas",
+    verifiedDate: "2026-10-26",
+    eligibility:
+      "Low-income older adults and people with disabilities with a medical need for a ramp; referral required from a healthcare provider, social-service agency or first-responder liaison (own site)",
+    availability: "Referral-based; wait times vary by region",
+    phone: "214-558-0339",
+    organizationType: "nonprofit",
+    inPersonAvailable: true,
+  },
+  {
+    name: "First Responder Resiliency Coalition",
+    url: "https://www.responderresiliency.com/",
+    description:
+      "Texas coalition supporting law enforcement, fire, EMS and dispatch personnel with free counseling, peer support, resiliency education, critical-incident guidance and free quarterly virtual meetings.",
+    needCategoryIds: ["mental-health", "purpose-community"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Dispatch", "Family"],
+    cost:
+      "Free — 'free counseling for first responders in 9 cities' and 'free advocacy, grant writing assistance, quarterly resiliency meetings, and critical incident response guidance' (responderresiliency.com)",
+    geographicScope: "Texas — statewide coalition; counseling pilot in nine cities",
+    state: "Texas",
+    verifiedDate: "2026-10-26",
+    eligibility:
+      "Texas law enforcement, fire, EMS and dispatch personnel; family members may take part in wellness programming (own site)",
+    availability: "Free quarterly virtual meetings; counseling by appointment through the online request form",
+    organizationType: "other",
+    selfReferral: true,
+    virtualAvailable: true,
+    inPersonAvailable: true,
+  },
+  {
+    name: "Texas National Guard Family Support Foundation",
+    url: "https://www.txngfsf.org/",
+    description:
+      "501(c)(3) providing emergency financial assistance to current and former Texas Army and Air National Guard members, their dependents and surviving spouses when military service creates financial hardship.",
+    needCategoryIds: ["financial-assistance"],
+    audienceTags: ["Guard/Reserve", "Veteran", "Family", "Military Spouse", "Survivor"],
+    cost: "Grant assistance — no application fee stated (txngfsf.org)",
+    geographicScope: "Texas — statewide",
+    state: "Texas",
+    verifiedDate: "2026-10-26",
+    eligibility:
+      "Current or former Texas Army or Air National Guard member, dependent or surviving spouse; Texas resident; valid government ID required; applicants must submit their own packet (own site)",
+    availability: "Applications accepted by email to info@txngfsf.org",
+    organizationType: "nonprofit",
+    selfReferral: true,
+    virtualAvailable: true,
+  },
+  {
+    name: "Warrior's Weekend",
+    url: "https://www.warriorsweekend.org/",
+    description:
+      "Victoria-based nonprofit hosting an annual fall fishing event in Port O'Connor for combat-wounded veterans and their families, alongside year-round emotional and financial assistance to veterans and veteran causes.",
+    needCategoryIds: ["outdoor-programs", "purpose-community", "family-support"],
+    audienceTags: ["Veteran", "Disabled", "Family"],
+    cost: "Free — 'we keep all our programs and events 100% free for the veterans we serve' (warriorsweekend.org)",
+    geographicScope: "Texas — Victoria and Port O'Connor; serves veterans statewide",
+    state: "Texas",
+    verifiedDate: "2026-10-26",
+    eligibility:
+      "U.S. military veterans, with emphasis on those wounded in the Global War on Terrorism; the annual event serves combat-wounded veterans and their families (own site)",
+    availability: "Annual fall fishing event; registration opens ahead of the event — see the site for current dates",
+    phone: "361-935-7414",
+    organizationType: "nonprofit",
+    selfReferral: true,
+    inPersonAvailable: true,
+  },
 
   // ---------------------------------------------------------------------
   // Virginia Regional
@@ -15295,6 +15393,103 @@ export const RESOURCES: Resource[] = [
     faithBased: true,
     faithAffiliationSource: "https://www.pscnw.org/home",
   },
+  {
+    name: "Do Good Multnomah — Veteran Housing and Shelter",
+    url: "https://dogoodmultnomah.org/",
+    description:
+      "Portland nonprofit providing low-barrier shelter, alternative shelter, permanent affordable housing, housing retention services, behavioral health and peer support, and a drop-in center — including a veterans-specific shelter and veteran-focused programs.",
+    needCategoryIds: ["housing-transportation", "mental-health"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "Not stated on the org's own site (shelter and housing programs)",
+    geographicScope: "Portland metro region, Oregon",
+    state: "Oregon",
+    verifiedDate: "2026-10-26",
+    eligibility:
+      "Veterans experiencing or at risk of homelessness; see the site's Refer to Shelter page for current bed availability and program criteria",
+    availability: "Veteran resources and referral information online; drop-in center in North Portland",
+    phone: "503-280-4700",
+    organizationType: "nonprofit",
+    selfReferral: true,
+    inPersonAvailable: true,
+  },
+  {
+    name: "Central Oregon Veterans Outreach (COVO)",
+    url: "https://covo-us.org/",
+    description:
+      "Bend-based 501(c)(3) serving veterans across Central Oregon's tri-county area with SSVF housing assistance and case management, VA health-care and claims navigation, a transitional Veterans Village and outreach supplies including food, clothing and bedding.",
+    needCategoryIds: ["housing-transportation", "financial-assistance", "legal-benefits"],
+    audienceTags: ["Veteran", "Family", "Disabled"],
+    cost:
+      "No cost for outreach supplies — 'All available supplies are provided at no cost to those we serve' (covo-us.org); housing-program costs not stated",
+    geographicScope: "Central Oregon tri-county area (Bend)",
+    state: "Oregon",
+    verifiedDate: "2026-10-26",
+    eligibility:
+      "Veterans experiencing homelessness or at imminent risk of losing housing for SSVF; veterans who are homeless, at risk or facing significant financial, legal or family issues for Veterans Village (own site)",
+    availability: "Office in Bend; call for current intake and program availability",
+    phone: "541-383-2793",
+    organizationType: "nonprofit",
+    selfReferral: true,
+    inPersonAvailable: true,
+  },
+  {
+    name: "Source One Serenity",
+    url: "https://sourceoneserenity.org/",
+    description:
+      "Douglas County nonprofit that reconnects veterans with land, people and purpose through outdoor recreation — hiking, fishing and whitewater rafting — trail stewardship projects, equine-assisted learning and a composting social enterprise.",
+    needCategoryIds: ["outdoor-programs", "purpose-community", "mental-health"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Douglas County, Oregon (Roseburg area)",
+    state: "Oregon",
+    verifiedDate: "2026-10-26",
+    eligibility: "Veterans; see the site's calendar for current events and registration",
+    availability: "Events posted on the org's calendar, including seasonal outdoor recreation and trail stewardship days",
+    organizationType: "nonprofit",
+    selfReferral: true,
+    inPersonAvailable: true,
+  },
+  {
+    name: "Northwest Peer Support",
+    url: "https://www.nwpeersupport.org/",
+    description:
+      "First-responder peer-support resource hub from the Oregon Safety and Health Section, with team directories for fire, law enforcement, corrections, EMS and 911 dispatch, plus guidance for starting a peer-support team.",
+    needCategoryIds: ["mental-health", "purpose-community"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Dispatch", "Corrections"],
+    cost: "Not stated on the org's own site (online resource directory)",
+    geographicScope: "Oregon and the Pacific Northwest (based in Wilsonville, Oregon)",
+    state: "Oregon",
+    verifiedDate: "2026-10-26",
+    eligibility:
+      "First responders, including fire, law enforcement, corrections, EMS and 911 dispatch personnel (own site)",
+    availability: "Resource directories and team contacts online; administrative office Monday–Friday",
+    phone: "800-785-3473",
+    organizationType: "peer-community",
+    selfReferral: true,
+    virtualAvailable: true,
+  },
+  {
+    name: "Oregon Bureau of Labor and Industries — Veterans' Apprenticeship Services",
+    url: "https://www.oregon.gov/boli/apprenticeship/pages/vets-services.aspx",
+    description:
+      "BOLI's Apprenticeship and Training Division provides career counseling, technical assistance, representation and advocacy to veterans, Oregon National Guard members and Reserve members seeking paid registered apprenticeships in the trades.",
+    needCategoryIds: ["career-education"],
+    audienceTags: ["Veteran", "Guard/Reserve", "Active Military"],
+    cost: "Not stated on the org's own site (counseling and advocacy)",
+    geographicScope: "Oregon — statewide",
+    state: "Oregon",
+    verifiedDate: "2026-10-26",
+    eligibility:
+      "Veterans and members of the Oregon National Guard and Reserve components with an eligible discharge seeking to become apprentices in the trades (own site)",
+    availability:
+      "Veterans' Apprenticeship Services interest form online; office hours 8:00 AM–4:30 PM",
+    phone: "971-245-3844",
+    hours: "Monday–Friday, 8:00 AM–4:30 PM",
+    organizationType: "government",
+    selfReferral: true,
+    virtualAvailable: true,
+    inPersonAvailable: true,
+  },
 
   // ---------------------------------------------------------------------
   // Washington Regional
@@ -18289,6 +18484,107 @@ verifiedDate: "2026-10-08",
     availability: "Programs are scheduled by appointment after a facility tour",
     phone: "(401) 919-2059",
   },
+  {
+    name: "Button Hole — Veterans Golf Clinics",
+    url: "https://www.buttonhole.org/play/veterans-golf",
+    description:
+      "Providence golf nonprofit running no-charge veterans golf clinics on Thursday evenings from April through October, with range instruction, loaner equipment and a light meal, plus no-charge Wednesday range or nine-hole access.",
+    needCategoryIds: ["sports-fitness", "purpose-community"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family"],
+    cost:
+      "No charge — 'There is NO CHARGE for the golf clinics and meal'; equipment is provided at no charge (buttonhole.org)",
+    geographicScope: "Providence, Rhode Island",
+    state: "Rhode Island",
+    verifiedDate: "2026-10-26",
+    eligibility:
+      "Veterans, active and retired military and National Guard members; immediate family members welcome (own site)",
+    availability:
+      "2026 clinics Thursdays 5:00–6:30 PM, April 23–October 8; Wednesday range or nine-hole access noon–3:00 PM",
+    phone: "401-421-1664",
+    organizationType: "nonprofit",
+    selfReferral: true,
+    inPersonAvailable: true,
+  },
+  {
+    // TODO(verify): grant amounts, application steps and any required documentation are not stated on the org's own site.
+    name: "Rhode Island Service Members Assistance Fund",
+    url: "https://www.rismaf.org/",
+    description:
+      "501(c)(3) that raises and distributes emergency grants to Rhode Island National Guard members facing financial challenges and supports the RI National Guard Family Assistance Center.",
+    needCategoryIds: ["financial-assistance", "family-support"],
+    audienceTags: ["Guard/Reserve", "Military Spouse", "Family"],
+    cost:
+      "Grant funding — 'provides grants to eligible members of the Rhode Island National Guard experiencing financial challenges' (rismaf.org)",
+    geographicScope: "Rhode Island — statewide",
+    state: "Rhode Island",
+    verifiedDate: "2026-10-26",
+    eligibility:
+      "Members of the Rhode Island National Guard experiencing financial challenges, and their families (own site)",
+    availability: "Contact the fund through its website for current application guidance",
+    organizationType: "nonprofit",
+    selfReferral: true,
+  },
+  {
+    name: "CCRI Veteran Services Office",
+    url: "https://www.ccri.edu/vso/",
+    description:
+      "Community College of Rhode Island office helping veterans, service members, National Guard members and dependents use VA education benefits, with benefits certification, a step-by-step application checklist, CLEP testing and VA work-study.",
+    needCategoryIds: ["career-education", "legal-benefits"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family"],
+    cost: "Not stated on the org's own site (tuition and VA education benefits apply)",
+    geographicScope: "Rhode Island — Warwick, Lincoln, Providence and Newport campuses",
+    state: "Rhode Island",
+    verifiedDate: "2026-10-26",
+    eligibility:
+      "Veterans, service members, National Guard members and dependents using VA education benefits (own site)",
+    availability: "Campus offices at Knight, Flanagan, Liston and Newport County campuses; email veteranservices@ccri.edu",
+    phone: "401-825-1000",
+    organizationType: "education",
+    selfReferral: true,
+    virtualAvailable: true,
+    inPersonAvailable: true,
+  },
+  {
+    name: "RI DEM No-Cost Hunting and Fishing Licenses for 100% Disabled Veterans",
+    url: "https://dem.ri.gov/about-us/dem-offices/boating-registration-licenses/rhode-island-outdoors",
+    description:
+      "Permanent no-cost freshwater fishing, hunting or combination license for veterans with 100% VA disability status, plus an exemption from the saltwater fishing license.",
+    needCategoryIds: ["outdoor-programs", "legal-benefits"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost:
+      "No cost — 'No cost licenses are available if you are ... a veteran with 100% disability status from the Department of Veterans Affairs' (dem.ri.gov)",
+    geographicScope: "Rhode Island — statewide",
+    state: "Rhode Island",
+    verifiedDate: "2026-10-26",
+    eligibility:
+      "Veteran with 100% disability status from the VA; original final VA decision document on agency letterhead required (own site)",
+    availability:
+      "Apply in person at DEM, by mail or online; in-person hours 8:30 AM–3:30 PM, Monday–Friday",
+    phone: "401-222-3576",
+    hours: "Monday–Friday, 8:30 AM–3:30 PM",
+    organizationType: "government",
+    selfReferral: true,
+    inPersonAvailable: true,
+  },
+  {
+    name: "The 100 Club of Rhode Island",
+    url: "https://www.100clubofri.org/",
+    description:
+      "501(c)(3) providing immediate financial aid to Rhode Island families of police officers and firefighters killed in the line of duty — including a $25,000 check presented within 24–48 hours — plus scholarships for their children.",
+    needCategoryIds: ["financial-assistance", "family-support"],
+    audienceTags: ["Law Enforcement", "Fire", "Family", "Survivor", "First Responder"],
+    cost:
+      "No cost to the family — 'a 100 Club representative visits the surviving spouse ... the widow or widower is presented with a $25,000 check' (100clubofri.org)",
+    geographicScope: "Rhode Island — statewide",
+    state: "Rhode Island",
+    verifiedDate: "2026-10-26",
+    eligibility:
+      "Families of Rhode Island police officers and firefighters killed in the line of duty (own site)",
+    availability: "Support is initiated after notification of a line-of-duty death; scholarships follow the club's criteria",
+    phone: "401-421-2500",
+    organizationType: "nonprofit",
+    inPersonAvailable: true,
+  },
 
   // ---------------------------------------------------------------------
   // Massachusetts Regional
@@ -19681,6 +19977,87 @@ verifiedDate: "2026-10-08",
     eligibility: "Veterans with disabilities and veterans who volunteer (own site)",
     hours: "Weekly activities Wednesdays 9 a.m.–12 p.m.; additional one-day events and multi-day camps (own site)",
     phone: "(207) 310-8694",
+  },
+  {
+    name: "Honor Flight Maine",
+    url: "https://www.honorflightmaine.org/",
+    description:
+      "Volunteer nonprofit bringing Maine veterans of all eras to Washington, D.C. for a free weekend trip to visit the memorials built in their honor.",
+    needCategoryIds: ["purpose-community", "outdoor-programs"],
+    audienceTags: ["Veteran"],
+    cost:
+      "Free for veterans — 'free weekend trip' (honorflightmaine.org); trips are funded entirely by donations and grants",
+    geographicScope: "Maine — statewide",
+    state: "Maine",
+    verifiedDate: "2026-10-26",
+    eligibility:
+      "Maine veterans of all branches, ranks and eras of service, whether they served overseas or stateside, wartime or peacetime (own site)",
+    availability: "Online applications for veterans, guardians and volunteers; trips scheduled through the year",
+    phone: "207-370-7210",
+    organizationType: "nonprofit",
+    selfReferral: true,
+    inPersonAvailable: true,
+  },
+  {
+    name: "UMaine Veterans Education and Transition Services",
+    url: "https://umaine.edu/veterans/",
+    description:
+      "University of Maine office supporting student veterans, service members and dependents with VA education benefits, transition assistance and campus resources, including in-state tuition for honorably discharged veterans.",
+    needCategoryIds: ["career-education", "legal-benefits"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family"],
+    cost:
+      "In-state tuition for honorably discharged veterans and GI Bill dependents (umaine.edu/veterans); no program fee stated",
+    geographicScope: "Maine — University of Maine, Orono",
+    state: "Maine",
+    verifiedDate: "2026-10-26",
+    eligibility:
+      "Veteran, service member or dependent student at the University of Maine; honorably discharged veterans qualify for in-state tuition regardless of GI Bill use (own site)",
+    availability: "On-campus office in Orono; phone and email support",
+    phone: "207-581-1316",
+    organizationType: "education",
+    selfReferral: true,
+    virtualAvailable: true,
+    inPersonAvailable: true,
+  },
+  {
+    name: "Maine NENA CISM Team",
+    url: "https://mainenena.com/cism-team/",
+    description:
+      "Peer-support team for Maine first responders and dispatchers, offering confidential individual peer support, defusing and critical-incident stress debriefing after significant incidents.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Dispatch"],
+    cost: "Not stated on the org's own site (peer support and CISM response)",
+    geographicScope: "Maine — statewide",
+    state: "Maine",
+    verifiedDate: "2026-10-26",
+    eligibility:
+      "First responders and dispatchers in Maine; a department or a member of a department may request a debriefing (own site)",
+    availability: "Activated through the Cumberland County Regional Communications Center",
+    phone: "207-893-2810 ext. 2",
+    organizationType: "peer-community",
+    selfReferral: true,
+    inPersonAvailable: true,
+  },
+  {
+    name: "Maine Lifetime Veteran State Park and Museum Pass",
+    url: "https://www.maine.gov/veterans/benefits/recreational-licenses/lifetime-park-museum-pass",
+    description:
+      "State-issued lifetime day-use pass giving eligible Maine veterans free admission to Maine state parks, historic sites and the state museum; not valid at Acadia National Park, Baxter State Park, the Allagash Wilderness Waterway, Penobscot Narrows Observatory or Maine Wildlife Park.",
+    needCategoryIds: ["outdoor-programs", "purpose-community"],
+    audienceTags: ["Veteran", "Family"],
+    cost:
+      "Free — 'issue a free day use pass to state parks, historic sites, and museum to eligible Maine veterans' (maine.gov/veterans)",
+    geographicScope: "Maine — state parks, historic sites and state museum",
+    state: "Maine",
+    verifiedDate: "2026-10-26",
+    eligibility:
+      "Maine resident veterans with an honorable discharge or general discharge under honorable conditions; veterans age 65 or older are not issued a pass because they already receive free senior admission (own site)",
+    availability:
+      "Print and mail the application with a DD-214 copy to the Maine Bureau of Veterans' Services; processing takes about 2–3 weeks",
+    phone: "207-287-7020",
+    organizationType: "government",
+    selfReferral: true,
+    inPersonAvailable: true,
   },
 
   // ---------------------------------------------------------------------
@@ -21792,6 +22169,105 @@ verifiedDate: "2026-10-08",
     eligibility: "Eligible low-income and senior residents of central and southern Illinois; the organization prioritizes legal assistance to veterans and the active military (own site)",
     phone: "877-342-7891",
   },
+  {
+    name: "Illinois Attorney General — Military and Veterans Rights Bureau",
+    url: "https://illinoisattorneygeneral.gov/Rights-of-the-People/military-and-veterans-rights/",
+    description:
+      "State attorney general bureau dedicated to ensuring veterans and active-duty service members receive the benefits they earned, providing case advocacy, health outreach, public advocacy forums and help with military-related rights.",
+    needCategoryIds: ["legal-benefits"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family", "Survivor"],
+    cost:
+      "Not stated on the org's own site — state benefits advocacy and case assistance (illinoisattorneygeneral.gov)",
+    geographicScope: "Illinois — statewide",
+    state: "Illinois",
+    verifiedDate: "2026-10-26",
+    eligibility:
+      "Veterans, active-duty service members and their families who need help with earned benefits or military-related rights (own site)",
+    availability: "Helpline and online request form; offices in Belleville, Chicago, Carbondale and Springfield",
+    phone: "1-800-382-3000",
+    organizationType: "government",
+    selfReferral: true,
+    virtualAvailable: true,
+    inPersonAvailable: true,
+  },
+  {
+    // TODO(verify): the org's own site does not state whether the service dog itself is provided at no cost — confirm before framing the dog as free.
+    name: "K9s for Veterans, NFP",
+    url: "https://www.k9sforveteransnfp.org/about-us.html",
+    description:
+      "Illinois nonprofit that partners veterans living with PTSD with trained service dogs — using rescue dogs from kill shelters — and provides free food and medical care for the life of the service dog.",
+    needCategoryIds: ["equipment-grants", "mental-health"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost:
+      "Service-dog cost not stated on the org's own site; 'K9 provides free food and medical care for the life of the service dog' (k9sforveteransnfp.org)",
+    geographicScope: "Illinois",
+    state: "Illinois",
+    verifiedDate: "2026-10-26",
+    eligibility: "Veterans with post-traumatic stress disorder; online application required (own site)",
+    availability: "Online application; training and placements in person",
+    phone: "773-854-1000",
+    organizationType: "nonprofit",
+    selfReferral: true,
+    inPersonAvailable: true,
+  },
+  {
+    name: "Chicago Police Memorial Foundation",
+    url: "https://www.cpdmemorial.org/",
+    description:
+      "Nonprofit supporting the families of Chicago police officers killed or catastrophically injured in the line of duty through financial assistance, education support and family programs.",
+    needCategoryIds: ["financial-assistance", "family-support"],
+    audienceTags: ["Law Enforcement", "First Responder", "Family", "Survivor"],
+    cost: "Not stated on the org's own site (assistance provided to eligible families)",
+    geographicScope: "Chicago, Illinois",
+    state: "Illinois",
+    verifiedDate: "2026-10-26",
+    eligibility:
+      "Families of Chicago Police Department officers killed or catastrophically injured in the line of duty (own site)",
+    availability: "Contact the foundation through its website for current assistance",
+    organizationType: "nonprofit",
+    inPersonAvailable: true,
+  },
+  {
+    name: "Veterans Assistance Commission of Cook County",
+    url: "https://www.vaccookcounty.org/",
+    description:
+      "Cook County agency providing emergency financial help, accredited veterans service officer claims assistance and referrals for housing, employment, legal, health and mental-health services.",
+    needCategoryIds: ["legal-benefits", "financial-assistance", "housing-transportation"],
+    audienceTags: ["Veteran", "Military Spouse", "Family", "Survivor"],
+    cost:
+      "Free VSO assistance — 'Accredited Veterans Service Officers (VSOs) provide free assistance with VA disability compensation, pension, survivor benefits, appeals, and other Veteran benefits programs' (vaccookcounty.org)",
+    geographicScope: "Cook County, Illinois",
+    state: "Illinois",
+    verifiedDate: "2026-10-26",
+    eligibility:
+      "Veterans, service members, survivors and their families in Cook County; emergency financial assistance eligibility and frequency vary by service (own site)",
+    availability: "Walk-in and phone assistance; Monday–Friday, 8:30 AM–3:00 PM",
+    phone: "312-433-6010",
+    hours: "Monday–Friday, 8:30 AM–3:00 PM",
+    organizationType: "government",
+    selfReferral: true,
+    inPersonAvailable: true,
+  },
+  {
+    name: "Honor Flight Chicago",
+    url: "https://www.honorflightchicago.org/",
+    description:
+      "Nonprofit that flies Chicagoland World War II, Korean War, Vietnam War and Desert Shield/Desert Storm veterans to Washington, D.C. for a free day of honor and memorial visits.",
+    needCategoryIds: ["purpose-community", "outdoor-programs"],
+    audienceTags: ["Veteran"],
+    cost:
+      "Free for veterans — 'All costs associated with the veteran's trip, including airfare to and from Washington, D.C., are covered by Honor Flight Chicago' (honorflightchicago.org/about/faqs)",
+    geographicScope: "Chicagoland, Illinois",
+    state: "Illinois",
+    verifiedDate: "2026-10-26",
+    eligibility:
+      "Veterans who served during World War II, the Korean War, the Vietnam War or Desert Shield/Desert Storm; a valid passport, Veteran Health ID Card or state-issued REAL ID is required (own site)",
+    availability: "Online or mailed application; flights generally April–October",
+    phone: "773-227-8387",
+    organizationType: "nonprofit",
+    selfReferral: true,
+    inPersonAvailable: true,
+  },
 
   // ---------------------------------------------------------------------
   // Indiana Regional
@@ -22509,6 +22985,110 @@ verifiedDate: "2026-10-08",
     verifiedDate: "2026-10-09",
     eligibility: "Veterans — the own site states it serves 'all veterans'; specific eligibility is not stated",
     phone: "330-755-5792",
+  },
+  {
+    name: "Ohio Heroes (Ohio Housing Finance Agency)",
+    url: "https://www.myohiohome.org/ohioheroes.aspx",
+    description:
+      "Ohio Housing Finance Agency program offering a discounted mortgage interest rate and optional down payment assistance to veterans, active-duty and reserve members, surviving spouses, first responders, educators and healthcare workers.",
+    needCategoryIds: ["housing-transportation", "financial-assistance"],
+    audienceTags: [
+      "Veteran",
+      "Active Military",
+      "Guard/Reserve",
+      "Survivor",
+      "Law Enforcement",
+      "Fire",
+      "EMS",
+      "First Responder",
+    ],
+    cost:
+      "Discounted mortgage interest rate — 'rewards Ohio residents who serve the public with a discounted mortgage interest rate'; optional down payment assistance (myohiohome.org/ohioheroes.aspx)",
+    geographicScope: "Ohio — statewide through OHFA-approved lenders",
+    state: "Ohio",
+    verifiedDate: "2026-10-26",
+    eligibility:
+      "Veterans, active-duty military, reserve and Guard members, surviving spouses, police officers, firefighters, volunteer firefighters, EMTs, paramedics, healthcare providers and teachers; income and purchase-price limits apply; credit score 640+ for conventional, USDA or VA loans or 650+ for FHA (own site)",
+    phone: "888-362-6432",
+    organizationType: "government",
+    selfReferral: true,
+    inPersonAvailable: true,
+  },
+  {
+    name: "Adaptive Sports Connection — Warrior Sports for Veterans",
+    url: "https://adaptivesportsconnection.org/warrior-sports/",
+    description:
+      "Central Ohio nonprofit offering free adaptive cycling, kayaking, mountain biking, skiing, fishing and golf programs for veterans, with adaptive equipment, fittings and volunteer support provided.",
+    needCategoryIds: ["sports-fitness", "outdoor-programs"],
+    audienceTags: ["Veteran", "Disabled", "Family"],
+    cost: "Free — 'FREE for all Veterans' (adaptivesportsconnection.org/warrior-sports/)",
+    geographicScope: "Ohio — Central Ohio (Powell, Westerville and Galena)",
+    state: "Ohio",
+    verifiedDate: "2026-10-26",
+    eligibility: "Open to all veterans; adaptive equipment and fittings provided (own site)",
+    availability: "Seasonal events May–October; registration required",
+    phone: "614-389-3921",
+    organizationType: "nonprofit",
+    selfReferral: true,
+    inPersonAvailable: true,
+  },
+  {
+    name: "Ohio Legal Help",
+    url: "https://www.ohiolegalhelp.org/",
+    description:
+      "Statewide nonprofit providing plain-language legal information, self-help forms and a county-by-county Veteran Resources Tool for low-income Ohioans, including veterans, service members and their families.",
+    needCategoryIds: ["legal-benefits"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Family", "Survivor"],
+    cost: "Free — 'free and accurate legal information to Ohio residents' (ohiolegalhelp.org/about-ohio-legal-help)",
+    geographicScope: "Ohio — statewide (online)",
+    state: "Ohio",
+    verifiedDate: "2026-10-26",
+    eligibility:
+      "Low-income Ohioans, including veterans, service members and their families; provides legal information and self-help tools, not legal representation or advice (own site)",
+    availability: "Online resources available anytime",
+    organizationType: "nonprofit",
+    selfReferral: true,
+    virtualAvailable: true,
+  },
+  {
+    name: "Ohio National Guard Scholarship Program",
+    url: "https://ong.ohio.gov/ongsp",
+    description:
+      "State scholarship covering 100% of tuition for eligible Ohio Army and Air National Guard members and qualifying former members at participating Ohio colleges, universities and approved trade, certification and licensing programs.",
+    needCategoryIds: ["career-education"],
+    audienceTags: ["Guard/Reserve", "Veteran"],
+    cost:
+      "Covers 100% of tuition — 'The scholarship covers 100% of tuition charges for courses applicable to, or leading to, an associate or bachelor's degree...' (ong.ohio.gov)",
+    geographicScope:
+      "Ohio — participating Ohio colleges, universities and approved trade, certification and licensing programs",
+    state: "Ohio",
+    verifiedDate: "2026-10-26",
+    eligibility:
+      "Ohio Army or Air National Guard members and qualifying former members who have completed the required period of service; must maintain satisfactory academic progress (own site)",
+    availability: "Apply through ONGSP.Ohio.gov up to the school's add/drop date",
+    organizationType: "government",
+    selfReferral: true,
+  },
+  {
+    // TODO(verify): the detailed monthly fee schedule is not rendered on the Veterans Homes landing page — confirm current assessment tiers before quoting figures.
+    name: "Ohio Veterans Homes",
+    url: "https://dvs.ohio.gov/veterans-homes",
+    description:
+      "State-operated veterans homes in Georgetown and Sandusky providing domiciliary, nursing, memory care and special care to eligible Ohio veterans, with an income-based monthly assessment.",
+    needCategoryIds: ["housing-transportation", "mental-health"],
+    audienceTags: ["Veteran", "Disabled", "Family"],
+    cost:
+      "Free to apply — 'Apply For Free Today'; the monthly resident assessment is income-based (dvs.ohio.gov/veterans-homes)",
+    geographicScope: "Ohio — Georgetown and Sandusky",
+    state: "Ohio",
+    verifiedDate: "2026-10-26",
+    eligibility:
+      "Ohio veterans who meet ODVS admission criteria — see the site's Determining Eligibility page (own site)",
+    availability: "Admission by application and eligibility review; tours available",
+    phone: "888-387-6446",
+    organizationType: "government",
+    selfReferral: true,
+    inPersonAvailable: true,
   },
 
   // ---------------------------------------------------------------------
