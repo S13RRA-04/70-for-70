@@ -8902,6 +8902,115 @@ export const RESOURCES: Resource[] = [
     phone: "304-736-1027 (Barboursville), 304-256-6955 (Beckley), 304-623-9711 (Clarksburg)",
     hours: "Varies by facility",
   },
+  {
+    name: "Mountaineer Food Bank — Veterans Table",
+    url: "https://mountaineerfoodbank.org/veterans-table/",
+    description:
+      "Mountaineer Food Bank's Veterans Table program distributes monthly food boxes to veterans at seven sites across West Virginia and delivers boxes to homebound veterans through a DAV partnership. The program also provides pet food through Pets of Vets, and there are no income requirements.",
+    needCategoryIds: ["financial-assistance", "family-support"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free; no income requirements (per site)",
+    geographicScope:
+      "Statewide West Virginia; seven distribution sites plus home delivery for homebound veterans",
+    state: "West Virginia",
+    verifiedDate: "2026-11-06",
+    eligibility: "Veterans; no income requirements (per site)",
+    availability:
+      "Monthly boxes at seven sites; see the 2026 schedule. Homebound veterans may receive DAV-delivered boxes.",
+    phone: "304-364-5518",
+    hours:
+      "Distribution hours vary by site; e.g., Beckley 2nd Friday 10:00–11:30 a.m.; Clarksburg 3rd Friday 8:00–9:30 a.m.; Parkersburg 3rd Tuesday 11:00 a.m.–1:00 p.m.; Charleston Mon–Fri 8:00 a.m.–4:00 p.m.; Gassaway Mon–Fri 8:00 a.m.–4:30 p.m.; Morgantown Mon–Fri 8:00 a.m.–4:00 p.m.",
+    organizationType: "nonprofit",
+    selfReferral: true,
+    inPersonAvailable: true,
+  },
+  {
+    // TODO(verify): hours are not stated on the org's own site.
+    name: "Jackson County Hunting Heroes",
+    url: "https://jchhwv.com/about-us/",
+    description:
+      "Jackson County Hunting Heroes hosts an annual firearms deer hunt and monthly gatherings for veterans and their families in Ripley, West Virginia. Hunts include licenses, lodging, meals, guides, meat processing and equipment at no cost to veterans. The organization also serves first responders and hosts community events.",
+    needCategoryIds: ["outdoor-programs", "purpose-community"],
+    audienceTags: ["Veteran", "Family", "First Responder"],
+    cost:
+      "Free for veterans; a $100 donation is requested from hunters who have participated more than twice, to cover housing costs",
+    geographicScope: "Ripley / Jackson County, West Virginia",
+    state: "West Virginia",
+    verifiedDate: "2026-11-06",
+    eligibility:
+      "All U.S. veterans and their families; applications reviewed case by case; no hunting experience required",
+    availability:
+      "Annual firearms deer hunt (application), monthly veteran gatherings at Heroes Hall and periodic community events",
+    phone: "304-372-3675",
+    organizationType: "nonprofit",
+    selfReferral: true,
+    inPersonAvailable: true,
+  },
+  {
+    // TODO(verify): hours are not stated on the org's own site.
+    name: "Hearts of Gold Service Dog Program — West Virginia University",
+    url: "https://heartsofgold.wvu.edu/",
+    description:
+      "Hearts of Gold is a West Virginia University program that trains and places service dogs with veterans who have mobility and/or psychiatric disabilities. It provides the dog and required handler training free to eligible veterans, who must live within 100 driving miles of Morgantown. Applicants must be 18+, discharged honorably or under honorable conditions, and free of military obligations.",
+    needCategoryIds: ["equipment-grants", "mental-health"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost:
+      "Free service dog and required handler training for eligible non-student veterans; recipients are responsible for ongoing care (about $2,500/year minimum, per site)",
+    geographicScope: "Within 100 driving miles of Morgantown, West Virginia",
+    state: "West Virginia",
+    verifiedDate: "2026-11-06",
+    eligibility:
+      "Veterans 18+ with honorable or general (under honorable conditions) discharge, released from military/reserve obligations (IRR permitted); mobility and/or psychiatric disability; lives within 100 driving miles of Morgantown; able to travel to the facility; psychiatric applicants in counseling; background check and proof of income required",
+    availability:
+      "Accepting eligibility surveys until November 30, 2026; application and training may take a year or longer before placement",
+    phone: "(304) 470-0276",
+    organizationType: "education",
+    selfReferral: true,
+    inPersonAvailable: true,
+  },
+  {
+    // TODO(verify): hours are not stated on the org's own site.
+    name: "Habitat for Humanity of the Tri-State — Veterans Housing Initiative",
+    url: "https://hfhtristate.org/programs/veterans-housing-initiative/",
+    description:
+      "Habitat for Humanity of the Tri-State's Veterans Housing Initiative helps veterans in Cabell and Wayne counties, West Virginia purchase homes they could not otherwise afford. Eligible veterans must be VA health care-eligible, meet HUD-based income guidelines and be screened through the Huntington VA Community Resource and Referral Center. Participants complete sweat equity, a down payment and a mortgage capped at 30% of income.",
+    needCategoryIds: ["housing-transportation", "financial-assistance"],
+    audienceTags: ["Veteran", "Family", "Disabled"],
+    cost:
+      "Affordable mortgage with total housing cost capped at 30% of income; required down payment is the lesser of 1% of allowable costs or $250",
+    geographicScope: "Cabell and Wayne counties, West Virginia (Tri-State service area)",
+    state: "West Virginia",
+    verifiedDate: "2026-11-06",
+    eligibility:
+      "Veterans eligible for VA health care; single veterans or couples with no children; service-connected disabilities prioritized; screened/received services through Huntington VA CRRC; meet HUD-based income guidelines; credit check, sweat equity, down payment and insurance required",
+    availability:
+      "Applications accepted by the affiliate; process includes VA CRRC screening, income review, sweat equity and closing",
+    phone: "304-523-4822",
+    organizationType: "nonprofit",
+    selfReferral: true,
+    inPersonAvailable: true,
+  },
+  {
+    // TODO(verify): cost and hours are not stated on the org's own site.
+    name: "Bridging Resources WV — Military Caregivers",
+    url: "https://br-wv.org/military-caregivers/",
+    description:
+      "Bridging Resources WV is the state's No Wrong Door initiative for long-term services and supports, including a military caregiver resource page. It provides information, advice and referrals for older adults, caregivers, people with disabilities, veterans and families. The program is funded through a federal Administration for Community Living grant and partners with the West Virginia Department of Veterans Assistance.",
+    needCategoryIds: ["family-support", "purpose-community"],
+    audienceTags: ["Caregiver", "Family", "Veteran", "Disabled"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide West Virginia",
+    state: "West Virginia",
+    verifiedDate: "2026-11-06",
+    eligibility:
+      "Older adults, caregivers, individuals with disabilities, veterans and families; the military caregiver page covers family members, friends or acquaintances caring for a current or former service member",
+    availability: "Statewide phone/resource navigation and online service search; call for intake",
+    phone: "866-981-2372",
+    organizationType: "other",
+    selfReferral: true,
+    virtualAvailable: true,
+    inPersonAvailable: false,
+  },
 
   // ---------------------------------------------------------------------
   // Michigan Regional
@@ -15071,6 +15180,98 @@ export const RESOURCES: Resource[] = [
     faithBased: true,
     faithAffiliationSource: "https://catholiccharitiesca.org/who-we-are/",
   },
+  {
+    // TODO(verify): cost not stated on org site; services described as comprehensive but no fees/pricing published.
+    name: "New Directions for Veterans (NDVets)",
+    url: "https://www.ndvets.org/",
+    description:
+      "Los Angeles County nonprofit, founded in 1992, providing transitional and permanent supportive housing, mental health and substance-use counseling, family services, job training and placement, remedial education, and money-management and parenting classes to veterans and their families; OASIS for Women serves women veterans.",
+    needCategoryIds: ["housing-transportation", "mental-health", "family-support", "career-education"],
+    audienceTags: ["Veteran", "Family", "Military Spouse", "Disabled"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Los Angeles County, California",
+    state: "California",
+    verifiedDate: "2026-11-06",
+    eligibility: "Veterans and their families in Los Angeles County; program-specific eligibility varies — call for intake.",
+    availability: "Call (310) 914-4045 or email info@ndvets.org; office at 11303 Wilshire Blvd., VA Campus, Bldg 116, Los Angeles, CA 90073.",
+    phone: "(310) 914-4045",
+    organizationType: "nonprofit",
+    selfReferral: true,
+    inPersonAvailable: true,
+  },
+  {
+    // TODO(verify): cost not stated on org site; stipends are described but no fee/pricing information is published.
+    name: "Foundation for Women Warriors — Financial Assistance",
+    url: "https://foundationforwomenwarriors.org/programs/warrior-assistance/",
+    description:
+      "Financial and childcare assistance program for women veterans and their children, providing stipends for rent, utilities, and other costs during periods of transition, plus financial education and referrals.",
+    needCategoryIds: ["financial-assistance", "family-support", "career-education"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "California, Virginia, New York, and New Jersey",
+    state: "California",
+    verifiedDate: "2026-11-06",
+    eligibility: "Women veterans with an honorable or general discharge; must be employed (active and verifiable) and/or enrolled in higher education, demonstrate financial need, and reside in California, Virginia, New York, or New Jersey.",
+    availability: "Apply through the Get Help page; headquarters at 1185 Park Center Dr Suite R, Vista, CA 92081.",
+    phone: "(310) 733-2450",
+    organizationType: "nonprofit",
+    selfReferral: true,
+  },
+  {
+    // TODO(verify): cost not stated on org site; chapter events and Wreaths Across America sponsorships may have associated donation requests.
+    name: "American Gold Star Mothers — San Jose Chapter",
+    url: "https://www.agsmsanjosechapter.org/",
+    description:
+      "Northern California chapter of American Gold Star Mothers — mothers whose sons or daughters died while serving in the U.S. Armed Forces — offering mutual support, commemorative events, and Wreaths Across America sponsorship and wreath-laying at Tracy Public Cemetery, Oak Hill Cemetery in San Jose, and Golden Gate National Cemetery in San Bruno.",
+    needCategoryIds: ["family-support", "purpose-community"],
+    audienceTags: ["Gold Star", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "San Jose and Northern California",
+    state: "California",
+    verifiedDate: "2026-11-06",
+    eligibility: "Mothers whose child died while serving in the U.S. Armed Forces; contact the chapter for membership details.",
+    availability: "Email agsmsj1949@gmail.com or call 925-788-5281.",
+    phone: "925-788-5281",
+    organizationType: "nonprofit",
+    selfReferral: true,
+  },
+  {
+    // TODO(verify): cost not stated on org site; county services are likely no-cost but the site does not publish a fee statement.
+    name: "Los Angeles County Department of Military and Veterans Affairs",
+    url: "https://mva.lacounty.gov/",
+    description:
+      "County department providing veterans, service members, and their families with benefits claims assistance, education and dependent benefits guidance, healthcare and burial benefit navigation, housing and legal referrals, and Veterans Service Officer support at offices across Los Angeles County.",
+    needCategoryIds: ["legal-benefits", "financial-assistance", "housing-transportation", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Military Spouse", "Family", "Survivor"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Los Angeles County, California",
+    state: "California",
+    verifiedDate: "2026-11-06",
+    eligibility: "Veterans, service members, and their families in Los Angeles County.",
+    availability: "Walk-ins and appointments at offices countywide; headquarters at Bob Hope Patriotic Hall, 1816 S. Figueroa St., Los Angeles, CA 90015, Mon–Fri 9:00am–4:00pm, closed county holidays.",
+    phone: "1-877-452-8387",
+    hours: "Monday–Friday 9:00am–4:00pm; closed on county holidays",
+    organizationType: "government",
+    selfReferral: true,
+    inPersonAvailable: true,
+  },
+  {
+    name: "CalFresh — Veterans",
+    url: "https://calfresh.dss.ca.gov/food/veterans/index.html",
+    description:
+      "California's food benefits program for veterans and their families, providing monthly EBT benefits to buy groceries at stores, farmers markets, and online; veterans may qualify even while receiving VA, GI Bill, disability, unemployment, or Social Security benefits.",
+    needCategoryIds: ["financial-assistance"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Free — benefits are not a loan and do not need to be repaid (own site)",
+    geographicScope: "Statewide (California)",
+    state: "California",
+    verifiedDate: "2026-11-06",
+    eligibility: "Income-based eligibility varies by household size; veterans receiving VA, GI Bill, disability, unemployment, or Social Security may still qualify, and applicants 60+ or with a disability are exempt from the gross income test.",
+    availability: "Apply online at BenefitsCal.com, by phone at 877-847-3663, or in person at a county office.",
+    phone: "877-847-3663",
+    organizationType: "government",
+    selfReferral: true,
+  },
 
   // ---------------------------------------------------------------------
   // Oregon Regional
@@ -18163,6 +18364,116 @@ verifiedDate: "2026-10-08",
     verifiedDate: "2026-10-09",
     eligibility: "Surviving families and coworkers of law enforcement officers killed in the line of duty (per federal C.O.P.S. criteria)",
   },
+  {
+    // TODO(verify): Project HEAL page does not state program/office hours — confirm by phone.
+    name: "ECAD Project HEAL — Service Dogs for Veterans",
+    url: "https://www.ecad1.org/index.php/programs-services/project-heal",
+    description:
+      "Educated Canines Assisting with Disabilities (ECAD) is a Torrington, Connecticut nonprofit that provides specially educated service dogs to veterans with service-connected physical and/or psychiatric disabilities, including PTSD and traumatic brain injury. Accepted veterans complete a 13-day Team Training at ECAD's Connecticut training center, with optional on-site shared lodging.",
+    needCategoryIds: ["equipment-grants", "mental-health"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost:
+      "No fee to veterans; clients are invited to participate in fundraising toward the dog's cost (ECAD states each dog represents an investment of over $100,000)",
+    geographicScope: "Torrington, Connecticut (training center); places dogs nationwide",
+    state: "Connecticut",
+    verifiedDate: "2026-11-06",
+    eligibility:
+      "Veteran with a service-connected physical and/or psychiatric disability; willing to travel to the Connecticut training center for interviews, Team Training and yearly public access testing; consistently attending therapy and taking prescribed medications; able to meet the dog's care needs (full criteria on-site)",
+    availability: "By application; accepted clients complete a 13-day Team Training, with optional on-site shared lodging",
+    phone: "860-489-6550",
+    organizationType: "nonprofit",
+    selfReferral: true,
+    inPersonAvailable: true,
+  },
+  {
+    // TODO(verify): CT DAV site does not state claims-office hours or van-service eligibility — confirm by phone.
+    name: "DAV Department of Connecticut",
+    url: "https://www.disabledvetsct.org/services/",
+    description:
+      "The DAV Department of Connecticut provides free claims assistance through its National Service Office at the Newington VA Medical Center and coordinates volunteer transportation for veterans traveling to VA medical centers in Newington and West Haven. It also runs Assist-A-Vet, Take a Vet Fishing and other support programs for Connecticut veterans.",
+    needCategoryIds: ["legal-benefits", "housing-transportation"],
+    audienceTags: ["Veteran", "Disabled", "Family"],
+    cost:
+      "Free — claims assistance and VA van transportation (per DAV CT About page and CT DAV project summary)",
+    geographicScope:
+      "Connecticut statewide (Meriden office; claims office at Newington VA; van service to Newington and West Haven VA facilities)",
+    state: "Connecticut",
+    verifiedDate: "2026-11-06",
+    eligibility:
+      "Claims assistance open to veterans and their families (per DAV CT About page); transportation eligibility not stated on the CT DAV site",
+    availability:
+      "Claims office at the Newington VA Medical Center; rides coordinated through Hospital Service Coordinators in Newington and West Haven",
+    phone: "203-440-4440 (department); 860-594-6612 (claims/NSO)",
+    organizationType: "nonprofit",
+    selfReferral: true,
+    inPersonAvailable: true,
+  },
+  {
+    // TODO(verify): pantry page lists conflicting Saturday end times (12:30 vs 1:00 p.m.) and does not state cost or eligibility — confirm by phone.
+    name: "Veterans Base Camp — Vittles 4 Vets Food Pantry",
+    url: "https://www.veteransbasecampinc.org/vittles-4-vets-pantry",
+    description:
+      "Veterans Base Camp is a Chaplin, Connecticut 501(c)(3) that operates the Vittles 4 Vets food pantry as part of its R.E.S.E.T. housing and outreach programs. The pantry distributes food lists on arrival and is open on Wednesdays and the first and third Saturdays.",
+    needCategoryIds: ["financial-assistance", "family-support"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Chaplin, Connecticut (Eastern Connecticut)",
+    state: "Connecticut",
+    verifiedDate: "2026-11-06",
+    eligibility: "Not stated on the org's own site",
+    availability:
+      "Wednesdays 12:00–1:30 p.m.; 1st and 3rd Saturdays 11:00 a.m.–12:30 p.m. (page also lists an 11:00 a.m.–1:00 p.m. Saturday window)",
+    phone: "(860) 786-7163",
+    hours:
+      "Wed 12:00–1:30 p.m.; 1st & 3rd Sat 11:00 a.m.–12:30 p.m. (page also lists 11:00 a.m.–1:00 p.m.)",
+    organizationType: "nonprofit",
+    selfReferral: true,
+    inPersonAvailable: true,
+  },
+  {
+    // TODO(verify): program hours are not stated; virtual/in-person flags reflect the online national application, not an explicit site statement.
+    name: "Work Vessels for Veterans",
+    url: "https://workvesselsforveterans.org/for-veterans/",
+    description:
+      "Work Vessels for Veterans is a West Mystic, Connecticut 501(c)(3) that awards equipment grants of $1,000 to $8,000 — not cash — to injured veterans starting or growing a business, injured veteran farmers, and nonprofit programs serving veterans. Veterans are matched with volunteer and peer-to-peer mentors.",
+    needCategoryIds: ["equipment-grants", "career-education"],
+    audienceTags: ["Veteran", "Disabled"],
+    cost: "No cash grants; equipment grants of $1,000–$8,000 are awarded (stated on-site)",
+    geographicScope: "West Mystic, Connecticut (national program serving veterans in all 50 states)",
+    state: "Connecticut",
+    verifiedDate: "2026-11-06",
+    eligibility:
+      "Injured/returning veterans starting a veteran-owned business or farm; veteran-serving nonprofits must provide 501(c)(3) documentation (per site)",
+    availability:
+      "By application; equipment grants range from $1,000 to $8,000, with some restrictions described in the FAQ",
+    phone: "860-536-4418",
+    organizationType: "nonprofit",
+    selfReferral: true,
+    virtualAvailable: true,
+    inPersonAvailable: false,
+  },
+  {
+    // TODO(verify): CT3 site does not state cost, meeting time, or a phone number — contact via info@bluestarmothersct.org.
+    name: "Blue Star Mothers CT3 (Middlesex County Chapter)",
+    url: "https://bluestarmothersct.org/",
+    description:
+      "Blue Star Mothers CT3 is the Middlesex County chapter of Blue Star Mothers of America, a Congressionally chartered veterans service organization made up of mothers of current and former service members. The all-volunteer 501(c)(3) supports Connecticut troops, veterans, military families and Gold Star families through care packages, events, quilts and a scholarship for graduating high school seniors with an active-duty or veteran parent.",
+    needCategoryIds: ["family-support", "purpose-community", "career-education"],
+    audienceTags: ["Family", "Gold Star"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Connecticut (Middlesex County chapter; members from across the state)",
+    state: "Connecticut",
+    verifiedDate: "2026-11-06",
+    eligibility:
+      "Mothers, stepmothers, grandmothers, foster mothers and female legal guardians of current or honorably discharged service members; family members and friends may join as associate members (stated on-site)",
+    availability:
+      "Monthly meetings on the third Wednesday of each month, usually in person with occasional Zoom; meeting time not stated on the org's own site",
+    hours: "Monthly meetings on the third Wednesday of each month; time not stated on the org's own site",
+    organizationType: "nonprofit",
+    selfReferral: true,
+    virtualAvailable: true,
+    inPersonAvailable: true,
+  },
 
   // ---------------------------------------------------------------------
   // Rhode Island Regional
@@ -18954,6 +19265,103 @@ verifiedDate: "2026-10-08",
     phone: "617-323-7700",
     hours: "West Roxbury Emergency Department: 24/7; Jamaica Plain Urgent Care: Mon–Fri 7:30am–4:00pm; Brockton Urgent Care: 24/7",
   },
+  {
+    // TODO(verify): cost not stated on org site; food pantry and other services are described but no fee/pricing information is published.
+    name: "Cape and Islands Veterans Outreach Center",
+    url: "https://capeveterans.com/services/",
+    description:
+      "Veterans service organization serving Cape Cod, the Islands, and the South Coast with five food pantries and home delivery, transportation, SSVF housing assistance, counseling, a legal clinic, scholarships, and benefits help.",
+    needCategoryIds: ["financial-assistance", "housing-transportation", "mental-health", "legal-benefits", "family-support"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Cape Cod, Martha's Vineyard, Nantucket, and the South Coast (Massachusetts)",
+    state: "Massachusetts",
+    verifiedDate: "2026-11-06",
+    eligibility: "Veterans and their families in the service area; program-specific eligibility varies.",
+    availability: "Food pantry schedule: Hyannis Thu 9:00am–6:00pm; Falmouth 1st and 3rd Tue 10:00am–12:00pm; Eastham 2nd and 4th Tue 10:00am–12:00pm; Vineyard Haven 3rd Wed 10:00am–11:00am; Wareham 2nd and 4th Wed 11:00am–1:00pm.",
+    phone: "(508) 778-1590",
+    hours: "Food pantries: Hyannis Thu 9:00am–6:00pm; Falmouth 1st/3rd Tue 10:00am–12:00pm; Eastham 2nd/4th Tue 10:00am–12:00pm; Vineyard Haven 3rd Wed 10:00am–11:00am; Wareham 2nd/4th Wed 11:00am–1:00pm; call for other services",
+    organizationType: "nonprofit",
+    selfReferral: true,
+    inPersonAvailable: true,
+  },
+  {
+    name: "DAV Department of Massachusetts — Claims & Benefits Assistance",
+    url: "https://davma.org/filing-claims/",
+    description:
+      "Department of Massachusetts Disabled American Veterans, with more than 50 chapters and Department Service Officers at VA medical centers and outpatient facilities across the state, providing free, certified help filing VA claims, benefits, and appeals for veterans and dependents.",
+    needCategoryIds: ["legal-benefits"],
+    audienceTags: ["Veteran", "Family", "Survivor", "Disabled"],
+    cost: "Free — own site: \"For FREE assistance with claims or benefits\"",
+    geographicScope: "Statewide (Massachusetts)",
+    state: "Massachusetts",
+    verifiedDate: "2026-11-06",
+    eligibility: "Veterans and dependents; no DAV membership required for claims assistance.",
+    availability: "Contact the Boston office at 617-727-2974 or inquiry@davma.org; Department Service Officers also meet at Bedford, Brockton, Jamaica Plain, West Roxbury, Northampton, Holyoke, Lowell, and Chelsea locations.",
+    phone: "617-727-2974",
+    organizationType: "nonprofit",
+    selfReferral: true,
+    inPersonAvailable: true,
+  },
+  {
+    name: "Veterans Upward Bound, Massachusetts",
+    url: "https://www.vubma.com/",
+    description:
+      "Federally funded U.S. Department of Education program at Suffolk University that helps eligible veterans refresh academic skills and prepare for college or trade programs through free instruction, tutoring, mentoring, counseling, career exploration, and help with admissions, financial aid, and VA education benefits.",
+    needCategoryIds: ["career-education", "financial-assistance"],
+    audienceTags: ["Veteran"],
+    cost: "Free — own site: \"There is no cost to participate\"",
+    geographicScope: "Massachusetts (based at Suffolk University, Boston)",
+    state: "Massachusetts",
+    verifiedDate: "2026-11-06",
+    eligibility: "Veterans with at least 181 days of active-duty service and a discharge other than dishonorable who are low-income, first-generation college students, or at risk of academic failure; veterans already enrolled in college are not eligible.",
+    availability: "Applications accepted year-round; call 617-725-4139 or apply online.",
+    phone: "617-725-4139",
+    organizationType: "education",
+    selfReferral: true,
+    inPersonAvailable: true,
+    virtualAvailable: true,
+  },
+  {
+    // TODO(verify): cost not stated on org site; state-funded facility, but resident fees or insurance requirements are not published on the page.
+    name: "Massachusetts Veterans Home at Chelsea",
+    url: "https://www.mass.gov/orgs/massachusetts-veterans-home-at-chelsea",
+    description:
+      "State-operated veterans home established in 1882, providing residential and long-term care, skilled nursing, social work, supportive care, and pastoral care to eligible Massachusetts veterans on a 100 Summit Avenue campus in Chelsea.",
+    needCategoryIds: ["housing-transportation", "mental-health"],
+    audienceTags: ["Veteran", "Disabled", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Chelsea, Massachusetts (serves the Commonwealth)",
+    state: "Massachusetts",
+    verifiedDate: "2026-11-06",
+    eligibility: "Massachusetts resident at the time of application, must meet the Massachusetts legal definition of a veteran, and must be medically and behaviorally suitable for long-term nursing care.",
+    availability: "Admissions: CHEAdmissions@mass.gov or (617) 884-5660; 100 Summit Avenue, Chelsea, MA 02150.",
+    phone: "(617) 884-5660",
+    hours: "Open daily",
+    organizationType: "government",
+    selfReferral: true,
+    inPersonAvailable: true,
+  },
+  {
+    name: "Worcester Vet Center",
+    url: "https://www.va.gov/worcester-vet-center/",
+    description:
+      "VA Vet Center offering confidential readjustment counseling at no cost to veterans, service members, and their families — including individual and group counseling for PTSD, depression, grief, anger, and military sexual trauma, plus couples and family counseling, bereavement support, and referrals.",
+    needCategoryIds: ["mental-health", "family-support"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Military Spouse", "Family", "First Responder"],
+    cost: "Free — own site: \"confidential help ... at no cost\"",
+    geographicScope: "Worcester and Central Massachusetts",
+    state: "Massachusetts",
+    verifiedDate: "2026-11-06",
+    eligibility: "Veterans and service members, including National Guard and Reserve, who served in a combat theater or area of hostility, responded to a national emergency or disaster, experienced military sexual trauma, or meet other Vet Center service criteria; family members are also eligible when services support the veteran.",
+    availability: "Walk-ins and appointments; 255 Park Avenue, Suite 900, Worcester, MA 01609; after-hours call center 877-927-8387.",
+    phone: "508-753-7902",
+    hours: "Mon–Fri 8:00am–4:30pm; Sat–Sun closed; non-traditional hours by appointment",
+    organizationType: "government",
+    selfReferral: true,
+    inPersonAvailable: true,
+    virtualAvailable: true,
+  },
 
   // ---------------------------------------------------------------------
   // Vermont Regional
@@ -19304,6 +19712,95 @@ verifiedDate: "2026-10-08",
     verifiedDate: "2026-10-09",
     phone: "800-827-1000"
   },
+  {
+    // TODO(verify): cost not stated on org site; service dog training and placement fees/scholarships are not published.
+    name: "Vermont Paws & Boots",
+    url: "https://www.vermontpawsandboots.org/",
+    description:
+      "Bennington-based nonprofit that pairs rescue dogs with veterans and first responders affected by PTSD, traumatic brain injury, military sexual trauma, or physical disabilities, and trains them together as service dog teams under a veteran and retired Vermont State Trooper K9 handler.",
+    needCategoryIds: ["mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "First Responder", "Law Enforcement", "Fire", "EMS", "Disabled"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Vermont (based in Bennington)",
+    state: "Vermont",
+    verifiedDate: "2026-11-06",
+    eligibility: "Veterans and first responders struggling with PTSD, TBI, military sexual trauma, or physical disabilities; contact the program for class availability and intake.",
+    availability: "Email Vermontpaws257@gmail.com; P.O. Box 257, Bennington, VT 05201.",
+    organizationType: "nonprofit",
+    selfReferral: true,
+  },
+  {
+    // TODO(verify): cost not stated on org site; CISM debriefings are typically no-cost but no fee statement is published.
+    name: "Green Mountain Critical Incident Stress Management Team",
+    url: "https://www.gmcism.org/",
+    description:
+      "Vermont CISM team providing post-incident debriefings, education, and referrals to emergency services personnel to help mitigate the effects of traumatic stress.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["First Responder", "Law Enforcement", "Fire", "EMS", "Dispatch", "Corrections"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "Statewide (Vermont)",
+    state: "Vermont",
+    verifiedDate: "2026-11-06",
+    eligibility: "Emergency services personnel in Vermont.",
+    availability: "Request a debriefing by emailing info@gmcism.org or calling/texting Howard Cohen at 802-440-1023.",
+    phone: "802-440-1023",
+    organizationType: "peer-community",
+    selfReferral: true,
+  },
+  {
+    name: "VSAC — Education Funding for Military Members and Families",
+    url: "https://www.vsac.org/pay/student-aid-options/scholarships/military-servicemembers",
+    description:
+      "Vermont Student Assistance Corporation's guide to state and federal education funding for military members, veterans, and their families, including the Vermont National Guard Tuition Benefit Program, the Vermont Armed Services Scholarship, GI Bill programs, and VSAC's free scholarships and tuition-benefit booklet.",
+    needCategoryIds: ["career-education", "financial-assistance"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve", "Military Spouse", "Family", "Survivor"],
+    cost: "Varies by program — VSAC's Scholarships & Tuition Benefit Programs booklet is free",
+    geographicScope: "Statewide (Vermont)",
+    state: "Vermont",
+    verifiedDate: "2026-11-06",
+    eligibility: "Varies by program; see each funding opportunity for residency, service, and enrollment requirements.",
+    availability: "Call (800) 642-3177 or email info@vsac.org; applications and booklets available online.",
+    phone: "(800) 642-3177",
+    organizationType: "education",
+    selfReferral: true,
+    virtualAvailable: true,
+  },
+  {
+    name: "Vermont Fish & Wildlife — Licenses for Military Personnel",
+    url: "https://www.vtfishandwildlife.com/licenses-and-lotteries/license-center/other-licenses/licenses-for-military-personnel",
+    description:
+      "Vermont program offering no-cost hunting, fishing, or combination licenses to Vermont residents on active duty or under orders for homeland defense or state-side contingency operations for 120+ consecutive days, and resident-fee licenses to nonresident active-duty service members stationed in Vermont.",
+    needCategoryIds: ["outdoor-programs", "financial-assistance"],
+    audienceTags: ["Veteran", "Active Military", "Guard/Reserve"],
+    cost: "Free for eligible Vermont residents; resident fee for eligible nonresidents stationed in Vermont",
+    geographicScope: "Statewide (Vermont)",
+    state: "Vermont",
+    verifiedDate: "2026-11-06",
+    eligibility: "Vermont residents on active duty or under orders for homeland defense/state-side contingency operations for 120+ consecutive days; nonresident active-duty members stationed at a military installation in Vermont may buy at resident fee. Hunting applicants need hunter education certification, a previous license, or an affidavit.",
+    availability: "Buy at the Montpelier office, online, or through license agents; questions to 802-828-1190 or fwinformation@vermont.gov.",
+    phone: "802-828-1190",
+    organizationType: "government",
+    selfReferral: true,
+    inPersonAvailable: true,
+  },
+  {
+    name: "Vermont State Parks — Green Mountain Passport",
+    url: "https://www.vtstateparks.com/fees",
+    description:
+      "Lifetime free day-use entry to Vermont State Parks for Vermont residents age 62+ or honorably discharged veterans; the passport costs $2 and is available at local Town Clerk offices.",
+    needCategoryIds: ["outdoor-programs", "financial-assistance"],
+    audienceTags: ["Veteran", "Family"],
+    cost: "$2 one-time at a Town Clerk's Office; lifetime free day-use entry",
+    geographicScope: "Statewide (Vermont)",
+    state: "Vermont",
+    verifiedDate: "2026-11-06",
+    eligibility: "Vermont residents who are 62 or older or honorably discharged veterans.",
+    availability: "Available for $2 at local Town Clerk offices; park information at parks@vermont.gov or 1-888-409-7579.",
+    phone: "1-888-409-7579",
+    organizationType: "government",
+    selfReferral: true,
+    inPersonAvailable: true,
+  },
 
   // ---------------------------------------------------------------------
   // New Hampshire Regional
@@ -19646,6 +20143,116 @@ verifiedDate: "2026-10-08",
     eligibility: "Law enforcement and first responders in New Hampshire; trainings require registration and some sessions are not open to the general public.",
     availability: "Scheduled 40-hour CIT trainings throughout the year at locations across NH",
     phone: "1-800-242-6264 (NAMI NH Information & Resource Line)",
+  },
+  {
+    // TODO(verify): confirm self-pay/out-of-pocket costs and office hours; neither is stated on Forge's NH page.
+    name: "Forge VFR (Veterans & First Responders) — New Hampshire",
+    url: "https://forgehealth.com/locations/new-hampshire/",
+    description:
+      "Forge VFR provides outpatient mental health and substance use treatment for veterans, active-duty military, first responders and their families. Services include therapy, intensive outpatient programming (IOP), medication-assisted treatment (MAT), group therapy and psychiatric services, with in-person care in Manchester and virtual care statewide.",
+    needCategoryIds: ["mental-health"],
+    audienceTags: ["Veteran", "Active Military", "Family", "First Responder", "Law Enforcement", "Fire", "EMS"],
+    cost:
+      "In-network with most major health plans, including VA, TRICARE, NH Medicaid and Medicare; out-of-pocket costs are not stated on the org's own site",
+    geographicScope: "New Hampshire; Manchester clinic and statewide telehealth",
+    state: "New Hampshire",
+    verifiedDate: "2026-11-06",
+    eligibility:
+      "Veterans, active-duty military, first responders, emergency and health care professionals, and their families",
+    availability: "In-person care in Manchester and virtual telehealth statewide; contact Forge to get started",
+    phone: "(603) 865-1706",
+    organizationType: "other",
+    selfReferral: true,
+    virtualAvailable: true,
+    inPersonAvailable: true,
+  },
+  {
+    // TODO(verify): confirm whether assistance is free and confirm phone/office hours; cost and phone hours are not stated on HHF's site.
+    name: "Homeland Heroes Foundation",
+    url: "https://homelandheroesfoundation.org/veterans/new-hampshire",
+    description:
+      "Homeland Heroes Foundation provides practical assistance to veterans, active-duty service members and military families in New Hampshire and neighboring New England states. Help may include furniture, household essentials, food, gas, temporary lodging, utility assistance and other approved emergency needs.",
+    needCategoryIds: ["financial-assistance", "family-support", "housing-transportation"],
+    audienceTags: ["Veteran", "Active Military", "Family"],
+    cost: "Not stated on the org's own site",
+    geographicScope:
+      "New Hampshire, Massachusetts, Maine and Vermont; Salem, New Hampshire office",
+    state: "New Hampshire",
+    verifiedDate: "2026-11-06",
+    eligibility:
+      "Veterans, active-duty service members and military families in NH, MA, ME and VT. HHF reviews each request individually and may request a DD214 or military ID; assistance is not guaranteed.",
+    availability: "Submit an assistance request online; Salem office visits are by appointment only",
+    phone: "603-458-1275; 833-NH-HERO-1",
+    hours: "By appointment only; phone/response hours are not stated on the org's own site",
+    organizationType: "nonprofit",
+    selfReferral: true,
+    inPersonAvailable: true,
+  },
+  {
+    // TODO(verify): transportation page lists ext. x206427; the DAV vans page lists ext. x206776 — confirm the current extension.
+    name: "DAV Vans — VA Manchester Health Care",
+    url: "https://www.va.gov/manchester-health-care/programs/transportation/",
+    description:
+      "VA Manchester's transportation page connects veterans with DAV van rides to scheduled VA medical appointments. The program serves ambulatory veterans and authorized caregivers who lack other transportation options, with rides throughout New Hampshire and surrounding areas.",
+    needCategoryIds: ["housing-transportation"],
+    audienceTags: ["Veteran", "Caregiver"],
+    cost: "Free (VA Manchester transportation page)",
+    geographicScope:
+      "New Hampshire and surrounding areas; VA Manchester Health Care System facilities",
+    state: "New Hampshire",
+    verifiedDate: "2026-11-06",
+    eligibility:
+      "Veterans who lack other transportation options and are ambulatory; authorized caregivers may ride with VA provider authorization. Rides are for scheduled VA medical appointments.",
+    availability:
+      "DAV van rides to scheduled VA medical appointments; contact the DAV coordinator. Individual van schedules vary.",
+    phone: "(603) 624-4366 ext. 206427",
+    hours: "7:00 AM–2:00 PM; individual van schedules vary",
+    organizationType: "government",
+    selfReferral: true,
+    inPersonAvailable: true,
+  },
+  {
+    // TODO(verify): confirm service hours and fee coverage for each specific waiver; the page states tuition waivers but fee treatment varies by program.
+    name: "Community College System of New Hampshire — Tuition Waiver Programs",
+    url: "https://www.ccsnh.edu/paying-for-college/resources/tuition-waiver-programs/",
+    description:
+      "Community College System of New Hampshire page listing tuition waiver programs for eligible New Hampshire students. Programs include waivers for children of certain veterans, children of totally and permanently disabled NH veterans, NH National Guard members, Guard/Reserve members called to active duty, children of fallen firefighters and police officers, and children of combatants missing in action.",
+    needCategoryIds: ["career-education", "financial-assistance"],
+    audienceTags: ["Guard/Reserve", "Family", "Survivor", "Fire", "Law Enforcement"],
+    cost:
+      "Tuition is waived under the listed programs; fees, books and other charges may not be covered",
+    geographicScope: "New Hampshire",
+    state: "New Hampshire",
+    verifiedDate: "2026-11-06",
+    eligibility:
+      "Eligibility varies by waiver; programs have residency, age, military-service or proof-of-eligibility requirements. NH National Guard eligibility is determined by the Adjutant General.",
+    availability:
+      "Apply through the CCSNH college you plan to attend; the college may require proof of eligibility",
+    phone: "(603) 230-3500",
+    organizationType: "education",
+    selfReferral: true,
+    inPersonAvailable: true,
+  },
+  {
+    // TODO(verify): confirm cost and service-office hours; the NH VFW page does not state them.
+    name: "VFW Department of New Hampshire — Veteran Benefits & Assistance",
+    url: "https://vfwnh.org/di/vfw/v2/default.asp?pid=45358",
+    description:
+      "Department of New Hampshire Veterans of Foreign Wars page for veterans, service members and their families. The NH VFW Service Office, led by Service Officer John Barrett, helps with VA benefits and claims.",
+    needCategoryIds: ["legal-benefits"],
+    audienceTags: ["Veteran", "Active Military", "Family", "Survivor"],
+    cost: "Not stated on the org's own site",
+    geographicScope: "New Hampshire",
+    state: "New Hampshire",
+    verifiedDate: "2026-11-06",
+    eligibility:
+      "Veterans, service members in the U.S. Armed Forces and their families; contact the NH VFW Service Office for help with VA benefits and claims",
+    availability:
+      "Contact the NH VFW Service Office by phone or email; the service officer is located at the VARO Norris Cotton Federal Building in Manchester",
+    phone: "603-222-5780",
+    organizationType: "nonprofit",
+    selfReferral: true,
+    inPersonAvailable: true,
   },
 
   // ---------------------------------------------------------------------
