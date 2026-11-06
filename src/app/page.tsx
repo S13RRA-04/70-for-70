@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 import { CampaignFilm } from "@/components/home/campaign-film";
 import { InstitutionalRecognition } from "@/components/shared/institutional-recognition";
 import { RECOGNITIONS } from "@/lib/content/recognitions";
+import { COMPLETED_RUCK_MISSIONS } from "@/lib/content/ruck-missions";
 import type { MovementCampaign } from "@/types/organization";
 
 /**
@@ -35,10 +36,12 @@ const RAIL_SECTIONS = [
 const QUICK_FINDER_AUDIENCES = ["Veteran", "Active Military", "Law Enforcement", "Fire", "EMS", "Family"] as const;
 
 /** Homepage-length copy for each athletic campaign card; the full descriptions live on /campaigns. */
-const CAMPAIGN_CARD_COPY: Record<string, { blurb: string; cta: string }> = {
+const CAMPAIGN_CARD_COPY: Record<string, { blurb: string; cta: string; pill?: string }> = {
   ruck: {
-    blurb: "RuckUp22 in Huntsville. Ruck all 22 miles, or walk any distance with family and friends.",
-    cta: "Join the ruck",
+    blurb: "Mission one complete: 22 miles at RuckUp22 in Huntsville on October 24. More missions to come.",
+    cta: "See the missions",
+    // Ruck is a series of missions, so "Training now" would misdescribe it.
+    pill: `${COMPLETED_RUCK_MISSIONS.length} mission${COMPLETED_RUCK_MISSIONS.length === 1 ? "" : "s"} complete`,
   },
   "22": {
     blurb: "22 sessions of 22 minutes of movement, at your own pace, across a 22-hour window.",
@@ -418,7 +421,7 @@ export default async function HomePage() {
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {athleticCampaigns.map((campaign) => {
                 const copy = CAMPAIGN_CARD_COPY[campaign.slug];
-                const pill = campaignPill(campaign);
+                const pill = copy.pill ? { label: copy.pill, filled: false } : campaignPill(campaign);
                 const dateLine = campaignDateLine(campaign);
                 return (
                   <article

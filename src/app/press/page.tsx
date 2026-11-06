@@ -226,7 +226,7 @@ export default async function PressPage() {
 
           <PressSection
             id="story-ideas"
-            title="Story Ideas"
+            title="Current Story Opportunities"
             description="Three angles for regional reporters, each with links to verify the facts."
           >
             <StoryAngles />
