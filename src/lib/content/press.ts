@@ -7,80 +7,98 @@ export const FOUNDER_BIO_LONG = [
   "Cody founded For The 22 to make that search easier for the next person: a directory of established programs, services, and communities serving veterans, first responders, and their families—paired with campaigns that mobilize communities and raise direct support for confirmed beneficiary organizations. He was featured as the VA's #VeteranOfTheDay.",
 ] as const;
 
-export interface MediaCoverageItem {
-  outlet: string;
-  headline: string;
-  date: string;
-  url: string;
-  type: "article" | "audio" | "video";
-  image: string | null;
+/** One-sentence intro a host or emcee can read on air. */
+export const FOUNDER_INTRO =
+  "Cody Hitson is a Navy veteran and former combat journalist who founded For The 22 to connect veterans, first responders, and their families with trusted resources—and to rally communities behind the organizations serving them.";
+
+/** Subjects Cody can speak to — every one grounded in the approved bios above. */
+export const INTERVIEW_TOPICS = [
+  "Seven years as a Navy Mass Communication Specialist, including a 2011 deployment to Afghanistan as a combat journalist",
+  "Coming home, a 2016 back surgery, and the Mighty Oaks retreat that turned his recovery around",
+  "Why finding the right help at the right time is so hard—and how the For The 22 resource directory makes it easier",
+  "Endurance as mission: training for IRONMAN 70.3 Chattanooga and rucking for the 22",
+  "How listeners can get involved, and the vetted organizations every campaign supports",
+] as const;
+
+export interface PressPhoto {
+  src: string;
+  alt: string;
+  caption: string;
+  credit?: string;
 }
 
-/** Real earned coverage only. An empty array hides the section. */
-export const MEDIA_COVERAGE: readonly MediaCoverageItem[] = [
+/** Approved for editorial use. All already published on /about or the Ruck mission journal. */
+export const PRESS_PHOTOS: readonly PressPhoto[] = [
+  {
+    src: "/ruck/ruckup22-2026/img-6228.webp",
+    alt: "Cody Hitson smiling outdoors wearing a ruck and a camouflage cap",
+    caption: "Cody Hitson, founder of For The 22, on a 2026 Ruck For The 22 mission.",
+  },
+  {
+    src: "/about/afghan-1.jpg",
+    alt: "Navy Petty Officer 2nd Class Cody Hitson reporting on camera in Afghanistan",
+    caption: "PO2 Cody Hitson reporting as a combat journalist in Afghanistan, 2011.",
+    credit: "AFN Afghanistan",
+  },
+  {
+    src: "/about/navy.jpg",
+    alt: "Cody Hitson in Navy working uniform aboard ship",
+    caption: "Cody Hitson on active duty with the U.S. Navy.",
+  },
+  {
+    src: "/about/ultra-1.jpg",
+    alt: "Cody Hitson running a trail ultramarathon wearing bib 31",
+    caption: "Cody Hitson racing a trail ultramarathon.",
+  },
+];
+
+export interface MediaLink {
+  label: string;
+  url: string;
+  kind: "article" | "audio" | "video" | "social";
+}
+
+/** One interview or feature, with every place it can be read, heard, or watched. */
+export interface MediaAppearance {
+  outlet: string;
+  title: string;
+  date: string;
+  links: readonly MediaLink[];
+}
+
+/**
+ * Real earned coverage only, newest first. Shared by the org and campaign
+ * press pages; an empty array hides the section on both.
+ */
+export const MEDIA_APPEARANCES: readonly MediaAppearance[] = [
+  {
+    outlet: "Military Broadcast Radio",
+    title: "The H-Train Show: Cody Hitson, For the 22 Joins Us",
+    date: "2026-11-06",
+    links: [
+      // Starts at the For the 22 segment of the full show.
+      { label: "Watch on YouTube", url: "https://www.youtube.com/watch?v=kLAcmPzcVQc&t=2997s", kind: "video" },
+      { label: "Listen on Spotify", url: "https://open.spotify.com/episode/3Yi3sSxf7byVNE8DHxY9VD", kind: "audio" },
+      { label: "Facebook", url: "https://www.facebook.com/DVRadioNetwork/videos/4602773216611957/", kind: "social" },
+    ],
+  },
+  {
+    outlet: "DV Radio Network",
+    title: "Rucking Through Veteran PTSD",
+    date: "2026-10-10",
+    links: [
+      { label: "Watch on Rumble", url: "https://rumble.com/embed/v7ei15s/?pub=3buze8", kind: "video" },
+      { label: "Listen on Podbean", url: "https://dvradionetwork.podbean.com/e/rucking-through-veteran-ptsd/", kind: "audio" },
+      { label: "Facebook", url: "https://www.facebook.com/photo/?fbid=1753352850124579", kind: "social" },
+      { label: "Instagram", url: "https://www.instagram.com/p/DeaZ_saGxl2/", kind: "social" },
+    ],
+  },
   {
     outlet: "U.S. Department of Veterans Affairs",
-    headline: "#VeteranOfTheDay — Navy Veteran Cody Hitson",
+    title: "#VeteranOfTheDay: Navy Veteran Cody Hitson",
     date: "2021-08-04",
-    url: "https://news.va.gov/91792/veteranoftheday-navy-veteran-cody-hitson/",
-    type: "article",
-    image: null,
-  },
-  {
-    outlet: "DV Radio Network",
-    headline: "Rucking Through Veteran PTSD — Podcast",
-    date: "2026-10-10",
-    url: "https://dvradionetwork.podbean.com/e/rucking-through-veteran-ptsd/",
-    type: "audio",
-    image: null,
-  },
-  {
-    outlet: "DV Radio Network",
-    headline: "Rucking Through Veteran PTSD — Video",
-    date: "2026-10-10",
-    url: "https://rumble.com/embed/v7ei15s/?pub=3buze8",
-    type: "video",
-    image: null,
-  },
-  {
-    outlet: "DV Radio Network",
-    headline: "Interview Clip — Facebook",
-    date: "2026-10-10",
-    url: "https://www.facebook.com/photo/?fbid=1753352850124579",
-    type: "article",
-    image: null,
-  },
-  {
-    outlet: "DV Radio Network",
-    headline: "Interview Clip — Instagram",
-    date: "2026-10-10",
-    url: "https://www.instagram.com/p/DeaZ_saGxl2/",
-    type: "article",
-    image: null,
-  },
-  {
-    outlet: "Military Broadcast Radio",
-    headline: "The H-Train Show — Cody Hitson, For the 22 Joins Us — Spotify",
-    date: "2026-11-06",
-    url: "https://open.spotify.com/episode/3Yi3sSxf7byVNE8DHxY9VD",
-    type: "audio",
-    image: null,
-  },
-  {
-    outlet: "Military Broadcast Radio",
-    headline: "The H-Train Show — Cody Hitson, For the 22 Joins Us — YouTube",
-    date: "2026-11-06",
-    // Starts at the For the 22 segment of the full show.
-    url: "https://www.youtube.com/watch?v=kLAcmPzcVQc&t=2997s",
-    type: "video",
-    image: null,
-  },
-  {
-    outlet: "Military Broadcast Radio",
-    headline: "The H-Train Show — Cody Hitson, For the 22 Joins Us — Facebook",
-    date: "2026-11-06",
-    url: "https://www.facebook.com/DVRadioNetwork/videos/4602773216611957/",
-    type: "video",
-    image: null,
+    links: [
+      { label: "Read on VA News", url: "https://news.va.gov/91792/veteranoftheday-navy-veteran-cody-hitson/", kind: "article" },
+    ],
   },
 ];

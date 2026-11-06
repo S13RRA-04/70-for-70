@@ -1,4 +1,4 @@
-import { CopyButton } from "./copy-button";
+import { CopyButton } from "@/components/shared/copy-button";
 import type { PromoKitCaption } from "@/lib/content/22-for-the-22-promokit";
 
 export function CaptionCard({ caption }: { caption: PromoKitCaption }) {

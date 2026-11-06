@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Copy, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-/** Generic clipboard-copy button — used for both caption and hashtag copy actions on the promo kit page. */
+/** Generic clipboard-copy button — promo kit captions/hashtags and the press pages' bios. */
 export function CopyButton({
   text,
   label,

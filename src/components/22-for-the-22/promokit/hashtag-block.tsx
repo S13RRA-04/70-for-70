@@ -1,4 +1,4 @@
-import { CopyButton } from "./copy-button";
+import { CopyButton } from "@/components/shared/copy-button";
 import { PROMO_KIT_HASHTAGS, PROMO_KIT_HASHTAGS_TEXT } from "@/lib/content/22-for-the-22-promokit";
 
 export function HashtagBlock() {

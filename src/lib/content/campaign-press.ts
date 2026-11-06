@@ -1,26 +1,14 @@
 /**
- * Campaign-domain (tri.forthe22.org) press content — approved photography,
- * press releases, media coverage for the Tri For The 22 campaign. Kept as
- * empty arrays (same pattern as ATHLETES in athletes.ts) rather than
- * publishing an EmptyState placeholder card for each one; the campaign
- * press page only renders a section once it has real entries here. See
- * README's "Eliminating Placeholder Content".
+ * Campaign-domain (tri.forthe22.org) press content — press releases and
+ * print materials for the Tri For The 22 campaign. Press photos, bios, and
+ * media coverage are shared with the org press page and live in press.ts.
+ * PRESS_RELEASES stays an empty array (same pattern as ATHLETES in
+ * athletes.ts) rather than publishing an EmptyState placeholder; the page
+ * only renders the section once it has real entries. See README's
+ * "Eliminating Placeholder Content".
  */
 
-export interface ApprovedPhoto {
-  src: string;
-  alt: string;
-  caption?: string;
-}
-
 export interface PressRelease {
-  title: string;
-  date: string;
-  url: string;
-}
-
-export interface MediaCoverageItem {
-  outlet: string;
   title: string;
   date: string;
   url: string;
@@ -39,53 +27,7 @@ export interface CampaignMaterial {
   files: CampaignMaterialFile[];
 }
 
-export const APPROVED_PHOTOS: ApprovedPhoto[] = [];
 export const PRESS_RELEASES: PressRelease[] = [];
-export const MEDIA_COVERAGE: MediaCoverageItem[] = [
-  {
-    outlet: "DV Radio Network",
-    title: "Rucking Through Veteran PTSD — Podcast",
-    date: "2026-10-10",
-    url: "https://dvradionetwork.podbean.com/e/rucking-through-veteran-ptsd/",
-  },
-  {
-    outlet: "DV Radio Network",
-    title: "Rucking Through Veteran PTSD — Video",
-    date: "2026-10-10",
-    url: "https://rumble.com/embed/v7ei15s/?pub=3buze8",
-  },
-  {
-    outlet: "DV Radio Network",
-    title: "Interview Clip — Facebook",
-    date: "2026-10-10",
-    url: "https://www.facebook.com/photo/?fbid=1753352850124579",
-  },
-  {
-    outlet: "DV Radio Network",
-    title: "Interview Clip — Instagram",
-    date: "2026-10-10",
-    url: "https://www.instagram.com/p/DeaZ_saGxl2/",
-  },
-  {
-    outlet: "Military Broadcast Radio",
-    title: "The H-Train Show — Cody Hitson, For the 22 Joins Us — Spotify",
-    date: "2026-11-06",
-    url: "https://open.spotify.com/episode/3Yi3sSxf7byVNE8DHxY9VD",
-  },
-  {
-    outlet: "Military Broadcast Radio",
-    title: "The H-Train Show — Cody Hitson, For the 22 Joins Us — YouTube",
-    date: "2026-11-06",
-    // Starts at the For the 22 segment of the full show.
-    url: "https://www.youtube.com/watch?v=kLAcmPzcVQc&t=2997s",
-  },
-  {
-    outlet: "Military Broadcast Radio",
-    title: "The H-Train Show — Cody Hitson, For the 22 Joins Us — Facebook",
-    date: "2026-11-06",
-    url: "https://www.facebook.com/DVRadioNetwork/videos/4602773216611957/",
-  },
-];
 
 /** Print-ready campaign materials for tabling, sponsors, and community outreach — shown in the Campaign Materials section of the campaign press page. */
 export const CAMPAIGN_MATERIALS: CampaignMaterial[] = [

@@ -13,7 +13,7 @@ import {
 } from "@/lib/content/22-for-the-22-tracker";
 import { CURRENT_EVENT_SLUG } from "@/lib/content/22-for-the-22";
 import { ShareButtons } from "@/components/shared/share-buttons";
-import { CopyButton } from "./promokit/copy-button";
+import { CopyButton } from "@/components/shared/copy-button";
 import { EVENT22_CAMPAIGN_URL } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 

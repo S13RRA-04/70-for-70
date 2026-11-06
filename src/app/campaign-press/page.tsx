@@ -1,263 +1,199 @@
 import Image from "next/image";
+import { Download } from "lucide-react";
 import { getPartners } from "@/lib/data/partners";
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
+import { CTAButton } from "@/components/shared/cta-button";
 import { CampaignByTheNumbers } from "@/components/campaign/campaign-by-the-numbers";
+import {
+  FounderBios,
+  InterviewTopics,
+  formatPressDate,
+  LogoDownloads,
+  MediaAppearances,
+  MediaContact,
+  PressJumpNav,
+  PressPhotos,
+  PressSection,
+  QuickFacts,
+} from "@/components/press/press-kit";
 import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
-import { APPROVED_PHOTOS, CAMPAIGN_MATERIALS, MEDIA_COVERAGE, PRESS_RELEASES } from "@/lib/content/campaign-press";
-import { CAMPAIGN_NAME, CONTACT_EMAIL, SITE_URL, SITE_TAGLINE } from "@/lib/constants";
+import { CAMPAIGN_MATERIALS, PRESS_RELEASES } from "@/lib/content/campaign-press";
+import { MEDIA_APPEARANCES, PRESS_PHOTOS } from "@/lib/content/press";
+import { CAMPAIGN_NAME, CONTACT_EMAIL, RACE_INFO, SITE_URL, SITE_TAGLINE } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
-import { formatDateLong } from "@/lib/utils";
+import { formatCurrency, formatDateLong } from "@/lib/utils";
 
 export const metadata = pageMetadata({
   title: "Press & Media",
-  description: `Campaign summary, athlete bio, and media resources for ${CAMPAIGN_NAME}.`,
+  description: `Race facts, athlete bio, press photos, media coverage, logos, and print materials for ${CAMPAIGN_NAME}.`,
   canonical: "/press",
 });
 
+const LOGOS = [
+  { src: "/campaign-logo.png", alt: `${CAMPAIGN_NAME} campaign logo mark`, width: 140, height: 140, label: "Logo — light backgrounds" },
+  { src: "/campaign-logo-white.png", alt: `${CAMPAIGN_NAME} campaign logo mark`, width: 140, height: 140, dark: true, label: "Logo — dark backgrounds" },
+  { src: "/campaign-wordmark-black.png", alt: `${CAMPAIGN_NAME} wordmark`, width: 140, height: 157, label: "Wordmark — light backgrounds" },
+  { src: "/campaign-wordmark-white.png", alt: `${CAMPAIGN_NAME} wordmark`, width: 140, height: 154, dark: true, label: "Wordmark — dark backgrounds" },
+] as const;
+
+/** "https://www.example.org/give" → "example.org"; falls back to the raw value for anything URL() rejects. */
+function displayHost(url: string): string {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return url;
+  }
+}
+
 export default async function CampaignPressPage() {
   const [partners, fundraisingStats] = await Promise.all([getPartners(), getFundraisingImpactStats()]);
+
+  const quickFacts = [
+    { label: "Athlete", value: "Cody Hitson — Navy veteran, founder of For The 22" },
+    { label: "Event", value: "IRONMAN 70.3 Chattanooga" },
+    RACE_INFO.raceDate && { label: "Race date", value: formatDateLong(RACE_INFO.raceDate) },
+    RACE_INFO.raceLocation && { label: "Location", value: RACE_INFO.raceLocation },
+    { label: "Distance", value: "70.3 miles — 1.2-mile swim, 56-mile bike, 13.1-mile run" },
+    RACE_INFO.athleteGoalTime && { label: "Race goal", value: RACE_INFO.athleteGoalTime },
+    { label: "Fundraising goal", value: formatCurrency(fundraisingStats.fundraisingGoal) },
+    partners.length > 0 && { label: "Beneficiaries", value: partners.map((partner) => partner.name).join(" · ") },
+  ].filter((fact): fact is { label: string; value: string } => Boolean(fact));
+
+  const navItems = [
+    { id: "facts", label: "Race facts" },
+    { id: "bio", label: "Athlete bio" },
+    ...(PRESS_PHOTOS.length > 0 ? [{ id: "photos", label: "Photos" }] : []),
+    ...(MEDIA_APPEARANCES.length > 0 ? [{ id: "coverage", label: "Coverage" }] : []),
+    { id: "logos", label: "Logos" },
+    ...(CAMPAIGN_MATERIALS.length > 0 ? [{ id: "materials", label: "Print materials" }] : []),
+    { id: "contact", label: "Contact" },
+  ];
 
   return (
     <>
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container>
-          <SectionHeading as="h1" eyebrow={`${CAMPAIGN_NAME} · Press & Media`} title="Media Resources" />
+          <SectionHeading
+            as="h1"
+            eyebrow={`${CAMPAIGN_NAME} · Press & Media`}
+            title="Media Kit"
+            description="Race facts, a ready-to-read athlete bio, press photos, logos, and print materials for covering the campaign — plus a direct line to book an interview."
+          />
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <CTAButton href={CONTACT_EMAIL ? `mailto:${CONTACT_EMAIL}` : `${SITE_URL}/contact`} external>
+              Book an interview
+            </CTAButton>
+            <CTAButton href="#bio" variant="secondary">
+              Get the bio
+            </CTAButton>
+          </div>
         </Container>
       </section>
 
       <section className="py-16 sm:py-20">
-        <Container className="max-w-3xl space-y-14">
-          <div>
-            <h2 className="font-display text-2xl uppercase text-ink">
-              Campaign Summary
-            </h2>
-            <p className="mt-3 text-base leading-relaxed text-charcoal-light">
+        <Container className="max-w-3xl space-y-16">
+          <PressJumpNav items={navItems} />
+
+          <PressSection id="facts" title="Race Facts">
+            <p className="mb-6 text-base leading-relaxed text-charcoal-light">
               {CAMPAIGN_NAME} is Cody Hitson&apos;s current endurance campaign: training for and
               completing a 70.3-mile triathlon while encouraging the public to donate directly
               to the campaign&apos;s confirmed beneficiary organizations. {SITE_TAGLINE}
             </p>
+            <CampaignByTheNumbers goal={fundraisingStats.fundraisingGoal} beneficiaryCount={fundraisingStats.beneficiaryCount} />
             <div className="mt-6">
-              <CampaignByTheNumbers goal={fundraisingStats.fundraisingGoal} beneficiaryCount={fundraisingStats.beneficiaryCount} />
+              <QuickFacts facts={quickFacts} />
             </div>
-          </div>
+          </PressSection>
 
-          <div>
-            <h2 className="font-display text-2xl uppercase text-ink">
-              Athlete Bio
-            </h2>
-            <p className="mt-3 text-base leading-relaxed text-charcoal-light">
-              Athletic story, training history, and race details live on the{" "}
-              <a href="/the-story" className="text-bronze hover:underline">
-                The Story
-              </a>{" "}
-              page — that&apos;s the authoritative source; it isn&apos;t reproduced here. Service
-              history and founder biography live on the{" "}
-              <a href={`${SITE_URL}/about`} className="text-bronze hover:underline">
-                About
-              </a>{" "}
-              page.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="font-display text-2xl uppercase text-ink">
-              Logo Downloads
-            </h2>
-            <p className="mt-1 text-sm text-charcoal-light">
-              The icon mark is available below, shown on both light and dark backgrounds. See
-              Wordmark Downloads below for the type-only version.
-            </p>
-            <div className="mt-3 flex flex-wrap gap-4">
-              <div className="inline-flex flex-col items-start gap-3 rounded-xl border border-line bg-white p-6">
-                <Image
-                  src="/campaign-logo.png"
-                  alt={`${CAMPAIGN_NAME} campaign logo mark`}
-                  width={140}
-                  height={140}
-                />
-                <a
-                  href="/campaign-logo.png"
-                  download
-                  className="action-control inline-flex items-center justify-center font-bold border-2 border-navy px-4 py-2 text-[15px] text-navy hover:bg-white"
-                >
-                  Download (Light Background)
+          <PressSection
+            id="bio"
+            title="Athlete Bio"
+            description={
+              <>
+                Approved for use as written. Training story and race details:{" "}
+                <a href="/the-story" className="text-bronze hover:underline">
+                  The Story
                 </a>
-              </div>
-              <div className="inline-flex flex-col items-start gap-3 rounded-sm border border-ink/10 bg-ink p-6">
-                <Image
-                  src="/campaign-logo-white.png"
-                  alt={`${CAMPAIGN_NAME} campaign logo mark`}
-                  width={140}
-                  height={140}
-                />
-                <a
-                  href="/campaign-logo-white.png"
-                  download
-                  className="inline-flex rounded-sm border border-off-white/30 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-off-white hover:bg-off-white/10"
-                >
-                  Download (Dark Background)
+                ; service history:{" "}
+                <a href={`${SITE_URL}/about`} className="text-bronze hover:underline">
+                  About
                 </a>
-              </div>
+                .
+              </>
+            }
+          >
+            <FounderBios />
+            <h3 className="mt-8 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
+              Interview topics
+            </h3>
+            <div className="mt-3">
+              <InterviewTopics />
             </div>
-          </div>
+          </PressSection>
 
-          <div>
-            <h2 className="font-display text-2xl uppercase text-ink">
-              Wordmark Downloads
-            </h2>
-            <p className="mt-1 text-sm text-charcoal-light">
-              The {CAMPAIGN_NAME} wordmark alone, without the ring icon, shown on both light and
-              dark backgrounds.
-            </p>
-            <div className="mt-3 flex flex-wrap gap-4">
-              <div className="inline-flex flex-col items-start gap-3 rounded-xl border border-line bg-white p-6">
-                <Image
-                  src="/campaign-wordmark-black.png"
-                  alt={`${CAMPAIGN_NAME} wordmark`}
-                  width={140}
-                  height={157}
-                />
-                <a
-                  href="/campaign-wordmark-black.png"
-                  download
-                  className="action-control inline-flex items-center justify-center font-bold border-2 border-navy px-4 py-2 text-[15px] text-navy hover:bg-white"
-                >
-                  Download (Light Background)
-                </a>
-              </div>
-              <div className="inline-flex flex-col items-start gap-3 rounded-sm border border-ink/10 bg-ink p-6">
-                <Image
-                  src="/campaign-wordmark-white.png"
-                  alt={`${CAMPAIGN_NAME} wordmark`}
-                  width={140}
-                  height={154}
-                />
-                <a
-                  href="/campaign-wordmark-white.png"
-                  download
-                  className="inline-flex rounded-sm border border-off-white/30 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-off-white hover:bg-off-white/10"
-                >
-                  Download (Dark Background)
-                </a>
-              </div>
-            </div>
-          </div>
-
-          {APPROVED_PHOTOS.length > 0 && (
-            <div>
-              <h2 className="font-display text-2xl uppercase text-ink">
-                Approved Photos
-              </h2>
-              <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
-                {APPROVED_PHOTOS.map((photo) => (
-                  <figure key={photo.src} className="overflow-hidden rounded-sm">
-                    <div className="relative aspect-[4/5] w-full bg-sand-light">
-                      <Image src={photo.src} alt={photo.alt} fill className="object-cover" />
-                    </div>
-                    {photo.caption && (
-                      <figcaption className="mt-1.5 text-xs text-charcoal-light">
-                        {photo.caption}
-                      </figcaption>
-                    )}
-                  </figure>
-                ))}
-              </div>
-            </div>
+          {PRESS_PHOTOS.length > 0 && (
+            <PressSection id="photos" title="Press Photos" description="Approved for editorial use with credit where noted.">
+              <PressPhotos />
+            </PressSection>
           )}
 
-          <div>
-            <h2 className="font-display text-2xl uppercase text-ink">
-              Beneficiary Organizations
-            </h2>
-            <ul className="mt-3 space-y-2">
-              {partners.map((partner) => (
-                <li key={partner.id} className="text-base text-charcoal-light">
-                  <span className="font-medium text-ink">{partner.name}</span>
-                  {partner.website_url && (
-                    <>
-                      {" — "}
-                      <a href={partner.website_url} className="text-bronze hover:underline">
-                        {partner.website_url}
-                      </a>
-                    </>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
+          {MEDIA_APPEARANCES.length > 0 && (
+            <PressSection id="coverage" title="Media Coverage">
+              <MediaAppearances />
+            </PressSection>
+          )}
 
           {PRESS_RELEASES.length > 0 && (
-            <div>
-              <h2 className="font-display text-2xl uppercase text-ink">
-                Press Releases
-              </h2>
-              <ul className="mt-3 space-y-2">
+            <PressSection id="releases" title="Press Releases">
+              <ul className="space-y-2">
                 {PRESS_RELEASES.map((release) => (
                   <li key={release.url} className="text-base text-charcoal-light">
                     <a href={release.url} className="text-bronze hover:underline">
                       {release.title}
                     </a>
                     {" — "}
-                    {formatDateLong(release.date)}
+                    {formatPressDate(release.date)}
                   </li>
                 ))}
               </ul>
-            </div>
+            </PressSection>
           )}
 
-          {MEDIA_COVERAGE.length > 0 && (
-            <div>
-              <h2 className="font-display text-2xl uppercase text-ink">
-                Media Coverage
-              </h2>
-              <ul className="mt-3 space-y-2">
-                {MEDIA_COVERAGE.map((item) => (
-                  <li key={item.url} className="text-base text-charcoal-light">
-                    <span className="font-medium text-ink">{item.outlet}</span>
-                    {" — "}
-                    <a href={item.url} className="text-bronze hover:underline">
-                      {item.title}
-                    </a>
-                    {" — "}
-                    {formatDateLong(item.date)}
+          <PressSection id="logos" title="Logos" description="The campaign mark with the ring icon, and the type-only wordmark.">
+            <LogoDownloads assets={LOGOS} />
+          </PressSection>
+
+          {partners.length > 0 && (
+            <PressSection id="beneficiaries" title="Beneficiary Organizations">
+              <ul className="grid gap-3 sm:grid-cols-2">
+                {partners.map((partner) => (
+                  <li key={partner.id} className="rounded-xl border border-line bg-white p-4">
+                    <p className="font-display text-lg uppercase text-ink">{partner.name}</p>
+                    {partner.website_url && (
+                      <a
+                        href={partner.website_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-1 inline-flex text-sm font-semibold text-bronze hover:underline"
+                      >
+                        {displayHost(partner.website_url)} &rarr;
+                      </a>
+                    )}
                   </li>
                 ))}
               </ul>
-            </div>
+            </PressSection>
           )}
-
-          <div>
-            <h2 className="font-display text-2xl uppercase text-ink">
-              Media Contact
-            </h2>
-            <p className="mt-3 text-base leading-relaxed text-charcoal-light">
-              {CONTACT_EMAIL ? (
-                <a href={`mailto:${CONTACT_EMAIL}`} className="text-bronze hover:underline">
-                  {CONTACT_EMAIL}
-                </a>
-              ) : (
-                <>
-                  For media inquiries, use the{" "}
-                  <a href={`${SITE_URL}/contact`} className="text-bronze hover:underline">
-                    contact form
-                  </a>
-                  .
-                </>
-              )}
-            </p>
-          </div>
 
           {CAMPAIGN_MATERIALS.length > 0 && (
-            <div>
-              <h2 className="font-display text-2xl uppercase text-ink">
-                Campaign Materials
-              </h2>
-              <p className="mt-1 text-sm text-charcoal-light">
-                Print-ready flier, poster, rack card, trifold, and QR reference cards for tabling,
-                sponsors, and community outreach.
-              </p>
-              <div className="mt-3 grid gap-6 sm:grid-cols-2">
+            <PressSection
+              id="materials"
+              title="Print Materials"
+              description="Print-ready flier, poster, rack card, trifold, and QR reference cards for tabling, sponsors, and community outreach."
+            >
+              <div className="grid gap-6 sm:grid-cols-2">
                 {CAMPAIGN_MATERIALS.map((material) => (
                   <div key={material.label} className="rounded-xl border border-line bg-white p-6">
                     <h3 className="font-display text-lg uppercase text-ink">
@@ -268,13 +204,14 @@ export default async function CampaignPressPage() {
                       {material.files.map((file) => (
                         <div key={file.src} className="flex flex-col items-start gap-2">
                           <div className="relative h-36 w-28 overflow-hidden rounded-sm border border-ink/10 bg-sand-light">
-                            <Image src={file.src} alt={file.alt} fill className="object-cover" />
+                            <Image src={file.src} alt={file.alt} fill sizes="112px" className="object-cover" />
                           </div>
                           <a
                             href={file.src}
                             download
-                            className="text-xs font-semibold uppercase tracking-wide text-bronze hover:underline"
+                            className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-bronze hover:underline"
                           >
+                            <Download size={12} aria-hidden />
                             Download{file.side ? ` (${file.side})` : ""}
                           </a>
                         </div>
@@ -283,8 +220,12 @@ export default async function CampaignPressPage() {
                   </div>
                 ))}
               </div>
-            </div>
+            </PressSection>
           )}
+
+          <PressSection id="contact" title="Media Contact">
+            <MediaContact email={CONTACT_EMAIL} fallbackHref={`${SITE_URL}/contact`} />
+          </PressSection>
         </Container>
       </section>
     </>
