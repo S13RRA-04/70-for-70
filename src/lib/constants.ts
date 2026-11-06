@@ -566,7 +566,7 @@ export const RACE_INFO = {
   trainingStartDate: null as string | null, // e.g. "2026-03-01T00:00:00-05:00" — TODO, used to compute weeks completed/remaining
 };
 
-export const CONTACT_EMAIL: string | null = "admin@forthe22.org";
+export const CONTACT_EMAIL: string | null = "cody@forthe22.org";
 
 /** The /get-involved header/footer/mobile-menu link. */
 export const GET_INVOLVED_LINK: NavLink = { label: "Get Involved", href: "/get-involved" };

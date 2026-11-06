@@ -58,4 +58,12 @@ export const MEDIA_COVERAGE: readonly MediaCoverageItem[] = [
     type: "article",
     image: null,
   },
+  {
+    outlet: "Military Broadcast Radio",
+    headline: "The H-Train Show — Cody Hitson, For the 22 Joins Us — Spotify",
+    date: "2026-11-06",
+    url: "https://open.spotify.com/episode/3Yi3sSxf7byVNE8DHxY9VD",
+    type: "audio",
+    image: null,
+  },
 ];

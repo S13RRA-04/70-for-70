@@ -66,6 +66,12 @@ export const MEDIA_COVERAGE: MediaCoverageItem[] = [
     date: "2026-10-10",
     url: "https://www.instagram.com/p/DeaZ_saGxl2/",
   },
+  {
+    outlet: "Military Broadcast Radio",
+    title: "The H-Train Show — Cody Hitson, For the 22 Joins Us — Spotify",
+    date: "2026-11-06",
+    url: "https://open.spotify.com/episode/3Yi3sSxf7byVNE8DHxY9VD",
+  },
 ];
 
 /** Print-ready campaign materials for tabling, sponsors, and community outreach — shown in the Campaign Materials section of the campaign press page. */

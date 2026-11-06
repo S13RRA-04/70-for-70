@@ -40,6 +40,34 @@ export async function notifySponsorshipRequestSubmitted(input: {
   }
 }
 
+/** /contact and /get-involved submissions — forwarded in full so they can be answered straight from the inbox. */
+export async function notifyInquirySubmitted(input: {
+  name: string;
+  email: string;
+  interest: string;
+  message: string;
+  organization: string | null;
+  phone: string | null;
+  website: string | null;
+}) {
+  if (!CONTACT_EMAIL) return;
+
+  const details = [
+    `From: ${input.name} (${input.email})`,
+    `Topic: ${input.interest}`,
+    input.organization && `Organization: ${input.organization}`,
+    input.phone && `Phone: ${input.phone}`,
+    input.website && `Website: ${input.website}`,
+  ].filter(Boolean);
+
+  await sendEmail({
+    to: CONTACT_EMAIL,
+    subject: `New ${input.interest} inquiry: ${input.name}`,
+    text: `${details.join("\n")}\n\n${input.message}`,
+    replyTo: input.email,
+  });
+}
+
 export async function notifyTriathlonTeamApplicationSubmitted(input: {
   applicationId: string;
   fullName: string;
