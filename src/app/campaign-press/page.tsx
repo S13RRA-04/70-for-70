@@ -12,6 +12,7 @@ import {
   LogoDownloads,
   MediaAppearances,
   MediaContact,
+  MediaKitDownload,
   PressJumpNav,
   PressPhotos,
   PressSection,
@@ -57,6 +58,10 @@ export default async function CampaignPressPage() {
     { label: "Distance", value: "70.3 miles — 1.2-mile swim, 56-mile bike, 13.1-mile run" },
     RACE_INFO.athleteGoalTime && { label: "Race goal", value: RACE_INFO.athleteGoalTime },
     { label: "Fundraising goal", value: formatCurrency(fundraisingStats.fundraisingGoal) },
+    {
+      label: "Raised so far",
+      value: `${formatCurrency(fundraisingStats.amountRaised, { cents: true })} (verified as of ${formatDateLong(fundraisingStats.updatedAt)})`,
+    },
     partners.length > 0 && { label: "Beneficiaries", value: partners.map((partner) => partner.name).join(" · ") },
   ].filter((fact): fact is { label: string; value: string } => Boolean(fact));
 
@@ -106,6 +111,8 @@ export default async function CampaignPressPage() {
               <QuickFacts facts={quickFacts} />
             </div>
           </PressSection>
+
+          <MediaKitDownload factSheetHref={`${SITE_URL}/press/fact-sheet`} />
 
           <PressSection
             id="bio"

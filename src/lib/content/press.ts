@@ -1,3 +1,5 @@
+import { CAMPAIGN_URL, LIVE_CAMPAIGN_URL, SITE_URL } from "@/lib/constants";
+
 /** Reusable, approved organizational press copy. */
 export const FOUNDER_BIO_SHORT =
   "Cody Hitson is a Navy veteran, husband, and father who served seven years on active duty as a Mass Communication Specialist, including a 2011 deployment to Afghanistan as a combat journalist. He founded For The 22 to help veterans and first responders find trusted resources—and to mobilize communities behind the organizations serving them.";
@@ -24,31 +26,90 @@ export interface PressPhoto {
   src: string;
   alt: string;
   caption: string;
-  credit?: string;
+  credit: string;
 }
 
-/** Approved for editorial use. All already published on /about or the Ruck mission journal. */
+/** Shown beside the photos and repeated in the downloadable kit's README. */
+export const PHOTO_USAGE_TERMS =
+  "Free to use in editorial coverage of For The 22 and Cody Hitson. Please include the credit listed with each photo. Not for advertising or endorsement use.";
+
+/**
+ * Metadata-stripped JPEG exports in public/press/photos/ (EXIF/GPS removed,
+ * bystanders cropped out). Only photos For The 22 holds the rights to — a
+ * race photographer's shot needs their permission before it goes here.
+ */
 export const PRESS_PHOTOS: readonly PressPhoto[] = [
   {
-    src: "/ruck/ruckup22-2026/img-6228.webp",
+    src: "/press/photos/cody-hitson-founder-portrait.jpg",
     alt: "Cody Hitson smiling outdoors wearing a ruck and a camouflage cap",
-    caption: "Cody Hitson, founder of For The 22, on a 2026 Ruck For The 22 mission.",
+    caption: "Cody Hitson, founder of For The 22, during RuckUp22 Huntsville, October 24, 2026.",
+    credit: "Courtesy of For The 22",
   },
   {
-    src: "/about/afghan-1.jpg",
+    src: "/press/photos/cody-hitson-ruckup22-finish.jpg",
+    alt: "Cody Hitson in a For The 22 shirt holding a 22-mile challenge coin under the RuckUp22 tent",
+    caption: "Cody Hitson with his 22-mile coin after completing the 11th Annual RuckUp22 in Huntsville, Alabama.",
+    credit: "Courtesy of For The 22",
+  },
+  {
+    src: "/press/photos/cody-hitson-afghanistan-2011.jpg",
     alt: "Navy Petty Officer 2nd Class Cody Hitson reporting on camera in Afghanistan",
     caption: "PO2 Cody Hitson reporting as a combat journalist in Afghanistan, 2011.",
-    credit: "AFN Afghanistan",
+    credit: "AFN Afghanistan / U.S. Department of Defense",
   },
   {
-    src: "/about/navy.jpg",
+    src: "/press/photos/cody-hitson-navy-service.jpg",
     alt: "Cody Hitson in Navy working uniform aboard ship",
-    caption: "Cody Hitson on active duty with the U.S. Navy.",
+    caption: "Cody Hitson on active duty as a U.S. Navy Mass Communication Specialist.",
+    credit: "Courtesy of Cody Hitson",
+  },
+];
+
+/** Logos, photos, bios, and fact sheet in one file — rebuild it whenever any of those change. */
+export const MEDIA_KIT_ZIP_PATH = "/press/for-the-22-media-kit.zip";
+
+export interface StoryAngle {
+  label: string;
+  headline: string;
+  pitch: string;
+  /** Where a reporter can verify the facts in the pitch. */
+  sources: readonly { label: string; href: string }[];
+}
+
+/**
+ * Ready-made pitches for regional reporters. Each claim must stay checkable
+ * against the linked pages — and the music angle must describe exactly what
+ * each band gave, never imply an endorsement or ongoing partnership.
+ */
+export const STORY_ANGLES: readonly StoryAngle[] = [
+  {
+    label: "Veteran profile",
+    headline: "From Combat to Community: A Veteran's Mission to Reconnect Those Who Served",
+    pitch:
+      "A former Navy combat journalist who struggled to find the right help after coming home built a nationwide directory of vetted resources for veterans, first responders, and their families—and a set of community campaigns that raise money for the nonprofits serving them.",
+    sources: [
+      { label: "Founder story", href: `${SITE_URL}/about` },
+      { label: "Resource directory", href: `${SITE_URL}/resources` },
+      { label: "VA #VeteranOfTheDay profile", href: "https://news.va.gov/91792/veteranoftheday-navy-veteran-cody-hitson/" },
+    ],
   },
   {
-    src: "/about/ultra-1.jpg",
-    alt: "Cody Hitson running a trail ultramarathon wearing bib 31",
-    caption: "Cody Hitson racing a trail ultramarathon.",
+    label: "Chattanooga · IRONMAN 70.3",
+    headline: "70.3 Miles, $70,000, One Mission",
+    pitch:
+      "A Navy combat veteran is training for IRONMAN 70.3 Chattanooga on May 16, 2027, using the race to rally donations toward a $70,000 goal for two veteran-serving nonprofits: Mighty Oaks Foundation and Veterans and Athletes United.",
+    sources: [
+      { label: "Tri For The 22", href: CAMPAIGN_URL },
+      { label: "The $70K Mission", href: `${SITE_URL}/70k` },
+      { label: "Official race page", href: "https://www.ironman.com/races/im703-chattanooga" },
+    ],
+  },
+  {
+    label: "Music & community",
+    headline: "When Music Becomes a Mission: Country Artists Rally Behind Veterans",
+    pitch:
+      "Whiskey Myers donated and signed a guitar plus two 2027 concert tickets, and Muscadine Bloodline's Gary Stanton and Charlie Muncaster signed a Gibson guitar donated through Gibson Gives—both for For The 22's online silent auction, as part of a benefit concert series in development.",
+    sources: [{ label: "Silent auction items", href: `${LIVE_CAMPAIGN_URL}/auction` }],
   },
 ];
 
@@ -63,6 +124,9 @@ export interface MediaAppearance {
   outlet: string;
   title: string;
   date: string;
+  /** What kind of coverage it is — e.g. "Radio interview", or "Founder background" for anything predating For The 22. */
+  format: string;
+  summary: string;
   links: readonly MediaLink[];
 }
 
@@ -75,6 +139,8 @@ export const MEDIA_APPEARANCES: readonly MediaAppearance[] = [
     outlet: "Military Broadcast Radio",
     title: "The H-Train Show: Cody Hitson, For the 22 Joins Us",
     date: "2026-11-06",
+    format: "Radio interview",
+    summary: "Cody discusses founding For The 22 and how communities can rally behind veterans, first responders, and the organizations serving them.",
     links: [
       // Starts at the For the 22 segment of the full show.
       { label: "Watch on YouTube", url: "https://www.youtube.com/watch?v=kLAcmPzcVQc&t=2997s", kind: "video" },
@@ -86,6 +152,8 @@ export const MEDIA_APPEARANCES: readonly MediaAppearance[] = [
     outlet: "DV Radio Network",
     title: "Rucking Through Veteran PTSD",
     date: "2026-10-10",
+    format: "Podcast and video interview",
+    summary: "A conversation about veteran mental health, PTSD, rucking, and rebuilding purpose after service.",
     links: [
       { label: "Watch on Rumble", url: "https://rumble.com/embed/v7ei15s/?pub=3buze8", kind: "video" },
       { label: "Listen on Podbean", url: "https://dvradionetwork.podbean.com/e/rucking-through-veteran-ptsd/", kind: "audio" },
@@ -96,7 +164,9 @@ export const MEDIA_APPEARANCES: readonly MediaAppearance[] = [
   {
     outlet: "U.S. Department of Veterans Affairs",
     title: "#VeteranOfTheDay: Navy Veteran Cody Hitson",
-    date: "2021-08-04",
+    date: "2021-08-06",
+    format: "Founder background",
+    summary: "An independently published VA profile of Cody's Navy service and military journalism career. It predates For The 22 and does not cover the organization.",
     links: [
       { label: "Read on VA News", url: "https://news.va.gov/91792/veteranoftheday-navy-veteran-cody-hitson/", kind: "article" },
     ],

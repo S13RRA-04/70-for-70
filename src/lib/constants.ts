@@ -180,12 +180,12 @@ export const MOVEMENT_CAMPAIGNS: readonly MovementCampaign[] = [
     name: RUCK_CAMPAIGN_NAME,
     slug: "ruck",
     type: "Rucking",
-    status: "upcoming",
+    // A series of missions, not one event — individual missions and their
+    // completed/upcoming state live in src/lib/content/ruck-missions.ts.
+    status: "active",
     description:
-      "A community rucking event in Huntsville, Alabama — ruck the full 22 miles or walk any distance with family and friends to raise awareness and contribute to The $70K Mission, in support of confirmed veteran-focused nonprofit beneficiaries.",
+      "Rucking missions that carry For The 22 mile by mile, raising awareness and contributing to The $70K Mission. Mission one is complete: 22 miles at the 11th Annual RuckUp22 in Huntsville, Alabama, on October 24, 2026.",
     url: RUCK_CAMPAIGN_URL,
-    startDate: "2026-10-24",
-    location: "RuckUp22 Huntsville",
     parentMission: MISSION_NAME,
     beneficiaries: ["Mighty Oaks Foundation", "Veterans and Athletes United"],
   },

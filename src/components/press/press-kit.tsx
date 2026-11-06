@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ArrowUpRight, Download, FileText, Headphones, PlayCircle, Share2 } from "lucide-react";
+import { ArrowUpRight, Download, FileText, Headphones, Lightbulb, Mail, Newspaper, PlayCircle, Share2 } from "lucide-react";
 import { CopyButton } from "@/components/shared/copy-button";
 import {
   FOUNDER_BIO_LONG,
@@ -7,7 +7,10 @@ import {
   FOUNDER_INTRO,
   INTERVIEW_TOPICS,
   MEDIA_APPEARANCES,
+  MEDIA_KIT_ZIP_PATH,
+  PHOTO_USAGE_TERMS,
   PRESS_PHOTOS,
+  STORY_ANGLES,
   type MediaLink,
 } from "@/lib/content/press";
 import { cn, formatDateLong } from "@/lib/utils";
@@ -130,35 +133,40 @@ export function InterviewTopics() {
 
 export function PressPhotos() {
   return (
-    <ul className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-      {PRESS_PHOTOS.map((photo) => (
-        <li key={photo.src}>
-          <figure>
-            <div className="relative aspect-[4/5] overflow-hidden rounded-sm border border-line bg-sand-light">
-              <Image
-                src={photo.src}
-                alt={photo.alt}
-                fill
-                sizes="(min-width: 640px) 180px, 45vw"
-                className="object-cover object-top"
-              />
-            </div>
-            <figcaption className="mt-2 text-xs leading-snug text-charcoal-light">
-              {photo.caption}
-              {photo.credit && <span className="block text-[11px] italic">Credit: {photo.credit}</span>}
-            </figcaption>
-          </figure>
-          <a
-            href={photo.src}
-            download
-            className="mt-1.5 inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-bronze hover:underline"
-          >
-            <Download size={12} aria-hidden />
-            Download
-          </a>
-        </li>
-      ))}
-    </ul>
+    <>
+      <p className="mb-4 rounded-lg border border-line bg-sand-light/60 px-4 py-3 text-sm text-charcoal-light">
+        {PHOTO_USAGE_TERMS}
+      </p>
+      <ul className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+        {PRESS_PHOTOS.map((photo) => (
+          <li key={photo.src}>
+            <figure>
+              <div className="relative aspect-[4/5] overflow-hidden rounded-sm border border-line bg-sand-light">
+                <Image
+                  src={photo.src}
+                  alt={photo.alt}
+                  fill
+                  sizes="(min-width: 640px) 180px, 45vw"
+                  className="object-cover object-top"
+                />
+              </div>
+              <figcaption className="mt-2 text-xs leading-snug text-charcoal-light">
+                {photo.caption}
+                <span className="block text-[11px] italic">Credit: {photo.credit}</span>
+              </figcaption>
+            </figure>
+            <a
+              href={photo.src}
+              download
+              className="mt-1.5 inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-bronze hover:underline"
+            >
+              <Download size={12} aria-hidden />
+              Download full size
+            </a>
+          </li>
+        ))}
+      </ul>
+    </>
   );
 }
 
@@ -176,9 +184,11 @@ export function MediaAppearances() {
       {MEDIA_APPEARANCES.map((appearance) => (
         <li key={`${appearance.outlet}-${appearance.date}`} className="rounded-xl border border-line bg-white p-5">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
-            {appearance.outlet} · <time dateTime={appearance.date}>{formatPressDate(appearance.date)}</time>
+            {appearance.outlet} · <time dateTime={appearance.date}>{formatPressDate(appearance.date)}</time> ·{" "}
+            <span className="text-bronze">{appearance.format}</span>
           </p>
           <h3 className="mt-1 font-display text-xl uppercase leading-tight text-ink">{appearance.title}</h3>
+          <p className="mt-2 text-sm leading-relaxed text-charcoal-light">{appearance.summary}</p>
           <ul className="mt-3 flex flex-wrap gap-2">
             {appearance.links.map((link) => {
               const Icon = LINK_ICONS[link.kind];
@@ -259,20 +269,145 @@ export function LogoDownloads({ assets }: { assets: readonly LogoAsset[] }) {
   );
 }
 
+export function mediaInquiryHref(email: string | null, fallbackHref: string): string {
+  return email ? `mailto:${email}?subject=${encodeURIComponent("Media inquiry — For The 22")}` : fallbackHref;
+}
+
 /** Media contact card — the email is the primary action, not a footnote. */
 export function MediaContact({ email, fallbackHref }: { email: string | null; fallbackHref: string }) {
   return (
     <div className="rounded-xl border border-navy/20 bg-sand-light/60 p-6">
       <p className="text-base leading-relaxed text-charcoal-light">
-        Interview requests, show bookings, and media questions go directly to Cody.
+        Interviews, photography, background information, and fact-checking go directly to Cody
+        Hitson, founder.
       </p>
       <a
-        href={email ? `mailto:${email}?subject=${encodeURIComponent("Media inquiry — For The 22")}` : fallbackHref}
+        href={mediaInquiryHref(email, fallbackHref)}
         className="action-control mt-4 inline-flex min-h-[44px] items-center gap-2 bg-navy px-5 py-2.5 text-[15px] font-bold text-white transition-colors hover:bg-navy-hover"
       >
         {email ?? "Contact form"}
         <ArrowUpRight size={16} aria-hidden />
       </a>
+    </div>
+  );
+}
+
+/**
+ * The newsroom's first screen: the four things a reporter came for, as
+ * tiles, plus the one contact line. Replaces a long scroll of chips.
+ */
+export function PressQuickLinks({ contactHref }: { contactHref: string }) {
+  const tiles = [
+    { href: "#media-kit", icon: Download, title: "Media Kit", detail: "Facts, photos, logos" },
+    { href: contactHref, icon: Mail, title: "Interview Requests", detail: "Contact the founder" },
+    { href: "#coverage", icon: Newspaper, title: "Media Coverage", detail: "Previous interviews" },
+    { href: "#story-ideas", icon: Lightbulb, title: "Story Ideas", detail: "Regional news angles" },
+  ] as const;
+
+  return (
+    <ul className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+      {tiles.map((tile) => (
+        <li key={tile.title}>
+          <a
+            href={tile.href}
+            className="group flex h-full flex-col gap-2 rounded-xl border border-line bg-white p-4 transition-colors hover:border-navy"
+          >
+            <tile.icon size={20} aria-hidden className="text-bronze" />
+            <span className="font-display text-lg uppercase leading-tight text-ink group-hover:underline">
+              {tile.title}
+            </span>
+            <span className="text-sm text-charcoal-light">{tile.detail}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+export function StoryAngles() {
+  return (
+    <ol className="space-y-4">
+      {STORY_ANGLES.map((angle, index) => (
+        <li key={angle.headline} className="rounded-xl border border-line bg-white p-5">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">
+            Story angle {String(index + 1).padStart(2, "0")} · {angle.label}
+          </p>
+          <h3 className="mt-1 font-display text-xl uppercase leading-tight text-ink">{angle.headline}</h3>
+          <p className="mt-2 text-sm leading-relaxed text-charcoal-light">{angle.pitch}</p>
+          <p className="mt-3 text-xs text-charcoal-light">
+            <span className="font-semibold uppercase tracking-wide">Verify: </span>
+            {angle.sources.map((source, i) => (
+              <span key={source.href}>
+                {i > 0 && " · "}
+                <a href={source.href} className="text-bronze hover:underline">
+                  {source.label}
+                </a>
+              </span>
+            ))}
+          </p>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+/** Each public claim beside the evidence for it — so a reporter can check before quoting. */
+export function FactsVerification({ rows }: { rows: readonly { claim: React.ReactNode; evidence: React.ReactNode }[] }) {
+  return (
+    <div className="overflow-hidden rounded-xl border border-line bg-white">
+      <table className="w-full text-left text-sm">
+        <thead className="bg-sand-light/60">
+          <tr>
+            <th scope="col" className="w-2/5 px-4 py-2.5 text-xs font-bold uppercase tracking-[0.15em] text-charcoal-light">
+              Claim
+            </th>
+            <th scope="col" className="px-4 py-2.5 text-xs font-bold uppercase tracking-[0.15em] text-charcoal-light">
+              Evidence or clarification
+            </th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-line">
+          {rows.map((row, i) => (
+            <tr key={i} className="align-top">
+              <th scope="row" className="px-4 py-3 font-semibold text-ink">
+                {row.claim}
+              </th>
+              <td className="px-4 py-3 leading-relaxed text-charcoal-light">{row.evidence}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+/** The one-file download plus the printable fact sheet — what "send me your press kit" should get. */
+export function MediaKitDownload({ factSheetHref }: { factSheetHref: string }) {
+  return (
+    <div className="flex flex-col gap-4 rounded-xl border border-navy/20 bg-sand-light/60 p-6 sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <p className="font-display text-xl uppercase text-ink">Official media kit</p>
+        <p className="mt-1 text-sm text-charcoal-light">
+          Logos, editorial photos with credits, 50- and 150-word bios, and usage terms in one ZIP.
+        </p>
+      </div>
+      <div className="flex flex-wrap gap-2">
+        <a
+          href={MEDIA_KIT_ZIP_PATH}
+          download
+          className="action-control inline-flex min-h-[44px] items-center gap-2 bg-navy px-5 py-2.5 text-[15px] font-bold text-white transition-colors hover:bg-navy-hover"
+        >
+          <Download size={16} aria-hidden />
+          Download kit (ZIP)
+        </a>
+        <a
+          href={factSheetHref}
+          className="action-control inline-flex min-h-[44px] items-center gap-2 border-2 border-navy px-5 py-2 text-[15px] font-bold text-navy transition-colors hover:bg-white"
+        >
+          <FileText size={16} aria-hidden />
+          Fact sheet
+        </a>
+      </div>
     </div>
   );
 }

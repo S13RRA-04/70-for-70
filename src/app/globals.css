@@ -813,3 +813,18 @@ body {
     to { transform: translateX(-50%); }
   }
 }
+
+/*
+ * Printing the press fact sheet (/press/fact-sheet): drop every piece of
+ * site chrome so "Save as PDF" yields just the one-page sheet. Scoped with
+ * :has() so no other page's print output changes.
+ */
+@media print {
+  body:has([data-print-sheet]) > *:not(main),
+  body:has([data-print-sheet]) [data-print-hide] {
+    display: none !important;
+  }
+  body:has([data-print-sheet]) {
+    background: #fff !important;
+  }
+}
