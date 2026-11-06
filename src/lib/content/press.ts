@@ -68,7 +68,16 @@ export const MEDIA_COVERAGE: readonly MediaCoverageItem[] = [
   },
   {
     outlet: "Military Broadcast Radio",
-    headline: "The H-Train Show — Cody Hitson, For the 22 Joins Us — Video",
+    headline: "The H-Train Show — Cody Hitson, For the 22 Joins Us — YouTube",
+    date: "2026-11-06",
+    // Starts at the For the 22 segment of the full show.
+    url: "https://www.youtube.com/watch?v=kLAcmPzcVQc&t=2997s",
+    type: "video",
+    image: null,
+  },
+  {
+    outlet: "Military Broadcast Radio",
+    headline: "The H-Train Show — Cody Hitson, For the 22 Joins Us — Facebook",
     date: "2026-11-06",
     url: "https://www.facebook.com/DVRadioNetwork/videos/4602773216611957/",
     type: "video",
