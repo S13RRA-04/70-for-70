@@ -66,4 +66,12 @@ export const MEDIA_COVERAGE: readonly MediaCoverageItem[] = [
     type: "audio",
     image: null,
   },
+  {
+    outlet: "Military Broadcast Radio",
+    headline: "The H-Train Show — Cody Hitson, For the 22 Joins Us — Video",
+    date: "2026-11-06",
+    url: "https://www.facebook.com/DVRadioNetwork/videos/4602773216611957/",
+    type: "video",
+    image: null,
+  },
 ];
