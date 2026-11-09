@@ -38,6 +38,10 @@ const ARTIST_MAILTO = CONTACT_EMAIL
   ? `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`${LIVE_CAMPAIGN_NAME} — Artist interest`)}`
   : null;
 
+const STORY_MAILTO = CONTACT_EMAIL
+  ? `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`${LIVE_CAMPAIGN_NAME} — I would like to share my story`)}`
+  : null;
+
 /**
  * Published DB shows first (they carry dates and ticket links), then any
  * confirmed performer from live-campaign.ts that doesn't have a show row
@@ -264,7 +268,7 @@ export default async function LiveCampaignPage() {
         </Container>
       </section>
 
-      {/* Turn up — the three ways in. */}
+      {/* Turn up — ways to take part in the series. */}
       <section id="join" aria-labelledby="join-heading" className="scroll-mt-24 border-y-2 border-jet bg-white">
         <Container className="flex flex-col gap-12 py-section">
           <div className="flex flex-col items-center gap-3 text-center">
@@ -279,7 +283,22 @@ export default async function LiveCampaignPage() {
             </span>
           </div>
           <RevealGrid>
-            <div className="grid gap-5 md:grid-cols-3">
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {STORY_MAILTO && (
+                <JoinCard
+                  icon={
+                    <svg aria-hidden="true" width="58" height="50" viewBox="0 0 116 100">
+                      <rect x="5" y="20" width="76" height="62" rx="8" fill="#111111" />
+                      <path d="M81 39 L111 25 V77 L81 63 Z" fill="#111111" />
+                      <circle cx="43" cy="51" r="15" fill="#F2F1EC" />
+                    </svg>
+                  }
+                  {...LIVE_JOIN_PATHS.storytellers}
+                  href={STORY_MAILTO}
+                  external
+                  primary
+                />
+              )}
               {ARTIST_MAILTO && (
                 <JoinCard
                   icon={
@@ -291,7 +310,6 @@ export default async function LiveCampaignPage() {
                   {...LIVE_JOIN_PATHS.artists}
                   href={ARTIST_MAILTO}
                   external
-                  primary
                 />
               )}
               <JoinCard

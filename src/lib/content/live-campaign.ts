@@ -69,8 +69,14 @@ export interface LiveJoinPath {
   cta: string;
 }
 
-/** "Turn up" cards — the three ways in. Hrefs are wired in the page (mailto/cross-domain/route). */
+/** "Turn up" cards. Hrefs are wired in the page (mailto/cross-domain/route). */
 export const LIVE_JOIN_PATHS = {
+  storytellers: {
+    title: "Share your story",
+    description:
+      "Veterans and first responders: join us on camera and share only what you are comfortable sharing for the For The 22: Live series.",
+    cta: "Start a conversation",
+  },
   artists: {
     title: "Artists & bands",
     description: "Play for a crowd of veterans, first responders, and families who will remember the night.",
