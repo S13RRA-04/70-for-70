@@ -10,6 +10,7 @@ import {
   MEDIA_KIT_ZIP_PATH,
   PHOTO_USAGE_TERMS,
   PRESS_PHOTOS,
+  PRESS_QUOTES,
   STORY_ANGLES,
   type MediaLink,
 } from "@/lib/content/press";
@@ -348,6 +349,39 @@ export function StoryAngles() {
         </li>
       ))}
     </ol>
+  );
+}
+
+/** Approved quotes, each with a copy button that includes the attribution line. */
+export function PressQuotes() {
+  return (
+    <div className="space-y-4">
+      {PRESS_QUOTES.map((item) => {
+        const attribution = `${item.name}, ${item.title}, ${item.organization}`;
+        return (
+          <figure key={item.name} className="rounded-xl border border-line bg-white p-5">
+            <blockquote className="border-l-4 border-bronze pl-4 text-base leading-relaxed text-ink">
+              &ldquo;{item.quote}&rdquo;
+            </blockquote>
+            <figcaption className="mt-4 flex flex-wrap items-end justify-between gap-3">
+              <span className="text-sm text-charcoal-light">
+                <span className="font-semibold text-ink">{item.name}</span> — {item.title},{" "}
+                <a href={item.organizationUrl} className="text-bronze hover:underline">
+                  {item.organization}
+                </a>
+                <span className="block text-xs">Approved for press use · {formatDateLong(item.providedOn)}</span>
+              </span>
+              <CopyButton
+                text={`"${item.quote}" — ${attribution}`}
+                label="Copy quote"
+                analyticsEvent="press_copy_quote"
+                className="min-h-[36px] px-3 py-1.5 text-sm"
+              />
+            </figcaption>
+          </figure>
+        );
+      })}
+    </div>
   );
 }
 

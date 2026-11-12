@@ -118,6 +118,35 @@ export const STORY_ANGLES: readonly StoryAngle[] = [
   },
 ];
 
+export interface PressQuote {
+  /** Verbatim as approved by the speaker — never edit beyond capitalization or obvious typos. */
+  quote: string;
+  name: string;
+  title: string;
+  organization: string;
+  organizationUrl: string;
+  /** When the speaker provided it for press use. */
+  providedOn: string;
+}
+
+/**
+ * Quotes their speakers have approved for press use, for reporters to run
+ * as written. Beneficiary voices only describe their own work — they're
+ * not endorsements of For The 22.
+ */
+export const PRESS_QUOTES: readonly PressQuote[] = [
+  {
+    quote:
+      "Adaptive sports has been life-changing for so many of us. Honestly, many of us might not be here today without the opportunities, support, and community these programs provide. Our ability to help provide VAU Sports grants towards travel to events and equipment needed to participate can be the decisive point for many veterans to continue to move forward with their disabilities.",
+    name: "James Howard",
+    title: "President",
+    organization: "Veterans and Athletes United",
+    organizationUrl: "https://www.vetsau.org/",
+    // Midday UTC, so the date reads as Nov. 9 in every U.S. time zone.
+    providedOn: "2026-11-09T12:00:00Z",
+  },
+];
+
 export interface MediaLink {
   label: string;
   url: string;

@@ -14,6 +14,7 @@ import {
   MediaKitDownload,
   PressPhotos,
   PressQuickLinks,
+  PressQuotes,
   PressSection,
   StoryAngles,
   mediaInquiryHref,
@@ -21,7 +22,7 @@ import {
 import { getPartners } from "@/lib/data/partners";
 import { getMissionMetrics } from "@/lib/data/mission-metrics";
 import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
-import { MEDIA_APPEARANCES, PRESS_PHOTOS } from "@/lib/content/press";
+import { MEDIA_APPEARANCES, PRESS_PHOTOS, PRESS_QUOTES } from "@/lib/content/press";
 import {
   CAMPAIGN_STATUS_LABELS,
   CAMPAIGN_URL,
@@ -238,6 +239,16 @@ export default async function PressPage() {
           >
             <StoryAngles />
           </PressSection>
+
+          {PRESS_QUOTES.length > 0 && (
+            <PressSection
+              id="quotes"
+              title="In Their Words"
+              description="Approved for use as written. To verify a quote with the speaker's organization, contact our media line and we'll connect you."
+            >
+              <PressQuotes />
+            </PressSection>
+          )}
 
           <PressSection
             id="facts"
