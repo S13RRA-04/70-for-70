@@ -53,7 +53,7 @@ export function Footer({
 
   return (
     <footer className="property-footer-shell relative overflow-hidden text-white">
-      <BrandStripe onNavy variant={campaignSlug === "live" ? "live" : "org"} />
+      <BrandStripe onNavy variant={campaignSlug === "live" || campaignSlug === "seen" ? "live" : "org"} />
       <Container
         className={`relative grid gap-10 pb-14 pt-16 sm:grid-cols-2 ${
           campaignSlug === "tri"
@@ -64,7 +64,20 @@ export function Footer({
         }`}
       >
         <div className={isCampaign ? "sm:col-span-2 lg:col-span-2" : "sm:col-span-2 lg:col-span-1"}>
-          {campaign?.logoCarriesName ? (
+          {campaign?.lockup ? (
+            <div className="flex flex-col gap-2.5">
+              <p className="flex items-baseline gap-2.5">
+                <span className="sr-only">{campaign.name}</span>
+                <span aria-hidden="true" className="label-caps text-xs text-[#bdbdbd]">
+                  {campaign.lockup.eyebrow}
+                </span>
+                <span aria-hidden="true" className="font-display text-[40px] uppercase leading-none tracking-[0.06em]">
+                  {campaign.lockup.word}
+                </span>
+              </p>
+              <p className="font-serif text-[22px] italic text-[#d8d6d0]">Lives have value. Always.</p>
+            </div>
+          ) : campaign?.logoCarriesName ? (
             <div className="flex items-center gap-4">
               <Image src={campaign.logoDark} alt="" aria-hidden="true" width={84} height={84} />
               <div>

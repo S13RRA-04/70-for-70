@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
-import { Anton, Public_Sans } from "next/font/google";
+import { Anton, Instrument_Serif, Public_Sans } from "next/font/google";
 import {
   CAMPAIGNS,
   CONTACT_EMAIL,
@@ -44,6 +44,19 @@ const publicSans = Public_Sans({
   variable: "--font-public-sans",
   subsets: ["latin"],
   display: "swap",
+});
+
+/**
+ * For The 22: SEEN's gallery-placard serif. Not preloaded — only the SEEN
+ * host uses it, so every other host shouldn't pay for the download.
+ */
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif",
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  display: "swap",
+  preload: false,
 });
 
 /** Impact.com publisher/affiliate-partnership domain-ownership proof — tri.forthe22.org only, see generateMetadata below. */
@@ -149,7 +162,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       data-property={mode === "app" ? "app" : (campaignSlug ?? "org")}
       data-scroll-behavior="smooth"
-      className={`${anton.variable} ${publicSans.variable} h-full antialiased`}
+      className={`${anton.variable} ${publicSans.variable} ${instrumentSerif.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col text-jet">
         <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(ORGANIZATION_JSON_LD)} />

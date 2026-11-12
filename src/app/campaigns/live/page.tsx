@@ -10,6 +10,12 @@ import { TicketStub, type TicketStubProps } from "@/components/live/ticket-stub"
 import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
 import { getPublishedLiveEvents } from "@/lib/data/live-events";
 import {
+  formatPremiereDate,
+  formatPremiereTimes,
+  getUpcomingLivePremieres,
+  premiereWatchUrl,
+} from "@/lib/content/live-premieres";
+import {
   LIVE_CAMPAIGN_DESCRIPTION,
   LIVE_CAMPAIGN_TAGLINE,
   LIVE_CONTRIBUTION_METHODS,
@@ -43,9 +49,9 @@ const STORY_MAILTO = CONTACT_EMAIL
   : null;
 
 /**
- * Published DB shows first (they carry dates and ticket links), then any
- * confirmed performer from live-campaign.ts that doesn't have a show row
- * yet — matched by name in the show title, so a performer stops being
+ * Published DB shows first (they carry dates and ticket links), then
+ * upcoming artist premieres (live-premieres.ts), then any confirmed
+ * performer from live-campaign.ts that doesn't have a show row yet — matched by name in the show title, so a performer stops being
  * listed separately the moment their show is published.
  */
 async function getShowStubs(): Promise<TicketStubProps[]> {
@@ -65,6 +71,13 @@ async function getShowStubs(): Promise<TicketStubProps[]> {
         undefined,
       action: event.ticket_url ? { label: "Get tickets", href: event.ticket_url, external: true } : undefined,
       detailHref: `/${event.slug}`,
+    })),
+    ...getUpcomingLivePremieres(Date.now()).map((premiere) => ({
+      dateLabel: formatPremiereDate(premiere, { month: "short", day: "numeric" }),
+      headliner: `${premiere.artist} — “${premiere.title}”`,
+      detail: `${premiere.kind} · ${formatPremiereTimes(premiere).split(" / ")[0]}`,
+      action: { label: "Watch on YouTube", href: premiereWatchUrl(premiere), external: true },
+      detailHref: `/${premiere.slug}`,
     })),
     ...unscheduled.map((performer) => ({
       dateLabel: "Date TBA",

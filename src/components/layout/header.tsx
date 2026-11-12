@@ -81,16 +81,28 @@ export function Header({
             }
             priority
           />
-          <span
-            className={
-              campaign?.logoCarriesName
-                ? "sr-only"
-                : "hidden whitespace-nowrap font-display text-[26px] uppercase leading-none text-jet xs:inline-block"
-            }
-          >
-            {campaign ? campaign.name : SITE_NAME}
-            {!isCampaign && <sup className="text-[0.5em] font-medium tracking-normal">™</sup>}
-          </span>
+          {campaign?.lockup ? (
+            <span className="flex items-baseline gap-2 text-jet">
+              <span className="sr-only">{campaign.name}</span>
+              <span aria-hidden="true" className="label-caps text-xs">
+                {campaign.lockup.eyebrow}
+              </span>
+              <span aria-hidden="true" className="font-display text-[28px] uppercase leading-none tracking-[0.06em]">
+                {campaign.lockup.word}
+              </span>
+            </span>
+          ) : (
+            <span
+              className={
+                campaign?.logoCarriesName
+                  ? "sr-only"
+                  : "hidden whitespace-nowrap font-display text-[26px] uppercase leading-none text-jet xs:inline-block"
+              }
+            >
+              {campaign ? campaign.name : SITE_NAME}
+              {!isCampaign && <sup className="text-[0.5em] font-medium tracking-normal">™</sup>}
+            </span>
+          )}
         </Link>
 
         <div className="hidden items-center gap-5 xl:flex 2xl:gap-6">
@@ -230,7 +242,7 @@ export function Header({
           </button>
         </div>
       </Container>
-      <BrandStripe variant={campaignSlug === "live" ? "live" : "org"} />
+      <BrandStripe variant={campaignSlug === "live" || campaignSlug === "seen" ? "live" : "org"} />
 
       <MobileMenu
         open={open}

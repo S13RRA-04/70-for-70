@@ -6,6 +6,7 @@ import { US_STATES_GRID } from "@/lib/content/us-states";
 import { slugifyResourceName } from "@/lib/content/resources";
 import { getResources } from "@/lib/data/resources";
 import { getPublishedLiveEvents } from "@/lib/data/live-events";
+import { LIVE_PREMIERES } from "@/lib/content/live-premieres";
 import { COMPLETED_RUCK_MISSIONS } from "@/lib/content/ruck-missions";
 import { CAMPAIGN_URL, CAMPAIGNS, SITE_URL } from "@/lib/constants";
 import { getActiveCampaignSlug } from "@/lib/site-mode";
@@ -121,6 +122,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       { url: `${base}/`, lastModified: new Date() },
       { url: `${base}/events`, lastModified: new Date() },
       { url: `${base}/auction`, lastModified: new Date() },
+      ...LIVE_PREMIERES.map((premiere) => ({ url: `${base}/${premiere.slug}`, lastModified: new Date() })),
       ...liveEvents.map((event) => ({
         url: `${base}/${event.slug}`,
         lastModified: new Date(event.updated_at),

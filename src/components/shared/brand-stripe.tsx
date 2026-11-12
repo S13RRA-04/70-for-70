@@ -18,7 +18,7 @@ const STRIPE = [
 ] as const;
 
 /**
- * For The 22: Live's stripe — the seven ring colors of the Live badge
+ * For The 22: Live's stripe (SEEN shares it) — the seven ring colors of the Live badge
  * (public/brand/live/badge.webp), not the org mark's nine. No navy segment,
  * so it reads the same on paper and on jet.
  */

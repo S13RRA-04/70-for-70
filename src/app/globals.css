@@ -125,6 +125,9 @@
   --color-live-red-dark: #b0141e;
   --color-live-stage: #0b0b0c;
 
+  /* For The 22: SEEN identity only — see html[data-property="seen"]. */
+  --color-seen-room: #0e0e0f;
+
   --background: var(--color-off-white);
   --foreground: var(--color-jet);
 
@@ -231,6 +234,28 @@ html[data-property="live"] {
 }
 
 /*
+ * For The 22: SEEN — "The Gallery Wall." A gallery's palette: warm wall
+ * paper, soft-black ink, and the gallery red dot (Live's stage red) as the
+ * accent — but unlike Live, red marks things rather than driving actions;
+ * buttons are ink. Shares Live's 7-color stripe (see BrandStripe).
+ */
+html[data-property="seen"] {
+  --color-jet: #1b1b1b;
+  --color-navy: var(--color-jet);
+  --color-navy-hover: #3a3a3a;
+  --color-navy-rule: #333333;
+  --color-bronze: var(--color-live-red);
+  --property-accent: var(--color-live-red);
+  --property-accent-readable: var(--color-live-red);
+  --property-action: var(--color-jet);
+  --property-action-hover: #3a3a3a;
+  --property-surface: var(--color-paper);
+  --property-surface-muted: #ffffff;
+  --property-dark: var(--color-jet);
+  --radius-control: 4px;
+}
+
+/*
  * Dark-band context (see the bronze note in :root). Anything painted with a
  * dark fill re-points the legacy accent at gold for its descendants, and
  * light surfaces nested inside a dark band point it back. Custom properties
@@ -260,6 +285,149 @@ html[data-property="live"]
   --color-bronze: var(--color-live-red);
   --color-bronze-text: var(--color-jet);
   --color-bronze-dark: var(--color-live-red-dark);
+}
+
+html[data-property="seen"]
+  :is(.bg-off-white, .bg-sand-light, .bg-sand, .bg-paper, .bg-white, .ui-card) {
+  --color-bronze: var(--color-live-red);
+  --color-bronze-text: var(--color-jet);
+  --color-bronze-dark: var(--color-live-red-dark);
+}
+
+/*
+ * SEEN gallery pieces (src/app/campaigns/seen, src/components/seen). A
+ * frame is jet moulding around an off-white mat; an empty mat is hatched
+ * until a story fills it. Wall labels and placards are the white cards
+ * hung beside them; the red dot is a gallery's "sold" sticker — here, a
+ * piece that has found its home. Layered as components so Tailwind
+ * utilities (sizes, padding) can override them per use.
+ */
+@layer components {
+  .seen-frame {
+    background: var(--color-jet);
+    padding: 14px;
+    box-shadow: 0 18px 30px rgb(27 27 27 / 0.22), 0 3px 6px rgb(27 27 27 / 0.18);
+  }
+
+  .seen-mat {
+    height: 100%;
+    box-sizing: border-box;
+    background: #fbfaf7;
+    padding: 22px;
+  }
+
+  .seen-hatch {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-align: center;
+    background: repeating-linear-gradient(45deg, rgb(27 27 27 / 0.05) 0 1px, transparent 1px 9px), #f6f4ef;
+    box-shadow: inset 0 0 0 1px rgb(27 27 27 / 0.08);
+  }
+
+  .seen-label {
+    background: #ffffff;
+    box-shadow: 0 1px 0 rgb(27 27 27 / 0.08), 0 6px 14px rgb(27 27 27 / 0.08);
+    padding: 12px 14px;
+    font-size: 12px;
+    line-height: 1.45;
+    color: #4a4a4a;
+  }
+
+  .seen-spot {
+    position: absolute;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse 50% 60% at 50% 0%,
+      rgb(255 236 190 / 0.55),
+      rgb(255 236 190 / 0.15) 45%,
+      transparent 75%
+    );
+  }
+
+  .seen-dot {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    flex: none;
+    border-radius: 9999px;
+    background: var(--color-live-red);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.3);
+  }
+
+  .seen-placard {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    border-radius: 2px;
+    background: #ffffff;
+    box-shadow: 0 1px 0 rgb(27 27 27 / 0.08), 0 14px 30px rgb(27 27 27 / 0.1);
+    padding: 30px 30px 28px;
+  }
+
+  .seen-meta {
+    display: grid;
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 4px 12px;
+    border-top: 1px solid #e4e1d8;
+    padding-top: 14px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .seen-meta dt {
+    padding-top: 2px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #6a6a6a;
+  }
+
+  .seen-meta dd {
+    margin: 0;
+    color: #2a2a2a;
+  }
+
+  /*
+   * The hero wall is composed on a fixed 600×620 grid; --u is one grid unit,
+   * so the whole arrangement scales down with its column instead of
+   * overflowing a phone screen.
+   */
+  .seen-wall {
+    container-type: inline-size;
+    width: 100%;
+    max-width: 600px;
+  }
+
+  .seen-wall-box {
+    --u: calc(100cqw / 600);
+    position: relative;
+    height: calc(var(--u) * 620);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .seen-reveal {
+    animation: seen-reveal 1.6s cubic-bezier(0.6, 0, 0.2, 1) 0.2s both;
+  }
+
+  .seen-lights {
+    animation: seen-lights 1.4s ease-out 0.5s both;
+  }
+}
+
+@keyframes seen-reveal {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes seen-lights {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @theme inline {
@@ -310,12 +478,14 @@ html[data-property="live"]
   --color-live-red: var(--color-live-red);
   --color-live-red-dark: var(--color-live-red-dark);
   --color-live-stage: var(--color-live-stage);
+  --color-seen-room: var(--color-seen-room);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
   --font-display: var(--font-anton);
   --font-sans: var(--font-public-sans);
+  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
 
   /* Brand radii: 8px controls, 12px cards. rounded-sm is the site-wide
      default (600+ call sites), so it carries the control radius. */

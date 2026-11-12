@@ -859,6 +859,8 @@ export const CAMPAIGNS: Record<
     logoDark: string;
     /** The mark already spells out the campaign name (Live's badge) — header/footer show it larger and drop the redundant text name. */
     logoCarriesName?: boolean;
+    /** Text lockup shown beside the logo instead of `name` — a small tracked eyebrow over a large Anton word (SEEN's "For The 22 / Seen"). */
+    lockup?: { eyebrow: string; word: string };
     primaryCta: NavLink & { external?: boolean };
     /** A small text link back to the permanent For The 22 parent mission. */
     parentLink?: NavLink;
@@ -913,9 +915,10 @@ export const CAMPAIGNS: Record<
     description:
       "An art initiative making the people behind the uniforms visible — veterans, first responders, and their families, their stories interpreted by visual artists.",
     navLinks: SEEN_NAV_LINKS,
-    // No SEEN mark exists yet — same fallback Ruck and 22 use.
-    logoLight: "/logo.png",
-    logoDark: "/logo-white.png",
+    // No SEEN mark — the org ring plus a text lockup carries the name.
+    logoLight: "/brand/ring-logo.webp",
+    logoDark: "/brand/ring-logo.webp",
+    lockup: { eyebrow: "For The 22", word: "Seen" },
     primaryCta: { label: "Get on the List", href: "/#list" },
     parentLink: PARENT_EVENT_LINK,
     crisisLink: CRISIS_LINK,
