@@ -20254,6 +20254,27 @@ verifiedDate: "2026-10-08",
     selfReferral: true,
     inPersonAvailable: true,
   },
+  {
+    name: "The Aplomb Project — Art Cafe & Creative Programs for Veterans",
+    url: "https://theaplombproject.org/vets/",
+    description:
+      "Dover, NH 501(c)(3) that uses art to support trauma survivors and creative healing. Veterans can join drop-in art cafe sessions free of charge, with an \"art barista\" guiding still life, stencils, florals, abstraction, photo references, or self-portraits. Other free offerings include workshops and a monthly creative circle, open in person or on Zoom. No art experience needed.",
+    needCategoryIds: ["mental-health", "purpose-community"],
+    audienceTags: ["Veteran", "First Responder"],
+    cost: "Free for veterans through Joe's Vet Fund. Book online and enter code JOESVETFUND at the final checkout step; for workshops, select \"Veteran\" at checkout.",
+    geographicScope: "Dover, NH (262 Central Ave) / online via Zoom",
+    state: "New Hampshire",
+    verifiedDate: "2026-11-12",
+    eligibility:
+      "Veterans; the monthly creative circle is also open to emergency responders",
+    availability:
+      "Art cafe sessions booked individually online (theaplombproject.simplybook.me) or by phone; creative circle meets third Thursdays, 6:30–8 pm, in person or on Zoom",
+    phone: "603-208-3300",
+    organizationType: "nonprofit",
+    selfReferral: true,
+    inPersonAvailable: true,
+    virtualAvailable: true,
+  },
 
   // ---------------------------------------------------------------------
   // Maine Regional
