@@ -1,53 +1,24 @@
-"use client";
-
-import { useState } from "react";
-import Image from "next/image";
-import { Play } from "lucide-react";
-import { getVideoEmbedUrl } from "@/lib/video-url";
-
 /**
- * Click-to-play facade for a vertical (9:16) YouTube Short — same approach
- * as JournalVideoEmbed (thumbnail first, player only after a click, never
- * autoplay on load), sized for portrait video instead of 16:9. YouTube's
- * thumbnail for a Short is the vertical frame centered between blurred
- * bars, so a centered object-cover crop shows just the frame.
+ * A vertical (9:16) YouTube Short, presented as a phone-like frame on an
+ * offset jet block. Embeds YouTube's privacy-enhanced nocookie player
+ * (allowed in middleware.ts's CSP frame-src) with lazy loading, so nothing
+ * from YouTube loads until the frame scrolls near the viewport.
  */
 export function VerticalVideoEmbed({ videoId, title }: { videoId: string; title: string }) {
-  const [playing, setPlaying] = useState(false);
-
-  if (playing) {
-    return (
-      <div className="relative aspect-[9/16] w-full overflow-hidden rounded-[4px] bg-jet">
+  return (
+    <div className="relative">
+      <div aria-hidden="true" className="absolute inset-[-18px_-18px_18px_18px] rounded-[22px] bg-jet" />
+      <div className="relative aspect-[9/16] overflow-hidden rounded-[18px] border-[3px] border-jet bg-[#161618]">
         <iframe
-          src={getVideoEmbedUrl("youtube", videoId)}
+          src={`https://www.youtube-nocookie.com/embed/${videoId}?rel=0&playsinline=1`}
           title={title}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
           allowFullScreen
-          className="h-full w-full"
+          className="absolute inset-0 h-full w-full border-0"
         />
       </div>
-    );
-  }
-
-  return (
-    <button
-      type="button"
-      onClick={() => setPlaying(true)}
-      className="group relative block aspect-[9/16] w-full overflow-hidden rounded-[4px] bg-jet"
-      aria-label={`Play video: ${title}`}
-    >
-      <Image
-        src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
-        alt=""
-        fill
-        className="object-cover"
-        sizes="(min-width: 768px) 320px, 80vw"
-      />
-      <div className="absolute inset-0 flex items-center justify-center bg-jet/25 transition-colors group-hover:bg-jet/40">
-        <span className="flex h-16 w-16 items-center justify-center rounded-full bg-live-red text-white transition-transform group-hover:scale-105">
-          <Play size={26} fill="currentColor" aria-hidden />
-        </span>
-      </div>
-    </button>
+    </div>
   );
 }

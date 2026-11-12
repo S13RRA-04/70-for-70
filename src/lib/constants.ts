@@ -1,6 +1,7 @@
 import type { NavLink, NavEntry } from "@/types/content";
 import type { CampaignStatus, MovementCampaign } from "@/types/organization";
 import type { CampaignSlug } from "@/lib/site-mode";
+import { HAS_LISTED_AUCTION_ITEMS } from "@/lib/content/live-auction";
 import { formatCurrency } from "@/lib/utils";
 
 /** The project's name — used in the header, footer, legal copy, and site-wide metadata. Not an organization name; see PROJECT_POSITIONING. */
@@ -374,7 +375,7 @@ export const EVENT22_NAV_LINKS: NavLink[] = [
 export const LIVE_NAV_LINKS: NavLink[] = [
   { label: "Shows", href: "/events" },
   { label: "Where It Goes", href: "/#impact" },
-  { label: "Silent Auction", href: "/auction" },
+  ...(HAS_LISTED_AUCTION_ITEMS ? [{ label: "Silent Auction", href: "/auction" }] : []),
   { label: "Artists & Sponsors", href: "/#join" },
 ];
 

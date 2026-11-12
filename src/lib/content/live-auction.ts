@@ -54,6 +54,12 @@ export interface LiveAuctionItem {
    */
   image?: { src: string; alt: string; contain?: boolean };
   featured?: boolean;
+  /**
+   * Pulls the item off the site without losing its details — set while an
+   * item's logistics are being worked out, delete the flag to relist it.
+   * Hiding it here doesn't touch the 32auctions listing itself.
+   */
+  hidden?: boolean;
   /** Shows the bid/goal/time-remaining tracker on the card when set. */
   tracker?: LiveAuctionTracker;
 }
@@ -74,6 +80,8 @@ export const LIVE_AUCTION_ITEMS: LiveAuctionItem[] = [
     closesShortLabel: "Nov. 22 at 2 PM CT",
     winnerAnnouncementLabel: "November 22, 2026",
     featured: true,
+    // Taken down Nov. 12, 2026 while auction logistics are worked out.
+    hidden: true,
     image: {
       src: "/live/whiskey-myers-guitar.jpg",
       alt: "Epiphone Les Paul Special with Whomp Whack Thunder album artwork, signed by Whiskey Myers",
@@ -101,8 +109,20 @@ export const LIVE_AUCTION_ITEMS: LiveAuctionItem[] = [
     closesShortLabel: "Dec. 22",
     beneficiary: "Mighty Oaks Warrior Programs",
     featured: true,
+    // Taken down Nov. 12, 2026 while auction logistics are worked out.
+    hidden: true,
     // Swap in the real photo once it's available — see AuctionItemCard,
     // which falls back to a branded placeholder whenever `image` is unset.
     // image: { src: "/live/muscadine-bloodline-guitar.jpg", alt: "Gibson guitar signed by Muscadine Bloodline for the For the 22 silent auction" },
   },
 ];
+
+/** The items shown on the site — everything in LIVE_AUCTION_ITEMS that isn't hidden. */
+export const LISTED_LIVE_AUCTION_ITEMS = LIVE_AUCTION_ITEMS.filter((item) => !item.hidden);
+
+/**
+ * Whether the auction has anything to show. While false, /auction shows a
+ * "coming soon" state and the links that send people there (LIVE nav, the
+ * LIVE home's auction card, the sitemap, press references) stand down.
+ */
+export const HAS_LISTED_AUCTION_ITEMS = LISTED_LIVE_AUCTION_ITEMS.length > 0;

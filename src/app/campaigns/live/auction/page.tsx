@@ -1,7 +1,8 @@
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { AuctionItemCard } from "@/components/live/auction-item-card";
-import { LIVE_AUCTION_ITEMS } from "@/lib/content/live-auction";
+import { HAS_LISTED_AUCTION_ITEMS, LISTED_LIVE_AUCTION_ITEMS } from "@/lib/content/live-auction";
+import { EmptyState } from "@/components/shared/empty-state";
 import { LIVE_FUNDS_DISCLOSURE } from "@/lib/content/live-campaign";
 import { LIVE_CAMPAIGN_URL, SITE_URL } from "@/lib/constants";
 import { RevealOnScroll, RevealGrid } from "@/components/shared/reveal-on-scroll";
@@ -11,7 +12,7 @@ import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 export const metadata = pageMetadata({
   title: "Online Silent Auction | For The 22: Live",
   description:
-    "Bid on a Whiskey Myers signed Epiphone Les Paul Special with two 2027 concert tickets, November 1–22 — plus a Gibson guitar signed by Muscadine Bloodline, opening December 1, in the For The 22: Live online silent auction.",
+    "The For The 22: Live online silent auction — donated items that support veterans, first responders, and their families.",
   canonical: "/auction",
 });
 
@@ -39,16 +40,27 @@ export default function LiveAuctionPage() {
 
       <section className="border-b border-off-white/10 bg-charcoal py-16 sm:py-20">
         <Container>
-          <RevealGrid>
-            <div className="grid gap-6 sm:grid-cols-2">
-              {LIVE_AUCTION_ITEMS.map((item) => (
-                <AuctionItemCard key={item.slug} item={item} />
-              ))}
+          {HAS_LISTED_AUCTION_ITEMS ? (
+            <RevealGrid>
+              <div className="grid gap-6 sm:grid-cols-2">
+                {LISTED_LIVE_AUCTION_ITEMS.map((item) => (
+                  <AuctionItemCard key={item.slug} item={item} />
+                ))}
+              </div>
+            </RevealGrid>
+          ) : (
+            <div className="mx-auto max-w-2xl">
+              <EmptyState
+                title="Auction Items Coming Soon"
+                description="We're finalizing the details for our next silent auction. Items and bidding dates will be posted here."
+                cta={{ label: "Get on the List", href: "/#list" }}
+              />
             </div>
-          </RevealGrid>
+          )}
         </Container>
       </section>
 
+      {HAS_LISTED_AUCTION_ITEMS && (
       <section className="bg-sand-light py-16 sm:py-20">
         <Container className="max-w-3xl">
           <RevealOnScroll>
@@ -77,6 +89,7 @@ export default function LiveAuctionPage() {
           </RevealOnScroll>
         </Container>
       </section>
+      )}
 
       <section className="py-16 sm:py-20">
         <Container className="max-w-3xl">

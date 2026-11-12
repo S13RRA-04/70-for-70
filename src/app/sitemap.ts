@@ -7,6 +7,7 @@ import { slugifyResourceName } from "@/lib/content/resources";
 import { getResources } from "@/lib/data/resources";
 import { getPublishedLiveEvents } from "@/lib/data/live-events";
 import { LIVE_PREMIERES } from "@/lib/content/live-premieres";
+import { HAS_LISTED_AUCTION_ITEMS } from "@/lib/content/live-auction";
 import { COMPLETED_RUCK_MISSIONS } from "@/lib/content/ruck-missions";
 import { CAMPAIGN_URL, CAMPAIGNS, SITE_URL } from "@/lib/constants";
 import { getActiveCampaignSlug } from "@/lib/site-mode";
@@ -121,7 +122,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     return [
       { url: `${base}/`, lastModified: new Date() },
       { url: `${base}/events`, lastModified: new Date() },
-      { url: `${base}/auction`, lastModified: new Date() },
+      ...(HAS_LISTED_AUCTION_ITEMS ? [{ url: `${base}/auction`, lastModified: new Date() }] : []),
       ...LIVE_PREMIERES.map((premiere) => ({ url: `${base}/${premiere.slug}`, lastModified: new Date() })),
       ...liveEvents.map((event) => ({
         url: `${base}/${event.slug}`,

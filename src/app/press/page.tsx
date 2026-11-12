@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { HAS_LISTED_AUCTION_ITEMS } from "@/lib/content/live-auction";
 import { Container } from "@/components/shared/container";
 import { PageHero } from "@/components/shared/page-hero";
 import { CTAButton } from "@/components/shared/cta-button";
@@ -152,11 +153,17 @@ export default async function PressPage() {
         <>
           Donated items for the online silent auction — a signed guitar plus concert tickets from Whiskey
           Myers, and a Gibson guitar (donated through Gibson Gives) signed by members of Muscadine
-          Bloodline. Not an endorsement or partnership. Items listed at{" "}
-          <a href={`${LIVE_CAMPAIGN_URL}/auction`} className={linkClass}>
-            the auction page
-          </a>
-          .
+          Bloodline. Not an endorsement or partnership.
+          {HAS_LISTED_AUCTION_ITEMS && (
+            <>
+              {" "}
+              Items listed at{" "}
+              <a href={`${LIVE_CAMPAIGN_URL}/auction`} className={linkClass}>
+                the auction page
+              </a>
+              .
+            </>
+          )}
         </>
       ),
     },

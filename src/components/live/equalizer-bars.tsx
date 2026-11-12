@@ -16,14 +16,18 @@ const BARS = Array.from({ length: BAR_COUNT }, (_, i) => {
   };
 });
 
-/** The audio-level meter under the Live hero wordmark (see .live-eq-bar in globals.css). */
-export function EqualizerBars({ className }: { className?: string }) {
+/**
+ * The audio-level meter under the Live hero wordmark (see .live-eq-bar in
+ * globals.css). `tone="dark"` swaps the jet bars for gray so they read on
+ * the stage-black premiere hero.
+ */
+export function EqualizerBars({ className, tone = "light" }: { className?: string; tone?: "light" | "dark" }) {
   return (
     <div aria-hidden="true" className={`flex h-16 items-center justify-center gap-1 ${className ?? ""}`}>
       {BARS.map((bar, i) => (
         <span
           key={i}
-          className={`live-eq-bar ${bar.red ? "bg-live-red" : "bg-jet"}`}
+          className={`live-eq-bar ${bar.red ? "bg-live-red" : tone === "dark" ? "bg-[#5a5a5a]" : "bg-jet"}`}
           style={{ height: bar.height, animationDelay: `-${bar.delay}s` }}
         />
       ))}

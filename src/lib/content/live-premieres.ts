@@ -19,9 +19,14 @@ export interface LivePremiere {
   kind: string;
   /** When the LIVE episode starts, ISO 8601 in UTC. */
   startsAt: string;
+  /** Expected running time, for the "Add to calendar" event's end time. */
+  durationMinutes: number;
   summary: string;
-  /** The night's running order, as agreed with the artist. */
-  program: { title: string; description: string }[];
+  /**
+   * The night's running order, as agreed with the artist. `time` labels a
+   * segment with a fixed start; `mainEvent` marks the centerpiece.
+   */
+  program: { title: string; description: string; time?: string; mainEvent?: boolean }[];
   /** The artist's channel, where the official release lives. */
   artistChannelUrl: string;
   /** Direct link to the scheduled YouTube Premiere, once the artist has created it. */
@@ -40,15 +45,18 @@ export const LIVE_PREMIERES: LivePremiere[] = [
     kind: "Official Music Video Premiere",
     // 7:00 PM Pacific on November 20, 2026 (PST, UTC−8).
     startsAt: "2026-11-21T03:00:00Z",
+    durationMinutes: 90,
     summary:
       "For The 22: LIVE presents the official music video premiere of “Austin” by Western Medicine — a live interview with the band, then the video's debut on Western Medicine's own YouTube channel.",
     program: [
       {
         title: "Live interview",
+        time: "7:00 PM PT",
         description: "Western Medicine joins For The 22: LIVE to talk about “Austin” and the story behind it.",
       },
       {
         title: "The premiere",
+        mainEvent: true,
         description: "The official “Austin” music video premieres on Western Medicine's YouTube channel.",
       },
     ],
@@ -98,4 +106,22 @@ export function formatPremiereTimes(premiere: LivePremiere): string {
     ({ zone, label }) =>
       `${new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", timeZone: zone }).format(start)} ${label}`,
   ).join(" / ");
+}
+
+function toCalendarStamp(date: Date): string {
+  return date.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+}
+
+/** A Google Calendar "add event" link for the premiere — no account data, just the event's own details. */
+export function premiereCalendarUrl(premiere: LivePremiere, pageUrl: string): string {
+  const start = new Date(premiere.startsAt);
+  const end = new Date(start.getTime() + premiere.durationMinutes * 60_000);
+  const params = new URLSearchParams({
+    action: "TEMPLATE",
+    text: `${premiere.artist} — “${premiere.title}” premiere · For The 22: Live`,
+    dates: `${toCalendarStamp(start)}/${toCalendarStamp(end)}`,
+    details: `${premiere.program.map((step) => step.title).join(", then ")}. ${pageUrl}`,
+    location: premiereWatchUrl(premiere),
+  });
+  return `https://calendar.google.com/calendar/render?${params.toString()}`;
 }

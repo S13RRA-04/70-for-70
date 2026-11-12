@@ -1,4 +1,5 @@
 import { CAMPAIGN_URL, LIVE_CAMPAIGN_URL, SITE_URL } from "@/lib/constants";
+import { HAS_LISTED_AUCTION_ITEMS } from "@/lib/content/live-auction";
 
 /** Reusable, approved organizational press copy. */
 export const FOUNDER_BIO_SHORT =
@@ -109,7 +110,11 @@ export const STORY_ANGLES: readonly StoryAngle[] = [
     headline: "When Music Becomes a Mission: Country Artists Rally Behind Veterans",
     pitch:
       "Whiskey Myers donated and signed a guitar plus two 2027 concert tickets, and Muscadine Bloodline's Gary Stanton and Charlie Muncaster signed a Gibson guitar donated through Gibson Gives—both for For The 22's online silent auction, as part of a benefit concert series in development.",
-    sources: [{ label: "Silent auction items", href: `${LIVE_CAMPAIGN_URL}/auction` }],
+    sources: [
+      HAS_LISTED_AUCTION_ITEMS
+        ? { label: "Silent auction items", href: `${LIVE_CAMPAIGN_URL}/auction` }
+        : { label: "For The 22: Live", href: LIVE_CAMPAIGN_URL },
+    ],
   },
 ];
 

@@ -25,6 +25,7 @@ import {
   LIVE_PILLARS,
   UPCOMING_LIVE_PERFORMERS,
 } from "@/lib/content/live-campaign";
+import { HAS_LISTED_AUCTION_ITEMS } from "@/lib/content/live-auction";
 import { CAMPAIGN_URL, CONTACT_EMAIL, LIVE_CAMPAIGN_NAME, LIVE_CAMPAIGN_URL, MISSION_NAME, SITE_URL } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
 import { pageMetadata } from "@/lib/metadata";
@@ -296,7 +297,7 @@ export default async function LiveCampaignPage() {
             </span>
           </div>
           <RevealGrid>
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <div className={`grid gap-5 sm:grid-cols-2 ${HAS_LISTED_AUCTION_ITEMS ? "lg:grid-cols-4" : "lg:grid-cols-3"}`}>
               {STORY_MAILTO && (
                 <JoinCard
                   icon={
@@ -335,6 +336,7 @@ export default async function LiveCampaignPage() {
                 href={`${CAMPAIGN_URL}/become-a-partner`}
                 external
               />
+              {HAS_LISTED_AUCTION_ITEMS && (
               <JoinCard
                 icon={
                   <svg aria-hidden="true" width="64" height="50" viewBox="0 0 128 100">
@@ -347,6 +349,7 @@ export default async function LiveCampaignPage() {
                 {...LIVE_JOIN_PATHS.auction}
                 href="/auction"
               />
+              )}
             </div>
           </RevealGrid>
         </Container>

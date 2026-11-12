@@ -138,9 +138,10 @@ function buildContentSecurityPolicy(nonce: string): string {
     `img-src 'self' data: blob:${supabaseOrigin ? ` ${supabaseOrigin}` : ""} https://img.youtube.com https://badges.strava.com https://tile.openstreetmap.org`,
     "font-src 'self' data:",
     `connect-src 'self'${supabaseOrigin ? ` ${supabaseOrigin} ${supabaseOrigin.replace("https://", "wss://")}` : ""} https://challenges.cloudflare.com https://plausible.io https://nominatim.openstreetmap.org`,
-    // The Journal's click-to-play video facade (src/lib/video-url.ts), plus the
+    // The Journal's click-to-play video facade (src/lib/video-url.ts), LIVE
+    // premiere teasers (YouTube's privacy-enhanced nocookie player), plus the
     // Turnstile challenge iframe on the public forms.
-    "frame-src https://www.youtube.com https://player.vimeo.com https://challenges.cloudflare.com",
+    "frame-src https://www.youtube.com https://www.youtube-nocookie.com https://player.vimeo.com https://challenges.cloudflare.com",
     // The participant app registers its own service worker (/sw.js).
     "worker-src 'self'",
     "manifest-src 'self'",
