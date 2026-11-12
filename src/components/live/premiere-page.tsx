@@ -4,6 +4,7 @@ import { CTAButton } from "@/components/shared/cta-button";
 import { EmailSignupForm } from "@/components/forms/email-signup-form";
 import { EqualizerBars } from "@/components/live/equalizer-bars";
 import { PremiereCountdown } from "@/components/live/premiere-countdown";
+import { VerticalVideoEmbed } from "@/components/live/vertical-video-embed";
 import {
   formatPremiereDate,
   formatPremiereTimes,
@@ -12,6 +13,7 @@ import {
 } from "@/lib/content/live-premieres";
 import { LIVE_FUNDS_DISCLOSURE } from "@/lib/content/live-campaign";
 import { CAMPAIGN_URL, LIVE_CAMPAIGN_NAME, MISSION_NAME, SITE_URL } from "@/lib/constants";
+import { parseVideoUrl } from "@/lib/video-url";
 
 /**
  * A For The 22: LIVE artist premiere — rendered by
@@ -22,6 +24,9 @@ import { CAMPAIGN_URL, LIVE_CAMPAIGN_NAME, MISSION_NAME, SITE_URL } from "@/lib/
 export function PremierePage({ premiere }: { premiere: LivePremiere }) {
   const watchUrl = premiereWatchUrl(premiere);
   const dateLine = formatPremiereDate(premiere, { weekday: "long", month: "long", day: "numeric", year: "numeric" });
+  const teasers = premiere.teasers
+    .map((url) => ({ url, video: parseVideoUrl(url) }))
+    .filter((teaser) => teaser.video?.provider === "youtube");
 
   return (
     <>
@@ -54,6 +59,43 @@ export function PremierePage({ premiere }: { premiere: LivePremiere }) {
           </div>
         </Container>
       </section>
+
+      {/* First look — the artist's own teasers. */}
+      {teasers.length > 0 && (
+        <section aria-labelledby="teaser-heading" className="border-b-2 border-jet bg-white">
+          <Container className="flex flex-wrap items-center justify-center gap-x-16 gap-y-10 py-section">
+            <div className="flex min-w-0 max-w-[460px] flex-[1_1_320px] flex-col gap-3.5">
+              <span className="label-caps text-live-red">First look</span>
+              <h2 id="teaser-heading" className="text-worn font-display text-[clamp(3rem,6vw,5rem)] uppercase leading-none">
+                A taste of &ldquo;{premiere.title}&rdquo;
+              </h2>
+              <p className="text-copy">
+                The full video debuts {dateLine.split(", ").slice(0, 2).join(", ")} at{" "}
+                {formatPremiereTimes(premiere).split(" / ")[0]}. Until then, here&apos;s a first look from{" "}
+                {premiere.artist}.
+              </p>
+              <a
+                href={premiere.artistChannelUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="self-start font-bold text-jet underline underline-offset-4 hover:text-live-red"
+              >
+                More from {premiere.artist} on YouTube &rarr;
+              </a>
+            </div>
+            <div className="flex flex-wrap justify-center gap-5">
+              {teasers.map(({ url, video }, i) => (
+                <div key={url} className="w-[min(320px,80vw)]">
+                  <VerticalVideoEmbed
+                    videoId={video!.id}
+                    title={`${premiere.artist} — “${premiere.title}” teaser${teasers.length > 1 ? ` ${i + 1}` : ""}`}
+                  />
+                </div>
+              ))}
+            </div>
+          </Container>
+        </section>
+      )}
 
       {/* The night. */}
       <section aria-labelledby="program-heading" className="scroll-mt-24">

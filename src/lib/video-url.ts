@@ -4,6 +4,7 @@ const YOUTUBE_PATTERNS = [
   /(?:youtube\.com\/watch\?v=)([\w-]{11})/,
   /(?:youtube\.com\/embed\/)([\w-]{11})/,
   /(?:youtu\.be\/)([\w-]{11})/,
+  /(?:youtube\.com\/shorts\/)([\w-]{11})/,
 ];
 
 const VIMEO_PATTERN = /vimeo\.com\/(?:video\/)?(\d+)/;

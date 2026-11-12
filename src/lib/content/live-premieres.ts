@@ -28,6 +28,8 @@ export interface LivePremiere {
   watchUrl: string | null;
   /** Where to stream the song itself, once there's a link to share. */
   listenUrl: string | null;
+  /** The artist's own teaser clips (YouTube Shorts/videos), embedded click-to-play, in order. */
+  teasers: string[];
 }
 
 export const LIVE_PREMIERES: LivePremiere[] = [
@@ -53,6 +55,7 @@ export const LIVE_PREMIERES: LivePremiere[] = [
     artistChannelUrl: "https://www.youtube.com/@WesternMedicineMusic",
     watchUrl: null,
     listenUrl: null,
+    teasers: ["https://youtube.com/shorts/8Fw3d1Nx67U"],
   },
 ];
 
