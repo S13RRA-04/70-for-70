@@ -47,6 +47,19 @@ export function MobileConversionBar({ mode, campaignSlug }: { mode: SiteMode; ca
     );
   }
 
+  if (campaignSlug === "seen") {
+    return (
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-ink/10 bg-off-white/95 p-3 backdrop-blur-sm sm:hidden">
+        <Link
+          href={CAMPAIGNS.seen.primaryCta.href}
+          className="block rounded-sm bg-bronze-text px-4 py-3 text-center text-sm font-semibold uppercase tracking-wide text-off-white shadow-sm hover:bg-bronze-dark"
+        >
+          {CAMPAIGNS.seen.primaryCta.label}
+        </Link>
+      </div>
+    );
+  }
+
   if (campaignSlug === "ruck") {
     const campaign = CAMPAIGNS.ruck;
     return (

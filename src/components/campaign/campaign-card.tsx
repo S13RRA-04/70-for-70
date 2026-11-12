@@ -1,4 +1,4 @@
-import { Backpack, Bike, Footprints, Music } from "lucide-react";
+import { Backpack, Bike, Footprints, Music, Palette } from "lucide-react";
 import { CTAButton } from "@/components/shared/cta-button";
 import { CAMPAIGN_STATUS_LABELS, MISSION_NAME } from "@/lib/constants";
 import type { MovementCampaign } from "@/types/organization";
@@ -16,6 +16,7 @@ const CAMPAIGN_ICONS: Record<string, typeof Bike> = {
   tri: Bike,
   ruck: Backpack,
   live: Music,
+  seen: Palette,
   "22": Footprints,
 };
 

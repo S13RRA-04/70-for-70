@@ -122,6 +122,7 @@ export default async function HomePage() {
     .filter((c) => c.slug in CAMPAIGN_CARD_COPY)
     .sort((a, b) => (a.startDate ?? "9999").localeCompare(b.startDate ?? "9999"));
   const liveCampaign = MOVEMENT_CAMPAIGNS.find((c) => c.slug === "live" && c.url);
+  const seenCampaign = MOVEMENT_CAMPAIGNS.find((c) => c.slug === "seen" && c.url);
 
   const upcomingObservances = getUpcomingEntries(AWARENESS_CALENDAR, 3);
 
@@ -495,6 +496,25 @@ export default async function HomePage() {
                 <span className="text-base text-mist">
                   Artists, veterans, first responders, and families — tickets, sponsorships, and auctions all count
                   toward the mission.
+                </span>
+              </div>
+              <span className="font-bold text-gold">Get updates →</span>
+            </a>
+          )}
+
+          {seenCampaign?.url && (
+            <a
+              href={seenCampaign.url}
+              className="flex flex-wrap items-center justify-between gap-x-8 gap-y-3 rounded-xl border border-[#2c3d6b] px-7 py-6 text-white transition-colors hover:border-mist"
+            >
+              <div className="flex flex-col gap-1.5">
+                <Label className="text-xs text-mist">
+                  Art initiative{seenCampaign.status === "in-development" && " · Coming soon"}
+                </Label>
+                <span className="font-display text-[32px] uppercase leading-none">{seenCampaign.name}</span>
+                <span className="text-base text-mist">
+                  Veterans&apos; and first responders&apos; stories, interpreted by visual artists — exhibitions,
+                  auctions, and art sales all count toward the mission.
                 </span>
               </div>
               <span className="font-bold text-gold">Get updates →</span>

@@ -4,6 +4,7 @@ import {
   EVENT22_CAMPAIGN_URL,
   LIVE_CAMPAIGN_URL,
   RUCK_CAMPAIGN_URL,
+  SEEN_CAMPAIGN_URL,
   SITE_URL,
 } from "@/lib/constants";
 
@@ -32,6 +33,7 @@ const URL_VARS: Record<string, string> = {
   NEXT_PUBLIC_APP_URL: APP_URL,
   NEXT_PUBLIC_EVENT22_URL: EVENT22_CAMPAIGN_URL,
   NEXT_PUBLIC_LIVE_URL: LIVE_CAMPAIGN_URL,
+  NEXT_PUBLIC_SEEN_URL: SEEN_CAMPAIGN_URL,
 };
 
 export function assertValidRuntimeConfig(): void {

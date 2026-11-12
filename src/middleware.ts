@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { updateSupabaseSession } from "@/lib/supabase/proxy-session";
 import { getPreviewToken, isCampaignLive, isOrgLive, PREVIEW_COOKIE_NAME } from "@/lib/launch-gate";
 import { getCampaignSlug, isAppHost, type CampaignSlug } from "@/lib/site-mode";
-import { CAMPAIGN_URL, EVENT22_CAMPAIGN_URL, LIVE_CAMPAIGN_URL, SITE_URL } from "@/lib/constants";
+import { CAMPAIGN_URL, EVENT22_CAMPAIGN_URL, LIVE_CAMPAIGN_URL, SEEN_CAMPAIGN_URL, SITE_URL } from "@/lib/constants";
 import { assertValidRuntimeConfig } from "@/lib/config-validation";
 
 /**
@@ -64,6 +64,9 @@ export async function middleware(request: NextRequest) {
 
   const legacyLiveResponse = applyLiveLegacyRedirect(request);
   if (legacyLiveResponse) return applyCsp(legacyLiveResponse, csp);
+
+  const legacySeenResponse = applySeenLegacyRedirect(request);
+  if (legacySeenResponse) return applyCsp(legacySeenResponse, csp);
 
   // app.forthe22.org is a different product surface entirely (authenticated
   // participant app, not marketing content) — never subject to the org/
@@ -282,6 +285,21 @@ function applyLiveLegacyRedirect(request: NextRequest): Response | null {
 }
 
 /**
+ * For The 22: SEEN's page lives at /campaigns/seen on disk, which the org
+ * host would otherwise serve directly (/campaigns is an org path) — send it
+ * to seen.forthe22.org instead, same as applyLiveLegacyRedirect above.
+ */
+function applySeenLegacyRedirect(request: NextRequest): Response | null {
+  const campaignSlug = getCampaignSlug(request.headers.get("host"));
+  if (campaignSlug === "seen") return null;
+
+  const { pathname, search } = request.nextUrl;
+  if (pathname !== "/campaigns/seen" && !pathname.startsWith("/campaigns/seen/")) return null;
+
+  return NextResponse.redirect(`${SEEN_CAMPAIGN_URL}/${search}`, 308);
+}
+
+/**
  * Returns a response if the request should be blocked/redirected by the
  * pre-launch gate, or null if the visitor has valid preview access and
  * should proceed to the real site. Gating is per-domain — see
@@ -420,6 +438,7 @@ const CAMPAIGN_HOME_ROUTES: Record<CampaignSlug, string> = {
   tri: "/campaign-home",
   ruck: "/ruck-home",
   live: "/campaigns/live",
+  seen: "/campaigns/seen",
   // The page itself never moved on disk — only which host's "/" points at
   // it. See EVENT22_CAMPAIGN_URL's doc comment in constants.ts.
   "22": "/22forthe22",
@@ -478,6 +497,14 @@ function applyRuckGuard(request: NextRequest, campaignSlug: CampaignSlug | null)
   if (pathname === "/" || RUCK_MISSION_PATH.test(pathname) || matchesPathPrefix(pathname, SHARED_PATH_PREFIXES)) {
     return null;
   }
+  return NextResponse.redirect(new URL("/", request.nextUrl), 308);
+}
+
+/** For The 22: SEEN is one page so far — same "/"-only rule as applyRuckGuard. */
+function applySeenGuard(request: NextRequest, campaignSlug: CampaignSlug | null): Response | null {
+  if (campaignSlug !== "seen") return null;
+  const { pathname } = request.nextUrl;
+  if (pathname === "/" || matchesPathPrefix(pathname, SHARED_PATH_PREFIXES)) return null;
   return NextResponse.redirect(new URL("/", request.nextUrl), 308);
 }
 
@@ -541,6 +568,9 @@ function applyDomainSplit(
 
   const liveGuardResponse = applyLiveGuard(request, campaignSlug);
   if (liveGuardResponse) return liveGuardResponse;
+
+  const seenGuardResponse = applySeenGuard(request, campaignSlug);
+  if (seenGuardResponse) return seenGuardResponse;
 
   // "/" is the one path that exists on every host with different content.
   // Each campaign's home lives at its own real route (see

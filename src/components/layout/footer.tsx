@@ -58,7 +58,7 @@ export function Footer({
         className={`relative grid gap-10 pb-14 pt-16 sm:grid-cols-2 ${
           campaignSlug === "tri"
             ? "lg:grid-cols-3 xl:grid-cols-6"
-            : campaignSlug === "ruck" || campaignSlug === "22" || campaignSlug === "live"
+            : campaignSlug === "ruck" || campaignSlug === "22" || campaignSlug === "live" || campaignSlug === "seen"
               ? "lg:grid-cols-4"
               : "lg:grid-cols-3 xl:grid-cols-6"
         }`}
@@ -396,11 +396,11 @@ export function Footer({
               </ul>
             </div>
           </>
-        ) : campaignSlug === "live" && campaign ? (
+        ) : (campaignSlug === "live" || campaignSlug === "seen") && campaign ? (
           <>
             <div>
               <p className="label-caps text-xs text-mist">
-                The Series
+                {campaignSlug === "live" ? "The Series" : "The Initiative"}
               </p>
               <ul className="mt-4 space-y-2 text-[15px] text-mist">
                 {campaign.navLinks.filter((entry): entry is NavLink => !isNavGroup(entry)).map((link) => (

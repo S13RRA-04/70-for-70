@@ -41,7 +41,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const { fundraisingGoal } = await getFundraisingImpactStats();
   return pageMetadata({
     title: MISSION_NAME,
-    description: `${MISSION_SUPPORTING_LINE} Tri For The 22, Ruck For The 22, For The 22: Live, 22 For the 22, auctions, merchandise, sponsorships, and direct giving all contribute toward ${SITE_NAME}'s shared ${formatCurrency(fundraisingGoal)} fundraising goal.`,
+    description: `${MISSION_SUPPORTING_LINE} Tri For The 22, Ruck For The 22, For The 22: Live, For The 22: SEEN, 22 For the 22, auctions, merchandise, sponsorships, and direct giving all contribute toward ${SITE_NAME}'s shared ${formatCurrency(fundraisingGoal)} fundraising goal.`,
     canonical: "/campaigns",
   });
 }

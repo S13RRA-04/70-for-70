@@ -43,6 +43,7 @@ const CAMPAIGN_PARTNER_GROUPS: { tag: string; name: string; url: string }[] = [
   { tag: "tri", name: CAMPAIGNS.tri.name, url: CAMPAIGNS.tri.url },
   { tag: "ruck", name: CAMPAIGNS.ruck.name, url: CAMPAIGNS.ruck.url },
   { tag: "live", name: CAMPAIGNS.live.name, url: CAMPAIGNS.live.url },
+  { tag: "seen", name: CAMPAIGNS.seen.name, url: CAMPAIGNS.seen.url },
   { tag: "22-for-the-22", name: CAMPAIGNS["22"].name, url: CAMPAIGNS["22"].url },
 ];
 

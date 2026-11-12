@@ -33,6 +33,8 @@ import {
   EVENT22_CAMPAIGN_NAME,
   EVENT22_CAMPAIGN_URL,
   LIVE_CAMPAIGN_URL,
+  SEEN_CAMPAIGN_NAME,
+  SEEN_CAMPAIGN_URL,
   RACE_TOTAL_DISTANCE,
   RUCK_CAMPAIGN_NAME,
   RUCK_CAMPAIGN_URL,
@@ -155,6 +157,12 @@ const MISSION_CAMPAIGN_CARDS: MissionCampaignCard[] = [
     name: "For The 22: Live",
     description: "Music moves the mission — a benefit concert series supporting the same shared goal.",
     href: LIVE_CAMPAIGN_URL,
+    external: true,
+  },
+  {
+    name: SEEN_CAMPAIGN_NAME,
+    description: "Stories made visible — an art initiative pairing veterans and first responders with visual artists.",
+    href: SEEN_CAMPAIGN_URL,
     external: true,
   },
   {

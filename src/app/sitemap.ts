@@ -108,6 +108,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ];
   }
 
+  // For The 22: SEEN is one page so far — see applySeenGuard in src/middleware.ts.
+  if (campaignSlug === "seen") {
+    return [{ url: `${CAMPAIGNS.seen.url}/`, lastModified: new Date() }];
+  }
+
   if (campaignSlug === "live") {
     const base = CAMPAIGNS.live.url;
     if (!live) return [{ url: `${base}/`, lastModified: new Date() }];

@@ -59,7 +59,8 @@ export const SITE_TAGLINE = `70.3 miles. One campaign in For The 22's shared ${f
 /**
  * Unified mission branding — the $70,000 goal belongs to For The 22 (the
  * org), not to any single campaign. Tri For The 22 inspired the number via
- * its 70.3-mile distance, but Tri, Ruck For The 22, For The 22: Live, 22 For
+ * its 70.3-mile distance, but Tri, Ruck For The 22, For The 22: Live, For The
+ * 22: SEEN, 22 For
  * the 22, auctions, merchandise, sponsorships, and direct giving are all
  * framed as mechanisms contributing to this one shared goal — never as
  * owners of their own separate fundraising target. See /70k for the
@@ -116,6 +117,15 @@ export const LIVE_CAMPAIGN_URL = process.env.NEXT_PUBLIC_LIVE_URL ?? "http://loc
 export const LIVE_CAMPAIGN_NAME = "For The 22: Live";
 export const LIVE_REGISTRATION_URL =
   "https://www.zeffy.com/en-US/ticketing/for-the-22-presents-the-scooter-brown-band";
+
+/**
+ * For The 22: SEEN art initiative — seen.forthe22.org. LIVE's companion:
+ * the same veteran/first-responder stories, interpreted by visual artists
+ * instead of musicians. One page for now (src/app/campaigns/seen/page.tsx);
+ * its copy is data in src/lib/content/seen-campaign.ts.
+ */
+export const SEEN_CAMPAIGN_URL = process.env.NEXT_PUBLIC_SEEN_URL ?? "http://localhost:3000";
+export const SEEN_CAMPAIGN_NAME = "For The 22: SEEN";
 
 /**
  * The "For the 22" participant app — app.forthe22.org in production. A
@@ -199,6 +209,18 @@ export const MOVEMENT_CAMPAIGNS: readonly MovementCampaign[] = [
       "A benefit concert series bringing together artists, veterans, first responders, families, and supporters — ticket proceeds, sponsorships, silent auctions, and merchandise all contribute to The $70K Mission.",
     url: LIVE_CAMPAIGN_URL,
     parentMission: MISSION_NAME,
+  },
+  {
+    id: "for-the-22-seen",
+    name: SEEN_CAMPAIGN_NAME,
+    slug: "seen",
+    type: "Art Initiative",
+    status: "in-development",
+    description:
+      "An art initiative pairing the stories of veterans, first responders, and their families with visual artists — exhibitions, auctions, workshops, and art sales all contribute to The $70K Mission.",
+    url: SEEN_CAMPAIGN_URL,
+    parentMission: MISSION_NAME,
+    beneficiaries: ["Mighty Oaks Foundation", "Veterans and Athletes United"],
   },
   {
     id: "22-for-the-22",
@@ -354,6 +376,14 @@ export const LIVE_NAV_LINKS: NavLink[] = [
   { label: "Where It Goes", href: "/#impact" },
   { label: "Silent Auction", href: "/auction" },
   { label: "Artists & Sponsors", href: "/#join" },
+];
+
+/** Anchors into the single-scroll SEEN page (see src/app/campaigns/seen/page.tsx). */
+export const SEEN_NAV_LINKS: NavLink[] = [
+  { label: "The Idea", href: "/#idea" },
+  { label: "How It Works", href: "/#how" },
+  { label: "Where It Goes", href: "/#impact" },
+  { label: "Take Part", href: "/#join" },
 ];
 
 /**
@@ -876,6 +906,20 @@ export const CAMPAIGNS: Record<
     parentLink: PARENT_EVENT_LINK,
     crisisLink: CRISIS_LINK,
   },
+  seen: {
+    name: SEEN_CAMPAIGN_NAME,
+    url: SEEN_CAMPAIGN_URL,
+    tagline: "Every Life Has a Story Worth Seeing",
+    description:
+      "An art initiative making the people behind the uniforms visible — veterans, first responders, and their families, their stories interpreted by visual artists.",
+    navLinks: SEEN_NAV_LINKS,
+    // No SEEN mark exists yet — same fallback Ruck and 22 use.
+    logoLight: "/logo.png",
+    logoDark: "/logo-white.png",
+    primaryCta: { label: "Get on the List", href: "/#list" },
+    parentLink: PARENT_EVENT_LINK,
+    crisisLink: CRISIS_LINK,
+  },
   "22": {
     name: EVENT22_CAMPAIGN_NAME,
     url: EVENT22_CAMPAIGN_URL,
@@ -904,6 +948,7 @@ export const ASSOCIATED_CAMPAIGN_LABELS: Record<string, string> = {
   tri: CAMPAIGNS.tri.name,
   ruck: CAMPAIGNS.ruck.name,
   live: CAMPAIGNS.live.name,
+  seen: CAMPAIGNS.seen.name,
   "22-for-the-22": CAMPAIGNS["22"].name,
 };
 
