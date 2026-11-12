@@ -5,16 +5,24 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { RESOURCES } from "@/lib/content/resources";
 import { enrichFlagship, FLAGSHIP_RESOURCE_NAMES } from "@/lib/resources/flagships";
 import { resourceKey } from "@/lib/resources/navigator";
+import { VERIFIED_PATHWAY_RESOURCES } from "@/lib/resources/verified-pathway-resources";
 
 export async function importFlagshipsAction() {
   await requireAdminUser();
-  const rows = RESOURCES.filter((r) => FLAGSHIP_RESOURCE_NAMES.has(r.name)).map(enrichFlagship).map((r) => ({
+  const selected = RESOURCES.filter((r) => FLAGSHIP_RESOURCE_NAMES.has(r.name))
+    .concat(VERIFIED_PATHWAY_RESOURCES.filter((r) => !RESOURCES.some((item) => item.name === r.name)));
+  const pathwayByName = new Map(VERIFIED_PATHWAY_RESOURCES.map((resource) => [resource.name, resource]));
+  const rows = selected.map((resource) => pathwayByName.get(resource.name) ?? resource).map(enrichFlagship).map((r) => ({
     resource_key: resourceKey(r), name: r.name, url: r.url, description: r.description,
     need_category_ids: r.needCategoryIds, audience_tags: r.audienceTags, cost: r.cost,
     geographic_scope: r.geographicScope, state: r.state ?? null, eligibility: r.eligibility ?? null,
     availability: r.availability ?? null, verification_status: r.verificationStatus,
     why_included: r.whyIncluded, faith_based: r.faithBased ?? null,
     faith_affiliation_source: r.faithAffiliationSource ?? null,
+    situational_tags: r.situationalTags ?? [], service_tags: r.serviceTags ?? [],
+    service_type: r.serviceType ?? null, delivery_methods: r.deliveryMethods ?? [],
+    application_status: r.applicationStatus ?? "unknown", review_due: r.reviewDue ?? null,
+    verification_url: r.verificationUrl ?? null,
     last_verified_at: r.verifiedDate ?? null, is_active: true,
   }));
   const { error } = await createAdminClient().from("resource_records").upsert(rows, { onConflict: "resource_key" });

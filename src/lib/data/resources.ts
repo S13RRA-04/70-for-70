@@ -2,6 +2,7 @@ import { RESOURCES, type Resource } from "@/lib/content/resources";
 import { enrichFlagship } from "@/lib/resources/flagships";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { createPublicClient } from "@/lib/supabase/public";
+import { VERIFIED_PATHWAY_RESOURCES } from "@/lib/resources/verified-pathway-resources";
 
 type ResourceRow = Record<string, unknown>;
 
@@ -29,11 +30,24 @@ function fromRow(row: ResourceRow): Resource {
     documentationRequired: (row.documentation_required as boolean | null) ?? undefined,
     confidentialityPolicyUrl: (row.confidentiality_policy_url as string | null) ?? undefined,
     situationalTags: (row.situational_tags as string[]) ?? [],
+    serviceTags: (row.service_tags as string[]) ?? [],
+    serviceType: (row.service_type as string | null) ?? undefined,
+    deliveryMethods: (row.delivery_methods as string[]) ?? [],
+    applicationStatus: (row.application_status as Resource["applicationStatus"]) ?? undefined,
+    reviewDue: (row.review_due as string | null) ?? undefined,
+    verificationUrl: (row.verification_url as string | null) ?? undefined,
   };
 }
 
+function mergeByName(base: Resource[], additions: Resource[]): Resource[] {
+  const additionsByName = new Map(additions.map((resource) => [resource.name, resource]));
+  return base
+    .map((resource) => additionsByName.get(resource.name) ?? resource)
+    .concat(additions.filter((resource) => !base.some((item) => item.name === resource.name)));
+}
+
 export async function getResources(): Promise<Resource[]> {
-  const fallback = RESOURCES.map(enrichFlagship);
+  const fallback = mergeByName(RESOURCES, VERIFIED_PATHWAY_RESOURCES).map(enrichFlagship);
   if (!isSupabaseConfigured()) return fallback;
   try {
     const { data, error } = await createPublicClient().from("resource_records").select("*").eq("is_active", true).order("name");
@@ -43,7 +57,8 @@ export async function getResources(): Promise<Resource[]> {
     // Structured rows override their bundled counterparts while the rest of
     // the long-tail directory remains available until its migration is done.
     return fallback.map((resource) => byName.get(resource.name) ?? resource)
-      .concat(structured.filter((resource) => !fallback.some((item) => item.name === resource.name)));
+      .concat(structured.filter((resource) => !fallback.some((item) => item.name === resource.name)))
+      .map(enrichFlagship);
   } catch {
     return fallback;
   }

@@ -11,6 +11,7 @@ import { FilterChip } from "@/components/shared/filter-chip";
 import { SearchField } from "@/components/shared/search-field";
 import { trackEvent } from "@/lib/analytics/plausible";
 import { cn } from "@/lib/utils";
+import { NEED_PATHWAYS } from "@/lib/resources/need-pathways";
 
 /** Cards rendered per "page" — a plain client-side slice of sortedResults, not a route param, since the whole list is already filtered/sorted client-side. Keeps the unfiltered 1,000+-resource view from mounting every card (and its own useState pair) at once. */
 const RESULTS_PAGE_SIZE = 24;
@@ -115,6 +116,7 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
     const raw = params.get("need");
     return raw ? raw.split(",").filter(Boolean) : [];
   });
+  const [pathwayId, setPathwayId] = useState<string | null>(() => params.get("pathway"));
   const [audience, setAudience] = useState<string | null>(() => params.get("audience"));
   const [search, setSearch] = useState(() => params.get("q") ?? "");
   const [stateFilter, setStateFilter] = useState<string | null>(() => params.get("state"));
@@ -214,6 +216,7 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
     } else {
       const raw = params.get("need");
       setNeedIds(raw ? raw.split(",").filter(Boolean) : []);
+      setPathwayId(params.get("pathway"));
       setAudience(params.get("audience"));
       setSearch(params.get("q") ?? "");
       setStateFilter(params.get("state"));
@@ -229,6 +232,7 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
     const timeout = setTimeout(() => {
       const next = new URLSearchParams();
       if (needIds.length > 0) next.set("need", needIds.join(","));
+      if (pathwayId) next.set("pathway", pathwayId);
       if (audience) next.set("audience", audience);
       if (search) next.set("q", search);
       if (stateFilter) next.set("state", stateFilter);
@@ -241,7 +245,7 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
     }, 300);
     return () => clearTimeout(timeout);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [needIds, audience, search, stateFilter, scope, sort]);
+  }, [needIds, pathwayId, audience, search, stateFilter, scope, sort]);
 
   const stateCounts = useMemo(() => {
     const counts = new Map<string, number>();
@@ -253,10 +257,16 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
 
   const results = useMemo(() => {
     const query = search.trim().toLowerCase();
+    const queryPathways = query
+      ? NEED_PATHWAYS.filter((pathway) =>
+          pathway.searchPhrases.some((phrase) => query.includes(phrase) || (query.length >= 4 && phrase.includes(query))),
+        )
+      : [];
 
     return resources.filter((resource) => {
       const matchesNeed =
         needIds.length === 0 || resource.needCategoryIds.some((id) => needIds.includes(id));
+      const matchesPathway = !pathwayId || resource.situationalTags?.includes(pathwayId);
       const matchesAudience = !audience || resource.audienceTags.includes(audience);
       // Nationwide entries (no state set) always count as a match — picking
       // a state should add local resources on top of nationwide ones, not
@@ -286,11 +296,16 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
         needLabels.some((label) => label.toLowerCase().includes(query)) ||
         resource.cost.toLowerCase().includes(query) ||
         resource.geographicScope.toLowerCase().includes(query) ||
-        (resource.state?.toLowerCase().includes(query) ?? false);
+        (resource.state?.toLowerCase().includes(query) ?? false) ||
+        queryPathways.some(
+          (pathway) =>
+            resource.situationalTags?.includes(pathway.id) ||
+            resource.needCategoryIds.some((id) => pathway.categoryFallbackIds.some((fallbackId) => fallbackId === id)),
+        );
 
-      return matchesNeed && matchesAudience && matchesState && matchesScope && matchesAccess && matchesSearch;
+      return matchesNeed && matchesPathway && matchesAudience && matchesState && matchesScope && matchesAccess && matchesSearch;
     });
-  }, [resources, needIds, audience, stateFilter, scope, accessFilters, search]);
+  }, [resources, needIds, pathwayId, audience, stateFilter, scope, accessFilters, search]);
 
   const sortedResults = useMemo(() => {
     if (sort === "relevance") return results;
@@ -314,7 +329,7 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
   // "Load More" could leave visibleCount far past the new, smaller total,
   // or just strand a visitor on page 6 of a now-unrelated search.
   // eslint-disable-next-line react-hooks/set-state-in-effect
-  useEffect(() => setVisibleCount(RESULTS_PAGE_SIZE), [needIds, audience, search, stateFilter, scope, accessFilters, sort]);
+  useEffect(() => setVisibleCount(RESULTS_PAGE_SIZE), [needIds, pathwayId, audience, search, stateFilter, scope, accessFilters, sort]);
 
   const visibleResults = sortedResults.slice(0, visibleCount);
   const hasMoreResults = visibleCount < sortedResults.length;
@@ -358,7 +373,7 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
 
   // Drives the collapsible chip panel's own auto-open — search is always
   // visible outside that panel, so it doesn't need to force it open.
-  const chipFilterCount = [needIds.length > 0, Boolean(audience), scope !== "all", accessFilters.length > 0].filter(Boolean).length;
+  const chipFilterCount = [needIds.length > 0, Boolean(pathwayId), Boolean(audience), scope !== "all", accessFilters.length > 0].filter(Boolean).length;
   // Drives the toggle button's "N Active" badge and whether a "Clear all"
   // control appears — this one DOES count search/state, since both are
   // genuinely active filters even though they live outside the chip panel.
@@ -372,6 +387,7 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
 
   function clearAllFilters() {
     setNeedIds([]);
+    setPathwayId(null);
     setAudience(null);
     setSearch("");
     setStateFilter(null);
@@ -493,6 +509,12 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
               </button>
             </div>
             <FilterRow
+              label="What Are You Going Through?"
+              options={NEED_PATHWAYS.map((pathway) => pathway.label)}
+              activeValues={pathwayId ? [NEED_PATHWAYS.find((pathway) => pathway.id === pathwayId)?.label ?? pathwayId] : []}
+              onSelect={(label) => setPathwayId(label ? NEED_PATHWAYS.find((pathway) => pathway.label === label)?.id ?? null : null)}
+            />
+            <FilterRow
               label="What Do You Need?"
               options={NEED_CATEGORIES.map((c) => c.label)}
               activeValues={needIds.map((id) => NEED_CATEGORIES.find((c) => c.id === id)?.label ?? "")}
@@ -553,6 +575,7 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
                 here to discover the list changed at all. */}
             <p aria-live="polite" className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
               {results.length} {results.length === 1 ? "resource" : "resources"}
+              {pathwayId && ` · ${NEED_PATHWAYS.find((pathway) => pathway.id === pathwayId)?.label ?? pathwayId}`}
               {needIds.length > 0 &&
                 ` · ${needIds.map((id) => NEED_CATEGORIES.find((c) => c.id === id)?.label).filter(Boolean).join(", ")}`}
               {audience && ` · ${audience}`}
@@ -615,6 +638,7 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
                   onRemove={() => setNeedIds(needIds.filter((item) => item !== id))}
                 />
               ))}
+              {pathwayId && <RemovableFilterPill label={NEED_PATHWAYS.find((pathway) => pathway.id === pathwayId)?.label ?? pathwayId} onRemove={() => setPathwayId(null)} />}
               {audience && <RemovableFilterPill label={audience} onRemove={() => setAudience(null)} />}
               {stateFilter && <RemovableFilterPill label={stateFilter} onRemove={() => setStateFilter(null)} />}
               {search && <RemovableFilterPill label={`“${search}”`} onRemove={() => setSearch("")} />}

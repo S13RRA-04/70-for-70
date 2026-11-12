@@ -94,6 +94,14 @@ export interface Resource {
   documentationRequired?: boolean;
   confidentialityPolicyUrl?: string;
   situationalTags?: string[];
+  /** Specific, provider-verified services used by pathway follow-up ranking. */
+  serviceTags?: string[];
+  /** Primary delivery model, such as clinical care, peer support, grant, or referral. */
+  serviceType?: string;
+  deliveryMethods?: string[];
+  applicationStatus?: "open" | "closed" | "scheduled" | "ongoing" | "unknown";
+  reviewDue?: string;
+  verificationUrl?: string;
 }
 
 /**

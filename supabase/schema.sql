@@ -1784,6 +1784,12 @@ create table if not exists public.resource_records (
   need_category_ids text[] not null default '{}',
   audience_tags text[] not null default '{}',
   situational_tags text[] not null default '{}',
+  service_tags text[] not null default '{}',
+  service_type text,
+  delivery_methods text[] not null default '{}',
+  application_status text not null default 'unknown' check (application_status in ('open','closed','scheduled','ongoing','unknown')),
+  review_due date,
+  verification_url text check (verification_url is null or verification_url ~ '^https://'),
   cost text not null,
   geographic_scope text not null,
   state text,
@@ -1824,6 +1830,8 @@ create index if not exists resource_records_active_idx on public.resource_record
 create index if not exists resource_records_state_idx on public.resource_records (state) where is_active;
 create index if not exists resource_records_need_categories_idx on public.resource_records using gin (need_category_ids);
 create index if not exists resource_records_audience_tags_idx on public.resource_records using gin (audience_tags);
+create index if not exists resource_records_situational_tags_idx on public.resource_records using gin (situational_tags);
+create index if not exists resource_records_service_tags_idx on public.resource_records using gin (service_tags);
 
 alter table public.resource_records enable row level security;
 drop policy if exists "active resource records are publicly readable" on public.resource_records;

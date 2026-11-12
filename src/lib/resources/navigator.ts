@@ -1,30 +1,34 @@
 import type { Resource } from "@/lib/content/resources";
+import { NEED_PATHWAYS, PATHWAY_FOLLOW_UPS } from "@/lib/resources/need-pathways";
 
 export const NAVIGATOR_SITUATIONS = [
-  { id: "emotional", label: "I'm overwhelmed, anxious, angry, or struggling emotionally", needs: ["mental-health"] },
-  { id: "substances", label: "I'm drinking or using substances more than I want", needs: ["mental-health"] },
-  { id: "family", label: "My marriage or family is struggling", needs: ["family-support", "mental-health"] },
-  { id: "isolated", label: "I feel isolated or miss having a team", needs: ["purpose-community", "sports-fitness", "outdoor-programs"] },
-  { id: "purpose", label: "I'm struggling with transition or purpose", needs: ["purpose-community", "career-education"] },
-  { id: "work", label: "I need help with work or employment", needs: ["career-education"] },
-  { id: "money", label: "I'm dealing with money problems", needs: ["financial-assistance"] },
-  { id: "legal", label: "I need legal or benefits help", needs: ["legal-benefits"] },
-  { id: "recreation", label: "I want fitness, outdoor, sports, or recreation opportunities", needs: ["sports-fitness", "outdoor-programs", "equipment-grants"] },
-  { id: "peer", label: "I need peer support", needs: ["purpose-community", "mental-health"] },
-  { id: "worried", label: "I'm worried about someone else", needs: ["mental-health", "family-support"], crisis: true },
-  { id: "unsure", label: "I don't know what I need", needs: [] },
+  ...NEED_PATHWAYS.map((pathway) => ({
+    id: pathway.id,
+    label: pathway.prompt,
+    needs: [...pathway.categoryFallbackIds],
+  })),
 ] as const;
 
-export type NavigatorAnswers = { audiences: string[]; situations: string[]; priorities: string[]; privacyConcern: "yes" | "maybe" | "no" | "skip"; locationMode: "state" | "national" | "virtual" | "local" | "any"; state?: string };
+export type NavigatorAnswers = { audiences: string[]; situations: string[]; followUps: string[]; priorities: string[]; privacyConcern: "yes" | "maybe" | "no" | "skip"; locationMode: "state" | "national" | "virtual" | "local" | "any"; state?: string };
 
 export function resourceKey(resource: Resource) { return resource.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""); }
 
 export function rankResources(resources: Resource[], answers: NavigatorAnswers) {
-  const needs = new Set<string>(NAVIGATOR_SITUATIONS.filter((s) => answers.situations.includes(s.id)).flatMap((s) => [...s.needs]));
+  const selectedPathways = NEED_PATHWAYS.filter((pathway) => answers.situations.includes(pathway.id));
+  const needs = new Set<string>(selectedPathways.flatMap((pathway) => [...pathway.categoryFallbackIds]));
+  const requestedServiceTags = new Set(
+    selectedPathways.flatMap((pathway) =>
+      PATHWAY_FOLLOW_UPS[pathway.id].filter((option) => answers.followUps.includes(option.id)).flatMap((option) => option.serviceTags),
+    ),
+  );
   return resources.map((resource) => {
     let score = 0; const reasons: string[] = [];
+    const explicitPathwayMatches = selectedPathways.filter((pathway) => resource.situationalTags?.includes(pathway.id)).length;
+    if (explicitPathwayMatches) { score += explicitPathwayMatches * 30; reasons.push("is specifically tagged for the need you selected"); }
+    const serviceMatches = resource.serviceTags?.filter((tag) => requestedServiceTags.has(tag)).length ?? 0;
+    if (serviceMatches) { score += serviceMatches * 10; reasons.push("offers the kind of help you selected"); }
     const matches = resource.needCategoryIds.filter((id) => needs.has(id)).length;
-    if (matches) { score += matches * 12; reasons.push("matches what you described"); }
+    if (matches) { score += matches * 8; reasons.push("is in a related support category"); }
     if (answers.audiences.some((tag) => resource.audienceTags.includes(tag))) { score += 8; reasons.push("serves the population you selected"); }
     if (answers.state && resource.state === answers.state) { score += 7; reasons.push(`serves ${answers.state}`); }
     else if (!resource.state) { score += 4; reasons.push("is available nationwide"); }

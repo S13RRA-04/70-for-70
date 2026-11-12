@@ -45,7 +45,7 @@ export function ResourceCard({ resource }: { resource: Resource }) {
   // enough that the full text belongs in the expanded state, not guessed
   // from a DOM measurement.
   const isLongDescription = resource.description.length > 160;
-  const hasDetails = Boolean(categoryLabel || resource.availability || resource.eligibility || resource.verificationStatus || isLongDescription);
+  const hasDetails = Boolean(categoryLabel || resource.availability || resource.eligibility || resource.applicationStatus || resource.serviceType || resource.verificationStatus || isLongDescription);
   const resourceId = slugifyResourceName(resource.name);
   const detailHref = `/resources/${resourceId}`;
 
@@ -119,6 +119,8 @@ export function ResourceCard({ resource }: { resource: Resource }) {
               {isLongDescription && <p>{resource.description}</p>}
               {categoryLabel && <p><span className="font-semibold text-ink">Category:</span> {categoryLabel}</p>}
               {resource.availability && <p><span className="font-semibold text-ink">Availability:</span> {resource.availability}</p>}
+              {resource.applicationStatus && <p><span className="font-semibold text-ink">Application status:</span> {resource.applicationStatus}</p>}
+              {resource.serviceType && <p><span className="font-semibold text-ink">Service type:</span> {resource.serviceType}</p>}
               {resource.eligibility && (
                 <p>
                   <span className="font-semibold text-ink">Eligibility:</span> {resource.eligibility}

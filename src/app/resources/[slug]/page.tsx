@@ -273,6 +273,9 @@ function ResourceDetailView({
               <Fact label="Coverage" value={resource.geographicScope + (resource.state ? ` (${resource.state})` : "")} />
               <Fact label="Eligibility" value={resource.eligibility} />
               <Fact label="Availability" value={resource.availability} />
+              <Fact label="Application Status" value={resource.applicationStatus} />
+              <Fact label="Service Type" value={resource.serviceType} />
+              <Fact label="Delivery" value={resource.deliveryMethods?.join(", ")} />
               <Fact label="Virtual Access" value={yesNo(resource.virtualAvailable)} />
               <Fact label="In-Person Access" value={yesNo(resource.inPersonAvailable)} />
               <Fact label="Self-Referral" value={yesNo(resource.selfReferral)} />
@@ -284,6 +287,7 @@ function ResourceDetailView({
               <Fact label="Insurance Required" value={yesNo(resource.insuranceRequired)} />
               <Fact label="Organization Type" value={resource.organizationType} />
               <Fact label="Last Verified" value={resource.verifiedDate ? formatDateLong(resource.verifiedDate) : undefined} />
+              <Fact label="Review Due" value={resource.reviewDue ? formatDateLong(resource.reviewDue) : undefined} />
             </dl>
 
             {(resource.whyIncluded || resource.faithAffiliationSource || resource.confidentialityPolicyUrl) && (
@@ -301,6 +305,13 @@ function ResourceDetailView({
                   <p className="mt-2 text-sm">
                     <a href={resource.confidentialityPolicyUrl} target="_blank" rel="noopener noreferrer" className="font-semibold text-bronze hover:text-bronze-dark">
                       Confidentiality policy &rarr;
+                    </a>
+                  </p>
+                )}
+                {resource.verificationUrl && (
+                  <p className="mt-2 text-sm">
+                    <a href={resource.verificationUrl} target="_blank" rel="noopener noreferrer" className="font-semibold text-bronze hover:text-bronze-dark">
+                      Verification source &rarr;
                     </a>
                   </p>
                 )}
