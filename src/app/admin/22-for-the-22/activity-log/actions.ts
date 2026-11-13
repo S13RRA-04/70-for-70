@@ -38,7 +38,7 @@ export async function addActivityLogEntryAction(formData: FormData) {
   });
 
   revalidatePath(PAGE_PATH);
-  revalidatePath("/22forthe22");
+  revalidatePath("/campaigns/22-for-the-22");
   redirect(PAGE_PATH);
 }
 
@@ -51,6 +51,6 @@ export async function deleteActivityLogEntryAction(formData: FormData) {
   await admin.from("event_activity_log").delete().eq("id", id);
 
   revalidatePath(PAGE_PATH);
-  revalidatePath("/22forthe22");
+  revalidatePath("/campaigns/22-for-the-22");
   redirect(PAGE_PATH);
 }

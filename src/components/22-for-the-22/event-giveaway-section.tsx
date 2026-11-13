@@ -4,6 +4,7 @@ import { GiveawayPrizeCard } from "./giveaway-prize-card";
 import { getGiveawaySummary } from "@/lib/data/giveaway-prizes";
 import { GIVEAWAY_ODDS_DISCLOSURE, NO_PURCHASE_NECESSARY_DISCLOSURE } from "@/lib/content/22-for-the-22";
 import type { GiveawayPrizeRow, MissionPartnerRow } from "@/types/database";
+import { EVENT22_CAMPAIGN_PATH } from "@/lib/constants";
 
 /** Muted placeholder sitting next to confirmed prize cards — invites more brands in without pretending a confirmed relationship exists yet. */
 function GiveawayMoreComingCard() {
@@ -26,7 +27,7 @@ function GiveawayMoreComingCard() {
 }
 
 /**
- * The 22 For the 22 Giveaway section — lives on /22forthe22 (the event
+ * The 22 For the 22 Giveaway section — lives on /campaigns/22-for-the-22 (the event
  * page) only; /sponsors (tri.forthe22.org) keeps just a teaser link into
  * it, not this section itself (see that page's doc comment). Takes prizes
  * and mission partners already fetched by the caller (no fetch here) and
@@ -35,7 +36,7 @@ function GiveawayMoreComingCard() {
 export function EventGiveawaySection({
   prizes,
   partners,
-  rulesHref = "/rules",
+  rulesHref = `${EVENT22_CAMPAIGN_PATH}/rules`,
 }: {
   prizes: GiveawayPrizeRow[];
   partners: MissionPartnerRow[];

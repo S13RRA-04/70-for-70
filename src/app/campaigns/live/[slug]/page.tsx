@@ -26,6 +26,7 @@ export async function generateMetadata(props: PageProps<"/campaigns/live/[slug]"
       title: `${premiere.artist} — “${premiere.title}” ${premiere.kind}`,
       description: premiere.summary,
       canonical: `${LIVE_CAMPAIGN_URL}/${premiere.slug}`,
+      image: "/og-live.png",
     });
   }
 
@@ -36,7 +37,7 @@ export async function generateMetadata(props: PageProps<"/campaigns/live/[slug]"
     title: event.title,
     description: event.tagline ?? `${event.title} — a For The 22: Live benefit concert.`,
     canonical: `${LIVE_CAMPAIGN_URL}/${event.slug}`,
-    image: event.hero_image_url ?? undefined,
+    image: event.hero_image_url ?? "/og-live.png",
   });
 }
 

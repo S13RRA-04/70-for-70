@@ -4,7 +4,7 @@ import { RUCKUP22_JOURNAL, type RuckJournalEntry } from "@/lib/content/ruckup22-
 /**
  * Every Ruck For The 22 mission — the single source for the Completed /
  * Next Missions tabs on ruck.forthe22.org and each completed mission's own
- * page at /missions/<slug> (src/app/ruck-missions/[slug], reached through a
+ * page at /campaigns/ruck/missions/<slug>, reached through a
  * Ruck-host rewrite in src/middleware.ts).
  *
  * Adding a mission is a data edit here, never a component edit. Slugs become

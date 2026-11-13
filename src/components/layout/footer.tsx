@@ -1,457 +1,77 @@
 import Link from "next/link";
 import Image from "next/image";
-import {
-  CAMPAIGNS,
-  CONTACT_EMAIL,
-  DONATE_LINK,
-  DONATE_URL,
-  MISSION_NAME,
-  ORG_HOME_LINK,
-  ORG_TAGLINE,
-  PERSONAL_PROJECT_DISCLOSURE,
-  SITE_NAME,
-  SITE_URL,
-  TRI_PAGE_URL,
-} from "@/lib/constants";
+import { CONTACT_EMAIL, ORG_TAGLINE, PERSONAL_PROJECT_DISCLOSURE, SITE_NAME } from "@/lib/constants";
 import { Container } from "@/components/shared/container";
 import { SocialLinks } from "@/components/shared/social-links";
 import { BrandStripe } from "@/components/shared/brand-stripe";
-import { isNavGroup, type NavLink } from "@/types/content";
 import { ORG_ABOUT_LINKS, ORG_PILLARS } from "@/lib/pillars";
-import type { CampaignSlug, SiteMode } from "@/lib/site-mode";
 
-export function Footer({
-  mode,
-  campaignSlug,
-  awarenessMonth = false,
-}: {
-  mode: SiteMode;
-  campaignSlug?: CampaignSlug | null;
-  awarenessMonth?: boolean;
-}) {
-  const isCampaign = mode === "campaign";
-  const campaign = campaignSlug ? CAMPAIGNS[campaignSlug] : null;
-  // Legal pages live on the org domain only — link there directly instead
-  // of relying on the campaign-host redirect for every click.
-  const legalBase = isCampaign ? SITE_URL : "";
-
-  // Small teal/purple identification dot for National Suicide Prevention
-  // Month (September) — see isSuicidePreventionMonth. Same convention as
-  // ring-colors.ts: a chromatic accent used only as an identification
-  // signal, never a background fill.
+export function Footer({ awarenessMonth = false }: { awarenessMonth?: boolean }) {
   const awarenessDot = awarenessMonth ? (
-    <span
-      aria-hidden="true"
-      className="ml-1.5 inline-block h-2 w-2 rounded-full align-middle"
-      style={{
-        background: "linear-gradient(135deg, var(--color-awareness-teal), var(--color-awareness-purple))",
-      }}
-    />
+    <span aria-hidden="true" className="ml-1.5 inline-block h-2 w-2 rounded-full align-middle" style={{ background: "linear-gradient(135deg, var(--color-awareness-teal), var(--color-awareness-purple))" }} />
   ) : null;
 
   return (
     <footer className="property-footer-shell relative overflow-hidden text-white">
-      <BrandStripe onNavy variant={campaignSlug === "live" || campaignSlug === "seen" ? "live" : "org"} />
-      <Container
-        className={`relative grid gap-10 pb-14 pt-16 sm:grid-cols-2 ${
-          campaignSlug === "ruck" || campaignSlug === "22" || campaignSlug === "live" || campaignSlug === "seen"
-              ? "lg:grid-cols-4"
-              : "lg:grid-cols-3 xl:grid-cols-6"
-        }`}
-      >
-        <div className={isCampaign ? "sm:col-span-2 lg:col-span-2" : "sm:col-span-2 lg:col-span-1"}>
-          {campaign?.lockup ? (
-            <div className="flex flex-col gap-2.5">
-              <p className="flex items-baseline gap-2.5">
-                <span className="sr-only">{campaign.name}</span>
-                <span aria-hidden="true" className="label-caps text-xs text-[#bdbdbd]">
-                  {campaign.lockup.eyebrow}
-                </span>
-                <span aria-hidden="true" className="font-display text-[40px] uppercase leading-none tracking-[0.06em]">
-                  {campaign.lockup.word}
-                </span>
-              </p>
-              <p className="font-serif text-[22px] italic text-[#d8d6d0]">Lives have value. Always.</p>
-            </div>
-          ) : campaign?.logoCarriesName ? (
-            <div className="flex items-center gap-4">
-              <Image src={campaign.logoDark} alt="" aria-hidden="true" width={84} height={84} />
-              <div>
-                <p className="sr-only">{campaign.name}</p>
-                <p className="text-sm font-bold uppercase tracking-[0.42em]">{campaign.tagline}</p>
-                <p className="mt-1 max-w-xs text-sm text-off-white/70">
-                  A {SITE_NAME} campaign. For those who serve. For what comes next.
-                </p>
-              </div>
-            </div>
-          ) : (
-            <div className="flex items-center gap-2.5">
-              <Image
-                src={campaign ? campaign.logoDark : "/logo-white.png"}
-                alt=""
-                aria-hidden="true"
-                width={32}
-                height={32}
-              />
-              <p className="whitespace-nowrap font-display text-[26px] uppercase leading-none">
-                {campaign ? campaign.name : SITE_NAME}
-                {!isCampaign && <sup className="text-[0.5em] font-medium tracking-normal">™</sup>}
-              </p>
-            </div>
-          )}
-          {campaign?.logoCarriesName ? null : campaign ? (
-            <p className="mt-3 max-w-sm text-sm text-off-white/70">A {SITE_NAME} campaign.</p>
-          ) : (
-            <>
-              <p className="mt-3 max-w-sm text-base text-mist">{ORG_TAGLINE}</p>
-              <p className="label-caps mt-3 text-xs text-mist">Connection · Mobilization · Impact</p>
-            </>
-          )}
-          {null}
+      <BrandStripe onNavy variant="org" />
+      <Container className="relative grid gap-10 pb-14 pt-16 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+        <div className="sm:col-span-2 lg:col-span-1">
+          <div className="flex items-center gap-2.5">
+            <Image src="/logo-white.png" alt="" aria-hidden="true" width={32} height={32} />
+            <p className="whitespace-nowrap font-display text-[26px] uppercase leading-none">{SITE_NAME}<sup className="text-[0.5em] font-medium tracking-normal">™</sup></p>
+          </div>
+          <p className="mt-3 max-w-sm text-base text-mist">{ORG_TAGLINE}</p>
+          <p className="label-caps mt-3 text-xs text-mist">Connection · Mobilization · Impact</p>
         </div>
 
-        {campaignSlug === "ruck" && campaign ? (
-          <>
-            <div>
-              <p className="label-caps text-xs text-mist">
-                Event
-              </p>
-              <ul className="mt-4 space-y-2 text-[15px] text-mist">
-                {campaign.navLinks.filter((entry): entry is NavLink => !isNavGroup(entry)).map((link) => (
-                  <li key={link.href}>
-                    <a href={link.href} className="transition-colors hover:text-white hover:underline">
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-                <li>
-                  <a
-                    href={campaign.primaryCta.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="transition-colors hover:text-white hover:underline"
-                  >
-                    {campaign.primaryCta.label} <span aria-hidden="true">&#8599;</span>
-                  </a>
-                </li>
-                <li>
-                  <Link href="/#beneficiaries" className="transition-colors hover:text-white hover:underline">
-                    Donate
-                  </Link>
-                </li>
-              </ul>
-            </div>
+        {ORG_PILLARS.map((pillar) => (
+          <div key={pillar.id}>
+            <p className="label-caps text-xs text-mist">{pillar.number} · {pillar.navLabel}</p>
+            <ul className="mt-4 space-y-2 text-[15px] text-mist">
+              {pillar.id === "connection" && (
+                <li><Link href="/crisis" className="font-semibold text-off-white transition-colors hover:text-bronze-light">Need Help Now{awarenessDot}</Link></li>
+              )}
+              {pillar.links.filter((link) => link.href !== "/crisis").map((link) => (
+                <li key={link.href}><Link href={link.href} className="transition-colors hover:text-white hover:underline">{link.label}</Link></li>
+              ))}
+            </ul>
+          </div>
+        ))}
 
-            <div>
-              <p className="label-caps text-xs text-mist">
-                Organization
-              </p>
-              <ul className="mt-4 space-y-2 text-[15px] text-mist">
-                {campaign.crisisLink && (
-                  <li>
-                    <a
-                      href={campaign.crisisLink.href}
-                      className="font-semibold text-off-white transition-colors hover:text-bronze-light"
-                    >
-                      {campaign.crisisLink.label}
-                    </a>
-                  </li>
+        <div>
+          <p className="label-caps text-xs text-mist">About</p>
+          <ul className="mt-4 space-y-2 text-[15px] text-mist">
+            {ORG_ABOUT_LINKS.map((link) => (
+              <li key={link.href}>
+                {link.href === "/contact" && CONTACT_EMAIL ? (
+                  <a href={`mailto:${CONTACT_EMAIL}`} className="transition-colors hover:text-white hover:underline">{link.label}</a>
+                ) : (
+                  <Link href={link.href} className="transition-colors hover:text-white hover:underline">{link.label}</Link>
                 )}
-                <li>
-                  <a href={`${SITE_URL}/70k`} className="transition-colors hover:text-white hover:underline">
-                    Learn about the full {MISSION_NAME} <span aria-hidden="true">&#8599;</span>
-                  </a>
-                </li>
-                <li>
-                  <a href={`${SITE_URL}/transparency`} className="transition-colors hover:text-white hover:underline">
-                    Transparency <span aria-hidden="true">&#8599;</span>
-                  </a>
-                </li>
-                <li>
-                  <a href={`${legalBase}/privacy`} className="transition-colors hover:text-white hover:underline">
-                    Privacy
-                  </a>
-                </li>
-                <li>
-                  <a href={`${legalBase}/terms`} className="transition-colors hover:text-white hover:underline">
-                    Terms
-                  </a>
-                </li>
-                <li>
-                  <a href={ORG_HOME_LINK.href} className="transition-colors hover:text-white hover:underline">
-                    {ORG_HOME_LINK.label} <span aria-hidden="true">&#8599;</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </>
-        ) : campaignSlug === "22" && campaign ? (
-          <>
-            <div>
-              <p className="label-caps text-xs text-mist">
-                Event
-              </p>
-              <ul className="mt-4 space-y-2 text-[15px] text-mist">
-                {campaign.navLinks.filter((entry): entry is NavLink => !isNavGroup(entry)).map((link) => (
-                  <li key={link.href}>
-                    <Link href={link.href} className="transition-colors hover:text-white hover:underline">
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <p className="label-caps text-xs text-mist">
-                Support
-              </p>
-              <ul className="mt-4 space-y-2 text-[15px] text-mist">
-                <li>
-                  <a href={`${SITE_URL}/70k`} className="transition-colors hover:text-white hover:underline">
-                    Learn about the full {MISSION_NAME} <span aria-hidden="true">&#8599;</span>
-                  </a>
-                </li>
-                <li>
-                  <a href={TRI_PAGE_URL} className="transition-colors hover:text-white hover:underline">
-                    Visit Tri For The 22 <span aria-hidden="true">&#8599;</span>
-                  </a>
-                </li>
-                <li>
-                  <a href={DONATE_URL} className="transition-colors hover:text-white hover:underline">
-                    {DONATE_LINK.label} <span aria-hidden="true">&#8599;</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <p className="label-caps text-xs text-mist">
-                Organization
-              </p>
-              <ul className="mt-4 space-y-2 text-[15px] text-mist">
-                {campaign.crisisLink && (
-                  <li>
-                    <a
-                      href={campaign.crisisLink.href}
-                      className="font-semibold text-off-white transition-colors hover:text-bronze-light"
-                    >
-                      {campaign.crisisLink.label}
-                    </a>
-                  </li>
-                )}
-                <li>
-                  <a href={`${SITE_URL}/transparency`} className="transition-colors hover:text-white hover:underline">
-                    Transparency <span aria-hidden="true">&#8599;</span>
-                  </a>
-                </li>
-                <li>
-                  <a href={`${legalBase}/privacy`} className="transition-colors hover:text-white hover:underline">
-                    Privacy
-                  </a>
-                </li>
-                <li>
-                  <a href={`${legalBase}/terms`} className="transition-colors hover:text-white hover:underline">
-                    Terms
-                  </a>
-                </li>
-                <li>
-                  <a href={ORG_HOME_LINK.href} className="transition-colors hover:text-white hover:underline">
-                    {ORG_HOME_LINK.label} <span aria-hidden="true">&#8599;</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </>
-        ) : (campaignSlug === "live" || campaignSlug === "seen") && campaign ? (
-          <>
-            <div>
-              <p className="label-caps text-xs text-mist">
-                {campaignSlug === "live" ? "The Series" : "The Initiative"}
-              </p>
-              <ul className="mt-4 space-y-2 text-[15px] text-mist">
-                {campaign.navLinks.filter((entry): entry is NavLink => !isNavGroup(entry)).map((link) => (
-                  <li key={link.href}>
-                    <Link href={link.href} className="transition-colors hover:text-white hover:underline">
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-                <li>
-                  <Link href={campaign.primaryCta.href} className="transition-colors hover:text-white hover:underline">
-                    {campaign.primaryCta.label}
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <p className="label-caps text-xs text-mist">
-                Organization
-              </p>
-              <ul className="mt-4 space-y-2 text-[15px] text-mist">
-                {campaign.crisisLink && (
-                  <li>
-                    <a
-                      href={campaign.crisisLink.href}
-                      className="font-semibold text-off-white transition-colors hover:text-bronze-light"
-                    >
-                      {campaign.crisisLink.label}
-                    </a>
-                  </li>
-                )}
-                <li>
-                  <a href={`${SITE_URL}/70k`} className="transition-colors hover:text-white hover:underline">
-                    {MISSION_NAME} <span aria-hidden="true">&#8599;</span>
-                  </a>
-                </li>
-                <li>
-                  <a href={`${SITE_URL}/store`} className="transition-colors hover:text-white hover:underline">
-                    Shop <span aria-hidden="true">&#8599;</span>
-                  </a>
-                </li>
-                {CONTACT_EMAIL && (
-                  <li>
-                    <a href={`mailto:${CONTACT_EMAIL}`} className="transition-colors hover:text-white hover:underline">
-                      Contact
-                    </a>
-                  </li>
-                )}
-                <li>
-                  <a href={`${SITE_URL}/transparency`} className="transition-colors hover:text-white hover:underline">
-                    Transparency <span aria-hidden="true">&#8599;</span>
-                  </a>
-                </li>
-                <li>
-                  <a href={ORG_HOME_LINK.href} className="transition-colors hover:text-white hover:underline">
-                    {ORG_HOME_LINK.label} <span aria-hidden="true">&#8599;</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </>
-        ) : (
-          <>
-            {/* One column per mission pillar (src/lib/pillars.ts), then About.
-                /crisis is a plain <a>, not <Link> — on a campaign host it 308s
-                cross-origin to forthe22.org, and Next's client-side
-                fetch-based navigation gets CORS-blocked following that
-                redirect. A full page load handles it fine. */}
-            {ORG_PILLARS.map((pillar) => (
-              <div key={pillar.id}>
-                <p className="label-caps text-xs text-mist">
-                  {pillar.number} · {pillar.navLabel}
-                </p>
-                <ul className="mt-4 space-y-2 text-[15px] text-mist">
-                  {pillar.id === "connection" && (
-                    <li>
-                      <a
-                        href="/crisis"
-                        className="font-semibold text-off-white transition-colors hover:text-bronze-light"
-                      >
-                        Need Help Now
-                        {awarenessDot}
-                      </a>
-                    </li>
-                  )}
-                  {pillar.links
-                    .filter((link) => link.href !== "/crisis")
-                    .map((link) => (
-                      <li key={link.href}>
-                        {link.href.startsWith("/crisis") ? (
-                          <a href={link.href} className="transition-colors hover:text-white hover:underline">
-                            {link.label}
-                          </a>
-                        ) : (
-                          <Link href={link.href} className="transition-colors hover:text-white hover:underline">
-                            {link.label}
-                          </Link>
-                        )}
-                      </li>
-                    ))}
-                </ul>
-              </div>
+              </li>
             ))}
+          </ul>
+          <SocialLinks className="mt-4" />
+        </div>
 
-            <div>
-              <p className="label-caps text-xs text-mist">About</p>
-              <ul className="mt-4 space-y-2 text-[15px] text-mist">
-                {ORG_ABOUT_LINKS.map((link) => (
-                  <li key={link.href}>
-                    {link.href === "/contact" && CONTACT_EMAIL ? (
-                      <a href={`mailto:${CONTACT_EMAIL}`} className="transition-colors hover:text-white hover:underline">
-                        {link.label}
-                      </a>
-                    ) : (
-                      <Link href={link.href} className="transition-colors hover:text-white hover:underline">
-                        {link.label}
-                      </Link>
-                    )}
-                  </li>
-                ))}
-              </ul>
-              <SocialLinks className="mt-4" />
-            </div>
-
-            {/* Legal */}
-            <div>
-              <p className="label-caps text-xs text-mist">
-                Legal
-              </p>
-              <ul className="mt-4 space-y-2 text-[15px] text-mist">
-                <li>
-                  <Link href="/transparency" className="transition-colors hover:text-white hover:underline">
-                    Transparency
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/terms" className="transition-colors hover:text-white hover:underline">
-                    Terms
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/privacy" className="transition-colors hover:text-white hover:underline">
-                    Privacy
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </>
-        )}
+        <div>
+          <p className="label-caps text-xs text-mist">Legal</p>
+          <ul className="mt-4 space-y-2 text-[15px] text-mist">
+            <li><Link href="/transparency" className="transition-colors hover:text-white hover:underline">Transparency</Link></li>
+            <li><Link href="/terms" className="transition-colors hover:text-white hover:underline">Terms</Link></li>
+            <li><Link href="/privacy" className="transition-colors hover:text-white hover:underline">Privacy</Link></li>
+          </ul>
+        </div>
       </Container>
 
-      <div className="relative border-t border-off-white/10 py-5">
-        <Container>
-          <p className="max-w-3xl text-xs text-off-white/60">{PERSONAL_PROJECT_DISCLOSURE}</p>
-        </Container>
-      </div>
-
+      <div className="relative border-t border-off-white/10 py-5"><Container><p className="max-w-3xl text-xs text-off-white/60">{PERSONAL_PROJECT_DISCLOSURE}</p></Container></div>
       <div className="relative border-t border-navy-rule py-6">
         <Container className="flex flex-col gap-3 text-xs text-off-white/50 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-            <p>
-              &copy; {new Date().getFullYear()} {SITE_NAME}. All rights reserved.
-            </p>
-            <a
-              href={`${legalBase}/privacy`}
-              className="underline-offset-2 hover:text-off-white/80 hover:underline"
-            >
-              Privacy Policy
-            </a>
-            <a
-              href={`${legalBase}/terms`}
-              className="underline-offset-2 hover:text-off-white/80 hover:underline"
-            >
-              Site Terms
-            </a>
+          <p>&copy; {new Date().getFullYear()} {SITE_NAME}. All rights reserved.</p>
+          <div className="flex gap-4">
+            <Link href="/privacy" className="underline-offset-2 hover:text-off-white/80 hover:underline">Privacy Policy</Link>
+            <Link href="/terms" className="underline-offset-2 hover:text-off-white/80 hover:underline">Site Terms</Link>
           </div>
-          {isCampaign && (
-            <p>
-              Donations are directed through each beneficiary organization&apos;s
-              authorized donation platform. {campaign?.name ?? SITE_NAME} does not independently
-              process charitable contributions unless explicitly stated.
-            </p>
-          )}
         </Container>
       </div>
     </footer>

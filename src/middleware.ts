@@ -1,9 +1,16 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { updateSupabaseSession } from "@/lib/supabase/proxy-session";
-import { getPreviewToken, isCampaignLive, isOrgLive, PREVIEW_COOKIE_NAME } from "@/lib/launch-gate";
-import { getCampaignSlug, isAppHost, isTriHost, type CampaignSlug } from "@/lib/site-mode";
-import { EVENT22_CAMPAIGN_URL, LIVE_CAMPAIGN_URL, SEEN_CAMPAIGN_URL, SITE_URL, TRI_PAGE_PATH } from "@/lib/constants";
+import { getPreviewToken, isOrgLive, PREVIEW_COOKIE_NAME } from "@/lib/launch-gate";
+import { getRetiredCampaignHost, isAppHost, type RetiredCampaignHost } from "@/lib/site-mode";
+import {
+  EVENT22_CAMPAIGN_PATH,
+  LIVE_CAMPAIGN_PATH,
+  RUCK_CAMPAIGN_PATH,
+  SEEN_CAMPAIGN_PATH,
+  SITE_URL,
+  TRI_PAGE_PATH,
+} from "@/lib/constants";
 import { assertValidRuntimeConfig } from "@/lib/config-validation";
 
 /**
@@ -59,21 +66,15 @@ export async function middleware(request: NextRequest) {
   const strayDomainResponse = applyStrayDomainRedirect(request);
   if (strayDomainResponse) return applyCsp(strayDomainResponse, csp);
 
-  const triResponse = applyTriRedirect(request);
-  if (triResponse) return applyCsp(triResponse, csp);
+  const retiredResponse = applyRetiredCampaignHostRedirect(request);
+  if (retiredResponse) return applyCsp(retiredResponse, csp);
 
-  const legacyEvent22Response = applyEvent22LegacyRedirect(request);
-  if (legacyEvent22Response) return applyCsp(legacyEvent22Response, csp);
-
-  const legacyLiveResponse = applyLiveLegacyRedirect(request);
-  if (legacyLiveResponse) return applyCsp(legacyLiveResponse, csp);
-
-  const legacySeenResponse = applySeenLegacyRedirect(request);
-  if (legacySeenResponse) return applyCsp(legacySeenResponse, csp);
+  const legacyPathResponse = applyLegacyPathRedirect(request);
+  if (legacyPathResponse) return applyCsp(legacyPathResponse, csp);
 
   // app.forthe22.org is a different product surface entirely (authenticated
-  // participant app, not marketing content) — never subject to the org/
-  // campaign launch gate or domain split below. Real pages live under
+  // participant app, not marketing content) — never subject to the org's
+  // launch gate below. Real pages live under
   // src/app/app/* in the filesystem; this rewrites every path transparently
   // so the URL bar still shows app.forthe22.org/whatever.
   if (isAppHost(request.headers.get("host"))) {
@@ -82,17 +83,10 @@ export async function middleware(request: NextRequest) {
     return applyCsp(await updateSupabaseSession(request, renderHeaders), csp);
   }
 
-  const campaignSlug = getCampaignSlug(request.headers.get("host"));
-  const onCampaignHost = campaignSlug !== null;
-  const live = onCampaignHost ? isCampaignLive() : isOrgLive();
-
-  if (!live) {
-    const gateResponse = applyLaunchGate(request, onCampaignHost, renderHeaders);
+  if (!isOrgLive()) {
+    const gateResponse = applyLaunchGate(request, renderHeaders);
     if (gateResponse) return applyCsp(gateResponse, csp);
   }
-
-  const splitResponse = applyDomainSplit(request, onCampaignHost, campaignSlug, renderHeaders);
-  if (splitResponse) return applyCsp(splitResponse, csp);
 
   return applyCsp(await updateSupabaseSession(request, renderHeaders), csp);
 }
@@ -256,42 +250,45 @@ function applyStrayDomainRedirect(request: NextRequest): Response | null {
 }
 
 /**
- * Tri For The 22 used to be a ~20-page site on tri.forthe22.org; it's now a
- * single Mobilization page on the org site (TRI_PAGE_PATH), with its
- * donation flow, beneficiaries, and partners folded into the org's /donate,
- * /impact, and /network. Every old Tri URL gets a permanent redirect to its
- * nearest org equivalent, so links already shared keep working:
- *
- * - on tri.forthe22.org, every path except /api and /admin (the WHOOP and
- *   Strava OAuth callbacks are registered on this host — see
- *   src/lib/whoop/config.ts);
- * - on the org host, the paths that only ever existed for Tri
- *   (TRI_LEGACY_PATH_PREFIXES).
- *
- * Checked before the launch gate: the destination applies the org's gate.
+ * Every campaign used to have its own subdomain (tri., ruck., live., seen.,
+ * 22.forthe22.org). They all live on the org site under /campaigns now, so
+ * every page request on a retired host gets a permanent redirect to its org
+ * equivalent — links already shared keep working. /api and /admin still
+ * serve on those hosts: the WHOOP and Strava OAuth callbacks are registered
+ * on the Tri host (see src/lib/whoop/config.ts). Checked before the launch
+ * gate: the destination applies the org's gate.
  */
-const TRI_LEGACY_PATH_PREFIXES = [
-  "/the-mission",
-  "/the-race",
-  "/the-story",
-  "/fund-a-mile",
-  "/sponsors",
-  "/partners",
-  "/live",
-  "/journal",
-  "/miles",
-  "/campaign-supporters",
-  "/beneficiaries",
-  "/financial-transparency",
-  "/shop",
-  "/messages",
-  "/get-involved",
-  "/become-a-partner",
+const RETIRED_HOST_PASSTHROUGH_PREFIXES = ["/api", "/admin"];
+
+/** Each retired host's home on the org site — where any path without a more specific match lands. */
+const RETIRED_HOST_HOMES: Record<RetiredCampaignHost, string> = {
+  tri: TRI_PAGE_PATH,
+  ruck: RUCK_CAMPAIGN_PATH,
+  live: LIVE_CAMPAIGN_PATH,
+  seen: SEEN_CAMPAIGN_PATH,
+  "22": EVENT22_CAMPAIGN_PATH,
+};
+
+/**
+ * Paths that mean the same thing on the org site, so they keep their path.
+ * /assets and /video matter: registration emails already sent link the 22
+ * For the 22 promo-kit zip on 22.forthe22.org/assets/...
+ */
+const RETIRED_HOST_SHARED_PATHS = [
+  "/crisis",
+  "/donate",
+  "/press",
+  "/terms",
+  "/privacy",
+  "/assets",
+  "/video",
+  "/robots.txt",
+  "/sitemap.xml",
+  "/llms.txt",
 ];
 
-/** Old Tri paths with a specific org home; anything else lands on TRI_PAGE_PATH. */
+/** Old Tri paths with a specific org home (folded in on the Tri host and, for the Tri-only ones, on the org host too). */
 const TRI_REDIRECTS: Record<string, string> = {
-  "/donate": "/donate",
   "/beneficiaries": "/impact#beneficiaries",
   "/sponsors": "/network#partners",
   "/partners": "/network#partners",
@@ -299,85 +296,80 @@ const TRI_REDIRECTS: Record<string, string> = {
   "/campaign-supporters": "/network#partners",
   "/financial-transparency": "/transparency",
   "/shop": "/store",
-  "/press": "/press",
-  "/terms": "/terms",
-  "/privacy": "/privacy",
-  "/crisis": "/crisis",
 };
 
-const TRI_HOST_PASSTHROUGH_PREFIXES = ["/api", "/admin"];
+/** Paths that only ever existed on the Tri site — redirected on the org host too. */
+const TRI_LEGACY_PATH_PREFIXES = [
+  "/the-mission",
+  "/the-race",
+  "/the-story",
+  "/fund-a-mile",
+  "/live",
+  "/journal",
+  "/miles",
+  "/messages",
+  "/get-involved",
+  ...Object.keys(TRI_REDIRECTS),
+];
 
-function applyTriRedirect(request: NextRequest): Response | null {
-  const { pathname } = request.nextUrl;
-  const host = request.headers.get("host");
-  if (isTriHost(host)) {
-    if (matchesPathPrefix(pathname, TRI_HOST_PASSTHROUGH_PREFIXES)) return null;
-  } else if (isAppHost(host) || getCampaignSlug(host) || !matchesPathPrefix(pathname, TRI_LEGACY_PATH_PREFIXES)) {
-    // Other campaign hosts collapse stray paths through their own guards.
-    return null;
-  }
+/** Where `pathname` on retired host `host` lives now, as an org-site path. */
+function retiredHostDestination(host: RetiredCampaignHost, pathname: string): string {
+  const home = RETIRED_HOST_HOMES[host];
+  if (matchesPathPrefix(pathname, RETIRED_HOST_SHARED_PATHS)) return pathname;
+  if (host === "tri") return triDestination(pathname);
+  if (pathname === "/") return home;
+  if (host === "ruck" && /^\/missions\/[a-z0-9-]+$/.test(pathname)) return `${home}${pathname}`;
+  if (host === "22" && (pathname === "/promokit" || pathname === "/rules")) return `${home}${pathname}`;
+  // Live's /events, /auction, and /<event-or-premiere-slug> all keep their
+  // shape under /campaigns/live; an unknown slug 404s there, as it did before.
+  if (host === "live" && /^\/[a-z0-9-]+$/.test(pathname)) return `${home}${pathname}`;
+  return home;
+}
 
+function triDestination(pathname: string): string {
   const prefix = Object.keys(TRI_REDIRECTS).find((p) => pathname === p || pathname.startsWith(`${p}/`));
-  const destination = prefix ? TRI_REDIRECTS[prefix] : TRI_PAGE_PATH;
-  return NextResponse.redirect(`${SITE_URL}${destination}`, 308);
+  return prefix ? TRI_REDIRECTS[prefix] : TRI_PAGE_PATH;
+}
+
+function applyRetiredCampaignHostRedirect(request: NextRequest): Response | null {
+  const host = getRetiredCampaignHost(request.headers.get("host"));
+  if (!host) return null;
+  const { pathname, search } = request.nextUrl;
+  if (matchesPathPrefix(pathname, RETIRED_HOST_PASSTHROUGH_PREFIXES)) return null;
+  const destination = retiredHostDestination(host, pathname);
+  // Fragment destinations (/impact#beneficiaries) carry their own anchor;
+  // everything else keeps the visitor's query string (UTM tags, ?preview=).
+  return NextResponse.redirect(`${SITE_URL}${destination}${destination.includes("#") ? "" : search}`, 308);
 }
 
 /**
- * "22 For the 22" moved off tri.forthe22.org/22forthe22 to its own
- * subdomain (22.forthe22.org) — see EVENT22_CAMPAIGN_URL's doc comment in
- * constants.ts. Permanently redirects any stray /22forthe22[/...] request,
- * on any host except the "22" host itself (which serves this same
- * underlying route directly via CAMPAIGN_HOME_ROUTES/EVENT22_PATH_REWRITES
- * below — never redirect it, that would loop), to the equivalent path on
- * the new host. Checked unconditionally, before the launch gate and domain
- * split, same as applyStrayDomainRedirect above.
+ * Org-host paths from earlier layouts: the Tri-only pages, and 22 For the
+ * 22's original /22forthe22 home.
  */
-function applyEvent22LegacyRedirect(request: NextRequest): Response | null {
-  const campaignSlug = getCampaignSlug(request.headers.get("host"));
-  if (campaignSlug === "22") return null;
-
+function applyLegacyPathRedirect(request: NextRequest): Response | null {
+  if (isAppHost(request.headers.get("host"))) return null;
   const { pathname, search } = request.nextUrl;
-  if (pathname !== "/22forthe22" && !pathname.startsWith("/22forthe22/")) return null;
-
-  const rest = pathname.slice("/22forthe22".length); // "" | "/rules" | "/promokit" | ...
-  return NextResponse.redirect(`${EVENT22_CAMPAIGN_URL}${rest}${search}`, 308);
+  if (pathname === "/22forthe22" || pathname.startsWith("/22forthe22/")) {
+    const rest = pathname.slice("/22forthe22".length); // "" | "/rules" | "/promokit"
+    return NextResponse.redirect(`${SITE_URL}${EVENT22_CAMPAIGN_PATH}${rest}${search}`, 308);
+  }
+  if (matchesPathPrefix(pathname, TRI_LEGACY_PATH_PREFIXES)) {
+    return NextResponse.redirect(`${SITE_URL}${triDestination(pathname)}`, 308);
+  }
+  return null;
 }
 
-/** For The 22: Live moved from /campaigns/live to live.forthe22.org. */
-function applyLiveLegacyRedirect(request: NextRequest): Response | null {
-  const campaignSlug = getCampaignSlug(request.headers.get("host"));
-  if (campaignSlug === "live") return null;
-
-  const { pathname, search } = request.nextUrl;
-  if (pathname !== "/campaigns/live" && !pathname.startsWith("/campaigns/live/")) return null;
-
-  const rest = pathname.slice("/campaigns/live".length);
-  return NextResponse.redirect(`${LIVE_CAMPAIGN_URL}${rest}${search}`, 308);
-}
-
-/**
- * For The 22: SEEN's page lives at /campaigns/seen on disk, which the org
- * host would otherwise serve directly (/campaigns is an org path) — send it
- * to seen.forthe22.org instead, same as applyLiveLegacyRedirect above.
- */
-function applySeenLegacyRedirect(request: NextRequest): Response | null {
-  const campaignSlug = getCampaignSlug(request.headers.get("host"));
-  if (campaignSlug === "seen") return null;
-
-  const { pathname, search } = request.nextUrl;
-  if (pathname !== "/campaigns/seen" && !pathname.startsWith("/campaigns/seen/")) return null;
-
-  return NextResponse.redirect(`${SEEN_CAMPAIGN_URL}/${search}`, 308);
+function matchesPathPrefix(pathname: string, prefixes: string[]): boolean {
+  return prefixes.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
 }
 
 /**
  * Returns a response if the request should be blocked/redirected by the
  * pre-launch gate, or null if the visitor has valid preview access and
- * should proceed to the real site. Gating is per-domain — see
- * isOrgLive/isCampaignLive — so this only runs for whichever domain isn't
- * live yet; the other domain skips the gate entirely.
+ * should proceed to the real site. Only runs while SITE_LIVE isn't "true"
+ * (see isOrgLive).
  */
-function applyLaunchGate(request: NextRequest, onCampaignHost: boolean, renderHeaders: Headers): Response | null {
+function applyLaunchGate(request: NextRequest, renderHeaders: Headers): Response | null {
   const url = request.nextUrl;
 
   // /admin/* (and its own API routes, e.g. WHOOP OAuth) is never gated —
@@ -432,216 +424,7 @@ function applyLaunchGate(request: NextRequest, onCampaignHost: boolean, renderHe
   }
 
   if (url.pathname !== "/coming-soon") {
-    const comingSoonUrl = new URL("/coming-soon", url);
-    if (onCampaignHost) comingSoonUrl.searchParams.set("scope", "campaign");
-    return NextResponse.rewrite(comingSoonUrl, { request: { headers: renderHeaders } });
-  }
-
-  return null;
-}
-
-/**
- * Org-only paths — a campaign host that receives one sends it to the org
- * domain. All hosts are served by this same app, and this is the only place
- * that decides which pages belong to which. API routes, shared assets, and
- * /admin (including /admin/analytics, which reports on every domain — see
- * src/lib/analytics/cloudflare.ts) are intentionally not listed here — they
- * work identically on every host.
- */
-const ORG_PATH_PREFIXES = [
-  "/about",
-  "/resources",
-  "/awareness",
-  "/veteran-brands",
-  "/crisis",
-  "/advocacy",
-  "/contact",
-  "/mission",
-  "/campaigns",
-  "/network",
-  "/impact",
-  "/standards",
-  "/transparency",
-  "/70k",
-  "/store",
-  "/donate",
-];
-
-function matchesPathPrefix(pathname: string, prefixes: string[]): boolean {
-  return prefixes.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
-}
-
-/** Maps each campaign to the real route "/" transparently rewrites to. */
-const CAMPAIGN_HOME_ROUTES: Record<CampaignSlug, string> = {
-  ruck: "/ruck-home",
-  live: "/campaigns/live",
-  seen: "/campaigns/seen",
-  // The page itself never moved on disk — only which host's "/" points at
-  // it. See EVENT22_CAMPAIGN_URL's doc comment in constants.ts.
-  "22": "/22forthe22",
-};
-
-/**
- * "22" host-only path rewrites — paths that don't exist on any other
- * campaign host. The real files stay nested under
- * src/app/22forthe22/* (see CAMPAIGN_HOME_ROUTES above for why).
- */
-const EVENT22_PATH_REWRITES: Record<string, string> = {
-  "/promokit": "/22forthe22/promokit",
-  "/rules": "/22forthe22/rules",
-};
-
-const LIVE_PATH_REWRITES: Record<string, string> = {
-  "/events": "/campaigns/live/events",
-  "/auction": "/campaigns/live/auction",
-};
-
-/**
- * Paths that work identically regardless of which host is serving them —
- * never redirected/collapsed by the Ruck guard below.
- */
-const SHARED_PATH_PREFIXES = [
-  "/admin",
-  "/api",
-  "/crisis",
-  "/coming-soon",
-  "/sitemap.xml",
-  "/llms.txt",
-  "/robots.txt",
-  "/manifest.json",
-  "/manifest.webmanifest",
-];
-
-/**
- * Ruck For The 22's one-level mission pages: /missions/<slug> on the Ruck
- * host is rewritten to the real route src/app/ruck-missions/[slug] (which
- * 404s an unknown or not-yet-completed slug).
- */
-const RUCK_MISSION_PATH = /^\/missions\/([a-z0-9-]+)$/;
-
-/**
- * Ruck For The 22 is deliberately small (see RUCK_CAMPAIGN_URL's doc comment
- * in src/lib/constants.ts): "/" plus its /missions/<slug> pages. Without
- * this, a stray path on ruck.forthe22.org would render whatever route
- * matches under Ruck's header/footer branding. Collapse anything else on
- * that host back to "/" instead.
- */
-function applyRuckGuard(request: NextRequest, campaignSlug: CampaignSlug | null): Response | null {
-  if (campaignSlug !== "ruck") return null;
-  const { pathname } = request.nextUrl;
-  if (pathname === "/" || RUCK_MISSION_PATH.test(pathname) || matchesPathPrefix(pathname, SHARED_PATH_PREFIXES)) {
-    return null;
-  }
-  return NextResponse.redirect(new URL("/", request.nextUrl), 308);
-}
-
-/** For The 22: SEEN is one page so far — same "/"-only rule as applyRuckGuard. */
-function applySeenGuard(request: NextRequest, campaignSlug: CampaignSlug | null): Response | null {
-  if (campaignSlug !== "seen") return null;
-  const { pathname } = request.nextUrl;
-  if (pathname === "/" || matchesPathPrefix(pathname, SHARED_PATH_PREFIXES)) return null;
-  return NextResponse.redirect(new URL("/", request.nextUrl), 308);
-}
-
-/** 22 For the 22's own real paths on its host — everything else collapses back to "/", same reasoning as applyRuckGuard above. */
-const EVENT22_OWN_PATHS = ["/", "/promokit", "/rules"];
-
-/** Same idea as applyRuckGuard, sized for 22 For the 22's 3 real pages instead of just 1. */
-function applyEvent22Guard(request: NextRequest, campaignSlug: CampaignSlug | null): Response | null {
-  if (campaignSlug !== "22") return null;
-  const { pathname } = request.nextUrl;
-  if (EVENT22_OWN_PATHS.includes(pathname) || matchesPathPrefix(pathname, SHARED_PATH_PREFIXES)) return null;
-  return NextResponse.redirect(new URL("/", request.nextUrl), 308);
-}
-
-function applyLiveGuard(request: NextRequest, campaignSlug: CampaignSlug | null): Response | null {
-  if (campaignSlug !== "live") return null;
-  const { pathname } = request.nextUrl;
-
-  // Shared paths (notably /crisis, which also lives in ORG_PATH_PREFIXES
-  // below) must escape this guard entirely so the cross-host redirect logic
-  // at the bottom of applyDomainSplit can send them to SITE_URL, matching
-  // how Ruck/22's guards treat SHARED_PATH_PREFIXES as an exception checked
-  // first. Checking this after the ORG/CAMPAIGN_PATH_PREFIXES redirect below
-  // used to mean /crisis never got that far — Live swallowed it into its own
-  // homepage instead of reaching the org's crisis resources.
-  if (matchesPathPrefix(pathname, SHARED_PATH_PREFIXES)) return null;
-
-  if (matchesPathPrefix(pathname, ORG_PATH_PREFIXES) || matchesPathPrefix(pathname, TRI_LEGACY_PATH_PREFIXES)) {
-    return NextResponse.redirect(new URL("/", request.nextUrl), 308);
-  }
-  const isEventDetailPath = /^\/[^/]+$/.test(pathname);
-  if (pathname === "/" || pathname in LIVE_PATH_REWRITES || isEventDetailPath) {
-    return null;
-  }
-  return NextResponse.redirect(new URL("/", request.nextUrl), 308);
-}
-
-/**
- * Returns a response if this request needs to be rewritten/redirected to
- * stay on the correct side of the movement/campaign split, or null if it
- * should render normally as-is.
- */
-function applyDomainSplit(
-  request: NextRequest,
-  onCampaignHost: boolean,
-  campaignSlug: CampaignSlug | null,
-  renderHeaders: Headers,
-): Response | null {
-  const url = request.nextUrl;
-
-  const ruckGuardResponse = applyRuckGuard(request, campaignSlug);
-  if (ruckGuardResponse) return ruckGuardResponse;
-
-  const event22GuardResponse = applyEvent22Guard(request, campaignSlug);
-  if (event22GuardResponse) return event22GuardResponse;
-
-  const liveGuardResponse = applyLiveGuard(request, campaignSlug);
-  if (liveGuardResponse) return liveGuardResponse;
-
-  const seenGuardResponse = applySeenGuard(request, campaignSlug);
-  if (seenGuardResponse) return seenGuardResponse;
-
-  // "/" is the one path that exists on every host with different content.
-  // Each campaign's home lives at its own real route (see
-  // CAMPAIGN_HOME_ROUTES) and is rewritten in transparently — the URL bar
-  // still shows "/".
-  if (url.pathname === "/") {
-    return campaignSlug
-      ? NextResponse.rewrite(new URL(CAMPAIGN_HOME_ROUTES[campaignSlug], url), {
-          request: { headers: renderHeaders },
-        })
-      : null;
-  }
-
-  const ruckMission = campaignSlug === "ruck" ? RUCK_MISSION_PATH.exec(url.pathname) : null;
-  if (ruckMission) {
-    return NextResponse.rewrite(new URL(`/ruck-missions/${ruckMission[1]}`, url), {
-      request: { headers: renderHeaders },
-    });
-  }
-
-  if (campaignSlug === "22" && url.pathname in EVENT22_PATH_REWRITES) {
-    return NextResponse.rewrite(new URL(EVENT22_PATH_REWRITES[url.pathname], url), {
-      request: { headers: renderHeaders },
-    });
-  }
-
-  if (campaignSlug === "live" && !matchesPathPrefix(url.pathname, SHARED_PATH_PREFIXES)) {
-    const destination =
-      LIVE_PATH_REWRITES[url.pathname] ??
-      (/^\/[^/]+$/.test(url.pathname) ? `/campaigns/live${url.pathname}` : null);
-    if (destination) {
-      return NextResponse.rewrite(new URL(destination, url), {
-        request: { headers: renderHeaders },
-      });
-    }
-  }
-
-  // Permanent (308) redirects — a visitor on the wrong domain for a given
-  // page should be sent to the correct one for good, not just this visit.
-  if (onCampaignHost && matchesPathPrefix(url.pathname, ORG_PATH_PREFIXES)) {
-    return NextResponse.redirect(`${SITE_URL}${url.pathname}${url.search}`, 308);
+    return NextResponse.rewrite(new URL("/coming-soon", url), { request: { headers: renderHeaders } });
   }
 
   return null;

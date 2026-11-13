@@ -5,8 +5,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
-import { CAMPAIGNS, DONATE_LINK, ORG_NAV_LINKS, SITE_NAME } from "@/lib/constants";
-import type { CampaignSlug, SiteMode } from "@/lib/site-mode";
+import { DONATE_LINK, ORG_NAV_LINKS, SITE_NAME } from "@/lib/constants";
 import { isNavGroup, type NavGroup } from "@/types/content";
 import { cn } from "@/lib/utils";
 import { PILLAR_BORDER, PILLAR_TEXT, getOrgPillar, isPathWithin, pillarEyebrow } from "@/lib/pillars";
@@ -15,20 +14,9 @@ import { Container } from "@/components/shared/container";
 import { CTAButton } from "@/components/shared/cta-button";
 import { BrandStripe } from "@/components/shared/brand-stripe";
 
-export function Header({
-  mode,
-  campaignSlug,
-  awarenessMonth = false,
-}: {
-  mode: SiteMode;
-  /** Which campaign's branding to show — required whenever mode is "campaign", see src/lib/constants.ts's CAMPAIGNS. */
-  campaignSlug?: CampaignSlug | null;
-  awarenessMonth?: boolean;
-}) {
+export function Header({ awarenessMonth = false }: { awarenessMonth?: boolean }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
-  const isCampaign = mode === "campaign";
-  const campaign = campaignSlug ? CAMPAIGNS[campaignSlug] : null;
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   // Which desktop nav dropdown is open, if any — lifted up here (rather than
   // each NavDropdown owning its own open state) so opening one closes any
@@ -58,7 +46,7 @@ export function Header({
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const navLinks = campaign ? campaign.navLinks : ORG_NAV_LINKS;
+  const navLinks = ORG_NAV_LINKS;
 
   return (
     <header
@@ -70,51 +58,21 @@ export function Header({
       <Container className="flex h-[74px] items-center justify-between gap-6">
         <Link href="/" className="flex shrink-0 items-center gap-3">
           <Image
-            src={campaign ? campaign.logoLight : "/logo.png"}
+            src="/logo.png"
             alt=""
             aria-hidden="true"
-            width={campaign?.logoCarriesName ? 60 : 50}
-            height={campaign?.logoCarriesName ? 60 : 50}
-            className={
-              campaign?.logoCarriesName
-                ? "h-[52px] w-[52px] object-contain sm:h-[60px] sm:w-[60px]"
-                : "h-11 w-11 object-contain sm:h-[50px] sm:w-[50px]"
-            }
+            width={50}
+            height={50}
+            className="h-11 w-11 object-contain sm:h-[50px] sm:w-[50px]"
             priority
           />
-          {campaign?.lockup ? (
-            <span className="flex items-baseline gap-2 text-jet">
-              <span className="sr-only">{campaign.name}</span>
-              <span aria-hidden="true" className="label-caps text-xs">
-                {campaign.lockup.eyebrow}
-              </span>
-              <span aria-hidden="true" className="font-display text-[28px] uppercase leading-none tracking-[0.06em]">
-                {campaign.lockup.word}
-              </span>
-            </span>
-          ) : (
-            <span
-              className={
-                campaign?.logoCarriesName
-                  ? "sr-only"
-                  : "hidden whitespace-nowrap font-display text-[26px] uppercase leading-none text-jet xs:inline-block"
-              }
-            >
-              {campaign ? campaign.name : SITE_NAME}
-              {!isCampaign && <sup className="text-[0.5em] font-medium tracking-normal">™</sup>}
-            </span>
-          )}
+          <span className="hidden whitespace-nowrap font-display text-[26px] uppercase leading-none text-jet xs:inline-block">
+            {SITE_NAME}
+            <sup className="text-[0.5em] font-medium tracking-normal">™</sup>
+          </span>
         </Link>
 
         <div className="hidden items-center gap-5 xl:flex 2xl:gap-6">
-          {campaign?.parentLink && (
-            <a
-              href={campaign.parentLink.href}
-              className="hidden whitespace-nowrap text-xs font-bold uppercase tracking-[0.14em] text-muted transition-colors hover:text-help min-[1600px]:inline"
-            >
-              {campaign.parentLink.label} <span aria-hidden="true">&#8599;</span>
-            </a>
-          )}
           <nav aria-label="Primary" className="flex items-center gap-5 2xl:gap-6">
             {navLinks.map((entry) => {
               if (isNavGroup(entry)) {
@@ -180,56 +138,28 @@ export function Header({
             })}
           </nav>
 
-          {campaign?.crisisLink && (
-            <a
-              href={campaign.crisisLink.href}
-              className="action-control inline-flex items-center whitespace-nowrap bg-help px-5 text-[15px] font-bold text-white hover:bg-help-dark"
-            >
-              {campaign.crisisLink.label}
-            </a>
-          )}
-
-          {campaign && (
-            <CTAButton href={campaign.primaryCta.href} external={campaign.primaryCta.external} className="whitespace-nowrap">
-              {campaign.primaryCta.label}
-            </CTAButton>
-          )}
         </div>
 
         <div className="flex items-center gap-1 xl:hidden">
-          {!isCampaign && (
-            <Link
-              href="/resources"
-              aria-current={pathname === "/resources" ? "page" : undefined}
-              className="rounded-sm px-3 py-2 text-[13px] font-bold uppercase tracking-[0.14em] text-jet"
-            >
-              Find Support
-            </Link>
-          )}
+          <Link
+            href="/resources"
+            aria-current={pathname === "/resources" ? "page" : undefined}
+            className="rounded-sm px-3 py-2 text-[13px] font-bold uppercase tracking-[0.14em] text-jet"
+          >
+            Find Support
+          </Link>
           {/* Mobile-collapsed header previously gave "Find Resources" a
               1-tap shortcut here but made "Need Help Now" wait behind the
               hamburger — backwards for the more time-critical of the two.
               Compact label + signal fill keeps it unmistakable even at this
-              size. On campaign hosts, crisisLink's absolute SITE_URL href
-              carries it across to the org domain. */}
-          {!isCampaign ? (
-            <Link
-              href="/crisis"
-              aria-current={pathname === "/crisis" ? "page" : undefined}
-              className="rounded-sm bg-help px-3 py-2 text-sm font-bold text-white transition-colors hover:bg-help-dark"
-            >
-              Help Now
-            </Link>
-          ) : (
-            campaign?.crisisLink && (
-              <a
-                href={campaign.crisisLink.href}
-                className="rounded-sm bg-help px-3 py-2 text-sm font-bold text-white transition-colors hover:bg-help-dark"
-              >
-                Help Now
-              </a>
-            )
-          )}
+              size. */}
+          <Link
+            href="/crisis"
+            aria-current={pathname === "/crisis" ? "page" : undefined}
+            className="rounded-sm bg-help px-3 py-2 text-sm font-bold text-white transition-colors hover:bg-help-dark"
+          >
+            Help Now
+          </Link>
           <button
             ref={menuButtonRef}
             type="button"
@@ -243,14 +173,13 @@ export function Header({
           </button>
         </div>
       </Container>
-      <BrandStripe variant={campaignSlug === "live" || campaignSlug === "seen" ? "live" : "org"} />
+      <BrandStripe variant="org" />
 
       <MobileMenu
         open={open}
         onClose={() => setOpen(false)}
         navLinks={navLinks}
         pathname={pathname}
-        campaignSlug={campaignSlug}
         triggerRef={menuButtonRef}
       />
     </header>

@@ -1,7 +1,7 @@
 /**
  * Cody's own photos and videos from RuckUp22 Huntsville on
  * October 24, 2026 — rendered as the "Participation Journal" section of its
- * mission page (src/app/ruck-missions/[slug], via RUCK_MISSIONS). Plain data, not
+ * mission page (src/app/campaigns/ruck/missions/[slug], via RUCK_MISSIONS). Plain data, not
  * a Supabase journal: Ruck stays a deliberately minimal single page.
  *
  * Order is the order of the day (camera-roll order). Append new entries at

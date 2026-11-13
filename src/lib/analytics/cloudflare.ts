@@ -1,5 +1,5 @@
 import "server-only";
-import { isCampaignHost } from "@/lib/site-mode";
+import { getRetiredCampaignHost } from "@/lib/site-mode";
 import {
   CLOUDFLARE_ACCOUNT_ID,
   CLOUDFLARE_ANALYTICS_API_TOKEN,
@@ -311,7 +311,9 @@ export async function getWebAnalyticsByHost(
     });
 
   return {
-    org: byHost((host) => !isCampaignHost(host)),
-    campaign: byHost((host) => isCampaignHost(host)),
+    org: byHost((host) => getRetiredCampaignHost(host) === null),
+    // The retired campaign subdomains — they only redirect now, so this is
+    // the traffic still arriving on old links.
+    campaign: byHost((host) => getRetiredCampaignHost(host) !== null),
   };
 }

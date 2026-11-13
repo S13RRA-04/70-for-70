@@ -3,8 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { CAMPAIGNS, DONATE_LINK } from "@/lib/constants";
-import type { CampaignSlug } from "@/lib/site-mode";
+import { DONATE_LINK } from "@/lib/constants";
 import { isNavGroup, type NavEntry, type NavLink } from "@/types/content";
 import { cn } from "@/lib/utils";
 import { PILLAR_TEXT, getOrgPillar, pillarEyebrow, type MissionPillar } from "@/lib/pillars";
@@ -14,8 +13,6 @@ interface MobileMenuProps {
   onClose: () => void;
   navLinks: NavEntry[];
   pathname: string;
-  /** Which campaign's menu to show — omit/null for the org menu. */
-  campaignSlug?: CampaignSlug | null;
   /** The hamburger button that opens this menu — focus returns there on close. */
   triggerRef: React.RefObject<HTMLButtonElement | null>;
 }
@@ -25,9 +22,8 @@ interface MobileMenuProps {
  * reads as a distinct layer above the page, with proper dialog semantics —
  * focus trap, Escape-to-close, and focus return to the trigger button.
  */
-export function MobileMenu({ open, onClose, navLinks, pathname, campaignSlug, triggerRef }: MobileMenuProps) {
+export function MobileMenu({ open, onClose, navLinks, pathname, triggerRef }: MobileMenuProps) {
   const panelRef = useRef<HTMLDivElement>(null);
-  const campaign = campaignSlug ? CAMPAIGNS[campaignSlug] : null;
 
   // Mount-then-animate / delay-unmount so the drawer can slide in and out
   // instead of popping. `rendered` controls whether the portal exists at
@@ -140,35 +136,7 @@ export function MobileMenu({ open, onClose, navLinks, pathname, campaignSlug, tr
         )}
       >
         <nav aria-label="Mobile" className="flex flex-1 flex-col px-4 py-4 sm:px-6">
-          {(campaignSlug === "ruck" || campaignSlug === "22" || campaignSlug === "live" || campaignSlug === "seen") && campaign ? (
-            <>
-              <MobileNavGroup
-                label="Explore"
-                links={campaign.navLinks.filter((entry): entry is NavLink => !isNavGroup(entry))}
-                pathname={pathname}
-              />
-              <div className="mt-5 border-t border-ink/10 pt-5">
-                <a
-                  href={campaign.primaryCta.href}
-                  {...(campaign.primaryCta.external && { target: "_blank", rel: "noopener noreferrer" })}
-                  className="block rounded-sm bg-bronze-text px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
-                >
-                  {campaign.primaryCta.label}
-                  {campaign.primaryCta.external && <span aria-hidden="true"> &#8599;</span>}
-                </a>
-                {campaign.crisisLink && (
-                  <a
-                    href={campaign.crisisLink.href}
-                    className="mt-2 block rounded-sm bg-signal px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-off-white hover:bg-signal-dark"
-                  >
-                    {campaign.crisisLink.label}
-                  </a>
-                )}
-              </div>
-              {campaign.parentLink && <ParentInitiativeGroup link={campaign.parentLink} />}
-            </>
-          ) : (
-            <>
+          <>
               {orgFlatLinks.length > 0 && (
                 <ul className="mb-5 flex flex-col gap-1">
                   {orgFlatLinks.map((link) => (
@@ -217,28 +185,11 @@ export function MobileMenu({ open, onClose, navLinks, pathname, campaignSlug, tr
                   Donate
                 </Link>
               </div>
-            </>
-          )}
+          </>
         </nav>
       </div>
     </div>,
     document.body,
-  );
-}
-
-function ParentInitiativeGroup({ link }: { link: NavLink }) {
-  return (
-    <div className="mt-5 border-t border-ink/10 pt-5">
-      <p className="px-3 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
-        Parent Initiative
-      </p>
-      <a
-        href={link.href}
-        className="mt-2 block rounded-sm px-3 py-3 text-base font-medium uppercase tracking-wide text-charcoal hover:bg-sand-light"
-      >
-        {link.label} <span aria-hidden="true">&#8599;</span>
-      </a>
-    </div>
   );
 }
 

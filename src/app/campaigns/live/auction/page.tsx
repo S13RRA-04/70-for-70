@@ -4,7 +4,7 @@ import { AuctionItemCard } from "@/components/live/auction-item-card";
 import { HAS_LISTED_AUCTION_ITEMS, LISTED_LIVE_AUCTION_ITEMS } from "@/lib/content/live-auction";
 import { EmptyState } from "@/components/shared/empty-state";
 import { LIVE_FUNDS_DISCLOSURE } from "@/lib/content/live-campaign";
-import { LIVE_CAMPAIGN_URL, SITE_URL } from "@/lib/constants";
+import { LIVE_CAMPAIGN_URL, SITE_URL, LIVE_CAMPAIGN_PATH } from "@/lib/constants";
 import { RevealOnScroll, RevealGrid } from "@/components/shared/reveal-on-scroll";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
@@ -13,7 +13,8 @@ export const metadata = pageMetadata({
   title: "Online Silent Auction | For The 22: Live",
   description:
     "The For The 22: Live online silent auction — donated items that support veterans, first responders, and their families.",
-  canonical: "/auction",
+  canonical: `${LIVE_CAMPAIGN_PATH}/auction`,
+  image: "/og-live.png",
 });
 
 const BREADCRUMB_JSON_LD = breadcrumbJsonLd([
@@ -53,7 +54,7 @@ export default function LiveAuctionPage() {
               <EmptyState
                 title="Auction Items Coming Soon"
                 description="We're finalizing the details for our next silent auction. Items and bidding dates will be posted here."
-                cta={{ label: "Get on the List", href: "/#list" }}
+                cta={{ label: "Get on the List", href: `${LIVE_CAMPAIGN_PATH}#list` }}
               />
             </div>
           )}

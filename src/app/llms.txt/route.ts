@@ -8,9 +8,7 @@ import {
   SITE_NAME,
   SITE_URL,
 } from "@/lib/constants";
-import { COMPLETED_RUCK_MISSIONS, UPCOMING_RUCK_MISSIONS } from "@/lib/content/ruck-missions";
-import { isCampaignLive, isOrgLive } from "@/lib/launch-gate";
-import { getActiveCampaignSlug } from "@/lib/site-mode";
+import { isOrgLive } from "@/lib/launch-gate";
 import { formatCurrency } from "@/lib/utils";
 
 /**
@@ -52,38 +50,17 @@ function linkList(baseUrl: string, links: LinkEntry[]) {
 }
 
 export async function GET() {
-  const campaignSlug = await getActiveCampaignSlug();
-  const live = campaignSlug ? isCampaignLive() : isOrgLive();
+  const sections = [`# ${SITE_NAME}`, `> ${ORG_SUPPORTING_STATEMENT}`, CRISIS_NOTE];
 
-  const name = campaignSlug ? CAMPAIGNS[campaignSlug].name : SITE_NAME;
-  const baseUrl = campaignSlug ? CAMPAIGNS[campaignSlug].url : SITE_URL;
-  const summary = campaignSlug ? CAMPAIGNS[campaignSlug].description : ORG_SUPPORTING_STATEMENT;
-
-  const sections = [`# ${name}`, `> ${summary}`, CRISIS_NOTE];
-
-  if (live) {
-    if (!campaignSlug) {
-      sections.push(
-        `${SITE_NAME} serves U.S. veterans, first responders, and their families. It runs a reviewed resource directory and fundraising campaigns toward a shared ${formatCurrency(FUNDRAISING_GOAL)} goal for veteran-focused nonprofit organizations.`,
-        `## Key pages\n\n${linkList(SITE_URL, ORG_LINKS)}`,
-        `## Campaigns\n\n${Object.values(CAMPAIGNS)
-          .map((c) => `- [${c.name}](${c.url}/): ${c.description}`)
-          .join("\n")}`,
-      );
-    } else if (campaignSlug === "ruck") {
-      const completed = COMPLETED_RUCK_MISSIONS.map(
-        (m) => `- [${m.name}](${baseUrl}/missions/${m.slug}): ${m.dateDisplay}, ${m.distanceMiles} miles, ${m.location}. ${m.summary}`,
-      );
-      const upcoming = UPCOMING_RUCK_MISSIONS.map((m) => `- ${m.name}: ${m.dateDisplay}, ${m.location}.`);
-      sections.push(
-        `${name} is one campaign of ${SITE_NAME} (${SITE_URL}). Each completed mission page has its media coverage, what ${SITE_NAME} raised, and Cody Hitson's journal from the day.`,
-        `## Completed missions\n\n${completed.join("\n")}`,
-        ...(upcoming.length > 0 ? [`## Next missions\n\n${upcoming.join("\n")}`] : []),
-      );
-    } else {
-      sections.push(`${name} is one campaign of ${SITE_NAME}. See ${SITE_URL}/campaigns for every campaign and ${SITE_URL}/mission for the parent organization.`);
-    }
-    sections.push(`## Optional\n\n- [Sitemap](${baseUrl}/sitemap.xml): Every indexable URL on this domain.`);
+  if (isOrgLive()) {
+    sections.push(
+      `${SITE_NAME} serves U.S. veterans, first responders, and their families. It runs a reviewed resource directory and fundraising campaigns toward a shared ${formatCurrency(FUNDRAISING_GOAL)} goal for veteran-focused nonprofit organizations.`,
+      `## Key pages\n\n${linkList(SITE_URL, ORG_LINKS)}`,
+      `## Campaigns\n\n${Object.values(CAMPAIGNS)
+        .map((campaign) => `- [${campaign.name}](${campaign.url}/): ${campaign.description}`)
+        .join("\n")}`,
+      `## Optional\n\n- [Sitemap](${SITE_URL}/sitemap.xml): Every indexable URL on this domain.`,
+    );
   }
 
   if (CONTACT_EMAIL) sections.push(`Contact: ${CONTACT_EMAIL}`);

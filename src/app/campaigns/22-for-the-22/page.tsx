@@ -29,7 +29,7 @@ import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { StatCard } from "@/components/shared/stat-card";
 import { MissionProgress } from "@/components/campaign/mission-progress";
-import { APP_URL, EVENT22_CAMPAIGN_URL, MISSION_NAME, SITE_URL, DONATE_URL } from "@/lib/constants";
+import { APP_URL, EVENT22_CAMPAIGN_URL, MISSION_NAME, SITE_URL, DONATE_URL, EVENT22_CAMPAIGN_PATH } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = pageMetadata({
@@ -359,7 +359,7 @@ export default async function EventPage() {
               ))}
             </div>
             <p className="mt-3 text-xs leading-relaxed text-charcoal-light/80">{GIVEAWAY_ODDS_DISCLOSURE}</p>
-            <Link href="/rules" data-analytics-event="22_rules_view" className="mt-3 inline-flex text-xs font-semibold uppercase tracking-wide text-bronze hover:underline">
+            <Link href={`${EVENT22_CAMPAIGN_PATH}/rules`} data-analytics-event="22_rules_view" className="mt-3 inline-flex text-xs font-semibold uppercase tracking-wide text-bronze hover:underline">
               Read the Official Rules &rarr;
             </Link>
           </RevealOnScroll>

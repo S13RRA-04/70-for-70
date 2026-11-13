@@ -8,7 +8,7 @@ import { getPublishedLiveEvents } from "@/lib/data/live-events";
 import { formatDateLong } from "@/lib/utils";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
-import { LIVE_CAMPAIGN_URL } from "@/lib/constants";
+import { LIVE_CAMPAIGN_URL, LIVE_CAMPAIGN_PATH } from "@/lib/constants";
 import { UPCOMING_LIVE_PERFORMERS } from "@/lib/content/live-campaign";
 import { formatPremiereDate, formatPremiereTimes, LIVE_PREMIERES } from "@/lib/content/live-premieres";
 import { CTAButton } from "@/components/shared/cta-button";
@@ -22,7 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: "For The 22: Live — Upcoming Shows",
     description: "Upcoming For The 22: Live benefit concerts — dates, venues, and ticket links.",
     canonical: `${LIVE_CAMPAIGN_URL}/events`,
-    image: events[0]?.hero_image_url ?? undefined,
+    image: events[0]?.hero_image_url ?? "/og-live.png",
   });
 }
 
@@ -56,7 +56,7 @@ export default async function LiveEventsPage() {
                 {LIVE_PREMIERES.map((premiere) => (
                   <Link
                     key={premiere.slug}
-                    href={`/${premiere.slug}`}
+                    href={`${LIVE_CAMPAIGN_PATH}/${premiere.slug}`}
                     className="hover-lift flex flex-col rounded-xl border border-line bg-white p-6"
                   >
                     <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">
@@ -119,7 +119,7 @@ export default async function LiveEventsPage() {
                 {events.map((event) => (
                   <Link
                     key={event.id}
-                    href={`/${event.slug}`}
+                    href={`${LIVE_CAMPAIGN_PATH}/${event.slug}`}
                     className="hover-lift flex flex-col rounded-xl border border-line bg-white p-6"
                   >
                     {event.starts_at && (

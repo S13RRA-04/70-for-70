@@ -102,17 +102,17 @@ export const PROMO_KIT_CAPTIONS: PromoKitCaption[] = [
   {
     id: "short",
     label: "Short",
-    body: "I'm in for 22 For the 22.\n\nWe're using endurance and community to raise awareness for veteran suicide prevention.\n\nBecause 22 ≠ 0.\n\nhttps://22.forthe22.org",
+    body: "I'm in for 22 For the 22.\n\nWe're using endurance and community to raise awareness for veteran suicide prevention.\n\nBecause 22 ≠ 0.\n\nhttps://forthe22.org/campaigns/22-for-the-22",
   },
   {
     id: "mission-focused",
     label: "Mission-Focused",
-    body: "I'm participating in 22 For the 22 to help raise awareness for veteran suicide prevention and support the mission behind Tri For the 22.\n\nLearn more, join the event, and help carry the mission:\nhttps://22.forthe22.org\n\nBecause 22 ≠ 0.",
+    body: "I'm participating in 22 For the 22 to help raise awareness for veteran suicide prevention and support the mission behind Tri For the 22.\n\nLearn more, join the event, and help carry the mission:\nhttps://forthe22.org/campaigns/22-for-the-22\n\nBecause 22 ≠ 0.",
   },
   {
     id: "participant-focused",
     label: "Participant-Focused",
-    body: "I've officially joined 22 For the 22.\n\nThis isn't about a finish time. It's about showing up, carrying the message, and reminding veterans that they do not have to fight their battles alone.\n\nJoin us:\nhttps://22.forthe22.org\n\nBecause 22 ≠ 0.",
+    body: "I've officially joined 22 For the 22.\n\nThis isn't about a finish time. It's about showing up, carrying the message, and reminding veterans that they do not have to fight their battles alone.\n\nJoin us:\nhttps://forthe22.org/campaigns/22-for-the-22\n\nBecause 22 ≠ 0.",
   },
 ];
 

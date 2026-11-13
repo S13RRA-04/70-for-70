@@ -136,7 +136,6 @@ export default async function AwarenessEntryPage({
           {!isRemembrance && (entry.actionCTA || (entry.resourceLinks && entry.resourceLinks.length > 0)) && (
             <div className="mt-6 flex flex-wrap items-center gap-4">
               {entry.actionCTA && (
-                // eslint-disable-next-line @next/next/no-html-link-for-pages -- intentional, see comment above
                 <a
                   href={entry.actionCTA.href}
                   className="inline-flex items-center gap-1.5 rounded-sm bg-ink px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-ink/90"
@@ -145,7 +144,6 @@ export default async function AwarenessEntryPage({
                 </a>
               )}
               {entry.resourceLinks?.map((link) => (
-                // eslint-disable-next-line @next/next/no-html-link-for-pages -- intentional, see comment above
                 <a
                   key={link.href}
                   href={link.href}
@@ -160,7 +158,6 @@ export default async function AwarenessEntryPage({
           {isRemembrance && entry.resourceLinks && entry.resourceLinks.length > 0 && (
             <div className="mt-6 flex flex-wrap items-center gap-4">
               {entry.resourceLinks.map((link) => (
-                // eslint-disable-next-line @next/next/no-html-link-for-pages -- intentional, see comment above
                 <a
                   key={link.href}
                   href={link.href}

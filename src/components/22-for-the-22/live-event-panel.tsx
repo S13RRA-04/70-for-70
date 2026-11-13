@@ -7,11 +7,10 @@ import type { EventActivityLogRow, EventConfigRow } from "@/types/database";
 
 /**
  * Rendered only while the event's computed status is "live" — see
- * /22forthe22/page.tsx. Elapsed/remaining time is already shown prominently
+ * /campaigns/22-for-the-22/page.tsx. Elapsed/remaining time is already shown prominently
  * by EventStatusClock in the hero, so this panel focuses on what's actually
  * happening: fundraising progress and the current-movement log, rather than
- * duplicating the same countdown numbers. The donate link is absolute — a
- * relative /donate on the 22 host would collapse back to "/".
+ * duplicating the same countdown numbers.
  */
 export function LiveEventPanel({
   event,

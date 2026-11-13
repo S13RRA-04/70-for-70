@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ListChecks, Download } from "lucide-react";
 import { PROMO_KIT_SUCCESS_SHARING_NOTE, REGISTRATION_SUCCESS_CONTENT } from "@/lib/content/22-for-the-22-promokit";
+import { EVENT22_CAMPAIGN_PATH } from "@/lib/constants";
 
 /**
  * Replaces the generic "you're in" message once a registration submits
@@ -37,7 +38,7 @@ export function RegistrationSuccess() {
 
       <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
         <Link
-          href="/#tracker"
+          href={`${EVENT22_CAMPAIGN_PATH}#tracker`}
           data-analytics-event="tracker_view_click"
           className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-sm bg-bronze-text px-6 py-3.5 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-bronze-dark sm:w-auto"
         >
@@ -45,7 +46,7 @@ export function RegistrationSuccess() {
           {REGISTRATION_SUCCESS_CONTENT.primaryCta}
         </Link>
         <Link
-          href="/promokit"
+          href={`${EVENT22_CAMPAIGN_PATH}/promokit`}
           data-analytics-event="promokit_view_assets_click"
           className="action-control inline-flex items-center justify-center font-bold min-h-[44px] w-full gap-2 border-2 border-navy px-6 py-3.5 text-[15px] text-navy transition-colors hover:bg-white sm:w-auto"
         >

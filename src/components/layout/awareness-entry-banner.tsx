@@ -28,13 +28,6 @@ export function AwarenessEntryBanner() {
           <span className="font-semibold uppercase tracking-wide text-bronze-light">{active.name}</span>{" "}
           {active.bannerCopy ?? active.summary}
         </p>
-        {/* Plain <a>, not <Link> — /awareness is org-only (see
-            ORG_PATH_PREFIXES in middleware.ts); on a campaign host this 308s
-            cross-origin to forthe22.org, and Next's client-side
-            fetch-based navigation gets CORS-blocked following that
-            redirect. A full page load handles it fine, same reasoning as
-            AwarenessBanner's /crisis link. */}
-        {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- intentional, see comment above */}
         <a
           href={`/awareness/${active.slug}`}
           className="text-xs font-bold uppercase tracking-[0.2em] text-off-white underline decoration-2 decoration-bronze underline-offset-4 hover:text-off-white/80 sm:text-sm"

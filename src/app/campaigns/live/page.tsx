@@ -26,7 +26,7 @@ import {
   UPCOMING_LIVE_PERFORMERS,
 } from "@/lib/content/live-campaign";
 import { HAS_LISTED_AUCTION_ITEMS } from "@/lib/content/live-auction";
-import { CONTACT_EMAIL, LIVE_CAMPAIGN_NAME, LIVE_CAMPAIGN_URL, MISSION_NAME, SITE_URL } from "@/lib/constants";
+import { CONTACT_EMAIL, LIVE_CAMPAIGN_NAME, LIVE_CAMPAIGN_URL, MISSION_NAME, SITE_URL, LIVE_CAMPAIGN_PATH } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
@@ -34,7 +34,8 @@ import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 export const metadata = pageMetadata({
   title: `${LIVE_CAMPAIGN_NAME} | ${LIVE_CAMPAIGN_TAGLINE}`,
   description: LIVE_CAMPAIGN_DESCRIPTION,
-  canonical: "/",
+  canonical: LIVE_CAMPAIGN_PATH,
+  image: "/og-live.png",
 });
 
 const BREADCRUMB_JSON_LD = breadcrumbJsonLd([{ name: LIVE_CAMPAIGN_NAME, url: LIVE_CAMPAIGN_URL }]);
@@ -71,14 +72,14 @@ async function getShowStubs(): Promise<TicketStubProps[]> {
         event.tagline ||
         undefined,
       action: event.ticket_url ? { label: "Get tickets", href: event.ticket_url, external: true } : undefined,
-      detailHref: `/${event.slug}`,
+      detailHref: `${LIVE_CAMPAIGN_PATH}/${event.slug}`,
     })),
     ...getUpcomingLivePremieres(Date.now()).map((premiere) => ({
       dateLabel: formatPremiereDate(premiere, { month: "short", day: "numeric" }),
       headliner: `${premiere.artist} — “${premiere.title}”`,
       detail: `${premiere.kind} · ${formatPremiereTimes(premiere).split(" / ")[0]}`,
       action: { label: "Watch on YouTube", href: premiereWatchUrl(premiere), external: true },
-      detailHref: `/${premiere.slug}`,
+      detailHref: `${LIVE_CAMPAIGN_PATH}/${premiere.slug}`,
     })),
     ...unscheduled.map((performer) => ({
       dateLabel: "Date TBA",
@@ -197,7 +198,7 @@ export default async function LiveCampaignPage() {
             </div>
           </div>
 
-          <Link href="/events" className="self-start font-bold text-white underline underline-offset-4 hover:text-live-red">
+          <Link href={`${LIVE_CAMPAIGN_PATH}/events`} className="self-start font-bold text-white underline underline-offset-4 hover:text-live-red">
             Every show &amp; performer &rarr;
           </Link>
         </Container>
@@ -347,7 +348,7 @@ export default async function LiveCampaignPage() {
                   </svg>
                 }
                 {...LIVE_JOIN_PATHS.auction}
-                href="/auction"
+                href={`${LIVE_CAMPAIGN_PATH}/auction`}
               />
               )}
             </div>
