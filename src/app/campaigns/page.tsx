@@ -3,6 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/shared/container";
 import { PageHero } from "@/components/shared/page-hero";
+import { PillarNextSteps } from "@/components/shared/pillar-next-steps";
+import { WaysIn } from "@/components/get-involved/ways-in";
+import { UpcomingObservances } from "@/components/awareness/upcoming-observances";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTAButton } from "@/components/shared/cta-button";
 import { MissionProgress } from "@/components/campaign/mission-progress";
@@ -104,6 +107,8 @@ export default async function CampaignsPage() {
         <p className="label-caps text-olive">{MISSION_ORIGIN_LINE}</p>
       </PageHero>
 
+      <WaysIn />
+
       {/* Current Mission — a campaign-index summary of the shared goal.
           MissionProgress already names the mission and states the "one
           shared goal" framing, so this section leans on that visual/numeric
@@ -147,7 +152,7 @@ export default async function CampaignsPage() {
 
       {/* Current campaigns — status, dates, location, and links all come from
           the shared MovementCampaign records. */}
-      <section className="py-16 sm:py-24">
+      <section id="current-campaigns" aria-label="Current campaigns" className="scroll-mt-28 py-16 sm:py-24">
         <Container>
           <RevealGrid>
             <div className="grid gap-5 lg:grid-cols-2">
@@ -232,6 +237,8 @@ export default async function CampaignsPage() {
         </Container>
       </section>
 
+      <UpcomingObservances />
+
       {/* What's Next? — plan §11: the $70K Mission is a milestone, not the
           ceiling. Beneficiary names come from data; future mission areas are
           labeled as areas, not promised beneficiaries. */}
@@ -278,6 +285,7 @@ export default async function CampaignsPage() {
         </Container>
       </section>
 
+      <PillarNextSteps current="mobilization" />
     </>
   );
 }

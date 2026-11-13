@@ -7,6 +7,7 @@ import { CAMPAIGN_HOME_LINK, CAMPAIGNS } from "@/lib/constants";
 import type { CampaignSlug } from "@/lib/site-mode";
 import { isNavGroup, type NavEntry, type NavLink } from "@/types/content";
 import { cn } from "@/lib/utils";
+import { PILLAR_TEXT, getOrgPillar, pillarEyebrow, type MissionPillar } from "@/lib/pillars";
 
 interface MobileMenuProps {
   open: boolean;
@@ -101,6 +102,13 @@ export function MobileMenu({ open, onClose, navLinks, pathname, campaignSlug, tr
   }, [open]);
 
   if (!rendered) return null;
+
+  // Org menu: plain links other than "/resources" and "/crisis", which get
+  // dedicated CTA treatment at the bottom (matching the desktop header) —
+  // otherwise both would render twice. Empty with the pillar nav.
+  const orgFlatLinks = navLinks
+    .filter((entry): entry is NavLink => !isNavGroup(entry))
+    .filter((link) => link.href !== "/resources" && link.href !== "/crisis");
 
   // Portaled to document.body — the trigger button lives inside <header>,
   // which has backdrop-blur. backdrop-filter establishes a new containing
@@ -205,14 +213,9 @@ export function MobileMenu({ open, onClose, navLinks, pathname, campaignSlug, tr
             </>
           ) : (
             <>
-              <ul className="flex flex-col gap-1">
-                {navLinks
-                  .filter((entry): entry is NavLink => !isNavGroup(entry))
-                  // "/resources" and "/crisis" get dedicated CTA treatment
-                  // below instead of a plain row, matching the desktop header
-                  // — otherwise both would render twice.
-                  .filter((link) => link.href !== "/resources" && link.href !== "/crisis")
-                  .map((link) => (
+              {orgFlatLinks.length > 0 && (
+                <ul className="mb-5 flex flex-col gap-1">
+                  {orgFlatLinks.map((link) => (
                     <li key={link.href}>
                       <Link
                         href={link.href}
@@ -226,14 +229,16 @@ export function MobileMenu({ open, onClose, navLinks, pathname, campaignSlug, tr
                       </Link>
                     </li>
                   ))}
-              </ul>
-              {navLinks.filter(isNavGroup).map((group) => (
+                </ul>
+              )}
+              {navLinks.filter(isNavGroup).map((group, i) => (
                 <MobileNavGroup
                   key={group.label}
                   label={group.label}
+                  pillar={group.pillar}
                   links={group.children}
                   pathname={pathname}
-                  className="mt-5 border-t border-ink/10 pt-5"
+                  className={i > 0 || orgFlatLinks.length > 0 ? "mt-5 border-t border-ink/10 pt-5" : undefined}
                 />
               ))}
               <div className="mt-auto flex flex-col gap-2 border-t border-ink/10 pt-3">
@@ -241,7 +246,7 @@ export function MobileMenu({ open, onClose, navLinks, pathname, campaignSlug, tr
                   href="/resources"
                   className="block rounded-sm bg-bronze-text px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
                 >
-                  Find Resources
+                  Find Support
                 </Link>
                 <Link
                   href="/crisis"
@@ -283,17 +288,26 @@ function ParentInitiativeGroup({ link }: { link: NavLink }) {
 
 function MobileNavGroup({
   label,
+  pillar,
   links,
   pathname,
   className,
 }: {
   label: string;
+  /** Org pillar groups show their "01 · Connection" eyebrow above the label. */
+  pillar?: MissionPillar;
   links: NavLink[];
   pathname: string;
   className?: string;
 }) {
+  const orgPillar = pillar ? getOrgPillar(pillar) : null;
   return (
     <div className={className}>
+      {orgPillar && (
+        <p className={cn("px-3 text-[11px] font-bold uppercase tracking-[0.2em]", PILLAR_TEXT[orgPillar.id])}>
+          {pillarEyebrow(orgPillar)}
+        </p>
+      )}
       <p className="px-3 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">{label}</p>
       <ul className="mt-2 flex flex-col gap-1">
         {links.map((link) => (

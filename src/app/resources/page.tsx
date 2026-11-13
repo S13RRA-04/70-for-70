@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { Container } from "@/components/shared/container";
 import { PageHero } from "@/components/shared/page-hero";
+import { PillarNextSteps } from "@/components/shared/pillar-next-steps";
 import { CTASection } from "@/components/shared/cta-section";
 import { MobileActionBar } from "@/components/shared/mobile-action-bar";
 import { ResourceDirectory } from "@/components/resources/resource-directory";
@@ -63,6 +64,8 @@ export default async function ResourcesPage() {
             : [{ label: "Contact Us", href: "/contact" }]
         }
       />
+
+      <PillarNextSteps current="connection" />
 
       <div className="h-16 sm:hidden" aria-hidden="true" />
       <MobileActionBar

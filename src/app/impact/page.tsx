@@ -1,8 +1,8 @@
 import Image from "next/image";
-import Link from "next/link";
 import { Handshake, MapPinned, Megaphone, Users } from "lucide-react";
 import { Container } from "@/components/shared/container";
 import { PageHero } from "@/components/shared/page-hero";
+import { PillarNextSteps } from "@/components/shared/pillar-next-steps";
 import { CTAButton } from "@/components/shared/cta-button";
 import { CTASection } from "@/components/shared/cta-section";
 import { MissionProgress } from "@/components/campaign/mission-progress";
@@ -199,12 +199,7 @@ export default async function ImpactPage() {
         ]}
       />
 
-      <div className="border-t border-ink/10 py-8 text-center text-sm text-charcoal-light">
-        Want the full picture?{" "}
-        <Link href="/network" className="font-semibold text-bronze hover:text-bronze-dark">
-          Explore the network &rarr;
-        </Link>
-      </div>
+      <PillarNextSteps current="impact" />
     </>
   );
 }

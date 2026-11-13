@@ -3,6 +3,7 @@ import type { CampaignStatus, MovementCampaign } from "@/types/organization";
 import type { CampaignSlug } from "@/lib/site-mode";
 import { HAS_LISTED_AUCTION_ITEMS } from "@/lib/content/live-auction";
 import { formatCurrency } from "@/lib/utils";
+import { ORG_ABOUT_LINKS, ORG_PILLARS } from "@/lib/pillars";
 
 /** The project's name — used in the header, footer, legal copy, and site-wide metadata. Not an organization name; see PROJECT_POSITIONING. */
 export const SITE_NAME = "For The 22";
@@ -275,22 +276,9 @@ export function isCurrentCampaign(
  * Order here is still the real display order for every entry.
  */
 export const ORG_NAV_LINKS: NavEntry[] = [
-  { label: "Resources", href: "/resources" },
-  { label: "Campaigns", href: "/campaigns" },
-  { label: "Network", href: "/network" },
-  { label: "Impact", href: "/impact" },
-  { label: "About", href: "/about" },
-  {
-    label: "More",
-    children: [
-      { label: "Mission", href: "/mission" },
-      { label: "Awareness Calendar", href: "/awareness" },
-      { label: "For The 22 Store", href: "/store" },
-      { label: "Shop With Purpose", href: "/veteran-brands" },
-      { label: "Press & Media", href: "/press" },
-      { label: "Contact", href: "/contact" },
-    ],
-  },
+  // One dropdown per mission pillar — see src/lib/pillars.ts.
+  ...ORG_PILLARS.map((p) => ({ label: p.navLabel, pillar: p.id, children: p.links })),
+  { label: "About", children: ORG_ABOUT_LINKS },
   { label: "Get Help Now", href: "/crisis" },
 ];
 
