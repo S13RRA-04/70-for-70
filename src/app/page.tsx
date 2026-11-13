@@ -4,12 +4,12 @@ import { CTAButton } from "@/components/shared/cta-button";
 import { ScrollProgressRail } from "@/components/shared/scroll-progress-rail";
 import { RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import { NEED_CATEGORIES } from "@/lib/content/resources";
-import { AWARENESS_CALENDAR, getNextOccurrence, getUpcomingEntries } from "@/lib/content/awareness-calendar";
 import { ABOUT_CONTENT, findAboutSubsection } from "@/lib/content/about";
 import { getMissionMetrics } from "@/lib/data/mission-metrics";
 import { getPartners } from "@/lib/data/partners";
 import { getMissionPartners, isCampaignPartner } from "@/lib/data/mission-partners";
-import { CAMPAIGN_URL, MOVEMENT_CAMPAIGNS, ORG_TAGLINE, isCurrentCampaign } from "@/lib/constants";
+import { MOVEMENT_CAMPAIGNS, ORG_TAGLINE, isCurrentCampaign } from "@/lib/constants";
+import { ORG_PILLARS, PILLAR_TEXT, type MissionPillar } from "@/lib/pillars";
 import { cn } from "@/lib/utils";
 import { CampaignFilm } from "@/components/home/campaign-film";
 import { InstitutionalRecognition } from "@/components/shared/institutional-recognition";
@@ -22,6 +22,11 @@ import type { MovementCampaign } from "@/types/organization";
  * around the three mission pillars: 01 Connection (help blue), 02
  * Mobilization (olive), 03 Impact (green). Each pillar's color is used only
  * for that pillar's labels/marks; navy carries structure everywhere.
+ *
+ * The homepage is a front door, not the whole house: one preview per
+ * pillar, each linking to that pillar's hub (see src/lib/pillars.ts). The
+ * "four ways in" block and the awareness calendar live on the /campaigns
+ * hub; coming-soon campaigns are listed there too.
  */
 
 const RAIL_SECTIONS = [
@@ -121,10 +126,11 @@ export default async function HomePage() {
   const athleticCampaigns = current
     .filter((c) => c.slug in CAMPAIGN_CARD_COPY)
     .sort((a, b) => (a.startDate ?? "9999").localeCompare(b.startDate ?? "9999"));
-  const liveCampaign = MOVEMENT_CAMPAIGNS.find((c) => c.slug === "live" && c.url);
-  const seenCampaign = MOVEMENT_CAMPAIGNS.find((c) => c.slug === "seen" && c.url);
-
-  const upcomingObservances = getUpcomingEntries(AWARENESS_CALENDAR, 3);
+  // Lead with the soonest campaign that hasn't started yet — the one a
+  // visitor can still join — and list the rest compactly beside it.
+  const featuredCampaign =
+    athleticCampaigns.find((c) => c.startDate && daysFromToday(c.startDate) >= 0) ?? athleticCampaigns[0];
+  const otherCampaigns = athleticCampaigns.filter((c) => c !== featuredCampaign);
 
   const generalPartners = missionPartners.filter(isCampaignPartner);
   const presentingPartners = generalPartners.filter((p) => p.tier === "presenting-partner");
@@ -142,21 +148,13 @@ export default async function HomePage() {
   const goal = metrics.fundraisingGoal;
   const percent = raised !== null && goal ? Math.min(100, (raised / goal) * 100) : null;
 
-  const pillars = [
-    {
-      id: "connection",
-      number: "01",
-      title: "Connection",
-      color: "text-help",
+  const pillarPreview: Record<MissionPillar, { body: string; stat: string | null; statLabel: string }> = {
+    connection: {
       body: "Connecting veterans, first responders, and their families to trusted resources, people, organizations, and community.",
       stat: metrics.resources !== null ? count.format(metrics.resources) : null,
       statLabel: "vetted resources",
     },
-    {
-      id: "mobilization",
-      number: "02",
-      title: "Mobilization",
-      color: "text-olive",
+    mobilization: {
       body: "Turning awareness into action — getting communities, partners, artists, brands, and supporters involved.",
       stat:
         metrics.activeCampaigns !== null && metrics.campaignPartners !== null
@@ -164,11 +162,7 @@ export default async function HomePage() {
           : null,
       statLabel: "campaigns · partners",
     },
-    {
-      id: "impact",
-      number: "03",
-      title: "Impact",
-      color: "text-impact",
+    impact: {
       body: "Converting participation into measurable support — funding, visibility, access, and tangible outcomes for the people doing the work.",
       stat: raised !== null ? usd.format(raised) : null,
       statLabel:
@@ -176,7 +170,8 @@ export default async function HomePage() {
           ? `raised for ${metrics.beneficiaries} nonprofit${metrics.beneficiaries === 1 ? "" : "s"}`
           : "raised",
     },
-  ];
+  };
+  const pillars = ORG_PILLARS.map((pillar) => ({ ...pillar, ...pillarPreview[pillar.id] }));
 
   return (
     <>
@@ -234,10 +229,10 @@ export default async function HomePage() {
             into real results for the people and organizations doing the work.
           </p>
           <div className="hero-rise flex flex-wrap justify-center gap-3 [animation-delay:900ms]">
-            <CTAButton href="#connection" size="lg">
-              Find resources
+            <CTAButton href="/resources" size="lg">
+              Find support
             </CTAButton>
-            <CTAButton href="#mobilization" size="lg" variant="secondary">
+            <CTAButton href="/campaigns" size="lg" variant="secondary">
               Get involved
             </CTAButton>
           </div>
@@ -251,9 +246,9 @@ export default async function HomePage() {
         </h2>
         <div className="mx-auto grid max-w-[1240px] px-6 md:grid-cols-3">
           {pillars.map((pillar, i) => (
-            <a
+            <Link
               key={pillar.id}
-              href={`#${pillar.id}`}
+              href={pillar.hub.href}
               className={cn(
                 "group flex flex-col gap-3 border-[#ece9e1] py-10 text-jet max-md:border-b max-md:last:border-b-0 md:px-8",
                 i === 0 && "md:pl-0",
@@ -261,7 +256,7 @@ export default async function HomePage() {
               )}
             >
               <div className="flex items-baseline justify-between gap-3">
-                <span className={cn("font-display text-[40px] uppercase leading-none", pillar.color)}>
+                <span className={cn("font-display text-[40px] uppercase leading-none", PILLAR_TEXT[pillar.id])}>
                   {pillar.title}
                 </span>
                 <Label className="text-xs text-[#6a6d72]">{pillar.number}</Label>
@@ -273,7 +268,10 @@ export default async function HomePage() {
                   <span className="text-[15px] text-muted">{pillar.statLabel}</span>
                 </div>
               )}
-            </a>
+              <span className="font-bold text-navy group-hover:text-help group-hover:underline">
+                {pillar.navLabel} →
+              </span>
+            </Link>
           ))}
         </div>
       </section>
@@ -418,49 +416,22 @@ export default async function HomePage() {
             description="Rucks, rides, and the people who show up — 41 seconds, sound on."
           />
 
-          {athleticCampaigns.length > 0 && (
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {athleticCampaigns.map((campaign) => {
-                const copy = CAMPAIGN_CARD_COPY[campaign.slug];
-                const pill = copy.pill ? { label: copy.pill, filled: false } : campaignPill(campaign);
-                const dateLine = campaignDateLine(campaign);
-                return (
-                  <article
-                    key={campaign.id}
-                    className="lift view-rise bg-paper flex min-h-[280px] flex-col gap-3 rounded-xl p-7 text-jet"
-                  >
-                    <div className="flex justify-between gap-2 text-sm">
-                      <span
-                        className={cn(
-                          "rounded-full px-3 font-bold",
-                          pill.filled
-                            ? "bg-olive py-1 text-white"
-                            : "border-[1.5px] border-olive py-[3px] text-olive",
-                        )}
-                      >
-                        {pill.label}
-                      </span>
-                      {dateLine && <span className="text-muted">{dateLine}</span>}
-                    </div>
-                    <h3 className="mt-2 font-display text-4xl uppercase leading-none">{campaign.name}</h3>
-                    <p className="flex-grow text-base leading-relaxed text-copy">{copy.blurb}</p>
-                    {/* Campaign-scoped recognitions only (e.g. a Tri-specific grant) — sits on the card so it never reads as an endorsement of every For The 22 program. */}
-                    {RECOGNITIONS.filter((r) => r.campaign === campaign.slug).map((recognition) => (
-                      <InstitutionalRecognition
-                        key={recognition.id}
-                        recognition={recognition}
-                        variant="inline"
-                        className="border-t border-line pt-3 text-navy [&>svg]:text-olive"
-                      />
-                    ))}
-                    <a href={campaign.url} className="font-bold text-navy hover:text-help hover:underline">
-                      {copy.cta} →
-                    </a>
-                  </article>
-                );
-              })}
+          {featuredCampaign && (
+            <div className="grid gap-4 lg:grid-cols-3">
+              <CampaignTile campaign={featuredCampaign} featured className="lg:col-span-2" />
+              {otherCampaigns.length > 0 && (
+                <div className="flex flex-col gap-4">
+                  {otherCampaigns.map((campaign) => (
+                    <CampaignTile key={campaign.id} campaign={campaign} />
+                  ))}
+                </div>
+              )}
             </div>
           )}
+
+          <Link href="/campaigns" className="self-start font-bold text-gold hover:underline">
+            All campaigns and ways to get involved →
+          </Link>
 
           {athleteAffiliation && (
             <div className="flex flex-wrap items-center gap-3 border-t border-navy-rule pt-6 text-sm">
@@ -483,78 +454,6 @@ export default async function HomePage() {
             </div>
           )}
 
-          {liveCampaign?.url && (
-            <a
-              href={liveCampaign.url}
-              className="flex flex-wrap items-center justify-between gap-x-8 gap-y-3 rounded-xl border border-[#2c3d6b] px-7 py-6 text-white transition-colors hover:border-mist"
-            >
-              <div className="flex flex-col gap-1.5">
-                <Label className="text-xs text-mist">
-                  Benefit concert series{liveCampaign.status === "in-development" && " · Coming soon"}
-                </Label>
-                <span className="font-display text-[32px] uppercase leading-none">{liveCampaign.name}</span>
-                <span className="text-base text-mist">
-                  Artists, veterans, first responders, and families — tickets, sponsorships, and auctions all count
-                  toward the mission.
-                </span>
-              </div>
-              <span className="font-bold text-gold">Get updates →</span>
-            </a>
-          )}
-
-          {seenCampaign?.url && (
-            <a
-              href={seenCampaign.url}
-              className="flex flex-wrap items-center justify-between gap-x-8 gap-y-3 rounded-xl border border-[#2c3d6b] px-7 py-6 text-white transition-colors hover:border-mist"
-            >
-              <div className="flex flex-col gap-1.5">
-                <Label className="text-xs text-mist">
-                  Art initiative{seenCampaign.status === "in-development" && " · Coming soon"}
-                </Label>
-                <span className="font-display text-[32px] uppercase leading-none">{seenCampaign.name}</span>
-                <span className="text-base text-mist">
-                  Veterans&apos; and first responders&apos; stories, interpreted by visual artists — exhibitions,
-                  auctions, and art sales all count toward the mission.
-                </span>
-              </div>
-              <span className="font-bold text-gold">Get updates →</span>
-            </a>
-          )}
-        </div>
-      </section>
-
-      {/* Mobilization · Get involved — banner bookend */}
-      <section aria-labelledby="join-heading" className="relative overflow-hidden">
-        {/* eslint-disable-next-line @next/next/no-img-element -- decorative edge art sized to the section's height */}
-        <img
-          src="/brand/edge-left.webp"
-          alt=""
-          aria-hidden="true"
-          className="pointer-events-none absolute left-0 top-0 h-full w-auto max-w-[24vw] object-cover object-right opacity-35 md:opacity-90"
-        />
-        <div className="relative mx-auto flex max-w-[1040px] flex-col gap-9 px-6 py-20 sm:py-24">
-          <div className="flex flex-col items-center gap-3 text-center">
-            <Label className="text-olive">Mobilization · Get involved</Label>
-            <h2 id="join-heading" className="text-worn font-display text-[clamp(48px,6vw,80px)] uppercase leading-none">
-              <span className="text-outline">Here to give help?</span>
-              <br />
-              <span className="text-navy">Four ways in.</span>
-            </h2>
-          </div>
-          <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
-            <GetInvolvedCard href="/campaigns" title="Participate" cta="See campaigns">
-              Join a ruck, a race, or a movement challenge.
-            </GetInvolvedCard>
-            <GetInvolvedCard href={`${CAMPAIGN_URL}/become-a-partner`} external title="Partner" cta="Become a partner">
-              Brands, artists, and organizations: contribute gear, services, funding, expertise, or reach.
-            </GetInvolvedCard>
-            <GetInvolvedCard href={`${CAMPAIGN_URL}/donate`} external title="Donate" cta="Donate" dark>
-              Give directly through a beneficiary campaign.
-            </GetInvolvedCard>
-            <GetInvolvedCard href="/resources" title="Share" cta="Find resources">
-              Help trusted resources reach the people who need them.
-            </GetInvolvedCard>
-          </div>
         </div>
       </section>
 
@@ -736,85 +635,74 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Awareness calendar */}
-      {upcomingObservances.length > 0 && (
-        <section aria-labelledby="cal-heading" className="border-t border-line">
-          <div className="mx-auto flex max-w-[1240px] flex-wrap items-start gap-x-[72px] gap-y-8 px-6 py-20 sm:py-[88px]">
-            <div className="flex flex-[1_1_320px] flex-col gap-3">
-              <Label className="text-steel">Awareness calendar</Label>
-              <h2 id="cal-heading" className="font-display text-5xl uppercase leading-none text-navy">
-                Days we pause to recognize.
-              </h2>
-              <Link href="/awareness" className="mt-2 font-bold text-navy hover:text-help hover:underline">
-                Full calendar →
-              </Link>
-            </div>
-            <ol className="min-w-0 flex-[999_1_560px] border-t border-line">
-              {upcomingObservances.map((entry) => {
-                // getUpcomingEntries only returns entries with a next occurrence.
-                const next = getNextOccurrence(entry);
-                if (!next) return null;
-                const when = new Intl.DateTimeFormat("en-US", {
-                  month: "short",
-                  ...(entry.dateRule.type !== "month" && { day: "numeric" }),
-                }).format(next.date);
-                return (
-                  <li key={entry.slug} className="border-b border-line">
-                    <Link
-                      href={`/awareness/${entry.slug}`}
-                      className="flex items-baseline gap-6 py-5 font-bold text-navy hover:text-help hover:underline"
-                    >
-                      <span className="min-w-24 font-display text-[26px] font-normal uppercase leading-none text-help">
-                        {when}
-                      </span>
-                      <span className="flex-1">{entry.name}</span>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ol>
-          </div>
-        </section>
-      )}
     </>
   );
 }
 
-function GetInvolvedCard({
-  href,
-  title,
-  cta,
-  dark = false,
-  external = false,
-  children,
+/** One athletic campaign card; `featured` is the larger lead card. */
+function CampaignTile({
+  campaign,
+  featured = false,
+  className,
 }: {
-  href: string;
-  title: string;
-  cta: string;
-  dark?: boolean;
-  external?: boolean;
-  children: React.ReactNode;
+  campaign: MovementCampaign & { url: string };
+  featured?: boolean;
+  className?: string;
 }) {
-  const className = cn(
-    "lift view-rise flex min-h-[180px] flex-col gap-2 rounded-xl p-[26px]",
-    dark ? "bg-navy text-white" : "border border-line bg-white text-jet hover:border-navy/40",
-  );
-  const content = (
-    <>
-      <span className="font-display text-[30px] uppercase leading-none">{title}</span>
-      <span className={cn("flex-grow text-base leading-relaxed", dark ? "text-mist" : "text-copy")}>
-        {children}
-      </span>
-      <span className={cn("font-bold", dark ? "text-gold" : "text-navy")}>{cta} →</span>
-    </>
-  );
-  return external ? (
-    <a href={href} className={className}>
-      {content}
-    </a>
-  ) : (
-    <Link href={href} className={className}>
-      {content}
-    </Link>
+  const copy = CAMPAIGN_CARD_COPY[campaign.slug];
+  const pill = copy.pill ? { label: copy.pill, filled: false } : campaignPill(campaign);
+  const dateLine = campaignDateLine(campaign);
+  return (
+    <article
+      className={cn(
+        "lift view-rise bg-paper flex flex-col gap-3 rounded-xl text-jet",
+        featured ? "min-h-[320px] p-8 sm:p-10" : "p-6",
+        className,
+      )}
+    >
+      <div className="flex flex-wrap justify-between gap-2 text-sm">
+        <span
+          className={cn(
+            "rounded-full px-3 font-bold",
+            pill.filled ? "bg-olive py-1 text-white" : "border-[1.5px] border-olive py-[3px] text-olive",
+          )}
+        >
+          {pill.label}
+        </span>
+        {dateLine && <span className="text-muted">{dateLine}</span>}
+      </div>
+      <h3
+        className={cn(
+          "mt-2 font-display uppercase leading-none",
+          featured ? "text-[clamp(44px,5vw,64px)]" : "text-3xl",
+        )}
+      >
+        {campaign.name}
+      </h3>
+      <p className={cn("flex-grow leading-relaxed text-copy", featured ? "max-w-xl text-lg" : "text-base")}>
+        {copy.blurb}
+      </p>
+      {/* Campaign-scoped recognitions only (e.g. a Tri-specific grant) — sits on the card so it never reads as an endorsement of every For The 22 program. */}
+      {RECOGNITIONS.filter((r) => r.campaign === campaign.slug).map((recognition) => (
+        <InstitutionalRecognition
+          key={recognition.id}
+          recognition={recognition}
+          variant="inline"
+          className="border-t border-line pt-3 text-navy [&>svg]:text-olive"
+        />
+      ))}
+      {featured ? (
+        <a
+          href={campaign.url}
+          className="action-control inline-flex min-h-[50px] items-center self-start bg-olive px-6 font-bold text-white hover:bg-olive-dark"
+        >
+          {copy.cta} →
+        </a>
+      ) : (
+        <a href={campaign.url} className="font-bold text-navy hover:text-help hover:underline">
+          {copy.cta} →
+        </a>
+      )}
+    </article>
   );
 }

@@ -17,6 +17,7 @@ import { Container } from "@/components/shared/container";
 import { SocialLinks } from "@/components/shared/social-links";
 import { BrandStripe } from "@/components/shared/brand-stripe";
 import { isNavGroup, type NavLink } from "@/types/content";
+import { ORG_ABOUT_LINKS, ORG_PILLARS } from "@/lib/pillars";
 import type { CampaignSlug, SiteMode } from "@/lib/site-mode";
 import { isRaceDayModeEnabled } from "@/lib/race-day-mode";
 
@@ -478,111 +479,63 @@ export function Footer({
           </>
         ) : (
           <>
-            {/* Resources — the directory and its crisis pathways. Plain <a>,
-                not <Link>, for /crisis — on a campaign host it 308s
+            {/* One column per mission pillar (src/lib/pillars.ts), then About.
+                /crisis is a plain <a>, not <Link> — on a campaign host it 308s
                 cross-origin to forthe22.org, and Next's client-side
                 fetch-based navigation gets CORS-blocked following that
                 redirect. A full page load handles it fine. */}
-            <div>
-              <p className="label-caps text-xs text-mist">
-                Resources
-              </p>
-              <ul className="mt-4 space-y-2 text-[15px] text-mist">
-                <li>
-                  <Link href="/resources" className="transition-colors hover:text-white hover:underline">
-                    Find Resources
-                  </Link>
-                </li>
-                <li>
-                  <a
-                    href="/crisis"
-                    className="font-semibold text-off-white transition-colors hover:text-bronze-light"
-                  >
-                    Need Help Now
-                    {awarenessDot}
-                  </a>
-                </li>
-                <li>
-                  <a href="/crisis#veterans" className="transition-colors hover:text-white hover:underline">
-                    Veteran Crisis Resources
-                  </a>
-                </li>
-                <li>
-                  <a href="/crisis#first-responders" className="transition-colors hover:text-white hover:underline">
-                    First Responder Resources
-                  </a>
-                </li>
-                <li>
-                  <Link href="/standards" className="transition-colors hover:text-white hover:underline">
-                    Resource Standards
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            {/* Mission — the org's own mission content and the campaigns it
-                runs toward The $70K Mission (reachable via Campaigns, not a
-                permanent top-level/footer link of its own). */}
-            <div>
-              <p className="label-caps text-xs text-mist">
-                Mission
-              </p>
-              <ul className="mt-4 space-y-2 text-[15px] text-mist">
-                <li>
-                  <Link href="/mission" className="transition-colors hover:text-white hover:underline">
-                    Mission
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/campaigns" className="transition-colors hover:text-white hover:underline">
-                    Campaigns
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/network" className="transition-colors hover:text-white hover:underline">
-                    Network
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/impact" className="transition-colors hover:text-white hover:underline">
-                    Impact
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/about" className="transition-colors hover:text-white hover:underline">
-                    About
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            {/* Connect — press, contact, and shop touchpoints. */}
-            <div>
-              <p className="label-caps text-xs text-mist">
-                Connect
-              </p>
-              <ul className="mt-4 space-y-2 text-[15px] text-mist">
-                <li>
-                  <Link href="/press" className="transition-colors hover:text-white hover:underline">
-                    Press &amp; Media
-                  </Link>
-                </li>
-                <li>
-                  {CONTACT_EMAIL ? (
-                    <a href={`mailto:${CONTACT_EMAIL}`} className="transition-colors hover:text-white hover:underline">
-                      Contact
-                    </a>
-                  ) : (
-                    <Link href="/contact" className="transition-colors hover:text-white hover:underline">
-                      Contact
-                    </Link>
+            {ORG_PILLARS.map((pillar) => (
+              <div key={pillar.id}>
+                <p className="label-caps text-xs text-mist">
+                  {pillar.number} · {pillar.navLabel}
+                </p>
+                <ul className="mt-4 space-y-2 text-[15px] text-mist">
+                  {pillar.id === "connection" && (
+                    <li>
+                      <a
+                        href="/crisis"
+                        className="font-semibold text-off-white transition-colors hover:text-bronze-light"
+                      >
+                        Need Help Now
+                        {awarenessDot}
+                      </a>
+                    </li>
                   )}
-                </li>
-                <li>
-                  <Link href="/store" className="transition-colors hover:text-white hover:underline">
-                    Shop
-                  </Link>
-                </li>
+                  {pillar.links
+                    .filter((link) => link.href !== "/crisis")
+                    .map((link) => (
+                      <li key={link.href}>
+                        {link.href.startsWith("/crisis") ? (
+                          <a href={link.href} className="transition-colors hover:text-white hover:underline">
+                            {link.label}
+                          </a>
+                        ) : (
+                          <Link href={link.href} className="transition-colors hover:text-white hover:underline">
+                            {link.label}
+                          </Link>
+                        )}
+                      </li>
+                    ))}
+                </ul>
+              </div>
+            ))}
+
+            <div>
+              <p className="label-caps text-xs text-mist">About</p>
+              <ul className="mt-4 space-y-2 text-[15px] text-mist">
+                {ORG_ABOUT_LINKS.map((link) => (
+                  <li key={link.href}>
+                    {link.href === "/contact" && CONTACT_EMAIL ? (
+                      <a href={`mailto:${CONTACT_EMAIL}`} className="transition-colors hover:text-white hover:underline">
+                        {link.label}
+                      </a>
+                    ) : (
+                      <Link href={link.href} className="transition-colors hover:text-white hover:underline">
+                        {link.label}
+                      </Link>
+                    )}
+                  </li>
+                ))}
                 <li>
                   <a href={CAMPAIGN_HOME_LINK.href} className="transition-colors hover:text-white hover:underline">
                     {CAMPAIGN_HOME_LINK.label} <span aria-hidden="true">&#8599;</span>

@@ -1,25 +1,5 @@
 import { cn } from "@/lib/utils";
-
-/**
- * The mission pillar a page belongs to. Its color marks only the eyebrow and
- * small accents — navy still carries the headline — matching the homepage's
- * 01 Connection / 02 Mobilization / 03 Impact sections.
- */
-export type Pillar = "connection" | "mobilization" | "impact" | "neutral";
-
-export const PILLAR_TEXT: Record<Pillar, string> = {
-  connection: "text-help",
-  mobilization: "text-olive",
-  impact: "text-impact",
-  neutral: "text-steel",
-};
-
-export const PILLAR_BORDER: Record<Pillar, string> = {
-  connection: "border-help",
-  mobilization: "border-olive",
-  impact: "border-impact",
-  neutral: "border-steel",
-};
+import { PILLAR_TEXT, type Pillar } from "@/lib/pillars";
 
 /**
  * Inner-page opener for org pages — the homepage's section-header treatment

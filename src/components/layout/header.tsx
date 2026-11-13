@@ -9,6 +9,7 @@ import { CAMPAIGN_URL, CAMPAIGNS, ORG_NAV_LINKS, SITE_NAME } from "@/lib/constan
 import type { CampaignSlug, SiteMode } from "@/lib/site-mode";
 import { isNavGroup, type NavGroup } from "@/types/content";
 import { cn } from "@/lib/utils";
+import { PILLAR_BORDER, PILLAR_TEXT, getOrgPillar, isPathWithin, pillarEyebrow } from "@/lib/pillars";
 import { MobileMenu } from "@/components/layout/mobile-menu";
 import { Container } from "@/components/shared/container";
 import { CTAButton } from "@/components/shared/cta-button";
@@ -202,7 +203,7 @@ export function Header({
               aria-current={pathname === "/resources" ? "page" : undefined}
               className="rounded-sm px-3 py-2 text-[13px] font-bold uppercase tracking-[0.14em] text-jet"
             >
-              Resources
+              Find Support
             </Link>
           )}
           {/* Mobile-collapsed header previously gave "Find Resources" a
@@ -278,7 +279,10 @@ function NavDropdown({
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const panelId = useId();
-  const isActive = group.children.some((link) => pathname === link.href);
+  // Section-aware: /resources/some-org still marks "Find Support" current.
+  const isActive = group.children.some((link) => isPathWithin(pathname, link.href));
+  const pillar = group.pillar ? getOrgPillar(group.pillar) : null;
+  const activeBorder = pillar ? PILLAR_BORDER[pillar.id] : "border-navy";
 
   useEffect(() => {
     if (!open) return;
@@ -318,7 +322,7 @@ function NavDropdown({
         onClick={() => onOpenChange(!open)}
         className={cn(
           "flex items-center gap-1 whitespace-nowrap border-b-2 border-transparent py-3 text-[13px] font-bold uppercase tracking-[0.14em] text-jet transition-colors hover:text-help",
-          (isActive || open) && "border-navy text-navy",
+          (isActive || open) && cn(activeBorder, "text-navy"),
         )}
       >
         {group.label}
@@ -329,8 +333,17 @@ function NavDropdown({
         <div
           id={panelId}
           aria-label={group.label}
-          className="absolute left-0 top-full z-50 mt-1 w-60 rounded-xl border border-line bg-white py-2 shadow-[0_12px_32px_rgba(18,30,61,0.10)]"
+          className={cn(
+            "absolute left-0 top-full z-50 mt-1 w-64 rounded-xl border border-line bg-white py-2 shadow-[0_12px_32px_rgba(18,30,61,0.10)]",
+            pillar && cn("border-t-4", PILLAR_BORDER[pillar.id]),
+          )}
         >
+          {pillar && (
+            <div className="border-b border-line px-4 pb-3 pt-2">
+              <p className={cn("label-caps text-xs", PILLAR_TEXT[pillar.id])}>{pillarEyebrow(pillar)}</p>
+              <p className="mt-1 text-sm leading-snug text-copy">{pillar.summary}</p>
+            </div>
+          )}
           {group.children.map((link) => (
             <Link
               key={link.href}

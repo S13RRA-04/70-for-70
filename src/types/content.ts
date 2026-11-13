@@ -1,3 +1,5 @@
+import type { MissionPillar } from "@/lib/pillars";
+
 /** Nav link shape shared by the header and mobile nav. */
 export interface NavLink {
   label: string;
@@ -8,6 +10,8 @@ export interface NavLink {
 export interface NavGroup {
   label: string;
   children: NavLink[];
+  /** Set on the org nav's mission-pillar groups — drives the pillar color and "01 · Connection" eyebrow. */
+  pillar?: MissionPillar;
 }
 
 /** A top-level nav entry — either a direct link or a dropdown group. */
