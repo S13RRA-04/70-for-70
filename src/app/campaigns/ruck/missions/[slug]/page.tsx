@@ -11,12 +11,17 @@ import { BeneficiaryCard } from "@/components/ruck/beneficiary-card";
 import { MissionAccomplishedStamp } from "@/components/ruck/mission-accomplished-stamp";
 import { MissionJournal } from "@/components/ruck/mission-journal";
 import { getRuckMission, type RuckMission } from "@/lib/content/ruck-missions";
-import { CAMPAIGNS, MISSION_NAME, SITE_NAME, SITE_URL } from "@/lib/constants";
+import { MISSION_NAME, RUCK_CAMPAIGN_NAME, RUCK_CAMPAIGN_PATH, RUCK_CAMPAIGN_URL, SITE_NAME, SITE_URL } from "@/lib/constants";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 import { pageMetadata } from "@/lib/metadata";
 import { formatCurrency } from "@/lib/utils";
 
-const RUCK = CAMPAIGNS.ruck;
+const RUCK = {
+  name: RUCK_CAMPAIGN_NAME,
+  url: RUCK_CAMPAIGN_URL,
+  tagline: "Rucking for Veteran Suicide Awareness",
+  description: `${RUCK_CAMPAIGN_NAME} — Cody Hitson's rucking missions raising awareness and funds for veteran-focused nonprofit organizations.`,
+};
 
 /**
  * One completed Ruck For The 22 mission — served at /missions/<slug> on
@@ -29,7 +34,7 @@ function missionUrl(slug: string) {
   return `${RUCK.url}/missions/${slug}`;
 }
 
-export async function generateMetadata(props: PageProps<"/ruck-missions/[slug]">): Promise<Metadata> {
+export async function generateMetadata(props: PageProps<"/campaigns/ruck/missions/[slug]">): Promise<Metadata> {
   const { slug } = await props.params;
   const mission = getRuckMission(slug);
   if (!mission || mission.status !== "completed") return {};
@@ -75,7 +80,7 @@ function missionJsonLd(mission: RuckMission) {
   ];
 }
 
-export default async function RuckMissionPage(props: PageProps<"/ruck-missions/[slug]">) {
+export default async function RuckMissionPage(props: PageProps<"/campaigns/ruck/missions/[slug]">) {
   const { slug } = await props.params;
   const mission = getRuckMission(slug);
   if (!mission || mission.status !== "completed") notFound();
@@ -97,7 +102,7 @@ export default async function RuckMissionPage(props: PageProps<"/ruck-missions/[
       <section className="bg-ink py-14 text-off-white sm:py-20">
         <Container>
           <Link
-            href="/#completed"
+            href={`${RUCK_CAMPAIGN_PATH}#completed`}
             className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.2em] text-sand hover:text-off-white"
           >
             <ArrowLeft size={14} aria-hidden />

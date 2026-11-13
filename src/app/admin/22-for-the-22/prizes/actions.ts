@@ -64,7 +64,7 @@ export async function saveGiveawayPrizesAction(formData: FormData) {
   }
 
   revalidatePath(PAGE_PATH);
-  revalidatePath("/22forthe22");
+  revalidatePath("/campaigns/22-for-the-22");
   revalidatePath("/sponsors");
   redirect(PAGE_PATH);
 }
@@ -97,7 +97,7 @@ export async function addGiveawayPrizeAction(formData: FormData) {
   });
 
   revalidatePath(PAGE_PATH);
-  revalidatePath("/22forthe22");
+  revalidatePath("/campaigns/22-for-the-22");
   revalidatePath("/sponsors");
   redirect(PAGE_PATH);
 }
@@ -111,7 +111,7 @@ export async function deleteGiveawayPrizeAction(formData: FormData) {
   await admin.from("giveaway_prizes").delete().eq("id", id);
 
   revalidatePath(PAGE_PATH);
-  revalidatePath("/22forthe22");
+  revalidatePath("/campaigns/22-for-the-22");
   revalidatePath("/sponsors");
   redirect(PAGE_PATH);
 }

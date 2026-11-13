@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 /**
  * Stated once per full partner listing (not every teaser logo row that
  * links onward to one of these) — see /sponsors, /network's Campaign
- * Partners section, and /ruck-home's Campaign Partners section (its only
+ * Partners section, and /campaigns/ruck's Campaign Partners section (its only
  * partner listing; unlike campaign-home's teaser wall, which links to
  * /sponsors instead of repeating this).
  */

@@ -105,60 +105,54 @@ export const TRI_PAGE_URL = `${SITE_URL}${TRI_PAGE_PATH}`;
 
 /**
  * The org's donate page (Impact pillar) — the one place every Donate CTA
- * points. Campaign hosts must use this absolute URL; org pages can use
- * DONATE_LINK's relative href.
+ * points. Use this absolute form outside the org site (emails, the app);
+ * org pages can use DONATE_LINK's relative href.
  */
 export const DONATE_URL = `${SITE_URL}/donate`;
 
 /**
- * The second campaign, Ruck For The 22 — ruck.forthe22.org in production.
- * Unlike Tri (a full personal-athlete site: mission, race, donate, journal,
- * admin), this is a deliberately small mission microsite: a home page with
- * Completed / Next Missions tabs (src/app/ruck-home/page.tsx) plus one page
- * per completed mission (src/app/ruck-missions/[slug]), all driven by
- * RUCK_MISSIONS in src/lib/content/ruck-missions.ts — no training tracker, no
- * dedicated fundraising mechanism beyond direct donation, no Supabase schema. Defaults to
- * the same local dev origin as SITE_URL/CAMPAIGN_URL — there's no real third
- * host in local dev.
+ * Every campaign lives on the org site under /campaigns (Mobilization). They
+ * each used to have their own subdomain (ruck., live., seen., 22.); those
+ * hosts now 308 every page here — see applyRetiredCampaignHostRedirect in
+ * src/middleware.ts. The *_CAMPAIGN_URL constants keep their old names so
+ * `${EVENT22_CAMPAIGN_URL}/rules`-style links resolve to the matching org
+ * route (src/app/campaigns/<slug>/...); *_PATH is the same-site form.
  */
-export const RUCK_CAMPAIGN_URL = process.env.NEXT_PUBLIC_RUCK_URL ?? "http://localhost:3000";
+
+/** Ruck For The 22 — Cody's rucking missions (src/app/campaigns/ruck), driven by RUCK_MISSIONS in src/lib/content/ruck-missions.ts. */
+export const RUCK_CAMPAIGN_PATH = "/campaigns/ruck";
+export const RUCK_CAMPAIGN_URL = `${SITE_URL}${RUCK_CAMPAIGN_PATH}`;
 export const RUCK_CAMPAIGN_NAME = "Ruck For The 22";
 
-/** For The 22: Live benefit-concert series — live.forthe22.org. */
-export const LIVE_CAMPAIGN_URL = process.env.NEXT_PUBLIC_LIVE_URL ?? "http://localhost:3000";
+/** For The 22: Live benefit-concert series (src/app/campaigns/live). */
+export const LIVE_CAMPAIGN_PATH = "/campaigns/live";
+export const LIVE_CAMPAIGN_URL = `${SITE_URL}${LIVE_CAMPAIGN_PATH}`;
 export const LIVE_CAMPAIGN_NAME = "For The 22: Live";
 export const LIVE_REGISTRATION_URL =
   "https://www.zeffy.com/en-US/ticketing/for-the-22-presents-the-scooter-brown-band";
 
 /**
- * For The 22: SEEN art initiative — seen.forthe22.org. LIVE's companion:
- * the same veteran/first-responder stories, interpreted by visual artists
- * instead of musicians. One page for now (src/app/campaigns/seen/page.tsx);
- * its copy is data in src/lib/content/seen-campaign.ts.
+ * For The 22: SEEN art initiative (src/app/campaigns/seen) — LIVE's
+ * companion: the same veteran/first-responder stories, interpreted by visual
+ * artists instead of musicians. Its copy is data in src/lib/content/seen-campaign.ts.
  */
-export const SEEN_CAMPAIGN_URL = process.env.NEXT_PUBLIC_SEEN_URL ?? "http://localhost:3000";
+export const SEEN_CAMPAIGN_PATH = "/campaigns/seen";
+export const SEEN_CAMPAIGN_URL = `${SITE_URL}${SEEN_CAMPAIGN_PATH}`;
 export const SEEN_CAMPAIGN_NAME = "For The 22: SEEN";
+
+/** 22 For the 22 — the movement challenge (src/app/campaigns/22-for-the-22: home, /promokit, /rules). */
+export const EVENT22_CAMPAIGN_PATH = "/campaigns/22-for-the-22";
+export const EVENT22_CAMPAIGN_URL = `${SITE_URL}${EVENT22_CAMPAIGN_PATH}`;
+export const EVENT22_CAMPAIGN_NAME = "22 For the 22";
 
 /**
  * The "For the 22" participant app — app.forthe22.org in production. A
  * different product surface from every campaign above: authenticated,
  * cross-campaign, installable (see src/app/manifest.ts, src/lib/site-mode.ts's
- * isAppHost). Defaults to the same local dev origin as the others — there's
- * no real fourth host in local dev.
+ * isAppHost). Defaults to the same local dev origin as SITE_URL.
  */
 export const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 
-/**
- * "22 For the 22" — 22.forthe22.org in production. Split off from
- * tri.forthe22.org/22forthe22 into its own subdomain/campaign so the event
- * (an awareness/participation challenge) has its own address distinct from
- * the fundraiser it promotes. Small campaign, 3 real pages (home, promo
- * kit, rules) — see CAMPAIGNS["22"] below and applyEvent22Guard in
- * src/middleware.ts. Defaults to the same local dev origin as the others —
- * there's no real fifth host in local dev.
- */
-export const EVENT22_CAMPAIGN_URL = process.env.NEXT_PUBLIC_EVENT22_URL ?? "http://localhost:3000";
-export const EVENT22_CAMPAIGN_NAME = "22 For the 22";
 
 /**
  * On-brand fallback photo for a journal entry with no image_url — used

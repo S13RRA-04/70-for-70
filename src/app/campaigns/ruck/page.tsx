@@ -20,7 +20,9 @@ import {
 } from "@/lib/content/ruck-missions";
 import {
   CAMPAIGN_NAME,
-  CAMPAIGNS,
+  RUCK_CAMPAIGN_NAME,
+  RUCK_CAMPAIGN_PATH,
+  RUCK_CAMPAIGN_URL,
   MISSION_NAME,
   ORG_HOME_LINK,
   RUCK_DONATION_TRACKING_CODE,
@@ -31,18 +33,23 @@ import {
 import { pageMetadata } from "@/lib/metadata";
 import { formatCurrency } from "@/lib/utils";
 
-const RUCK = CAMPAIGNS.ruck;
+const RUCK = {
+  name: RUCK_CAMPAIGN_NAME,
+  url: RUCK_CAMPAIGN_URL,
+  tagline: "Rucking for Veteran Suicide Awareness",
+  description: `${RUCK_CAMPAIGN_NAME} — Cody Hitson's rucking missions raising awareness and funds for veteran-focused nonprofit organizations.`,
+};
 
 export const metadata = pageMetadata({
   // Root layout's title template already appends " | Ruck For The 22" on
   // this host (see generateMetadata in src/app/layout.tsx).
   title: RUCK.tagline,
   description: RUCK.description,
-  canonical: `${RUCK.url}/`,
+  canonical: RUCK_CAMPAIGN_PATH,
 });
 
 function missionHref(mission: RuckMission) {
-  return `/missions/${mission.slug}`;
+  return `${RUCK_CAMPAIGN_PATH}/missions/${mission.slug}`;
 }
 
 /** What a completed mission's page holds — shown as chips on its card. */
@@ -115,7 +122,7 @@ function UpcomingMissionCard({ mission }: { mission: RuckMission }) {
  * transparent middleware rewrite (see src/middleware.ts). Missions are data
  * (RUCK_MISSIONS in src/lib/content/ruck-missions.ts): this page lists them
  * on Completed / Next tabs, and each completed mission has its own page at
- * /missions/<slug> (src/app/ruck-missions/[slug]) with its media coverage,
+ * /campaigns/ruck/missions/<slug> with its media coverage,
  * amount raised, and participation journal. Any other path on this host
  * redirects back here (see applyRuckGuard in src/middleware.ts).
  */

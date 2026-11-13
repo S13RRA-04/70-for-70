@@ -17,7 +17,7 @@ import {
   type LivePremiere,
 } from "@/lib/content/live-premieres";
 import { LIVE_FUNDS_DISCLOSURE } from "@/lib/content/live-campaign";
-import { LIVE_CAMPAIGN_NAME, LIVE_CAMPAIGN_URL, MISSION_NAME, SITE_URL, DONATE_URL } from "@/lib/constants";
+import { LIVE_CAMPAIGN_NAME, LIVE_CAMPAIGN_URL, MISSION_NAME, SITE_URL, DONATE_URL, LIVE_CAMPAIGN_PATH } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
 import { parseVideoUrl } from "@/lib/video-url";
 
@@ -67,7 +67,7 @@ export async function PremierePage({ premiere }: { premiere: LivePremiere }) {
         ))}
 
         <Container className="relative z-10 flex max-w-[980px] flex-col items-center gap-4.5 pb-[230px] pt-18 text-center">
-          <Link href="/events" className="self-start text-sm text-[#bdbdbd] hover:text-white">
+          <Link href={`${LIVE_CAMPAIGN_PATH}/events`} className="self-start text-sm text-[#bdbdbd] hover:text-white">
             &larr; All shows
           </Link>
           <span className="label-caps text-xs tracking-[0.32em] text-[#cfcfcf]">{LIVE_CAMPAIGN_NAME} presents</span>

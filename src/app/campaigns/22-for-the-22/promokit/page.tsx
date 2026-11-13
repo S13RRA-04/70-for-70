@@ -21,7 +21,7 @@ import {
   PROMO_KIT_ZIP_FILENAME,
   PROMO_KIT_ZIP_PATH,
 } from "@/lib/content/22-for-the-22-promokit";
-import { EVENT22_CAMPAIGN_URL, DONATE_URL, TRI_PAGE_URL } from "@/lib/constants";
+import { EVENT22_CAMPAIGN_URL, DONATE_URL, TRI_PAGE_URL, EVENT22_CAMPAIGN_PATH } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = pageMetadata({
@@ -63,7 +63,7 @@ export default function PromoKitPage() {
             Download Full Promo Kit (ZIP)
           </a>
           <Link
-            href="/"
+            href={EVENT22_CAMPAIGN_PATH}
             className="inline-flex min-h-[44px] items-center gap-1.5 rounded-sm border border-off-white/40 px-6 py-3.5 text-sm font-semibold uppercase tracking-wide text-off-white transition-colors hover:bg-off-white/10"
           >
             Back to Event Page

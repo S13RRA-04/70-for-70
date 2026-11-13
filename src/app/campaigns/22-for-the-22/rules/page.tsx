@@ -9,7 +9,7 @@ import {
 } from "@/lib/content/22-for-the-22";
 import { Container } from "@/components/shared/container";
 import { JournalMarkdown } from "@/components/journal/journal-markdown";
-import { EVENT22_CAMPAIGN_URL } from "@/lib/constants";
+import { EVENT22_CAMPAIGN_URL, EVENT22_CAMPAIGN_PATH } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = pageMetadata({
@@ -31,7 +31,7 @@ export default async function EventRulesPage() {
   return (
     <div data-analytics-event="22_rules_view" className="py-16 sm:py-20">
       <Container className="max-w-2xl">
-        <Link href="/" className="text-sm font-semibold uppercase tracking-wide text-charcoal-light hover:text-ink">
+        <Link href={EVENT22_CAMPAIGN_PATH} className="text-sm font-semibold uppercase tracking-wide text-charcoal-light hover:text-ink">
           &larr; Back to 22 For the 22
         </Link>
 

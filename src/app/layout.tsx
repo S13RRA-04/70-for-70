@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { Anton, Instrument_Serif, Public_Sans } from "next/font/google";
 import {
-  CAMPAIGNS,
   CONTACT_EMAIL,
   ORG_SUPPORTING_STATEMENT,
   ORG_TAGLINE,
@@ -20,7 +19,7 @@ import {
   MobileConversionBarSpacer,
 } from "@/components/layout/mobile-conversion-bar";
 import { AnalyticsEventListener } from "@/components/shared/analytics-event-listener";
-import { getSiteMode, getActiveCampaignSlug } from "@/lib/site-mode";
+import { getSiteMode } from "@/lib/site-mode";
 import { isSuicidePreventionMonth } from "@/lib/awareness-month";
 import { FOUNDER_PERSON_JSON_LD, jsonLdScriptProps } from "@/lib/json-ld";
 import "./globals.css";
@@ -59,20 +58,11 @@ const instrumentSerif = Instrument_Serif({
 });
 
 
-/**
- * Mode-aware — a static `export const metadata` can't read the request
- * host, so campaign-domain pages inherited the org's forthe22.org
- * metadataBase, which resolved every campaign page's root-relative
- * canonical (set via pageMetadata()) against the wrong domain. See
- * README's "Movement/Campaign Domain Split".
- */
 export async function generateMetadata(): Promise<Metadata> {
-  const campaignSlug = await getActiveCampaignSlug();
-  const campaign = campaignSlug ? CAMPAIGNS[campaignSlug] : null;
-  const baseUrl = campaign?.url ?? SITE_URL;
-  const name = campaign?.name ?? SITE_NAME;
-  const tagline = campaign?.tagline ?? ORG_TAGLINE;
-  const description = campaign?.description ?? ORG_SUPPORTING_STATEMENT;
+  const baseUrl = SITE_URL;
+  const name = SITE_NAME;
+  const tagline = ORG_TAGLINE;
+  const description = ORG_SUPPORTING_STATEMENT;
 
   return {
     metadataBase: new URL(baseUrl),
@@ -144,7 +134,6 @@ const ORG_WEBSITE_JSON_LD = {
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   const mode = await getSiteMode();
-  const campaignSlug = await getActiveCampaignSlug();
   const awarenessMonth = isSuicidePreventionMonth();
   // Set by src/middleware.ts alongside the CSP header itself — required on
   // the inline Plausible bootstrap script below, which has no `src` to
@@ -154,7 +143,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      data-property={mode === "app" ? "app" : (campaignSlug ?? "org")}
+      data-property={mode}
       data-scroll-behavior="smooth"
       className={`${anton.variable} ${publicSans.variable} ${instrumentSerif.variable} h-full antialiased`}
     >
@@ -209,13 +198,13 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             <CrisisBar />
             <AwarenessBanner />
             <AwarenessEntryBanner />
-            <Header mode={mode} campaignSlug={campaignSlug} awarenessMonth={awarenessMonth} />
+            <Header awarenessMonth={awarenessMonth} />
             <main id="main-content" className="flex-1">
               {children}
             </main>
-            <Footer mode={mode} campaignSlug={campaignSlug} awarenessMonth={awarenessMonth} />
-            <MobileConversionBarSpacer mode={mode} campaignSlug={campaignSlug} />
-            <MobileConversionBar mode={mode} campaignSlug={campaignSlug} />
+            <Footer awarenessMonth={awarenessMonth} />
+            <MobileConversionBarSpacer />
+            <MobileConversionBar />
           </>
         )}
       </body>

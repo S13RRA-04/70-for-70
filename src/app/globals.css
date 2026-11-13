@@ -120,12 +120,12 @@
   --color-awareness-purple: #562d89;
   --color-awareness-navy: #2b2d70;
 
-  /* For The 22: Live identity only — see html[data-property="live"]. */
+  /* For The 22: Live identity only — see [data-property="live"]. */
   --color-live-red: #d3202a;
   --color-live-red-dark: #b0141e;
   --color-live-stage: #0b0b0c;
 
-  /* For The 22: SEEN identity only — see html[data-property="seen"]. */
+  /* For The 22: SEEN identity only — see [data-property="seen"]. */
   --color-seen-room: #0e0e0f;
 
   --background: var(--color-off-white);
@@ -194,17 +194,21 @@
   --property-dark: var(--color-ink);
 }
 
-/* One system, four flavors. Components consume semantic property variables. */
-/* Campaign hosts are endurance-coded: olive accent instead of steel. */
-html[data-property="tri"],
-html[data-property="ruck"],
-html[data-property="22"] {
+/*
+ * One system, several flavors. Components consume semantic property
+ * variables. A campaign's identity is scoped to its own pages — each
+ * src/app/campaigns/<slug>/layout.tsx wraps them in a data-property
+ * element — so the org header and footer around them stay org.
+ * Endurance campaigns are olive-coded instead of steel.
+ */
+[data-property="ruck"],
+[data-property="22"] {
   --color-bronze: var(--color-olive);
   --property-accent: var(--color-olive);
   --property-accent-readable: var(--color-olive);
 }
 
-html[data-property="ruck"] {
+[data-property="ruck"] {
   --property-action: var(--color-olive);
   --property-action-hover: var(--color-olive-dark);
 }
@@ -217,7 +221,7 @@ html[data-property="ruck"] {
  * everything aliased to it (ink, charcoal, bronze-text, footer rules)
  * follows. Gold stays the progress color, on dark bands only.
  */
-html[data-property="live"] {
+[data-property="live"] {
   --color-navy: var(--color-jet);
   --color-navy-hover: #2a2a2a;
   --color-navy-rule: #2a2a2a;
@@ -239,7 +243,7 @@ html[data-property="live"] {
  * accent — but unlike Live, red marks things rather than driving actions;
  * buttons are ink. Shares Live's 7-color stripe (see BrandStripe).
  */
-html[data-property="seen"] {
+[data-property="seen"] {
   --color-jet: #1b1b1b;
   --color-navy: var(--color-jet);
   --color-navy-hover: #3a3a3a;
@@ -275,19 +279,19 @@ html[data-property="seen"] {
   --color-bronze-dark: var(--color-navy-hover);
 }
 
-html:is([data-property="tri"], [data-property="ruck"], [data-property="22"])
+:is([data-property="ruck"], [data-property="22"])
   :is(.bg-off-white, .bg-sand-light, .bg-sand, .bg-paper, .bg-white, .ui-card) {
   --color-bronze: var(--color-olive);
 }
 
-html[data-property="live"]
+[data-property="live"]
   :is(.bg-off-white, .bg-sand-light, .bg-sand, .bg-paper, .bg-white, .ui-card) {
   --color-bronze: var(--color-live-red);
   --color-bronze-text: var(--color-jet);
   --color-bronze-dark: var(--color-live-red-dark);
 }
 
-html[data-property="seen"]
+[data-property="seen"]
   :is(.bg-off-white, .bg-sand-light, .bg-sand, .bg-paper, .bg-white, .ui-card) {
   --color-bronze: var(--color-live-red);
   --color-bronze-text: var(--color-jet);

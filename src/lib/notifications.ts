@@ -6,7 +6,7 @@ import {
   PROMO_KIT_ZIP_PATH,
   REGISTRATION_EMAIL_CONTENT,
 } from "@/lib/content/22-for-the-22-promokit";
-import { CONTACT_EMAIL, EVENT22_CAMPAIGN_URL, SITE_NAME } from "@/lib/constants";
+import { CONTACT_EMAIL, EVENT22_CAMPAIGN_URL, SITE_NAME, SITE_URL } from "@/lib/constants";
 import { sendEmail } from "@/lib/email/resend";
 
 /**
@@ -97,7 +97,7 @@ export async function notifyEventRegistrationSubmitted(input: {
 }) {
   const eventPageUrl = EVENT22_CAMPAIGN_URL;
   const promoKitPageUrl = `${EVENT22_CAMPAIGN_URL}/promokit`;
-  const promoKitZipUrl = `${EVENT22_CAMPAIGN_URL}${PROMO_KIT_ZIP_PATH}`;
+  const promoKitZipUrl = `${SITE_URL}${PROMO_KIT_ZIP_PATH}`;
   const suggestedCaption = PROMO_KIT_CAPTIONS[0].body;
 
   const emailBody = [

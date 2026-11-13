@@ -29,6 +29,7 @@ import {
   SEEN_CAMPAIGN_URL,
   SITE_NAME,
   SITE_URL,
+  SEEN_CAMPAIGN_PATH,
 } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
@@ -36,7 +37,7 @@ import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 export const metadata = pageMetadata({
   title: `${SEEN_CAMPAIGN_NAME} | ${SEEN_CAMPAIGN_TAGLINE}`,
   description: SEEN_CAMPAIGN_DESCRIPTION,
-  canonical: "/",
+  canonical: SEEN_CAMPAIGN_PATH,
 });
 
 const BREADCRUMB_JSON_LD = breadcrumbJsonLd([{ name: SEEN_CAMPAIGN_NAME, url: SEEN_CAMPAIGN_URL }]);

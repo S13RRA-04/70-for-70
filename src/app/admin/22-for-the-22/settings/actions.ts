@@ -43,7 +43,7 @@ export async function updateEventConfigAction(formData: FormData) {
   }
 
   revalidatePath(SETTINGS_PATH);
-  revalidatePath("/22forthe22");
-  revalidatePath("/22forthe22/rules");
+  revalidatePath("/campaigns/22-for-the-22");
+  revalidatePath("/campaigns/22-for-the-22/rules");
   redirect(SETTINGS_PATH);
 }

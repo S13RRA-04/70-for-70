@@ -500,7 +500,7 @@ export interface EventConfigRow {
   registration_open: boolean;
   merch_url: string | null;
   donate_url: string | null;
-  /** Markdown. When set, overrides the hardcoded placeholder scaffold on /22forthe22/rules. */
+  /** Markdown. When set, overrides the hardcoded placeholder scaffold on /campaigns/22-for-the-22/rules. */
   official_rules_body: string | null;
   winner_announcement: string | null;
   updated_at: string;
