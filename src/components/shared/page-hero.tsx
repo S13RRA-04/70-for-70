@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { PILLAR_TEXT, type Pillar } from "@/lib/pillars";
+import { PILLAR_TEXT, getOrgPillar, pillarEyebrow, type Pillar } from "@/lib/pillars";
 
 /**
  * Inner-page opener for org pages — the homepage's section-header treatment
@@ -19,6 +19,7 @@ export function PageHero({
   id,
   className,
 }: {
+  /** Page-specific label. On a mission-pillar page it follows the pillar's own "01 · Connection" prefix, which PageHero adds — don't repeat it here. */
   eyebrow?: string;
   title: string;
   description?: React.ReactNode;
@@ -35,6 +36,11 @@ export function PageHero({
   id?: string;
   className?: string;
 }) {
+  // Every pillar page names its pillar the same way, so a visitor always
+  // knows which of the three they're in.
+  const label =
+    pillar === "neutral" ? eyebrow : [pillarEyebrow(getOrgPillar(pillar)), eyebrow].filter(Boolean).join(" · ");
+
   return (
     <section id={id} className={cn("relative scroll-mt-28 overflow-hidden border-b border-line", className)}>
       {/* eslint-disable-next-line @next/next/no-img-element -- decorative edge art sized to the section's height */}
@@ -52,7 +58,7 @@ export function PageHero({
         )}
       >
         <div className="flex min-w-0 flex-col gap-5">
-          {eyebrow && <p className={cn("label-caps", PILLAR_TEXT[pillar])}>{eyebrow}</p>}
+          {label && <p className={cn("label-caps", PILLAR_TEXT[pillar])}>{label}</p>}
           <h1 className="text-worn text-balance font-display text-[clamp(48px,6.4vw,92px)] uppercase leading-[0.95] text-navy">
             {title}
           </h1>

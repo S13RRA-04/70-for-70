@@ -20,7 +20,6 @@ const ORG_ROUTES = [
   "/resources",
   "/veteran-brands",
   "/crisis",
-  "/advocacy",
   "/campaigns",
   TRI_PAGE_PATH,
   "/network",

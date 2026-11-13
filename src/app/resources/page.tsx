@@ -24,7 +24,6 @@ export default async function ResourcesPage() {
       <PageHero
         wide
         pillar="connection"
-        eyebrow="01 · Connection"
         title="The right help, matched to you"
         description={`${SITE_NAME} helps veterans, first responders, and their families find support across mental, physical, emotional, spiritual, family, career, financial, legal, and community needs. Answer a few questions, or search and filter the full directory.`}
       />

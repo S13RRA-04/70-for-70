@@ -63,7 +63,6 @@ export default async function ImpactPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
       <PageHero
         pillar="impact"
-        eyebrow="03 · Impact"
         title="Where the mission lands"
         description={`Every ${SITE_NAME} campaign raises money for the same organizations, toward one shared goal. Here's what's been raised, who it funds, and how it gets there.`}
         aside={

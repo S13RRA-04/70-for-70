@@ -89,7 +89,6 @@ export default async function CampaignsPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
       <PageHero
         pillar="mobilization"
-        eyebrow="02 · Mobilization"
         title="Movement that moves the mission"
         description={`${SITE_NAME} turns movement, events, storytelling, and community participation into direct support for organizations serving veterans, first responders, and their families.`}
         aside={

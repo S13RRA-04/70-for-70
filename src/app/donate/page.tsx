@@ -50,7 +50,7 @@ export default async function DonatePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
       <PageHero
         pillar="impact"
-        eyebrow="03 · Impact · Donate"
+        eyebrow="Donate"
         title="Fund the mission"
         description={`Every gift goes straight to the organizations doing the work. ${SITE_NAME} never handles the money — you give through each nonprofit's own platform, and we count it toward ${MISSION_NAME}.`}
         aside={
