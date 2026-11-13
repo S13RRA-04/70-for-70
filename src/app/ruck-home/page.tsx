@@ -19,6 +19,7 @@ import {
   type RuckMission,
 } from "@/lib/content/ruck-missions";
 import {
+  CAMPAIGN_NAME,
   CAMPAIGNS,
   MISSION_NAME,
   ORG_HOME_LINK,
@@ -347,7 +348,7 @@ export default async function RuckHomePage() {
           <SectionHeading
             eyebrow="Cody's Ruck Campaign"
             title={`A Path Into ${MISSION_NAME}`}
-            description={`${RUCK.name} supports the same causes as ${CAMPAIGNS.tri.name} — and contributes to ${SITE_NAME}'s shared ${formatCurrency(fundraisingStats.fundraisingGoal)} mission goal.`}
+            description={`${RUCK.name} supports the same causes as ${CAMPAIGN_NAME} — and contributes to ${SITE_NAME}'s shared ${formatCurrency(fundraisingStats.fundraisingGoal)} mission goal.`}
           />
           <div className="mt-6 rounded-sm border border-ink/10 bg-sand-light p-6 lg:max-w-3xl">
             <MissionProgress totalRaised={fundraisingStats.amountRaised} goal={fundraisingStats.fundraisingGoal} />

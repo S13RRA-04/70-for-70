@@ -85,41 +85,28 @@ const nextConfig: NextConfig = {
     ],
   },
   async redirects() {
-    const campaignUrl = process.env.NEXT_PUBLIC_CAMPAIGN_URL ?? "http://localhost:3000";
+    // Retired URLs from earlier versions of the site. Config redirects run
+    // ahead of src/middleware.ts on every host, so each points straight at
+    // its final org-site page (the old Tri site's own paths are redirected
+    // in middleware — see applyTriRedirect). Absolute, so a hit on a
+    // campaign host lands on the org site instead of that host's own guard.
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
     return [
-      // The Journal replaces the old Updates feature — see supabase/schema.sql's
-      // note on public.posts and src/app/journal/.
-      { source: "/updates", destination: "/journal", permanent: true },
-      { source: "/updates/:slug", destination: "/journal/:slug", permanent: true },
+      // Old Updates feed and Tri's journal/bike-build vanity link — Tri is
+      // now one page.
+      { source: "/updates", destination: `${siteUrl}/campaigns/tri`, permanent: true },
+      { source: "/updates/:slug", destination: `${siteUrl}/campaigns/tri`, permanent: true },
+      { source: "/bike", destination: `${siteUrl}/campaigns/tri`, permanent: true },
 
-      // Memorable vanity URL for the bike-build story — the campaign's best
-      // sponsor-story content deserves a short, promotable link rather than
-      // another page; the real content still lives at /journal/building-the-bike
-      // (see that page's own doc comment). Config redirects run ahead of
-      // src/middleware.ts's host-split logic, so a request for this exact
-      // path resolves here first regardless of host — an org-host visit
-      // (forthe22.org/bike) takes one extra hop through this same relative
-      // redirect before middleware's existing /journal handling sends it to
-      // the campaign host, same two-hop shape /updates already has above.
-      { source: "/bike", destination: "/journal/building-the-bike", permanent: true },
+      // Athlete recruitment/onboarding is closed pending written federal
+      // ethics approval (see src/lib/content/athletes.ts).
+      { source: "/athletes", destination: `${siteUrl}/campaigns`, permanent: true },
+      { source: "/join", destination: `${siteUrl}/campaigns`, permanent: true },
+      { source: "/athlete-agreement", destination: `${siteUrl}/campaigns`, permanent: true },
 
-      // Retired org-domain routes — athlete recruitment/onboarding is
-      // closed pending written federal ethics approval (see
-      // src/lib/content/athletes.ts, athlete-agreement.ts). These used to
-      // redirect to the org's own /mission page, which re-created the
-      // exact movement/campaign confusion the domain split exists to fix —
-      // they now go to the campaign's own explainer instead. See
-      // README's "Movement/Campaign Domain Split".
-      { source: "/athletes", destination: `${campaignUrl}/the-mission`, permanent: true },
-      { source: "/join", destination: `${campaignUrl}/the-mission`, permanent: true },
-      { source: "/athlete-agreement", destination: `${campaignUrl}/the-mission`, permanent: true },
-
-      // Merchandise and donation-mechanics content are campaign-specific —
-      // moved off the parent domain entirely (see src/app/shop,
-      // src/app/financial-transparency).
-      { source: "/merch", destination: `${campaignUrl}/shop`, permanent: true },
-      { source: "/how-funds-work", destination: `${campaignUrl}/financial-transparency`, permanent: true },
+      { source: "/merch", destination: `${siteUrl}/store`, permanent: true },
+      { source: "/how-funds-work", destination: `${siteUrl}/transparency`, permanent: true },
     ];
   },
 };

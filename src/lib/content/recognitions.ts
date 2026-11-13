@@ -1,5 +1,3 @@
-import type { CampaignSlug } from "@/lib/site-mode";
-
 /**
  * Institutional recognition — grants, official selections, memberships, and
  * awards. Deliberately its own taxonomy, separate from mission_partners
@@ -24,9 +22,9 @@ export interface InstitutionalRecognition {
   description: string;
   /** Approved logo, sized for a light plate (the component always renders it on one). */
   logo?: { src: string; alt: string; width: number; height: number };
-  /** Campaign this recognition belongs to — keeps a program-specific grant from reading as an endorsement of every For The 22 initiative. Null = org-wide. */
-  campaign: CampaignSlug | null;
-  /** Same-site details page (e.g. a journal announcement), relative to the campaign's own host. */
+  /** MOVEMENT_CAMPAIGNS slug this recognition belongs to — keeps a program-specific grant from reading as an endorsement of every For The 22 initiative. Null = org-wide. */
+  campaign: string | null;
+  /** Same-site details page (e.g. an announcement), relative to the org site. */
   detailsHref?: string;
   /** The recognizing organization's own public page about the program. */
   sourceUrl?: string;
@@ -41,11 +39,10 @@ export const USAT_TOGETHER_WE_THRIVE_2026: InstitutionalRecognition = {
     "Tri For The 22 was selected by USA Triathlon for a Together We Thrive grant supporting pathways to access and inclusion in multisport.",
   logo: { src: "/recognition/usa-triathlon-logo.png", alt: "USA Triathlon logo", width: 480, height: 362 },
   campaign: "tri",
-  detailsHref: "/journal/tri-for-the-22-selected-for-usa-triathlon-together-we-thrive-grant",
 };
 
 export const RECOGNITIONS: InstitutionalRecognition[] = [USAT_TOGETHER_WE_THRIVE_2026];
 
-export function getRecognitionsForCampaign(campaign: CampaignSlug): InstitutionalRecognition[] {
+export function getRecognitionsForCampaign(campaign: string): InstitutionalRecognition[] {
   return RECOGNITIONS.filter((r) => r.campaign === campaign);
 }

@@ -9,7 +9,7 @@ import { ImageTextRow } from "@/components/about/image-text-row";
 import { MarkDiagram } from "@/components/about/mark-diagram";
 import { RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import { ABOUT_CHAPTERS, ABOUT_CONTENT, findAboutSubsection } from "@/lib/content/about";
-import { CAMPAIGN_URL, SITE_NAME } from "@/lib/constants";
+import { SITE_NAME } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { FOUNDER_PERSON_JSON_LD, jsonLdScriptProps } from "@/lib/json-ld";
 
@@ -196,7 +196,7 @@ export default function AboutPage() {
               </p>
             </blockquote>
             <a
-              href={`${CAMPAIGN_URL}/the-story`}
+              href="/about#my-story"
               className="mt-6 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
             >
               Read the full athletic story at Tri For The 22 &rarr;

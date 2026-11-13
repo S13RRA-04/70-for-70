@@ -15,7 +15,6 @@ import { Footer } from "@/components/layout/footer";
 import { CrisisBar } from "@/components/layout/crisis-bar";
 import { AwarenessBanner } from "@/components/layout/awareness-banner";
 import { AwarenessEntryBanner } from "@/components/layout/awareness-entry-banner";
-import { MissionRelationshipBanner } from "@/components/layout/mission-relationship-banner";
 import {
   MobileConversionBar,
   MobileConversionBarSpacer,
@@ -59,8 +58,6 @@ const instrumentSerif = Instrument_Serif({
   preload: false,
 });
 
-/** Impact.com publisher/affiliate-partnership domain-ownership proof — tri.forthe22.org only, see generateMetadata below. */
-const IMPACT_SITE_VERIFICATION_ID = "e5ccd9f5-f773-4c29-b6ce-4e1fb9b6b356";
 
 /**
  * Mode-aware — a static `export const metadata` can't read the request
@@ -100,9 +97,6 @@ export async function generateMetadata(): Promise<Metadata> {
     alternates: {
       canonical: "/",
     },
-    ...(campaignSlug === "tri" && {
-      verification: { other: { "impact-site-verification": IMPACT_SITE_VERIFICATION_ID } },
-    }),
   };
 }
 
@@ -215,7 +209,6 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             <CrisisBar />
             <AwarenessBanner />
             <AwarenessEntryBanner />
-            {campaignSlug === "tri" && <MissionRelationshipBanner />}
             <Header mode={mode} campaignSlug={campaignSlug} awarenessMonth={awarenessMonth} />
             <main id="main-content" className="flex-1">
               {children}

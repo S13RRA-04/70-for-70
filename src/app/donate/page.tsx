@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ShieldCheck } from "lucide-react";
 import { getPartners } from "@/lib/data/partners";
 import { getCampaign } from "@/lib/data/campaign";
@@ -5,27 +6,36 @@ import { getAllocationBreakdown } from "@/lib/data/allocation";
 import { getPublicSupporterWall } from "@/lib/donor-tiers";
 import { getMilesFundedMetric } from "@/lib/miles-funded";
 import { Container } from "@/components/shared/container";
-import { CampaignPageHero } from "@/components/shared/campaign-page-hero";
+import { PageHero } from "@/components/shared/page-hero";
+import { PillarNextSteps } from "@/components/shared/pillar-next-steps";
+import { CTAButton } from "@/components/shared/cta-button";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { RevealGrid, RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import { PartnerCard } from "@/components/partners/partner-card";
 import { MissionProgress } from "@/components/campaign/mission-progress";
 import { CampaignAllocation } from "@/components/campaign/campaign-allocation";
 import { GivingLevels } from "@/components/campaign/giving-levels";
-import { CAMPAIGN_NAME, CAMPAIGN_URL } from "@/lib/constants";
+import { DONATE_URL, MISSION_NAME, SITE_NAME, SITE_URL } from "@/lib/constants";
 import { formatNumber } from "@/lib/utils";
 import { pageMetadata } from "@/lib/metadata";
-import { breadcrumbJsonLd, CAMPAIGN_HOME_CRUMB, jsonLdScriptProps } from "@/lib/json-ld";
+import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 
 export const metadata = pageMetadata({
-  title: "Support Tri For The 22",
-  description:
-    "Support Tri For The 22 through an authorized partner donation platform — funding veteran-focused nonprofit organizations.",
-  canonical: `${CAMPAIGN_URL}/donate`,
+  title: "Donate",
+  description: `Give directly to Mighty Oaks Foundation and Veterans and Athletes United — the organizations ${MISSION_NAME} funds — through each one's own donation platform.`,
+  canonical: "/donate",
 });
 
-const BREADCRUMB_JSON_LD = breadcrumbJsonLd([CAMPAIGN_HOME_CRUMB, { name: "Donate", url: `${CAMPAIGN_URL}/donate` }]);
+const BREADCRUMB_JSON_LD = breadcrumbJsonLd([
+  { name: "Home", url: SITE_URL },
+  { name: "Donate", url: DONATE_URL },
+]);
 
+/**
+ * The org's one donate page (Impact pillar) — every Donate CTA on every host
+ * points here (DONATE_LINK / DONATE_URL). Formerly Tri For The 22's /donate;
+ * gifts still go straight to each beneficiary's own platform.
+ */
 export default async function DonatePage() {
   const [partners, campaign, supporters] = await Promise.all([
     getPartners(),
@@ -38,20 +48,36 @@ export default async function DonatePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
-      <CampaignPageHero>
-        <SectionHeading as="h1" tone="dark" eyebrow="Support The $70K Mission" title="Fund the Mission" />
-        <div className="mt-8 max-w-xl">
-          <MissionProgress
-            totalRaised={campaign.amount_raised}
-            goal={campaign.fundraising_goal}
-            tone="dark"
-            breakdown={allocationBreakdown}
-          />
-          <p className="mt-4 text-sm font-bold uppercase tracking-[0.2em] text-bronze-light">
-            {formatNumber(miles.milesFunded, 2)} of {miles.totalDistance} Miles Funded
-          </p>
-        </div>
-      </CampaignPageHero>
+      <PageHero
+        pillar="impact"
+        eyebrow="03 · Impact · Donate"
+        title="Fund the mission"
+        description={`Every gift goes straight to the organizations doing the work. ${SITE_NAME} never handles the money — you give through each nonprofit's own platform, and we count it toward ${MISSION_NAME}.`}
+        aside={
+          <div className="rounded-xl border border-line bg-white p-6">
+            <MissionProgress
+              totalRaised={campaign.amount_raised}
+              goal={campaign.fundraising_goal}
+              breakdown={allocationBreakdown}
+            />
+            <p className="label-caps mt-4 text-xs text-impact">
+              {formatNumber(miles.milesFunded, 2)} of {miles.totalDistance} miles funded
+            </p>
+          </div>
+        }
+      >
+        <p className="text-sm text-steel">
+          Looking for support instead?{" "}
+          <Link href="/crisis" className="font-bold text-help hover:underline">
+            Get help now
+          </Link>{" "}
+          or{" "}
+          <Link href="/resources" className="font-bold text-help hover:underline">
+            find resources
+          </Link>
+          .
+        </p>
+      </PageHero>
 
       <section className="py-16 sm:py-20">
         <Container>
@@ -136,15 +162,25 @@ export default async function DonatePage() {
 
               <p className="max-w-2xl text-sm font-medium text-charcoal-light">
                 Donations are made directly through each independent nonprofit organization&apos;s
-                authorized donation platform. {CAMPAIGN_NAME} does not receive, process, or take
+                authorized donation platform. {SITE_NAME} does not receive, process, or take
                 possession of charitable contributions and does not issue tax receipts.
               </p>
 
               {allocationBreakdown && <CampaignAllocation breakdown={allocationBreakdown} />}
             </div>
           </details>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <CTAButton href="/impact#beneficiaries" variant="secondary">
+              Meet the organizations
+            </CTAButton>
+            <CTAButton href="/transparency" variant="ghost">
+              How the money moves →
+            </CTAButton>
+          </div>
         </Container>
       </section>
+
+      <PillarNextSteps current="impact" />
     </>
   );
 }

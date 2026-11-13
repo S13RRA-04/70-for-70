@@ -5,7 +5,6 @@ import { getCurrentEventConfig } from "@/lib/data/event-config";
 import { getGiveawayPrizes } from "@/lib/data/giveaway-prizes";
 import { getEventActivityLog } from "@/lib/data/event-activity-log";
 import { getMissionPartners } from "@/lib/data/mission-partners";
-import { getJournalEntriesByCategory } from "@/lib/data/journal";
 import { getEventRegistrationStats } from "@/lib/data/event-registration-stats";
 import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
 import { getCurrentEventStatus } from "@/lib/22-for-the-22/event-status";
@@ -30,7 +29,7 @@ import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { StatCard } from "@/components/shared/stat-card";
 import { MissionProgress } from "@/components/campaign/mission-progress";
-import { APP_URL, CAMPAIGN_URL, DONATE_LINK, EVENT22_CAMPAIGN_URL, MISSION_NAME, SITE_URL } from "@/lib/constants";
+import { APP_URL, EVENT22_CAMPAIGN_URL, MISSION_NAME, SITE_URL, DONATE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = pageMetadata({
@@ -50,12 +49,11 @@ export default async function EventPage() {
     );
   }
 
-  const [prizes, activityLog, missionPartners, liveJournalEntries, registrationStats, fundraisingStats] =
+  const [prizes, activityLog, missionPartners, registrationStats, fundraisingStats] =
     await Promise.all([
       getGiveawayPrizes(event.id),
       getEventActivityLog(event.id),
       getMissionPartners(),
-      getJournalEntriesByCategory("22 For the 22"),
       getEventRegistrationStats(event.id),
       getFundraisingImpactStats(),
     ]);
@@ -89,7 +87,6 @@ export default async function EventPage() {
           event={event}
           fundraisingStats={fundraisingStats}
           activityLog={activityLog}
-          latestJournalEntries={liveJournalEntries.slice(0, 3)}
         />
       )}
 
@@ -318,7 +315,7 @@ export default async function EventPage() {
             <MissionProgress totalRaised={fundraisingStats.amountRaised} goal={fundraisingStats.fundraisingGoal} />
           </div>
           <Link
-            href={event.donate_url ?? `${CAMPAIGN_URL}${DONATE_LINK.href}`}
+            href={event.donate_url ?? DONATE_URL}
             data-analytics-event="22_donate_click"
             className="mt-6 inline-flex rounded-sm bg-bronze-text px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
           >
@@ -377,7 +374,7 @@ export default async function EventPage() {
             Sponsor the event, donate a giveaway prize, or volunteer alongside the mission.
           </p>
           <a
-            href={`${CAMPAIGN_URL}/get-involved`}
+            href={`${SITE_URL}/campaigns`}
             className="mt-6 inline-flex rounded-sm border border-off-white/40 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-off-white/10"
           >
             See Get Involved

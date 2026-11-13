@@ -17,7 +17,7 @@ import {
   type LivePremiere,
 } from "@/lib/content/live-premieres";
 import { LIVE_FUNDS_DISCLOSURE } from "@/lib/content/live-campaign";
-import { CAMPAIGN_URL, LIVE_CAMPAIGN_NAME, LIVE_CAMPAIGN_URL, MISSION_NAME, SITE_URL } from "@/lib/constants";
+import { LIVE_CAMPAIGN_NAME, LIVE_CAMPAIGN_URL, MISSION_NAME, SITE_URL, DONATE_URL } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
 import { parseVideoUrl } from "@/lib/video-url";
 
@@ -277,7 +277,7 @@ export async function PremierePage({ premiere }: { premiere: LivePremiere }) {
             </div>
             <p className="text-sm text-[#9a9a9a]">{LIVE_FUNDS_DISCLOSURE}</p>
             <div className="flex flex-wrap items-center gap-x-4.5 gap-y-3">
-              <CTAButton href={`${CAMPAIGN_URL}/donate`} external tone="dark">
+              <CTAButton href={DONATE_URL} external tone="dark">
                 Support the mission
               </CTAButton>
               <a href={`${SITE_URL}/crisis`} className="font-bold text-white underline-offset-4 hover:underline">

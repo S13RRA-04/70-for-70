@@ -5,7 +5,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
-import { CAMPAIGN_URL, CAMPAIGNS, ORG_NAV_LINKS, SITE_NAME } from "@/lib/constants";
+import { CAMPAIGNS, DONATE_LINK, ORG_NAV_LINKS, SITE_NAME } from "@/lib/constants";
 import type { CampaignSlug, SiteMode } from "@/lib/site-mode";
 import { isNavGroup, type NavGroup } from "@/types/content";
 import { cn } from "@/lib/utils";
@@ -131,17 +131,17 @@ export function Header({
 
               // The crisis entry gets the reserved help-blue CTA, preceded by
               // the outlined Donate button — see ORG_NAV_LINKS' doc comment
-              // in src/lib/constants.ts. Donate is cross-domain (Tri hosts
-              // the donation flow), so it's a plain absolute link.
+              // in src/lib/constants.ts.
               if (entry.href === "/crisis") {
                 return (
                   <div key={entry.href} className="flex items-center gap-2.5">
-                  <a
-                    href={`${CAMPAIGN_URL}/donate`}
+                  <Link
+                    href={DONATE_LINK.href}
+                    aria-current={pathname === DONATE_LINK.href ? "page" : undefined}
                     className="action-control inline-flex items-center border-2 border-navy bg-white/60 px-5 text-[15px] font-bold text-navy hover:bg-white"
                   >
                     Donate
-                  </a>
+                  </Link>
                   <CTAButton
                     href={entry.href}
                     accent="emergency"

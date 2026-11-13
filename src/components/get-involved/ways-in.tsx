@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { CAMPAIGN_URL } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 /**
@@ -31,10 +30,10 @@ export function WaysIn() {
           <WayInCard href="#current-campaigns" title="Participate" cta="See campaigns">
             Join a ruck, a race, or a movement challenge.
           </WayInCard>
-          <WayInCard href={`${CAMPAIGN_URL}/become-a-partner`} external title="Partner" cta="Become a partner">
+          <WayInCard href="/network#partners" title="Partner" cta="Become a partner">
             Brands, artists, and organizations: contribute gear, services, funding, expertise, or reach.
           </WayInCard>
-          <WayInCard href={`${CAMPAIGN_URL}/donate`} external title="Donate" cta="Donate" dark>
+          <WayInCard href="/donate" title="Donate" cta="Donate" dark>
             Give directly through a beneficiary campaign.
           </WayInCard>
           <WayInCard href="/resources" title="Share" cta="Find resources">
@@ -58,7 +57,7 @@ function WayInCard({
   title: string;
   cta: string;
   dark?: boolean;
-  /** Cross-domain (tri.forthe22.org) — a plain <a>, see AGENTS.md on cross-domain links. */
+  /** Cross-domain — a plain <a>, see AGENTS.md on cross-domain links. */
   external?: boolean;
   children: React.ReactNode;
 }) {

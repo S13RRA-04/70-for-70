@@ -1,17 +1,17 @@
 import Link from "next/link";
 import Image from "next/image";
 import {
-  CAMPAIGN_HOME_LINK,
-  CAMPAIGN_URL,
   CAMPAIGNS,
   CONTACT_EMAIL,
   DONATE_LINK,
+  DONATE_URL,
   MISSION_NAME,
   ORG_HOME_LINK,
   ORG_TAGLINE,
   PERSONAL_PROJECT_DISCLOSURE,
   SITE_NAME,
   SITE_URL,
+  TRI_PAGE_URL,
 } from "@/lib/constants";
 import { Container } from "@/components/shared/container";
 import { SocialLinks } from "@/components/shared/social-links";
@@ -19,7 +19,6 @@ import { BrandStripe } from "@/components/shared/brand-stripe";
 import { isNavGroup, type NavLink } from "@/types/content";
 import { ORG_ABOUT_LINKS, ORG_PILLARS } from "@/lib/pillars";
 import type { CampaignSlug, SiteMode } from "@/lib/site-mode";
-import { isRaceDayModeEnabled } from "@/lib/race-day-mode";
 
 export function Footer({
   mode,
@@ -35,8 +34,6 @@ export function Footer({
   // Legal pages live on the org domain only — link there directly instead
   // of relying on the campaign-host redirect for every click.
   const legalBase = isCampaign ? SITE_URL : "";
-
-  const raceDayLive = isRaceDayModeEnabled();
 
   // Small teal/purple identification dot for National Suicide Prevention
   // Month (September) — see isSuicidePreventionMonth. Same convention as
@@ -57,9 +54,7 @@ export function Footer({
       <BrandStripe onNavy variant={campaignSlug === "live" || campaignSlug === "seen" ? "live" : "org"} />
       <Container
         className={`relative grid gap-10 pb-14 pt-16 sm:grid-cols-2 ${
-          campaignSlug === "tri"
-            ? "lg:grid-cols-3 xl:grid-cols-6"
-            : campaignSlug === "ruck" || campaignSlug === "22" || campaignSlug === "live" || campaignSlug === "seen"
+          campaignSlug === "ruck" || campaignSlug === "22" || campaignSlug === "live" || campaignSlug === "seen"
               ? "lg:grid-cols-4"
               : "lg:grid-cols-3 xl:grid-cols-6"
         }`}
@@ -104,7 +99,7 @@ export function Footer({
               </p>
             </div>
           )}
-          {campaignSlug === "tri" || campaign?.logoCarriesName ? null : campaign ? (
+          {campaign?.logoCarriesName ? null : campaign ? (
             <p className="mt-3 max-w-sm text-sm text-off-white/70">A {SITE_NAME} campaign.</p>
           ) : (
             <>
@@ -115,149 +110,7 @@ export function Footer({
           {null}
         </div>
 
-        {campaignSlug === "tri" ? (
-          <>
-            <div className="sm:col-span-2 lg:col-span-6">
-              <p className="font-display text-xl uppercase text-off-white">
-                The campaign is temporary. The mission isn&apos;t.
-              </p>
-              <p className="mt-2 max-w-2xl text-sm text-off-white/70">
-                For The 22 exists to help veterans, first responders, and their families connect with trusted
-                resources, community, purpose, and support.
-              </p>
-              <a
-                href={SITE_URL}
-                className="mt-3 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze-light hover:text-off-white"
-              >
-                Visit ForThe22.org <span aria-hidden="true">&#8599;</span>
-              </a>
-            </div>
-
-            <div>
-              <p className="label-caps text-xs text-mist">
-                About
-              </p>
-              <ul className="mt-4 space-y-2 text-[15px] text-mist">
-                <li>
-                  <Link href="/the-mission" className="transition-colors hover:text-white hover:underline">
-                    About
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/the-race" className="transition-colors hover:text-white hover:underline">
-                    Race
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/journal" className="transition-colors hover:text-white hover:underline">
-                    Journal
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/messages" className="transition-colors hover:text-white hover:underline">
-                    Messages
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <p className="label-caps text-xs text-mist">
-                Support
-              </p>
-              <ul className="mt-4 space-y-2 text-[15px] text-mist">
-                <li>
-                  <Link href={DONATE_LINK.href} className="transition-colors hover:text-white hover:underline">
-                    {DONATE_LINK.label}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/get-involved" className="transition-colors hover:text-white hover:underline">
-                    Get Involved
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/shop" className="transition-colors hover:text-white hover:underline">
-                    Shop
-                  </Link>
-                </li>
-                <li>
-                  <a href={`${SITE_URL}/70k`} className="transition-colors hover:text-white hover:underline">
-                    {MISSION_NAME} <span aria-hidden="true">&#8599;</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <p className="label-caps text-xs text-mist">
-                Organization
-              </p>
-              <ul className="mt-4 space-y-2 text-[15px] text-mist">
-                {campaign?.crisisLink && (
-                  <li>
-                    <a
-                      href={campaign.crisisLink.href}
-                      className="font-semibold text-off-white transition-colors hover:text-bronze-light"
-                    >
-                      {campaign.crisisLink.label}
-                    </a>
-                  </li>
-                )}
-                <li>
-                  <Link href="/beneficiaries" className="transition-colors hover:text-white hover:underline">
-                    Beneficiaries
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/sponsors" className="transition-colors hover:text-white hover:underline">
-                    Sponsors
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/financial-transparency" className="transition-colors hover:text-white hover:underline">
-                    Financial Transparency
-                  </Link>
-                </li>
-                <li>
-                  <a href={`${SITE_URL}/transparency`} className="transition-colors hover:text-white hover:underline">
-                    Transparency <span aria-hidden="true">&#8599;</span>
-                  </a>
-                </li>
-                <li>
-                  <a href={`${legalBase}/privacy`} className="transition-colors hover:text-white hover:underline">
-                    Privacy
-                  </a>
-                </li>
-                <li>
-                  <a href={`${legalBase}/terms`} className="transition-colors hover:text-white hover:underline">
-                    Terms
-                  </a>
-                </li>
-                {raceDayLive && (
-                  <li>
-                    <Link href="/live" className="transition-colors hover:text-white hover:underline">
-                      Race Day Live
-                    </Link>
-                  </li>
-                )}
-              </ul>
-            </div>
-
-            <div>
-              <p className="label-caps text-xs text-mist">
-                Media
-              </p>
-              <ul className="mt-4 space-y-2 text-[15px] text-mist">
-                <li>
-                  <Link href="/press" className="transition-colors hover:text-white hover:underline">
-                    Press &amp; Media
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </>
-        ) : campaignSlug === "ruck" && campaign ? (
+        {campaignSlug === "ruck" && campaign ? (
           <>
             <div>
               <p className="label-caps text-xs text-mist">
@@ -360,12 +213,12 @@ export function Footer({
                   </a>
                 </li>
                 <li>
-                  <a href={CAMPAIGN_URL} className="transition-colors hover:text-white hover:underline">
+                  <a href={TRI_PAGE_URL} className="transition-colors hover:text-white hover:underline">
                     Visit Tri For The 22 <span aria-hidden="true">&#8599;</span>
                   </a>
                 </li>
                 <li>
-                  <a href={`${CAMPAIGN_URL}${DONATE_LINK.href}`} className="transition-colors hover:text-white hover:underline">
+                  <a href={DONATE_URL} className="transition-colors hover:text-white hover:underline">
                     {DONATE_LINK.label} <span aria-hidden="true">&#8599;</span>
                   </a>
                 </li>
@@ -536,11 +389,6 @@ export function Footer({
                     )}
                   </li>
                 ))}
-                <li>
-                  <a href={CAMPAIGN_HOME_LINK.href} className="transition-colors hover:text-white hover:underline">
-                    {CAMPAIGN_HOME_LINK.label} <span aria-hidden="true">&#8599;</span>
-                  </a>
-                </li>
               </ul>
               <SocialLinks className="mt-4" />
             </div>
@@ -574,26 +422,7 @@ export function Footer({
 
       <div className="relative border-t border-off-white/10 py-5">
         <Container>
-          {campaignSlug === "tri" ? (
-            <>
-              <p className="max-w-3xl text-xs text-off-white/60">
-                Tri For The 22 is an independent fundraising campaign supporting Mighty Oaks Warrior Programs and
-                Veterans and Athletes United.
-              </p>
-              <p className="mt-2 max-w-3xl text-xs text-off-white/60">
-                Independent initiative. No employer or government affiliation.{" "}
-                <a
-                  href="/campaign-terms#trademarks-and-endorsement"
-                  className="underline-offset-2 hover:text-off-white/80 hover:underline"
-                >
-                  Full legal disclosure
-                </a>
-                .
-              </p>
-            </>
-          ) : (
-            <p className="max-w-3xl text-xs text-off-white/60">{PERSONAL_PROJECT_DISCLOSURE}</p>
-          )}
+          <p className="max-w-3xl text-xs text-off-white/60">{PERSONAL_PROJECT_DISCLOSURE}</p>
         </Container>
       </div>
 

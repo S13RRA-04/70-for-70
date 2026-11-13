@@ -25,7 +25,6 @@ import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
 import { MEDIA_APPEARANCES, PRESS_PHOTOS, PRESS_QUOTES } from "@/lib/content/press";
 import {
   CAMPAIGN_STATUS_LABELS,
-  CAMPAIGN_URL,
   CONTACT_EMAIL,
   LIVE_CAMPAIGN_URL,
   MOVEMENT_CAMPAIGNS,
@@ -137,9 +136,9 @@ export default async function PressPage() {
       evidence: (
         <>
           The confirmed beneficiary nonprofits every campaign supports. Profiles at{" "}
-          <a href={`${CAMPAIGN_URL}/beneficiaries`} className={linkClass}>
-            tri.forthe22.org/beneficiaries
-          </a>
+          <Link href="/impact#beneficiaries" className={linkClass}>
+            forthe22.org/impact
+          </Link>
           ; verification status on{" "}
           <Link href="/transparency" className={linkClass}>
             Transparency
@@ -354,10 +353,10 @@ export default async function PressPage() {
             </ul>
             <p className="mt-4 text-sm text-charcoal-light">
               Covering the triathlon specifically? The{" "}
-              <a href={`${CAMPAIGN_URL}/press`} className={linkClass}>
-                Tri For The 22 media kit
-              </a>{" "}
-              has race facts, the campaign logo, and print materials.
+              <Link href="/campaigns/tri" className={linkClass}>
+                Tri For The 22 page
+              </Link>{" "}
+              has the race facts.
             </p>
           </PressSection>
 

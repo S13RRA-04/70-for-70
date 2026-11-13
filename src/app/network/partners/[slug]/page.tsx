@@ -14,7 +14,7 @@ import { getPartnerProfileBySlug } from "@/lib/data/partner-profile";
 import { DISTRIBUTION_STATUS_LABEL } from "@/components/partners/partner-card";
 import { BIKE_BUILD_COMPONENT_STATUS } from "@/lib/content/building-the-bike";
 import { findBackedComponents } from "@/lib/partner-matching";
-import { CAMPAIGN_URL, MISSION_PARTNER_TIERS, SITE_URL, formatAssociatedCampaigns } from "@/lib/constants";
+import { MISSION_PARTNER_TIERS, SITE_URL, formatAssociatedCampaigns, TRI_PAGE_URL } from "@/lib/constants";
 import { formatCurrency, formatDateLong } from "@/lib/utils";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
@@ -197,7 +197,7 @@ export default async function PartnerProfilePage({ params }: { params: Promise<{
                 ))}
               </ul>
               <Link
-                href={`${CAMPAIGN_URL}/bike#component-status`}
+                href={TRI_PAGE_URL}
                 className="mt-4 inline-block text-sm font-semibold text-bronze hover:text-bronze-dark"
               >
                 See the full bike build &rarr;
@@ -240,7 +240,7 @@ export default async function PartnerProfilePage({ params }: { params: Promise<{
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <CTAButton href="/network">Back to the Network</CTAButton>
-            <CTAButton href={`${CAMPAIGN_URL}/become-a-partner`} external variant="secondary">
+            <CTAButton href="/network#partners" variant="secondary">
               Become a Partner
             </CTAButton>
           </div>

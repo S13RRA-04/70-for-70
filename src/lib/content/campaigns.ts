@@ -7,8 +7,6 @@
  * the /70k page's CONTRIBUTION_MECHANISMS, folded into /campaigns.
  */
 
-import { CAMPAIGN_URL, DONATE_LINK } from "@/lib/constants";
-
 export interface ContributionMechanism {
   name: string;
   description: string;
@@ -31,19 +29,16 @@ export const CONTRIBUTION_MECHANISMS: ContributionMechanism[] = [
   {
     name: "Merchandise",
     description: "Apparel and gear sold through the campaign's fundraising store.",
-    href: `${CAMPAIGN_URL}/shop`,
-    external: true,
+    href: "/store",
   },
   {
     name: "Corporate Sponsorships",
     description: "Businesses and organizations contributing cash or in-kind support as campaign partners.",
-    href: `${CAMPAIGN_URL}/sponsors`,
-    external: true,
+    href: "/network#partners",
   },
   {
     name: "Direct Giving",
     description: "Gifts made straight to the beneficiary organizations, outside any single campaign or event.",
-    href: `${CAMPAIGN_URL}${DONATE_LINK.href}`,
-    external: true,
+    href: "/donate",
   },
 ];

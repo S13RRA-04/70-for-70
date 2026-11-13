@@ -1,28 +1,26 @@
-import Link from "next/link";
 import { Container } from "@/components/shared/container";
 import { CurrentMovementLog } from "./current-movement-log";
 import { MissionProgress } from "@/components/campaign/mission-progress";
-import { DONATE_LINK } from "@/lib/constants";
+import { DONATE_URL } from "@/lib/constants";
 import type { FundraisingImpactStats } from "@/lib/data/fundraising-impact";
-import type { EventActivityLogRow, EventConfigRow, JournalEntryRow } from "@/types/database";
+import type { EventActivityLogRow, EventConfigRow } from "@/types/database";
 
 /**
  * Rendered only while the event's computed status is "live" — see
  * /22forthe22/page.tsx. Elapsed/remaining time is already shown prominently
  * by EventStatusClock in the hero, so this panel focuses on what's actually
- * happening: fundraising progress, the current-movement log, and the latest
- * live journal updates, rather than duplicating the same countdown numbers.
+ * happening: fundraising progress and the current-movement log, rather than
+ * duplicating the same countdown numbers. The donate link is absolute — a
+ * relative /donate on the 22 host would collapse back to "/".
  */
 export function LiveEventPanel({
   event,
   fundraisingStats,
   activityLog,
-  latestJournalEntries,
 }: {
   event: EventConfigRow;
   fundraisingStats: FundraisingImpactStats;
   activityLog: EventActivityLogRow[];
-  latestJournalEntries: JournalEntryRow[];
 }) {
   return (
     <section className="border-y border-ink/10 bg-sand-light py-16 sm:py-20">
@@ -43,13 +41,13 @@ export function LiveEventPanel({
                 goal={fundraisingStats.fundraisingGoal}
               />
             </div>
-            <Link
-              href={event.donate_url ?? DONATE_LINK.href}
+            <a
+              href={event.donate_url ?? DONATE_URL}
               data-analytics-event="22_donate_click"
               className="mt-4 inline-flex rounded-sm bg-bronze-text px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
             >
               Support the Mission
-            </Link>
+            </a>
           </div>
 
           <div className="rounded-xl border border-line bg-white p-6">
@@ -62,23 +60,6 @@ export function LiveEventPanel({
           </div>
         </div>
 
-        {latestJournalEntries.length > 0 && (
-          <div className="mt-8">
-            <h3 className="font-display text-xl uppercase text-ink">Live Updates</h3>
-            <div className="mt-4 grid gap-4 sm:grid-cols-3">
-              {latestJournalEntries.map((entry) => (
-                <Link
-                  key={entry.id}
-                  href={`/journal/${entry.slug}`}
-                  className="hover-lift rounded-xl border border-line bg-white p-5 hover:border-bronze/30"
-                >
-                  <p className="text-sm font-semibold text-ink">{entry.title}</p>
-                  <p className="mt-1 text-xs text-charcoal-light">{entry.summary}</p>
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
       </Container>
     </section>
   );

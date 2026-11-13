@@ -21,7 +21,7 @@ import {
   PROMO_KIT_ZIP_FILENAME,
   PROMO_KIT_ZIP_PATH,
 } from "@/lib/content/22-for-the-22-promokit";
-import { CAMPAIGN_URL, EVENT22_CAMPAIGN_URL } from "@/lib/constants";
+import { EVENT22_CAMPAIGN_URL, DONATE_URL, TRI_PAGE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = pageMetadata({
@@ -33,8 +33,8 @@ export const metadata: Metadata = pageMetadata({
 
 const CAMPAIGN_LINKS = [
   { label: "Event Page", href: EVENT22_CAMPAIGN_URL },
-  { label: "Main Site", href: CAMPAIGN_URL },
-  { label: "Donate", href: `${CAMPAIGN_URL}/donate` },
+  { label: "Main Site", href: TRI_PAGE_URL },
+  { label: "Donate", href: DONATE_URL },
 ];
 
 export default function PromoKitPage() {

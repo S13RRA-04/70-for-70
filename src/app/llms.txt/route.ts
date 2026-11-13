@@ -1,6 +1,5 @@
 import {
   CAMPAIGN_NAME,
-  CAMPAIGN_URL,
   CAMPAIGNS,
   CONTACT_EMAIL,
   FUNDRAISING_GOAL,
@@ -38,25 +37,14 @@ const ORG_LINKS: LinkEntry[] = [
   ["/crisis", "Crisis Support", "Immediate crisis support for veterans and first responders."],
   ["/veteran-brands", "Veteran & First Responder Brands", "Veteran-owned and first-responder-owned companies, and businesses that give back."],
   ["/campaigns", "Campaigns", `Tri For The 22, Ruck For The 22, For The 22: Live, and 22 For the 22 — all contributing toward one shared ${formatCurrency(FUNDRAISING_GOAL)} fundraising goal.`],
+  ["/campaigns/tri", CAMPAIGN_NAME, `Founder Cody Hitson racing IRONMAN 70.3 Chattanooga on May 16, 2027 — the 70.3 miles behind ${MISSION_NAME}.`],
+  ["/donate", "Donate", `Give directly to the organizations ${SITE_NAME} funds, through each one's own donation platform.`],
   ["/70k", MISSION_NAME, `Current ${SITE_NAME} campaigns contribute toward one shared ${formatCurrency(FUNDRAISING_GOAL)} goal supporting verified veteran-focused nonprofit organizations.`],
-  ["/impact", "Mission in Motion", "How the resource directory and the campaigns move the mission forward."],
-  ["/network", "The Network", "The resource network, current beneficiaries, campaign partners, and community behind the mission."],
+  ["/impact", "Impact", `The fundraising behind ${MISSION_NAME} and the organizations it funds: Mighty Oaks Foundation and Veterans and Athletes United.`],
+  ["/network", "Partners & Network", "The resource network, campaign partners, and community behind the mission — and how to become a partner."],
   ["/transparency", "Transparency", `How donations work, how ${SITE_NAME} selects beneficiaries and resources, and the organization's current legal status.`],
   ["/press", "Press & Media", "Mission summary, key numbers, founder bios, campaign and beneficiary information, logos, and media contact."],
   ["/contact", "Contact", `General and media contact for ${SITE_NAME}.`],
-];
-
-const TRI_LINKS: LinkEntry[] = [
-  ["/the-mission", "The Mission", `${CAMPAIGN_NAME} pairs a 70.3-mile IRONMAN challenge with ${SITE_NAME}'s broader ${formatCurrency(FUNDRAISING_GOAL)} fundraising mission — a shared goal, not Tri's alone.`],
-  ["/the-race", "IRONMAN 70.3 Chattanooga", "Training toward IRONMAN 70.3 Chattanooga on May 16, 2027 — a 1.2-mile swim, 56-mile bike, and 13.1-mile run."],
-  ["/the-story", "Cody Hitson's Story", `The athletic story behind ${CAMPAIGN_NAME} — training, the road to race day, and why it's run in memory of the 22.`],
-  ["/beneficiaries", "Beneficiaries", `The confirmed nonprofit organizations ${CAMPAIGN_NAME} raises funds for.`],
-  ["/financial-transparency", "Financial Transparency", `How donation links on this site work, and what ${CAMPAIGN_NAME} does and doesn't do with charitable giving.`],
-  ["/donate", "Donate", `Support ${CAMPAIGN_NAME} through an authorized partner donation platform.`],
-  ["/journal", "Road to Chattanooga Journal", "Training, setbacks, milestones, partners, and fundraising updates."],
-  ["/sponsors", "Partners & Supporters", `Organizations and brands supporting ${CAMPAIGN_NAME}.`],
-  ["/get-involved", "Get Involved", `Join the ${CAMPAIGN_NAME} Triathlon Team, support the campaign, or become a partner.`],
-  ["/press", "Press", `Media resources for ${CAMPAIGN_NAME}.`],
 ];
 
 function linkList(baseUrl: string, links: LinkEntry[]) {
@@ -81,11 +69,6 @@ export async function GET() {
         `## Campaigns\n\n${Object.values(CAMPAIGNS)
           .map((c) => `- [${c.name}](${c.url}/): ${c.description}`)
           .join("\n")}`,
-      );
-    } else if (campaignSlug === "tri") {
-      sections.push(
-        `${CAMPAIGN_NAME} is one campaign of ${SITE_NAME} (${SITE_URL}). Founder Cody Hitson is training for IRONMAN 70.3 Chattanooga on May 16, 2027 to raise funds for veteran-focused nonprofit organizations.`,
-        `## Key pages\n\n${linkList(CAMPAIGN_URL, TRI_LINKS)}`,
       );
     } else if (campaignSlug === "ruck") {
       const completed = COMPLETED_RUCK_MISSIONS.map(

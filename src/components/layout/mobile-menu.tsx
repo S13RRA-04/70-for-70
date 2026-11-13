@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { CAMPAIGN_HOME_LINK, CAMPAIGNS } from "@/lib/constants";
+import { CAMPAIGNS, DONATE_LINK } from "@/lib/constants";
 import type { CampaignSlug } from "@/lib/site-mode";
 import { isNavGroup, type NavEntry, type NavLink } from "@/types/content";
 import { cn } from "@/lib/utils";
@@ -140,51 +140,7 @@ export function MobileMenu({ open, onClose, navLinks, pathname, campaignSlug, tr
         )}
       >
         <nav aria-label="Mobile" className="flex flex-1 flex-col px-4 py-4 sm:px-6">
-          {campaignSlug === "tri" && campaign ? (
-            <>
-              {campaign.navLinks.filter(isNavGroup).map((group, i) => (
-                <MobileNavGroup
-                  key={group.label}
-                  label={group.label}
-                  links={group.children}
-                  pathname={pathname}
-                  className={i > 0 ? "mt-5 border-t border-ink/10 pt-5" : undefined}
-                />
-              ))}
-              <div className="mt-5 flex flex-col gap-1 border-t border-ink/10 pt-5">
-                {campaign.navLinks
-                  .filter((entry): entry is NavLink => !isNavGroup(entry))
-                  .map((link) => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      className={cn(
-                        "block rounded-sm px-3 py-3 text-base font-medium uppercase tracking-wide text-charcoal hover:bg-sand-light",
-                        pathname === link.href && "text-bronze",
-                      )}
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
-                <a
-                  href={campaign.primaryCta.href}
-                  {...(campaign.primaryCta.external && { target: "_blank", rel: "noopener noreferrer" })}
-                  className="mt-2 block rounded-sm bg-bronze-text px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
-                >
-                  {campaign.primaryCta.label}
-                </a>
-                {campaign.crisisLink && (
-                  <a
-                    href={campaign.crisisLink.href}
-                    className="block rounded-sm bg-signal px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-off-white hover:bg-signal-dark"
-                  >
-                    {campaign.crisisLink.label}
-                  </a>
-                )}
-              </div>
-              {campaign.parentLink && <ParentInitiativeGroup link={campaign.parentLink} />}
-            </>
-          ) : (campaignSlug === "ruck" || campaignSlug === "22" || campaignSlug === "live" || campaignSlug === "seen") && campaign ? (
+          {(campaignSlug === "ruck" || campaignSlug === "22" || campaignSlug === "live" || campaignSlug === "seen") && campaign ? (
             <>
               <MobileNavGroup
                 label="Explore"
@@ -252,14 +208,14 @@ export function MobileMenu({ open, onClose, navLinks, pathname, campaignSlug, tr
                   href="/crisis"
                   className="block rounded-sm bg-signal px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-off-white hover:bg-signal-dark"
                 >
-                  Need Help Now
+                  Get Help Now
                 </Link>
-                <a
-                  href={CAMPAIGN_HOME_LINK.href}
-                  className="mt-1 block rounded-sm px-3 py-3 text-center text-xs font-semibold uppercase tracking-wide text-charcoal-light hover:text-ink"
+                <Link
+                  href={DONATE_LINK.href}
+                  className="block rounded-sm border-2 border-navy bg-white px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-navy hover:bg-paper"
                 >
-                  {CAMPAIGN_HOME_LINK.label} <span aria-hidden="true">&#8599;</span>
-                </a>
+                  Donate
+                </Link>
               </div>
             </>
           )}

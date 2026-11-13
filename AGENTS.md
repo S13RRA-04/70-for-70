@@ -50,23 +50,31 @@ code. **Trust `wrangler.jsonc`, `.github/workflows/deploy.yml`, and the source o
 ## Multi-domain architecture (read this before touching routing)
 
 One app, host-driven. `src/lib/site-mode.ts` is the single source of truth for host → mode
-(`getCampaignSlug`, `isAppHost`); never re-implement host checks inline.
+(`getCampaignSlug`, `isAppHost`, `isTriHost`); never re-implement host checks inline.
 
-- Hosts: `forthe22.org` (org) · `tri.` / `ruck.` / `22.forthe22.org` (campaigns) ·
+- Hosts: `forthe22.org` (org) · `ruck.` / `live.` / `seen.` / `22.forthe22.org` (campaigns) ·
   `app.forthe22.org` (authenticated participant app, routes live in `src/app/app/*`, never gated) ·
-  `forthe22.com` (308 only, squatting defense). `*.localhost` aliases (`tri.localhost`,
-  `app.localhost`, …) satisfy the prefix match for local host testing.
+  `forthe22.com` (308 only, squatting defense) · `tri.forthe22.org` (retired — 308s every page to
+  its org equivalent; only `/api` + `/admin` still serve there because the WHOOP/Strava OAuth
+  callbacks are registered on it). `*.localhost` aliases (`ruck.localhost`, `app.localhost`, …)
+  satisfy the prefix match for local host testing.
+- **The org site is organized around three mission pillars** — Connection (`/resources`,
+  `/crisis`), Mobilization (`/campaigns`, incl. Tri's single page `/campaigns/tri`, `/network`
+  for partners), Impact (`/impact` incl. `#beneficiaries`, `/donate`, `/70k`, `/transparency`).
+  `src/lib/pillars.ts` is the source of truth for nav/footer membership. Get Help Now (`/crisis`)
+  and Donate (`/donate` = `DONATE_LINK`/`DONATE_URL`) are the two standing CTAs on every page.
 - Adding a campaign = slug/hostname in `CAMPAIGN_HOSTS` + branding in `CAMPAIGNS`
   (`src/lib/constants.ts`), then its path guards/rewrites in `src/middleware.ts`.
-- `src/middleware.ts` owns, in order: stray-domain 308 · `/22forthe22` legacy 308 · app-host
-  `/app/*` rewrite · per-domain launch gate · org↔campaign 308s and shared-path rewrites ·
-  Ruck/22 single-home guards. Org-only prefixes are `ORG_PATH_PREFIXES`; Tri's are
-  `CAMPAIGN_PATH_PREFIXES`. API routes, `/admin`, and `/crisis` intentionally work on every host.
-- Campaign roots are rewrites to real routes (`CAMPAIGN_HOME_ROUTES`: `/` → `/campaign-home`,
-  `/ruck-home`, `/22forthe22`). Ruck is one page; 22 For the 22 is three (`/`, `/promokit`,
+- `src/middleware.ts` owns, in order: stray-domain 308 · Tri redirects (`TRI_REDIRECTS`) ·
+  `/22forthe22` legacy 308 · app-host `/app/*` rewrite · per-domain launch gate · campaign→org
+  308s · Ruck/22/Live/SEEN guards. Org-only prefixes are `ORG_PATH_PREFIXES`. API routes,
+  `/admin`, and `/crisis` intentionally work on every host.
+- Campaign roots are rewrites to real routes (`CAMPAIGN_HOME_ROUTES`: `/` → `/ruck-home`,
+  `/22forthe22`, `/campaigns/live`, `/campaigns/seen`). Ruck is one page; 22 For the 22 is three (`/`, `/promokit`,
   `/rules`) — their content is data in `constants.ts` / `src/lib/content`, not routes.
-- Cross-domain links must be absolute URLs built from `SITE_URL` / `CAMPAIGN_URL` /
-  `RUCK_CAMPAIGN_URL` / `APP_URL` / `EVENT22_CAMPAIGN_URL` (`src/lib/constants.ts`), never a
+- Cross-domain links must be absolute URLs built from `SITE_URL` / `DONATE_URL` / `TRI_PAGE_URL` /
+  `RUCK_CAMPAIGN_URL` / `APP_URL` / `EVENT22_CAMPAIGN_URL` (never `CAMPAIGN_URL` — that's the
+  retired Tri host, kept only for OAuth) (`src/lib/constants.ts`), never a
   relative `<Link>` — otherwise the middleware redirect adds a hop.
 - **Launch gate**: unless a flag is exactly `"true"`, every route on that host renders
   `/coming-soon` (API routes → 503). `SITE_LIVE` = org, `CAMPAIGN_LIVE` = all campaigns.
@@ -91,11 +99,11 @@ One app, host-driven. `src/lib/site-mode.ts` is the single source of truth for h
 
 ## Conventions
 
-- Content lives in plain data files under `src/lib/content/*.ts` (bike build, gear journey,
-  22-for-the-22, mission, about, terms/privacy). Publishing a new timeline entry is a content-file
+- Content lives in plain data files under `src/lib/content/*.ts` (22-for-the-22, campaign
+  journal, ruck missions, about, terms/privacy). Publishing a new timeline entry is a content-file
   edit — never a component edit. Append at the **end**; last item is "latest", ids become
-  `#anchors` and must never change after publishing. Recipes are in README's Bike Build / Gear
-  Journey sections.
+  `#anchors` and must never change after publishing. (README's Bike Build / Gear Journey recipes
+  are historical — those Tri pages were retired.)
 - All page metadata goes through `pageMetadata()` (`src/lib/metadata.ts`). Next merges
   `openGraph`/`twitter` shallowly per top-level key, so hand-rolled page metadata silently drops
   canonicals and social cards.

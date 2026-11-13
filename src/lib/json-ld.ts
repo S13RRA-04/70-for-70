@@ -1,4 +1,4 @@
-import { CAMPAIGN_URL, SITE_URL, SOCIAL_LINKS, STRAVA_PROFILE_URL } from "@/lib/constants";
+import { SITE_URL, SOCIAL_LINKS, STRAVA_PROFILE_URL } from "@/lib/constants";
 
 /**
  * Cody Hitson as a schema.org Person — deliberately without its own
@@ -19,12 +19,9 @@ export const FOUNDER_PERSON_JSON_LD = {
 
 export interface BreadcrumbItem {
   name: string;
-  /** Absolute URL — every call site already has CAMPAIGN_URL/SITE_URL on hand. */
+  /** Absolute URL — every call site already has SITE_URL on hand. */
   url: string;
 }
-
-/** The campaign home crumb every Tri breadcrumb trail starts from. */
-export const CAMPAIGN_HOME_CRUMB: BreadcrumbItem = { name: "Tri For The 22", url: CAMPAIGN_URL };
 
 /** Standard BreadcrumbList — position is 1-based, assigned from array order. */
 export function breadcrumbJsonLd(items: BreadcrumbItem[]) {

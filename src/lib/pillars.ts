@@ -70,7 +70,7 @@ export const ORG_PILLARS: readonly OrgPillar[] = [
     summary: "Campaigns, partners, and everyday ways to turn awareness into action.",
     hub: { label: "Campaigns", href: "/campaigns" },
     more: [
-      { label: "Network", href: "/network" },
+      { label: "Partners & network", href: "/network" },
       { label: "Awareness calendar", href: "/awareness" },
       { label: "For The 22 Store", href: "/store" },
       { label: "Shop With Purpose", href: "/veteran-brands" },
@@ -81,9 +81,11 @@ export const ORG_PILLARS: readonly OrgPillar[] = [
     number: "03",
     title: "Impact",
     navLabel: "See the Impact",
-    summary: "Every dollar and participant, tracked against one goal and published with who it reaches.",
+    summary: "The fundraising behind the mission and the organizations it funds — Mighty Oaks and Veterans and Athletes United.",
     hub: { label: "Impact report", href: "/impact" },
     more: [
+      { label: "Who we fund", href: "/impact#beneficiaries" },
+      { label: "Donate", href: "/donate" },
       { label: "The $70K Mission", href: "/70k" },
       { label: "Transparency", href: "/transparency" },
     ],
