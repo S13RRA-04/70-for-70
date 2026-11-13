@@ -1,4 +1,4 @@
-import { RUCK_CAMPAIGN_URL } from "@/lib/constants";
+import { LIVE_CAMPAIGN_PATH, RUCK_CAMPAIGN_URL, TRI_PAGE_PATH } from "@/lib/constants";
 import type { CampaignJournalEntry } from "@/types/campaign-journal";
 
 /**
@@ -49,6 +49,64 @@ export const CAMPAIGN_JOURNAL_ENTRIES: CampaignJournalEntry[] = [
       alt: "The 2026 RuckUp22 22-mile challenge coin",
     },
     link: { label: "See the Mission", href: `${RUCK_CAMPAIGN_URL}/missions/ruckup22-huntsville-2026` },
+  },
+  {
+    id: "western-medicine-austin-world-premiere",
+    date: "2026-11-13",
+    title: "World Premiere: Western Medicine's “Austin”",
+    summary:
+      "For The 22 is partnering with Western Medicine for the world premiere of their music video “Austin” on Friday, November 20, at 7:00 PM PT.",
+    body: [
+      "For The 22 is partnering with Western Medicine for the world premiere of their music video “Austin” on Friday, November 20, at 7:00 PM PT.",
+      "Join For The 22 on Western Medicine's YouTube channel at 6:40 PM PT for a pre-release interview with the band, ahead of the video's debut.",
+    ],
+    link: { label: "Premiere Details", href: `${LIVE_CAMPAIGN_PATH}/austin` },
+  },
+  {
+    id: "muscadine-bloodline-whiskey-myers-signed-guitars",
+    date: "2026-11-13",
+    title: "Signed Guitars from Muscadine Bloodline and Whiskey Myers",
+    summary:
+      "Muscadine Bloodline and Whiskey Myers have partnered with For The 22, donating autographed guitars that will be auctioned off to support Tri For The 22.",
+    body: [
+      "Muscadine Bloodline and Whiskey Myers have partnered with For The 22 by donating autographed guitars that will be auctioned off to support Tri For The 22.",
+      "Additional details will be released soon.",
+    ],
+    gallery: [
+      {
+        src: "/campaigns/tri/muscadine-bloodline-signed-guitar.webp",
+        alt: "Black Epiphone acoustic guitar signed by Muscadine Bloodline, with a close-up of the signatures on its red pickguard",
+        width: 1122,
+        height: 1402,
+      },
+      {
+        src: "/campaigns/tri/whiskey-myers-signed-guitar.webp",
+        alt: "Epiphone Les Paul electric guitar with Whomp Whack Thunder artwork, signed by Whiskey Myers; includes a certificate of authenticity",
+        width: 1122,
+        height: 1402,
+      },
+    ],
+  },
+  {
+    id: "birmingham-bulls-military-night-partnership",
+    date: "2026-11-13",
+    title: "Tri For The 22 Partners with the Birmingham Bulls",
+    summary:
+      "The Birmingham Bulls are joining Tri For The 22 for Military Night on November 20, with $4 from every ticket purchased through the fundraiser link supporting Mighty Oaks Foundation.",
+    body: [
+      "Tri For The 22 has partnered with the Birmingham Bulls Hockey Team for Military Night at the Pelham Civic Complex on Friday, November 20, 2026, at 7:00 p.m. CT.",
+      "Four dollars from every ticket purchased through the event fundraiser link will be donated to Mighty Oaks Foundation. The Birmingham Bulls are also joining the For The 22 network as a Mission Partner.",
+    ],
+    image: { src: "/partners/birmingham-bulls-logo.avif", alt: "Birmingham Bulls Hockey logo" },
+    gallery: [
+      {
+        src: "/campaigns/tri/birmingham-bulls-military-night.webp",
+        alt: "Military Night with the Birmingham Bulls: Friday, November 20, 2026, 7:00 PM CT at Pelham Civic Complex. $4 from each ticket bought through the fundraiser link supports the mission.",
+        width: 1254,
+        height: 1254,
+      },
+    ],
+    link: { label: "See Military Night Details", href: `${TRI_PAGE_PATH}#military-night` },
   },
 ];
 

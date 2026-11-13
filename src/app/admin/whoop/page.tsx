@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { TRI_JOURNAL_PATH } from "@/lib/constants";
 import { requireAdminUser } from "@/lib/supabase/require-admin";
 import { isWhoopConfigured, WHOOP_REDIRECT_URI } from "@/lib/whoop/config";
 import { getWhoopConnection } from "@/lib/whoop/tokens";
@@ -39,7 +40,7 @@ export default async function WhoopAdminPage(props: PageProps<"/admin/whoop">) {
       </h1>
       <p className="mt-1 text-sm text-charcoal-light">
         Connect the athlete&apos;s own WHOOP account to power the public training snapshot on{" "}
-        <Link href="/journal" className="text-bronze hover:underline">
+        <Link href={TRI_JOURNAL_PATH} className="text-bronze hover:underline">
           the Journal
         </Link>{" "}
         and the campaign homepage. This is a one-time, admin-only connection — it does not collect

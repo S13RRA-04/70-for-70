@@ -666,6 +666,30 @@ export const SEED_MISSION_PARTNERS: MissionPartnerRow[] = [
     tier: "ally",
     designation: null,
   },
+  {
+    id: "seed-mission-partner-birmingham-bulls",
+    name: "Birmingham Bulls Hockey",
+    relationship_label: "Mission Partner",
+    description:
+      "The Birmingham Bulls partnered with Tri For The 22 for Military Night on November 20, 2026. Four dollars from every ticket purchased through the event fundraiser link supports Mighty Oaks Foundation.",
+    logo_url: "/partners/birmingham-bulls-logo.avif",
+    logo_light_url: null,
+    logo_dark_url: null,
+    logo_background: null,
+    website_url: "https://www.bullshockey.net/",
+    support_type: "Military Night ticket fundraiser benefiting Mighty Oaks Foundation",
+    geographic_scope: "Birmingham, Alabama",
+    active: true,
+    display_order: 18,
+    agreement_status: null,
+    logo_permission: true,
+    relationship_start: "2026-11-13",
+    relationship_end: null,
+    associated_campaigns: ["tri"],
+    partner_type: "campaign-sponsor",
+    tier: null,
+    designation: null,
+  },
 ];
 
 // No posts yet. Superseded by SEED_JOURNAL_ENTRIES below (see

@@ -9,6 +9,8 @@ import {
   RUCK_CAMPAIGN_PATH,
   SEEN_CAMPAIGN_PATH,
   SITE_URL,
+  TRI_BIKE_BUILD_PATH,
+  TRI_JOURNAL_PATH,
   TRI_PAGE_PATH,
 } from "@/lib/constants";
 import { assertValidRuntimeConfig } from "@/lib/config-validation";
@@ -327,6 +329,13 @@ function retiredHostDestination(host: RetiredCampaignHost, pathname: string): st
 }
 
 function triDestination(pathname: string): string {
+  // The journal and bike build are Tri sub-pages now; post slugs carry over.
+  if (pathname === "/journal/building-the-bike" || pathname.startsWith("/journal/building-the-bike/")) {
+    return TRI_BIKE_BUILD_PATH;
+  }
+  if (pathname === "/journal" || pathname === "/journal/gear-journey") return TRI_JOURNAL_PATH;
+  const post = /^\/journal\/([a-z0-9-]+)$/.exec(pathname);
+  if (post) return `${TRI_JOURNAL_PATH}/${post[1]}`;
   const prefix = Object.keys(TRI_REDIRECTS).find((p) => pathname === p || pathname.startsWith(`${p}/`));
   return prefix ? TRI_REDIRECTS[prefix] : TRI_PAGE_PATH;
 }
