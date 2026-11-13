@@ -23,6 +23,8 @@ import {
   RACE_LEGS,
   RACE_TOTAL_DISTANCE,
   SITE_URL,
+  TRI_BIKE_BUILD_PATH,
+  TRI_JOURNAL_PATH,
   TRI_PAGE_PATH,
   TRI_PAGE_URL,
 } from "@/lib/constants";
@@ -65,10 +67,27 @@ const RACE_FACTS = [
 ];
 
 /**
+ * Birmingham Bulls Military Night (announced in src/lib/content/campaign-journal.ts).
+ * The section hides itself once the night is over. Set ticketUrl to the
+ * fundraiser ticket link to show the button — leave it null until there's a
+ * real link, never a placeholder.
+ */
+const MILITARY_NIGHT = {
+  endsAt: "2026-11-20T23:59:00-06:00",
+  dateLabel: "Friday, November 20, 2026 · 7:00 PM CT",
+  venue: "Pelham Civic Complex",
+  ticketUrl: null as string | null,
+};
+
+function isMilitaryNightUpcoming(): boolean {
+  return Date.now() < new Date(MILITARY_NIGHT.endsAt).getTime();
+}
+
+/**
  * Tri For The 22 — one Mobilization campaign page. This replaces the whole
- * former tri.forthe22.org site (race plan, journal, bike build, sponsors,
- * team sign-up, ...); every old Tri URL redirects here or to its org
- * equivalent (see applyTriRedirect in src/middleware.ts). Giving lives on
+ * former tri.forthe22.org site; every old Tri URL redirects here, to one
+ * of its two sub-pages (the training journal and the bike build), or to its
+ * org equivalent (see triDestination in src/middleware.ts). Giving lives on
  * /donate, beneficiaries on /impact, partners on /network — this page links
  * to them rather than repeating them.
  */
@@ -80,6 +99,7 @@ export default async function TriPage() {
   ]);
   const breakdown = await getAllocationBreakdown(campaign);
   const recognitions = getRecognitionsForCampaign("tri");
+  const militaryNightUpcoming = isMilitaryNightUpcoming();
 
   return (
     <>
@@ -112,6 +132,40 @@ export default async function TriPage() {
         </div>
       </PageHero>
 
+      {militaryNightUpcoming && (
+        <section id="military-night" className="scroll-mt-28 border-b border-line bg-jet py-14 text-white sm:py-16">
+          <Container>
+            <RevealOnScroll className="grid gap-10 lg:grid-cols-12 lg:items-center">
+              <div className="lg:col-span-7">
+                <SectionHeading eyebrow="Event · Mission Partner" title="Military Night with the Birmingham Bulls" tone="dark" />
+                <p className="mt-4 text-lg leading-relaxed text-mist">
+                  {MILITARY_NIGHT.dateLabel}
+                  <br />
+                  {MILITARY_NIGHT.venue}
+                </p>
+                <p className="mt-4 text-base leading-relaxed text-mist">
+                  $4 from every ticket bought through the fundraiser link goes to Mighty Oaks Foundation.
+                </p>
+                {MILITARY_NIGHT.ticketUrl && (
+                  <CTAButton href={MILITARY_NIGHT.ticketUrl} external newTab tone="dark" className="mt-6">
+                    Get Tickets
+                  </CTAButton>
+                )}
+              </div>
+              <div className="relative aspect-square overflow-hidden rounded-xl lg:col-span-5">
+                <Image
+                  src="/campaigns/tri/birmingham-bulls-military-night.webp"
+                  alt="Military Night with the Birmingham Bulls: Friday, November 20, 2026, 7:00 PM CT at Pelham Civic Complex. $4 from each ticket bought through the fundraiser link supports the mission."
+                  fill
+                  sizes="(min-width: 1024px) 34vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
+            </RevealOnScroll>
+          </Container>
+        </section>
+      )}
+
       {/* The race */}
       <section className="border-b border-line py-14 sm:py-16">
         <Container>
@@ -137,6 +191,27 @@ export default async function TriPage() {
               ))}
             </dl>
           </RevealOnScroll>
+        </Container>
+      </section>
+
+      {/* Follow the build — the campaign's two running stories. */}
+      <section className="border-b border-line py-14 sm:py-16">
+        <Container>
+          <SectionHeading eyebrow="Follow along" title="Follow the build" />
+          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            <Link href={TRI_JOURNAL_PATH} className="lift group flex flex-col gap-2 rounded-xl border border-line bg-white p-7">
+              <span className="label-caps text-xs text-olive">Training journal</span>
+              <span className="font-display text-3xl uppercase leading-none text-navy">The road to Chattanooga</span>
+              <span className="text-base text-copy">Training, setbacks, milestones, and race-prep updates.</span>
+              <span className="mt-2 font-bold text-navy group-hover:text-help group-hover:underline">Read the journal →</span>
+            </Link>
+            <Link href={TRI_BIKE_BUILD_PATH} className="lift group flex flex-col gap-2 rounded-xl border border-line bg-white p-7">
+              <span className="label-caps text-xs text-olive">Bike build</span>
+              <span className="font-display text-3xl uppercase leading-none text-navy">Built piece by piece</span>
+              <span className="text-base text-copy">The race bike, from bare frame to first ride, and the partners behind each part.</span>
+              <span className="mt-2 font-bold text-navy group-hover:text-help group-hover:underline">See the build →</span>
+            </Link>
+          </div>
         </Container>
       </section>
 

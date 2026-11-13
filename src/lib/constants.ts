@@ -102,6 +102,11 @@ export const CAMPAIGN_URL = process.env.NEXT_PUBLIC_CAMPAIGN_URL ?? "http://loca
 /** Tri For The 22's one page — a Mobilization campaign on the org site. */
 export const TRI_PAGE_PATH = "/campaigns/tri";
 export const TRI_PAGE_URL = `${SITE_URL}${TRI_PAGE_PATH}`;
+/** Tri's two sub-pages: the training journal (Supabase journal_entries) and the bike build (src/lib/content/building-the-bike.ts). */
+export const TRI_JOURNAL_PATH = `${TRI_PAGE_PATH}/journal`;
+export const TRI_JOURNAL_URL = `${SITE_URL}${TRI_JOURNAL_PATH}`;
+export const TRI_BIKE_BUILD_PATH = `${TRI_PAGE_PATH}/bike-build`;
+export const TRI_BIKE_BUILD_URL = `${SITE_URL}${TRI_BIKE_BUILD_PATH}`;
 
 /**
  * The org's donate page (Impact pillar) — the one place every Donate CTA

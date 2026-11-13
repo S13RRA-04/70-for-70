@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { requireAdminUser } from "@/lib/supabase/require-admin";
 import { createAdminClient } from "@/lib/supabase/admin";
 import type { TrainingObjectiveStatus } from "@/types/database";
+import { TRI_JOURNAL_PATH } from "@/lib/constants";
 
 const PAGE_PATH = "/admin/training-objectives";
 const CATEGORIES = ["swim", "bike", "run", "brick", "vo2max", "strength", "race_readiness"];
@@ -66,7 +67,7 @@ export async function saveObjectivesAction(formData: FormData) {
   }
 
   revalidatePath(PAGE_PATH);
-  revalidatePath("/the-race");
+  revalidatePath(TRI_JOURNAL_PATH);
   redirect(PAGE_PATH);
 }
 
@@ -98,7 +99,7 @@ export async function addObjectiveAction(formData: FormData) {
   });
 
   revalidatePath(PAGE_PATH);
-  revalidatePath("/the-race");
+  revalidatePath(TRI_JOURNAL_PATH);
   redirect(PAGE_PATH);
 }
 
@@ -111,6 +112,6 @@ export async function deleteObjectiveAction(formData: FormData) {
   await admin.from("training_objectives").delete().eq("id", id);
 
   revalidatePath(PAGE_PATH);
-  revalidatePath("/the-race");
+  revalidatePath(TRI_JOURNAL_PATH);
   redirect(PAGE_PATH);
 }

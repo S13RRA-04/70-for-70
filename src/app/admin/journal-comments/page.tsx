@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { TRI_JOURNAL_PATH } from "@/lib/constants";
 import { requireAdminUser } from "@/lib/supabase/require-admin";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { Container } from "@/components/shared/container";
@@ -100,7 +101,7 @@ export default async function JournalCommentsAdminPage(props: PageProps<"/admin/
                     <>
                       {" "}
                       &middot; on{" "}
-                      <Link href={`/journal/${comment.journal_entries.slug}`} className="font-semibold text-bronze hover:text-bronze-dark">
+                      <Link href={`${TRI_JOURNAL_PATH}/${comment.journal_entries.slug}`} className="font-semibold text-bronze hover:text-bronze-dark">
                         {comment.journal_entries.title}
                       </Link>
                     </>

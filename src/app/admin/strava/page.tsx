@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { TRI_JOURNAL_PATH } from "@/lib/constants";
 import { requireAdminUser } from "@/lib/supabase/require-admin";
 import { isStravaConfigured, STRAVA_REDIRECT_URI } from "@/lib/strava/config";
 import { getStravaConnection } from "@/lib/strava/tokens";
@@ -39,7 +40,7 @@ export default async function StravaAdminPage(props: PageProps<"/admin/strava">)
       </h1>
       <p className="mt-1 text-sm text-charcoal-light">
         Connect the athlete&apos;s own Strava account to power the public activity feed on{" "}
-        <Link href="/journal" className="text-bronze hover:underline">
+        <Link href={TRI_JOURNAL_PATH} className="text-bronze hover:underline">
           the Journal
         </Link>
         . This is a one-time, admin-only connection — it does not collect any data from site

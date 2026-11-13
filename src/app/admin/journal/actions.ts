@@ -6,6 +6,7 @@ import { requireAdminUser } from "@/lib/supabase/require-admin";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { parseVideoUrl } from "@/lib/video-url";
 import type { JournalGalleryImage } from "@/types/database";
+import { TRI_JOURNAL_PATH, TRI_PAGE_PATH } from "@/lib/constants";
 
 const LIST_PATH = "/admin/journal";
 const GALLERY_SLOTS = 6;
@@ -164,8 +165,8 @@ export async function saveJournalEntryAction(
   }
 
   revalidatePath(LIST_PATH);
-  revalidatePath("/journal");
-  revalidatePath("/campaign-home");
+  revalidatePath(TRI_JOURNAL_PATH);
+  revalidatePath(TRI_PAGE_PATH);
   redirect(LIST_PATH);
 }
 
@@ -178,8 +179,8 @@ export async function deleteJournalEntryAction(formData: FormData) {
   await admin.from("journal_entries").delete().eq("id", id);
 
   revalidatePath(LIST_PATH);
-  revalidatePath("/journal");
-  revalidatePath("/campaign-home");
+  revalidatePath(TRI_JOURNAL_PATH);
+  revalidatePath(TRI_PAGE_PATH);
   redirect(LIST_PATH);
 }
 

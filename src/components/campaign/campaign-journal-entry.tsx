@@ -72,11 +72,26 @@ export function CampaignJournalEntryCard({ entry, variant = "full", className }:
           </p>
         ))}
       </div>
+      {entry.gallery && entry.gallery.length > 0 && (
+        <div className={cn("mt-5 grid gap-4", entry.gallery.length > 1 && "sm:grid-cols-2")}>
+          {entry.gallery.map((item) => (
+            <Image
+              key={item.src}
+              src={item.src}
+              alt={item.alt}
+              width={item.width}
+              height={item.height}
+              sizes={entry.gallery!.length > 1 ? "(min-width: 640px) 40vw, 100vw" : "(min-width: 768px) 640px, 100vw"}
+              className="h-auto w-full rounded-xl border border-line"
+            />
+          ))}
+        </div>
+      )}
       {entry.link && (
         <a
           href={entry.link.href}
-          target="_blank"
-          rel="noopener noreferrer"
+          // Same-site links (a campaign page) stay in the tab; outside links open a new one.
+          {...(!entry.link.href.startsWith("/") && { target: "_blank", rel: "noopener noreferrer" })}
           className="mt-4 inline-block text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
         >
           {entry.link.label} &rarr;

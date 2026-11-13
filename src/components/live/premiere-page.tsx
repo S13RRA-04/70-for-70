@@ -178,7 +178,7 @@ export async function PremierePage({ premiere }: { premiere: LivePremiere }) {
                   {step.mainEvent ? (
                     <span className="label-caps inline-flex items-center gap-2 text-xs">
                       <span aria-hidden="true" className="live-on-air h-[9px] w-[9px] rounded-full bg-live-red" />
-                      The main event
+                      The main event{step.time && ` · ${step.time}`}
                     </span>
                   ) : (
                     step.time && <span className="label-caps text-xs">{step.time}</span>

@@ -6,6 +6,7 @@ import type {
   BikeBuildStatusSummaryItem,
   BikeBuildTimelineEntry,
 } from "@/types/bike-build";
+import { TRI_BIKE_BUILD_PATH } from "@/lib/constants";
 
 /**
  * Content for /journal/building-the-bike — the living "bike-build
@@ -719,7 +720,7 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "Huge thanks to Praxis for backing that offer with real hardware, not just a conversation. That's one more component that no longer has to be sourced, guessed at, or worried about before the mechanic's inspection.",
       "Next up: getting these into Bruce's hands so they can be checked against the frame and the rest of the drivetrain.",
     ],
-    relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+    relatedLinks: [{ label: "See the component board", href: `${TRI_BIKE_BUILD_PATH}#component-status` }],
   },
   {
     id: "redshift-confirms-aero-bars-and-seatpost",
@@ -747,7 +748,7 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "Between the aero bars, the seatpost, and the shim, three more items come off the open-questions list and onto the actual build sheet — an estimated $495 in donated gear.",
       "Huge thanks to Redshift Sports for backing this campaign with real hardware.",
     ],
-    relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+    relatedLinks: [{ label: "See the component board", href: `${TRI_BIKE_BUILD_PATH}#component-status` }],
   },
   {
     id: "pearl-izumi-cycling-shoes",
@@ -817,7 +818,7 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "I also already know two things are missing: tires and a chain. Neither is sourced yet.",
       "Beyond that? What else this build still needs is honestly still an open question — one this weekend's inventory should start answering.",
     ],
-    relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+    relatedLinks: [{ label: "See the component board", href: `${TRI_BIKE_BUILD_PATH}#component-status` }],
   },
   {
     id: "rockbros-pedals-arrive",
@@ -942,7 +943,7 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "Now it's a finite shopping list. Brakes. Derailleurs. Tires. Chain. Cables.",
       "Then comes assembly. And after spending all this time collecting parts, measuring, researching compatibility, chasing deals, and figuring out what this old Stradalli needs, that's the part I've been waiting for: turning the collection of parts into a bike — and then finding out how fast I can make it go.",
     ],
-    relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+    relatedLinks: [{ label: "See the component board", href: `${TRI_BIKE_BUILD_PATH}#component-status` }],
   },
   {
     id: "assembly-begins",
@@ -977,7 +978,7 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "A chain and a rim brake set are ordered and on the way. The front and rear derailleurs and a set of tires are still on the shopping list — the last real gaps left in the build.",
       "Next up: another inventory pass once everything's on, a fit adjustment, and then — assuming nothing else goes sideways — a real test ride.",
     ],
-    relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+    relatedLinks: [{ label: "See the component board", href: `${TRI_BIKE_BUILD_PATH}#component-status` }],
   },
   {
     id: "headset-spacers-and-seat-collar-ordered",
@@ -999,7 +1000,7 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "Neither one made the shopping list from last week's inventory — they're the kind of small hardware that only shows up once you're physically working through fit, not sourcing something ahead of time from spec sheets.",
       "Both are ordered and on the way.",
     ],
-    relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+    relatedLinks: [{ label: "See the component board", href: `${TRI_BIKE_BUILD_PATH}#component-status` }],
   },
   {
     id: "rear-derailleur-ordered",
@@ -1021,7 +1022,7 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "It came in at $38.62, comfortably under the $45–70 estimate from the shopping list. Good news for the budget doesn't happen often on this build; it's worth noting when it does.",
       "That leaves the front derailleur as the only derailleur still to source — everything else on the drivetrain side of the shopping list is either installed, in hand, or on the way.",
     ],
-    relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+    relatedLinks: [{ label: "See the component board", href: `${TRI_BIKE_BUILD_PATH}#component-status` }],
   },
   {
     id: "order-confirmations-catch-up-the-numbers",
@@ -1055,7 +1056,7 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "One correction, too: the cycling shoes tracked earlier as Pearl iZumi were actually a pair of Quest Road shoes, $67.19 — the product name got crossed up in an earlier update. Fixed now.",
       "None of this changes what's actually left to do — front derailleur, tires — but the shopping list is shorter, and the numbers are finally real.",
     ],
-    relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+    relatedLinks: [{ label: "See the component board", href: `${TRI_BIKE_BUILD_PATH}#component-status` }],
   },
   {
     id: "aerobars-and-brifters-installed",
@@ -1087,7 +1088,7 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "The shift and brake cable housing is next, but that can wait — there's no point routing cables to derailleurs and brakes that haven't arrived yet.",
       "The crankset is staying off for now, too. It's ready to go, but the assembly grease hasn't arrived — and putting a bottom-bracket-adjacent component together dry isn't worth the shortcut.",
     ],
-    relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+    relatedLinks: [{ label: "See the component board", href: `${TRI_BIKE_BUILD_PATH}#component-status` }],
   },
   {
     id: "crankset-pedals-saddle-installed",
@@ -1123,7 +1124,7 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "Also new: a pair of Vittoria Zaffiro EVO tires, 700×25C, ordered specifically for training rides — not the final race tires, which are still on the shopping list, and not in hand yet either, but on the way.",
       "What's left: cable housing (waiting on the brake calipers and derailleurs), the reordered seatpost collar, the front derailleur, and race tires. The list keeps getting shorter.",
     ],
-    relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+    relatedLinks: [{ label: "See the component board", href: `${TRI_BIKE_BUILD_PATH}#component-status` }],
   },
   {
     id: "headset-spacers-and-cable-routing",
@@ -1162,7 +1163,7 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "The derailleurs and rim brake calipers still haven't arrived, so there's nothing to actually connect the cables to yet — but there's no reason to wait on routing the housing itself. Getting it run now means less work later, once those parts finally show up.",
       "Small, unglamorous progress, but progress: one more section of the bike that doesn't have to be dealt with cold when the remaining parts land.",
     ],
-    relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+    relatedLinks: [{ label: "See the component board", href: `${TRI_BIKE_BUILD_PATH}#component-status` }],
   },
   {
     id: "the-finish-line-is-in-sight",
@@ -1197,7 +1198,7 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "The training is about to begin.",
       "Movement Creates Momentum.",
     ],
-    relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+    relatedLinks: [{ label: "See the component board", href: `${TRI_BIKE_BUILD_PATH}#component-status` }],
   },
   {
     id: "it-finally-looks-like-a-bike",
@@ -1269,7 +1270,7 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "Now there's a nearly complete triathlon bike sitting in my garage.",
       "A few more parts. A few more adjustments. Then we ride.",
     ],
-    relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+    relatedLinks: [{ label: "See the component board", href: `${TRI_BIKE_BUILD_PATH}#component-status` }],
   },
   {
     id: "tires-and-tubes-installed",
@@ -1300,7 +1301,7 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "Tires and tubes are on. All I'm waiting on now is for the front derailleur to come in.",
       "Once it does, I'll install it and the chain, make some adjustments, and take it out for a test ride. From there, make some adjustments and dial everything in so it's ready for training next week.",
     ],
-    relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+    relatedLinks: [{ label: "See the component board", href: `${TRI_BIKE_BUILD_PATH}#component-status` }],
   },
   {
     id: "another-setback",
@@ -1321,7 +1322,7 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "Well, the final bike part didn't make it through the mail this past weekend, so the final build is still on hold.",
       "I'm expecting the front derailleur to be delivered today. If it shows up, I'll get it installed and try to get the Stradalli road-worthy in time for a training ride on Wednesday.",
     ],
-    relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+    relatedLinks: [{ label: "See the component board", href: `${TRI_BIKE_BUILD_PATH}#component-status` }],
   },
   {
     id: "drivetrain-installed",
@@ -1368,7 +1369,7 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "That first ride is going to feel earned.",
       "Movement Creates Momentum.",
     ],
-    relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+    relatedLinks: [{ label: "See the component board", href: `${TRI_BIKE_BUILD_PATH}#component-status` }],
   },
   {
     id: "bike-complete-first-ride",
@@ -1437,7 +1438,7 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "Building the bike is done. Building the engine starts now.",
       "Movement Creates Momentum.",
     ],
-    relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+    relatedLinks: [{ label: "See the component board", href: `${TRI_BIKE_BUILD_PATH}#component-status` }],
   },
   {
     id: "first-training-ride-stradalli",
@@ -1488,7 +1489,7 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "We've still got some wrenching to do. But we're rolling.",
       "Movement Creates Momentum.",
     ],
-    relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+    relatedLinks: [{ label: "See the component board", href: `${TRI_BIKE_BUILD_PATH}#component-status` }],
   },
   {
     id: "first-fine-tuning-session",
@@ -1517,7 +1518,7 @@ export const BIKE_BUILD_TIMELINE: BikeBuildTimelineEntry[] = [
       "One adjustment at a time. One ride at a time.",
       "Movement Creates Momentum.",
     ],
-    relatedLinks: [{ label: "See the component board", href: "/journal/building-the-bike#component-status" }],
+    relatedLinks: [{ label: "See the component board", href: `${TRI_BIKE_BUILD_PATH}#component-status` }],
     featured: true,
   },
 ];
@@ -1686,7 +1687,7 @@ export function getBikeBuildTeaser(): BikeBuildTeaser {
     title: latest.title,
     displayDate: latest.displayDate,
     summary: latest.summary,
-    href: `/journal/building-the-bike#${latest.id}`,
+    href: `${TRI_BIKE_BUILD_PATH}#${latest.id}`,
   };
 }
 

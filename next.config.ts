@@ -96,11 +96,11 @@ const nextConfig: NextConfig = {
     const siteUrl = nextConfig.env!.NEXT_PUBLIC_SITE_URL;
 
     return [
-      // Old Updates feed and Tri's journal/bike-build vanity link — Tri is
-      // now one page.
-      { source: "/updates", destination: `${siteUrl}/campaigns/tri`, permanent: true },
-      { source: "/updates/:slug", destination: `${siteUrl}/campaigns/tri`, permanent: true },
-      { source: "/bike", destination: `${siteUrl}/campaigns/tri`, permanent: true },
+      // Old Updates feed (replaced by Tri's journal) and the bike-build
+      // vanity link — both are Tri sub-pages now.
+      { source: "/updates", destination: `${siteUrl}/campaigns/tri/journal`, permanent: true },
+      { source: "/updates/:slug", destination: `${siteUrl}/campaigns/tri/journal/:slug`, permanent: true },
+      { source: "/bike", destination: `${siteUrl}/campaigns/tri/bike-build`, permanent: true },
 
       // Athlete recruitment/onboarding is closed pending written federal
       // ethics approval (see src/lib/content/athletes.ts).

@@ -34,7 +34,7 @@ import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 import { formatCurrency } from "@/lib/utils";
 
 /** However many entries exist, /campaigns only ever teases this many — the rest live on /campaigns/journal. */
-const JOURNAL_TEASER_COUNT = 2;
+const JOURNAL_TEASER_COUNT = 3;
 
 // generateMetadata so the fundraising-goal figure below reads the live
 // Supabase-driven value instead of a separately hand-typed dollar figure
@@ -105,6 +105,49 @@ export default async function CampaignsPage() {
         <p className="label-caps text-olive">{MISSION_ORIGIN_LINE}</p>
       </PageHero>
 
+      {/* Campaign Journal teaser — first thing under the hero, so what's new
+          is the first thing a visitor sees. Mission-wide announcements — mission-wide announcements (new efforts
+          launching, cross-campaign milestones), not any single campaign's
+          own journal/training log. Only the latest JOURNAL_TEASER_COUNT
+          entries render here, however many exist in total — the full
+          archive lives at /campaigns/journal so this page stays a fixed
+          size. See src/lib/content/campaign-journal.ts for how to publish
+          a new entry. */}
+      <section id="journal" className="scroll-mt-28 border-b border-ink/10 py-14 sm:py-16">
+        <Container>
+          <RevealOnScroll>
+            <SectionHeading
+              eyebrow="Campaign Journal"
+              title="Mission-Wide Announcements"
+              description="New campaigns, cross-campaign milestones, and other updates that span the whole For The 22 mission — not any single campaign's own journal."
+            />
+          </RevealOnScroll>
+          {journalEntries.length === 0 ? (
+            <div className="mt-8">
+              <EmptyState
+                title="No Announcements Yet"
+                description="Mission-wide updates will appear here as they happen."
+              />
+            </div>
+          ) : (
+            <>
+              <RevealGrid>
+                <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                  {journalEntries.map((entry) => (
+                    <CampaignJournalEntryCard key={entry.id} entry={entry} variant="teaser" />
+                  ))}
+                </div>
+              </RevealGrid>
+              <p className="mt-6">
+                <Link href="/campaigns/journal" className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark">
+                  View the Full Campaign Journal &rarr;
+                </Link>
+              </p>
+            </>
+          )}
+        </Container>
+      </section>
+
       <WaysIn />
 
       {/* Current Mission — a campaign-index summary of the shared goal.
@@ -159,48 +202,6 @@ export default async function CampaignsPage() {
               ))}
             </div>
           </RevealGrid>
-        </Container>
-      </section>
-
-      {/* Campaign Journal teaser — mission-wide announcements (new efforts
-          launching, cross-campaign milestones), not any single campaign's
-          own journal/training log. Only the latest JOURNAL_TEASER_COUNT
-          entries render here, however many exist in total — the full
-          archive lives at /campaigns/journal so this page stays a fixed
-          size. See src/lib/content/campaign-journal.ts for how to publish
-          a new entry. */}
-      <section id="journal" className="scroll-mt-28 border-t border-ink/10 py-16 sm:py-20">
-        <Container>
-          <RevealOnScroll>
-            <SectionHeading
-              eyebrow="Campaign Journal"
-              title="Mission-Wide Announcements"
-              description="New campaigns, cross-campaign milestones, and other updates that span the whole For The 22 mission — not any single campaign's own journal."
-            />
-          </RevealOnScroll>
-          {journalEntries.length === 0 ? (
-            <div className="mt-8">
-              <EmptyState
-                title="No Announcements Yet"
-                description="Mission-wide updates will appear here as they happen."
-              />
-            </div>
-          ) : (
-            <>
-              <RevealGrid>
-                <div className="mt-8 grid gap-5 sm:grid-cols-2">
-                  {journalEntries.map((entry) => (
-                    <CampaignJournalEntryCard key={entry.id} entry={entry} variant="teaser" />
-                  ))}
-                </div>
-              </RevealGrid>
-              <p className="mt-6">
-                <Link href="/campaigns/journal" className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark">
-                  View the Full Campaign Journal &rarr;
-                </Link>
-              </p>
-            </>
-          )}
         </Container>
       </section>
 

@@ -43,19 +43,22 @@ export const LIVE_PREMIERES: LivePremiere[] = [
     artist: "Western Medicine",
     title: "Austin",
     kind: "Official Music Video Premiere",
-    // 7:00 PM Pacific on November 20, 2026 (PST, UTC−8).
-    startsAt: "2026-11-21T03:00:00Z",
+    // 6:40 PM Pacific on November 20, 2026 (PST, UTC−8) — the pre-release
+    // interview; the video itself premieres at 7:00 PM PT.
+    startsAt: "2026-11-21T02:40:00Z",
     durationMinutes: 90,
     summary:
       "For The 22: LIVE presents the official music video premiere of “Austin” by Western Medicine — a live interview with the band, then the video's debut on Western Medicine's own YouTube channel.",
     program: [
       {
-        title: "Live interview",
-        time: "7:00 PM PT",
-        description: "Western Medicine joins For The 22: LIVE to talk about “Austin” and the story behind it.",
+        title: "Pre-release interview",
+        time: "6:40 PM PT",
+        description:
+          "Join For The 22 on Western Medicine's YouTube channel as the band talks about “Austin” and the story behind it.",
       },
       {
         title: "The premiere",
+        time: "7:00 PM PT",
         mainEvent: true,
         description: "The official “Austin” music video premieres on Western Medicine's YouTube channel.",
       },

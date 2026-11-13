@@ -21,5 +21,7 @@ export interface CampaignJournalEntry {
   body: string[];
   /** A logo/photo to show alongside the entry — e.g. a new supporter's logo. */
   image?: { src: string; alt: string };
+  /** Event posters / announcement graphics, shown full-size on /campaigns/journal (not in the teaser). */
+  gallery?: { src: string; alt: string; width: number; height: number }[];
   link?: { label: string; href: string };
 }

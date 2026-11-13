@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { requireAdminUser } from "@/lib/supabase/require-admin";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { TRI_JOURNAL_PATH } from "@/lib/constants";
 
 const LIST_PATH = "/admin/journal-comments";
 
@@ -18,7 +19,7 @@ function withError(path: string, message: string) {
  */
 function revalidateCommentPaths(entrySlug: string | null) {
   revalidatePath(LIST_PATH);
-  if (entrySlug) revalidatePath(`/journal/${entrySlug}`);
+  if (entrySlug) revalidatePath(`${TRI_JOURNAL_PATH}/${entrySlug}`);
 }
 
 async function getEntrySlug(admin: ReturnType<typeof createAdminClient>, commentId: string): Promise<string | null> {

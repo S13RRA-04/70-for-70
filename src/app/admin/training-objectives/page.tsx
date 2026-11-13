@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { TRI_JOURNAL_PATH } from "@/lib/constants";
 import { requireAdminUser } from "@/lib/supabase/require-admin";
 import { Container } from "@/components/shared/container";
 import { getTrainingObjectives, groupByCategory } from "@/lib/data/training-objectives";
@@ -102,9 +103,9 @@ export default async function TrainingObjectivesAdminPage() {
         Performance Benchmarks
       </h1>
       <p className="mt-1 text-sm text-charcoal-light">
-        Update status and tags as benchmarks are hit — this powers the public ladder on{" "}
-        <Link href="/the-race" className="text-bronze hover:underline">
-          The Race
+        Update status and tags as benchmarks are hit — this powers the current-training summary on{" "}
+        <Link href={TRI_JOURNAL_PATH} className="text-bronze hover:underline">
+          the training journal
         </Link>
         .
       </p>
