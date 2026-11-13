@@ -86,7 +86,7 @@ export default async function TriPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
       <PageHero
         pillar="mobilization"
-        eyebrow="02 · Mobilization · Campaign"
+        eyebrow="Campaign"
         title={CAMPAIGN_NAME}
         description={`One combat veteran, one IRONMAN 70.3, and the 70.3 miles that set the number behind ${MISSION_NAME}.`}
         aside={

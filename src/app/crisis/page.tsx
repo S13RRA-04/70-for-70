@@ -92,7 +92,7 @@ export default function CrisisPage() {
     <>
       <PageHero
         pillar="connection"
-        eyebrow="Connection · Need help now"
+        eyebrow="Need help now"
         title="Crisis support"
         description={`${SITE_NAME} is not a crisis-response service. The organizations below are equipped to provide immediate support — free and confidential.`}
         aside={

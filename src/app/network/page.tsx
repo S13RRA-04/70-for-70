@@ -79,7 +79,7 @@ export default async function NetworkPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
       <PageHero
         pillar="mobilization"
-        eyebrow="02 · Mobilization · Partners & network"
+        eyebrow="Partners & network"
         title="A mission is only as strong as its network"
         description={`${SITE_NAME} is four things at once: a directory of resources, campaigns that fund organizations doing the work, the partners who back those campaigns, and the community that carries all of it forward. ${ORG_SUPPORTING_LINE}`}
       />
