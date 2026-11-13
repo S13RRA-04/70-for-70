@@ -90,7 +90,10 @@ const nextConfig: NextConfig = {
     // its final org-site page (the old Tri site's own paths are redirected
     // in middleware — see applyTriRedirect). Absolute, so a hit on a
     // campaign host lands on the org site instead of that host's own guard.
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+    // Read from the hardcoded env block above, never process.env — at build
+    // time process.env.NEXT_PUBLIC_SITE_URL is the broken "www" value that
+    // block's comment describes.
+    const siteUrl = nextConfig.env!.NEXT_PUBLIC_SITE_URL;
 
     return [
       // Old Updates feed and Tri's journal/bike-build vanity link — Tri is
