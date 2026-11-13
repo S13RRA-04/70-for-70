@@ -6,7 +6,7 @@ import { getAppEvents } from "@/lib/data/app/events";
 import { getMyActivities, summarizeActivities } from "@/lib/data/app/activities";
 import { getMilestonesForEvent } from "@/lib/data/app/milestones";
 import { createClient } from "@/lib/supabase/server";
-import { CAMPAIGN_URL, DONATE_LINK, EVENT22_CAMPAIGN_URL } from "@/lib/constants";
+import { DONATE_LINK, EVENT22_CAMPAIGN_URL, DONATE_URL } from "@/lib/constants";
 
 export const metadata: Metadata = { title: "Home" };
 
@@ -112,7 +112,7 @@ export default async function AppHomePage() {
           Donation is completely separate from challenge completion and giveaway eligibility.
         </p>
         <a
-          href={`${CAMPAIGN_URL}${DONATE_LINK.href}`}
+          href={DONATE_URL}
           target="_blank"
           rel="noopener noreferrer"
           data-analytics-event="donation_link_clicked"

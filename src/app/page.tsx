@@ -8,7 +8,7 @@ import { ABOUT_CONTENT, findAboutSubsection } from "@/lib/content/about";
 import { getMissionMetrics } from "@/lib/data/mission-metrics";
 import { getPartners } from "@/lib/data/partners";
 import { getMissionPartners, isCampaignPartner } from "@/lib/data/mission-partners";
-import { MOVEMENT_CAMPAIGNS, ORG_TAGLINE, isCurrentCampaign } from "@/lib/constants";
+import { DONATE_LINK, MOVEMENT_CAMPAIGNS, ORG_TAGLINE, isCurrentCampaign } from "@/lib/constants";
 import { ORG_PILLARS, PILLAR_TEXT, type MissionPillar } from "@/lib/pillars";
 import { cn } from "@/lib/utils";
 import { CampaignFilm } from "@/components/home/campaign-film";
@@ -54,7 +54,7 @@ const CAMPAIGN_CARD_COPY: Record<string, { blurb: string; cta: string; pill?: st
   },
   tri: {
     blurb: "IRONMAN 70.3 Chattanooga — the race that started The $70K Mission.",
-    cta: "Follow the journey",
+    cta: "See the race",
   },
 };
 
@@ -229,11 +229,13 @@ export default async function HomePage() {
             into real results for the people and organizations doing the work.
           </p>
           <div className="hero-rise flex flex-wrap justify-center gap-3 [animation-delay:900ms]">
-            <CTAButton href="/resources" size="lg">
-              Find support
+            {/* The two standing calls to action; the pillar cards just below
+                route to Find Support / Get Involved / See the Impact. */}
+            <CTAButton href="/crisis" size="lg" accent="emergency">
+              Get Help Now
             </CTAButton>
-            <CTAButton href="/campaigns" size="lg" variant="secondary">
-              Get involved
+            <CTAButton href={DONATE_LINK.href} size="lg" variant="secondary">
+              Donate
             </CTAButton>
           </div>
         </div>
@@ -496,9 +498,12 @@ export default async function HomePage() {
                 Participation, made measurable.
               </h2>
             </div>
-            <Link href="/impact" className="font-bold text-navy hover:text-help hover:underline">
-              See the full impact report →
-            </Link>
+            <div className="flex flex-wrap items-center gap-5">
+              <Link href="/impact" className="font-bold text-navy hover:text-help hover:underline">
+                See the full impact report →
+              </Link>
+              <CTAButton href={DONATE_LINK.href}>Donate</CTAButton>
+            </div>
           </div>
 
           {raised !== null && goal !== null && percent !== null && (
@@ -529,14 +534,16 @@ export default async function HomePage() {
 
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {beneficiaries.map((beneficiary) => (
-              <div
+              <Link
                 key={beneficiary.id}
-                className="flex flex-col gap-2 rounded-xl border border-line bg-[#f7f6f2] p-7"
+                href="/impact#beneficiaries"
+                className="lift group flex flex-col gap-2 rounded-xl border border-line bg-[#f7f6f2] p-7"
               >
                 <Label className="text-xs text-impact">Funding</Label>
                 <span className="font-display text-[32px] uppercase leading-none text-navy">{beneficiary.name}</span>
                 <span className="text-base text-copy">Beneficiary of The $70K Mission.</span>
-              </div>
+                <span className="font-bold text-impact group-hover:underline">Meet them →</span>
+              </Link>
             ))}
             {generalPartners.length > 0 && (
               <div className="flex flex-col gap-2 rounded-xl border border-line bg-[#f7f6f2] p-7">

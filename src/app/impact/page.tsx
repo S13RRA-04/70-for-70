@@ -1,22 +1,27 @@
 import Image from "next/image";
-import { Handshake, MapPinned, Megaphone, Users } from "lucide-react";
+import Link from "next/link";
+import { Handshake, Users } from "lucide-react";
 import { Container } from "@/components/shared/container";
 import { PageHero } from "@/components/shared/page-hero";
 import { PillarNextSteps } from "@/components/shared/pillar-next-steps";
+import { SectionHeading } from "@/components/shared/section-heading";
 import { CTAButton } from "@/components/shared/cta-button";
 import { CTASection } from "@/components/shared/cta-section";
+import { RevealGrid, RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import { MissionProgress } from "@/components/campaign/mission-progress";
+import { PartnerCard } from "@/components/partners/partner-card";
 import { getMissionMetrics } from "@/lib/data/mission-metrics";
 import { getAllocationBreakdown } from "@/lib/data/allocation";
 import { getCampaign } from "@/lib/data/campaign";
-import { CAMPAIGN_URL, MISSION_NAME, SITE_NAME, SITE_URL } from "@/lib/constants";
+import { getPartners } from "@/lib/data/partners";
+import { DONATE_LINK, MISSION_NAME, MOVEMENT_CAMPAIGNS, SITE_NAME, SITE_URL, isCurrentCampaign } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 
 export const metadata = pageMetadata({
-  title: "Mission in Motion",
-  description: `How ${SITE_NAME} moves the mission: the resource directory connecting people to support, and the campaigns mobilizing direct funding for organizations serving veterans, first responders, and their families.`,
+  title: "Impact",
+  description: `The fundraising behind ${MISSION_NAME} and the organizations it funds — Mighty Oaks Foundation and Veterans and Athletes United — with every total verified and published.`,
   canonical: "/impact",
 });
 
@@ -26,9 +31,20 @@ const BREADCRUMB_JSON_LD = breadcrumbJsonLd([
   { name: "Impact", url: `${SITE_URL}/impact` },
 ]);
 
+/**
+ * The Impact pillar's hub: where the money goes. Leads with the shared
+ * fundraising total, then the beneficiary organizations themselves
+ * (#beneficiaries — the old Tri /beneficiaries URL redirects here), then
+ * the campaigns raising for them. Resource-directory reach belongs to the
+ * Connection pillar (/resources), not here.
+ */
 export default async function ImpactPage() {
-  const [metrics, campaign] = await Promise.all([getMissionMetrics(), getCampaign()]);
+  const [metrics, campaign, beneficiaries] = await Promise.all([getMissionMetrics(), getCampaign(), getPartners()]);
   const allocationBreakdown = await getAllocationBreakdown(campaign);
+  const allocationByOrg = new Map(
+    allocationBreakdown?.byOrganization.map((entry) => [entry.organization, entry.amount]) ?? [],
+  );
+  const fundraisers = MOVEMENT_CAMPAIGNS.filter(isCurrentCampaign);
 
   const lastUpdated = new Date(metrics.lastUpdated).toLocaleDateString("en-US", {
     month: "long",
@@ -42,21 +58,14 @@ export default async function ImpactPage() {
     { label: "Beneficiary Organizations", value: metrics.beneficiaries === null ? null : String(metrics.beneficiaries) },
   ].filter((stat): stat is { label: string; value: string } => stat.value !== null);
 
-  const connectStats = [
-    { label: "Resources Listed", value: metrics.resources === null ? null : String(metrics.resources) },
-    { label: "Areas of Need", value: metrics.resourceCategories === null ? null : String(metrics.resourceCategories) },
-    { label: "States Covered", value: metrics.statesRepresented === null ? null : String(metrics.statesRepresented) },
-    { label: "National Resources", value: metrics.nationalResources === null ? null : String(metrics.nationalResources) },
-  ].filter((stat): stat is { label: string; value: string } => stat.value !== null);
-
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
       <PageHero
         pillar="impact"
         eyebrow="03 · Impact"
-        title="Mission in motion"
-        description={`${SITE_NAME} moves the mission two ways: connecting people to support that already exists, and mobilizing communities to fund the organizations doing the work. This is the live picture of both.`}
+        title="Where the mission lands"
+        description={`Every ${SITE_NAME} campaign raises money for the same organizations, toward one shared goal. Here's what's been raised, who it funds, and how it gets there.`}
         aside={
           <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
             <Image
@@ -69,61 +78,24 @@ export default async function ImpactPage() {
             />
           </div>
         }
-      />
+      >
+        <div className="flex flex-wrap gap-3">
+          <CTAButton href={DONATE_LINK.href} size="lg" magnetic>
+            Donate
+          </CTAButton>
+          <CTAButton href="#beneficiaries" variant="secondary" size="lg">
+            Who we fund
+          </CTAButton>
+        </div>
+      </PageHero>
 
-      {/* Connecting People */}
+      {/* The fundraising — one shared total, from the verified-donation record. */}
       <section className="py-16 sm:py-20">
         <Container>
-          <div className="border border-ink/10 border-l-4 border-l-bronze bg-off-white p-8 lg:ml-0 lg:mr-24">
-            <MapPinned className="h-6 w-6 text-bronze" aria-hidden="true" />
-            <p className="mt-4 text-xs font-bold uppercase tracking-[0.2em] text-bronze">
-              Connecting People
-            </p>
-            <h2 className="mt-2 font-display text-3xl uppercase text-ink sm:text-4xl">
-              A Directory Built Around Real Need
-            </h2>
-            <p className="mt-4 text-base leading-relaxed text-charcoal-light">
-              Every entry is reviewed for legitimacy and relevance before it goes live, organized
-              by what someone needs and who they are — not by which organization paid for placement.
-              The directory stays free, independent, and open to everyone who serves.
-            </p>
-            <dl className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
-              {connectStats.map((stat) => (
-                <div key={stat.label} className="rounded-sm border border-ink/10 bg-sand-light/60 p-4 text-center">
-                  <dd className="font-display text-3xl text-ink sm:text-4xl">
-                    {stat.value}
-                  </dd>
-                  <dt className="mt-1 text-[11px] font-bold uppercase tracking-[0.2em] text-charcoal-light">
-                    {stat.label}
-                  </dt>
-                </div>
-              ))}
-            </dl>
-            <CTAButton href="/resources" variant="secondary" className="mt-6">
-              Explore the Directory
-            </CTAButton>
-          </div>
-        </Container>
-      </section>
-
-      {/* Mobilizing Support */}
-      <section className="border-y border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container>
-          <div className="border border-ink/10 border-r-4 border-r-bronze bg-off-white p-8 lg:ml-24 lg:mr-0">
-            <Megaphone className="h-6 w-6 text-bronze" aria-hidden="true" />
-            <p className="mt-4 text-xs font-bold uppercase tracking-[0.2em] text-bronze">
-              Mobilizing Support
-            </p>
-            <h2 className="mt-2 font-display text-3xl uppercase text-ink sm:text-4xl">
-              Direct Funding, Shared Goal
-            </h2>
-            <p className="mt-4 text-base leading-relaxed text-charcoal-light">
-              Campaigns, events, partnerships, and merchandise all feed one number:{" "}
-              {MISSION_NAME}. Every figure below comes from the same verified-donation record
-              every other page on this site reads — no separate totals, no rounding up.
-            </p>
+          <RevealOnScroll>
+            <SectionHeading eyebrow={MISSION_NAME} title="The fundraising" />
             {metrics.totalRaised !== null && metrics.fundraisingGoal !== null && (
-              <div className="mt-6">
+              <div className="mt-8 max-w-3xl">
                 <MissionProgress
                   totalRaised={metrics.totalRaised}
                   goal={metrics.fundraisingGoal}
@@ -131,71 +103,108 @@ export default async function ImpactPage() {
                 />
               </div>
             )}
-            <dl className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
+            <dl className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
               {supportStats.map((stat) => (
-                <div key={stat.label} className="rounded-sm border border-ink/10 bg-sand-light/60 p-4 text-center">
-                  <dd className="font-display text-3xl text-ink sm:text-4xl">
-                    {stat.value}
-                  </dd>
-                  <dt className="mt-1 text-[11px] font-bold uppercase tracking-[0.2em] text-charcoal-light">
-                    {stat.label}
-                  </dt>
+                <div key={stat.label} className="rounded-xl border border-line bg-white p-5 text-center">
+                  <dd className="font-display text-3xl text-navy sm:text-4xl">{stat.value}</dd>
+                  <dt className="label-caps mt-1 text-xs text-steel">{stat.label}</dt>
                 </div>
               ))}
             </dl>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <CTAButton href="/campaigns" variant="secondary">
-                See {MISSION_NAME}
-              </CTAButton>
-              <CTAButton href={`${CAMPAIGN_URL}/donate`} external variant="secondary">
-                Donate
-              </CTAButton>
-            </div>
-          </div>
+            <p className="label-caps mt-6 text-xs text-steel">Fundraising totals verified {lastUpdated}</p>
+          </RevealOnScroll>
         </Container>
       </section>
 
-      {/* Who benefits + freshness stamp */}
+      {/* Who we fund */}
+      <section id="beneficiaries" className="scroll-mt-28 border-y border-line bg-paper py-16 sm:py-20">
+        <Container>
+          <RevealOnScroll>
+            <SectionHeading
+              eyebrow="Who we fund"
+              title="The organizations doing the work"
+              description={`${SITE_NAME} doesn't run programs of its own. Every campaign raises money for these verified nonprofits, chosen for the impact they already have with veterans, first responders, and their families.`}
+            />
+          </RevealOnScroll>
+          <RevealGrid>
+            <div className="mt-8 flex flex-col gap-6">
+              {beneficiaries.map((partner) => (
+                <PartnerCard key={partner.id} partner={partner} allocatedAmount={allocationByOrg.get(partner.name)} />
+              ))}
+            </div>
+          </RevealGrid>
+          <p className="mt-8 max-w-2xl text-sm text-copy">
+            Donations are made directly through each independent nonprofit organization&apos;s authorized donation
+            platform. {SITE_NAME} does not receive, process, or take possession of charitable contributions and does
+            not issue tax receipts.
+          </p>
+          <CTAButton href={DONATE_LINK.href} className="mt-6">
+            Donate
+          </CTAButton>
+        </Container>
+      </section>
+
+      {/* The fundraisers — the Mobilization campaigns that feed this total. */}
       <section className="py-16 sm:py-20">
-        <Container className="max-w-2xl">
-          <div className="grid gap-6 sm:grid-cols-2">
-            <div className="border border-ink/10 p-6">
-              <Users className="h-6 w-6 text-bronze" aria-hidden="true" />
-              <h3 className="mt-4 font-display text-xl uppercase text-ink">
-                Who It Reaches
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-charcoal-light">
-                Veterans, active military, law enforcement, fire, EMS, dispatch, corrections,
-                caregivers, families, and the communities around them — wherever they are in the
-                country.
-              </p>
-            </div>
-            <div className="border border-ink/10 p-6">
-              <Handshake className="h-6 w-6 text-bronze" aria-hidden="true" />
-              <h3 className="mt-4 font-display text-xl uppercase text-ink">
-                How Funds Reach Beneficiaries
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-charcoal-light">
-                {SITE_NAME} doesn&apos;t run the programs it supports. Funds move to the
-                confirmed beneficiary organizations behind each campaign — the breakdown is
-                published alongside the totals.
-              </p>
-              <CTAButton href="/campaigns" variant="ghost" className="mt-3 px-0">
-                See the Campaigns &rarr;
-              </CTAButton>
-            </div>
-          </div>
-          <p className="mt-8 text-xs uppercase tracking-[0.2em] text-charcoal-light">
-            Fundraising totals verified {lastUpdated}
+        <Container>
+          <RevealOnScroll>
+            <SectionHeading eyebrow="The fundraisers" title="Campaigns raising for the mission" />
+          </RevealOnScroll>
+          <RevealGrid>
+            <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {fundraisers.map((c) => (
+                <li key={c.id} className="flex flex-col rounded-xl border border-line bg-white p-6">
+                  <span className="label-caps text-xs text-olive">{c.type}</span>
+                  <span className="mt-2 font-display text-2xl uppercase leading-none text-navy">{c.name}</span>
+                  {c.url && (
+                    <a href={c.url} className="mt-4 font-bold text-navy hover:text-help hover:underline">
+                      See the campaign →
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </RevealGrid>
+          <p className="mt-6">
+            <Link href="/campaigns" className="font-bold text-navy hover:text-help hover:underline">
+              All campaigns and ways to get involved →
+            </Link>
           </p>
         </Container>
       </section>
 
+      {/* Who it reaches + how funds move */}
+      <section className="border-t border-line py-16 sm:py-20">
+        <Container className="max-w-3xl">
+          <div className="grid gap-6 sm:grid-cols-2">
+            <div className="rounded-xl border border-line p-6">
+              <Users className="h-6 w-6 text-impact" aria-hidden="true" />
+              <h3 className="mt-4 font-display text-xl uppercase text-navy">Who It Reaches</h3>
+              <p className="mt-2 text-sm leading-relaxed text-copy">
+                Veterans, active military, law enforcement, fire, EMS, dispatch, corrections, caregivers, families, and
+                the communities around them — wherever they are in the country.
+              </p>
+            </div>
+            <div className="rounded-xl border border-line p-6">
+              <Handshake className="h-6 w-6 text-impact" aria-hidden="true" />
+              <h3 className="mt-4 font-display text-xl uppercase text-navy">How Funds Move</h3>
+              <p className="mt-2 text-sm leading-relaxed text-copy">
+                Gifts go straight from you to each organization through its own platform. We verify each one with the
+                organization before it counts toward the total.
+              </p>
+              <CTAButton href="/transparency" variant="ghost" className="mt-3 px-0">
+                Read the transparency page &rarr;
+              </CTAButton>
+            </div>
+          </div>
+        </Container>
+      </section>
+
       <CTASection
-        title="Two Ways to Move the Mission"
+        title="Give, or get help"
         buttons={[
-          { label: "Find Support", href: "/resources" },
-          { label: "Fund the Mission", href: `${CAMPAIGN_URL}/donate`, variant: "secondary" },
+          { label: "Donate", href: DONATE_LINK.href },
+          { label: "Get Help Now", href: "/crisis", variant: "secondary" },
         ]}
       />
 

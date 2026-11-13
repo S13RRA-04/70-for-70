@@ -12,7 +12,7 @@ import { getPartners } from "@/lib/data/partners";
 import { getMissionPartners, isCampaignPartner } from "@/lib/data/mission-partners";
 import { getMissionMetrics } from "@/lib/data/mission-metrics";
 import { buildOrganizationNetwork } from "@/lib/data/organization-network";
-import { CAMPAIGN_URL, CAMPAIGNS, ORG_SUPPORTING_LINE, SITE_NAME, SITE_URL } from "@/lib/constants";
+import { CAMPAIGN_NAME, CAMPAIGNS, ORG_SUPPORTING_LINE, SITE_NAME, SITE_URL, TRI_PAGE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 
@@ -34,13 +34,13 @@ const BREADCRUMB_JSON_LD = breadcrumbJsonLd([
  * a visitor sees who's backing Tri vs. Ruck vs. Live vs. 22 For the 22
  * separately instead of one undifferentiated wall (each campaign's own home
  * page/partner page already shows only its own supporters — see
- * ruck-home, campaign-home, /sponsors). "22-for-the-22" (not "22") matches
+ * ruck-home). "22-for-the-22" (not "22") matches
  * the tag 22forthe22/page.tsx already writes for giveaway supporters, kept
  * here for symmetry even though giveaway-supporter rows are excluded from
  * isCampaignPartner before this list is built.
  */
 const CAMPAIGN_PARTNER_GROUPS: { tag: string; name: string; url: string }[] = [
-  { tag: "tri", name: CAMPAIGNS.tri.name, url: CAMPAIGNS.tri.url },
+  { tag: "tri", name: CAMPAIGN_NAME, url: TRI_PAGE_URL },
   { tag: "ruck", name: CAMPAIGNS.ruck.name, url: CAMPAIGNS.ruck.url },
   { tag: "live", name: CAMPAIGNS.live.name, url: CAMPAIGNS.live.url },
   { tag: "seen", name: CAMPAIGNS.seen.name, url: CAMPAIGNS.seen.url },
@@ -79,7 +79,7 @@ export default async function NetworkPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
       <PageHero
         pillar="mobilization"
-        eyebrow="The network"
+        eyebrow="02 · Mobilization · Partners & network"
         title="A mission is only as strong as its network"
         description={`${SITE_NAME} is four things at once: a directory of resources, campaigns that fund organizations doing the work, the partners who back those campaigns, and the community that carries all of it forward. ${ORG_SUPPORTING_LINE}`}
       />
@@ -147,15 +147,16 @@ export default async function NetworkPage() {
                 </li>
               ))}
             </ul>
-            <CTAButton href={`${CAMPAIGN_URL}/beneficiaries`} external variant="secondary" className="mt-6">
+            <CTAButton href="/impact#beneficiaries" variant="secondary" className="mt-6">
               Meet the Beneficiaries
             </CTAButton>
           </div>
         </Container>
       </section>
 
-      {/* 3 — Campaign Partners */}
-      <section className="py-16 sm:py-20">
+      {/* 3 — Campaign Partners. #partners is where every old Tri sponsor /
+          partner URL redirects (see TRI_REDIRECTS in src/middleware.ts). */}
+      <section id="partners" className="scroll-mt-28 py-16 sm:py-20">
         <Container className="max-w-3xl">
           <div className="rounded-xl border border-line bg-white p-8">
             <Handshake className="h-6 w-6 text-bronze" aria-hidden="true" />
@@ -233,9 +234,21 @@ export default async function NetworkPage() {
               )}
             </div>
 
-            <CTAButton href={`${CAMPAIGN_URL}/sponsors`} external variant="secondary" className="mt-8">
-              See All Tri For The 22 Partners
-            </CTAButton>
+            <div className="mt-10 border-t border-ink/10 pt-8">
+              <h3 className="font-display text-2xl uppercase text-ink">Become a Partner</h3>
+              <p className="mt-2 text-base leading-relaxed text-charcoal-light">
+                Brands, clubs, and organizations can back any {SITE_NAME} campaign — or the mission as a whole —
+                with equipment, services, expertise, visibility, or funding. Partner support covers campaign
+                costs, so every donation reaches the organization it was given to.
+              </p>
+              <CTAButton
+                href="/contact?item=Campaign%20Partnership"
+                className="mt-5"
+                data-analytics-event="partner_inquiry"
+              >
+                Talk to Us About Partnering
+              </CTAButton>
+            </div>
           </div>
         </Container>
       </section>
@@ -259,7 +272,7 @@ export default async function NetworkPage() {
               and small.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <CTAButton href={`${CAMPAIGN_URL}/get-involved`} external>
+              <CTAButton href="/campaigns">
                 Join the Community
               </CTAButton>
               <CTAButton href="/contact" variant="secondary">

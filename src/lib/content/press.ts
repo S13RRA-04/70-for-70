@@ -1,4 +1,4 @@
-import { CAMPAIGN_URL, LIVE_CAMPAIGN_URL, SITE_URL } from "@/lib/constants";
+import { LIVE_CAMPAIGN_URL, SITE_URL, TRI_PAGE_URL } from "@/lib/constants";
 import { HAS_LISTED_AUCTION_ITEMS } from "@/lib/content/live-auction";
 
 /** Reusable, approved organizational press copy. */
@@ -100,7 +100,7 @@ export const STORY_ANGLES: readonly StoryAngle[] = [
     pitch:
       "A Navy combat veteran is training for IRONMAN 70.3 Chattanooga on May 16, 2027, using the race to rally donations toward a $70,000 goal for two veteran-serving nonprofits: Mighty Oaks Foundation and Veterans and Athletes United.",
     sources: [
-      { label: "Tri For The 22", href: CAMPAIGN_URL },
+      { label: "Tri For The 22", href: TRI_PAGE_URL },
       { label: "The $70K Mission", href: `${SITE_URL}/70k` },
       { label: "Official race page", href: "https://www.ironman.com/races/im703-chattanooga" },
     ],

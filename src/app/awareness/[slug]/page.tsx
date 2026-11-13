@@ -124,13 +124,11 @@ export default async function AwarenessEntryPage({
 
           {/*
             Plain <a>, not <Link>, throughout this block — these hrefs are a
-            mix of same-host org paths (/crisis, /70k) and absolute
-            cross-host campaign URLs (CAMPAIGN_URL + "/donate" etc., built
-            in awareness-calendar.ts), plus the occasional tel: link. Next's
-            client-side nav for a relative campaign path would 308
-            cross-origin and get CORS-blocked; a full page load handles
-            every case uniformly, same reasoning as AwarenessBanner's
-            /crisis link and AwarenessEntryBanner's /awareness link.
+            mix of org paths (/crisis, /70k), absolute URLs (DONATE_URL
+            etc., built in awareness-calendar.ts), and the occasional tel:
+            link; a full page load handles every case uniformly, same
+            reasoning as AwarenessBanner's /crisis link and
+            AwarenessEntryBanner's /awareness link.
 
             Remembrance entries lead with honoring the fallen, not a donate
             CTA — see the content file's own doc comment.

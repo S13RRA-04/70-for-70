@@ -13,7 +13,6 @@ import { getPartners } from "@/lib/data/partners";
 import { MISSION_70K_INTRO } from "@/lib/content/mission-70k";
 import {
   CAMPAIGN_STATUS_LABELS,
-  CAMPAIGN_URL,
   DONATE_LINK,
   FUNDRAISING_GOAL,
   MISSION_NAME,
@@ -91,7 +90,7 @@ export default async function Mission70kPage() {
       >
         <p className="label-caps text-impact">{MISSION_ORIGIN_LINE}</p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <CTAButton href={`${CAMPAIGN_URL}${DONATE_LINK.href}`} external size="lg">
+          <CTAButton href="/donate" size="lg">
             {DONATE_LINK.label}
           </CTAButton>
           <CTAButton href="/campaigns" variant="secondary" size="lg">
@@ -145,7 +144,7 @@ export default async function Mission70kPage() {
             title="Direct, Attributed Support"
             description="For The 22 does not represent itself as the charitable recipient. Donations are processed through approved beneficiary destinations and reconciled into the shared campaign total."
             />
-            <CTAButton href={`${CAMPAIGN_URL}/beneficiaries`} external variant="secondary" className="mt-6">Meet the Beneficiaries</CTAButton>
+            <CTAButton href="/impact#beneficiaries" variant="secondary" className="mt-6">Meet the Beneficiaries</CTAButton>
           </div>
           <ul className="space-y-4 lg:col-span-7">
             {beneficiaries.map((beneficiary) => (
@@ -162,7 +161,7 @@ export default async function Mission70kPage() {
       <CTASection
         title="One Goal. Multiple Campaigns. One Mission."
         buttons={[
-          { label: DONATE_LINK.label, href: `${CAMPAIGN_URL}${DONATE_LINK.href}` },
+          { label: DONATE_LINK.label, href: "/donate" },
           { label: "See Mission Impact", href: "/impact", variant: "secondary" },
         ]}
       />

@@ -2,8 +2,8 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { updateSupabaseSession } from "@/lib/supabase/proxy-session";
 import { getPreviewToken, isCampaignLive, isOrgLive, PREVIEW_COOKIE_NAME } from "@/lib/launch-gate";
-import { getCampaignSlug, isAppHost, type CampaignSlug } from "@/lib/site-mode";
-import { CAMPAIGN_URL, EVENT22_CAMPAIGN_URL, LIVE_CAMPAIGN_URL, SEEN_CAMPAIGN_URL, SITE_URL } from "@/lib/constants";
+import { getCampaignSlug, isAppHost, isTriHost, type CampaignSlug } from "@/lib/site-mode";
+import { EVENT22_CAMPAIGN_URL, LIVE_CAMPAIGN_URL, SEEN_CAMPAIGN_URL, SITE_URL, TRI_PAGE_PATH } from "@/lib/constants";
 import { assertValidRuntimeConfig } from "@/lib/config-validation";
 
 /**
@@ -58,6 +58,9 @@ export async function middleware(request: NextRequest) {
 
   const strayDomainResponse = applyStrayDomainRedirect(request);
   if (strayDomainResponse) return applyCsp(strayDomainResponse, csp);
+
+  const triResponse = applyTriRedirect(request);
+  if (triResponse) return applyCsp(triResponse, csp);
 
   const legacyEvent22Response = applyEvent22LegacyRedirect(request);
   if (legacyEvent22Response) return applyCsp(legacyEvent22Response, csp);
@@ -253,6 +256,73 @@ function applyStrayDomainRedirect(request: NextRequest): Response | null {
 }
 
 /**
+ * Tri For The 22 used to be a ~20-page site on tri.forthe22.org; it's now a
+ * single Mobilization page on the org site (TRI_PAGE_PATH), with its
+ * donation flow, beneficiaries, and partners folded into the org's /donate,
+ * /impact, and /network. Every old Tri URL gets a permanent redirect to its
+ * nearest org equivalent, so links already shared keep working:
+ *
+ * - on tri.forthe22.org, every path except /api and /admin (the WHOOP and
+ *   Strava OAuth callbacks are registered on this host — see
+ *   src/lib/whoop/config.ts);
+ * - on the org host, the paths that only ever existed for Tri
+ *   (TRI_LEGACY_PATH_PREFIXES).
+ *
+ * Checked before the launch gate: the destination applies the org's gate.
+ */
+const TRI_LEGACY_PATH_PREFIXES = [
+  "/the-mission",
+  "/the-race",
+  "/the-story",
+  "/fund-a-mile",
+  "/sponsors",
+  "/partners",
+  "/live",
+  "/journal",
+  "/miles",
+  "/campaign-supporters",
+  "/beneficiaries",
+  "/financial-transparency",
+  "/shop",
+  "/messages",
+  "/get-involved",
+  "/become-a-partner",
+];
+
+/** Old Tri paths with a specific org home; anything else lands on TRI_PAGE_PATH. */
+const TRI_REDIRECTS: Record<string, string> = {
+  "/donate": "/donate",
+  "/beneficiaries": "/impact#beneficiaries",
+  "/sponsors": "/network#partners",
+  "/partners": "/network#partners",
+  "/become-a-partner": "/network#partners",
+  "/campaign-supporters": "/network#partners",
+  "/financial-transparency": "/transparency",
+  "/shop": "/store",
+  "/press": "/press",
+  "/terms": "/terms",
+  "/privacy": "/privacy",
+  "/crisis": "/crisis",
+};
+
+const TRI_HOST_PASSTHROUGH_PREFIXES = ["/api", "/admin"];
+
+function applyTriRedirect(request: NextRequest): Response | null {
+  const { pathname } = request.nextUrl;
+  const host = request.headers.get("host");
+  if (isTriHost(host)) {
+    if (matchesPathPrefix(pathname, TRI_HOST_PASSTHROUGH_PREFIXES)) return null;
+  } else if (isAppHost(host) || getCampaignSlug(host) || !matchesPathPrefix(pathname, TRI_LEGACY_PATH_PREFIXES)) {
+    // Other campaign hosts collapse stray paths through their own guards.
+    return null;
+  }
+
+  const prefix = Object.keys(TRI_REDIRECTS).find((p) => pathname === p || pathname.startsWith(`${p}/`));
+  const destination = prefix ? TRI_REDIRECTS[prefix] : TRI_PAGE_PATH;
+  return NextResponse.redirect(`${SITE_URL}${destination}`, 308);
+}
+
+/**
  * "22 For the 22" moved off tri.forthe22.org/22forthe22 to its own
  * subdomain (22.forthe22.org) — see EVENT22_CAMPAIGN_URL's doc comment in
  * constants.ts. Permanently redirects any stray /22forthe22[/...] request,
@@ -371,15 +441,12 @@ function applyLaunchGate(request: NextRequest, onCampaignHost: boolean, renderHe
 }
 
 /**
- * Movement (forthe22.org) vs campaign page split — see README's
- * "Movement/Campaign Domain Split". These two prefix lists are Tri's own
- * campaign routes specifically (Ruck has none of its own — see
- * applyRuckGuard below); all hosts are served by this same app,
- * and this is the only place that decides which pages belong to which. API
- * routes, shared assets, and /admin (including /admin/analytics, which
- * reports on every domain — see src/lib/analytics/cloudflare.ts) are
- * intentionally not listed here — they work identically on every host, not
- * just tri.forthe22.org.
+ * Org-only paths — a campaign host that receives one sends it to the org
+ * domain. All hosts are served by this same app, and this is the only place
+ * that decides which pages belong to which. API routes, shared assets, and
+ * /admin (including /admin/analytics, which reports on every domain — see
+ * src/lib/analytics/cloudflare.ts) are intentionally not listed here — they
+ * work identically on every host.
  */
 const ORG_PATH_PREFIXES = [
   "/about",
@@ -397,38 +464,8 @@ const ORG_PATH_PREFIXES = [
   "/transparency",
   "/70k",
   "/store",
-];
-const CAMPAIGN_PATH_PREFIXES = [
-  "/the-mission",
-  "/the-race",
-  "/the-story",
-  "/fund-a-mile",
   "/donate",
-  "/sponsors",
-  "/partners",
-  "/live",
-  "/journal",
-  "/miles",
-  "/campaign-supporters",
-  "/beneficiaries",
-  "/financial-transparency",
-  "/shop",
-  "/messages",
-  "/get-involved",
-  "/become-a-partner",
 ];
-
-/**
- * Paths that exist on BOTH hosts but need different content per domain —
- * rewritten (URL bar unchanged) rather than redirected, same pattern as
- * "/" → "/campaign-home" below. The org versions render normally at these
- * exact paths; the campaign host transparently gets its own page instead.
- */
-const CAMPAIGN_PATH_REWRITES: Record<string, string> = {
-  "/press": "/campaign-press",
-  "/terms": "/campaign-terms",
-  "/privacy": "/campaign-privacy",
-};
 
 function matchesPathPrefix(pathname: string, prefixes: string[]): boolean {
   return prefixes.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
@@ -436,7 +473,6 @@ function matchesPathPrefix(pathname: string, prefixes: string[]): boolean {
 
 /** Maps each campaign to the real route "/" transparently rewrites to. */
 const CAMPAIGN_HOME_ROUTES: Record<CampaignSlug, string> = {
-  tri: "/campaign-home",
   ruck: "/ruck-home",
   live: "/campaigns/live",
   seen: "/campaigns/seen",
@@ -446,9 +482,8 @@ const CAMPAIGN_HOME_ROUTES: Record<CampaignSlug, string> = {
 };
 
 /**
- * "22" host-only path rewrites — same idea as CAMPAIGN_PATH_REWRITES below,
- * but scoped to a single campaign rather than "any campaign host," since
- * these paths don't exist on Tri or Ruck. The real files stay nested under
+ * "22" host-only path rewrites — paths that don't exist on any other
+ * campaign host. The real files stay nested under
  * src/app/22forthe22/* (see CAMPAIGN_HOME_ROUTES above for why).
  */
 const EVENT22_PATH_REWRITES: Record<string, string> = {
@@ -486,11 +521,10 @@ const RUCK_MISSION_PATH = /^\/missions\/([a-z0-9-]+)$/;
 
 /**
  * Ruck For The 22 is deliberately small (see RUCK_CAMPAIGN_URL's doc comment
- * in src/lib/constants.ts): "/" plus its /missions/<slug> pages — unlike
- * Tri, it has no other campaign routes of its own. Without this,
- * ruck.forthe22.org/the-race (a real route that exists for Tri) would render
- * Tri's page content under Ruck's header/footer branding. Collapse anything
- * else on that host back to "/" instead.
+ * in src/lib/constants.ts): "/" plus its /missions/<slug> pages. Without
+ * this, a stray path on ruck.forthe22.org would render whatever route
+ * matches under Ruck's header/footer branding. Collapse anything else on
+ * that host back to "/" instead.
  */
 function applyRuckGuard(request: NextRequest, campaignSlug: CampaignSlug | null): Response | null {
   if (campaignSlug !== "ruck") return null;
@@ -512,12 +546,7 @@ function applySeenGuard(request: NextRequest, campaignSlug: CampaignSlug | null)
 /** 22 For the 22's own real paths on its host — everything else collapses back to "/", same reasoning as applyRuckGuard above. */
 const EVENT22_OWN_PATHS = ["/", "/promokit", "/rules"];
 
-/**
- * Same idea as applyRuckGuard, sized for 22 For the 22's 3 real
- * pages instead of just 1 — without this, 22.forthe22.org/the-race (a real
- * route that exists for Tri) would render Tri's page content under 22's
- * own header/footer branding.
- */
+/** Same idea as applyRuckGuard, sized for 22 For the 22's 3 real pages instead of just 1. */
 function applyEvent22Guard(request: NextRequest, campaignSlug: CampaignSlug | null): Response | null {
   if (campaignSlug !== "22") return null;
   const { pathname } = request.nextUrl;
@@ -538,7 +567,7 @@ function applyLiveGuard(request: NextRequest, campaignSlug: CampaignSlug | null)
   // homepage instead of reaching the org's crisis resources.
   if (matchesPathPrefix(pathname, SHARED_PATH_PREFIXES)) return null;
 
-  if (matchesPathPrefix(pathname, ORG_PATH_PREFIXES) || matchesPathPrefix(pathname, CAMPAIGN_PATH_PREFIXES)) {
+  if (matchesPathPrefix(pathname, ORG_PATH_PREFIXES) || matchesPathPrefix(pathname, TRI_LEGACY_PATH_PREFIXES)) {
     return NextResponse.redirect(new URL("/", request.nextUrl), 308);
   }
   const isEventDetailPath = /^\/[^/]+$/.test(pathname);
@@ -609,20 +638,10 @@ function applyDomainSplit(
     }
   }
 
-  if (onCampaignHost && url.pathname in CAMPAIGN_PATH_REWRITES) {
-    return NextResponse.rewrite(new URL(CAMPAIGN_PATH_REWRITES[url.pathname], url), {
-      request: { headers: renderHeaders },
-    });
-  }
-
   // Permanent (308) redirects — a visitor on the wrong domain for a given
   // page should be sent to the correct one for good, not just this visit.
   if (onCampaignHost && matchesPathPrefix(url.pathname, ORG_PATH_PREFIXES)) {
     return NextResponse.redirect(`${SITE_URL}${url.pathname}${url.search}`, 308);
-  }
-
-  if (!onCampaignHost && matchesPathPrefix(url.pathname, CAMPAIGN_PATH_PREFIXES)) {
-    return NextResponse.redirect(`${CAMPAIGN_URL}${url.pathname}${url.search}`, 308);
   }
 
   return null;

@@ -30,7 +30,7 @@
  * observances shouldn't read as a fundraising pitch.
  */
 
-import { CAMPAIGN_URL } from "@/lib/constants";
+import { DONATE_URL, TRI_PAGE_URL, SITE_URL } from "@/lib/constants";
 
 export type AwarenessCategoryId =
   | "veterans"
@@ -229,10 +229,10 @@ export const AWARENESS_CALENDAR: AwarenessEntry[] = [
     summary: "Recognizes the children of military families and the unique challenges they face.",
     description:
       "Highlight the children and spouses who carry the weight of military service — the sacrifices made at home are part of the same story as the sacrifices made in uniform.",
-    actionCTA: { label: "Meet Our Beneficiary Organizations", href: `${CAMPAIGN_URL}/beneficiaries` },
+    actionCTA: { label: "Meet Our Beneficiary Organizations", href: `${SITE_URL}/impact#beneficiaries` },
     resourceLinks: [
-      { label: "Get Involved", href: `${CAMPAIGN_URL}/get-involved` },
-      { label: "Support the Mission", href: `${CAMPAIGN_URL}/donate` },
+      { label: "Get Involved", href: `${SITE_URL}/campaigns` },
+      { label: "Support the Mission", href: DONATE_URL },
     ],
     bannerLeadDays: 0,
     bannerCopy: "April is the Month of the Military Child — honoring the kids who carry the weight of military service too.",
@@ -304,10 +304,10 @@ export const AWARENESS_CALENDAR: AwarenessEntry[] = [
     summary: "A month recognizing active-duty service members, veterans, and military families.",
     description:
       "Build a monthlong campaign around the Chattanooga 70.3 race and the $70K Mission — military appreciation, fallen officers, EMS, mental health, and Memorial Day all converge in May.",
-    actionCTA: { label: "Follow the Race Journey", href: `${CAMPAIGN_URL}/the-race` },
+    actionCTA: { label: "Follow the Race Journey", href: TRI_PAGE_URL },
     resourceLinks: [
       { label: "Explore the $70K Mission", href: "/70k" },
-      { label: "Donate", href: `${CAMPAIGN_URL}/donate` },
+      { label: "Donate", href: DONATE_URL },
     ],
     bannerLeadDays: 0,
     bannerCopy: "May is National Military Appreciation Month — a season honoring service members, veterans, and the families behind them.",
@@ -412,7 +412,7 @@ export const AWARENESS_CALENDAR: AwarenessEntry[] = [
     description:
       "Share recovery stories and vetted resources, including support from beneficiary organizations working directly with veterans and first responders managing PTSD.",
     actionCTA: { label: "Find PTSD Resources", href: "/resources" },
-    resourceLinks: [{ label: "Meet Our Beneficiaries", href: `${CAMPAIGN_URL}/beneficiaries` }],
+    resourceLinks: [{ label: "Meet Our Beneficiaries", href: `${SITE_URL}/impact#beneficiaries` }],
     bannerLeadDays: 0,
     bannerCopy: "June is PTSD Awareness Month — recovery is possible, and real resources are available.",
   },
@@ -571,7 +571,7 @@ export const AWARENESS_CALENDAR: AwarenessEntry[] = [
     actionCTA: { label: "Find Crisis Resources", href: "/crisis" },
     resourceLinks: [
       { label: "Call or Text 988", href: "tel:988" },
-      { label: "Meet Our Beneficiaries", href: `${CAMPAIGN_URL}/beneficiaries` },
+      { label: "Meet Our Beneficiaries", href: `${SITE_URL}/impact#beneficiaries` },
     ],
   },
   {
@@ -688,8 +688,8 @@ export const AWARENESS_CALENDAR: AwarenessEntry[] = [
       "National First Responders Day honors the police officers, firefighters, paramedics, and dispatchers who answer the call when everyone else is running the other way. For The 22 marks it by spotlighting first responder stories, connecting them with resources built for the job they do, and rallying supporters behind the organizations serving that community year-round.",
     actionCTA: { label: "Find First Responder Resources", href: "/resources" },
     resourceLinks: [
-      { label: "Support the Mission", href: `${CAMPAIGN_URL}/donate` },
-      { label: "Meet Our Beneficiaries", href: `${CAMPAIGN_URL}/beneficiaries` },
+      { label: "Support the Mission", href: DONATE_URL },
+      { label: "Meet Our Beneficiaries", href: `${SITE_URL}/impact#beneficiaries` },
     ],
     bannerLeadDays: 9,
     bannerCopy: "October 28 is National First Responder Day. Thank you to the police officers, firefighters, paramedics, and dispatchers who show up for everyone else.",
@@ -707,10 +707,10 @@ export const AWARENESS_CALENDAR: AwarenessEntry[] = [
     summary: "A national month honoring veterans, service members, and the families who support them.",
     description:
       "Publish veteran and family stories, spotlight Mighty Oaks and Veterans and Athletes United, and recruit supporters for the mission.",
-    actionCTA: { label: "Meet Our Beneficiary Organizations", href: `${CAMPAIGN_URL}/beneficiaries` },
+    actionCTA: { label: "Meet Our Beneficiary Organizations", href: `${SITE_URL}/impact#beneficiaries` },
     resourceLinks: [
-      { label: "Read Veteran Stories", href: `${CAMPAIGN_URL}/journal` },
-      { label: "Get Involved", href: `${CAMPAIGN_URL}/get-involved` },
+      { label: "Read Veteran Stories", href: TRI_PAGE_URL },
+      { label: "Get Involved", href: `${SITE_URL}/campaigns` },
     ],
     bannerLeadDays: 0,
     bannerCopy: "November is National Veterans and Military Families Month — honoring everyone who serves, and everyone who serves alongside them.",
@@ -744,10 +744,10 @@ export const AWARENESS_CALENDAR: AwarenessEntry[] = [
     summary: "Honors all who have served in the U.S. Armed Forces.",
     description:
       "Veterans Day honors every man and woman who has worn the uniform of the United States Armed Forces — not just those who served in wartime. For The 22 marks it by turning appreciation into action: spotlighting veteran stories, connecting veterans with the resources and community that carry them from service to what comes next, and inviting supporters to back the organizations doing that work year-round.",
-    actionCTA: { label: "Support Veterans Through the Mission", href: `${CAMPAIGN_URL}/donate` },
+    actionCTA: { label: "Support Veterans Through the Mission", href: DONATE_URL },
     resourceLinks: [
-      { label: "Read Veteran Stories", href: `${CAMPAIGN_URL}/journal` },
-      { label: "Meet Our Beneficiaries", href: `${CAMPAIGN_URL}/beneficiaries` },
+      { label: "Read Veteran Stories", href: TRI_PAGE_URL },
+      { label: "Meet Our Beneficiaries", href: `${SITE_URL}/impact#beneficiaries` },
       { label: "Find Local Resources", href: "/resources" },
     ],
     bannerLeadDays: 9,
@@ -774,7 +774,7 @@ export const AWARENESS_CALENDAR: AwarenessEntry[] = [
     priority: true,
     summary: "A global day of generosity — the date moves every year (the Tuesday after Thanksgiving), so this entry is refreshed annually.",
     description: "Seek a matching donor or sponsor and run a concentrated 24-hour fundraising appeal.",
-    actionCTA: { label: "Donate Now", href: `${CAMPAIGN_URL}/donate` },
+    actionCTA: { label: "Donate Now", href: DONATE_URL },
     resourceLinks: [{ label: "See the $70K Mission", href: "/70k" }],
     bannerLeadDays: 5,
     bannerCopy: "GivingTuesday is here — a day of generosity for the organizations behind the mission.",

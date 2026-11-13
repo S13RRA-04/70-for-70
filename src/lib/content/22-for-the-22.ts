@@ -19,7 +19,7 @@
  */
 
 import type { TermsSection } from "@/lib/content/terms";
-import { CAMPAIGN_URL, ORG_SUPPORTING_STATEMENT, SITE_URL } from "@/lib/constants";
+import { ORG_SUPPORTING_STATEMENT, SITE_URL, TRI_PAGE_URL } from "@/lib/constants";
 
 /** The event_config.event_slug this deploy points every public 22-for-the-22 page at. Bump this (and insert a new event_config row) to roll over to a future year. */
 export const CURRENT_EVENT_SLUG = "22-for-the-22-2026";
@@ -100,7 +100,7 @@ export const EVENT_TRI_CONNECTION_CONTENT = {
     ORG_SUPPORTING_STATEMENT,
   ],
   links: [
-    { label: "Visit Tri For The 22", href: CAMPAIGN_URL },
+    { label: "Visit Tri For The 22", href: TRI_PAGE_URL },
     { label: "Learn More About For The 22", href: SITE_URL },
   ],
 } as const;

@@ -13,7 +13,7 @@ import { getLiveEventBySlug, getLiveEventPerformers, getLiveAuctionItems } from 
 import { getMissionPartners } from "@/lib/data/mission-partners";
 import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
 import { formatCurrency, formatDateLong } from "@/lib/utils";
-import { CAMPAIGN_URL, LIVE_CAMPAIGN_URL, MISSION_NAME } from "@/lib/constants";
+import { LIVE_CAMPAIGN_URL, MISSION_NAME, DONATE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 
@@ -102,7 +102,7 @@ export default async function LiveEventPage(props: PageProps<"/campaigns/live/[s
                 Get Tickets
               </CTAButton>
             )}
-            <CTAButton href={`${CAMPAIGN_URL}/donate`} external variant="secondary" tone="dark">
+            <CTAButton href={DONATE_URL} external variant="secondary" tone="dark">
               Support the Mission
             </CTAButton>
           </div>

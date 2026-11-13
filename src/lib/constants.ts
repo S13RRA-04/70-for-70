@@ -91,14 +91,24 @@ export const RUCK_DONATION_TRACKING_CODE = "RUCKFORTHE22";
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
 /**
- * The campaign root — tri.forthe22.org in production. Fundraising pages
- * (The Race, Donate, Beneficiaries, Sponsors, Live, Updates, Admin) live
- * here. See src/middleware.ts for the host-based routing that enforces this
- * split, and README's "Movement/Campaign Domain Split" section for the full
- * picture. Defaults to the same local dev origin as SITE_URL — there's no
- * real second host in local dev.
+ * Tri For The 22's former site — tri.forthe22.org in production. Retired:
+ * every page request there redirects to the org site (see applyTriRedirect
+ * in src/middleware.ts). Only kept because the WHOOP and Strava OAuth
+ * callbacks are registered on this host (src/lib/whoop/config.ts,
+ * src/lib/strava/config.ts) — never link visitors here; use TRI_PAGE_URL.
  */
 export const CAMPAIGN_URL = process.env.NEXT_PUBLIC_CAMPAIGN_URL ?? "http://localhost:3000";
+
+/** Tri For The 22's one page — a Mobilization campaign on the org site. */
+export const TRI_PAGE_PATH = "/campaigns/tri";
+export const TRI_PAGE_URL = `${SITE_URL}${TRI_PAGE_PATH}`;
+
+/**
+ * The org's donate page (Impact pillar) — the one place every Donate CTA
+ * points. Campaign hosts must use this absolute URL; org pages can use
+ * DONATE_LINK's relative href.
+ */
+export const DONATE_URL = `${SITE_URL}/donate`;
 
 /**
  * The second campaign, Ruck For The 22 — ruck.forthe22.org in production.
@@ -181,7 +191,7 @@ export const MOVEMENT_CAMPAIGNS: readonly MovementCampaign[] = [
     status: "active",
     description:
       "A 70.3-mile triathlon that inspired The $70K Mission — now one of several campaigns contributing to it, in support of confirmed veteran-focused nonprofit beneficiaries.",
-    url: CAMPAIGN_URL,
+    url: TRI_PAGE_PATH,
     startDate: "2027-05-16",
     location: "IRONMAN 70.3 Chattanooga",
     parentMission: MISSION_NAME,
@@ -283,70 +293,6 @@ export const ORG_NAV_LINKS: NavEntry[] = [
 ];
 
 /**
- * Grouped desktop/mobile nav for Tri — 4 dropdown groups (Mission, Journey,
- * Get Involved, Partners) + a direct Shop link, plus the header's separate
- * Donate CTA button (see DONATE_LINK). Replaces the former flat
- * CAMPAIGN_NAV_LINKS list; Header renders a NavDropdown for each NavGroup
- * and a plain link for a bare NavLink (see src/types/content.ts's NavEntry).
- *
- * "About Cody" points at /the-story — Cody's campaign-origin/endurance
- * narrative page, extended with a personal-bio opener and a "why this
- * continues beyond the race" closer so it covers what a founder page needs.
- * "Road to Chattanooga" and "Training" both link into /the-race,
- * which already has sections literally titled "Road to Chattanooga"
- * (id="road-to-chattanooga") and "Current Training Status"
- * (id="training-status"). "Become a Partner" is its own page
- * (src/app/become-a-partner/page.tsx), split out of /sponsors so confirmed
- * partners aren't sent through sponsorship sales material to find their own
- * listing. "Volunteer" links to an existing section on /get-involved rather
- * than a new page.
- *
- * 22 For the 22 deliberately does NOT appear here — it moved to its own
- * subdomain (EVENT22_CAMPAIGN_URL) and is listed as its own campaign on the
- * org site's /campaigns page (MOVEMENT_CAMPAIGNS) instead of Tri's nav, but
- * is still reachable from the Get Involved dropdown below.
- */
-export const CAMPAIGN_NAV_GROUPS: NavEntry[] = [
-  {
-    label: "Mission",
-    children: [
-      { label: "The Mission / Why 22", href: "/the-mission" },
-      { label: MISSION_NAME, href: `${SITE_URL}/70k` },
-      { label: "Who We Support", href: "/beneficiaries" },
-      { label: "About Cody", href: "/the-story" },
-    ],
-  },
-  {
-    label: "Journey",
-    children: [
-      { label: "Road to Chattanooga", href: "/the-race#road-to-chattanooga" },
-      { label: "Training", href: "/the-race#training-status" },
-      { label: "Building the Bike", href: "/journal/building-the-bike" },
-      { label: "Journal", href: "/journal" },
-    ],
-  },
-  {
-    label: "Get Involved",
-    children: [
-      { label: "Join the Team", href: "/get-involved/triathlon-team" },
-      { label: "22 For the 22", href: EVENT22_CAMPAIGN_URL },
-      { label: "Volunteer", href: "/get-involved#roles" },
-      { label: "Messages of Support", href: "/messages" },
-    ],
-  },
-  {
-    label: "Partners",
-    children: [
-      { label: "Partners & Sponsors", href: "/sponsors" },
-      { label: "Become a Partner", href: "/become-a-partner" },
-      { label: "Press & Media", href: "/press" },
-      { label: "Financial Transparency", href: "/financial-transparency" },
-    ],
-  },
-  { label: "Shop", href: "/shop" },
-];
-
-/**
  * "22 For the 22"'s own header/mobile nav — anchors into the single-scroll
  * event page (see the id="how-it-works"/"register"/"tracker" sections in
  * src/app/22forthe22/page.tsx) plus the one real subpage, /rules.
@@ -375,13 +321,6 @@ export const SEEN_NAV_LINKS: NavLink[] = [
   { label: "Take Part", href: "/#join" },
 ];
 
-/**
- * The org's single outbound link to the campaign — lives only in the
- * footer's small "Campaigns" area and the mobile menu, never in primary
- * nav and never as a persistent banner (see README's Movement/Campaign
- * Domain Split — the campaign must not dominate parent-site navigation).
- */
-export const CAMPAIGN_HOME_LINK: NavLink = { label: CAMPAIGN_NAME, href: CAMPAIGN_URL };
 /** Campaign header → org subdomain, styled as a CTA. */
 export const ORG_HOME_LINK: NavLink = { label: SITE_NAME, href: SITE_URL };
 
@@ -587,8 +526,7 @@ export const RACE_INFO = {
 
 export const CONTACT_EMAIL: string | null = "cody@forthe22.org";
 
-/** The /get-involved header/footer/mobile-menu link. */
-export const GET_INVOLVED_LINK: NavLink = { label: "Get Involved", href: "/get-involved" };
+
 
 /**
  * Volunteer roles shown on /get-involved, keyed to
@@ -827,8 +765,8 @@ export const RUCK_DONATE_LINK: NavLink = { label: "Donate", href: "/#beneficiari
 /**
  * Per-campaign header/footer branding, keyed by the CampaignSlug that
  * src/lib/site-mode.ts derives from the request host. Header/Footer/
- * MobileMenu read from here instead of hard-coding Tri's constants, so a
- * visitor on ruck.forthe22.org sees Ruck's own name/logo/nav, not Tri's.
+ * MobileMenu read from here instead of hard-coding one campaign's constants,
+ * so a visitor on ruck.forthe22.org sees Ruck's own name/logo/nav.
  * Ruck only has a dark-background mark so far (white text, transparent —
  * see brand/ruck-logo-white-source.png) — logoLight falls back to the real
  * org mark (logo.png) until a light-background/black-text version exists,
@@ -857,18 +795,6 @@ export const CAMPAIGNS: Record<
     crisisLink?: NavLink;
   }
 > = {
-  tri: {
-    name: CAMPAIGN_NAME,
-    url: CAMPAIGN_URL,
-    tagline: SITE_TAGLINE,
-    description: `${CAMPAIGN_NAME} — ${SITE_TAGLINE}`,
-    navLinks: CAMPAIGN_NAV_GROUPS,
-    logoLight: "/campaign-logo.png",
-    logoDark: "/campaign-logo-white.png",
-    primaryCta: DONATE_LINK,
-    parentLink: PARENT_INITIATIVE_LINK,
-    crisisLink: CRISIS_LINK,
-  },
   ruck: {
     name: RUCK_CAMPAIGN_NAME,
     url: RUCK_CAMPAIGN_URL,
@@ -937,7 +863,7 @@ export const CAMPAIGNS: Record<
  * "Supports: tri") instead of as finished public copy.
  */
 export const ASSOCIATED_CAMPAIGN_LABELS: Record<string, string> = {
-  tri: CAMPAIGNS.tri.name,
+  tri: CAMPAIGN_NAME,
   ruck: CAMPAIGNS.ruck.name,
   live: CAMPAIGNS.live.name,
   seen: CAMPAIGNS.seen.name,

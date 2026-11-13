@@ -20,7 +20,6 @@ import { getPartners } from "@/lib/data/partners";
 import { CONTRIBUTION_MECHANISMS } from "@/lib/content/campaigns";
 import { getLatestCampaignJournalEntries } from "@/lib/content/campaign-journal";
 import {
-  CAMPAIGN_URL,
   DONATE_LINK,
   MISSION_NAME,
   MISSION_ORIGIN_LINE,
@@ -127,10 +126,10 @@ export default async function CampaignsPage() {
             />
           </div>
           <div className="mt-6 flex flex-wrap items-center gap-4">
-            <CTAButton href={`${CAMPAIGN_URL}${DONATE_LINK.href}`} external magnetic>
+            <CTAButton href="/donate" magnetic>
               {DONATE_LINK.label}
             </CTAButton>
-            <CTAButton href={`${CAMPAIGN_URL}/beneficiaries`} external variant="secondary">
+            <CTAButton href="/impact#beneficiaries" variant="secondary">
               Meet the Beneficiaries
             </CTAButton>
           </div>

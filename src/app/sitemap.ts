@@ -1,7 +1,4 @@
 import type { MetadataRoute } from "next";
-import { getJournalEntries } from "@/lib/data/journal";
-import { getBikeBuildLastUpdated } from "@/lib/content/building-the-bike";
-import { getGearJourneyLastUpdated } from "@/lib/content/gear-journey";
 import { US_STATES_GRID } from "@/lib/content/us-states";
 import { slugifyResourceName } from "@/lib/content/resources";
 import { getResources } from "@/lib/data/resources";
@@ -9,17 +6,13 @@ import { getPublishedLiveEvents } from "@/lib/data/live-events";
 import { LIVE_PREMIERES } from "@/lib/content/live-premieres";
 import { HAS_LISTED_AUCTION_ITEMS } from "@/lib/content/live-auction";
 import { COMPLETED_RUCK_MISSIONS } from "@/lib/content/ruck-missions";
-import { CAMPAIGN_URL, CAMPAIGNS, SITE_URL } from "@/lib/constants";
+import { CAMPAIGNS, SITE_URL, TRI_PAGE_PATH } from "@/lib/constants";
 import { getActiveCampaignSlug } from "@/lib/site-mode";
 import { isCampaignLive, isOrgLive } from "@/lib/launch-gate";
 
-// Kept in sync with the split enforced in src/middleware.ts. /athletes,
-// /join, and /athlete-agreement are retired (permanent redirect to the
-// campaign's /the-mission, see next.config.ts) — excluded here so search
-// engines follow the redirect to its target rather than indexing the
-// retired URL. /merch and /how-funds-work moved to the campaign domain
-// entirely (as /shop and /financial-transparency) — also excluded, with
-// their own permanent redirects.
+// Kept in sync with the split enforced in src/middleware.ts. Retired paths
+// (the old Tri site, /athletes, /join, /merch, ...) are excluded so search
+// engines follow their permanent redirects rather than indexing them.
 const ORG_ROUTES = [
   "",
   "/about",
@@ -29,39 +22,18 @@ const ORG_ROUTES = [
   "/crisis",
   "/advocacy",
   "/campaigns",
+  TRI_PAGE_PATH,
   "/network",
   "/impact",
   "/standards",
   "/transparency",
   "/70k",
+  "/donate",
   "/contact",
   "/privacy",
   "/terms",
   "/press",
 ];
-// /partners, /campaign-supporters, /partners/inquire, and /sponsors/request
-// are retired stubs (redirect to /beneficiaries or /sponsors) — excluded so
-// search engines follow the redirect rather than indexing the retired URL.
-// /beneficiaries and /sponsors are real, indexed pages (see
-// src/app/beneficiaries/page.tsx and src/app/sponsors/page.tsx).
-const CAMPAIGN_ROUTES = [
-  "",
-  "/the-mission",
-  "/the-race",
-  "/the-story",
-  "/beneficiaries",
-  "/sponsors",
-  "/get-involved",
-  "/journal",
-  "/donate",
-  "/live",
-  "/shop",
-  "/financial-transparency",
-  "/press",
-  "/terms",
-  "/privacy",
-];
-
 /**
  * Split per requesting host (via getSiteMode's headers() call) rather than
  * one combined file listing both domains' URLs — Search Console treats
@@ -129,43 +101,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: new Date(event.updated_at),
       })),
     ];
-  }
-
-  if (campaignSlug === "tri") {
-    if (!live) return [{ url: `${CAMPAIGN_URL}/`, lastModified: new Date() }];
-    const entries = await getJournalEntries();
-
-    const campaignEntries: MetadataRoute.Sitemap = CAMPAIGN_ROUTES.map((path) => ({
-      url: `${CAMPAIGN_URL}${path}`,
-      lastModified: new Date(),
-    }));
-
-    const journalEntries: MetadataRoute.Sitemap = entries.map((entry) => ({
-      url: `${CAMPAIGN_URL}/journal/${entry.slug}`,
-      lastModified: entry.published_at ? new Date(entry.published_at) : new Date(),
-    }));
-
-    // Static content-module route, not a journal_entries row — see
-    // src/app/journal/building-the-bike/page.tsx's doc comment. Its
-    // lastModified tracks the newest BIKE_BUILD_TIMELINE entry rather than
-    // the CAMPAIGN_ROUTES blanket "now" below.
-    const bikeBuildEntry: MetadataRoute.Sitemap = [
-      {
-        url: `${CAMPAIGN_URL}/journal/building-the-bike`,
-        lastModified: new Date(getBikeBuildLastUpdated()),
-      },
-    ];
-
-    // Same reasoning as bikeBuildEntry above — see
-    // src/app/journal/gear-journey/page.tsx's doc comment.
-    const gearJourneyEntry: MetadataRoute.Sitemap = [
-      {
-        url: `${CAMPAIGN_URL}/journal/gear-journey`,
-        lastModified: new Date(getGearJourneyLastUpdated()),
-      },
-    ];
-
-    return [...campaignEntries, ...journalEntries, ...bikeBuildEntry, ...gearJourneyEntry];
   }
 
   if (!live) return [{ url: `${SITE_URL}/`, lastModified: new Date() }];

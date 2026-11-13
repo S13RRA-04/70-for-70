@@ -19,7 +19,6 @@ import { getCampaign } from "@/lib/data/campaign";
 import { RESOURCES } from "@/lib/content/resources";
 import { formatCurrency } from "@/lib/utils";
 import {
-  CAMPAIGN_URL,
   CONTACT_EMAIL,
   MERCH_BENEFICIARIES,
   PERSONAL_PROJECT_DISCLOSURE,
@@ -103,7 +102,7 @@ export default async function TransparencyPage() {
             </ul>
           )}
           <Link
-            href={`${CAMPAIGN_URL}/beneficiaries`}
+            href="/impact#beneficiaries"
             className="mt-6 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
           >
             Meet the Beneficiaries &rarr;
@@ -133,7 +132,7 @@ export default async function TransparencyPage() {
             </p>
           )}
           <Link
-            href={`${CAMPAIGN_URL}/the-mission`}
+            href="/mission"
             className="mt-4 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
           >
             See the Current Total &rarr;
@@ -216,13 +215,13 @@ export default async function TransparencyPage() {
           </p>
           <div className="mt-6 flex flex-wrap gap-4">
             <Link
-              href={`${CAMPAIGN_URL}/sponsors`}
+              href="/network#partners"
               className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
             >
               See Current Partners &rarr;
             </Link>
             <Link
-              href={`${CAMPAIGN_URL}/become-a-partner`}
+              href="/network#partners"
               className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
             >
               Become a Partner &rarr;
@@ -254,7 +253,7 @@ export default async function TransparencyPage() {
           </div>
           <div className="mt-4 flex flex-wrap gap-4">
             <Link
-              href={`${CAMPAIGN_URL}/shop`}
+              href="/store"
               className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
             >
               Shop (Beneficiary Fundraiser) &rarr;
@@ -290,7 +289,7 @@ export default async function TransparencyPage() {
             </p>
           </div>
           <Link
-            href={`${CAMPAIGN_URL}/financial-transparency`}
+            href="/transparency"
             className="mt-4 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
           >
             See Out-of-Pocket Spending &rarr;

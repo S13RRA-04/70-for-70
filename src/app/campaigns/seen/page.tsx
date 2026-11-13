@@ -21,7 +21,6 @@ import {
   type SeenPillar,
 } from "@/lib/content/seen-campaign";
 import {
-  CAMPAIGN_URL,
   CONTACT_EMAIL,
   LIVE_CAMPAIGN_NAME,
   LIVE_CAMPAIGN_URL,
@@ -203,7 +202,7 @@ export default async function SeenCampaignPage() {
                   ))}
                 </span>
               )}
-              <a href={`${CAMPAIGN_URL}/beneficiaries`} className="text-[15px] font-bold text-paper hover:text-gold">
+              <a href={`${SITE_URL}/impact#beneficiaries`} className="text-[15px] font-bold text-paper hover:text-gold">
                 About the beneficiaries &rarr;
               </a>
             </FlowCard>
@@ -247,7 +246,7 @@ export default async function SeenCampaignPage() {
                 </Placard>
               )}
               {ARTIST_MAILTO && <Placard {...SEEN_JOIN_PATHS.artists} href={ARTIST_MAILTO} />}
-              <Placard {...SEEN_JOIN_PATHS.partners} href={`${CAMPAIGN_URL}/become-a-partner`} />
+              <Placard {...SEEN_JOIN_PATHS.partners} href={`${SITE_URL}/network#partners`} />
             </div>
           </RevealGrid>
         </Container>

@@ -3,15 +3,23 @@ import { headers } from "next/headers";
 export type SiteMode = "org" | "campaign" | "app";
 
 /** Every live campaign subdomain. Adding a new one is a two-step change: add its slug/hostname pair to CAMPAIGN_HOSTS below, then add its branding to CAMPAIGNS in constants.ts. */
-export type CampaignSlug = "tri" | "ruck" | "live" | "seen" | "22";
+export type CampaignSlug = "ruck" | "live" | "seen" | "22";
 
 const CAMPAIGN_HOSTS: Record<CampaignSlug, string> = {
-  tri: "tri.forthe22.org",
   ruck: "ruck.forthe22.org",
   live: "live.forthe22.org",
   seen: "seen.forthe22.org",
   "22": "22.forthe22.org",
 };
+
+/**
+ * Tri For The 22's former subdomain. Retired: Tri is now one page on the org
+ * site (/campaigns/tri), so src/middleware.ts redirects every page request on
+ * this host to its org equivalent. It is not a CampaignSlug because it never
+ * renders a page of its own — only /api and /admin still serve here, since
+ * the WHOOP and Strava OAuth callbacks are registered on it.
+ */
+const TRI_HOST = "tri.forthe22.org";
 
 /**
  * The "For the 22" participant app — app.forthe22.org. A different kind of
@@ -45,9 +53,16 @@ export function getCampaignSlug(host: string | null | undefined): CampaignSlug |
   return match ? match[0] : null;
 }
 
-/** True for any campaign host (Tri, Ruck, ...) — most call sites only need "org vs. some campaign," not which one. */
+/** True for any campaign host (Ruck, Live, ...) — most call sites only need "org vs. some campaign," not which one. */
 export function isCampaignHost(host: string | null | undefined): boolean {
   return getCampaignSlug(host) !== null;
+}
+
+/** True for tri.forthe22.org (and its local-dev alias, "tri.localhost"). */
+export function isTriHost(host: string | null | undefined): boolean {
+  const hostname = normalizeHostname(host);
+  if (!hostname) return false;
+  return hostname === TRI_HOST || hostname.startsWith("tri.localhost");
 }
 
 /** True for app.forthe22.org (and its local-dev alias, "app.localhost"). */
@@ -57,7 +72,7 @@ export function isAppHost(host: string | null | undefined): boolean {
   return hostname === APP_HOST || hostname.startsWith("app.localhost");
 }
 
-/** For Server Components (layout, pages) — Edge middleware uses isCampaignHost/getCampaignSlug/isAppHost directly on the request. */
+/** For Server Components (layout, pages) — Edge middleware uses isCampaignHost/getCampaignSlug/isAppHost/isTriHost directly on the request. */
 export async function getSiteMode(): Promise<SiteMode> {
   const headerList = await headers();
   const host = headerList.get("host");

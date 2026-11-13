@@ -26,7 +26,7 @@ import {
   UPCOMING_LIVE_PERFORMERS,
 } from "@/lib/content/live-campaign";
 import { HAS_LISTED_AUCTION_ITEMS } from "@/lib/content/live-auction";
-import { CAMPAIGN_URL, CONTACT_EMAIL, LIVE_CAMPAIGN_NAME, LIVE_CAMPAIGN_URL, MISSION_NAME, SITE_URL } from "@/lib/constants";
+import { CONTACT_EMAIL, LIVE_CAMPAIGN_NAME, LIVE_CAMPAIGN_URL, MISSION_NAME, SITE_URL } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
@@ -333,7 +333,7 @@ export default async function LiveCampaignPage() {
                   </svg>
                 }
                 {...LIVE_JOIN_PATHS.sponsors}
-                href={`${CAMPAIGN_URL}/become-a-partner`}
+                href={`${SITE_URL}/network#partners`}
                 external
               />
               {HAS_LISTED_AUCTION_ITEMS && (
