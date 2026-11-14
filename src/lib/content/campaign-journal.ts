@@ -108,6 +108,18 @@ export const CAMPAIGN_JOURNAL_ENTRIES: CampaignJournalEntry[] = [
     ],
     link: { label: "See Military Night Details", href: `${TRI_PAGE_PATH}#military-night` },
   },
+  {
+    id: "providence-market-booth-november-21",
+    date: "2026-11-13",
+    title: "Find Us at the Providence Market — November 21",
+    summary:
+      "For The 22 will have a booth at the Providence Market on Saturday, November 21, from 9 AM to 2 PM — with new Tri For The 22 merch, the triathlon bike, and the signed guitars up for auction.",
+    body: [
+      "For The 22 will have a booth at the Providence Market on Saturday, November 21, from 9:00 AM to 2:00 PM. Come out to support the mission and pick up some of the new Tri For The 22 merch — T-shirts, hoodies, hats, and more.",
+      "While you're there, take a look at the triathlon bike, the signed guitars up for auction, and more.",
+    ],
+    link: { label: "Shop the Merch", href: "/store" },
+  },
 ];
 
 /** Null when there are no entries yet — callers should hide the "last updated" line rather than show a fake date. */
