@@ -170,6 +170,21 @@ export interface MediaAppearance {
  */
 export const MEDIA_APPEARANCES: readonly MediaAppearance[] = [
   {
+    outlet: "Huntsville Business Journal",
+    title: "Veteran building For the 22 initiative through partnerships and community action",
+    date: "2026-11-11",
+    format: "News feature",
+    summary:
+      "Bud McLaughlin profiles Cody and For The 22 — connecting veterans, first responders, and families with vetted support, and the campaigns raising The $70K Mission for Mighty Oaks Foundation and Veterans and Athletes United.",
+    links: [
+      {
+        label: "Read on Huntsville Business Journal",
+        url: "https://huntsvillebusinessjournal.com/news/2026/11/11/veteran-building-for-the-22-initiative-through-partnerships-and-community-action/",
+        kind: "article",
+      },
+    ],
+  },
+  {
     outlet: "Military Broadcast Radio",
     title: "The H-Train Show: Cody Hitson, For the 22 Joins Us",
     date: "2026-11-06",
