@@ -58,7 +58,12 @@ export async function PremierePage({ premiere }: { premiere: Premiere }) {
         <p className="mt-2 text-base text-copy">{formatPremiereTimes(premiere)}</p>
         <PremiereLocalTime startsAtIso={premiere.startsAt} className="text-sm text-steel" />
         <div className="mt-6 flex flex-wrap items-center gap-3">
-          <CTAButton href={watchUrl} external newTab size="lg" magnetic>
+          {premiere.interviewUrl && (
+            <CTAButton href={premiere.interviewUrl} external newTab size="lg" magnetic>
+              Interview on Instagram Live
+            </CTAButton>
+          )}
+          <CTAButton href={watchUrl} external newTab size="lg" variant="secondary">
             Watch on YouTube
           </CTAButton>
           <CTAButton href={DONATE_LINK.href} size="lg" variant="secondary">

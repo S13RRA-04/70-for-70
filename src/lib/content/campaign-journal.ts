@@ -58,7 +58,7 @@ export const CAMPAIGN_JOURNAL_ENTRIES: CampaignJournalEntry[] = [
       "Tri For The 22 is partnering with Western Medicine for the world premiere of their music video “Austin” on Friday, November 20, at 7:00 PM PT.",
     body: [
       "Tri For The 22 is partnering with Western Medicine for the world premiere of their music video “Austin” on Friday, November 20, at 7:00 PM PT.",
-      "Join Tri For The 22 on Western Medicine's YouTube channel at 6:40 PM PT for a pre-release interview about the triathlon fundraising effort and the veterans, first responders, and families it supports — ahead of the video's debut.",
+      "Join Tri For The 22 and Western Medicine on Instagram Live (@westernmedicineband) at 6:40 PM PT for a pre-release interview about the triathlon fundraising effort and the veterans, first responders, and families it supports — ahead of the video's debut.",
     ],
     link: { label: "Premiere Details", href: `${TRI_PAGE_PATH}/premiere/austin` },
   },

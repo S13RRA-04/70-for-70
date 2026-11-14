@@ -29,6 +29,8 @@ export interface Premiere {
   program: { title: string; description: string; time?: string; mainEvent?: boolean }[];
   /** The artist's channel, where the official release lives. */
   artistChannelUrl: string;
+  /** Where the pre-release interview streams, when it isn't on the artist's channel (e.g. their Instagram for an Instagram Live). */
+  interviewUrl: string | null;
   /** Direct link to the scheduled YouTube Premiere, once the artist has created it. */
   watchUrl: string | null;
   /** Where to stream the song itself, once there's a link to share. */
@@ -48,13 +50,13 @@ export const PREMIERES: Premiere[] = [
     startsAt: "2026-11-21T02:40:00Z",
     durationMinutes: 90,
     summary:
-      "Tri For The 22 and Western Medicine launch the official music video for “Austin” — a pre-release interview about the triathlon fundraising effort and the veteran, first responder, and family communities it supports, then the video's debut on Western Medicine's own YouTube channel.",
+      "Tri For The 22 and Western Medicine launch the official music video for “Austin” — a pre-release interview on Instagram Live about the triathlon fundraising effort and the veteran, first responder, and family communities it supports, then the video's debut on Western Medicine's own YouTube channel.",
     program: [
       {
-        title: "Pre-release interview",
+        title: "Instagram Live interview",
         time: "6:40 PM PT",
         description:
-          "Join Tri For The 22 on Western Medicine's YouTube channel to talk about “Austin,” the road to IRONMAN 70.3 Chattanooga, and the communities the race supports.",
+          "Join Tri For The 22 and Western Medicine on Instagram Live (@westernmedicineband) to talk about “Austin,” the road to IRONMAN 70.3 Chattanooga, and the communities the race supports.",
       },
       {
         title: "The premiere",
@@ -64,6 +66,7 @@ export const PREMIERES: Premiere[] = [
       },
     ],
     artistChannelUrl: "https://www.youtube.com/@WesternMedicineMusic",
+    interviewUrl: "https://www.instagram.com/westernmedicineband/",
     watchUrl: null,
     listenUrl: null,
     teasers: ["https://youtube.com/shorts/8Fw3d1Nx67U"],
@@ -123,7 +126,14 @@ export function premiereCalendarUrl(premiere: Premiere, pageUrl: string): string
     action: "TEMPLATE",
     text: `${premiere.artist} — “${premiere.title}” premiere · Tri For The 22`,
     dates: `${toCalendarStamp(start)}/${toCalendarStamp(end)}`,
-    details: `${premiere.program.map((step) => step.title).join(", then ")}. ${pageUrl}`,
+    details: [
+      premiere.program.map((step) => (step.time ? `${step.time}: ${step.title}` : step.title)).join(", then "),
+      premiere.interviewUrl && `Interview: ${premiere.interviewUrl}`,
+      `Premiere: ${premiereWatchUrl(premiere)}`,
+      pageUrl,
+    ]
+      .filter(Boolean)
+      .join("\n"),
     location: premiereWatchUrl(premiere),
   });
   return `https://calendar.google.com/calendar/render?${params.toString()}`;
