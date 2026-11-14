@@ -3,7 +3,7 @@ import { US_STATES_GRID } from "@/lib/content/us-states";
 import { slugifyResourceName } from "@/lib/content/resources";
 import { getResources } from "@/lib/data/resources";
 import { getPublishedLiveEvents } from "@/lib/data/live-events";
-import { LIVE_PREMIERES } from "@/lib/content/live-premieres";
+import { PREMIERES } from "@/lib/content/premieres";
 import { HAS_LISTED_AUCTION_ITEMS } from "@/lib/content/live-auction";
 import { COMPLETED_RUCK_MISSIONS } from "@/lib/content/ruck-missions";
 import { SITE_URL, TRI_BIKE_BUILD_URL, TRI_JOURNAL_PATH, TRI_JOURNAL_URL, TRI_PAGE_PATH } from "@/lib/constants";
@@ -49,7 +49,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(mission.date),
     })),
     ...(HAS_LISTED_AUCTION_ITEMS ? [{ url: `${SITE_URL}/campaigns/live/auction`, lastModified: new Date() }] : []),
-    ...LIVE_PREMIERES.map((premiere) => ({ url: `${SITE_URL}/campaigns/live/${premiere.slug}`, lastModified: new Date() })),
+    ...PREMIERES.map((premiere) => ({ url: `${SITE_URL}${TRI_PAGE_PATH}/premiere/${premiere.slug}`, lastModified: new Date() })),
     ...liveEvents.map((event) => ({
       url: `${SITE_URL}/campaigns/live/${event.slug}`,
       lastModified: new Date(event.updated_at),

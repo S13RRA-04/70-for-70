@@ -1,23 +1,23 @@
 /**
- * For The 22: LIVE artist premieres — a LIVE episode built around an
- * artist's own release (a music video, a single), rather than a concert.
- * Kept as content data, not live_events rows: a premiere has no venue or
- * tickets, and its centerpiece lives on the artist's own channel.
+ * Tri For The 22 artist premieres — an artist's own release (a music video,
+ * a single) launched with Tri For The 22, to talk about the triathlon
+ * fundraising effort and the veteran, first responder, and family
+ * communities it supports. Kept as content data: a premiere has no venue
+ * or tickets, and its centerpiece lives on the artist's own channel.
  *
- * Each premiere renders at live.forthe22.org/<slug> through the same
- * one-level route as DB shows (src/app/campaigns/live/[slug]/page.tsx),
- * and a premiere slug takes precedence over a live_events row with the
- * same slug — keep them distinct.
+ * Each premiere renders at /campaigns/tri/premiere/<slug>
+ * (src/app/campaigns/tri/premiere/[slug]/page.tsx). Its old Live URL
+ * redirects there — see applyLegacyPathRedirect in src/middleware.ts.
  */
 
-export interface LivePremiere {
+export interface Premiere {
   slug: string;
   artist: string;
   /** The song or release being premiered, without quotes. */
   title: string;
   /** e.g. "Official Music Video Premiere". */
   kind: string;
-  /** When the LIVE episode starts, ISO 8601 in UTC. */
+  /** When the premiere broadcast starts, ISO 8601 in UTC. */
   startsAt: string;
   /** Expected running time, for the "Add to calendar" event's end time. */
   durationMinutes: number;
@@ -37,7 +37,7 @@ export interface LivePremiere {
   teasers: string[];
 }
 
-export const LIVE_PREMIERES: LivePremiere[] = [
+export const PREMIERES: Premiere[] = [
   {
     slug: "austin",
     artist: "Western Medicine",
@@ -48,13 +48,13 @@ export const LIVE_PREMIERES: LivePremiere[] = [
     startsAt: "2026-11-21T02:40:00Z",
     durationMinutes: 90,
     summary:
-      "For The 22: LIVE presents the official music video premiere of “Austin” by Western Medicine — a live interview with the band, then the video's debut on Western Medicine's own YouTube channel.",
+      "Tri For The 22 and Western Medicine launch the official music video for “Austin” — a pre-release interview about the triathlon fundraising effort and the veteran, first responder, and family communities it supports, then the video's debut on Western Medicine's own YouTube channel.",
     program: [
       {
         title: "Pre-release interview",
         time: "6:40 PM PT",
         description:
-          "Join For The 22 on Western Medicine's YouTube channel as the band talks about “Austin” and the story behind it.",
+          "Join Tri For The 22 on Western Medicine's YouTube channel to talk about “Austin,” the road to IRONMAN 70.3 Chattanooga, and the communities the race supports.",
       },
       {
         title: "The premiere",
@@ -70,19 +70,19 @@ export const LIVE_PREMIERES: LivePremiere[] = [
   },
 ];
 
-export function getLivePremiere(slug: string): LivePremiere | null {
-  return LIVE_PREMIERES.find((premiere) => premiere.slug === slug) ?? null;
+export function getPremiere(slug: string): Premiere | null {
+  return PREMIERES.find((premiere) => premiere.slug === slug) ?? null;
 }
 
 /** Premieres that haven't started yet, soonest first. */
-export function getUpcomingLivePremieres(now: number): LivePremiere[] {
-  return LIVE_PREMIERES.filter((premiere) => new Date(premiere.startsAt).getTime() > now).sort((a, b) =>
+export function getUpcomingPremieres(now: number): Premiere[] {
+  return PREMIERES.filter((premiere) => new Date(premiere.startsAt).getTime() > now).sort((a, b) =>
     a.startsAt.localeCompare(b.startsAt),
   );
 }
 
 /** Where "Watch" should point: the scheduled Premiere once it exists, else the artist's channel. */
-export function premiereWatchUrl(premiere: LivePremiere): string {
+export function premiereWatchUrl(premiere: Premiere): string {
   return premiere.watchUrl ?? premiere.artistChannelUrl;
 }
 
@@ -96,14 +96,14 @@ const PREMIERE_TIME_ZONES = [
  * Formatted in the artist's time zone (Pacific), never the server's —
  * Workers run in UTC, where a 7 PM PT start already falls on the next day.
  */
-export function formatPremiereDate(premiere: LivePremiere, options: Intl.DateTimeFormatOptions): string {
+export function formatPremiereDate(premiere: Premiere, options: Intl.DateTimeFormatOptions): string {
   return new Intl.DateTimeFormat("en-US", { ...options, timeZone: "America/Los_Angeles" }).format(
     new Date(premiere.startsAt),
   );
 }
 
 /** "7:00 PM PT / 9:00 PM CT / 10:00 PM ET". */
-export function formatPremiereTimes(premiere: LivePremiere): string {
+export function formatPremiereTimes(premiere: Premiere): string {
   const start = new Date(premiere.startsAt);
   return PREMIERE_TIME_ZONES.map(
     ({ zone, label }) =>
@@ -116,12 +116,12 @@ function toCalendarStamp(date: Date): string {
 }
 
 /** A Google Calendar "add event" link for the premiere — no account data, just the event's own details. */
-export function premiereCalendarUrl(premiere: LivePremiere, pageUrl: string): string {
+export function premiereCalendarUrl(premiere: Premiere, pageUrl: string): string {
   const start = new Date(premiere.startsAt);
   const end = new Date(start.getTime() + premiere.durationMinutes * 60_000);
   const params = new URLSearchParams({
     action: "TEMPLATE",
-    text: `${premiere.artist} — “${premiere.title}” premiere · For The 22: Live`,
+    text: `${premiere.artist} — “${premiere.title}” premiere · Tri For The 22`,
     dates: `${toCalendarStamp(start)}/${toCalendarStamp(end)}`,
     details: `${premiere.program.map((step) => step.title).join(", then ")}. ${pageUrl}`,
     location: premiereWatchUrl(premiere),

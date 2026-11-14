@@ -10,7 +10,6 @@ import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 import { LIVE_CAMPAIGN_URL, LIVE_CAMPAIGN_PATH } from "@/lib/constants";
 import { UPCOMING_LIVE_PERFORMERS } from "@/lib/content/live-campaign";
-import { formatPremiereDate, formatPremiereTimes, LIVE_PREMIERES } from "@/lib/content/live-premieres";
 import { CTAButton } from "@/components/shared/cta-button";
 
 // generateMetadata (not a static `metadata` export) so this can share the
@@ -43,40 +42,6 @@ export default async function LiveEventsPage() {
         </Container>
       </section>
 
-      {LIVE_PREMIERES.length > 0 && (
-        <section className="border-b border-ink/10 py-16 sm:py-20">
-          <Container>
-            <SectionHeading
-              eyebrow="Artist Premieres"
-              title="Premieres"
-              description="LIVE episodes built around an artist's own release, which premieres on the artist's own channel."
-            />
-            <RevealGrid>
-              <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {LIVE_PREMIERES.map((premiere) => (
-                  <Link
-                    key={premiere.slug}
-                    href={`${LIVE_CAMPAIGN_PATH}/${premiere.slug}`}
-                    className="hover-lift flex flex-col rounded-xl border border-line bg-white p-6"
-                  >
-                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">
-                      {formatPremiereDate(premiere, { month: "long", day: "numeric", year: "numeric" })} ·{" "}
-                      {formatPremiereTimes(premiere).split(" / ")[0]}
-                    </p>
-                    <h2 className="mt-2 font-display text-xl uppercase text-ink">
-                      {premiere.artist} — &ldquo;{premiere.title}&rdquo;
-                    </h2>
-                    <p className="mt-1 text-sm text-charcoal-light">{premiere.kind}</p>
-                    <span className="mt-4 text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark">
-                      See Details &rarr;
-                    </span>
-                  </Link>
-                ))}
-              </div>
-            </RevealGrid>
-          </Container>
-        </section>
-      )}
 
       <section className="border-b border-ink/10 py-16 sm:py-20">
         <Container>

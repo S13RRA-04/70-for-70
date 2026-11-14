@@ -15,6 +15,7 @@ import { getCampaign } from "@/lib/data/campaign";
 import { getPartners } from "@/lib/data/partners";
 import { HOW_THIS_BEGAN } from "@/lib/content/the-story";
 import { getRecognitionsForCampaign } from "@/lib/content/recognitions";
+import { formatPremiereDate, formatPremiereTimes, getUpcomingPremieres } from "@/lib/content/premieres";
 import {
   CAMPAIGN_NAME,
   DONATE_LINK,
@@ -83,6 +84,10 @@ function isMilitaryNightUpcoming(): boolean {
   return Date.now() < new Date(MILITARY_NIGHT.endsAt).getTime();
 }
 
+function upcomingPremieres() {
+  return getUpcomingPremieres(Date.now());
+}
+
 /**
  * Tri For The 22 — one Mobilization campaign page. This replaces the whole
  * former tri.forthe22.org site; every old Tri URL redirects here, to one
@@ -100,6 +105,7 @@ export default async function TriPage() {
   const breakdown = await getAllocationBreakdown(campaign);
   const recognitions = getRecognitionsForCampaign("tri");
   const militaryNightUpcoming = isMilitaryNightUpcoming();
+  const premieres = upcomingPremieres();
 
   return (
     <>
@@ -162,6 +168,33 @@ export default async function TriPage() {
                 />
               </div>
             </RevealOnScroll>
+          </Container>
+        </section>
+      )}
+
+      {premieres.length > 0 && (
+        <section aria-label="Upcoming premieres" className="border-b border-line bg-paper py-10">
+          <Container className="flex flex-col gap-4">
+            {premieres.map((premiere) => (
+              <Link
+                key={premiere.slug}
+                href={`${TRI_PAGE_PATH}/premiere/${premiere.slug}`}
+                className="lift group flex flex-wrap items-center justify-between gap-4 rounded-xl border border-line bg-white p-6"
+              >
+                <span className="flex flex-col gap-1">
+                  <span className="label-caps text-xs text-olive">World premiere · {premiere.kind}</span>
+                  <span className="font-display text-3xl uppercase leading-none text-navy">
+                    {premiere.artist} — &ldquo;{premiere.title}&rdquo;
+                  </span>
+                  <span className="text-base text-copy">
+                    {formatPremiereDate(premiere, { weekday: "long", month: "long", day: "numeric" })} ·{" "}
+                    {formatPremiereTimes(premiere).split(" / ")[0]}
+                    {premiere.program[0] && ` · ${premiere.program[0].title}`}
+                  </span>
+                </span>
+                <span className="font-bold text-navy group-hover:text-help group-hover:underline">Premiere details →</span>
+              </Link>
+            ))}
           </Container>
         </section>
       )}

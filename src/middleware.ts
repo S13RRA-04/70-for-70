@@ -13,6 +13,7 @@ import {
   TRI_JOURNAL_PATH,
   TRI_PAGE_PATH,
 } from "@/lib/constants";
+import { getPremiere } from "@/lib/content/premieres";
 import { assertValidRuntimeConfig } from "@/lib/config-validation";
 
 /**
@@ -322,9 +323,14 @@ function retiredHostDestination(host: RetiredCampaignHost, pathname: string): st
   if (pathname === "/") return home;
   if (host === "ruck" && /^\/missions\/[a-z0-9-]+$/.test(pathname)) return `${home}${pathname}`;
   if (host === "22" && (pathname === "/promokit" || pathname === "/rules")) return `${home}${pathname}`;
-  // Live's /events, /auction, and /<event-or-premiere-slug> all keep their
-  // shape under /campaigns/live; an unknown slug 404s there, as it did before.
-  if (host === "live" && /^\/[a-z0-9-]+$/.test(pathname)) return `${home}${pathname}`;
+  if (host === "live") {
+    // Artist premieres moved from Live to Tri For The 22.
+    const premiere = movedPremiereDestination(pathname.slice(1));
+    if (premiere) return premiere;
+    // Live's /events, /auction, and /<event-slug> keep their shape under
+    // /campaigns/live; an unknown slug 404s there, as it did before.
+    if (/^\/[a-z0-9-]+$/.test(pathname)) return `${home}${pathname}`;
+  }
   return home;
 }
 
@@ -355,9 +361,17 @@ function applyRetiredCampaignHostRedirect(request: NextRequest): Response | null
  * Org-host paths from earlier layouts: the Tri-only pages, and 22 For the
  * 22's original /22forthe22 home.
  */
+/** Artist premieres used to be Live episodes; they're Tri For The 22's now. */
+function movedPremiereDestination(slug: string): string | null {
+  return getPremiere(slug) ? `${TRI_PAGE_PATH}/premiere/${slug}` : null;
+}
+
 function applyLegacyPathRedirect(request: NextRequest): Response | null {
   if (isAppHost(request.headers.get("host"))) return null;
   const { pathname, search } = request.nextUrl;
+  const livePremiere = /^\/campaigns\/live\/([a-z0-9-]+)$/.exec(pathname);
+  const premiereDestination = livePremiere && movedPremiereDestination(livePremiere[1]);
+  if (premiereDestination) return NextResponse.redirect(`${SITE_URL}${premiereDestination}${search}`, 308);
   if (pathname === "/22forthe22" || pathname.startsWith("/22forthe22/")) {
     const rest = pathname.slice("/22forthe22".length); // "" | "/rules" | "/promokit"
     return NextResponse.redirect(`${SITE_URL}${EVENT22_CAMPAIGN_PATH}${rest}${search}`, 308);

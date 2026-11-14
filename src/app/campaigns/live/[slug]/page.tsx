@@ -7,8 +7,6 @@ import { RevealGrid } from "@/components/shared/reveal-on-scroll";
 import { JournalMarkdown } from "@/components/journal/journal-markdown";
 import { MissionProgress } from "@/components/campaign/mission-progress";
 import { PartnerLogo } from "@/components/shared/partner-logo";
-import { PremierePage } from "@/components/live/premiere-page";
-import { getLivePremiere } from "@/lib/content/live-premieres";
 import { getLiveEventBySlug, getLiveEventPerformers, getLiveAuctionItems } from "@/lib/data/live-events";
 import { getMissionPartners } from "@/lib/data/mission-partners";
 import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
@@ -19,16 +17,6 @@ import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 
 export async function generateMetadata(props: PageProps<"/campaigns/live/[slug]">): Promise<Metadata> {
   const { slug } = await props.params;
-
-  const premiere = getLivePremiere(slug);
-  if (premiere) {
-    return pageMetadata({
-      title: `${premiere.artist} — “${premiere.title}” ${premiere.kind}`,
-      description: premiere.summary,
-      canonical: `${LIVE_CAMPAIGN_URL}/${premiere.slug}`,
-      image: "/og-live.png",
-    });
-  }
 
   const event = await getLiveEventBySlug(slug);
   if (!event) return {};
@@ -43,22 +31,6 @@ export async function generateMetadata(props: PageProps<"/campaigns/live/[slug]"
 
 export default async function LiveEventPage(props: PageProps<"/campaigns/live/[slug]">) {
   const { slug } = await props.params;
-
-  // Artist premieres are content data, checked before live_events rows — see live-premieres.ts.
-  const premiere = getLivePremiere(slug);
-  if (premiere) {
-    const premiereJsonLd = breadcrumbJsonLd([
-      { name: "For The 22: Live", url: LIVE_CAMPAIGN_URL },
-      { name: "Shows", url: `${LIVE_CAMPAIGN_URL}/events` },
-      { name: `${premiere.artist} — “${premiere.title}”`, url: `${LIVE_CAMPAIGN_URL}/${premiere.slug}` },
-    ]);
-    return (
-      <>
-        <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(premiereJsonLd)} />
-        <PremierePage premiere={premiere} />
-      </>
-    );
-  }
 
   const event = await getLiveEventBySlug(slug);
   if (!event) notFound();
