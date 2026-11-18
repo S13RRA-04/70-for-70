@@ -4,7 +4,7 @@ import { formatPressDate } from "@/components/press/press-kit";
 import { getMissionMetrics } from "@/lib/data/mission-metrics";
 import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
 import { getPartners } from "@/lib/data/partners";
-import { FOUNDER_BIO_SHORT } from "@/lib/content/press";
+import { BENEFICIARY_FACT_FILES, FOUNDER_BIO_SHORT } from "@/lib/content/press";
 import {
   CONTACT_EMAIL,
   MOVEMENT_CAMPAIGNS,
@@ -106,6 +106,15 @@ export default async function FactSheetPage() {
           {beneficiaries.length > 0 && (
             <FactBlock title="Beneficiaries">
               <p>{beneficiaries.map((partner) => partner.name).join(" · ")}</p>
+              {BENEFICIARY_FACT_FILES.map((file) => (
+                <p key={file.organization} className="mt-1.5 text-sm">
+                  <strong>{file.organization}:</strong> {file.facts[0]}.{" "}
+                  <span className="text-charcoal-light">
+                    Source: {file.source}.
+                    {file.mediaContact && ` Media: ${file.mediaContact.name}, ${file.mediaContact.email}.`}
+                  </span>
+                </p>
+              ))}
             </FactBlock>
           )}
 

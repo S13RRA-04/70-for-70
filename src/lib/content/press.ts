@@ -157,6 +157,58 @@ export const PRESS_QUOTES: readonly PressQuote[] = [
     // Midday UTC, so the date reads as Nov. 9 in every U.S. time zone.
     providedOn: "2026-11-09T12:00:00Z",
   },
+  {
+    quote:
+      "As I look back on my transition out of the Marine Corps, I know that I would not have made it without a community of faith and those who were willing to step into my life during some of my darkest days. While it may have looked like I was trying to burn down everything I cared about, it was the authentic relationships with those who cared about me and my family that helped us get right with each other, right with God, and find renewed purpose after military service. What I understand now, in light of my own transition and the transition stories of thousands of men and women who have come through Mighty Oaks Programs, is that restoration and renewed purpose happen when the community of faith steps into the darkness so many are living in and shines the light of hope found in a relationship with our Creator.",
+    name: "Jeremy Stalnecker",
+    title: "CEO and U.S. Marine Corps veteran",
+    organization: "Mighty Oaks Foundation",
+    organizationUrl: "https://www.mightyoaksprograms.org/",
+    // Sent by Mighty Oaks donor relations for the media kit, Nov. 18, 2026.
+    providedOn: "2026-11-18T12:00:00Z",
+  },
+];
+
+export interface BeneficiaryFactFile {
+  organization: string;
+  url: string;
+  /** One-line description, in the organization's own terms. */
+  about: string;
+  /** Figures as the organization reported them — each must appear in `source`. */
+  facts: readonly string[];
+  /** Where the figures come from, named on the page so reporters attribute them to the organization, not to For The 22. */
+  source: string;
+  /** The organization's own media point of contact, for questions about its programs. */
+  mediaContact?: { name: string; title: string; email: string; phone?: string };
+}
+
+/**
+ * Fact files the beneficiary organizations supplied for press use. Figures
+ * are theirs, quoted as reported — never rounded up, combined, or restated
+ * as For The 22's own impact.
+ */
+export const BENEFICIARY_FACT_FILES: readonly BeneficiaryFactFile[] = [
+  {
+    organization: "Mighty Oaks Foundation",
+    url: "https://www.mightyoaksprograms.org/",
+    about:
+      "A Christian faith-based 501(c)(3) nonprofit, founded in 2010 and based in Montgomery, Texas, running recovery and resiliency programs for military and first responder communities and their spouses — at no cost to participants. EIN 45-3159170.",
+    facts: [
+      "1,085 graduates from 42 recovery programs in 2025: 761 military veterans and service members, 287 first responders (police, fire, and EMS), and 37 Special Immigrant Visa recipients",
+      "$4,240,470 spent on programs in 2025 — an average of $3,500 per participant, covering travel, lodging, meals, materials, and aftercare",
+      "2,332 program applications received in 2025, with 2,025 applicants on the waiting list",
+      "93 resiliency events in 2025, reaching roughly 80,000 attendees",
+      "79 local Outposts providing aftercare to an average of 430 people",
+      "74% of 2025 expenses went to program services, 14% to fundraising, and 12% to management and general",
+    ],
+    source: "Mighty Oaks 2025 Supporter Annual Report (January 1 – December 31, 2025)",
+    mediaContact: {
+      name: "Michael Cameron",
+      title: "Chief Marketing Officer",
+      email: "michael@mightyoaksprograms.org",
+      phone: "832-422-7361",
+    },
+  },
 ];
 
 export interface MediaLink {

@@ -2,6 +2,7 @@ import Image from "next/image";
 import { ArrowUpRight, Download, FileText, Headphones, Lightbulb, Mail, Newspaper, PlayCircle, Share2 } from "lucide-react";
 import { CopyButton } from "@/components/shared/copy-button";
 import {
+  BENEFICIARY_FACT_FILES,
   FOUNDER_BIO_LONG,
   FOUNDER_BIO_SHORT,
   FOUNDER_INTRO,
@@ -381,6 +382,55 @@ export function PressQuotes() {
           </figure>
         );
       })}
+    </div>
+  );
+}
+
+/**
+ * Fact files supplied by the beneficiary organizations — their figures,
+ * attributed to their source, with their own media contact for questions
+ * about their programs.
+ */
+export function BeneficiaryFactFiles() {
+  return (
+    <div className="space-y-4">
+      {BENEFICIARY_FACT_FILES.map((file) => (
+        <article key={file.organization} className="rounded-xl border border-line bg-white p-5">
+          <h3 className="font-display text-xl uppercase leading-tight text-ink">
+            <a href={file.url} className="hover:underline">
+              {file.organization}
+            </a>
+          </h3>
+          <p className="mt-2 text-sm leading-relaxed text-charcoal-light">{file.about}</p>
+          <ul className="mt-4 list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-ink marker:text-bronze">
+            {file.facts.map((fact) => (
+              <li key={fact}>{fact}</li>
+            ))}
+          </ul>
+          <p className="mt-3 text-xs text-charcoal-light">
+            <span className="font-semibold uppercase tracking-wide">Source: </span>
+            {file.source}, as reported by {file.organization}. Please attribute these figures to them.
+          </p>
+          {file.mediaContact && (
+            <p className="mt-4 border-t border-line pt-4 text-sm text-charcoal-light">
+              <span className="font-semibold text-ink">Questions about {file.organization}&apos;s programs:</span>{" "}
+              {file.mediaContact.name}, {file.mediaContact.title} ·{" "}
+              <a href={`mailto:${file.mediaContact.email}`} className="text-bronze hover:underline">
+                {file.mediaContact.email}
+              </a>
+              {file.mediaContact.phone && (
+                <>
+                  {" "}
+                  ·{" "}
+                  <a href={`tel:+1${file.mediaContact.phone.replace(/\D/g, "")}`} className="text-bronze hover:underline">
+                    {file.mediaContact.phone}
+                  </a>
+                </>
+              )}
+            </p>
+          )}
+        </article>
+      ))}
     </div>
   );
 }

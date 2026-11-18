@@ -5,6 +5,7 @@ import { PageHero } from "@/components/shared/page-hero";
 import { CTAButton } from "@/components/shared/cta-button";
 import { BrandColorBreakdown } from "@/components/about/mark-diagram";
 import {
+  BeneficiaryFactFiles,
   FactsVerification,
   FounderBios,
   InterviewTopics,
@@ -22,7 +23,7 @@ import {
 import { getPartners } from "@/lib/data/partners";
 import { getMissionMetrics } from "@/lib/data/mission-metrics";
 import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
-import { MEDIA_APPEARANCES, PRESS_PHOTOS, PRESS_QUOTES } from "@/lib/content/press";
+import { BENEFICIARY_FACT_FILES, MEDIA_APPEARANCES, PRESS_PHOTOS, PRESS_QUOTES } from "@/lib/content/press";
 import {
   CAMPAIGN_STATUS_LABELS,
   CONTACT_EMAIL,
@@ -245,6 +246,16 @@ export default async function PressPage() {
               description="Approved for use as written. To verify a quote with the speaker's organization, contact our media line and we'll connect you."
             >
               <PressQuotes />
+            </PressSection>
+          )}
+
+          {BENEFICIARY_FACT_FILES.length > 0 && (
+            <PressSection
+              id="beneficiaries"
+              title="About the Beneficiaries"
+              description="Program facts supplied by the nonprofits The $70K Mission supports. For questions about their programs, contact them directly."
+            >
+              <BeneficiaryFactFiles />
             </PressSection>
           )}
 
