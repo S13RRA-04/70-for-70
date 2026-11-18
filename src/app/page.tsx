@@ -12,6 +12,9 @@ import { DONATE_LINK, MOVEMENT_CAMPAIGNS, ORG_TAGLINE, isCurrentCampaign } from 
 import { ORG_PILLARS, PILLAR_TEXT, type MissionPillar } from "@/lib/pillars";
 import { cn } from "@/lib/utils";
 import { CampaignFilm } from "@/components/home/campaign-film";
+import { VoiceVideo } from "@/components/voices/voice-video";
+import { LATEST_VOICE_MESSAGE, VOICES_SERIES_NAME } from "@/lib/content/voices";
+import { AuctionSpotlight } from "@/components/live/auction-spotlight";
 import { InstitutionalRecognition } from "@/components/shared/institutional-recognition";
 import { RECOGNITIONS } from "@/lib/content/recognitions";
 import { COMPLETED_RUCK_MISSIONS } from "@/lib/content/ruck-missions";
@@ -241,6 +244,8 @@ export default async function HomePage() {
         </div>
       </section>
 
+      <AuctionSpotlight />
+
       {/* Three pillars */}
       <section aria-labelledby="pillars-heading" className="border-y border-line bg-white">
         <h2 id="pillars-heading" className="sr-only">
@@ -380,6 +385,34 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Voices For The 22 — the latest message of support (last entry in voices.ts) */}
+      {LATEST_VOICE_MESSAGE && (
+        <section id="voices" aria-labelledby="voices-heading" className="scroll-mt-28 border-t border-line bg-paper">
+          <div className="mx-auto grid max-w-[1240px] gap-14 px-6 py-20 sm:py-[104px] md:grid-cols-[minmax(0,340px)_1fr] md:items-center">
+            <VoiceVideo message={LATEST_VOICE_MESSAGE} />
+            <RevealOnScroll className="flex flex-col gap-4">
+              <Label className="text-help">{VOICES_SERIES_NAME}</Label>
+              <h2
+                id="voices-heading"
+                className="text-worn font-display text-[clamp(44px,5vw,64px)] uppercase leading-none text-navy"
+              >
+                Your life matters.
+              </h2>
+              <p className="max-w-[520px] text-lg leading-relaxed text-copy">
+                A message from {LATEST_VOICE_MESSAGE.name} to veterans, first responders, and their families.{" "}
+                {VOICES_SERIES_NAME} shares messages of support from people who want you to know you&apos;re not alone.
+              </p>
+              <Link
+                href={`/voices#${LATEST_VOICE_MESSAGE.id}`}
+                className="action-control mt-2 inline-flex min-h-[50px] items-center self-start border-2 border-help px-6 font-bold text-help hover:bg-help hover:text-white"
+              >
+                Visit {VOICES_SERIES_NAME}
+              </Link>
+            </RevealOnScroll>
+          </div>
+        </section>
+      )}
 
       {/* 02 · Mobilization — campaigns on navy */}
       <section id="mobilization" aria-labelledby="mob-heading" className="scroll-mt-28 bg-navy text-white">

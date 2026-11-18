@@ -1,11 +1,11 @@
 import { Container } from "@/components/shared/container";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { AuctionItemCard } from "@/components/live/auction-item-card";
-import { HAS_LISTED_AUCTION_ITEMS, LISTED_LIVE_AUCTION_ITEMS } from "@/lib/content/live-auction";
+import { HAS_LISTED_AUCTION_ITEMS, LISTED_AUCTION_PLATFORMS, LISTED_LIVE_AUCTION_ITEMS } from "@/lib/content/live-auction";
 import { EmptyState } from "@/components/shared/empty-state";
 import { LIVE_FUNDS_DISCLOSURE } from "@/lib/content/live-campaign";
 import { LIVE_CAMPAIGN_URL, SITE_URL, LIVE_CAMPAIGN_PATH } from "@/lib/constants";
-import { RevealOnScroll, RevealGrid } from "@/components/shared/reveal-on-scroll";
+import { RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 
@@ -42,13 +42,13 @@ export default function LiveAuctionPage() {
       <section className="border-b border-off-white/10 bg-charcoal py-16 sm:py-20">
         <Container>
           {HAS_LISTED_AUCTION_ITEMS ? (
-            <RevealGrid>
-              <div className="grid gap-6 sm:grid-cols-2">
-                {LISTED_LIVE_AUCTION_ITEMS.map((item) => (
-                  <AuctionItemCard key={item.slug} item={item} />
-                ))}
-              </div>
-            </RevealGrid>
+            // RevealOnScroll, not RevealGrid: the cards read the clock, so they
+            // stream in as lazy RSC chunks that RevealGrid's cloneElement can't clone.
+            <RevealOnScroll className="grid gap-6 sm:grid-cols-2">
+              {LISTED_LIVE_AUCTION_ITEMS.map((item) => (
+                <AuctionItemCard key={item.slug} item={item} />
+              ))}
+            </RevealOnScroll>
           ) : (
             <div className="mx-auto max-w-2xl">
               <EmptyState
@@ -67,14 +67,14 @@ export default function LiveAuctionPage() {
           <RevealOnScroll>
             <SectionHeading
               eyebrow="How to Participate"
-              title="Bid Through 32auctions"
-              description="32auctions is the system of record for registration, bids, auction timing, payment, and the winning bidder for every item above."
+              title={`Bid Through ${LISTED_AUCTION_PLATFORMS}`}
+              description={`${LISTED_AUCTION_PLATFORMS} is the system of record for registration, bids, auction timing, payment, and the winning bidder for every item above.`}
             />
             <ol className="mt-8 grid gap-4 sm:grid-cols-3">
               {[
-                ["01", "Open an Item's Auction", "Visit that item's listing on 32auctions from the card above."],
-                ["02", "Register and Bid", "Follow 32auctions' instructions to create an account and place your bid."],
-                ["03", "Watch for Updates", "32auctions handles bid activity and winner communications under the published auction terms."],
+                ["01", "Open an Item's Auction", `Visit that item's listing on ${LISTED_AUCTION_PLATFORMS} from the card above.`],
+                ["02", "Register and Bid", "Follow the listing's instructions to place your bid."],
+                ["03", "Watch for Updates", `${LISTED_AUCTION_PLATFORMS} handles bid activity and winner communications under the published auction terms.`],
               ].map(([number, title, description]) => (
                 <li key={number} className="rounded-xl border border-line bg-white p-6">
                   <p className="font-display text-3xl text-bronze/50">{number}</p>
@@ -85,7 +85,7 @@ export default function LiveAuctionPage() {
             </ol>
             <p className="mt-8 text-sm leading-relaxed text-charcoal-light">
               Item specifications, fulfillment, shipping or pickup, payment deadlines, and all final bidding terms
-              are governed by each item&apos;s own listing on 32auctions.
+              are governed by each item&apos;s own listing on {LISTED_AUCTION_PLATFORMS}.
             </p>
           </RevealOnScroll>
         </Container>
@@ -99,7 +99,7 @@ export default function LiveAuctionPage() {
             <p className="mt-5 max-w-2xl text-sm leading-relaxed text-charcoal-light">
               {LIVE_FUNDS_DISCLOSURE} Where an item&apos;s listing names a specific beneficiary (as noted on its
               card above), that item&apos;s proceeds go to that organization directly rather than the general pooled
-              split. 32auctions is the system of record for the winning payment itself.
+              split. {LISTED_AUCTION_PLATFORMS} is the system of record for the winning payment itself.
             </p>
             <a
               href={`${SITE_URL}/beneficiaries`}

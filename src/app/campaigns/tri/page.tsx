@@ -9,6 +9,7 @@ import { CTAButton } from "@/components/shared/cta-button";
 import { RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import { InstitutionalRecognition } from "@/components/shared/institutional-recognition";
 import { MissionProgress } from "@/components/campaign/mission-progress";
+import { AuctionSpotlight } from "@/components/live/auction-spotlight";
 import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
 import { getAllocationBreakdown } from "@/lib/data/allocation";
 import { getCampaign } from "@/lib/data/campaign";
@@ -198,6 +199,8 @@ export default async function TriPage() {
           </Container>
         </section>
       )}
+
+      <AuctionSpotlight />
 
       {/* The race */}
       <section className="border-b border-line py-14 sm:py-16">

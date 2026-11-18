@@ -6,6 +6,7 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { CTAButton } from "@/components/shared/cta-button";
 import { CTASection } from "@/components/shared/cta-section";
 import { MissionProgress } from "@/components/campaign/mission-progress";
+import { AuctionSpotlight } from "@/components/live/auction-spotlight";
 import { getMissionMetrics } from "@/lib/data/mission-metrics";
 import { getAllocationBreakdown } from "@/lib/data/allocation";
 import { getCampaign } from "@/lib/data/campaign";
@@ -112,6 +113,8 @@ export default async function Mission70kPage() {
           </Container>
         </section>
       )}
+
+      <AuctionSpotlight />
 
       <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
         <Container className="max-w-3xl">

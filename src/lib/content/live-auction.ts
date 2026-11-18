@@ -1,13 +1,14 @@
 /**
- * Bid/goal numbers for the tracker on an item's card. Hand-updated: 32auctions
- * has no public feed and its robots.txt disallows automated access to listing
- * pages, so don't scrape it. To post a new bid, set `currentBid` and
+ * Bid/goal numbers for the tracker on an item's card. Hand-updated: don't
+ * scrape the auction platforms (32auctions' robots.txt disallows automated
+ * access to listing pages, and neither has a public bid feed). To post a new bid, set `currentBid` and
  * `bidAsOfLabel` together, then push to master.
  */
 export interface LiveAuctionTracker {
   goal: number;
-  startingBid: number;
-  /** Latest high bid from the 32auctions listing. `null` until one is recorded — the tracker shows `startingBid` instead. */
+  /** `null` when the listing doesn't publish one — the tracker then shows only the goal until a bid is recorded. */
+  startingBid: number | null;
+  /** Latest high bid from the item's listing. `null` until one is recorded — the tracker shows `startingBid` instead. */
   currentBid: number | null;
   /** When `currentBid` was read, e.g. "Nov. 3 at 9 AM CT". */
   bidAsOfLabel: string | null;
@@ -26,6 +27,8 @@ export interface LiveAuctionItem {
    */
   provenanceLine: string;
   biddingUrl: string;
+  /** Where the item is listed and bids are taken — the system of record named on the card and auction page. */
+  platform: "Givebutter" | "32auctions";
   /**
    * Bidding window, as ISO-8601 instants with an explicit UTC offset — same
    * convention as RACE_INFO.raceDate (constants.ts). Times are Central
@@ -44,7 +47,7 @@ export interface LiveAuctionItem {
   /** Abbreviated display strings for the compact status line, e.g. "Dec. 1". */
   opensShortLabel: string;
   closesShortLabel: string;
-  /** Optional separate winner-announcement date, when it differs from closesOnLabel (e.g. Whiskey Myers). */
+  /** Optional separate winner-announcement date, when it differs from closesOnLabel. */
   winnerAnnouncementLabel?: string;
   /** Org this specific item's winning bid benefits, when an item designates one directly (distinct from LIVE_FUNDS_DISCLOSURE's general pooled split — see the auction page's doc comment). */
   beneficiary?: string;
@@ -67,21 +70,23 @@ export interface LiveAuctionItem {
 export const LIVE_AUCTION_ITEMS: LiveAuctionItem[] = [
   {
     slug: "whiskey-myers-guitar-tickets",
-    title: "Whiskey Myers Signed Guitar + Two 2027 Concert Tickets",
+    title: "Whiskey Myers Autographed Guitar",
     description:
-      "A band-signed Epiphone Les Paul Special with Whomp Whack Thunder artwork, plus two tickets to a 2027 Whiskey Myers show. Whiskey Myers generously donated this package to the For The 22 online silent auction, and a certificate of authenticity is included.",
-    provenanceLine: "Donated and signed by Whiskey Myers · Certificate of authenticity included",
-    biddingUrl: "https://www.32auctions.com/organizations/144205/auctions/208906/auction_items/7230673",
-    opensAtIso: "2026-11-01T00:00:00-05:00",
-    closesAtIso: "2026-11-22T14:00:00-06:00",
-    opensOnLabel: "November 1, 2026",
-    closesOnLabel: "November 22, 2026 at 2 PM CT",
-    opensShortLabel: "Nov. 1",
-    closesShortLabel: "Nov. 22 at 2 PM CT",
-    winnerAnnouncementLabel: "November 22, 2026",
+      "A band-signed Epiphone Les Paul-style electric guitar with custom Whomp Whack Thunder album artwork. Whiskey Myers generously donated it to support Tri For The 22, and a certificate of authenticity is included. Bidding closes May 17, 2027 at noon CT — the day after IRONMAN 70.3 Chattanooga.",
+    provenanceLine:
+      "Donated and signed by Whiskey Myers · Certificate of authenticity included · Benefiting Mighty Oaks Foundation and Veterans and Athletes United",
+    biddingUrl: "https://givebutter.com/c/forthe22",
+    platform: "Givebutter",
+    // Relisted on Givebutter Nov. 18, 2026 (guitar only). Every Givebutter
+    // item closes together: May 17, 2027 at 12 PM CT (CDT, -05:00).
+    opensAtIso: "2026-11-18T00:00:00-06:00",
+    closesAtIso: "2027-05-17T12:00:00-05:00",
+    opensOnLabel: "November 18, 2026",
+    closesOnLabel: "May 17, 2027 at 12 PM CT",
+    opensShortLabel: "Nov. 18",
+    closesShortLabel: "May 17 at noon CT",
+    beneficiary: "Mighty Oaks Foundation and Veterans and Athletes United",
     featured: true,
-    // Taken down Nov. 12, 2026 while auction logistics are worked out.
-    hidden: true,
     image: {
       src: "/live/whiskey-myers-guitar.jpg",
       alt: "Epiphone Les Paul Special with Whomp Whack Thunder album artwork, signed by Whiskey Myers",
@@ -96,24 +101,34 @@ export const LIVE_AUCTION_ITEMS: LiveAuctionItem[] = [
   },
   {
     slug: "muscadine-bloodline-signed-gibson-guitar",
-    title: "Muscadine Bloodline Signed Gibson Guitar",
+    title: "Muscadine Bloodline Autographed Acoustic Guitar",
     description:
-      "A Gibson guitar donated through Gibson Gives and signed by Gary Stanton and Charlie Muncaster of Muscadine Bloodline. This one-of-a-kind auction item supports Mighty Oaks Warrior Programs through For the 22.",
-    provenanceLine: "Donated through Gibson Gives · Signed by Muscadine Bloodline · Benefiting Mighty Oaks Warrior Programs",
-    biddingUrl: "https://www.32auctions.com/muscadinebloodline",
-    opensAtIso: "2026-12-01T00:00:00-06:00",
-    closesAtIso: "2026-12-23T00:00:00-06:00",
-    opensOnLabel: "December 1, 2026",
-    closesOnLabel: "December 22, 2026",
-    opensShortLabel: "Dec. 1",
-    closesShortLabel: "Dec. 22",
-    beneficiary: "Mighty Oaks Warrior Programs",
+      "An Epiphone J-45 Studio acoustic guitar in gloss black with ivory binding and a red tortoiseshell pickguard bearing the autographs of Gary Stanton and Charlie Muncaster. Muscadine Bloodline stepped up to support Tri For The 22 with this one-of-a-kind piece. Bidding closes May 17, 2027 at noon CT — the day after IRONMAN 70.3 Chattanooga.",
+    provenanceLine:
+      "Donated through Gibson Gives · Signed by Muscadine Bloodline · Benefiting Mighty Oaks Warrior Programs and Veterans and Athletes United",
+    biddingUrl: "https://givebutter.com/c/for-the-22-muscadine-bloodline-5v1dhv/auction",
+    platform: "Givebutter",
+    // Relisted on Givebutter Nov. 18, 2026 — closes with every other Givebutter item.
+    opensAtIso: "2026-11-18T00:00:00-06:00",
+    closesAtIso: "2027-05-17T12:00:00-05:00",
+    opensOnLabel: "November 18, 2026",
+    closesOnLabel: "May 17, 2027 at 12 PM CT",
+    opensShortLabel: "Nov. 18",
+    closesShortLabel: "May 17 at noon CT",
+    beneficiary: "Mighty Oaks Warrior Programs and Veterans and Athletes United",
     featured: true,
-    // Taken down Nov. 12, 2026 while auction logistics are worked out.
-    hidden: true,
-    // Swap in the real photo once it's available — see AuctionItemCard,
-    // which falls back to a branded placeholder whenever `image` is unset.
-    // image: { src: "/live/muscadine-bloodline-guitar.jpg", alt: "Gibson guitar signed by Muscadine Bloodline for the For the 22 silent auction" },
+    image: {
+      // Cropped from the Givebutter listing graphic.
+      src: "/live/muscadine-bloodline-guitar.jpg",
+      alt: "Black Epiphone J-45 Studio acoustic guitar with a red tortoiseshell pickguard signed by Muscadine Bloodline",
+      contain: true,
+    },
+    tracker: {
+      goal: 1500,
+      startingBid: null,
+      currentBid: null,
+      bidAsOfLabel: null,
+    },
   },
 ];
 
@@ -126,3 +141,6 @@ export const LISTED_LIVE_AUCTION_ITEMS = LIVE_AUCTION_ITEMS.filter((item) => !it
  * LIVE home's auction card, the sitemap, press references) stand down.
  */
 export const HAS_LISTED_AUCTION_ITEMS = LISTED_LIVE_AUCTION_ITEMS.length > 0;
+
+/** The platform(s) the listed items are on, for page copy — e.g. "Givebutter" or "Givebutter and 32auctions". */
+export const LISTED_AUCTION_PLATFORMS = [...new Set(LISTED_LIVE_AUCTION_ITEMS.map((item) => item.platform))].join(" and ");

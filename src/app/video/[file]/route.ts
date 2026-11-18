@@ -22,6 +22,8 @@ const FILMS: Record<string, { asset: string; type: string }> = {
   "ruckup22-2026-checkin-1.mp4": { asset: "/media/ruckup22-2026-checkin-1.mp4", type: "video/mp4" },
   "ruckup22-2026-checkin-2.mp4": { asset: "/media/ruckup22-2026-checkin-2.mp4", type: "video/mp4" },
   "ruckup22-2026-checkin-3.mp4": { asset: "/media/ruckup22-2026-checkin-3.mp4", type: "video/mp4" },
+  // Voices For The 22 messages — see src/lib/content/voices.ts.
+  "voices-jon-stewart.mp4": { asset: "/media/voices-jon-stewart.mp4", type: "video/mp4" },
 };
 
 const CACHE_CONTROL = "public, max-age=86400";

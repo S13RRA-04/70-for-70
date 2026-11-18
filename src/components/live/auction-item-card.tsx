@@ -98,7 +98,7 @@ export function AuctionItemCard({ item }: { item: LiveAuctionItem }) {
               data-analytics-event="auction_bid_click"
             >
               {ctaLabel}
-              <span className="sr-only"> on 32auctions for {item.title}</span>
+              <span className="sr-only"> on {item.platform} for {item.title}</span>
             </CTAButton>
           </div>
         </div>

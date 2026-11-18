@@ -17,7 +17,7 @@ const ORG_ROUTES = [
   "/campaigns/live/events", "/campaigns/seen", "/campaigns/22-for-the-22",
   "/campaigns/22-for-the-22/promokit", "/campaigns/22-for-the-22/rules",
   "/network", "/impact", "/standards", "/transparency", "/70k", "/donate",
-  "/contact", "/privacy", "/terms", "/press",
+  "/contact", "/privacy", "/terms", "/press", "/voices",
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

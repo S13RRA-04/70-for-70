@@ -151,8 +151,7 @@ export default async function PressPage() {
       claim: "Whiskey Myers and Muscadine Bloodline",
       evidence: (
         <>
-          Donated items for the online silent auction — a signed guitar plus concert tickets from Whiskey
-          Myers, and a Gibson guitar (donated through Gibson Gives) signed by members of Muscadine
+          Donated items for the online silent auction — a signed guitar from Whiskey Myers, and an Epiphone J-45 acoustic guitar (donated through Gibson Gives) signed by members of Muscadine
           Bloodline. Not an endorsement or partnership.
           {HAS_LISTED_AUCTION_ITEMS && (
             <>

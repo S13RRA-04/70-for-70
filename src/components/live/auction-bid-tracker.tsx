@@ -6,7 +6,7 @@ import { formatCurrency } from "@/lib/utils";
 /**
  * Bid amount against the item's goal, plus time remaining. The bid is a
  * hand-updated value (see LiveAuctionTracker), so it always carries its "as of"
- * time and 32auctions stays the system of record for the actual high bid.
+ * time and the item's listing platform stays the system of record for the actual high bid.
  */
 export function AuctionBidTracker({
   item,
@@ -20,15 +20,18 @@ export function AuctionBidTracker({
   const { currentBid, startingBid, goal, bidAsOfLabel } = tracker;
   const percent = Math.min(Math.round(((currentBid ?? 0) / goal) * 100), 100);
   const amountLabel = currentBid === null ? "Starting bid" : status === "closed" ? "Last reported bid" : "Current bid";
+  const amount = currentBid ?? startingBid;
 
   return (
     <div className="mt-6 rounded-xl border border-off-white/10 bg-ink/40 p-4 sm:p-5">
       <div className="flex items-end justify-between gap-4">
-        <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-off-white/50">{amountLabel}</p>
-          <p className="mt-1 font-display text-4xl text-bronze-light">{formatCurrency(currentBid ?? startingBid)}</p>
-        </div>
-        <div className="text-right">
+        {amount !== null && (
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-off-white/50">{amountLabel}</p>
+            <p className="mt-1 font-display text-4xl text-bronze-light">{formatCurrency(amount)}</p>
+          </div>
+        )}
+        <div className={amount !== null ? "text-right" : undefined}>
           <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-off-white/50">Goal</p>
           <p className="mt-1 font-display text-2xl text-off-white">{formatCurrency(goal)}</p>
         </div>
@@ -47,7 +50,7 @@ export function AuctionBidTracker({
       <p className="mt-2 text-xs text-off-white/50">
         {percent}% of goal
         {currentBid !== null && bidAsOfLabel ? ` · Updated ${bidAsOfLabel}` : ""}
-        {" · "}See 32auctions for the live high bid
+        {" · "}See {item.platform} for the live high bid
       </p>
 
       <div className="mt-5">

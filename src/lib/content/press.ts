@@ -41,6 +41,12 @@ export const PHOTO_USAGE_TERMS =
  */
 export const PRESS_PHOTOS: readonly PressPhoto[] = [
   {
+    src: "/press/photos/cody-hitson-headshot.jpg",
+    alt: "Headshot of Cody Hitson smiling in a dark button-up shirt in front of weathered wood",
+    caption: "Cody Hitson, Navy veteran and founder of For The 22.",
+    credit: "Courtesy of Cody Hitson",
+  },
+  {
     src: "/press/photos/cody-hitson-founder-portrait.jpg",
     alt: "Cody Hitson smiling outdoors wearing a ruck and a camouflage cap",
     caption: "Cody Hitson, founder of For The 22, during RuckUp22 Huntsville, October 24, 2026.",
@@ -57,6 +63,12 @@ export const PRESS_PHOTOS: readonly PressPhoto[] = [
     alt: "Navy Petty Officer 2nd Class Cody Hitson reporting on camera in Afghanistan",
     caption: "PO2 Cody Hitson reporting as a combat journalist in Afghanistan, 2011.",
     credit: "AFN Afghanistan / U.S. Department of Defense",
+  },
+  {
+    src: "/press/photos/cody-hitson-afghanistan-deployment.jpg",
+    alt: "Cody Hitson in combat helmet, sunglasses, and body armor in the Afghan desert",
+    caption: "Cody Hitson deployed to Afghanistan in support of Operation Enduring Freedom, 2011.",
+    credit: "Courtesy of Cody Hitson",
   },
   {
     src: "/press/photos/cody-hitson-navy-service.jpg",
@@ -109,7 +121,7 @@ export const STORY_ANGLES: readonly StoryAngle[] = [
     label: "Music & community",
     headline: "When Music Becomes a Mission: Country Artists Rally Behind Veterans",
     pitch:
-      "Whiskey Myers donated and signed a guitar plus two 2027 concert tickets, and Muscadine Bloodline's Gary Stanton and Charlie Muncaster signed a Gibson guitar donated through Gibson Gives—both for For The 22's online silent auction, as part of a benefit concert series in development.",
+      "Whiskey Myers donated and signed a guitar, and Muscadine Bloodline's Gary Stanton and Charlie Muncaster signed an Epiphone J-45 acoustic guitar donated through Gibson Gives—both up for bid in For The 22's online silent auction through May 17, 2027, benefiting Tri For The 22.",
     sources: [
       HAS_LISTED_AUCTION_ITEMS
         ? { label: "Silent auction items", href: `${LIVE_CAMPAIGN_URL}/auction` }

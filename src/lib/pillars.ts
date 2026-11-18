@@ -60,6 +60,7 @@ export const ORG_PILLARS: readonly OrgPillar[] = [
       { label: "Crisis support", href: "/crisis" },
       { label: "First responder support", href: "/crisis#first-responders" },
       { label: "Resource standards", href: "/standards" },
+      { label: "Voices For The 22", href: "/voices" },
     ],
   }),
   pillar({

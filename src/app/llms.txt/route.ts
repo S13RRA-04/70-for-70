@@ -32,6 +32,7 @@ const ORG_LINKS: LinkEntry[] = [
   ["/about", "About", `Founder Cody Hitson's own story of service, struggle, and recovery — and how it became ${SITE_NAME}.`],
   ["/resources", "Resources", "A resource finder for veterans, first responders, and their families, browsable by state and need."],
   ["/standards", "How Resources Are Reviewed", `What ${SITE_NAME} checks before a program appears in the resource directory — and what "reviewed" does and does not mean.`],
+  ["/voices", "Voices For The 22", "Messages of support from public figures to veterans, first responders, and their families."],
   ["/crisis", "Crisis Support", "Immediate crisis support for veterans and first responders."],
   ["/veteran-brands", "Veteran & First Responder Brands", "Veteran-owned and first-responder-owned companies, and businesses that give back."],
   ["/campaigns", "Campaigns", `Tri For The 22, Ruck For The 22, For The 22: Live, and 22 For the 22 — all contributing toward one shared ${formatCurrency(FUNDRAISING_GOAL)} fundraising goal.`],
