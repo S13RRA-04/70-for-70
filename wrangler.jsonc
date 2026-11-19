@@ -108,6 +108,7 @@
     "NEXT_PUBLIC_SEEN_URL": "https://seen.forthe22.org",
     "NEXT_PUBLIC_APP_URL": "https://app.forthe22.org",
     "NEXT_PUBLIC_EVENT22_URL": "https://22.forthe22.org",
+    "NEXT_PUBLIC_VOICES_UPLOAD_MAX_MB": "500",
     "NEXT_PUBLIC_TURNSTILE_SITE_KEY": "0x4AAAAAAFLIyPD7lrYMh9Ie",
     "TURNSTILE_HOSTNAMES": "forthe22.org,tri.forthe22.org,ruck.forthe22.org,live.forthe22.org,seen.forthe22.org,22.forthe22.org,app.forthe22.org",
     "NEXT_PUBLIC_SUPABASE_URL": "https://wjwgzphvpulkofvuksko.supabase.co",

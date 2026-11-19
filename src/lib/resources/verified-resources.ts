@@ -1,0 +1,8 @@
+import { VERIFIED_EXPANSION_RESOURCES } from "@/lib/resources/verified-expansion-resources";
+import { VERIFIED_PATHWAY_RESOURCES } from "@/lib/resources/verified-pathway-resources";
+
+/** All official-source-verified records that augment or update the bundled directory. */
+export const VERIFIED_RESOURCES = [
+  ...VERIFIED_EXPANSION_RESOURCES,
+  ...VERIFIED_PATHWAY_RESOURCES,
+];

@@ -1,14 +1,20 @@
-import type { VoiceMessage } from "@/lib/content/voices";
-
 /**
  * A Voices For The 22 message as a vertical (9:16) phone-like frame — same
- * offset jet block as VerticalVideoEmbed. Self-hosted through /video/<file>
- * (Range support for Safari/iOS); never autoplays or preloads, so the poster
- * stands in until someone presses play.
+ * offset jet block as VerticalVideoEmbed. Never autoplays or preloads, so the
+ * poster stands in until someone presses play; native controls keep it
+ * keyboard- and screen-reader-operable. Repo-hosted files go through
+ * /video/<file> (Range support for Safari/iOS); Supabase public URLs support
+ * Range natively.
  */
-export function VoiceVideo({ message }: { message: VoiceMessage }) {
+export function VoiceVideo({
+  message,
+  className,
+}: {
+  message: { name: string; video: { src: string; type: string; poster?: string; captions?: string } };
+  className?: string;
+}) {
   return (
-    <div className="relative mx-auto w-full max-w-[340px]">
+    <div className={className ?? "relative mx-auto w-full max-w-[340px]"}>
       <div aria-hidden="true" className="absolute inset-[-14px_-14px_14px_14px] rounded-[22px] bg-jet" />
       <video
         controls

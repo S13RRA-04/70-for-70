@@ -5,6 +5,8 @@ import { fileURLToPath } from "node:url";
 
 const require = createRequire(import.meta.url);
 const { VERIFIED_PATHWAY_RESOURCES } = require("../src/lib/resources/verified-pathway-resources.ts") as typeof import("../src/lib/resources/verified-pathway-resources");
+const { VERIFIED_EXPANSION_RESOURCES } = require("../src/lib/resources/verified-expansion-resources.ts") as typeof import("../src/lib/resources/verified-expansion-resources");
+const VERIFIED_RESOURCES = [...VERIFIED_EXPANSION_RESOURCES, ...VERIFIED_PATHWAY_RESOURCES];
 const { NEED_PATHWAY_TAGS } = require("../src/lib/resources/flagships.ts") as typeof import("../src/lib/resources/flagships");
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const supabaseCli = resolve(projectRoot, "node_modules/supabase/dist/supabase.js");
@@ -17,7 +19,7 @@ function sqlLiteral(value: string): string {
   return `'${value.replaceAll("'", "''")}'`;
 }
 
-for (const resource of VERIFIED_PATHWAY_RESOURCES) {
+for (const resource of VERIFIED_RESOURCES) {
   const payload = JSON.stringify({
     resource_key: resourceKey(resource),
     name: resource.name,
@@ -111,5 +113,5 @@ const existingTagSql = `
 `;
 execFileSync(process.execPath, [supabaseCli, "db", "query", "--linked", existingTagSql], { stdio: "inherit" });
 
-console.log(`Synced ${VERIFIED_PATHWAY_RESOURCES.length} verified pathway resources and existing-record pathway tags.`);
+console.log(`Synced ${VERIFIED_RESOURCES.length} verified resources and existing-record pathway tags.`);
 

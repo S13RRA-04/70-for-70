@@ -35,6 +35,7 @@ export default async function AdminPage() {
     { count: pendingJournalComments },
     { count: newTriathlonTeamApplications },
     currentEvent,
+    { count: voicesReviewQueue },
   ] = await Promise.all([
     getCampaign(),
     getMiles(),
@@ -53,6 +54,7 @@ export default async function AdminPage() {
     admin.from("journal_comments").select("*", { count: "exact", head: true }).eq("approved", false),
     admin.from("triathlon_team_applications").select("*", { count: "exact", head: true }).eq("status", "new"),
     getCurrentEventConfig(),
+    admin.from("voices_submissions").select("*", { count: "exact", head: true }).in("review_status", ["received", "under_review"]),
   ]);
 
   const [{ count: publishedLiveEvents }, { count: draftLiveEvents }] = await Promise.all([
@@ -121,6 +123,21 @@ export default async function AdminPage() {
           className="rounded-sm bg-bronze-text px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
         >
           Open Queue
+        </Link>
+      </div>
+
+      <div className="mt-6 flex items-center justify-between rounded-sm border border-bronze/30 bg-bronze/10 p-6">
+        <div>
+          <p className="font-display text-lg font-semibold uppercase tracking-wide text-ink">Voices For The 22 — Talent</p>
+          <p className="mt-1 text-sm text-charcoal-light">
+            {voicesReviewQueue ?? 0} submission(s) awaiting review · outreach CRM, permissions and gated publishing.
+          </p>
+        </div>
+        <Link
+          href="/admin/voices"
+          className="rounded-sm bg-bronze-text px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-bronze-dark"
+        >
+          Open
         </Link>
       </div>
 

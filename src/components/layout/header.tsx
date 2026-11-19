@@ -93,6 +93,8 @@ export function Header({ awarenessMonth = false }: { awarenessMonth?: boolean })
               if (entry.href === "/crisis") {
                 return (
                   <div key={entry.href} className="flex items-center gap-2.5">
+                  {/* No fundraising CTA inside the Voices talent portal (a talent-relations surface). */}
+                  {!pathname.startsWith("/voices/talent") && (
                   <Link
                     href={DONATE_LINK.href}
                     aria-current={pathname === DONATE_LINK.href ? "page" : undefined}
@@ -100,6 +102,7 @@ export function Header({ awarenessMonth = false }: { awarenessMonth?: boolean })
                   >
                     Donate
                   </Link>
+                  )}
                   <CTAButton
                     href={entry.href}
                     accent="emergency"

@@ -7,9 +7,10 @@ import { DONATE_LINK } from "@/lib/constants";
 /**
  * Pages where the bar would only repeat the page's own purpose — /donate and
  * /crisis are the bar's two destinations. Admin routes never show it at all,
- * and neither does the participant app (it has its own tab bar).
+ * and neither does the participant app (it has its own tab bar). The Voices
+ * talent portal is a talent-relations surface with no fundraising CTAs.
  */
-const HIDDEN_PREFIXES = ["/admin", "/donate", "/crisis"];
+const HIDDEN_PREFIXES = ["/admin", "/donate", "/crisis", "/voices/talent"];
 
 function useHideConversionBar() {
   const pathname = usePathname();

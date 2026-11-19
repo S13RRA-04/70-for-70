@@ -33,7 +33,8 @@ export type TurnstileAction =
   | "event_registration"
   | "journal_comment"
   | "resource_navigation"
-  | "resource_feedback";
+  | "resource_feedback"
+  | "voices_submission";
 
 const DEFAULT_HOSTNAMES = [
   "forthe22.org",

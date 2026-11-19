@@ -133,3 +133,60 @@ export async function notifyEventRegistrationSubmitted(input: {
     });
   }
 }
+
+/**
+ * Voices For The 22 talent submission — fires once the upload has been
+ * verified (or immediately for a link-only submission). The founder copy
+ * carries no file links: recordings are only reachable through /admin/voices.
+ */
+export async function notifyVoicesSubmissionReceived(input: {
+  submissionId: string;
+  reference: string;
+  participantName: string;
+  submitterName: string;
+  submitterEmail: string;
+  relationship: string;
+  delivery: "upload" | "link";
+}) {
+  await sendEmail({
+    to: input.submitterEmail,
+    subject: `We received your Voices For The 22 submission (${input.reference})`,
+    text: [
+      `Hi ${input.submitterName},`,
+      "",
+      `Thank you — we've received the Voices For The 22 submission for ${input.participantName}.`,
+      "",
+      `Your reference: ${input.reference}`,
+      "",
+      "What happens next:",
+      "• Every submission is reviewed by our team. Submission does not guarantee publication, and nothing is published automatically.",
+      "• Nothing is published until written permission is recorded, and we honor any embargo, restriction or approval requirement you gave us.",
+      "• To change restrictions, withdraw, or ask us to delete the recording, reply to this email or write to cody@forthe22.org with your reference.",
+      "",
+      `Participation terms: ${SITE_URL}/voices/talent/permissions`,
+      "",
+      "With gratitude,",
+      "Cody Hitson",
+      `Founder | ${SITE_NAME}`,
+      "",
+      "Because 22 ≠ 0.",
+    ].join("\n"),
+    replyTo: CONTACT_EMAIL ?? undefined,
+  });
+
+  if (CONTACT_EMAIL) {
+    await sendEmail({
+      to: CONTACT_EMAIL,
+      subject: `New Voices submission: ${input.participantName} (${input.reference})`,
+      text: [
+        `Participant: ${input.participantName}`,
+        `Submitted by: ${input.submitterName} (${input.submitterEmail}) — ${input.relationship}`,
+        `Delivery: ${input.delivery === "upload" ? "File upload (verified MP4/MOV)" : "External link (untrusted — open with care)"}`,
+        `Reference: ${input.reference}`,
+        "",
+        `Review: ${SITE_URL}/admin/voices/submissions/${input.submissionId}`,
+      ].join("\n"),
+      replyTo: input.submitterEmail,
+    });
+  }
+}

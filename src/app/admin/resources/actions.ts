@@ -5,13 +5,13 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { RESOURCES } from "@/lib/content/resources";
 import { enrichFlagship, FLAGSHIP_RESOURCE_NAMES } from "@/lib/resources/flagships";
 import { resourceKey } from "@/lib/resources/navigator";
-import { VERIFIED_PATHWAY_RESOURCES } from "@/lib/resources/verified-pathway-resources";
+import { VERIFIED_RESOURCES } from "@/lib/resources/verified-resources";
 
 export async function importFlagshipsAction() {
   await requireAdminUser();
   const selected = RESOURCES.filter((r) => FLAGSHIP_RESOURCE_NAMES.has(r.name))
-    .concat(VERIFIED_PATHWAY_RESOURCES.filter((r) => !RESOURCES.some((item) => item.name === r.name)));
-  const pathwayByName = new Map(VERIFIED_PATHWAY_RESOURCES.map((resource) => [resource.name, resource]));
+    .concat(VERIFIED_RESOURCES.filter((r) => !RESOURCES.some((item) => item.name === r.name)));
+  const pathwayByName = new Map(VERIFIED_RESOURCES.map((resource) => [resource.name, resource]));
   const rows = selected.map((resource) => pathwayByName.get(resource.name) ?? resource).map(enrichFlagship).map((r) => ({
     resource_key: resourceKey(r), name: r.name, url: r.url, description: r.description,
     need_category_ids: r.needCategoryIds, audience_tags: r.audienceTags, cost: r.cost,

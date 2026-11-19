@@ -21,6 +21,7 @@ export function pageMetadata({
   canonical,
   image,
   type = "website",
+  absoluteTitle = false,
 }: {
   title: string;
   description: string;
@@ -29,9 +30,11 @@ export function pageMetadata({
   image?: string;
   /** og:type — "article" for journal/blog-style entries, "website" (default) for everything else. */
   type?: "website" | "article";
+  /** Skip the root layout's "%s | For The 22" template — for a title that already carries its own suffix. */
+  absoluteTitle?: boolean;
 }): Metadata {
   return {
-    title,
+    title: absoluteTitle ? { absolute: title } : title,
     description,
     openGraph: {
       title,

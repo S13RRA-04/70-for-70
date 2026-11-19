@@ -48,6 +48,48 @@ export const NEED_PATHWAYS = [
     categoryFallbackIds: ["mental-health"],
     searchPhrases: ["alcohol", "drinking", "substance use", "drugs", "prescription medication misuse", "opioid", "detox", "addiction treatment", "peer recovery", "sobriety", "getting sober", "i think i'm drinking too much"],
   },
+  {
+    id: "mst-abuse",
+    label: "Military sexual trauma or abuse",
+    prompt: "I'm dealing with sexual trauma, domestic violence, or abuse",
+    categoryFallbackIds: ["mental-health", "legal-benefits", "housing-transportation"],
+    searchPhrases: ["military sexual trauma", "mst", "sexual assault", "domestic violence", "intimate partner violence", "abuse", "safety planning", "safe shelter", "someone is hurting me"],
+  },
+  {
+    id: "transition-moral-injury",
+    label: "Transition, identity, or moral injury",
+    prompt: "I'm struggling with transition, identity, or moral injury",
+    categoryFallbackIds: ["purpose-community", "career-education", "mental-health", "legal-benefits"],
+    searchPhrases: ["military transition", "leaving service", "civilian life", "loss of purpose", "identity", "moral injury", "career planning", "transition assistance", "i don't know what's next"],
+  },
+  {
+    id: "justice-involved",
+    label: "Justice involvement or reentry",
+    prompt: "I'm involved with the courts, jail, or reentry",
+    categoryFallbackIds: ["legal-benefits", "housing-transportation", "career-education", "mental-health"],
+    searchPhrases: ["justice involved", "veterans treatment court", "court", "jail", "incarceration", "reentry", "probation", "parole", "discharge upgrade", "legal help"],
+  },
+  {
+    id: "fr-occupational",
+    label: "First-responder job stress",
+    prompt: "The first-responder job itself is wearing me down",
+    categoryFallbackIds: ["mental-health", "purpose-community", "family-support"],
+    searchPhrases: ["first responder", "critical incident", "occupational trauma", "burnout", "peer hotline", "law enforcement stress", "firefighter stress", "ems stress", "dispatcher stress", "the job is getting to me"],
+  },
+  {
+    id: "women-veterans",
+    label: "Support for women veterans",
+    prompt: "I'm a woman veteran looking for services that fit",
+    categoryFallbackIds: ["mental-health", "legal-benefits", "career-education", "financial-assistance", "family-support"],
+    searchPhrases: ["women veterans", "woman veteran", "women's health", "women veteran benefits", "women veteran employment", "women veteran financial assistance", "childcare assistance"],
+  },
+  {
+    id: "marriage-parenting",
+    label: "Marriage, relationships, or parenting",
+    prompt: "My relationship or the way I parent is struggling",
+    categoryFallbackIds: ["family-support", "mental-health"],
+    searchPhrases: ["marriage", "relationship", "couples", "communication", "parenting", "family conflict", "military family", "deployment reunion", "my partner and i need help"],
+  },
 ] as const;
 
 export type NeedPathwayId = (typeof NEED_PATHWAYS)[number]["id"];
@@ -88,6 +130,42 @@ export const PATHWAY_FOLLOW_UPS: Record<NeedPathwayId, { id: string; label: stri
     { id: "detox-medication", label: "Detox or medication treatment", serviceTags: ["detoxification", "medication-assisted-treatment"] },
     { id: "peer-recovery", label: "Peer recovery meetings", serviceTags: ["peer-recovery", "mutual-support"] },
     { id: "help-someone-else", label: "Help for someone else", serviceTags: ["family-addiction-support", "information-referral"] },
+  ],
+  "mst-abuse": [
+    { id: "mst-care", label: "Military sexual trauma care", serviceTags: ["military-sexual-trauma", "trauma-treatment", "clinical-treatment"] },
+    { id: "domestic-violence-safety", label: "Domestic violence or safety planning", serviceTags: ["domestic-violence", "safety-planning", "shelter-referral"] },
+    { id: "confidential-sexual-assault", label: "Confidential sexual-assault support", serviceTags: ["sexual-assault", "anonymous-support", "crisis-support"] },
+    { id: "abuse-unsure", label: "I'm not sure what is safest", serviceTags: [] },
+  ],
+  "transition-moral-injury": [
+    { id: "transition-benefits", label: "Benefits and health care navigation", serviceTags: ["benefits-navigation", "benefits-education", "health-care-navigation"] },
+    { id: "transition-career", label: "Career, education, or entrepreneurship", serviceTags: ["career-planning", "education-planning", "entrepreneurship", "employment-resources"] },
+    { id: "identity-purpose", label: "Identity, purpose, or moral injury", serviceTags: ["posttraumatic-growth", "peer-training", "military-culture"] },
+    { id: "transition-unsure", label: "I'm not sure where to begin", serviceTags: [] },
+  ],
+  "justice-involved": [
+    { id: "court-jail-support", label: "Court, jail, or treatment-court support", serviceTags: ["justice-outreach", "veterans-treatment-court"] },
+    { id: "reentry-support", label: "Reentry and care coordination", serviceTags: ["reentry", "care-coordination", "housing-referral"] },
+    { id: "justice-legal-help", label: "Civil or pro bono legal help", serviceTags: ["pro-bono-legal", "civil-legal-help", "legal-clinic-directory"] },
+    { id: "discharge-benefits", label: "Discharge or benefits problem", serviceTags: ["discharge-upgrade", "benefits-appeal"] },
+  ],
+  "fr-occupational": [
+    { id: "responder-peer-crisis", label: "A responder peer or crisis line", serviceTags: ["peer-hotline", "crisis-support", "law-enforcement", "fire-ems"] },
+    { id: "critical-incident-trauma", label: "Critical-incident or trauma care", serviceTags: ["critical-incident", "trauma-treatment", "residential-retreat"] },
+    { id: "responder-provider", label: "A responder-informed provider", serviceTags: ["provider-directory", "first-responder-mental-health"] },
+    { id: "department-wellness", label: "Department training or wellness", serviceTags: ["department-training", "stress-management"] },
+  ],
+  "women-veterans": [
+    { id: "women-va-care", label: "VA care and benefits navigation", serviceTags: ["women-veterans", "health-care-navigation", "benefits-navigation"] },
+    { id: "women-financial", label: "Financial or childcare assistance", serviceTags: ["emergency-grant", "childcare-assistance", "rent-assistance", "utilities"] },
+    { id: "women-career", label: "Employment or transition resources", serviceTags: ["employment-resources", "military-transition"] },
+    { id: "women-unsure", label: "Help me explore the options", serviceTags: [] },
+  ],
+  "marriage-parenting": [
+    { id: "couples-relationship", label: "Couples or relationship support", serviceTags: ["couples-support", "relationship-coaching", "communication-skills"] },
+    { id: "parenting-family", label: "Parenting or family support", serviceTags: ["parenting", "family-support", "deployment-support"] },
+    { id: "helping-veteran-care", label: "Help encouraging a Veteran to seek care", serviceTags: ["family-coaching", "treatment-engagement", "mental-health-referral"] },
+    { id: "relationship-unsure", label: "I'm not sure what kind of help fits", serviceTags: [] },
   ],
 };
 

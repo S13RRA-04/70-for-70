@@ -10,6 +10,7 @@ import { SITE_URL, TRI_BIKE_BUILD_URL, TRI_JOURNAL_PATH, TRI_JOURNAL_URL, TRI_PA
 import { getJournalEntries } from "@/lib/data/journal";
 import { getBikeBuildLastUpdated } from "@/lib/content/building-the-bike";
 import { isOrgLive } from "@/lib/launch-gate";
+import { getVoiceGallery } from "@/lib/data/voices";
 
 const ORG_ROUTES = [
   "", "/about", "/mission", "/resources", "/veteran-brands", "/crisis",
@@ -18,6 +19,7 @@ const ORG_ROUTES = [
   "/campaigns/22-for-the-22/promokit", "/campaigns/22-for-the-22/rules",
   "/network", "/impact", "/standards", "/transparency", "/70k", "/donate",
   "/contact", "/privacy", "/terms", "/press", "/voices",
+  "/voices/talent", "/voices/talent/recording-guide", "/voices/talent/permissions",
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -36,7 +38,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     url: `${SITE_URL}/resources/${slugifyResourceName(resource.name)}`,
     lastModified: resource.verifiedDate ? new Date(resource.verifiedDate) : new Date(),
   }));
-  const [liveEvents, journalEntries] = await Promise.all([getPublishedLiveEvents(), getJournalEntries()]);
+  const [liveEvents, journalEntries, voices] = await Promise.all([getPublishedLiveEvents(), getJournalEntries(), getVoiceGallery()]);
   const campaignEntries: MetadataRoute.Sitemap = [
     // The bike build's lastModified tracks its newest timeline entry.
     { url: TRI_BIKE_BUILD_URL, lastModified: new Date(getBikeBuildLastUpdated()) },
@@ -50,6 +52,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
     ...(HAS_LISTED_AUCTION_ITEMS ? [{ url: `${SITE_URL}/campaigns/live/auction`, lastModified: new Date() }] : []),
     ...PREMIERES.map((premiere) => ({ url: `${SITE_URL}${TRI_PAGE_PATH}/premiere/${premiere.slug}`, lastModified: new Date() })),
+    ...voices.map((voice) => ({ url: `${SITE_URL}/voices/${voice.slug}`, lastModified: new Date(`${voice.publishedOn}T00:00:00Z`) })),
     ...liveEvents.map((event) => ({
       url: `${SITE_URL}/campaigns/live/${event.slug}`,
       lastModified: new Date(event.updated_at),

@@ -2,7 +2,7 @@ import { RESOURCES, type Resource } from "@/lib/content/resources";
 import { enrichFlagship } from "@/lib/resources/flagships";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { createPublicClient } from "@/lib/supabase/public";
-import { VERIFIED_PATHWAY_RESOURCES } from "@/lib/resources/verified-pathway-resources";
+import { VERIFIED_RESOURCES } from "@/lib/resources/verified-resources";
 
 type ResourceRow = Record<string, unknown>;
 
@@ -47,7 +47,7 @@ function mergeByName(base: Resource[], additions: Resource[]): Resource[] {
 }
 
 export async function getResources(): Promise<Resource[]> {
-  const fallback = mergeByName(RESOURCES, VERIFIED_PATHWAY_RESOURCES).map(enrichFlagship);
+  const fallback = mergeByName(RESOURCES, VERIFIED_RESOURCES).map(enrichFlagship);
   if (!isSupabaseConfigured()) return fallback;
   try {
     const { data, error } = await createPublicClient().from("resource_records").select("*").eq("is_active", true).order("name");

@@ -178,12 +178,14 @@ export function MobileMenu({ open, onClose, navLinks, pathname, triggerRef }: Mo
                 >
                   Get Help Now
                 </Link>
+                {!pathname.startsWith("/voices/talent") && (
                 <Link
                   href={DONATE_LINK.href}
                   className="block rounded-sm border-2 border-navy bg-white px-3 py-3 text-center text-base font-semibold uppercase tracking-wide text-navy hover:bg-paper"
                 >
                   Donate
                 </Link>
+                )}
               </div>
           </>
         </nav>
