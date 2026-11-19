@@ -1,36 +1,32 @@
 import { expect, test } from "@playwright/test";
 
 test.describe("resource pathways", () => {
-  test("hydrates a shareable pathway query", async ({ page }) => {
-    await page.goto("/resources?pathway=women-veterans#browse-resources");
+  test("hydrates a legacy shareable pathway query into the new filters", async ({ page }) => {
+    await page.goto("/resources?pathway=women-veterans");
 
-    const directory = page.locator("#browse-resources");
-    await expect(page).toHaveURL(/\/resources\?pathway=women-veterans/);
-    await expect(
-      directory.getByLabel("Active filters").getByRole("button", { name: "Support for women veterans" }),
-    ).toBeVisible();
-    await expect(directory.locator('[data-resource-id="women-veterans-call-center"]')).toBeVisible();
+    // Legacy ?pathway= links map onto the need taxonomy and the URL is rewritten.
+    await expect(page).toHaveURL(/\/resources\?need=legal$/);
+    await expect(page.getByRole("button", { name: "Remove filter: Legal & benefits" })).toBeVisible();
+    await expect(page.getByRole("button", { name: /^Legal & benefits/, pressed: true })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Learn more about Women Veterans Call Center" })).toBeVisible();
   });
 
-  test("removes a hydrated pathway from state and the URL", async ({ page }) => {
-    await page.goto("/resources?pathway=women-veterans#browse-resources");
+  test("removes a hydrated filter from state and the URL", async ({ page }) => {
+    await page.goto("/resources?pathway=women-veterans");
 
-    const directory = page.locator("#browse-resources");
-    const activePathway = directory
-      .getByLabel("Active filters")
-      .getByRole("button", { name: "Support for women veterans" });
-    await expect(activePathway).toBeVisible();
-    await activePathway.click();
+    const activeFilter = page.getByRole("button", { name: "Remove filter: Legal & benefits" });
+    await expect(activeFilter).toBeVisible();
+    await activeFilter.click();
 
-    await expect(page).not.toHaveURL(/pathway=/);
-    await expect(directory.getByRole("button", { name: "All", pressed: true }).first()).toBeVisible();
-    await expect(directory.getByLabel("Active filters")).toHaveCount(0);
+    await expect(page).not.toHaveURL(/[?&](need|pathway)=/);
+    await expect(page.getByRole("heading", { name: "Start here" })).toBeVisible();
+    await expect(page.getByRole("button", { name: /^Remove filter:/ })).toHaveCount(0);
   });
 
   test("ranks a service-tag match ahead of broad category fallbacks", async ({ page }) => {
-    await page.goto("/resources");
+    // The guided flow lives on its own page and starts at the first question.
+    await page.goto("/resources/guide");
 
-    await page.getByRole("button", { name: /^Start/ }).click();
     await page.getByRole("button", { name: "Continue" }).click();
     await page.getByRole("button", { name: "I'm involved with the courts, jail, or reentry" }).click();
     await page.getByRole("button", { name: "Continue" }).click();
