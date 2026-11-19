@@ -1,185 +1,73 @@
 import Link from "next/link";
 import Image from "next/image";
+import { Search } from "lucide-react";
 import { CTAButton } from "@/components/shared/cta-button";
-import { ScrollProgressRail } from "@/components/shared/scroll-progress-rail";
-import { RevealOnScroll } from "@/components/shared/reveal-on-scroll";
-import { NEED_CATEGORIES } from "@/lib/content/resources";
-import { ABOUT_CONTENT, findAboutSubsection } from "@/lib/content/about";
+import { findAboutSubsection } from "@/lib/content/about";
 import { getMissionMetrics } from "@/lib/data/mission-metrics";
-import { getPartners } from "@/lib/data/partners";
-import { getMissionPartners, isCampaignPartner } from "@/lib/data/mission-partners";
-import { DONATE_LINK, MOVEMENT_CAMPAIGNS, ORG_TAGLINE, isCurrentCampaign } from "@/lib/constants";
+import { DONATE_LINK, ORG_TAGLINE } from "@/lib/constants";
 import { ORG_PILLARS, PILLAR_TEXT, type MissionPillar } from "@/lib/pillars";
 import { cn } from "@/lib/utils";
-import { CampaignFilm } from "@/components/home/campaign-film";
-import { VoiceVideo } from "@/components/voices/voice-video";
-import { LATEST_VOICE_MESSAGE, VOICES_SERIES_NAME } from "@/lib/content/voices";
 import { AuctionSpotlight } from "@/components/live/auction-spotlight";
-import { InstitutionalRecognition } from "@/components/shared/institutional-recognition";
-import { RECOGNITIONS } from "@/lib/content/recognitions";
-import { COMPLETED_RUCK_MISSIONS } from "@/lib/content/ruck-missions";
-import type { MovementCampaign } from "@/types/organization";
 
 /**
- * Org homepage — "Steady Ground · Brand Edition" (design D), organized
- * around the three mission pillars: 01 Connection (help blue), 02
- * Mobilization (olive), 03 Impact (green). Each pillar's color is used only
- * for that pillar's labels/marks; navy carries structure everywhere.
+ * Org homepage — a front door, not the whole house.
  *
- * The homepage is a front door, not the whole house: one preview per
- * pillar, each linking to that pillar's hub (see src/lib/pillars.ts). The
- * "four ways in" block and the awareness calendar live on the /campaigns
- * hub; coming-soon campaigns are listed there too.
+ * Hero (who we are + the two standing CTAs) → three doors, one per mission
+ * pillar → one closing line on why the work matters. Each door carries one
+ * stat and one action and leads to its pillar's hub (src/lib/pillars.ts),
+ * where the depth lives: the resource finder and crisis lines on /resources
+ * and /crisis, campaigns and the campaign film on /campaigns, the $70K
+ * progress, beneficiaries and partners on /impact, Voices on /voices, and
+ * the founder's story on /about. Resist adding sections here — add them to
+ * the hub and let the door point to it.
  */
-
-const RAIL_SECTIONS = [
-  { id: "connection", label: "Connection" },
-  { id: "mobilization", label: "Mobilization" },
-  { id: "impact", label: "Impact" },
-  { id: "why-22", label: "Why 22" },
-  { id: "story", label: "Story" },
-];
-
-/** Real audienceTags values from the resource data — see PRIMARY_AUDIENCE_TAGS in resource-directory.tsx for the fuller set. */
-const QUICK_FINDER_AUDIENCES = ["Veteran", "Active Military", "Law Enforcement", "Fire", "EMS", "Family"] as const;
-
-/** Homepage-length copy for each athletic campaign card; the full descriptions live on /campaigns. */
-const CAMPAIGN_CARD_COPY: Record<string, { blurb: string; cta: string; pill?: string }> = {
-  ruck: {
-    blurb: "Mission one complete: 22 miles at RuckUp22 in Huntsville on October 24. More missions to come.",
-    cta: "See the missions",
-    // Ruck is a series of missions, so "Training now" would misdescribe it.
-    pill: `${COMPLETED_RUCK_MISSIONS.length} mission${COMPLETED_RUCK_MISSIONS.length === 1 ? "" : "s"} complete`,
-  },
-  "22": {
-    blurb: "22 sessions of 22 minutes of movement, at your own pace, across a 22-hour window.",
-    cta: "Take part",
-  },
-  tri: {
-    blurb: "IRONMAN 70.3 Chattanooga — the race that started The $70K Mission.",
-    cta: "See the race",
-  },
-};
-
-const DAY_MS = 86_400_000;
-
-function parseDate(value: string): Date {
-  return new Date(`${value}T12:00:00Z`);
-}
-
-function daysFromToday(value: string): number {
-  return Math.ceil((parseDate(value).getTime() - Date.now()) / DAY_MS);
-}
-
-const shortDate = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
-const shortDateYear = new Intl.DateTimeFormat("en-US", {
-  month: "short",
-  day: "numeric",
-  year: "numeric",
-  timeZone: "UTC",
-});
-
-function campaignDateLine(campaign: MovementCampaign): string | null {
-  if (!campaign.startDate) return null;
-  if (!campaign.endDate) return shortDateYear.format(parseDate(campaign.startDate));
-  const start = parseDate(campaign.startDate);
-  const end = parseDate(campaign.endDate);
-  return `${shortDate.format(start)}–${end.getUTCDate()}, ${end.getUTCFullYear()}`;
-}
-
-/** Filled pill when the event is within a month; outlined status otherwise. */
-function campaignPill(campaign: MovementCampaign): { label: string; filled: boolean } {
-  const days = campaign.startDate ? daysFromToday(campaign.startDate) : null;
-  if (days !== null && days >= 0 && days <= 30) {
-    return { label: days === 0 ? "Today" : `In ${days} day${days === 1 ? "" : "s"}`, filled: true };
-  }
-  if (campaign.status === "active") return { label: "Training now", filled: false };
-  return { label: "Upcoming", filled: false };
-}
 
 const usd = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
 const count = new Intl.NumberFormat("en-US");
 
-/** Tracked-caps eyebrow. */
+/** Pillar accent per door: top rule + primary button. Text color comes from PILLAR_TEXT. */
+const DOOR_ACCENT: Record<MissionPillar, { rule: string; button: string }> = {
+  connection: { rule: "border-t-help", button: "bg-help hover:bg-help-dark" },
+  mobilization: { rule: "border-t-olive", button: "bg-olive hover:bg-olive-dark" },
+  impact: { rule: "border-t-impact", button: "bg-impact hover:bg-navy" },
+};
+
 function Label({ className, children }: { className?: string; children: React.ReactNode }) {
   return <span className={cn("label-caps", className)}>{children}</span>;
 }
 
-/** A radio rendered as a pill — the quick-finder stays a plain GET form, no client JS. */
-function Chip({ name, value, label, defaultChecked }: { name: string; value: string; label: string; defaultChecked?: boolean }) {
-  return (
-    <label className="inline-flex min-h-11 cursor-pointer items-center rounded-full border-[1.5px] border-[#c9cdd3] bg-white px-4 text-[15px] font-semibold text-jet transition-colors hover:border-navy has-[:checked]:border-navy has-[:checked]:bg-navy has-[:checked]:text-white has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-help">
-      <input type="radio" name={name} value={value} defaultChecked={defaultChecked} className="sr-only" />
-      {label}
-    </label>
-  );
-}
-
 export default async function HomePage() {
   const why22 = findAboutSubsection("why-22");
-  const [metrics, beneficiaries, missionPartners] = await Promise.all([
-    getMissionMetrics(),
-    getPartners(),
-    getMissionPartners(),
-  ]);
-
+  const metrics = await getMissionMetrics();
   const [taglineFirst, ...taglineRest] = ORG_TAGLINE.split(/(?<=\.)\s+/);
-
-  const current = MOVEMENT_CAMPAIGNS.filter(isCurrentCampaign);
-  const athleticCampaigns = current
-    .filter((c) => c.slug in CAMPAIGN_CARD_COPY)
-    .sort((a, b) => (a.startDate ?? "9999").localeCompare(b.startDate ?? "9999"));
-  // Lead with the soonest campaign that hasn't started yet — the one a
-  // visitor can still join — and list the rest compactly beside it.
-  const featuredCampaign =
-    athleticCampaigns.find((c) => c.startDate && daysFromToday(c.startDate) >= 0) ?? athleticCampaigns[0];
-  const otherCampaigns = athleticCampaigns.filter((c) => c !== featuredCampaign);
-
-  const generalPartners = missionPartners.filter(isCampaignPartner);
-  const presentingPartners = generalPartners.filter((p) => p.tier === "presenting-partner");
-  const namedPartners = generalPartners.filter((p) => p.tier !== "presenting-partner").slice(0, 6);
-  const remainingPartnerCount = generalPartners.length - presentingPartners.length - namedPartners.length;
-
-  // Deliberately NOT part of generalPartners/the logo wall above — an
-  // athlete-affiliation row (Cody personally selected to a team) isn't a
-  // campaign partner, see isCampaignPartner(). Shown as a small, subordinate
-  // credential line, not another sponsor card — see The Race page for the
-  // fuller writeup.
-  const athleteAffiliation = missionPartners.find((p) => p.partner_type === "athlete-affiliation");
 
   const raised = metrics.totalRaised;
   const goal = metrics.fundraisingGoal;
   const percent = raised !== null && goal ? Math.min(100, (raised / goal) * 100) : null;
 
-  const pillarPreview: Record<MissionPillar, { body: string; stat: string | null; statLabel: string }> = {
+  const doors: Record<MissionPillar, { question: string; body: string; stat: string | null; statLabel: string }> = {
     connection: {
-      body: "Connecting veterans, first responders, and their families to trusted resources, people, organizations, and community.",
+      question: "Looking for support?",
+      body: "Free and low-cost programs for veterans, first responders, and their families — every one reviewed by our team.",
       stat: metrics.resources !== null ? count.format(metrics.resources) : null,
-      statLabel: "vetted resources",
+      statLabel: "reviewed programs",
     },
     mobilization: {
-      body: "Turning awareness into action — getting communities, partners, artists, brands, and supporters involved.",
-      stat:
-        metrics.activeCampaigns !== null && metrics.campaignPartners !== null
-          ? `${metrics.activeCampaigns} · ${metrics.campaignPartners}`
-          : null,
-      statLabel: "campaigns · partners",
+      question: "Want to get involved?",
+      body: "Ruck, race, move, or bring your team, brand, or audience into the mission. Every campaign feeds The $70K Mission.",
+      stat: metrics.activeCampaigns !== null ? String(metrics.activeCampaigns) : null,
+      statLabel: metrics.activeCampaigns === 1 ? "active campaign" : "active campaigns",
     },
     impact: {
-      body: "Converting participation into measurable support — funding, visibility, access, and tangible outcomes for the people doing the work.",
+      question: "Where does it go?",
+      body: "Participation becomes funding and visibility for the organizations doing the work. See who it reaches.",
       stat: raised !== null ? usd.format(raised) : null,
-      statLabel:
-        metrics.beneficiaries !== null
-          ? `raised for ${metrics.beneficiaries} nonprofit${metrics.beneficiaries === 1 ? "" : "s"}`
-          : "raised",
+      statLabel: goal ? `raised of ${usd.format(goal)}` : "raised",
     },
   };
-  const pillars = ORG_PILLARS.map((pillar) => ({ ...pillar, ...pillarPreview[pillar.id] }));
 
   return (
     <>
-      <ScrollProgressRail sections={RAIL_SECTIONS} />
-
       {/* Hero — topo texture fades in, the brush strokes paint in from each
           edge, then the mark and copy rise in sequence (see the hero-* motion
           utilities in globals.css; all of it is skipped under reduced motion). */}
@@ -232,8 +120,6 @@ export default async function HomePage() {
             into real results for the people and organizations doing the work.
           </p>
           <div className="hero-rise flex flex-wrap justify-center gap-3 [animation-delay:900ms]">
-            {/* The two standing calls to action; the pillar cards just below
-                route to Find Support / Get Involved / See the Impact. */}
             <CTAButton href="/crisis" size="lg" accent="emergency">
               Get Help Now
             </CTAButton>
@@ -244,505 +130,117 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Renders only while an auction is open or upcoming. */}
       <AuctionSpotlight />
 
-      {/* Three pillars */}
-      <section aria-labelledby="pillars-heading" className="border-y border-line bg-white">
-        <h2 id="pillars-heading" className="sr-only">
-          Our mission pillars
-        </h2>
-        <div className="mx-auto grid max-w-[1240px] px-6 md:grid-cols-3">
-          {pillars.map((pillar, i) => (
-            <Link
-              key={pillar.id}
-              href={pillar.hub.href}
-              className={cn(
-                "group flex flex-col gap-3 border-[#ece9e1] py-10 text-jet max-md:border-b max-md:last:border-b-0 md:px-8",
-                i === 0 && "md:pl-0",
-                i === pillars.length - 1 ? "md:pr-0" : "md:border-r",
-              )}
-            >
-              <div className="flex items-baseline justify-between gap-3">
-                <span className={cn("font-display text-[40px] uppercase leading-none", PILLAR_TEXT[pillar.id])}>
-                  {pillar.title}
-                </span>
-                <Label className="text-xs text-[#6a6d72]">{pillar.number}</Label>
-              </div>
-              <span className="flex-grow text-base leading-relaxed text-copy">{pillar.body}</span>
-              {pillar.stat && (
-                <div className="flex items-baseline gap-2.5 border-t border-[#ece9e1] pt-3.5">
-                  <span className="font-display text-[32px] leading-none text-navy">{pillar.stat}</span>
-                  <span className="text-[15px] text-muted">{pillar.statLabel}</span>
-                </div>
-              )}
-              <span className="font-bold text-navy group-hover:text-help group-hover:underline">
-                {pillar.navLabel} →
-              </span>
-            </Link>
-          ))}
-        </div>
-      </section>
+      {/* Three doors — one per mission pillar. */}
+      <section aria-labelledby="doors-heading" className="border-y border-line bg-white">
+        <div className="mx-auto flex max-w-[1240px] flex-col gap-10 px-6 py-16 sm:py-20">
+          <h2 id="doors-heading" className="text-center font-display text-[clamp(32px,3.6vw,44px)] uppercase leading-none text-navy">
+            Where do you want to start?
+          </h2>
+          <div className="grid gap-5 md:grid-cols-3">
+            {ORG_PILLARS.map((pillar) => {
+              const door = doors[pillar.id];
+              const accent = DOOR_ACCENT[pillar.id];
+              return (
+                <article
+                  key={pillar.id}
+                  aria-labelledby={`door-${pillar.id}`}
+                  className={cn("flex flex-col gap-4 rounded-xl border border-t-4 border-line bg-paper p-7 sm:p-8", accent.rule)}
+                >
+                  <Label className={cn("text-xs", PILLAR_TEXT[pillar.id])}>
+                    {pillar.number} · {pillar.title}
+                  </Label>
+                  <h3 id={`door-${pillar.id}`} className="font-display text-[36px] uppercase leading-none text-navy">
+                    {door.question}
+                  </h3>
+                  <p className="text-base leading-relaxed text-copy">{door.body}</p>
 
-      {/* 01 · Connection — quick-finder + crisis */}
-      <section id="connection" aria-labelledby="find-heading" className="scroll-mt-28">
-        <div className="mx-auto flex max-w-[1240px] flex-wrap gap-x-16 gap-y-10 px-6 pb-10 pt-20 sm:pt-[104px]">
-          <RevealOnScroll className="flex flex-[1_1_300px] flex-col gap-4">
-            <Label className="text-help">01 · Connection</Label>
-            <h2
-              id="find-heading"
-              className="text-worn font-display text-[clamp(44px,5vw,64px)] uppercase leading-none text-navy"
-            >
-              The right help, matched to you.
-            </h2>
-            <p className="max-w-[400px] text-lg leading-relaxed text-copy">
-              Resources, people, organizations, and community — every listing meets our{" "}
-              <Link href="/standards" className="text-help underline underline-offset-2">
-                resource standards
-              </Link>
-              .
-            </p>
-          </RevealOnScroll>
-
-          <form
-            action="/resources"
-            className="flex min-w-0 flex-[999_1_560px] flex-col gap-7 rounded-xl border border-line bg-white p-6 shadow-[0_1px_0_#dedad0,0_12px_32px_rgba(18,30,61,0.06)] sm:p-8"
-          >
-            <fieldset>
-              <legend className="mb-3 text-base font-bold">I am a…</legend>
-              <div className="flex flex-wrap gap-2">
-                <Chip name="audience" value="" label="Anyone" defaultChecked />
-                {QUICK_FINDER_AUDIENCES.map((tag) => (
-                  <Chip key={tag} name="audience" value={tag} label={tag} />
-                ))}
-              </div>
-            </fieldset>
-            <fieldset>
-              <legend className="mb-3 text-base font-bold">I&apos;m looking for…</legend>
-              <div className="flex flex-wrap gap-2">
-                <Chip name="need" value="" label="Anything" defaultChecked />
-                {NEED_CATEGORIES.map((category) => (
-                  <Chip key={category.id} name="need" value={category.id} label={category.label} />
-                ))}
-              </div>
-            </fieldset>
-            <div className="flex flex-wrap items-end gap-3">
-              <label className="flex flex-[1_1_260px] flex-col gap-2">
-                <span className="text-base font-bold">Or search by keyword</span>
-                <input
-                  type="search"
-                  name="q"
-                  placeholder="Peer support, service dogs, scholarships…"
-                  className="min-h-[52px] rounded-lg border-[1.5px] border-[#c9cdd3] bg-[#fafaf8] px-4 text-[17px] text-jet placeholder:text-[#6a6d72] focus-visible:border-help"
-                />
-              </label>
-              <button
-                type="submit"
-                className="action-control inline-flex min-h-[52px] items-center justify-center bg-navy px-6 text-base font-bold text-white hover:bg-navy-hover"
-              >
-                Show resources
-              </button>
-            </div>
-          </form>
-        </div>
-
-        <div className="mx-auto grid max-w-[1240px] gap-5 px-6 pb-20 sm:pb-[104px] md:grid-cols-2">
-          <div id="crisis" className="flex scroll-mt-28 flex-col gap-3 rounded-xl bg-help p-8 text-white sm:p-9">
-            <Label className="text-[#d3e6f3]">Need help now? · Veterans Crisis Line</Label>
-            <h2 className="font-display text-[88px] leading-none sm:text-[104px]">988</h2>
-            <p className="text-[17px] leading-relaxed text-[#e3eef6]">
-              Free, confidential, 24/7. Press 1 to reach responders who understand service. In immediate danger, call
-              911.
-            </p>
-            <div className="mt-1.5 flex flex-wrap gap-2.5">
-              <a
-                href="tel:988"
-                className="action-control inline-flex min-h-[50px] items-center bg-white px-6 font-bold text-help hover:bg-paper"
-              >
-                Call 988, press 1
-              </a>
-              <a
-                href="sms:838255"
-                className="action-control inline-flex min-h-[50px] items-center border-2 border-white px-6 font-bold text-white hover:bg-white/10"
-              >
-                Text 838255
-              </a>
-            </div>
-          </div>
-          <div className="flex flex-col gap-3.5 rounded-xl border border-line bg-white p-8 sm:p-9">
-            <Label className="text-help">First responders</Label>
-            <p className="font-display text-[40px] uppercase leading-none text-navy">
-              Support built for those who answer the call.
-            </p>
-            <p className="text-lg leading-relaxed text-copy">
-              Crisis lines and peer support for law enforcement, fire, EMS, dispatch, and corrections.
-            </p>
-            <Link
-              href="/crisis#first-responders"
-              className="action-control mt-auto inline-flex min-h-[50px] items-center self-start border-2 border-help px-6 font-bold text-help hover:bg-help hover:text-white"
-            >
-              View support
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Voices For The 22 — the latest message of support (last entry in voices.ts) */}
-      {LATEST_VOICE_MESSAGE && (
-        <section id="voices" aria-labelledby="voices-heading" className="scroll-mt-28 border-t border-line bg-paper">
-          <div className="mx-auto grid max-w-[1240px] gap-14 px-6 py-20 sm:py-[104px] md:grid-cols-[minmax(0,340px)_1fr] md:items-center">
-            <VoiceVideo message={LATEST_VOICE_MESSAGE} />
-            <RevealOnScroll className="flex flex-col gap-4">
-              <Label className="text-help">{VOICES_SERIES_NAME}</Label>
-              <h2
-                id="voices-heading"
-                className="text-worn font-display text-[clamp(44px,5vw,64px)] uppercase leading-none text-navy"
-              >
-                Your life matters.
-              </h2>
-              <p className="max-w-[520px] text-lg leading-relaxed text-copy">
-                A message from {LATEST_VOICE_MESSAGE.name} to veterans, first responders, and their families.{" "}
-                {VOICES_SERIES_NAME} shares messages of support from people who want you to know you&apos;re not alone.
-              </p>
-              <Link
-                href={`/voices#${LATEST_VOICE_MESSAGE.id}`}
-                className="action-control mt-2 inline-flex min-h-[50px] items-center self-start border-2 border-help px-6 font-bold text-help hover:bg-help hover:text-white"
-              >
-                Visit {VOICES_SERIES_NAME}
-              </Link>
-            </RevealOnScroll>
-          </div>
-        </section>
-      )}
-
-      {/* 02 · Mobilization — campaigns on navy */}
-      <section id="mobilization" aria-labelledby="mob-heading" className="scroll-mt-28 bg-navy text-white">
-        <div className="mx-auto flex max-w-[1240px] flex-col gap-10 px-6 py-20 sm:py-[104px]">
-          <div className="flex flex-wrap items-end justify-between gap-6">
-            <div className="flex flex-col gap-4">
-              <Label className="text-[#b9c46a]">02 · Mobilization</Label>
-              <h2 id="mob-heading" className="text-worn font-display text-[clamp(48px,6vw,80px)] uppercase leading-none">
-                Awareness into action.
-              </h2>
-            </div>
-            <p className="max-w-[440px] text-lg leading-relaxed text-mist">
-              Every campaign feeds The $70K Mission — rucks, races, movement challenges, and a concert series that bring
-              communities, partners, artists, and brands into the work.
-            </p>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-x-7 gap-y-3 border-t border-navy-rule pt-9">
-            <Image
-              src="/brand/movement-creates-momentum.webp"
-              alt="Movement creates momentum"
-              width={320}
-              height={138}
-              className="h-auto w-[320px] max-w-full"
-            />
-            <Label className="text-mist">Athletic campaigns</Label>
-          </div>
-
-          <CampaignFilm
-            sources={[
-              { src: "/video/campaign-film.mp4", type: 'video/mp4; codecs="avc1.64001f, mp4a.40.2"' },
-              { src: "/video/campaign-film.webm", type: 'video/webm; codecs="vp9, opus"' },
-            ]}
-            poster="/media/campaign-film-poster.webp"
-            title="Watch the campaign film"
-            description="Rucks, rides, and the people who show up — 41 seconds, sound on."
-          />
-
-          {featuredCampaign && (
-            <div className="grid gap-4 lg:grid-cols-3">
-              <CampaignTile campaign={featuredCampaign} featured className="lg:col-span-2" />
-              {otherCampaigns.length > 0 && (
-                <div className="flex flex-col gap-4">
-                  {otherCampaigns.map((campaign) => (
-                    <CampaignTile key={campaign.id} campaign={campaign} />
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-
-          <Link href="/campaigns" className="self-start font-bold text-gold hover:underline">
-            All campaigns and ways to get involved →
-          </Link>
-
-          {athleteAffiliation && (
-            <div className="flex flex-wrap items-center gap-3 border-t border-navy-rule pt-6 text-sm">
-              {athleteAffiliation.logo_url && (
-                <Image
-                  src={athleteAffiliation.logo_url}
-                  alt={athleteAffiliation.name}
-                  width={96}
-                  height={64}
-                  className="h-7 w-auto shrink-0"
-                />
-              )}
-              <p className="text-mist">
-                <span className="font-bold text-white">
-                  Selected Athlete — {athleteAffiliation.name}
-                  {athleteAffiliation.designation && ` · ${athleteAffiliation.designation}`}
-                </span>
-                <span className="block sm:inline"> Representing {athleteAffiliation.name} on the road to IRONMAN 70.3 Chattanooga.</span>
-              </p>
-            </div>
-          )}
-
-        </div>
-      </section>
-
-      {/* Kinetic slogan band — the tagline as a slow olive marquee. Screen
-          readers get the line once; the repeated track is decorative. */}
-      <div className="overflow-hidden border-y border-[#3c441a] bg-olive py-[22px] text-white">
-        <p className="sr-only">{ORG_TAGLINE} Because 22 ≠ 0.</p>
-        <div aria-hidden="true" className="animate-marquee-slow flex w-max gap-10 whitespace-nowrap font-display text-[36px] uppercase leading-none sm:text-[44px]">
-          {[0, 1, 2, 3].map((copy) => (
-            <span key={copy} className="flex gap-10">
-              {[...ORG_TAGLINE.split(/(?<=\.)\s+/), "Because 22 ≠ 0"].map((phrase) => (
-                <span key={phrase} className="flex gap-10">
-                  <span>
-                    {phrase.includes("≠") ? (
-                      <>
-                        Because 22 <span className="text-gold">≠</span> 0
-                      </>
-                    ) : (
-                      phrase
-                    )}
-                  </span>
-                  <span className="text-gold">★</span>
-                </span>
-              ))}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* 03 · Impact */}
-      <section id="impact" aria-labelledby="impact-heading" className="scroll-mt-28 border-y border-line bg-white">
-        <div className="mx-auto flex max-w-[1240px] flex-col gap-12 px-6 py-20 sm:py-[104px]">
-          <div className="flex flex-wrap items-end justify-between gap-6">
-            <div className="flex flex-col gap-4">
-              <Label className="text-impact">03 · Impact</Label>
-              <h2
-                id="impact-heading"
-                className="text-worn font-display text-[clamp(48px,6vw,80px)] uppercase leading-none text-navy"
-              >
-                Participation, made measurable.
-              </h2>
-            </div>
-            <div className="flex flex-wrap items-center gap-5">
-              <Link href="/impact" className="font-bold text-navy hover:text-help hover:underline">
-                See the full impact report →
-              </Link>
-              <CTAButton href={DONATE_LINK.href}>Donate</CTAButton>
-            </div>
-          </div>
-
-          {raised !== null && goal !== null && percent !== null && (
-            <div className="flex flex-col gap-3">
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <div>
-                  <Label className="text-steel">The $70K Mission</Label>
-                  <br />
-                  <span className="font-display text-[56px] leading-none text-impact sm:text-[72px]">
-                    {usd.format(raised)}
-                  </span>{" "}
-                  <span className="ml-1.5 text-muted">raised</span>
-                </div>
-                <Label className="text-steel">Goal · {usd.format(goal)}</Label>
-              </div>
-              <div
-                role="progressbar"
-                aria-label={`Funds raised toward ${usd.format(goal)}`}
-                aria-valuemin={0}
-                aria-valuemax={goal}
-                aria-valuenow={raised}
-                className="h-4 overflow-hidden rounded-full border border-[#cbd9cf] bg-impact-tint"
-              >
-                <div className="view-grow h-full min-w-4 rounded-full bg-impact" style={{ width: `${percent}%` }} />
-              </div>
-            </div>
-          )}
-
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {beneficiaries.map((beneficiary) => (
-              <Link
-                key={beneficiary.id}
-                href="/impact#beneficiaries"
-                className="lift group flex flex-col gap-2 rounded-xl border border-line bg-[#f7f6f2] p-7"
-              >
-                <Label className="text-xs text-impact">Funding</Label>
-                <span className="font-display text-[32px] uppercase leading-none text-navy">{beneficiary.name}</span>
-                <span className="text-base text-copy">Beneficiary of The $70K Mission.</span>
-                <span className="font-bold text-impact group-hover:underline">Meet them →</span>
-              </Link>
-            ))}
-            {generalPartners.length > 0 && (
-              <div className="flex flex-col gap-2 rounded-xl border border-line bg-[#f7f6f2] p-7">
-                <Label className="text-xs text-impact">Access &amp; visibility</Label>
-                <span className="font-display text-[32px] uppercase leading-none text-navy">
-                  {generalPartners.length} partners
-                </span>
-                <span className="text-base leading-relaxed text-copy">
-                  {presentingPartners.length > 0 && (
-                    <>Led by presenting partners {presentingPartners.map((p) => p.name).join(" and ")}, with </>
+                  {door.stat && (
+                    <div className="flex flex-col gap-2 border-t border-line pt-4">
+                      <div className="flex items-baseline gap-2.5">
+                        <span className="font-display text-[32px] leading-none text-navy">{door.stat}</span>
+                        <span className="text-[15px] text-muted">{door.statLabel}</span>
+                      </div>
+                      {pillar.id === "impact" && percent !== null && goal !== null && raised !== null && (
+                        <div
+                          role="progressbar"
+                          aria-label={`Funds raised toward ${usd.format(goal)}`}
+                          aria-valuemin={0}
+                          aria-valuemax={goal}
+                          aria-valuenow={raised}
+                          className="h-2.5 overflow-hidden rounded-full bg-impact-tint"
+                        >
+                          <div className="h-full min-w-2.5 rounded-full bg-impact" style={{ width: `${percent}%` }} />
+                        </div>
+                      )}
+                    </div>
                   )}
-                  {presentingPartners.length === 0 && <>With </>}
-                  {namedPartners.map((p) => p.name).join(", ")}
-                  {remainingPartnerCount > 0 ? `, and ${remainingPartnerCount} more. ` : ". "}
-                  <Link href="/network" className="font-bold text-impact hover:underline">
-                    Meet them →
+
+                  {pillar.id === "connection" && (
+                    <form action="/resources" role="search" className="flex gap-2">
+                      <label htmlFor="home-resource-search" className="sr-only">
+                        Search for support
+                      </label>
+                      <input
+                        id="home-resource-search"
+                        type="search"
+                        name="q"
+                        maxLength={100}
+                        placeholder="PTSD, rent help, caregiver…"
+                        className="min-h-12 min-w-0 flex-1 rounded-lg border-[1.5px] border-[#8a909c] bg-white px-3.5 text-base text-jet placeholder:text-[#5f636b] focus-visible:border-help"
+                      />
+                      <button
+                        type="submit"
+                        aria-label="Search for support"
+                        className="action-control inline-flex min-h-12 w-12 shrink-0 items-center justify-center border-[1.5px] border-navy bg-white text-navy hover:bg-paper"
+                      >
+                        <Search size={18} aria-hidden="true" />
+                      </button>
+                    </form>
+                  )}
+
+                  <Link
+                    href={pillar.hub.href}
+                    className={cn("action-control mt-auto inline-flex min-h-[50px] items-center justify-center px-6 font-bold text-white", accent.button)}
+                  >
+                    {pillar.navLabel} →
                   </Link>
-                </span>
-              </div>
-            )}
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* Remembrance — the one jet-black band on the page. */}
-      {why22 && (
-        <section id="why-22" aria-labelledby="why-heading" className="scroll-mt-28 bg-jet text-paper">
-          <div className="mx-auto flex max-w-[1240px] flex-wrap items-center gap-x-20 gap-y-12 px-6 py-24 sm:py-28">
-            <div className="min-w-0 flex-[1_1_380px]">
-              <Image
-                src="/brand/because-22-white.webp"
-                alt="Because 22 does not equal 0"
-                width={1600}
-                height={1014}
-                sizes="(min-width: 768px) 500px, 100vw"
-                className="h-auto w-full max-w-[500px]"
-              />
-            </div>
-            <div className="flex min-w-0 flex-[999_1_460px] flex-col gap-5">
-              <Label className="text-[#bdbdbd]">Why 22 · Why we wear black</Label>
-              <h2 id="why-heading" className="font-display text-[clamp(40px,4.4vw,60px)] uppercase leading-none">
-                A symbol we carry, not a statistic we repeat.
-              </h2>
-              {why22.body.map((paragraph, i) => (
-                <p key={i} className="text-lg leading-relaxed text-[#cfcfcf]">
-                  {paragraph}
-                </p>
-              ))}
-              <Link href="/about#why-black" className="font-bold text-white underline underline-offset-4">
-                Why we wear black →
+      {/* Why 22 — the one closing line, and where to read more. */}
+      <section aria-labelledby="why-heading" className="bg-jet text-paper">
+        <div className="mx-auto flex max-w-[1240px] flex-wrap items-center gap-x-16 gap-y-8 px-6 py-16 sm:py-20">
+          <Image
+            src="/brand/because-22-white.webp"
+            alt="Because 22 does not equal 0"
+            width={1600}
+            height={1014}
+            sizes="(min-width: 768px) 320px, 70vw"
+            className="h-auto w-full max-w-[320px]"
+          />
+          <div className="flex min-w-0 flex-[1_1_420px] flex-col gap-4">
+            <h2 id="why-heading" className="font-display text-[clamp(32px,3.6vw,48px)] uppercase leading-none">
+              A symbol we carry, not a statistic we repeat.
+            </h2>
+            {why22?.body.at(-1) && <p className="max-w-[620px] text-lg leading-relaxed text-[#cfcfcf]">{why22.body.at(-1)}</p>}
+            <div className="flex flex-wrap gap-x-6 gap-y-2 font-bold">
+              <Link href="/about#why-22" className="text-white underline underline-offset-4 hover:text-gold">
+                Why 22 →
+              </Link>
+              <Link href="/about#my-story" className="text-white underline underline-offset-4 hover:text-gold">
+                Why I started this →
               </Link>
             </div>
           </div>
-        </section>
-      )}
-
-      {/* Founder */}
-      <section id="story" aria-labelledby="founder-quote" className="scroll-mt-28">
-        <div className="mx-auto flex max-w-[1240px] flex-wrap items-center gap-x-[72px] gap-y-12 px-6 py-24 sm:py-28">
-          <div className="relative aspect-[4/5] min-w-0 flex-[1_1_360px] overflow-hidden rounded-xl bg-[#e3e0d6]">
-            {ABOUT_CONTENT.portraitUrl && (
-              <Image
-                src={ABOUT_CONTENT.portraitUrl}
-                alt={ABOUT_CONTENT.name}
-                fill
-                sizes="(min-width: 1024px) 40vw, 100vw"
-                className="object-cover"
-              />
-            )}
-          </div>
-          <div className="flex min-w-0 flex-[999_1_460px] flex-col gap-[22px]">
-            <Label className="text-steel">Why I started this</Label>
-            <blockquote>
-              <p
-                id="founder-quote"
-                className="text-[clamp(28px,3vw,40px)] font-semibold leading-tight text-navy"
-              >
-                “There is another veteran somewhere trying to figure out what comes next. Another who needs a mission.
-                Another who needs a team.”
-              </p>
-            </blockquote>
-            <p className="max-w-[540px] text-lg leading-relaxed text-copy">
-              People and organizations invested in me when it mattered most. For The 22 is how I return that
-              investment.
-            </p>
-            <div className="flex flex-wrap items-center gap-5">
-              <div>
-                <div className="font-bold">{ABOUT_CONTENT.name}</div>
-                <Label className="text-xs text-muted">Founder · Combat veteran</Label>
-              </div>
-              <CTAButton href="/about#my-story" variant="secondary">
-                Read my story
-              </CTAButton>
-            </div>
-          </div>
         </div>
       </section>
-
     </>
-  );
-}
-
-/** One athletic campaign card; `featured` is the larger lead card. */
-function CampaignTile({
-  campaign,
-  featured = false,
-  className,
-}: {
-  campaign: MovementCampaign & { url: string };
-  featured?: boolean;
-  className?: string;
-}) {
-  const copy = CAMPAIGN_CARD_COPY[campaign.slug];
-  const pill = copy.pill ? { label: copy.pill, filled: false } : campaignPill(campaign);
-  const dateLine = campaignDateLine(campaign);
-  return (
-    <article
-      className={cn(
-        "lift view-rise bg-paper flex flex-col gap-3 rounded-xl text-jet",
-        featured ? "min-h-[320px] p-8 sm:p-10" : "p-6",
-        className,
-      )}
-    >
-      <div className="flex flex-wrap justify-between gap-2 text-sm">
-        <span
-          className={cn(
-            "rounded-full px-3 font-bold",
-            pill.filled ? "bg-olive py-1 text-white" : "border-[1.5px] border-olive py-[3px] text-olive",
-          )}
-        >
-          {pill.label}
-        </span>
-        {dateLine && <span className="text-muted">{dateLine}</span>}
-      </div>
-      <h3
-        className={cn(
-          "mt-2 font-display uppercase leading-none",
-          featured ? "text-[clamp(44px,5vw,64px)]" : "text-3xl",
-        )}
-      >
-        {campaign.name}
-      </h3>
-      <p className={cn("flex-grow leading-relaxed text-copy", featured ? "max-w-xl text-lg" : "text-base")}>
-        {copy.blurb}
-      </p>
-      {/* Campaign-scoped recognitions only (e.g. a Tri-specific grant) — sits on the card so it never reads as an endorsement of every For The 22 program. */}
-      {RECOGNITIONS.filter((r) => r.campaign === campaign.slug).map((recognition) => (
-        <InstitutionalRecognition
-          key={recognition.id}
-          recognition={recognition}
-          variant="inline"
-          className="border-t border-line pt-3 text-navy [&>svg]:text-olive"
-        />
-      ))}
-      {featured ? (
-        <a
-          href={campaign.url}
-          className="action-control inline-flex min-h-[50px] items-center self-start bg-olive px-6 font-bold text-white hover:bg-olive-dark"
-        >
-          {copy.cta} →
-        </a>
-      ) : (
-        <a href={campaign.url} className="font-bold text-navy hover:text-help hover:underline">
-          {copy.cta} →
-        </a>
-      )}
-    </article>
   );
 }

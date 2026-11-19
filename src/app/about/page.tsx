@@ -207,7 +207,7 @@ export default function AboutPage() {
         <Container className="mt-14 sm:mt-20">
           <RevealOnScroll>
             <div className="grid gap-4 lg:grid-cols-[1.3fr_1fr] lg:items-start">
-              <div data-rail-quiet className="bg-ink px-6 py-14 text-off-white sm:px-16 sm:py-20">
+              <div id="why-22" data-rail-quiet className="scroll-mt-28 bg-ink px-6 py-14 text-off-white sm:px-16 sm:py-20">
                 <span className="font-display text-7xl leading-none text-bronze-light sm:text-8xl">
                   22
                 </span>

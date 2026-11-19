@@ -10,6 +10,7 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { CTAButton } from "@/components/shared/cta-button";
 import { MissionProgress } from "@/components/campaign/mission-progress";
 import { CampaignCard } from "@/components/campaign/campaign-card";
+import { CampaignFilm } from "@/components/home/campaign-film";
 import { RevealGrid, RevealOnScroll } from "@/components/shared/reveal-on-scroll";
 import { EmptyState } from "@/components/shared/empty-state";
 import { CampaignJournalEntryCard } from "@/components/campaign/campaign-journal-entry";
@@ -104,6 +105,21 @@ export default async function CampaignsPage() {
       >
         <p className="label-caps text-olive">{MISSION_ORIGIN_LINE}</p>
       </PageHero>
+
+      {/* Campaign film — moved here from the homepage when it became a slim front door. */}
+      <section aria-label="Campaign film" className="bg-navy py-12 sm:py-16">
+        <Container>
+          <CampaignFilm
+            sources={[
+              { src: "/video/campaign-film.mp4", type: 'video/mp4; codecs="avc1.64001f, mp4a.40.2"' },
+              { src: "/video/campaign-film.webm", type: 'video/webm; codecs="vp9, opus"' },
+            ]}
+            poster="/media/campaign-film-poster.webp"
+            title="Watch the campaign film"
+            description="Rucks, rides, and the people who show up — 41 seconds, sound on."
+          />
+        </Container>
+      </section>
 
       {/* Campaign Journal teaser — first thing under the hero, so what's new
           is the first thing a visitor sees. Mission-wide announcements — mission-wide announcements (new efforts
