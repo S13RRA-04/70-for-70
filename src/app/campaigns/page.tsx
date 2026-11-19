@@ -1,27 +1,16 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { Backpack, Bike, Footprints, Music, Palette, type LucideIcon } from "lucide-react";
 import { Container } from "@/components/shared/container";
 import { PageHero } from "@/components/shared/page-hero";
 import { PillarNextSteps } from "@/components/shared/pillar-next-steps";
-import { WaysIn } from "@/components/get-involved/ways-in";
-import { UpcomingObservances } from "@/components/awareness/upcoming-observances";
-import { SectionHeading } from "@/components/shared/section-heading";
-import { CTAButton } from "@/components/shared/cta-button";
-import { MissionProgress } from "@/components/campaign/mission-progress";
-import { CampaignCard } from "@/components/campaign/campaign-card";
 import { CampaignFilm } from "@/components/home/campaign-film";
-import { RevealGrid, RevealOnScroll } from "@/components/shared/reveal-on-scroll";
-import { EmptyState } from "@/components/shared/empty-state";
-import { CampaignJournalEntryCard } from "@/components/campaign/campaign-journal-entry";
-import { getFundraisingImpactStats } from "@/lib/data/fundraising-impact";
-import { getAllocationBreakdown } from "@/lib/data/allocation";
-import { getCampaign } from "@/lib/data/campaign";
-import { getPartners } from "@/lib/data/partners";
-import { CONTRIBUTION_MECHANISMS } from "@/lib/content/campaigns";
-import { getLatestCampaignJournalEntries } from "@/lib/content/campaign-journal";
+import { getMissionMetrics } from "@/lib/data/mission-metrics";
+import { COMPLETED_RUCK_MISSIONS } from "@/lib/content/ruck-missions";
 import {
-  DONATE_LINK,
+  CAMPAIGN_STATUS_LABELS,
+  FUNDRAISING_GOAL,
   MISSION_NAME,
   MISSION_ORIGIN_LINE,
   MISSION_SUPPORTING_LINE,
@@ -32,66 +21,91 @@ import {
 } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
-import { formatCurrency } from "@/lib/utils";
+import { cn, formatCurrency } from "@/lib/utils";
+import type { MovementCampaign } from "@/types/organization";
 
-/** However many entries exist, /campaigns only ever teases this many — the rest live on /campaigns/journal. */
-const JOURNAL_TEASER_COUNT = 3;
+/**
+ * /campaigns — a gateway to the individual campaigns, not a mission report.
+ *
+ * Hero → one tile per current campaign (the next one you can still join
+ * leads) → one line of mission progress → a compact row of other ways to
+ * help → the campaign film. Depth lives elsewhere: each campaign's own site,
+ * the mission overview plus "Beyond the Campaigns" and "What's Next" on
+ * /70k, beneficiaries on /impact, the full calendar on /awareness, and
+ * announcements on /campaigns/journal.
+ */
 
-// generateMetadata so the fundraising-goal figure below reads the live
-// Supabase-driven value instead of a separately hand-typed dollar figure
-// that can't track it.
 export async function generateMetadata(): Promise<Metadata> {
-  const { fundraisingGoal } = await getFundraisingImpactStats();
+  const { fundraisingGoal } = await getMissionMetrics();
   return pageMetadata({
-    title: MISSION_NAME,
-    description: `${MISSION_SUPPORTING_LINE} Tri For The 22, Ruck For The 22, For The 22: Live, For The 22: SEEN, 22 For the 22, auctions, merchandise, sponsorships, and direct giving all contribute toward ${SITE_NAME}'s shared ${formatCurrency(fundraisingGoal)} fundraising goal.`,
+    title: "Campaigns",
+    description: `${MISSION_SUPPORTING_LINE} Tri For The 22, Ruck For The 22, For The 22: Live, For The 22: SEEN, and 22 For the 22 all contribute toward ${SITE_NAME}'s shared ${formatCurrency(fundraisingGoal ?? FUNDRAISING_GOAL)} fundraising goal.`,
     canonical: "/campaigns",
   });
 }
 
-/**
- * Mission areas for the "What's Next?" closer — areas of need, NOT promised
- * beneficiaries. Kept as plain labels with that caveat stated on the page,
- * so nothing here reads as a commitment to a specific organization.
- */
-const FUTURE_MISSION_AREAS = [
-  "Mental Health & Recovery",
-  "First Responder Support",
-  "Adaptive Sport & Recreation",
-  "Families & Transition",
-] as const;
-
-/** BreadcrumbList per credibility plan §25 — Home→page shape. */
 const BREADCRUMB_JSON_LD = breadcrumbJsonLd([
   { name: "Home", url: SITE_URL },
   { name: "Campaigns", url: `${SITE_URL}/campaigns` },
 ]);
 
-/** Joins beneficiary names into natural list copy ("A, B, and C"). */
-function joinNames(names: string[]): string {
-  if (names.length === 0) return "its beneficiary organizations";
-  if (names.length === 1) return names[0];
-  return `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
+/** Gateway-length copy per campaign; the full descriptions live on each campaign's own page. */
+const GATEWAY: Record<string, { icon: LucideIcon; pitch: string; cta: string }> = {
+  "22": { icon: Footprints, pitch: "22 sessions of 22 minutes of movement, at your own pace, across one 22-hour window.", cta: "Take part" },
+  ruck: { icon: Backpack, pitch: "Rucking missions that carry For The 22 mile by mile.", cta: "See the missions" },
+  tri: { icon: Bike, pitch: "IRONMAN 70.3 Chattanooga — the race that started The $70K Mission.", cta: "Follow the race" },
+  live: { icon: Music, pitch: "A benefit concert series bringing artists, veterans, first responders, and supporters together.", cta: "See the series" },
+  seen: { icon: Palette, pitch: "The stories of veterans, first responders, and their families, told through visual art.", cta: "See the art" },
+};
+
+const OTHER_WAYS: { title: string; body: string; href: string }[] = [
+  { title: "Partner with us", body: "Brands, artists, and organizations: gear, services, funding, or reach.", href: "/network#partners" },
+  { title: "Donate", body: "Give directly to a beneficiary organization.", href: "/donate" },
+  { title: "Shop", body: "Apparel and gear that funds the mission.", href: "/store" },
+  { title: "Share resources", body: "Help trusted support reach the people who need it.", href: "/resources" },
+  { title: "Awareness calendar", body: "Observances to rally around all year.", href: "/awareness" },
+  { title: "Campaign journal", body: "Announcements and milestones across every campaign.", href: "/campaigns/journal" },
+];
+
+const DAY_MS = 86_400_000;
+const parseDate = (value: string) => new Date(`${value}T12:00:00Z`);
+const daysUntil = (value: string) => Math.ceil((parseDate(value).getTime() - Date.now()) / DAY_MS);
+const shortDate = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
+
+/** Filled pill when the start is within a month; otherwise the campaign's status. */
+function statusPill(campaign: MovementCampaign): { label: string; filled: boolean } {
+  if (campaign.slug === "ruck" && COMPLETED_RUCK_MISSIONS.length > 0) {
+    const n = COMPLETED_RUCK_MISSIONS.length;
+    return { label: `${n} mission${n === 1 ? "" : "s"} complete`, filled: false };
+  }
+  const days = campaign.startDate ? daysUntil(campaign.startDate) : null;
+  if (days !== null && days >= 0 && days <= 30) {
+    return { label: days === 0 ? "Today" : days === 1 ? "Tomorrow" : `In ${days} days`, filled: true };
+  }
+  return { label: CAMPAIGN_STATUS_LABELS[campaign.status], filled: false };
+}
+
+/** Joinable soonest first, then other active campaigns, then ones still in development. */
+function gatewayOrder(campaigns: (MovementCampaign & { url: string })[]) {
+  const upcoming = (c: MovementCampaign) => (c.startDate && daysUntil(c.startDate) >= 0 ? daysUntil(c.startDate) : Infinity);
+  const developing = (c: MovementCampaign) => (c.status === "in-development" ? 1 : 0);
+  return [...campaigns].sort((a, b) => developing(a) - developing(b) || upcoming(a) - upcoming(b));
 }
 
 export default async function CampaignsPage() {
-  const [fundraisingStats, beneficiaries, campaign] = await Promise.all([
-    getFundraisingImpactStats(),
-    getPartners(),
-    getCampaign(),
-  ]);
-  const allocationBreakdown = await getAllocationBreakdown(campaign);
-  const current = MOVEMENT_CAMPAIGNS.filter(isCurrentCampaign);
-  const beneficiaryNames = beneficiaries.map((b) => b.name);
-  const journalEntries = getLatestCampaignJournalEntries(JOURNAL_TEASER_COUNT);
+  const metrics = await getMissionMetrics();
+  const campaigns = gatewayOrder(MOVEMENT_CAMPAIGNS.filter(isCurrentCampaign).filter((c) => c.slug in GATEWAY));
+  const raised = metrics.totalRaised;
+  const goal = metrics.fundraisingGoal ?? FUNDRAISING_GOAL;
+  const percent = raised !== null && goal ? Math.min(100, (raised / goal) * 100) : null;
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
       <PageHero
         pillar="mobilization"
-        title="Movement that moves the mission"
-        description={`${SITE_NAME} turns movement, events, storytelling, and community participation into direct support for organizations serving veterans, first responders, and their families.`}
+        title="Pick your campaign"
+        description="Ruck it, race it, move it, hear it, or see it. Every campaign feeds one shared goal for organizations serving veterans, first responders, and their families."
         aside={
           <Image
             src="/brand/movement-creates-momentum.webp"
@@ -106,7 +120,65 @@ export default async function CampaignsPage() {
         <p className="label-caps text-olive">{MISSION_ORIGIN_LINE}</p>
       </PageHero>
 
-      {/* Campaign film — moved here from the homepage when it became a slim front door. */}
+      {/* The gateway */}
+      <section id="current-campaigns" aria-labelledby="campaigns-heading" className="scroll-mt-28 pb-14 pt-4 sm:pb-16">
+        <Container>
+          <h2 id="campaigns-heading" className="sr-only">Current campaigns</h2>
+          <ul className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {campaigns.map((campaign, index) => (
+              <CampaignTile key={campaign.id} campaign={campaign} featured={index === 0} />
+            ))}
+          </ul>
+        </Container>
+      </section>
+
+      {/* One line of mission progress */}
+      {raised !== null && percent !== null && (
+        <section aria-label={MISSION_NAME} className="border-y border-line bg-white">
+          <Container className="flex flex-wrap items-center gap-x-8 gap-y-3 py-6">
+            <p className="text-base text-copy">
+              <span className="font-display text-[28px] leading-none text-navy">{formatCurrency(raised)}</span>{" "}
+              raised of {formatCurrency(goal)} for {MISSION_NAME}
+            </p>
+            <div
+              role="progressbar"
+              aria-label={`Funds raised toward ${formatCurrency(goal)}`}
+              aria-valuemin={0}
+              aria-valuemax={goal}
+              aria-valuenow={raised}
+              className="h-2.5 min-w-[160px] flex-1 overflow-hidden rounded-full bg-impact-tint"
+            >
+              <div className="h-full min-w-2.5 rounded-full bg-impact" style={{ width: `${percent}%` }} />
+            </div>
+            <Link href="/70k" className="font-bold text-navy hover:text-help hover:underline">
+              See the mission →
+            </Link>
+          </Container>
+        </section>
+      )}
+
+      {/* Other ways to help */}
+      <section aria-labelledby="other-ways-heading" className="py-14 sm:py-16">
+        <Container className="flex flex-col gap-6">
+          <h2 id="other-ways-heading" className="font-display text-[clamp(28px,3vw,36px)] uppercase leading-none text-navy">
+            Not a ruck-or-race person? Other ways to help
+          </h2>
+          <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {OTHER_WAYS.map((way) => (
+              <li key={way.href}>
+                <Link
+                  href={way.href}
+                  className="group flex h-full flex-col gap-1 rounded-lg border border-line bg-white px-5 py-4 hover:border-navy"
+                >
+                  <span className="font-bold text-navy group-hover:text-help">{way.title} →</span>
+                  <span className="text-sm text-copy">{way.body}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </section>
+
       <section aria-label="Campaign film" className="bg-navy py-12 sm:py-16">
         <Container>
           <CampaignFilm
@@ -121,186 +193,65 @@ export default async function CampaignsPage() {
         </Container>
       </section>
 
-      {/* Campaign Journal teaser — first thing under the hero, so what's new
-          is the first thing a visitor sees. Mission-wide announcements — mission-wide announcements (new efforts
-          launching, cross-campaign milestones), not any single campaign's
-          own journal/training log. Only the latest JOURNAL_TEASER_COUNT
-          entries render here, however many exist in total — the full
-          archive lives at /campaigns/journal so this page stays a fixed
-          size. See src/lib/content/campaign-journal.ts for how to publish
-          a new entry. */}
-      <section id="journal" className="scroll-mt-28 border-b border-ink/10 py-14 sm:py-16">
-        <Container>
-          <RevealOnScroll>
-            <SectionHeading
-              eyebrow="Campaign Journal"
-              title="Mission-Wide Announcements"
-              description="New campaigns, cross-campaign milestones, and other updates that span the whole For The 22 mission — not any single campaign's own journal."
-            />
-          </RevealOnScroll>
-          {journalEntries.length === 0 ? (
-            <div className="mt-8">
-              <EmptyState
-                title="No Announcements Yet"
-                description="Mission-wide updates will appear here as they happen."
-              />
-            </div>
-          ) : (
-            <>
-              <RevealGrid>
-                <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                  {journalEntries.map((entry) => (
-                    <CampaignJournalEntryCard key={entry.id} entry={entry} variant="teaser" />
-                  ))}
-                </div>
-              </RevealGrid>
-              <p className="mt-6">
-                <Link href="/campaigns/journal" className="text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark">
-                  View the Full Campaign Journal &rarr;
-                </Link>
-              </p>
-            </>
-          )}
-        </Container>
-      </section>
-
-      <WaysIn />
-
-      {/* Current Mission — a campaign-index summary of the shared goal.
-          MissionProgress already names the mission and states the "one
-          shared goal" framing, so this section leans on that visual/numeric
-          component rather than restating it in prose. /70k remains the
-          authoritative mission overview. */}
-      <section className="border-b border-ink/10 py-14 sm:py-16">
-        <Container>
-          <RevealOnScroll className="grid gap-10 lg:grid-cols-12 lg:items-center">
-          <div className="lg:col-span-7">
-          <SectionHeading eyebrow="Current Mission" title="Where We Stand" />
-          <div className="mt-6">
-            <MissionProgress
-              totalRaised={fundraisingStats.amountRaised}
-              goal={fundraisingStats.fundraisingGoal}
-              breakdown={allocationBreakdown}
-            />
-          </div>
-          <div className="mt-6 flex flex-wrap items-center gap-4">
-            <CTAButton href="/donate" magnetic>
-              {DONATE_LINK.label}
-            </CTAButton>
-            <CTAButton href="/impact#beneficiaries" variant="secondary">
-              Meet the Beneficiaries
-            </CTAButton>
-          </div>
-          <p className="mt-4 text-sm text-charcoal-light">
-            <Link href="/70k" className="font-semibold text-bronze hover:text-bronze-dark">
-              See the full {MISSION_NAME} overview &rarr;
-            </Link>
-          </p>
-          </div>
-          <div className="relative min-h-[300px] overflow-hidden rounded-sm lg:col-span-5 lg:min-h-[400px]">
-            <Image src="/the-race/chattanooga-river-bridge.jpg" alt="Chattanooga riverfront near the race course" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/90 to-transparent p-6 pt-20 text-off-white">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze-light">One mission. Many ways in.</p>
-            </div>
-          </div>
-          </RevealOnScroll>
-        </Container>
-      </section>
-
-      {/* Current campaigns — status, dates, location, and links all come from
-          the shared MovementCampaign records. */}
-      <section id="current-campaigns" aria-label="Current campaigns" className="scroll-mt-28 py-16 sm:py-24">
-        <Container>
-          <RevealGrid>
-            <div className="grid gap-5 lg:grid-cols-2">
-              {current.map((campaign) => (
-                <CampaignCard key={campaign.name} campaign={campaign} />
-              ))}
-            </div>
-          </RevealGrid>
-        </Container>
-      </section>
-
-      {/* Beyond the campaign cards — complementary contribution channels.
-          The canonical mission detail remains on /70k. */}
-      <section className="border-t border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container>
-          <RevealOnScroll>
-            <SectionHeading
-              eyebrow="How the Mission Grows"
-              title="Beyond the Campaigns"
-              description="Auctions, merchandise, corporate sponsorships, and direct giving all feed the same shared goal — no single event carries it alone."
-            />
-          </RevealOnScroll>
-          <RevealGrid>
-            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {CONTRIBUTION_MECHANISMS.map((mechanism) => (
-                <div key={mechanism.name} className="flex flex-col rounded-xl border border-line bg-white p-6">
-                  <h3 className="font-display text-xl uppercase text-ink">
-                    {mechanism.name}
-                  </h3>
-                  <p className="mt-2 flex-1 text-sm text-charcoal-light">{mechanism.description}</p>
-                  {mechanism.href && (
-                    <CTAButton href={mechanism.href} external={mechanism.external} variant="ghost" className="mt-4 px-0">
-                      Learn More &rarr;
-                    </CTAButton>
-                  )}
-                </div>
-              ))}
-            </div>
-          </RevealGrid>
-        </Container>
-      </section>
-
-      <UpcomingObservances />
-
-      {/* What's Next? — plan §11: the $70K Mission is a milestone, not the
-          ceiling. Beneficiary names come from data; future mission areas are
-          labeled as areas, not promised beneficiaries. */}
-      <section className="border-y border-ink/10 bg-ink py-16 text-off-white sm:py-20">
-        <Container className="max-w-2xl">
-          <RevealOnScroll>
-            <SectionHeading eyebrow="What's Next?" title="The Beginning, Not the Finish Line" tone="dark" />
-            <div className="mt-6 space-y-4 text-base leading-relaxed text-off-white/80">
-              <p>
-                The current campaigns are working toward a shared {formatCurrency(fundraisingStats.fundraisingGoal)} goal
-                benefiting {joinNames(beneficiaryNames)}.
-              </p>
-              <p>
-                But {SITE_NAME} was never intended to end with one race, one fundraising goal, or
-                {beneficiaryNames.length > 0 ? ` ${beneficiaryNames.length === 2 ? "two" : String(beneficiaryNames.length)} organizations` : " a fixed list of organizations"}.
-              </p>
-              <p>
-                We are exploring future fundraising opportunities supporting additional verified
-                nonprofit organizations serving veterans, first responders, and their families.
-              </p>
-            </div>
-            <blockquote className="mt-8 border-l-2 border-bronze pl-5 font-display text-2xl uppercase text-bronze-light sm:text-3xl">
-              The $70K Mission has a finish line. {SITE_NAME} does not.
-            </blockquote>
-            <div className="mt-10">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze-light">
-                Areas of Future Focus
-              </p>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {FUTURE_MISSION_AREAS.map((area) => (
-                  <span
-                    key={area}
-                    className="rounded-full border border-off-white/20 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-off-white/80"
-                  >
-                    {area}
-                  </span>
-                ))}
-              </div>
-              <p className="mt-3 text-xs text-off-white/50">
-                Mission areas of interest — not commitments to specific organizations or campaigns.
-              </p>
-            </div>
-          </RevealOnScroll>
-        </Container>
-      </section>
-
       <PillarNextSteps current="mobilization" />
     </>
+  );
+}
+
+function CampaignTile({ campaign, featured }: { campaign: MovementCampaign & { url: string }; featured: boolean }) {
+  const gateway = GATEWAY[campaign.slug];
+  const Icon = gateway.icon;
+  const pill = statusPill(campaign);
+  const meta = [campaign.type, campaign.location, campaign.startDate ? shortDate.format(parseDate(campaign.startDate)) : null]
+    .filter(Boolean)
+    .join(" · ");
+  // Campaign sites on other hosts are absolute URLs: a plain <a>, never a relative <Link> (see AGENTS.md).
+  const sameSite = campaign.url.startsWith("/");
+  const ctaClass = cn(
+    "action-control mt-auto inline-flex min-h-[50px] items-center justify-center self-start px-6 font-bold",
+    featured ? "bg-olive text-white hover:bg-olive-dark" : "border-2 border-navy text-navy hover:bg-navy hover:text-white",
+  );
+  const cta = (
+    <>
+      {gateway.cta}
+      {" "}
+      <span aria-hidden="true">→</span>
+      <span className="sr-only"> — {campaign.name}</span>
+    </>
+  );
+
+  return (
+    <li
+      className={cn(
+        "flex flex-col gap-4 rounded-xl border border-t-4 border-line border-t-olive bg-white p-7",
+        featured && "md:col-span-2 lg:row-span-1 sm:p-9",
+      )}
+    >
+      <div className="flex items-start justify-between gap-3">
+        <span className="flex h-14 w-14 items-center justify-center rounded-lg bg-olive/10 text-olive">
+          <Icon className="h-7 w-7" aria-hidden="true" />
+        </span>
+        <span
+          className={cn(
+            "rounded-full px-3 text-sm font-bold",
+            pill.filled ? "bg-olive py-1 text-white" : "border-[1.5px] border-olive py-[3px] text-olive",
+          )}
+        >
+          {pill.label}
+        </span>
+      </div>
+      <div className="flex flex-col gap-2">
+        <h3 className={cn("font-display uppercase leading-none text-navy", featured ? "text-[clamp(40px,4.4vw,56px)]" : "text-[32px]")}>
+          {campaign.name}
+        </h3>
+        {meta && <p className="text-sm font-semibold text-muted">{meta}</p>}
+      </div>
+      <p className={cn("leading-relaxed text-copy", featured ? "max-w-xl text-lg" : "text-base")}>{gateway.pitch}</p>
+      {sameSite ? (
+        <Link href={campaign.url} className={ctaClass}>{cta}</Link>
+      ) : (
+        <a href={campaign.url} className={ctaClass}>{cta}</a>
+      )}
+    </li>
   );
 }

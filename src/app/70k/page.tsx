@@ -7,6 +7,7 @@ import { CTAButton } from "@/components/shared/cta-button";
 import { CTASection } from "@/components/shared/cta-section";
 import { MissionProgress } from "@/components/campaign/mission-progress";
 import { AuctionSpotlight } from "@/components/live/auction-spotlight";
+import { MissionBeyond } from "@/components/campaign/mission-beyond";
 import { getMissionMetrics } from "@/lib/data/mission-metrics";
 import { getAllocationBreakdown } from "@/lib/data/allocation";
 import { getCampaign } from "@/lib/data/campaign";
@@ -160,6 +161,11 @@ export default async function Mission70kPage() {
           </div>
         </Container>
       </section>
+
+      <MissionBeyond
+        goal={metrics.fundraisingGoal ?? FUNDRAISING_GOAL}
+        beneficiaryNames={beneficiaries.map((b) => b.name)}
+      />
 
       <CTASection
         title="One Goal. Multiple Campaigns. One Mission."
