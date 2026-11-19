@@ -8,7 +8,7 @@ import { ChevronDown, Menu, X } from "lucide-react";
 import { DONATE_LINK, ORG_NAV_LINKS, SITE_NAME } from "@/lib/constants";
 import { isNavGroup, type NavGroup } from "@/types/content";
 import { cn } from "@/lib/utils";
-import { PILLAR_BORDER, PILLAR_TEXT, getOrgPillar, isPathWithin, pillarEyebrow } from "@/lib/pillars";
+import { PILLAR_BORDER, PILLAR_TEXT, currentNavSection, getOrgPillar, pillarEyebrow } from "@/lib/pillars";
 import { MobileMenu } from "@/components/layout/mobile-menu";
 import { Container } from "@/components/shared/container";
 import { CTAButton } from "@/components/shared/cta-button";
@@ -212,7 +212,9 @@ function NavDropdown({
   const containerRef = useRef<HTMLDivElement>(null);
   const panelId = useId();
   // Section-aware: /resources/some-org still marks "Find Support" current.
-  const isActive = group.children.some((link) => isPathWithin(pathname, link.href));
+  // Most-specific match wins, so /voices/talent marks Get Involved but not Find Support (/voices).
+  const section = currentNavSection(pathname);
+  const isActive = section !== null && group.children.some((link) => (link.href.split("#")[0] || "/") === section);
   const pillar = group.pillar ? getOrgPillar(group.pillar) : null;
   const activeBorder = pillar ? PILLAR_BORDER[pillar.id] : "border-navy";
 

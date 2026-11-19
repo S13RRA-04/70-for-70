@@ -3,6 +3,7 @@ import "server-only";
 import { MOVEMENT_CAMPAIGNS, isCurrentCampaign } from "@/lib/constants";
 import { RESOURCES } from "@/lib/content/resources";
 import { getFundraisingImpactStats } from "./fundraising-impact";
+import { getActiveResourceCount } from "./resource-metrics";
 
 export interface MissionMetrics {
   resources: number | null;
@@ -24,7 +25,10 @@ export interface MissionMetrics {
  * zero, so callers never imply that unavailable data was measured.
  */
 export async function getMissionMetrics(): Promise<MissionMetrics> {
-  const fundraising = await getFundraisingImpactStats();
+  const [fundraising, resourceCount] = await Promise.all([
+    getFundraisingImpactStats(),
+    getActiveResourceCount(),
+  ]);
   const categories = new Set<string>();
   const states = new Set<string>();
   let nationalResources = 0;
@@ -36,7 +40,7 @@ export async function getMissionMetrics(): Promise<MissionMetrics> {
   }
 
   return {
-    resources: RESOURCES.length,
+    resources: resourceCount,
     resourceCategories: categories.size,
     statesRepresented: states.size,
     nationalResources,

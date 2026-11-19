@@ -13,8 +13,8 @@ import { Container } from "@/components/shared/container";
 import { PageHero } from "@/components/shared/page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
-import { RESOURCES } from "@/lib/content/resources";
 import { SITE_NAME, SITE_URL } from "@/lib/constants";
+import { getActiveResourceCount } from "@/lib/data/resource-metrics";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 
@@ -93,7 +93,12 @@ const EXCLUSIONS = [
   "Pay-to-play referral arrangements or pressure to purchase placement",
 ];
 
-export default function StandardsPage() {
+export default async function StandardsPage() {
+  const resourceCount = await getActiveResourceCount();
+  const directoryDescription = resourceCount === null
+    ? `${SITE_NAME} lists vetted programs and services in its resource directory. Every one goes through the same review before it appears — here is exactly what that involves, and what it does not mean.`
+    : `${SITE_NAME} lists ${resourceCount.toLocaleString("en-US")} resources — vetted programs and services. Every one goes through the same review before it appears — here is exactly what that involves, and what it does not mean.`;
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
@@ -101,7 +106,7 @@ export default function StandardsPage() {
         pillar="connection"
         eyebrow="Resource standards"
         title="How resources are reviewed"
-        description={`${SITE_NAME} lists ${RESOURCES.length} resources — vetted programs and services. Every one goes through the same review before it appears — here is exactly what that involves, and what it does not mean.`}
+        description={directoryDescription}
       />
 
       <section className="border-y border-ink/10 bg-sand-light py-16 sm:py-20">

@@ -72,6 +72,9 @@ export const ORG_PILLARS: readonly OrgPillar[] = [
     hub: { label: "Campaigns", href: "/campaigns" },
     more: [
       { label: "Partners & network", href: "/network" },
+      // The Voices *participation* side (talent portal). The published
+      // messages themselves live under Connection as "Voices For The 22".
+      { label: "Voices: Talent & Media", href: "/voices/talent" },
       { label: "Awareness calendar", href: "/awareness" },
       { label: "For The 22 Store", href: "/store" },
       { label: "Shop With Purpose", href: "/veteran-brands" },
@@ -112,6 +115,17 @@ export function isPathWithin(pathname: string, href: string): boolean {
   const base = href.split("#")[0] || "/";
   if (base === "/") return pathname === "/";
   return pathname === base || pathname.startsWith(`${base}/`);
+}
+
+/**
+ * The single most specific nav href containing `pathname` (compared without
+ * #fragments), or null. Nested sections can live in different pillars —
+ * /voices is Connection while /voices/talent is Mobilization — so the header
+ * marks only the group owning the longest match, never both.
+ */
+export function currentNavSection(pathname: string): string | null {
+  const hrefs = [...ORG_PILLARS.flatMap((p) => p.links), ...ORG_ABOUT_LINKS].map((link) => link.href.split("#")[0] || "/");
+  return hrefs.filter((href) => isPathWithin(pathname, href)).sort((a, b) => b.length - a.length)[0] ?? null;
 }
 
 /** The org nav/footer group that sits outside the three pillars. */

@@ -1,686 +1,447 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { ChevronDown, Check, Copy, X } from "lucide-react";
-import { NEED_CATEGORIES, slugifyResourceName, type Resource } from "@/lib/content/resources";
-import { ResourceCard } from "@/components/resources/resource-card";
-import { ResourceMap } from "@/components/resources/resource-map";
-import { EmptyState } from "@/components/shared/empty-state";
-import { FilterChip } from "@/components/shared/filter-chip";
-import { SearchField } from "@/components/shared/search-field";
+import dynamic from "next/dynamic";
+import Link from "next/link";
+import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
+import { useSearchParams } from "next/navigation";
+import {
+  Activity,
+  Briefcase,
+  DollarSign,
+  HeartPulse,
+  Home,
+  Scale,
+  SlidersHorizontal,
+  Sunrise,
+  Users,
+  X,
+  type LucideIcon,
+} from "lucide-react";
+import { DirectoryCard } from "@/components/resources/directory-card";
 import { trackEvent } from "@/lib/analytics/plausible";
 import { cn } from "@/lib/utils";
-import { NEED_PATHWAYS } from "@/lib/resources/need-pathways";
+import {
+  AUDIENCES,
+  AUDIENCE_BY_ID,
+  EMPTY_DIRECTORY_STATE,
+  LAST_RESULTS_KEY,
+  MAX_QUERY_LENGTH,
+  NEEDS,
+  NEED_BY_ID,
+  filterDirectory,
+  needFacetCounts,
+  parseDirectoryState,
+  resolveStateInput,
+  serializeDirectoryState,
+  showsCrisisCard,
+  type DirectoryResource,
+  type DirectoryState,
+  type NeedId,
+} from "@/lib/resources/directory";
 
-/** Cards rendered per "page" — a plain client-side slice of sortedResults, not a route param, since the whole list is already filtered/sorted client-side. Keeps the unfiltered 1,000+-resource view from mounting every card (and its own useState pair) at once. */
-const RESULTS_PAGE_SIZE = 24;
+/** Leaflet + tiles load only once someone opens the map. */
+const ResourceMap = dynamic(() => import("@/components/resources/resource-map").then((m) => m.ResourceMap), {
+  ssr: false,
+  loading: () => <div className="grid h-[260px] place-items-center text-sm text-muted">Loading map…</div>,
+});
 
-/** A single active-filter tag in the "Active filters" row, with its own remove button. Extracted so the 4 call sites below (need/audience/state/search) share one implementation instead of repeating the same markup. */
-function RemovableFilterPill({ label, onRemove }: { label: string; onRemove: () => void }) {
-  return (
-    <button
-      type="button"
-      onClick={onRemove}
-      className="rounded-full border border-ink/20 bg-sand-light px-3 py-1 text-[11px] font-semibold text-ink"
-    >
-      {label} <span aria-hidden="true">×</span>
-    </button>
-  );
-}
+const PAGE_SIZE = 24;
 
-/** "Who are you?" — the curated filter-row subset. Cards may show additional audience tags beyond this list. */
-export const PRIMARY_AUDIENCE_TAGS = [
-  "Veteran",
-  "Active Military",
-  "Law Enforcement",
-  "Fire",
-  "EMS",
-  "Dispatch",
-  "Corrections",
-  "Family",
-  "Disabled",
-] as const;
-
-/** "Nationwide" vs "State-Specific" — independent of which state is selected on the map. */
-type ResourceScope = "all" | "national" | "state";
-const SCOPE_LABELS = { national: "Nationwide", state: "State-Specific" } as const;
-
-function toResourceScope(raw: string | null): ResourceScope {
-  return raw === "national" || raw === "state" ? raw : "all";
-}
-
-/**
- * "Relevance" is the data's own curated order (see resources.ts's doc
- * comment — entries are grouped by need category on purpose), not a search
- * ranking; there's no scoring to rank by, so it's really "as curated."
- * "Recent" uses verifiedDate, falling back to last for any entry missing
- * one rather than treating an unset date as "oldest" or "newest" — either
- * would misrepresent entries research hasn't dated yet.
- */
-type ResourceSort = "relevance" | "name" | "recent";
-const SORT_LABELS: Record<ResourceSort, string> = {
-  relevance: "Relevance",
-  name: "Name (A–Z)",
-  recent: "Recently Verified",
+const NEED_ICONS: Record<NeedId, LucideIcon> = {
+  mental: HeartPulse,
+  addiction: Sunrise,
+  financial: DollarSign,
+  housing: Home,
+  family: Users,
+  career: Briefcase,
+  legal: Scale,
+  fitness: Activity,
 };
 
-function toResourceSort(raw: string | null): ResourceSort {
-  return raw === "name" || raw === "recent" ? raw : "relevance";
+const btn = "inline-flex min-h-11 items-center justify-center gap-2 rounded-[4px] border-[1.5px] px-[18px] text-sm font-bold";
+const btnPrimary = `${btn} border-navy bg-navy text-white hover:bg-navy-hover`;
+const btnOutline = `${btn} border-navy bg-white text-navy hover:bg-paper`;
+const linkButton = "py-2 text-sm font-bold text-help underline underline-offset-2 hover:text-help-dark";
+
+function programs(count: number) {
+  return count === 1 ? "1 program" : `${count} programs`;
 }
 
-function FilterRow({
-  label,
-  options,
-  activeValues,
-  onSelect,
-  chipSize = "md",
-}: {
-  label: string;
-  options: readonly string[];
-  /** Every option currently applied — usually 0 or 1, but a gateway card can land here with several at once. */
-  activeValues: readonly string[];
-  onSelect: (value: string | null) => void;
-  /** "md" for the primary "What Do You Need?" row, "sm" for the secondary rows below it — a visual size step reinforces which filter matters most. */
-  chipSize?: "sm" | "md";
-}) {
-  return (
-    <div>
-      <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">{label}</p>
-      <div className="mt-2.5 flex flex-wrap gap-2">
-        <FilterChip label="All" active={activeValues.length === 0} onClick={() => onSelect(null)} size={chipSize} />
-        {options.map((option) => (
-          <FilterChip
-            key={option}
-            label={option}
-            active={activeValues.includes(option)}
-            onClick={() => onSelect(activeValues.length === 1 && activeValues.includes(option) ? null : option)}
-            size={chipSize}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-export function ResourceDirectory({ resources }: { resources: Resource[] }) {
-  // Deep-link support so the homepage quick-finder and network/state pages
-  // can land here pre-filtered via ?q=&need=&audience=. `need` may be a
-  // comma-separated list of ids since a few callers span more than one
-  // taxonomy category; a single id (the only form older links use) still
-  // works unchanged.
+export function ResourceDirectory({ resources }: { resources: DirectoryResource[] }) {
   const params = useSearchParams();
-  const pathname = usePathname();
-  const router = useRouter();
-  const [needIds, setNeedIds] = useState<string[]>(() => {
-    const raw = params.get("need");
-    return raw ? raw.split(",").filter(Boolean) : [];
-  });
-  const [pathwayId, setPathwayId] = useState<string | null>(() => params.get("pathway"));
-  const [audience, setAudience] = useState<string | null>(() => params.get("audience"));
-  const [search, setSearch] = useState(() => params.get("q") ?? "");
-  const [stateFilter, setStateFilter] = useState<string | null>(() => params.get("state"));
-  const [scope, setScope] = useState<ResourceScope>(() => toResourceScope(params.get("scope")));
-  const [sort, setSort] = useState<ResourceSort>(() => toResourceSort(params.get("sort")));
-  const [accessFilters, setAccessFilters] = useState<string[]>([]);
-  const [visibleCount, setVisibleCount] = useState(RESULTS_PAGE_SIZE);
-  const [searchLinkCopied, setSearchLinkCopied] = useState(false);
-  // Below `lg:`, the filter chip stack (3 groups, up to ~20 buttons total)
-  // starts collapsed so a mobile visitor reaches search + results without
-  // scrolling past it first — `lg:` always shows it regardless of this
-  // state (see the className below). Opens automatically once any filter
-  // is actually active, so a deep-linked/gateway-card visit doesn't hide
-  // the filters that are already applied.
+  const [state, setStateValue] = useState<DirectoryState>(() => parseDirectoryState(params));
+  const [qInput, setQInput] = useState(state.q);
+  const [locationInput, setLocationInput] = useState(state.state ?? "");
+  const [locationError, setLocationError] = useState(false);
+  const [visible, setVisible] = useState(PAGE_SIZE);
   const [filtersOpen, setFiltersOpen] = useState(false);
-  // Coverage + the 8-option "Confirmed Access & Organization" row sit behind
-  // their own nested disclosure so the default view only surfaces Search,
-  // Need, and Who Are You — the three dimensions most people actually touch
-  // first. Auto-opens when one of its own filters is active so deep links do
-  // not hide applied state.
-  const [moreFiltersOpen, setMoreFiltersOpen] = useState(false);
-  // The state map used to render open, full-width, above search — forcing
-  // every visitor through it even though most people come here to search or
-  // browse by need, not by state. Collapsed by default now, same
-  // auto-opens-when-its-filter-is-active pattern as moreFiltersOpen below,
-  // so a deep link with ?state= still shows the map it came from.
   const [mapOpen, setMapOpen] = useState(false);
-  const filterTriggerRef = useRef<HTMLButtonElement>(null);
-  const filterPanelRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLElement>(null);
 
-  useEffect(() => {
-    if (!filtersOpen) return;
-    const panel = filterPanelRef.current;
-    if (!panel) return;
-    const trigger = filterTriggerRef.current;
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    const focusableSelector = 'button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
-    const focusable = Array.from(panel.querySelectorAll<HTMLElement>(focusableSelector));
-    focusable[0]?.focus();
-
-    function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") {
-        event.preventDefault();
-        setFiltersOpen(false);
-        return;
-      }
-      if (event.key !== "Tab") return;
-      const current = Array.from(panel!.querySelectorAll<HTMLElement>(focusableSelector));
-      if (current.length === 0) return;
-      const first = current[0];
-      const last = current[current.length - 1];
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first.focus();
-      }
-    }
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      document.removeEventListener("keydown", handleKeyDown);
-      trigger?.focus();
-    };
-  }, [filtersOpen]);
-
-  // In-page filter changes now sync back to the URL (debounced below) so a
-  // filtered view is shareable/bookmarkable — it previously never touched
-  // the URL at all once mounted. That write is itself a URL change, which
-  // would otherwise be indistinguishable from someone landing via a new
-  // gateway-card link or hitting back/forward — both of which *should*
-  // reset local state from the URL. This flag marks "that next params
-  // change is one I just wrote myself," so the reset logic below only
-  // fires for real external navigation. State, not a ref, since it's read
-  // and set during render (same pattern as lastParamsKey just below) —
-  // React's hooks lint forbids reading/writing a ref's .current in render.
-  const [isSelfWrite, setIsSelfWrite] = useState(false);
-
-  // The lazy initializers above cover the normal case (a fresh page load,
-  // filtered from the first server-rendered paint). This covers the one
-  // they can't: Next's client router reusing this already-mounted page
-  // instance when navigating from one gateway card to another (or the user
-  // hitting back/forward), where only the query string changes and the
-  // initializers never re-run. Comparing during render (React's documented
-  // way to adjust state when a prop changes, rather than an Effect) lets us
-  // reset synchronously, before the stale-filter results ever paint.
+  // The URL is written with history.replaceState below. A params change that
+  // doesn't match what we last wrote is outside navigation (a header link, a
+  // homepage deep link, back/forward), so state is re-read from it. Adjusted
+  // during render — React's pattern for deriving state from a changed input.
   const paramsKey = params.toString();
-  const [lastParamsKey, setLastParamsKey] = useState(paramsKey);
-  if (paramsKey !== lastParamsKey) {
-    setLastParamsKey(paramsKey);
-    if (isSelfWrite) {
-      setIsSelfWrite(false);
-    } else {
-      const raw = params.get("need");
-      setNeedIds(raw ? raw.split(",").filter(Boolean) : []);
-      setPathwayId(params.get("pathway"));
-      setAudience(params.get("audience"));
-      setSearch(params.get("q") ?? "");
-      setStateFilter(params.get("state"));
-      setScope(toResourceScope(params.get("scope")));
-      setSort(toResourceSort(params.get("sort")));
+  const [syncedKey, setSyncedKey] = useState(paramsKey);
+  if (paramsKey !== syncedKey) {
+    setSyncedKey(paramsKey);
+    if (paramsKey !== serializeDirectoryState(state)) {
+      const next = parseDirectoryState(params);
+      setStateValue(next);
+      setQInput(next.q);
+      setLocationInput(next.state ?? "");
+      setVisible(PAGE_SIZE);
     }
   }
 
-  // Debounced so typing a search query doesn't fire a navigation per
-  // keystroke — chip/map clicks already only fire a few times a session, so
-  // they don't need the delay, but share the same effect for one code path.
+  function update(patch: Partial<DirectoryState>) {
+    setStateValue((current) => ({ ...current, ...patch }));
+    setVisible(PAGE_SIZE);
+  }
+
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      const next = new URLSearchParams();
-      if (needIds.length > 0) next.set("need", needIds.join(","));
-      if (pathwayId) next.set("pathway", pathwayId);
-      if (audience) next.set("audience", audience);
-      if (search) next.set("q", search);
-      if (stateFilter) next.set("state", stateFilter);
-      if (scope !== "all") next.set("scope", scope);
-      if (sort !== "relevance") next.set("sort", sort);
-      const nextKey = next.toString();
-      if (nextKey === paramsKey) return;
-      setIsSelfWrite(true);
-      router.replace(nextKey ? `${pathname}?${nextKey}` : pathname, { scroll: false });
-    }, 300);
+    const query = serializeDirectoryState(state);
+    const url = query ? `${window.location.pathname}?${query}` : window.location.pathname;
+    if (`${window.location.pathname}${window.location.search}` !== url) window.history.replaceState(null, "", url);
+    try {
+      window.sessionStorage.setItem(LAST_RESULTS_KEY, url);
+    } catch {
+      // Storage unavailable (private mode) — "Back to results" falls back to /resources.
+    }
+  }, [state]);
+
+  // Search input: debounced 200ms, capped at 100 chars.
+  useEffect(() => {
+    if (qInput === state.q) return;
+    const timeout = setTimeout(() => update({ q: qInput.slice(0, MAX_QUERY_LENGTH) }), 200);
     return () => clearTimeout(timeout);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [needIds, pathwayId, audience, search, stateFilter, scope, sort]);
+  }, [qInput]);
 
+  const results = useMemo(() => filterDirectory(resources, state), [resources, state]);
+  const counts = useMemo(() => needFacetCounts(resources, state), [resources, state]);
   const stateCounts = useMemo(() => {
-    const counts = new Map<string, number>();
-    for (const resource of resources) {
-      if (resource.state) counts.set(resource.state, (counts.get(resource.state) ?? 0) + 1);
-    }
-    return counts;
+    const map = new Map<string, number>();
+    for (const resource of resources) if (resource.state) map.set(resource.state, (map.get(resource.state) ?? 0) + 1);
+    return map;
   }, [resources]);
 
-  const results = useMemo(() => {
-    const query = search.trim().toLowerCase();
-    const queryPathways = query
-      ? NEED_PATHWAYS.filter((pathway) =>
-          pathway.searchPhrases.some((phrase) => query.includes(phrase) || (query.length >= 4 && phrase.includes(query))),
-        )
-      : [];
-
-    return resources.filter((resource) => {
-      const matchesNeed =
-        needIds.length === 0 || resource.needCategoryIds.some((id) => needIds.includes(id));
-      const matchesPathway = !pathwayId || resource.situationalTags?.includes(pathwayId);
-      const matchesAudience = !audience || resource.audienceTags.includes(audience);
-      // Nationwide entries (no state set) always count as a match — picking
-      // a state should add local resources on top of nationwide ones, not
-      // hide them.
-      const matchesState = !stateFilter || !resource.state || resource.state === stateFilter;
-      const matchesScope = scope === "all" || (scope === "national" ? !resource.state : Boolean(resource.state));
-      const matchesAccess = accessFilters.every((filter) => {
-        if (filter === "Self-referral") return resource.selfReferral === true;
-        if (filter === "No employer referral") return resource.employerInvolvementRequired === false;
-        if (filter === "Independent provider") return resource.outsideAgencyProvider === true;
-        if (filter === "Anonymous initial contact") return resource.anonymousInitialContact === true;
-        if (filter === "Virtual access") return resource.virtualAvailable === true;
-        if (filter === "No insurance required") return resource.insuranceRequired === false;
-        if (filter === "Peer-led") return resource.peerLed === true;
-        if (filter === "Faith-based organization") return resource.faithBased === true;
-        return true;
-      });
-
-      const needLabels = resource.needCategoryIds.map(
-        (id) => NEED_CATEGORIES.find((c) => c.id === id)?.label ?? "",
-      );
-      const matchesSearch =
-        !query ||
-        resource.name.toLowerCase().includes(query) ||
-        resource.description.toLowerCase().includes(query) ||
-        resource.audienceTags.some((tag) => tag.toLowerCase().includes(query)) ||
-        needLabels.some((label) => label.toLowerCase().includes(query)) ||
-        resource.cost.toLowerCase().includes(query) ||
-        resource.geographicScope.toLowerCase().includes(query) ||
-        (resource.state?.toLowerCase().includes(query) ?? false) ||
-        queryPathways.some(
-          (pathway) =>
-            resource.situationalTags?.includes(pathway.id) ||
-            resource.needCategoryIds.some((id) => pathway.categoryFallbackIds.some((fallbackId) => fallbackId === id)),
-        );
-
-      return matchesNeed && matchesPathway && matchesAudience && matchesState && matchesScope && matchesAccess && matchesSearch;
-    });
-  }, [resources, needIds, pathwayId, audience, stateFilter, scope, accessFilters, search]);
-
-  const sortedResults = useMemo(() => {
-    if (sort === "relevance") return results;
-    const copy = [...results];
-    if (sort === "name") {
-      copy.sort((a, b) => a.name.localeCompare(b.name));
-    } else {
-      // "recent" — no verifiedDate sorts last, never treated as newest or oldest.
-      copy.sort((a, b) => {
-        if (!a.verifiedDate && !b.verifiedDate) return 0;
-        if (!a.verifiedDate) return 1;
-        if (!b.verifiedDate) return -1;
-        return b.verifiedDate.localeCompare(a.verifiedDate);
-      });
-    }
-    return copy;
-  }, [results, sort]);
-
-  // Resets the page back to the first batch whenever the actual result set
-  // changes shape — otherwise tightening a filter after scrolling deep into
-  // "Load More" could leave visibleCount far past the new, smaller total,
-  // or just strand a visitor on page 6 of a now-unrelated search.
-  // eslint-disable-next-line react-hooks/set-state-in-effect
-  useEffect(() => setVisibleCount(RESULTS_PAGE_SIZE), [needIds, pathwayId, audience, search, stateFilter, scope, accessFilters, sort]);
-
-  const visibleResults = sortedResults.slice(0, visibleCount);
-  const hasMoreResults = visibleCount < sortedResults.length;
-
-  // Tracked on its own debounce (not folded into the URL-sync effect above)
-  // so it fires once per pause in typing, carrying the result count at that
-  // moment — not on every keystroke, and not for an empty/cleared query.
   useEffect(() => {
-    const query = search.trim();
+    const query = state.q.trim();
     if (!query) return;
-    const timeout = setTimeout(() => {
-      trackEvent("resource_search", { query, results: String(results.length) });
-    }, 500);
+    const timeout = setTimeout(() => trackEvent("resource_search", { query, results: String(results.length) }), 800);
     return () => clearTimeout(timeout);
-  }, [search, results.length]);
+  }, [state.q, results.length]);
 
-  // Lands a copied resource link (see ResourceCard's handleCopyLink) on the
-  // actual card, not just the top of the filtered list — results render
-  // from a search match on the resource's own name, so the matching card is
-  // always present once results settle. Runs once results stop changing
-  // (not on every keystroke/filter tweak) so it doesn't fight a visitor who
-  // starts typing their own search.
-  useEffect(() => {
-    const hash = window.location.hash.slice(1);
-    if (!hash || results.length === 0) return;
-    // A hash target past the current page (page size, no narrowing search)
-    // wouldn't be in the DOM yet to scroll to — expand to include it first.
-    const targetIndex = sortedResults.findIndex((r) => slugifyResourceName(r.name) === hash);
-    if (targetIndex >= visibleCount) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setVisibleCount(targetIndex + 1);
-      return;
-    }
-    const el = document.querySelector(`[data-resource-id="${hash}"]`);
-    if (!el) return;
-    el.scrollIntoView({ behavior: "smooth", block: "center" });
-    el.classList.add("ring-2", "ring-bronze", "ring-offset-2");
-    const timeout = setTimeout(() => el.classList.remove("ring-2", "ring-bronze", "ring-offset-2"), 2500);
-    return () => clearTimeout(timeout);
-  }, [results.length, sortedResults, visibleCount]);
-
-  // Drives the collapsible chip panel's own auto-open — search is always
-  // visible outside that panel, so it doesn't need to force it open.
-  const chipFilterCount = [needIds.length > 0, Boolean(pathwayId), Boolean(audience), scope !== "all", accessFilters.length > 0].filter(Boolean).length;
-  // Drives the toggle button's "N Active" badge and whether a "Clear all"
-  // control appears — this one DOES count search/state, since both are
-  // genuinely active filters even though they live outside the chip panel.
-  // Previously only chipFilterCount was shown here, so a visitor who'd only
-  // searched or only picked a state saw a bare "Filters" label that
-  // understated how filtered the view already was.
-  const totalActiveFilterCount = chipFilterCount + (search ? 1 : 0) + (stateFilter ? 1 : 0);
-  const showMap = mapOpen || Boolean(stateFilter);
-  const moreFiltersActiveCount = (scope !== "all" ? 1 : 0) + accessFilters.length;
-  const showMoreFilters = moreFiltersOpen || moreFiltersActiveCount > 0;
-
-  function clearAllFilters() {
-    setNeedIds([]);
-    setPathwayId(null);
-    setAudience(null);
-    setSearch("");
-    setStateFilter(null);
-    setScope("all");
-    setAccessFilters([]);
+  function toggleNeed(id: NeedId) {
+    update({ needs: state.needs.includes(id) ? state.needs.filter((need) => need !== id) : [...state.needs, id] });
   }
 
-  return (
-    <div>
-      {/* Lets a keyboard user bypass the "Browse by State" toggle (and, once
-          open, the map's location search and ~50 individually-tabbable state
-          pins) to reach search directly — sr-only until focused. */}
-      <a
-        href="#resource-search"
-        className="sr-only focus:not-sr-only focus:absolute focus:z-10 focus:rounded-sm focus:bg-ink focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:uppercase focus:tracking-wide focus:text-off-white"
-      >
-        Skip to search &amp; filters
-      </a>
+  function applyLocation(raw: string): boolean {
+    if (!raw.trim()) {
+      setLocationError(false);
+      update({ state: null });
+      return true;
+    }
+    const resolved = resolveStateInput(raw);
+    setLocationError(!resolved);
+    if (resolved) {
+      setLocationInput(resolved);
+      update({ state: resolved });
+    }
+    return Boolean(resolved);
+  }
 
-      {/* Collapsed by default (see mapOpen/showMap above) — most visitors
-          come here to search or filter by need, not browse a US map, and a
-          full-width choropleth forced above the fold pushed that below a
-          long scroll for everyone else. Still full-width, not squeezed into
-          the sidebar column, once opened — the clustered Northeast pins need
-          the room. */}
-      <div className="rounded-sm border border-ink/10 bg-sand-light p-5 sm:p-6">
-        <button
-          type="button"
-          onClick={() => setMapOpen((v) => !v)}
-          aria-expanded={showMap}
-          aria-controls="resource-state-map"
-          className="flex w-full flex-wrap items-baseline justify-between gap-2 text-left"
-        >
-          <span className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
-            {stateFilter ? `Browsing ${stateFilter}` : "Browse by State"}
-          </span>
-          <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-bronze">
-            {showMap ? "Hide Map" : "Show Map"}
-            <ChevronDown size={14} aria-hidden="true" className={cn("transition-transform", showMap && "rotate-180")} />
-          </span>
-        </button>
-        {showMap && (
-          <div id="resource-state-map">
-            <div className="mt-3 flex flex-wrap items-baseline justify-between gap-2">
-              <p className="text-xs text-charcoal-light/80">
-                Each pin shows a state&apos;s region-specific resources. Search your city or ZIP, or
-                tap a pin — nationwide programs always show too.
-              </p>
-              {stateFilter && (
-                <button
-                  type="button"
-                  onClick={() => setStateFilter(null)}
-                  className="shrink-0 text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
-                >
-                  Clear State
-                </button>
-              )}
-            </div>
-            <div className="mx-auto mt-4 max-w-4xl">
-              <ResourceMap stateCounts={stateCounts} selected={stateFilter} onSelect={setStateFilter} />
-            </div>
-          </div>
+  function handleSearch(event: FormEvent) {
+    event.preventDefault();
+    const q = qInput.slice(0, MAX_QUERY_LENGTH);
+    if (!applyLocation(locationInput)) return;
+    update({ q });
+    resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function clearAll() {
+    setQInput("");
+    setLocationInput("");
+    setLocationError(false);
+    update({ ...EMPTY_DIRECTORY_STATE, sort: state.sort });
+  }
+
+  const active: { key: string; label: string; remove: () => void }[] = [];
+  if (state.who !== "all") active.push({ key: "who", label: AUDIENCE_BY_ID[state.who].label, remove: () => update({ who: "all" }) });
+  for (const id of state.needs) active.push({ key: `need-${id}`, label: NEED_BY_ID[id].label, remove: () => toggleNeed(id) });
+  if (state.freeOnly) active.push({ key: "free", label: "Free only", remove: () => update({ freeOnly: false }) });
+  if (state.state) active.push({ key: "state", label: state.state, remove: () => { setLocationInput(""); update({ state: null }); } });
+  if (state.q.trim()) active.push({ key: "q", label: `“${state.q.trim()}”`, remove: () => { setQInput(""); update({ q: "" }); } });
+  const filtered = active.length > 0;
+
+  return (
+    <>
+      {/* Search panel */}
+      <form role="search" onSubmit={handleSearch} className="flex flex-col gap-[18px] rounded-lg border border-line bg-white p-5">
+        <div className="flex flex-wrap items-end gap-3">
+          <label className="flex flex-[3_1_320px] flex-col gap-1.5 text-[13px] font-bold text-navy">
+            What do you need help with?
+            <input
+              id="resource-search"
+              type="search"
+              value={qInput}
+              maxLength={MAX_QUERY_LENGTH}
+              autoComplete="off"
+              onChange={(e) => setQInput(e.target.value)}
+              placeholder="Try “PTSD”, “rent help”, “caregiver”, or a program name"
+              className="h-[52px] rounded-md border-[1.5px] border-[#8a909c] bg-white px-4 text-base font-normal text-navy placeholder:text-[#5f636b]"
+            />
+          </label>
+          <label className="flex flex-[1_1_180px] flex-col gap-1.5 text-[13px] font-bold text-navy">
+            State or ZIP (optional)
+            <input
+              type="text"
+              value={locationInput}
+              autoComplete="postal-code"
+              onChange={(e) => setLocationInput(e.target.value)}
+              placeholder="e.g. 35203 or Alabama"
+              aria-invalid={locationError || undefined}
+              aria-describedby={locationError ? "location-error" : undefined}
+              className="h-[52px] rounded-md border-[1.5px] border-[#8a909c] bg-white px-4 text-base font-normal text-navy placeholder:text-[#5f636b]"
+            />
+          </label>
+          <button type="submit" className={cn(btnPrimary, "h-[52px] px-7 tracking-[1px]")}>
+            SEARCH
+          </button>
+        </div>
+        {locationError && (
+          <p id="location-error" role="alert" className="-mt-2 text-sm font-semibold text-purpose">
+            We couldn&apos;t match that location. Try a 5-digit ZIP or a state name.
+          </p>
         )}
+        <div role="group" aria-labelledby="who-label" className="flex items-center gap-2 max-md:-mr-4 max-md:overflow-x-auto max-md:pr-4 md:flex-wrap">
+          <span id="who-label" className="mr-1.5 shrink-0 text-[13px] font-bold text-navy">I am:</span>
+          {[{ id: "all" as const, label: "Anyone" }, ...AUDIENCES].map((audience) => (
+            <button
+              key={audience.id}
+              type="button"
+              aria-pressed={state.who === audience.id}
+              onClick={() => update({ who: audience.id })}
+              className="min-h-10 shrink-0 rounded-full border-[1.5px] border-[#8a909c] bg-white px-4 text-sm font-semibold text-navy aria-pressed:border-navy aria-pressed:bg-navy aria-pressed:text-white"
+            >
+              {audience.label}
+            </button>
+          ))}
+        </div>
+      </form>
+
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-lg bg-[#e9eef5] px-5 py-4">
+        <div>
+          <strong className="block text-navy">Not sure what you need?</strong>
+          <span className="text-sm">Answer a few private questions and we&apos;ll suggest a short list. Answers stay in this browser.</span>
+        </div>
+        <Link href="/resources/guide" className={btnOutline}>
+          HELP ME FIGURE IT OUT <span aria-hidden="true">→</span>
+        </Link>
       </div>
 
-      {/* Fluid two-column layout: the filter rail takes a comfortable
-          15–20rem and the results take everything else, so wider screens get
-          more result columns instead of wider margins. */}
-      <div className="mt-8 grid gap-8 lg:grid-cols-[clamp(15rem,20vw,20rem)_minmax(0,1fr)] lg:items-start lg:gap-8">
-        <div className="space-y-3 lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:space-y-5 lg:overflow-y-auto lg:pr-1">
-          <SearchField
-            id="resource-search"
-            value={search}
-            onChange={setSearch}
-            label="Search resources"
-            placeholder="Search organizations, services, or needs…"
-            className="scroll-mt-28"
-          />
-
-          <button
-            ref={filterTriggerRef}
-            type="button"
-            onClick={() => setFiltersOpen((v) => !v)}
-            aria-expanded={filtersOpen}
-            aria-controls="resource-filter-panel"
-            className="sticky bottom-4 z-30 flex min-h-12 w-full items-center justify-between rounded-sm border border-ink/20 bg-ink px-4 py-3 text-xs font-semibold uppercase tracking-wide text-off-white shadow-lg lg:hidden"
-          >
-            <span>Filters{totalActiveFilterCount > 0 ? ` · ${totalActiveFilterCount} Active` : ""}</span>
-            <ChevronDown size={14} aria-hidden="true" className={cn("transition-transform", filtersOpen && "rotate-180")} />
-          </button>
-
-          {filtersOpen && (
-            <button
-              type="button"
-              aria-label="Close filters"
-              onClick={() => setFiltersOpen(false)}
-              className="fixed inset-0 z-40 bg-ink/55 lg:hidden"
-            />
-          )}
-          <div
-            ref={filterPanelRef}
-            id="resource-filter-panel"
-            role="dialog"
-            aria-modal={filtersOpen ? "true" : undefined}
-            aria-label="Resource filters"
-            className={cn(
-              "fixed inset-x-0 bottom-0 z-50 max-h-[85dvh] space-y-5 overflow-y-auto rounded-t-lg border border-ink/10 bg-sand-light p-5 shadow-2xl transition-transform duration-300 lg:static lg:z-auto lg:block lg:max-h-none lg:rounded-sm lg:shadow-none",
-              filtersOpen ? "translate-y-0" : "pointer-events-none translate-y-full",
-              "lg:pointer-events-auto lg:translate-y-0",
-            )}
-          >
-            <div className="flex items-center justify-between border-b border-ink/10 pb-3 lg:hidden">
-              <div>
-                <p className="font-display text-xl uppercase text-ink">Filter Resources</p>
-                <p className="text-xs text-charcoal-light">{results.length} results</p>
-              </div>
-              <button type="button" onClick={() => setFiltersOpen(false)} className="inline-flex h-11 w-11 items-center justify-center rounded-sm border border-ink/15 bg-off-white" aria-label="Close filters">
-                <X size={20} aria-hidden="true" />
-              </button>
-            </div>
-            <FilterRow
-              label="What Are You Going Through?"
-              options={NEED_PATHWAYS.map((pathway) => pathway.label)}
-              activeValues={pathwayId ? [NEED_PATHWAYS.find((pathway) => pathway.id === pathwayId)?.label ?? pathwayId] : []}
-              onSelect={(label) => setPathwayId(label ? NEED_PATHWAYS.find((pathway) => pathway.label === label)?.id ?? null : null)}
-            />
-            <FilterRow
-              label="What Do You Need?"
-              options={NEED_CATEGORIES.map((c) => c.label)}
-              activeValues={needIds.map((id) => NEED_CATEGORIES.find((c) => c.id === id)?.label ?? "")}
-              onSelect={(label) =>
-                setNeedIds(label ? [NEED_CATEGORIES.find((c) => c.label === label)?.id ?? ""].filter(Boolean) : [])
-              }
-            />
-            <FilterRow
-              label="Who Are You?"
-              options={PRIMARY_AUDIENCE_TAGS}
-              activeValues={audience ? [audience] : []}
-              onSelect={setAudience}
-              chipSize="sm"
-            />
-            <div className="border-t border-ink/10 pt-4">
+      {/* Browse by need */}
+      <section aria-labelledby="needs-h" className="pb-8 pt-10">
+        <h2 id="needs-h" className="mb-3.5 font-display text-[26px] uppercase text-navy">Browse by need</h2>
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-3">
+          {NEEDS.map((need) => {
+            const Icon = NEED_ICONS[need.id];
+            return (
               <button
+                key={need.id}
                 type="button"
-                onClick={() => setMoreFiltersOpen((v) => !v)}
-                aria-expanded={showMoreFilters}
-                aria-controls="resource-more-filters"
-                className="flex w-full items-center justify-between text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light hover:text-ink"
+                aria-pressed={state.needs.includes(need.id)}
+                onClick={() => toggleNeed(need.id)}
+                className="flex min-h-[76px] items-center gap-3.5 rounded-lg border-[1.5px] border-line bg-white px-[18px] py-3.5 text-left text-navy hover:border-navy aria-pressed:border-navy aria-pressed:bg-navy aria-pressed:text-white"
               >
-                <span>More Filters{moreFiltersActiveCount > 0 ? ` · ${moreFiltersActiveCount} Active` : ""}</span>
-                <ChevronDown size={14} aria-hidden="true" className={cn("transition-transform", showMoreFilters && "rotate-180")} />
+                <Icon size={28} strokeWidth={1.8} aria-hidden="true" className="shrink-0" />
+                <span>
+                  <span className="block text-base font-bold">{need.label}</span>
+                  <span className="block text-[13px] opacity-85">{programs(counts[need.id])}</span>
+                </span>
               </button>
-              {showMoreFilters && (
-                <div id="resource-more-filters" className="mt-4 space-y-5">
-                  <FilterRow
-                    label="Coverage"
-                    options={[SCOPE_LABELS.national, SCOPE_LABELS.state]}
-                    activeValues={scope === "all" ? [] : [SCOPE_LABELS[scope]]}
-                    onSelect={(label) =>
-                      setScope(label === SCOPE_LABELS.national ? "national" : label === SCOPE_LABELS.state ? "state" : "all")
-                    }
-                    chipSize="sm"
-                  />
-                  <FilterRow
-                    label="Confirmed Access & Organization"
-                    options={["Self-referral", "No employer referral", "Independent provider", "Anonymous initial contact", "Virtual access", "No insurance required", "Peer-led", "Faith-based organization"]}
-                    activeValues={accessFilters}
-                    onSelect={(value) => setAccessFilters(value ? (accessFilters.includes(value) ? accessFilters.filter((item) => item !== value) : [...accessFilters, value]) : [])}
-                    chipSize="sm"
-                  />
-                  <p className="text-[11px] leading-relaxed text-charcoal-light">These filters only match details explicitly confirmed from provider information. Missing information, including faith affiliation, is treated as unknown.</p>
-                </div>
-              )}
-            </div>
-            <button type="button" onClick={() => setFiltersOpen(false)} className="sticky bottom-0 w-full rounded-sm bg-ink px-5 py-3 text-sm font-semibold uppercase tracking-wide text-off-white lg:hidden">
-              Show {results.length} {results.length === 1 ? "Resource" : "Resources"}
-            </button>
-          </div>
+            );
+          })}
         </div>
+      </section>
 
-        <div className="min-w-0">
-          <div className="flex flex-wrap items-baseline justify-between gap-3">
-            {/* aria-live so a screen-reader user hears the updated count after
-                a chip/search/map change, instead of having to re-navigate
-                here to discover the list changed at all. */}
-            <p aria-live="polite" className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
-              {results.length} {results.length === 1 ? "resource" : "resources"}
-              {pathwayId && ` · ${NEED_PATHWAYS.find((pathway) => pathway.id === pathwayId)?.label ?? pathwayId}`}
-              {needIds.length > 0 &&
-                ` · ${needIds.map((id) => NEED_CATEGORIES.find((c) => c.id === id)?.label).filter(Boolean).join(", ")}`}
-              {audience && ` · ${audience}`}
-              {search && ` · matching "${search}"`}
-              {stateFilter && (scope === "state" ? ` in ${stateFilter} only` : ` in ${stateFilter} + nationwide`)}
-              {!stateFilter && scope !== "all" && ` · ${SCOPE_LABELS[scope]} only`}
-            </p>
-            <div className="flex shrink-0 flex-wrap items-center gap-3">
-              <label className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
-                Sort
-                <select
-                  value={sort}
-                  onChange={(e) => setSort(toResourceSort(e.target.value))}
-                  className="rounded-sm border border-ink/20 bg-off-white px-2 py-1 text-xs font-semibold uppercase tracking-wide text-ink"
-                >
-                  {(Object.keys(SORT_LABELS) as ResourceSort[]).map((value) => (
-                    <option key={value} value={value}>
-                      {SORT_LABELS[value]}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              {totalActiveFilterCount > 0 && (
-                <button
-                  type="button"
-                  onClick={async () => {
-                    try {
-                      await navigator.clipboard.writeText(window.location.href);
-                      setSearchLinkCopied(true);
-                      trackEvent("resource_search", { query: search || "(filters only)", results: String(results.length) });
-                      setTimeout(() => setSearchLinkCopied(false), 2000);
-                    } catch {
-                      // Clipboard API unavailable — no-op.
-                    }
-                  }}
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-charcoal-light hover:text-ink"
-                >
-                  {searchLinkCopied ? <Check size={12} aria-hidden="true" /> : <Copy size={12} aria-hidden="true" />}
-                  {searchLinkCopied ? "Link Copied" : "Share This Search"}
-                </button>
-              )}
-              {totalActiveFilterCount > 0 && (
-                <button
-                  type="button"
-                  onClick={clearAllFilters}
-                  className="text-xs font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
-                >
-                  Clear All Filters
-                </button>
-              )}
-            </div>
-          </div>
-
-          {totalActiveFilterCount > 0 && (
-            <div className="mt-3 flex flex-wrap items-center gap-2" aria-label="Active filters">
-              {needIds.map((id) => (
-                <RemovableFilterPill
-                  key={id}
-                  label={NEED_CATEGORIES.find((c) => c.id === id)?.label ?? id}
-                  onRemove={() => setNeedIds(needIds.filter((item) => item !== id))}
-                />
-              ))}
-              {pathwayId && <RemovableFilterPill label={NEED_PATHWAYS.find((pathway) => pathway.id === pathwayId)?.label ?? pathwayId} onRemove={() => setPathwayId(null)} />}
-              {audience && <RemovableFilterPill label={audience} onRemove={() => setAudience(null)} />}
-              {stateFilter && <RemovableFilterPill label={stateFilter} onRemove={() => setStateFilter(null)} />}
-              {search && <RemovableFilterPill label={`“${search}”`} onRemove={() => setSearch("")} />}
-            </div>
+      {/* Results */}
+      <section ref={resultsRef} aria-label="Results" className="flex scroll-mt-24 flex-wrap items-start gap-8 pb-12">
+        <aside
+          id="resource-filters"
+          aria-label="Filters"
+          className={cn(
+            "flex flex-[1_1_260px] flex-col gap-6 rounded-lg border border-line bg-white p-5 md:max-w-[300px]",
+            !filtersOpen && "max-md:hidden",
+            "max-md:basis-full",
           )}
+        >
+          <fieldset className="flex flex-col gap-2">
+            <legend className="mb-2.5 text-[13px] font-bold tracking-[1.5px] text-navy">TYPE OF HELP</legend>
+            {NEEDS.map((need) => {
+              const on = state.needs.includes(need.id);
+              const disabled = counts[need.id] === 0 && !on;
+              return (
+                <label key={need.id} className={cn("flex min-h-9 items-center gap-2.5 text-[15px]", disabled ? "cursor-default text-[#8a909c]" : "cursor-pointer text-navy")}>
+                  <input type="checkbox" checked={on} disabled={disabled} onChange={() => toggleNeed(need.id)} className="h-[18px] w-[18px] accent-navy" />
+                  <span>{need.label}</span>
+                  <span className="ml-auto text-[13px] text-muted">{counts[need.id]}</span>
+                </label>
+              );
+            })}
+          </fieldset>
+          <fieldset className="flex flex-col gap-2">
+            <legend className="mb-2.5 text-[13px] font-bold tracking-[1.5px] text-navy">COST</legend>
+            <label className="flex min-h-9 cursor-pointer items-center gap-2.5 text-[15px] text-navy">
+              <input type="checkbox" checked={state.freeOnly} onChange={(e) => update({ freeOnly: e.target.checked })} className="h-[18px] w-[18px] accent-navy" />
+              Free programs only
+            </label>
+          </fieldset>
+          <fieldset className="flex flex-col gap-2">
+            <legend className="mb-2.5 text-[13px] font-bold tracking-[1.5px] text-navy">LOCATION</legend>
+            <span className="text-sm">
+              {state.state
+                ? `Showing nationwide programs plus ${state.state} programs.`
+                : "Nationwide programs always show. Add a state or ZIP above to include local ones."}
+            </span>
+            <button type="button" aria-expanded={mapOpen} aria-controls="resource-map-panel" onClick={() => setMapOpen((open) => !open)} className={cn(linkButton, "self-start")}>
+              {mapOpen ? "Hide map" : "Show map instead"}
+            </button>
+          </fieldset>
+        </aside>
 
-          {results.length === 0 ? (
-            <div className="mt-4">
-              <EmptyState
-                title="No resources match that combination yet."
-                description="Try a different search term, or clear your filters to see everything."
-                onAction={{ label: "Clear All Filters", onClick: clearAllFilters }}
+        <div className="flex min-w-0 flex-[999_1_560px] flex-col gap-4">
+          {mapOpen && (
+            <div id="resource-map-panel" className="rounded-lg border border-line bg-white p-4">
+              <ResourceMap
+                stateCounts={stateCounts}
+                selected={state.state}
+                onSelect={(selected) => {
+                  setLocationInput(selected ?? "");
+                  setLocationError(false);
+                  update({ state: selected });
+                }}
               />
             </div>
-          ) : (
-            <>
-              {/* No scroll-reveal here: results are the page's primary content and
-                  must be visible before hydration and after every filter change. */}
-              <div className="mt-4 grid gap-4 grid-cols-[repeat(auto-fill,minmax(min(100%,16.5rem),1fr))]">
-                {visibleResults.map((resource) => (
-                  <ResourceCard key={resource.name} resource={resource} />
-                ))}
-              </div>
+          )}
 
-              {hasMoreResults && (
-                <div className="mt-8 flex flex-col items-center gap-2">
-                  <p className="text-xs text-charcoal-light">
-                    Showing {visibleResults.length} of {sortedResults.length}
-                  </p>
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <h2 aria-live="polite" className="font-display text-[30px] uppercase text-navy">
+                {filtered ? (results.length === 1 ? "1 program matches" : `${results.length} programs match`) : "Start here"}
+              </h2>
+              <span className="text-sm">
+                {filtered
+                  ? "Most relevant first. Remove a filter to see more."
+                  : "Crisis lines and our most-used programs first. Pick who you are or a type of help to narrow it down."}
+              </span>
+            </div>
+            <label className="flex items-center gap-2 text-[13px] font-bold text-navy">
+              Sort
+              <select
+                value={state.sort}
+                onChange={(e) => update({ sort: e.target.value === "az" ? "az" : "rec" })}
+                className="h-10 rounded-md border-[1.5px] border-[#8a909c] bg-white px-2.5 text-sm text-navy"
+              >
+                <option value="rec">Recommended</option>
+                <option value="az">Name (A–Z)</option>
+              </select>
+            </label>
+          </div>
+
+          <div className="flex items-center gap-2 max-md:sticky max-md:top-[74px] max-md:z-20 max-md:-mx-4 max-md:border-b max-md:border-line max-md:bg-paper max-md:px-4 max-md:py-2.5">
+            <button
+              type="button"
+              aria-expanded={filtersOpen}
+              aria-controls="resource-filters"
+              onClick={() => setFiltersOpen((open) => !open)}
+              className={cn(btnOutline, "shrink-0 md:hidden")}
+            >
+              <SlidersHorizontal size={16} aria-hidden="true" />
+              {active.length ? `Filters (${active.length})` : "Filters"}
+            </button>
+            {filtered && (
+              <div className="flex min-w-0 items-center gap-2 max-md:overflow-x-auto md:flex-wrap">
+                <span className="shrink-0 text-[13px] font-bold text-navy max-md:sr-only">Filtered by:</span>
+                {active.map((filter) => (
                   <button
+                    key={filter.key}
                     type="button"
-                    onClick={() => setVisibleCount((count) => count + RESULTS_PAGE_SIZE)}
-                    className="action-control inline-flex items-center justify-center font-bold border-2 border-navy bg-off-white px-6 py-3 text-[15px] text-navy hover:bg-white"
+                    aria-label={`Remove filter: ${filter.label}`}
+                    onClick={filter.remove}
+                    className="inline-flex min-h-9 shrink-0 items-center gap-2 rounded-full bg-navy px-3 text-sm font-semibold text-white"
                   >
-                    Load More Resources
+                    <span>{filter.label}</span>
+                    <X size={14} aria-hidden="true" />
+                  </button>
+                ))}
+                <button type="button" onClick={clearAll} className={cn(linkButton, "shrink-0")}>
+                  Clear all
+                </button>
+              </div>
+            )}
+          </div>
+
+          {showsCrisisCard(state) && (
+            <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 rounded-lg border-[1.5px] border-purpose bg-[#fdf1f2] px-5 py-[18px]">
+              <div>
+                <strong className="block text-navy">Need to talk to someone right now?</strong>
+                <span>Free, confidential and open 24/7. You don&apos;t have to be in crisis to call.</span>
+              </div>
+              <div className="flex flex-wrap gap-2.5">
+                <a href="tel:988" className={`${btn} border-purpose bg-purpose text-white`}>Call 988, press 1</a>
+                <a href="sms:838255" className={btnOutline}>Text 838255</a>
+              </div>
+            </div>
+          )}
+
+          {results.length > 0 ? (
+            <>
+              <ul className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,320px),1fr))] gap-4">
+                {results.slice(0, visible).map((resource) => (
+                  <DirectoryCard key={resource.id} resource={resource} />
+                ))}
+              </ul>
+              {visible < results.length && (
+                <div className="flex flex-col items-center gap-2 pt-2">
+                  <p className="text-sm text-muted">Showing {visible} of {results.length}</p>
+                  <button type="button" onClick={() => setVisible((count) => count + PAGE_SIZE)} className={btnOutline}>
+                    Show more programs
                   </button>
                 </div>
               )}
             </>
+          ) : (
+            <div className="flex flex-col items-start gap-3 rounded-lg border border-line bg-white p-8">
+              <strong className="text-lg text-navy">No programs match all of these filters.</strong>
+              <span>Try removing a filter, or ask us — a person on our team will point you to a few options.</span>
+              <div className="flex flex-wrap gap-2.5">
+                <button type="button" onClick={clearAll} className={btnPrimary}>Clear filters</button>
+                <a href="#ask" className={btnOutline}>Ask For The 22</a>
+              </div>
+            </div>
           )}
+
+          <div className="flex flex-wrap justify-between gap-3 pt-2 text-sm">
+            <span>
+              Every program listed here has been reviewed by our team.{" "}
+              <Link href="/standards" className="text-help underline underline-offset-2 hover:text-help-dark">How we review</Link>
+            </span>
+            <a
+              href="#report"
+              onClick={() => {
+                const panel = document.getElementById("report");
+                if (panel instanceof HTMLDetailsElement) panel.open = true;
+              }}
+              className="text-help underline underline-offset-2 hover:text-help-dark"
+            >
+              Report outdated info
+            </a>
+          </div>
         </div>
-      </div>
-    </div>
+      </section>
+    </>
   );
 }

@@ -14,14 +14,18 @@ import { getMissionMetrics } from "@/lib/data/mission-metrics";
 import { getAllocationBreakdown } from "@/lib/data/allocation";
 import { getCampaign } from "@/lib/data/campaign";
 import { getPartners } from "@/lib/data/partners";
-import { DONATE_LINK, MISSION_NAME, MOVEMENT_CAMPAIGNS, SITE_NAME, SITE_URL, isCurrentCampaign } from "@/lib/constants";
-import { formatCurrency } from "@/lib/utils";
+import { getVoiceGallery } from "@/lib/data/voices";
+import { getCurrentEventConfig } from "@/lib/data/event-config";
+import { getEventRegistrationStats } from "@/lib/data/event-registration-stats";
+import { COMPLETED_RUCK_MISSIONS } from "@/lib/content/ruck-missions";
+import { DONATE_LINK, EVENT22_CAMPAIGN_PATH, MISSION_NAME, MOVEMENT_CAMPAIGNS, RUCK_CAMPAIGN_PATH, SITE_NAME, SITE_URL, isCurrentCampaign } from "@/lib/constants";
+import { formatCurrency, formatNumber } from "@/lib/utils";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 
 export const metadata = pageMetadata({
   title: "Impact",
-  description: `The fundraising behind ${MISSION_NAME} and the organizations it funds — Mighty Oaks Foundation and Veterans and Athletes United — with every total verified and published.`,
+  description: `The fundraising behind ${MISSION_NAME} and the organizations it funds — Mighty Oaks Foundation and Veterans and Athletes United — plus the mission work beyond the money, with every number verified and published.`,
   canonical: "/impact",
 });
 
@@ -32,14 +36,28 @@ const BREADCRUMB_JSON_LD = breadcrumbJsonLd([
 ]);
 
 /**
- * The Impact pillar's hub: where the money goes. Leads with the shared
- * fundraising total, then the beneficiary organizations themselves
- * (#beneficiaries — the old Tri /beneficiaries URL redirects here), then
- * the campaigns raising for them. Resource-directory reach belongs to the
- * Connection pillar (/resources), not here.
+ * The Impact pillar's hub, in two deliberately separate parts:
+ *
+ *  1. The fundraising — the shared verified total, the beneficiary
+ *     organizations (#beneficiaries — the old Tri /beneficiaries URL
+ *     redirects here), the campaigns raising for them, and how funds move.
+ *  2. Mission impact (#mission-impact) — non-financial outcomes: Voices
+ *     messages published, miles rucked for awareness, 22 For the 22
+ *     participants, verified support resources. Each figure comes from an
+ *     existing source of truth and is hidden when zero/unmeasured, never
+ *     shown as a guess. Dollars never appear in this half.
  */
 export default async function ImpactPage() {
-  const [metrics, campaign, beneficiaries] = await Promise.all([getMissionMetrics(), getCampaign(), getPartners()]);
+  const [metrics, campaign, beneficiaries, voices, currentEvent] = await Promise.all([
+    getMissionMetrics(),
+    getCampaign(),
+    getPartners(),
+    // Published, permission-cleared Voices messages only — the same source as /voices.
+    getVoiceGallery(),
+    getCurrentEventConfig(),
+  ]);
+  const event22Stats = currentEvent ? await getEventRegistrationStats(currentEvent.id) : null;
+  const ruckMiles = COMPLETED_RUCK_MISSIONS.reduce((sum, mission) => sum + mission.distanceMiles, 0);
   const allocationBreakdown = await getAllocationBreakdown(campaign);
   const allocationByOrg = new Map(
     allocationBreakdown?.byOrganization.map((entry) => [entry.organization, entry.amount]) ?? [],
@@ -58,13 +76,32 @@ export default async function ImpactPage() {
     { label: "Beneficiary Organizations", value: metrics.beneficiaries === null ? null : String(metrics.beneficiaries) },
   ].filter((stat): stat is { label: string; value: string } => stat.value !== null);
 
+  // Non-financial outcomes. Zero/unknown values are hidden rather than shown.
+  const ruckCount = COMPLETED_RUCK_MISSIONS.length;
+  const missionStats = [
+    { label: "Voices Added", detail: "Published messages of hope from public figures", value: voices.length, href: "/voices" },
+    {
+      label: "Miles Rucked for Awareness",
+      detail: `${ruckCount} completed Ruck For The 22 mission${ruckCount === 1 ? "" : "s"}`,
+      value: ruckMiles,
+      href: RUCK_CAMPAIGN_PATH,
+    },
+    {
+      label: "22 For the 22 Participants",
+      detail: "People registered to move 22 for the 22",
+      value: event22Stats?.total_participants ?? 0,
+      href: EVENT22_CAMPAIGN_PATH,
+    },
+    { label: "Verified Support Resources", detail: "Programs in the free resource directory", value: metrics.resources ?? 0, href: "/resources" },
+  ].filter((stat) => stat.value > 0);
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
       <PageHero
         pillar="impact"
         title="Where the mission lands"
-        description={`Every ${SITE_NAME} campaign raises money for the same organizations, toward one shared goal. Here's what's been raised, who it funds, and how it gets there.`}
+        description={`Every ${SITE_NAME} campaign raises money for the same organizations, toward one shared goal. Here's what's been raised, who it funds, and how it gets there — and the mission work that isn't measured in dollars.`}
         aside={
           <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
             <Image
@@ -85,6 +122,11 @@ export default async function ImpactPage() {
           <CTAButton href="#beneficiaries" variant="secondary" size="lg">
             Who we fund
           </CTAButton>
+          {missionStats.length > 0 && (
+            <CTAButton href="#mission-impact" variant="ghost" size="lg">
+              Mission impact
+            </CTAButton>
+          )}
         </div>
       </PageHero>
 
@@ -171,6 +213,41 @@ export default async function ImpactPage() {
           </p>
         </Container>
       </section>
+
+      {/* Mission impact — everything that isn't money. */}
+      {missionStats.length > 0 && (
+        <section id="mission-impact" className="scroll-mt-28 bg-navy py-16 text-white sm:py-20">
+          <Container>
+            <RevealOnScroll>
+              <SectionHeading
+                tone="dark"
+                eyebrow="Beyond the fundraising"
+                title="Mission impact"
+                description="Awareness, connection, and community — the work that doesn't show up in a fundraising total."
+              />
+            </RevealOnScroll>
+            <dl className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {missionStats.map((stat) => (
+                <div
+                  key={stat.label}
+                  className="relative flex flex-col rounded-xl border border-white/15 bg-white/5 p-6 transition-colors has-[a:hover]:border-white/40 has-[a:focus-visible]:border-gold"
+                >
+                  <dt className="order-2 mt-3">
+                    <Link
+                      href={stat.href}
+                      className="label-caps text-xs text-gold after:absolute after:inset-0 after:rounded-xl focus-visible:outline-none"
+                    >
+                      {stat.label}
+                    </Link>
+                    <span className="mt-2 block text-sm leading-snug text-white/70">{stat.detail}</span>
+                  </dt>
+                  <dd className="order-1 font-display text-5xl leading-none">{formatNumber(stat.value)}</dd>
+                </div>
+              ))}
+            </dl>
+          </Container>
+        </section>
+      )}
 
       {/* Who it reaches + how funds move */}
       <section className="border-t border-line py-16 sm:py-20">

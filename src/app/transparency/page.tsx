@@ -16,7 +16,7 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
 import { getPartners } from "@/lib/data/partners";
 import { getCampaign } from "@/lib/data/campaign";
-import { RESOURCES } from "@/lib/content/resources";
+import { getActiveResourceCount } from "@/lib/data/resource-metrics";
 import { formatCurrency } from "@/lib/utils";
 import {
   CONTACT_EMAIL,
@@ -57,7 +57,11 @@ const PARTNERSHIP_CONTRIBUTION_TYPES = [
 ] as const;
 
 export default async function TransparencyPage() {
-  const [beneficiaries, campaign] = await Promise.all([getPartners(), getCampaign()]);
+  const [beneficiaries, campaign, resourceCount] = await Promise.all([
+    getPartners(),
+    getCampaign(),
+    getActiveResourceCount(),
+  ]);
 
   return (
     <>
@@ -172,7 +176,7 @@ export default async function TransparencyPage() {
             <SectionHeading eyebrow="04 — Resources" title="Resource Standards" />
           </div>
           <p className="mt-6 text-base leading-relaxed text-charcoal-light">
-            The resource directory lists {RESOURCES.length} resources — vetted programs and services, each checked for
+            The resource directory lists {resourceCount === null ? "vetted programs and services" : `${resourceCount.toLocaleString("en-US")} resources`} — each checked for
             legitimacy, the population it serves, service type, geographic availability, and mission
             fit before it&apos;s added — and re-checked when details change. &quot;Reviewed&quot; does
             not mean guaranteed, certified, or endorsed.

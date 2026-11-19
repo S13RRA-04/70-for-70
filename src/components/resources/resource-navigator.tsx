@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState, type ReactNode } from "react";
 import { ArrowLeft, ArrowRight, RotateCcw, ShieldAlert } from "lucide-react";
 import { ResourceCard } from "@/components/resources/resource-card";
@@ -16,14 +17,14 @@ function Choice({ selected, children, onClick }: { selected: boolean; children: 
   return <button type="button" aria-pressed={selected} onClick={onClick} className={`action-control border p-4 text-left text-sm font-semibold ${selected ? "border-bronze bg-bronze/10 text-ink" : "border-ink/15 bg-off-white text-charcoal-light hover:border-bronze/50"}`}>{children}</button>;
 }
 
-export function ResourceNavigator({ resources }: { resources: Resource[] }) {
-  const [started, setStarted] = useState(false);
+export function ResourceNavigator({ resources, autoStart = false }: { resources: Resource[]; autoStart?: boolean }) {
+  const [started, setStarted] = useState(autoStart);
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState(INITIAL);
   const [visible, setVisible] = useState(5);
   const results = useMemo(() => rankResources(resources, answers), [resources, answers]);
   const toggle = (field: "audiences" | "situations" | "followUps" | "priorities", value: string) => setAnswers((a) => ({ ...a, [field]: a[field].includes(value) ? a[field].filter((v) => v !== value) : [...a[field], value] }));
-  const restart = () => { setStarted(false); setStep(0); setAnswers(INITIAL); setVisible(5); };
+  const restart = () => { setStarted(autoStart); setStep(0); setAnswers(INITIAL); setVisible(5); };
 
   if (!started) return <div>
     <div className="grid gap-4 sm:grid-cols-2">
@@ -37,7 +38,7 @@ export function ResourceNavigator({ resources }: { resources: Resource[] }) {
         <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">Direct Search</p>
         <h2 className="mt-2 font-display text-3xl uppercase text-ink">I Know What I&apos;m Looking For</h2>
         <p className="mt-2 flex-1 text-sm leading-relaxed text-charcoal-light">Go straight to the full directory — search, filter by need or population, or browse by state.</p>
-        <a href="#browse-resources" className="action-control inline-flex items-center justify-center font-bold mt-5 border-2 border-navy px-5 py-3 text-[15px] text-navy hover:bg-white">Browse the Directory</a>
+        <Link href="/resources" className="action-control inline-flex items-center justify-center font-bold mt-5 border-2 border-navy px-5 py-3 text-[15px] text-navy hover:bg-white">Browse the Directory</Link>
       </div>
     </div>
     <p className="mt-4 text-xs text-charcoal-light">No account required. Answers in the guided path stay in this browser and are not submitted.</p>
@@ -56,7 +57,7 @@ export function ResourceNavigator({ resources }: { resources: Resource[] }) {
     <div className="flex flex-wrap items-start justify-between gap-4"><div><p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze-text">Your results</p><h2 className="mt-2 font-display text-4xl uppercase text-ink">A few places to start</h2><p className="mt-2 max-w-2xl text-sm leading-relaxed text-charcoal-light">Ranked by your selections, geography, published access details, and record freshness. Sponsorship never affects the order.</p></div><button type="button" onClick={restart} className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-bronze"><RotateCcw size={14}/>Restart</button></div>
     {answers.situations.includes("addiction-recovery") && <div className="mt-6 flex gap-3 border border-red-700/25 bg-red-50 p-4"><ShieldAlert className="shrink-0 text-red-800"/><p className="text-sm text-ink"><strong>Withdrawal can require medical care.</strong> Severe alcohol or sedative withdrawal may need urgent medical supervision. If someone may be in immediate danger, call 911 or visit <a className="font-semibold underline" href="/crisis">Need Help Now</a>. For the 22 is not a crisis or treatment service.</p></div>}
     <div className="mt-7 grid gap-4 grid-cols-[repeat(auto-fill,minmax(min(100%,16.5rem),1fr))]">{results.slice(0, visible).map(({resource,reasons}) => <div key={resourceKey(resource)} data-analytics-event="resource_recommendation_shown"><ResourceCard resource={resource}/><p className="border-x border-b border-ink/10 bg-off-white px-5 pb-4 text-xs leading-relaxed text-charcoal-light"><strong className="text-ink">Why this may fit:</strong> {reasons.length ? reasons.join(", ") : "it is a current directory option related to your selections"}.</p></div>)}</div>
-    <div className="mt-6 flex flex-wrap gap-3">{visible < results.length && <button type="button" onClick={() => setVisible((n) => n + 6)} className="action-control bg-ink px-5 py-3 text-xs font-semibold uppercase tracking-wide text-off-white hover:bg-charcoal">Show more options</button>}<a href="#browse-resources" className="action-control inline-flex items-center justify-center font-bold border-2 border-navy px-5 py-3 text-[15px] text-navy hover:bg-white">Browse manually</a></div>
+    <div className="mt-6 flex flex-wrap gap-3">{visible < results.length && <button type="button" onClick={() => setVisible((n) => n + 6)} className="action-control bg-ink px-5 py-3 text-xs font-semibold uppercase tracking-wide text-off-white hover:bg-charcoal">Show more options</button>}<Link href="/resources" className="action-control inline-flex items-center justify-center font-bold border-2 border-navy px-5 py-3 text-[15px] text-navy hover:bg-white">Browse the directory</Link></div>
   </div>;
 
   const current = questions[step];

@@ -1585,9 +1585,8 @@ export const RESOURCES: Resource[] = [
     geographicScope: "Nationwide",
   },
   {
-    // TODO(verify): militarychild.org's home page 404'd on direct fetch during research; confirmed active via search snippets — recheck the URL before publishing.
     name: "Military Child Education Coalition",
-    url: "https://www.militarychild.org/",
+    url: "https://militarychild.org/",
     description:
       "Serves the children of those who serve, connecting them to schools, organizations and resources so they can be college-, work- and life-ready, including free parent webinars.",
     needCategoryIds: ["family-support"],
@@ -1934,7 +1933,7 @@ export const RESOURCES: Resource[] = [
   },
   {
     name: "VetsinTech",
-    url: "https://vetsintech.org/",
+    url: "https://vetsintech.co/",
     description:
       "National nonprofit connecting veterans, active-duty service members, and military spouses to technology careers through education (VIT Academy courses in cybersecurity, web development, data science, cloud, and AI), employment, and entrepreneurship — supported by 30+ local chapters.",
     needCategoryIds: ["career-education"],
@@ -24396,11 +24395,11 @@ export function getCrisisResources(group: "veterans" | "first-responders" | "gen
  * client-side filter uses, so /resources/[state] never dead-ends into an
  * empty page even for states without a regional pass yet.
  */
-export function getResourcesForState(stateName: string): {
+export function getResourcesForState(stateName: string, resources: Resource[] = RESOURCES): {
   local: Resource[];
   nationwide: Resource[];
 } {
-  const local = RESOURCES.filter((resource) => resource.state === stateName);
-  const nationwide = RESOURCES.filter((resource) => !resource.state);
+  const local = resources.filter((resource) => resource.state === stateName);
+  const nationwide = resources.filter((resource) => !resource.state);
   return { local, nationwide };
 }

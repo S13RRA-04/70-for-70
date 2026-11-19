@@ -1,16 +1,23 @@
-import { RESOURCES, type Resource } from "@/lib/content/resources";
+import type { Resource } from "@/lib/content/resources";
+import { unstable_cache } from "next/cache";
 import { enrichFlagship } from "@/lib/resources/flagships";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { createPublicClient } from "@/lib/supabase/public";
-import { VERIFIED_RESOURCES } from "@/lib/resources/verified-resources";
 
 type ResourceRow = Record<string, unknown>;
+
+export const RESOURCE_DIRECTORY_CACHE_TAG = "resource-directory";
 
 function fromRow(row: ResourceRow): Resource {
   return {
     name: String(row.name), url: String(row.url), description: String(row.description),
     needCategoryIds: (row.need_category_ids as string[]) ?? [], audienceTags: (row.audience_tags as string[]) ?? [],
     cost: String(row.cost), geographicScope: String(row.geographic_scope), state: (row.state as string | null) ?? undefined,
+    crisisResource: row.crisis_resource === true ? true : undefined,
+    crisisAudience: (row.crisis_audience as Resource["crisisAudience"] | null) ?? undefined,
+    phone: (row.phone as string | null) ?? undefined,
+    text: (row.text_contact as string | null) ?? undefined,
+    hours: (row.hours as string | null) ?? undefined,
     eligibility: (row.eligibility as string | null) ?? undefined, availability: (row.availability as string | null) ?? undefined,
     verifiedDate: (row.last_verified_at as string | null) ?? undefined,
     organizationType: (row.organization_type as Resource["organizationType"]) ?? undefined,
@@ -39,27 +46,41 @@ function fromRow(row: ResourceRow): Resource {
   };
 }
 
-function mergeByName(base: Resource[], additions: Resource[]): Resource[] {
-  const additionsByName = new Map(additions.map((resource) => [resource.name, resource]));
-  return base
-    .map((resource) => additionsByName.get(resource.name) ?? resource)
-    .concat(additions.filter((resource) => !base.some((item) => item.name === resource.name)));
-}
+const getDatabaseResources = unstable_cache(
+  async (): Promise<Resource[]> => {
+    if (!isSupabaseConfigured()) {
+      throw new Error("The resource directory database is not configured.");
+    }
+
+    try {
+      const client = createPublicClient();
+      const rows: ResourceRow[] = [];
+      const pageSize = 500;
+
+      for (let from = 0; ; from += pageSize) {
+        const { data, error } = await client
+          .from("resource_records")
+          .select("*")
+          .eq("is_active", true)
+          .order("name")
+          .order("resource_key")
+          .range(from, from + pageSize - 1);
+
+        if (error) throw error;
+        rows.push(...((data as ResourceRow[] | null) ?? []));
+        if (!data || data.length < pageSize) break;
+      }
+
+      if (!rows.length) throw new Error("The resource directory returned no active records.");
+      return rows.map(fromRow).map(enrichFlagship);
+    } catch (error) {
+      throw new Error("The resource directory is unavailable.", { cause: error });
+    }
+  },
+  ["active-resource-directory"],
+  { revalidate: 300, tags: [RESOURCE_DIRECTORY_CACHE_TAG] },
+);
 
 export async function getResources(): Promise<Resource[]> {
-  const fallback = mergeByName(RESOURCES, VERIFIED_RESOURCES).map(enrichFlagship);
-  if (!isSupabaseConfigured()) return fallback;
-  try {
-    const { data, error } = await createPublicClient().from("resource_records").select("*").eq("is_active", true).order("name");
-    if (error || !data?.length) return fallback;
-    const structured = (data as ResourceRow[]).map(fromRow);
-    const byName = new Map(structured.map((resource) => [resource.name, resource]));
-    // Structured rows override their bundled counterparts while the rest of
-    // the long-tail directory remains available until its migration is done.
-    return fallback.map((resource) => byName.get(resource.name) ?? resource)
-      .concat(structured.filter((resource) => !fallback.some((item) => item.name === resource.name)))
-      .map(enrichFlagship);
-  } catch {
-    return fallback;
-  }
+  return getDatabaseResources();
 }

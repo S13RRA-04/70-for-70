@@ -1,11 +1,12 @@
 "use server";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { requireAdminUser } from "@/lib/supabase/require-admin";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { RESOURCES } from "@/lib/content/resources";
 import { enrichFlagship, FLAGSHIP_RESOURCE_NAMES } from "@/lib/resources/flagships";
 import { resourceKey } from "@/lib/resources/navigator";
 import { VERIFIED_RESOURCES } from "@/lib/resources/verified-resources";
+import { RESOURCE_DIRECTORY_CACHE_TAG } from "@/lib/data/resources";
 
 export async function importFlagshipsAction() {
   await requireAdminUser();
@@ -27,6 +28,7 @@ export async function importFlagshipsAction() {
   }));
   const { error } = await createAdminClient().from("resource_records").upsert(rows, { onConflict: "resource_key" });
   if (error) throw error;
+  revalidateTag(RESOURCE_DIRECTORY_CACHE_TAG, "max");
   revalidatePath("/resources"); revalidatePath("/admin/resources");
 }
 
@@ -53,6 +55,7 @@ export async function updateResourceAction(formData: FormData) {
     updated_at: new Date().toISOString(),
   }).eq("id", id);
   if (error) throw error;
+  revalidateTag(RESOURCE_DIRECTORY_CACHE_TAG, "max");
   revalidatePath("/resources"); revalidatePath("/admin/resources");
 }
 

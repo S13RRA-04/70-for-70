@@ -1,47 +1,39 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ExternalLink, ShieldCheck } from "lucide-react";
 import { Container } from "@/components/shared/container";
 import { PageHero } from "@/components/shared/page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { CTASection } from "@/components/shared/cta-section";
-import { RevealGrid, RevealOnScroll } from "@/components/shared/reveal-on-scroll";
-import { ResourceCard } from "@/components/resources/resource-card";
+import { BackToResults } from "@/components/resources/back-to-results";
+import { DirectoryCard } from "@/components/resources/directory-card";
 import { ResourceFeedbackForm } from "@/components/resources/resource-support-forms";
 import { US_STATES_GRID, type USStateGridEntry } from "@/lib/content/us-states";
-import { getResourcesForState, slugifyResourceName, NEED_CATEGORIES, type Resource } from "@/lib/content/resources";
-import { getResources } from "@/lib/data/resources";
+import type { Resource } from "@/lib/content/resources";
+import { getPublishedDirectory } from "@/lib/data/resource-directory";
 import { CONTACT_EMAIL, SITE_NAME, SITE_URL } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 import { formatDateLong } from "@/lib/utils";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
+import { audienceText, NEED_BY_ID, type DirectoryResource } from "@/lib/resources/directory";
 
 function getStateBySlug(slug: string) {
   return US_STATES_GRID.find((s) => s.code.toLowerCase() === slug.toLowerCase());
 }
 
 /**
- * One dynamic segment serves two very different pages — a state directory
- * view and a single resource's detail page — because Next can't have both
- * /resources/[state] and /resources/[slug] as siblings (two different
- * dynamic param names at the same path position is a build error). State
- * codes (2 letters) and resource slugs (derived from full names) don't
- * collide in practice, so the lookup below just tries state first.
+ * One dynamic segment serves two pages — a state directory view and a
+ * single resource's detail page — because Next can't have both
+ * /resources/[state] and /resources/[slug] as siblings. State codes (2
+ * letters) and resource slugs don't collide, so the lookup tries state first.
+ * Only published listings resolve; anything else 404s.
  */
 export async function generateStaticParams() {
-  const resources = await getResources();
-  return [
-    ...US_STATES_GRID.map((s) => ({ slug: s.code.toLowerCase() })),
-    ...resources.map((r) => ({ slug: slugifyResourceName(r.name) })),
-  ];
+  const { items } = await getPublishedDirectory();
+  return [...US_STATES_GRID.map((s) => ({ slug: s.code.toLowerCase() })), ...items.map((item) => ({ slug: item.id }))];
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const state = getStateBySlug(slug);
   if (state) {
@@ -52,35 +44,26 @@ export async function generateMetadata({
     });
   }
 
-  const resources = await getResources();
-  const resource = resources.find((r) => slugifyResourceName(r.name) === slug);
-  if (!resource) return {};
-
-  return pageMetadata({
-    title: resource.name,
-    description: resource.description,
-    canonical: `${SITE_URL}/resources/${slug}`,
-  });
+  const { items } = await getPublishedDirectory();
+  const item = items.find((r) => r.id === slug);
+  if (!item) return {};
+  return pageMetadata({ title: item.name, description: item.summary, canonical: `${SITE_URL}/resources/${slug}` });
 }
 
-export default async function ResourcesSlugPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export default async function ResourcesSlugPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
+  const directory = await getPublishedDirectory();
   const state = getStateBySlug(slug);
-  if (state) return <StateResourcesView state={state} />;
+  if (state) return <StateResourcesView state={state} items={directory.items} />;
 
-  const resources = await getResources();
-  const resource = resources.find((r) => slugifyResourceName(r.name) === slug);
-  if (!resource) notFound();
-
-  return <ResourceDetailView resource={resource} resources={resources} slug={slug} />;
+  const index = directory.items.findIndex((r) => r.id === slug);
+  if (index < 0) notFound();
+  return <ResourceDetailView resource={directory.resources[index]} item={directory.items[index]} items={directory.items} />;
 }
 
-function StateResourcesView({ state }: { state: USStateGridEntry }) {
-  const { local, nationwide } = getResourcesForState(state.name);
+function StateResourcesView({ state, items }: { state: USStateGridEntry; items: DirectoryResource[] }) {
+  const local = items.filter((item) => item.state === state.name);
+  const nationwide = items.filter((item) => !item.state);
 
   return (
     <>
@@ -90,62 +73,46 @@ function StateResourcesView({ state }: { state: USStateGridEntry }) {
         title={`Resources in ${state.name}`}
         description={
           local.length > 0
-            ? `${local.length} resource${local.length === 1 ? "" : "s"} local to ${state.name}, plus every nationwide program available here too.`
-            : `No region-specific pass has been done for ${state.name} yet — every nationwide program below is still available to you.`
+            ? `${local.length} program${local.length === 1 ? "" : "s"} local to ${state.name}, plus every nationwide program available here too.`
+            : `We haven't reviewed programs specific to ${state.name} yet. Every nationwide program below is still available to you.`
         }
       >
-        <Link
-          href={`/resources?state=${encodeURIComponent(state.name)}`}
-          className="font-bold text-help underline underline-offset-2 hover:text-help-dark"
-        >
-          Search &amp; filter all resources &rarr;
+        <Link href={`/resources?state=${encodeURIComponent(state.name)}`} className="font-bold text-help underline underline-offset-2 hover:text-help-dark">
+          Search &amp; filter these programs &rarr;
         </Link>
       </PageHero>
 
       {local.length > 0 && (
         <section className="py-16 sm:py-20">
           <Container>
-            <SectionHeading eyebrow="Local" title={`${state.name}-Specific Resources`} />
-            <RevealGrid>
-              <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-                {local.map((resource) => (
-                  <ResourceCard key={resource.name} resource={resource} />
-                ))}
-              </div>
-            </RevealGrid>
+            <SectionHeading eyebrow="Local" title={`${state.name} programs`} />
+            <ul className="mt-8 grid grid-cols-[repeat(auto-fill,minmax(min(100%,320px),1fr))] gap-4">
+              {local.map((item) => <DirectoryCard key={item.id} resource={item} />)}
+            </ul>
           </Container>
         </section>
       )}
 
-      <section className={`py-16 sm:py-20 ${local.length > 0 ? "border-t border-ink/10 bg-sand-light" : ""}`}>
+      <section className={`py-16 sm:py-20 ${local.length > 0 ? "border-t border-line bg-white" : ""}`}>
         <Container>
           <SectionHeading
             eyebrow="Nationwide"
-            title="Available in Every State"
-            description={`These programs aren't specific to ${state.name}, but every one of them is open to residents here.`}
+            title="Available in every state"
+            description={`These programs aren't specific to ${state.name}, but every one of them is open to people here.`}
           />
-          <RevealGrid>
-            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-              {nationwide.map((resource) => (
-                <ResourceCard key={resource.name} resource={resource} />
-              ))}
-            </div>
-          </RevealGrid>
+          <ul className="mt-8 grid grid-cols-[repeat(auto-fill,minmax(min(100%,320px),1fr))] gap-4">
+            {nationwide.map((item) => <DirectoryCard key={item.id} resource={item} />)}
+          </ul>
         </Container>
       </section>
 
       <CTASection
-        eyebrow="Know a Good One?"
-        title={`Submit a ${state.name} Resource`}
-        description="If you know a program, grant, or community local to this state that belongs here, send it our way — every submission is reviewed before it's added. The directory is focused on nonprofit, government, and official veteran/first-responder programs, not commercial services or individually licensed professionals."
+        eyebrow="Know a good one?"
+        title={`Submit a ${state.name} resource`}
+        description="Suggest a nonprofit, government or official veteran or first-responder program. Every submission is reviewed before it's added."
         buttons={
           CONTACT_EMAIL
-            ? [
-                {
-                  label: "Submit a Resource",
-                  href: `mailto:${CONTACT_EMAIL}?subject=Resource%20Submission%20-%20${encodeURIComponent(state.name)}`,
-                },
-              ]
+            ? [{ label: "Submit a Resource", href: `mailto:${CONTACT_EMAIL}?subject=Resource%20Submission%20-%20${encodeURIComponent(state.name)}` }]
             : [{ label: "Contact Us", href: "/contact" }]
         }
       />
@@ -153,214 +120,197 @@ function StateResourcesView({ state }: { state: USStateGridEntry }) {
   );
 }
 
-/** A compact fact row — omitted entirely when the value is undefined, never rendered as "Unknown"/"N/A". */
-function Fact({ label, value }: { label: string; value: string | null | undefined }) {
-  if (!value) return null;
-  return (
-    <div>
-      <dt className="text-[11px] font-semibold uppercase tracking-wide text-charcoal-light/70">{label}</dt>
-      <dd className="mt-0.5 text-sm text-ink">{value}</dd>
-    </div>
-  );
+/** Related: shares the primary need and at least one audience; nationwide and higher-ranked first. */
+function relatedPrograms(item: DirectoryResource, items: DirectoryResource[], limit = 3): DirectoryResource[] {
+  return items
+    .filter((other) => other.id !== item.id && other.needs[0] === item.needs[0])
+    .filter((other) => !item.audiences.length || other.audiences.some((a) => item.audiences.includes(a)))
+    .filter((other) => !other.state || other.state === item.state)
+    .slice(0, limit);
 }
 
-function yesNo(value: boolean | undefined): string | undefined {
-  return value === undefined ? undefined : value ? "Yes" : "No";
+function hostname(url: string): string {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return url;
+  }
 }
 
-/** Ranks other resources by how many need categories they share with this one — the closest thing to "similar" without a real recommendation model. Ties broken alphabetically for a stable order. */
-function findSimilarResources(resource: Resource, resources: Resource[], limit = 4): Resource[] {
-  return resources
-    .filter((r) => r.name !== resource.name)
-    .map((r) => ({ r, shared: r.needCategoryIds.filter((id) => resource.needCategoryIds.includes(id)).length }))
-    .filter((entry) => entry.shared > 0)
-    .sort((a, b) => b.shared - a.shared || a.r.name.localeCompare(b.r.name))
-    .slice(0, limit)
-    .map((entry) => entry.r);
+/** Only facts the provider has published. Unknown (undefined) values are omitted, never rendered as "unknown". */
+function accessNotes(resource: Resource): string[] {
+  const notes: [boolean | undefined, string, string][] = [
+    [resource.selfReferral, "You can reach out yourself — no referral needed.", "A referral is needed to start."],
+    [resource.virtualAvailable, "Available online or by phone.", ""],
+    [resource.inPersonAvailable, "Offers in-person support.", ""],
+    [resource.anonymousInitialContact, "You can make first contact without giving your name.", ""],
+    [resource.employerInvolvementRequired, "Your employer has to be involved.", "Your employer doesn't need to be involved."],
+    [resource.insuranceRequired, "Insurance is required.", "No insurance required."],
+    [resource.applicationRequired, "There's an application.", ""],
+    [resource.documentationRequired, "You may need to show service or eligibility documents.", ""],
+  ];
+  return notes.flatMap(([value, yes, no]) => (value === true ? [yes] : value === false && no ? [no] : []));
 }
 
-function ResourceDetailView({
-  resource,
-  resources,
-  slug,
-}: {
-  resource: Resource;
-  resources: Resource[];
-  slug: string;
-}) {
-  const canonicalUrl = `${SITE_URL}/resources/${slug}`;
-  const categoryLabels = resource.needCategoryIds
-    .map((id) => NEED_CATEGORIES.find((c) => c.id === id)?.label)
-    .filter((label): label is string => Boolean(label));
-  const similar = findSimilarResources(resource, resources);
+function ResourceDetailView({ resource, item, items }: { resource: Resource; item: DirectoryResource; items: DirectoryResource[] }) {
+  const canonicalUrl = `${SITE_URL}/resources/${item.id}`;
+  const related = relatedPrograms(item, items);
+  const needLabel = NEED_BY_ID[item.needs[0]].label;
+  const notes = accessNotes(resource);
+  const tel = resource.phone?.replace(/[^\d+]/g, "");
+  const sms = resource.text?.replace(/[^\d+]/g, "");
 
-  const breadcrumbJsonLdData = breadcrumbJsonLd([
+  const steps: { title: string; body?: string }[] = [];
+  if (resource.phone) steps.push({ title: `Call ${resource.phone}`, body: resource.hours });
+  if (resource.text) steps.push({ title: `${steps.length ? "Or text" : "Text"} ${resource.text}`, body: steps.length ? "Good if talking out loud isn't possible right now." : resource.hours });
+  steps.push({
+    title: steps.length ? "Or start on their website" : resource.applicationRequired ? "Apply on their website" : "Start on their website",
+    body: `Program details${resource.applicationRequired ? ", the application" : ""} and contact options are on ${hostname(resource.url)}.`,
+  });
+
+  const facts: [string, string | undefined][] = [
+    ["Who it's for", audienceText(item.audiences) || resource.audienceTags.join(", ") || undefined],
+    ["Eligibility", resource.eligibility],
+    ["Cost", item.costLabel],
+    ["Where", item.coverageLabel],
+    ["Hours", resource.hours],
+    ["Availability", resource.availability],
+    ["Organization", item.orgType],
+  ];
+
+  const breadcrumbs = breadcrumbJsonLd([
     { name: "Home", url: SITE_URL },
-    { name: "Resources", url: `${SITE_URL}/resources` },
+    { name: "Find Support", url: `${SITE_URL}/resources` },
     { name: resource.name, url: canonicalUrl },
   ]);
-
   const serviceJsonLd = {
     "@context": "https://schema.org",
     "@type": "Service",
     name: resource.name,
     description: resource.description,
     url: resource.url,
-    areaServed: resource.geographicScope,
-    ...(categoryLabels.length > 0 && { serviceType: categoryLabels.join(", ") }),
+    areaServed: item.coverageLabel,
+    serviceType: item.needs.map((id) => NEED_BY_ID[id].label).join(", "),
   };
+
+  const btn = "inline-flex min-h-11 items-center justify-center rounded-[4px] border-[1.5px] px-[18px] text-sm font-bold";
 
   return (
     <article>
-      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(breadcrumbJsonLdData)} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(breadcrumbs)} />
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(serviceJsonLd)} />
 
-      <section className="border-b border-ink/10 bg-sand-light py-16 sm:py-20">
-        <Container className="max-w-3xl">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
-            <Link href="/resources" className="hover:text-ink hover:underline">
-              Resources
-            </Link>
-            {categoryLabels[0] && ` / ${categoryLabels[0]}`}
-          </p>
+      <Container className="flex flex-col gap-6 pb-14 pt-7">
+        <BackToResults />
 
-          <h1 className="mt-3 text-balance font-display text-4xl uppercase text-ink sm:text-4xl">
-            {resource.name}
-          </h1>
+        <div className="flex flex-wrap items-start gap-8">
+          <div className="flex min-w-0 flex-[999_1_560px] flex-col gap-6">
+            <div className="flex flex-col gap-3">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-xs font-bold uppercase tracking-[0.1em] text-impact">{needLabel}</span>
+                {item.orgType && <span className="rounded-[3px] bg-[#eef0f4] px-2 py-0.5 text-xs font-semibold text-steel">{item.orgType}</span>}
+              </div>
+              <h1 className="font-display text-[clamp(36px,5vw,56px)] uppercase leading-[1.05] text-navy">{resource.name}</h1>
+              <p className="max-w-[720px] text-lg">{resource.description}</p>
+            </div>
 
-          {resource.verificationStatus && (
-            <p className="mt-3 inline-flex w-fit items-center gap-1.5 rounded-full border border-olive/30 bg-olive/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-olive">
-              <ShieldCheck size={13} aria-hidden />
-              {resource.verificationStatus.replaceAll("-", " ")}
-            </p>
-          )}
-
-          <p className="mt-5 max-w-2xl text-base leading-relaxed text-charcoal-light">{resource.description}</p>
-
-          {resource.audienceTags.length > 0 && (
-            <div className="mt-5 flex flex-wrap gap-1.5">
-              {resource.audienceTags.map((tag) => (
-                <span
-                  key={tag}
-                  className="rounded-full border border-ink/15 bg-off-white px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-charcoal-light"
+            <section aria-labelledby="start-h" className="flex flex-col gap-4 rounded-lg border border-line bg-white p-6">
+              <h2 id="start-h" className="font-display text-2xl uppercase text-navy">How to get started</h2>
+              <ol className="flex flex-col gap-3.5">
+                {steps.map((step, i) => (
+                  <li key={step.title} className="flex items-start gap-3.5">
+                    <span aria-hidden="true" className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-navy font-bold text-white">{i + 1}</span>
+                    <div>
+                      <strong className="block text-navy">{step.title}</strong>
+                      {step.body && <span className="text-[15px]">{step.body}</span>}
+                    </div>
+                  </li>
+                ))}
+              </ol>
+              <div className="flex flex-wrap gap-2.5">
+                {tel && (
+                  <a href={`tel:${tel}`} className={`${btn} ${resource.crisisResource ? "border-purpose bg-purpose" : "border-navy bg-navy"} text-white`}>
+                    Call {resource.phone}
+                  </a>
+                )}
+                {sms && <a href={`sms:${sms}`} className={`${btn} border-navy bg-white text-navy hover:bg-paper`}>Text {resource.text}</a>}
+                <a
+                  href={resource.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-analytics-event="resource_outbound_click"
+                  aria-label={`Visit ${resource.name} website (opens in a new tab)`}
+                  className={`${btn} ${tel ? "border-navy bg-white text-navy hover:bg-paper" : "border-navy bg-navy text-white hover:bg-navy-hover"}`}
                 >
-                  {tag}
-                </span>
+                  Visit site <span aria-hidden="true">&nbsp;↗</span>
+                </a>
+              </div>
+            </section>
+
+            {notes.length > 0 && (
+              <section aria-labelledby="expect-h" className="flex flex-col gap-2.5">
+                <h2 id="expect-h" className="font-display text-2xl uppercase text-navy">Good to know</h2>
+                <ul className="flex max-w-[720px] list-disc flex-col gap-1 pl-5 text-base">
+                  {notes.map((note) => <li key={note}>{note}</li>)}
+                </ul>
+              </section>
+            )}
+          </div>
+
+          <aside aria-label="Program facts" className="flex flex-[1_1_300px] flex-col gap-4 md:max-w-[380px]">
+            <div className="rounded-lg border border-line bg-white p-6">
+              <dl className="flex flex-col gap-3.5 text-[15px]">
+                {facts.map(([label, value]) =>
+                  value ? (
+                    <div key={label}>
+                      <dt className="text-xs font-bold uppercase tracking-[0.1em] text-navy">{label}</dt>
+                      <dd>{value}</dd>
+                    </div>
+                  ) : null,
+                )}
+              </dl>
+            </div>
+            <div className="flex flex-col gap-1 px-1 text-sm">
+              <span>
+                Reviewed by {SITE_NAME}
+                {resource.verifiedDate && (
+                  <>
+                    {" "}on <time dateTime={resource.verifiedDate}>{formatDateLong(resource.verifiedDate.length === 10 ? `${resource.verifiedDate}T12:00:00Z` : resource.verifiedDate)}</time>
+                  </>
+                )}
+                .{" "}
+                <Link href="/standards" className="text-help underline underline-offset-2 hover:text-help-dark">How we review</Link>
+              </span>
+              <a href="#report" className="text-help underline underline-offset-2 hover:text-help-dark">Report outdated info</a>
+            </div>
+          </aside>
+        </div>
+
+        {related.length > 0 && (
+          <section aria-labelledby="related-h" className="flex flex-col gap-3.5 pt-4">
+            <h2 id="related-h" className="font-display text-2xl uppercase text-navy">Related programs</h2>
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,280px),1fr))] gap-4">
+              {related.map((other) => (
+                <Link
+                  key={other.id}
+                  href={`/resources/${other.id}`}
+                  className="flex flex-col gap-2 rounded-lg border border-line bg-white p-5 text-copy hover:border-navy"
+                >
+                  <strong className="text-[17px] text-navy">{other.name}</strong>
+                  <span>{other.summary}</span>
+                  <span className="text-[13px] text-muted">{[other.costLabel, other.coverageLabel].filter(Boolean).join(" · ")}</span>
+                </Link>
               ))}
             </div>
-          )}
+          </section>
+        )}
 
-          <div className="mt-6 flex flex-wrap items-center gap-4">
-            <a
-              href={resource.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-analytics-event="resource_outbound_click"
-              className="inline-flex items-center gap-1.5 rounded-sm bg-ink px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-off-white hover:bg-ink/90"
-            >
-              Visit Official Website
-              <ExternalLink size={14} aria-hidden="true" />
-            </a>
-          </div>
-        </Container>
-      </section>
-
-      <section className="py-16 sm:py-20">
-        <Container className="max-w-3xl">
-          <RevealOnScroll>
-            <dl className="grid gap-x-6 gap-y-5 sm:grid-cols-2">
-              <Fact label="Cost" value={resource.cost} />
-              <Fact label="Coverage" value={resource.geographicScope + (resource.state ? ` (${resource.state})` : "")} />
-              <Fact label="Eligibility" value={resource.eligibility} />
-              <Fact label="Availability" value={resource.availability} />
-              <Fact label="Application Status" value={resource.applicationStatus} />
-              <Fact label="Service Type" value={resource.serviceType} />
-              <Fact label="Delivery" value={resource.deliveryMethods?.join(", ")} />
-              <Fact label="Virtual Access" value={yesNo(resource.virtualAvailable)} />
-              <Fact label="In-Person Access" value={yesNo(resource.inPersonAvailable)} />
-              <Fact label="Self-Referral" value={yesNo(resource.selfReferral)} />
-              <Fact label="Referral Required" value={yesNo(resource.referralRequired)} />
-              <Fact label="Application Required" value={yesNo(resource.applicationRequired)} />
-              <Fact label="Documentation Required" value={yesNo(resource.documentationRequired)} />
-              <Fact label="Employer Involvement Required" value={yesNo(resource.employerInvolvementRequired)} />
-              <Fact label="Anonymous Initial Contact" value={yesNo(resource.anonymousInitialContact)} />
-              <Fact label="Insurance Required" value={yesNo(resource.insuranceRequired)} />
-              <Fact label="Organization Type" value={resource.organizationType} />
-              <Fact label="Last Verified" value={resource.verifiedDate ? formatDateLong(resource.verifiedDate) : undefined} />
-              <Fact label="Review Due" value={resource.reviewDue ? formatDateLong(resource.reviewDue) : undefined} />
-            </dl>
-
-            {(resource.whyIncluded || resource.faithAffiliationSource || resource.confidentialityPolicyUrl) && (
-              <div className="mt-8 border-t border-ink/10 pt-6">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">Source &amp; Notes</p>
-                {resource.whyIncluded && <p className="mt-2 text-sm leading-relaxed text-charcoal-light">{resource.whyIncluded}</p>}
-                {resource.faithAffiliationSource && (
-                  <p className="mt-2 text-sm">
-                    <a href={resource.faithAffiliationSource} target="_blank" rel="noopener noreferrer" className="font-semibold text-bronze hover:text-bronze-dark">
-                      Faith-affiliation source &rarr;
-                    </a>
-                  </p>
-                )}
-                {resource.confidentialityPolicyUrl && (
-                  <p className="mt-2 text-sm">
-                    <a href={resource.confidentialityPolicyUrl} target="_blank" rel="noopener noreferrer" className="font-semibold text-bronze hover:text-bronze-dark">
-                      Confidentiality policy &rarr;
-                    </a>
-                  </p>
-                )}
-                {resource.verificationUrl && (
-                  <p className="mt-2 text-sm">
-                    <a href={resource.verificationUrl} target="_blank" rel="noopener noreferrer" className="font-semibold text-bronze hover:text-bronze-dark">
-                      Verification source &rarr;
-                    </a>
-                  </p>
-                )}
-                {resource.verificationStatus && (
-                  <p className="mt-2 text-xs text-charcoal-light">
-                    <Link href="/standards" className="font-semibold text-bronze hover:text-bronze-dark">
-                      How resources are reviewed &rarr;
-                    </Link>
-                  </p>
-                )}
-              </div>
-            )}
-          </RevealOnScroll>
-        </Container>
-      </section>
-
-      {similar.length > 0 && (
-        <section className="border-t border-ink/10 bg-sand-light py-16 sm:py-20">
-          <Container>
-            <SectionHeading eyebrow="Keep Looking" title="Similar Resources" />
-            <RevealGrid>
-              <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                {similar.map((r) => (
-                  <ResourceCard key={r.name} resource={r} />
-                ))}
-              </div>
-            </RevealGrid>
-          </Container>
+        <section id="report" aria-labelledby="report-h" className="mt-6 scroll-mt-24 rounded-xl border border-line bg-white p-6 sm:p-8">
+          <h2 id="report-h" className="font-display text-2xl uppercase text-navy">Report outdated info or share feedback</h2>
+          <p className="mt-2 max-w-2xl text-copy">Tell us if something here has changed, or whether this program was useful. Individual responses are never displayed publicly.</p>
+          <div className="mt-6"><ResourceFeedbackForm defaultResourceName={resource.name} /></div>
         </section>
-      )}
-
-      <section className="border-t border-ink/10 py-16 sm:py-20">
-        <Container className="max-w-2xl">
-          <SectionHeading
-            eyebrow="Help Us Improve"
-            title="Report an Issue or Share Feedback"
-            description="Tell us whether this listing was useful or whether you connected. Individual responses are never displayed publicly."
-          />
-          <div className="mt-8">
-            <ResourceFeedbackForm defaultResourceName={resource.name} />
-          </div>
-        </Container>
-      </section>
-
-      <CTASection
-        eyebrow="Still Looking?"
-        title="Search the Full Directory"
-        buttons={[{ label: "Browse All Resources", href: "/resources" }]}
-      />
+      </Container>
     </article>
   );
 }
