@@ -16,7 +16,7 @@
  */
 import { NEED_PATHWAYS } from "@/lib/resources/need-pathways";
 
-export const NEED_IDS = ["mental", "addiction", "financial", "housing", "family", "career", "legal", "fitness"] as const;
+export const NEED_IDS = ["mental", "addiction", "health", "financial", "housing", "family", "career", "legal", "fitness"] as const;
 export type NeedId = (typeof NEED_IDS)[number];
 
 export const AUDIENCE_IDS = ["veteran", "military", "le", "fire", "ems", "dispatch", "corrections", "family"] as const;
@@ -53,6 +53,7 @@ export interface DirectoryResource {
 const BASE_NEEDS: { id: NeedId; label: string; synonyms: string[] }[] = [
   { id: "mental", label: "Mental health", synonyms: ["ptsd", "depression", "anxiety", "counseling", "therapy", "crisis", "suicide", "grief", "moral injury", "peer support", "purpose", "community"] },
   { id: "addiction", label: "Addiction & recovery", synonyms: ["alcohol", "substance", "sobriety", "drinking", "recovery", "detox"] },
+  { id: "health", label: "Health & disability", synonyms: ["tbi", "brain injury", "chronic pain", "prosthetic", "amputee", "adaptive equipment", "wheelchair", "mobility", "hearing loss", "blind", "low vision", "service dog", "dental", "spinal cord", "burn", "physical therapy", "rehabilitation", "disability"] },
   { id: "financial", label: "Financial help", synonyms: ["rent", "bills", "emergency", "grant", "money", "equipment"] },
   { id: "housing", label: "Housing", synonyms: ["homeless", "rent", "shelter", "eviction", "transportation"] },
   { id: "family", label: "Family & caregivers", synonyms: ["caregiver", "spouse", "marriage", "parenting", "children", "respite", "survivor", "gold star"] },
@@ -63,7 +64,7 @@ const BASE_NEEDS: { id: NeedId; label: string; synonyms: string[] }[] = [
 
 /** Legacy `NEED_PATHWAYS` situation → need. Also used to fold each situation's search phrases into that need's synonyms. */
 export const PATHWAY_TO_NEED: Record<string, NeedId> = {
-  "chronic-pain-tbi": "mental",
+  "chronic-pain-tbi": "health",
   "creative-connection": "mental",
   "grief-bereavement": "mental",
   "emergency-basic-needs": "financial",
@@ -113,6 +114,7 @@ export const CATEGORY_TO_NEED: Record<string, NeedId> = {
   "family-support": "family",
   "career-education": "career",
   "legal-benefits": "legal",
+  "health-disability": "health",
 };
 
 /** Resource `audienceTags` value → audience ids. Tags not listed (Disabled, Healthcare, Coworker…) don't map to a chip. */

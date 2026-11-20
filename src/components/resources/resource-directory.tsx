@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { useSearchParams } from "next/navigation";
 import {
+  Accessibility,
   Activity,
   Briefcase,
   DollarSign,
@@ -50,6 +51,7 @@ const PAGE_SIZE = 24;
 const NEED_ICONS: Record<NeedId, LucideIcon> = {
   mental: HeartPulse,
   addiction: Sunrise,
+  health: Accessibility,
   financial: DollarSign,
   housing: Home,
   family: Users,

@@ -64,6 +64,11 @@ const PLACEHOLDER = /not stated|unknown|not listed|not specified|unclear|not con
 const ADDICTION_TEXT = /\b(substance[- ]use|addiction|alcohol|sobriety|sober|detox|opioid|chemical dependency|smart recovery)\b/i;
 const ADDICTION_SERVICE_TAGS = new Set(["peer-recovery", "detoxification", "medication-assisted-treatment", "family-addiction-support", "mutual-support"]);
 
+/** Physical health and disability signals. Listings matching these gain the "health" need alongside their existing ones. */
+const HEALTH_TEXT =
+  /\b(tbi|traumatic brain injur\w*|brain injur\w*|chronic pain|pain management|prosthetic\w*|amputees?|amputation|limb loss|spinal cord|paralyz\w*|paralysis|wheelchairs?|adaptive equipment|mobility (?:device|equipment|aid)s?|hearing loss|deaf|hard of hearing|blind\w*|low vision|vision loss|visually impaired|service dogs?|dental|burn (?:survivor|injur)\w*|physical therapy|physical rehabilitation|polytrauma)\b/i;
+const HEALTH_SERVICE_TAGS = new Set(["chronic-pain", "pain-management", "brain-injury", "cognitive-rehabilitation", "physical-rehabilitation", "whole-health"]);
+
 function clean(value: string | undefined): string | undefined {
   const trimmed = value?.trim();
   return trimmed && !PLACEHOLDER.test(trimmed) ? trimmed : undefined;
@@ -102,6 +107,9 @@ export function resourceNeeds(resource: Resource): NeedId[] {
     ADDICTION_TEXT.test(`${resource.name} ${resource.description}`)
   ) {
     add("addiction");
+  }
+  if (resource.serviceTags?.some((tag) => HEALTH_SERVICE_TAGS.has(tag)) || HEALTH_TEXT.test(`${resource.name} ${resource.description}`)) {
+    add("health");
   }
   return needs.length ? needs : ["mental"];
 }

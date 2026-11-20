@@ -143,6 +143,7 @@ export const NEED_CATEGORIES: NeedCategory[] = [
   { id: "financial-assistance", label: "Financial Assistance" },
   { id: "housing-transportation", label: "Housing & Transportation" },
   { id: "legal-benefits", label: "Legal & Benefits" },
+  { id: "health-disability", label: "Health & Disability" },
 ];
 
 export const RESOURCES: Resource[] = [

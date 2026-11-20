@@ -39,8 +39,8 @@ insert into public.partners (name, description, what_they_do, logo_url, website_
 values
   (
     'Mighty Oaks Foundation',
-    'The Mighty Oaks Warrior Program works with veterans through a lens centered on faith, responsibility, and purpose — helping veterans and their families move forward after difficult experiences. That''s why Mighty Oaks is part of Tri For The 22.',
-    null,
+    'For The 22 is independently raising funds in support of Mighty Oaks Foundation and the Warriors and families it serves. Every dollar donated to Mighty Oaks through this effort helps make its programs possible — giving Warriors the opportunity to find hope, experience restoration, and discover renewed purpose.',
+    'Mighty Oaks Foundation is a Christ-centered nonprofit dedicated to restoring hope and transforming the lives of America''s military service members, veterans, first responders, and their families. Its faith-based, peer-led Legacy Programs and Resiliency Events bring Warriors together in an environment of trust, accountability, and brotherhood — equipping them with the biblical principles, practical tools, and lasting relationships to overcome life''s challenges, restore broken relationships, and lead lives of purpose.',
     '/partners/mighty-oaks-logo.png',
     'https://www.mightyoaksprograms.org/',
     null,

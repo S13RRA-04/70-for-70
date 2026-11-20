@@ -11,6 +11,7 @@ const require = createRequire(import.meta.url);
 const { RESOURCES } = require("../src/lib/content/resources.ts") as typeof import("../src/lib/content/resources");
 const { VERIFIED_PATHWAY_RESOURCES } = require("../src/lib/resources/verified-pathway-resources.ts") as typeof import("../src/lib/resources/verified-pathway-resources");
 const { VERIFIED_EXPANSION_RESOURCES } = require("../src/lib/resources/verified-expansion-resources.ts") as typeof import("../src/lib/resources/verified-expansion-resources");
+const { VERIFIED_GAP_RESOURCES } = require("../src/lib/resources/verified-gap-resources.ts") as typeof import("../src/lib/resources/verified-gap-resources");
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const supabaseCli = resolve(projectRoot, "node_modules/supabase/dist/supabase.js");
@@ -27,12 +28,12 @@ function resourceKey(resource: Pick<Resource, "name">): string {
 
 // Later, more deeply verified sources enrich matching bundled records.
 const resourcesByKey = new Map<string, Resource>();
-for (const resource of [...RESOURCES, ...VERIFIED_EXPANSION_RESOURCES, ...VERIFIED_PATHWAY_RESOURCES]) {
+for (const resource of [...RESOURCES, ...VERIFIED_EXPANSION_RESOURCES, ...VERIFIED_PATHWAY_RESOURCES, ...VERIFIED_GAP_RESOURCES]) {
   const key = resourceKey(resource);
   resourcesByKey.set(key, { ...(resourcesByKey.get(key) ?? {}), ...resource } as Resource);
 }
 
-const rows = [...resourcesByKey.entries()].map(([key, resource]) => ({
+const allRows = [...resourcesByKey.entries()].map(([key, resource]) => ({
   resource_key: key,
   name: resource.name,
   url: resource.url,
@@ -80,6 +81,14 @@ const rows = [...resourcesByKey.entries()].map(([key, resource]) => ({
   is_active: !RETIRED_RESOURCE_KEYS.has(key),
 }));
 
+// --only=gap syncs just the records in verified-gap-resources.ts, leaving every
+// other row (including fixes applied directly in the database) untouched.
+const onlyArgument = process.argv.find((argument) => argument.startsWith("--only="))?.slice("--only=".length);
+if (onlyArgument && onlyArgument !== "gap") throw new Error("--only supports: gap");
+const onlyKeys = onlyArgument === "gap" ? new Set(VERIFIED_GAP_RESOURCES.map(resourceKey)) : null;
+const rows = onlyKeys ? allRows.filter((row) => onlyKeys.has(row.resource_key)) : allRows;
+const dryRun = process.argv.includes("--dry-run");
+
 const columns = Object.keys(rows[0]);
 const assignments = columns
   .filter((column) => column !== "resource_key")
@@ -122,6 +131,12 @@ on conflict (resource_key) do update set
       ${assignments};
 commit;
 `;
+}
+
+if (dryRun) {
+  console.log(`Dry run: would sync ${rows.length} resources.`);
+  for (const row of rows) console.log(`  ${row.resource_key}${row.state ? ` (${row.state})` : ""}`);
+  process.exit(0);
 }
 
 const sqlPath = resolve(tmpdir(), `forthe22-resource-sync-${process.pid}.sql`);

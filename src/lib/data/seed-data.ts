@@ -64,8 +64,9 @@ export const SEED_PARTNERS: PartnerRow[] = [
     id: "seed-partner-mighty-oaks",
     name: "Mighty Oaks Foundation",
     description:
-      "The Mighty Oaks Warrior Program works with veterans through a lens centered on faith, responsibility, and purpose — helping veterans and their families move forward after difficult experiences. That's why Mighty Oaks is part of Tri For The 22.",
-    what_they_do: null, // Awaiting the organization's own approved description — hidden until supplied, not shown as a placeholder.
+      "For The 22 is independently raising funds in support of Mighty Oaks Foundation and the Warriors and families it serves. Every dollar donated to Mighty Oaks through this effort helps make its programs possible — giving Warriors the opportunity to find hope, experience restoration, and discover renewed purpose.",
+    what_they_do:
+      "Mighty Oaks Foundation is a Christ-centered nonprofit dedicated to restoring hope and transforming the lives of America's military service members, veterans, first responders, and their families. Its faith-based, peer-led Legacy Programs and Resiliency Events bring Warriors together in an environment of trust, accountability, and brotherhood — equipping them with the biblical principles, practical tools, and lasting relationships to overcome life's challenges, restore broken relationships, and lead lives of purpose.", // Mighty Oaks' own approved copy (partnership one-pager, Nov. 2026).
     logo_url: "/partners/mighty-oaks-logo.png",
     logo_light_url: null,
     logo_dark_url: null,
