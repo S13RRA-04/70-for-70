@@ -6,7 +6,9 @@ import { Container } from "@/components/shared/container";
 import { PageHero } from "@/components/shared/page-hero";
 import { PillarNextSteps } from "@/components/shared/pillar-next-steps";
 import { CampaignFilm } from "@/components/home/campaign-film";
+import { CampaignJournalEntryCard } from "@/components/campaign/campaign-journal-entry";
 import { getMissionMetrics } from "@/lib/data/mission-metrics";
+import { getLatestCampaignJournalEntries } from "@/lib/content/campaign-journal";
 import { COMPLETED_RUCK_MISSIONS } from "@/lib/content/ruck-missions";
 import {
   CAMPAIGN_STATUS_LABELS,
@@ -95,6 +97,7 @@ function gatewayOrder(campaigns: (MovementCampaign & { url: string })[]) {
 export default async function CampaignsPage() {
   const metrics = await getMissionMetrics();
   const campaigns = gatewayOrder(MOVEMENT_CAMPAIGNS.filter(isCurrentCampaign).filter((c) => c.slug in GATEWAY));
+  const journalEntries = getLatestCampaignJournalEntries(3);
   const raised = metrics.totalRaised;
   const goal = metrics.fundraisingGoal ?? FUNDRAISING_GOAL;
   const percent = raised !== null && goal ? Math.min(100, (raised / goal) * 100) : null;
@@ -131,6 +134,36 @@ export default async function CampaignsPage() {
           </ul>
         </Container>
       </section>
+
+      {/* Mission-wide updates across every campaign. */}
+      {journalEntries.length > 0 && (
+        <section aria-labelledby="campaign-journal-heading" className="border-y border-line bg-sand-light py-14 sm:py-16">
+          <Container>
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="label-caps text-bronze">Across the mission</p>
+                <h2
+                  id="campaign-journal-heading"
+                  className="mt-2 font-display text-[clamp(32px,4vw,48px)] uppercase leading-none text-navy"
+                >
+                  Campaign Journal
+                </h2>
+                <p className="mt-3 max-w-2xl text-base leading-relaxed text-copy">
+                  Announcements, milestones, partnerships, and field updates from every For The 22 campaign.
+                </p>
+              </div>
+              <Link href="/campaigns/journal" className="shrink-0 font-bold text-navy hover:text-help hover:underline">
+                View all updates →
+              </Link>
+            </div>
+            <div className="mt-8 grid gap-4 md:grid-cols-3">
+              {journalEntries.map((entry) => (
+                <CampaignJournalEntryCard key={entry.id} entry={entry} variant="teaser" />
+              ))}
+            </div>
+          </Container>
+        </section>
+      )}
 
       {/* One line of mission progress */}
       {raised !== null && percent !== null && (
