@@ -8,7 +8,8 @@ test.describe("resource pathways", () => {
     await expect(page).toHaveURL(/\/resources\?need=legal$/);
     await expect(page.getByRole("button", { name: "Remove filter: Legal & benefits" })).toBeVisible();
     await expect(page.getByRole("button", { name: /^Legal & benefits/, pressed: true })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Learn more about Women Veterans Call Center" })).toBeVisible();
+    // NVLSP is pinned in START_HERE_ORDER, so it stays on the first page however many legal listings are added.
+    await expect(page.getByRole("link", { name: "Learn more about National Veterans Legal Services Program (NVLSP)" })).toBeVisible();
   });
 
   test("removes a hydrated filter from state and the URL", async ({ page }) => {
