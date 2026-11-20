@@ -120,6 +120,32 @@ export const CAMPAIGN_JOURNAL_ENTRIES: CampaignJournalEntry[] = [
     ],
     link: { label: "Shop the Merch", href: "/store" },
   },
+  {
+    id: "providence-market-tomorrow-reminder",
+    date: "2026-11-20",
+    title: "Tomorrow: Tri For The 22 at the Providence Market",
+    summary:
+      "Visit Tri For The 22 at the Providence Market in Huntsville on Saturday, November 21, from 9 AM to 2 PM for the custom Stradalli bike build, signed auction guitars, and Tri For The 22 merchandise.",
+    body: [
+      "Cody will be at the Providence Market with his custom Stradalli bike build and the auction guitars signed by Whiskey Myers and Muscadine Bloodline.",
+      "Tri For The 22 hats, T-shirts, and hoodies will be available for purchase. Net proceeds from merchandise sales support Mighty Oaks Foundation and Veterans and Athletes United.",
+    ],
+    gallery: [
+      {
+        src: "/campaigns/tri/whiskey-myers-signed-guitar.webp",
+        alt: "Epiphone Les Paul electric guitar with Whomp Whack Thunder artwork, signed by Whiskey Myers; includes a certificate of authenticity",
+        width: 1122,
+        height: 1402,
+      },
+      {
+        src: "/campaigns/tri/muscadine-bloodline-signed-guitar.webp",
+        alt: "Black Epiphone acoustic guitar signed by Muscadine Bloodline, with a close-up of the signatures on its red pickguard",
+        width: 1122,
+        height: 1402,
+      },
+    ],
+    link: { label: "Explore Tri For The 22", href: TRI_PAGE_PATH },
+  },
 ];
 
 /** Null when there are no entries yet — callers should hide the "last updated" line rather than show a fake date. */
