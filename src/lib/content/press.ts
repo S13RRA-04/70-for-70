@@ -180,6 +180,8 @@ export interface BeneficiaryFactFile {
   source: string;
   /** The organization's own media point of contact, for questions about its programs. */
   mediaContact?: { name: string; title: string; email: string; phone?: string };
+  /** A document the organization supplied about this partnership, served from /public. Also linked on its partner page. */
+  partnershipDocument?: { href: string; label: string; size: string };
 }
 
 /**
@@ -207,6 +209,12 @@ export const BENEFICIARY_FACT_FILES: readonly BeneficiaryFactFile[] = [
       title: "Chief Marketing Officer",
       email: "michael@mightyoaksprograms.org",
       phone: "832-422-7361",
+    },
+    // Their own one-pager on the partnership, supplied Nov. 2026.
+    partnershipDocument: {
+      href: "/press/mighty-oaks-for-the-22-partnership.pdf",
+      label: "Mighty Oaks x For The 22 partnership one-pager",
+      size: "PDF, 350 KB",
     },
   },
 ];

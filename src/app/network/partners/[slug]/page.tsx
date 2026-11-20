@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ExternalLink, ShieldCheck } from "lucide-react";
+import { ExternalLink, FileDown, ShieldCheck } from "lucide-react";
 import { Container } from "@/components/shared/container";
 import { PartnerLogo } from "@/components/shared/partner-logo";
 import { PartnerRoleBadge } from "@/components/partners/partner-role-badge";
@@ -18,6 +18,7 @@ import { MISSION_PARTNER_TIERS, SITE_URL, formatAssociatedCampaigns, TRI_PAGE_UR
 import { formatCurrency, formatDateLong } from "@/lib/utils";
 import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
+import { BENEFICIARY_FACT_FILES } from "@/lib/content/press";
 
 const BREADCRUMB_BASE = [
   { name: "Home", url: SITE_URL },
@@ -66,6 +67,7 @@ export default async function PartnerProfilePage({ params }: { params: Promise<{
 
   const backedComponents =
     kind === "mission" ? findBackedComponents(partner.name, BIKE_BUILD_COMPONENT_STATUS) : [];
+  const partnershipDocument = BENEFICIARY_FACT_FILES.find((file) => file.organization === partner.name)?.partnershipDocument;
 
   return (
     <article>
@@ -141,6 +143,16 @@ export default async function PartnerProfilePage({ params }: { params: Promise<{
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">What They Do</p>
               <p className="mt-2 text-base leading-relaxed text-charcoal-light">{partner.what_they_do}</p>
             </div>
+          )}
+
+          {kind === "beneficiary" && partnershipDocument && (
+            <p className="mt-4 text-sm">
+              <a href={partnershipDocument.href} download className="inline-flex items-center gap-1.5 font-semibold text-bronze hover:underline">
+                <FileDown size={16} aria-hidden />
+                Download the {partnershipDocument.label}
+              </a>{" "}
+              <span className="text-charcoal-light">({partnershipDocument.size})</span>
+            </p>
           )}
 
           {kind === "mission" && partner.support_type && (

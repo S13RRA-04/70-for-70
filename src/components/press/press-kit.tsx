@@ -411,6 +411,14 @@ export function BeneficiaryFactFiles() {
             <span className="font-semibold uppercase tracking-wide">Source: </span>
             {file.source}, as reported by {file.organization}. Please attribute these figures to them.
           </p>
+          {file.partnershipDocument && (
+            <p className="mt-3 text-sm">
+              <a href={file.partnershipDocument.href} download className="font-semibold text-bronze hover:underline">
+                Download the {file.partnershipDocument.label}
+              </a>{" "}
+              <span className="text-charcoal-light">({file.partnershipDocument.size})</span>
+            </p>
+          )}
           {file.mediaContact && (
             <p className="mt-4 border-t border-line pt-4 text-sm text-charcoal-light">
               <span className="font-semibold text-ink">Questions about {file.organization}&apos;s programs:</span>{" "}
