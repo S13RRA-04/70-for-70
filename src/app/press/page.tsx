@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { HAS_LISTED_AUCTION_ITEMS } from "@/lib/content/live-auction";
-import { Container } from "@/components/shared/container";
 import { PageHero } from "@/components/shared/page-hero";
 import { CTAButton } from "@/components/shared/cta-button";
 import { BrandColorBreakdown } from "@/components/about/mark-diagram";
@@ -14,9 +13,12 @@ import {
   MediaContact,
   MediaKitDownload,
   PressPhotos,
+  PressJumpNav,
   PressQuickLinks,
   PressQuotes,
   PressSection,
+  PressSideRail,
+  type PressNavItem,
   StoryAngles,
   mediaInquiryHref,
 } from "@/components/press/press-kit";
@@ -81,6 +83,28 @@ export default async function PressPage() {
   const currentCampaigns = MOVEMENT_CAMPAIGNS.filter(isCurrentCampaign);
   const contactHref = mediaInquiryHref(CONTACT_EMAIL, "/contact");
   const verifiedOn = formatDateLong(fundraising.updatedAt);
+
+  const hasCoverage = MEDIA_APPEARANCES.length > 0;
+  const hasPhotos = PRESS_PHOTOS.length > 0;
+  const hasQuotes = PRESS_QUOTES.length > 0;
+  const hasBeneficiaries = BENEFICIARY_FACT_FILES.length > 0;
+
+  /** Mirrors the section order below — the rail and mobile chips are built from this one list. */
+  const navItems = [
+    hasCoverage && { id: "coverage", label: "Media coverage" },
+    { id: "story-ideas", label: "Story ideas" },
+    { id: "media-kit", label: "Media kit" },
+    { id: "bio", label: "Founder bio", sub: true },
+    hasPhotos && { id: "photos", label: "Editorial photos", sub: true },
+    { id: "logos", label: "Logos", sub: true },
+    { id: "topics", label: "Interview topics", sub: true },
+    { id: "facts", label: "Facts & verification" },
+    hasQuotes && { id: "quotes", label: "Quotes" },
+    hasBeneficiaries && { id: "beneficiaries", label: "Beneficiaries" },
+    { id: "campaigns", label: "Current campaigns" },
+    { id: "contact", label: "Media contact" },
+    { id: "brand", label: "Brand reference" },
+  ].filter((item): item is PressNavItem => Boolean(item));
 
   const verificationRows = [
     metrics.resources !== null && {
@@ -201,8 +225,8 @@ export default async function PressPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScriptProps(BREADCRUMB_JSON_LD)} />
       <PageHero
-        eyebrow="Newsroom & media resources"
-        title={SITE_NAME}
+        eyebrow={`${SITE_NAME} · Press & media`}
+        title="Newsroom"
         description={
           <>
             <span className="block font-semibold text-navy">{ORG_TAGLINE}</span>
@@ -223,207 +247,205 @@ export default async function PressPage() {
         </p>
       </PageHero>
 
-      <section className="py-16 sm:py-20">
-        <Container className="max-w-3xl space-y-16">
-          {MEDIA_APPEARANCES.length > 0 && (
-            <PressSection id="coverage" title="Media Coverage" description="Newest first.">
-              <MediaAppearances />
-            </PressSection>
-          )}
+      {/* Same 1240px frame and gutters as PageHero, so the hero and body share one left edge. */}
+      <div className="mx-auto max-w-[1240px] px-6 py-14 sm:py-20 lg:grid lg:grid-cols-[13.5rem_minmax(0,1fr)] lg:gap-14">
+        <PressSideRail items={navItems} contactHref={contactHref} email={CONTACT_EMAIL} />
 
-          <PressSection
-            id="story-ideas"
-            title="Current Story Opportunities"
-            description="Three angles for regional reporters, each with links to verify the facts."
-          >
-            <StoryAngles />
-          </PressSection>
-
-          {PRESS_QUOTES.length > 0 && (
-            <PressSection
-              id="quotes"
-              title="In Their Words"
-              description="Approved for use as written. To verify a quote with the speaker's organization, contact our media line and we'll connect you."
-            >
-              <PressQuotes />
-            </PressSection>
-          )}
-
-          {BENEFICIARY_FACT_FILES.length > 0 && (
-            <PressSection
-              id="beneficiaries"
-              title="About the Beneficiaries"
-              description="Program facts supplied by the nonprofits The $70K Mission supports. For questions about their programs, contact them directly."
-            >
-              <BeneficiaryFactFiles />
-            </PressSection>
-          )}
-
-          <PressSection
-            id="facts"
-            title="Facts & Verification"
-            description={`Every figure below updates from the same data as the rest of the site. Fundraising verified as of ${verifiedOn}.`}
-          >
-            <FactsVerification rows={verificationRows} />
-          </PressSection>
-
-          <PressSection id="media-kit" title="Media Kit">
-            <MediaKitDownload factSheetHref="/press/fact-sheet" />
-
-            <h3 id="bio" className="mt-10 scroll-mt-28 font-display text-xl uppercase text-ink">
-              Founder Bio
-            </h3>
-            <p className="mt-1 text-sm text-charcoal-light">
-              Cody Hitson — Founder, {SITE_NAME}. Approved for use as written; the full story is at{" "}
-              <Link href="/about" className={linkClass}>
-                forthe22.org/about
-              </Link>
-              .
-            </p>
-            <div className="mt-4">
-              <FounderBios />
-            </div>
-
-            {PRESS_PHOTOS.length > 0 && (
-              <>
-                <h3 id="photos" className="mt-10 scroll-mt-28 font-display text-xl uppercase text-ink">
-                  Editorial Photos
-                </h3>
-                <div className="mt-4">
-                  <PressPhotos />
-                </div>
-              </>
+        <div className="min-w-0 max-w-[52rem]">
+          <PressJumpNav items={navItems} className="mb-12 lg:hidden" />
+          <div className="space-y-14">
+            {hasCoverage && (
+              <PressSection id="coverage" title="Media Coverage" description="Newest first.">
+                <MediaAppearances />
+              </PressSection>
             )}
+            <PressSection
+              id="story-ideas"
+              title="Current Story Opportunities"
+              description="Three angles for regional reporters, each with links to verify the facts."
+            >
+              <StoryAngles />
+            </PressSection>
+            <PressSection id="media-kit" title="Media Kit">
+              <MediaKitDownload factSheetHref="/press/fact-sheet" />
 
-            <h3 id="logos" className="mt-10 scroll-mt-28 font-display text-xl uppercase text-ink">
-              Logos
-            </h3>
-            <p className="mt-1 text-sm text-charcoal-light">
-              The official {SITE_NAME} mark, as transparent PNGs. Brand colors are{" "}
-              <a href="#brand" className={linkClass}>
-                at the bottom of this page
-              </a>
-              .
-            </p>
-            <div className="mt-4">
-              <LogoDownloads assets={LOGOS} />
-            </div>
-
-            <h3 id="topics" className="mt-10 scroll-mt-28 font-display text-xl uppercase text-ink">
-              Interview Topics
-            </h3>
-            <div className="mt-4">
-              <InterviewTopics />
-            </div>
-          </PressSection>
-
-          <PressSection id="campaigns" title="Current Campaigns">
-            <ul className="grid gap-4 sm:grid-cols-2">
-              {currentCampaigns.map((campaign) => {
-                const isSameSite = "url" in campaign && campaign.url.startsWith("/");
-                const statusLine = [
-                  CAMPAIGN_STATUS_LABELS[campaign.status],
-                  campaign.type,
-                  campaign.location,
-                ]
-                  .filter(Boolean)
-                  .join(" · ");
-                return (
-                  <li key={campaign.name} className="rounded-xl border border-line bg-white p-5">
-                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">
-                      {statusLine}
-                    </p>
-                    <p className="mt-1 font-display text-xl uppercase text-ink">
-                      {campaign.name}
-                    </p>
-                    {"description" in campaign && (
-                      <p className="mt-2 text-sm leading-relaxed text-charcoal-light">
-                        {campaign.description}
-                      </p>
-                    )}
-                    {"url" in campaign &&
-                      (isSameSite ? (
-                        <Link
-                          href={campaign.url}
-                          className="mt-3 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
-                        >
-                          {campaign.name} &rarr;
-                        </Link>
-                      ) : (
-                        <a
-                          href={campaign.url}
-                          className="mt-3 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
-                        >
-                          {campaign.name} &rarr;
-                        </a>
-                      ))}
-                  </li>
-                );
-              })}
-            </ul>
-            <p className="mt-4 text-sm text-charcoal-light">
-              Covering the triathlon specifically? The{" "}
-              <Link href="/campaigns/tri" className={linkClass}>
-                Tri For The 22 page
-              </Link>{" "}
-              has the race facts.
-            </p>
-          </PressSection>
-
-          <PressSection id="contact" title="Media Contact">
-            <MediaContact email={CONTACT_EMAIL} fallbackHref="/contact" />
-          </PressSection>
-
-          <PressSection
-            id="brand"
-            title="Brand Reference"
-            description="For designers reproducing the mark. Reporters can skip this."
-          >
-            <p className="text-sm font-semibold uppercase tracking-wide text-charcoal-light">
-              {ORG_SUPPORTING_LINE}
-            </p>
-            <p className="mt-2 text-sm text-charcoal-light">{ORG_SUPPORTING_STATEMENT}</p>
-            <h3 id="brand-colors" className="mt-6 scroll-mt-28 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
-              Primary palette
-            </h3>
-            <div className="mt-3 flex flex-wrap gap-4">
-              {PRIMARY_PALETTE.map((swatch) => (
-                <div key={swatch.name} className="flex items-center gap-2.5">
-                  <span
-                    aria-hidden="true"
-                    className="h-6 w-6 shrink-0 rounded-full border border-ink/10"
-                    style={{ backgroundColor: swatch.hex }}
-                  />
-                  <p className="text-xs text-charcoal-light">
-                    <span className="font-medium text-ink">{swatch.name}</span> — {swatch.hex}
-                  </p>
-                </div>
-              ))}
-            </div>
-
-            <details className="mt-6">
-              <summary className="cursor-pointer text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark">
-                Full Mark Color Breakdown
-              </summary>
-              <p className="mt-3 text-sm text-charcoal-light">
-                Every color in the mark is assigned, not decorative — the outer ring to a branch of
-                the Armed Forces, the inner ring to a sector of first-responder service. See{" "}
-                <Link href="/about#the-mark" className={linkClass}>
-                  The Mark
-                </Link>{" "}
-                on the About page for what the ring, star, and &quot;22&quot; represent.
+              <h3 id="bio" className="mt-10 scroll-mt-28 font-display text-xl uppercase text-ink">
+                Founder Bio
+              </h3>
+              <p className="mt-1 text-sm text-charcoal-light">
+                Cody Hitson — Founder, {SITE_NAME}. Approved for use as written; the full story is at{" "}
+                <Link href="/about" className={linkClass}>
+                  forthe22.org/about
+                </Link>
+                .
               </p>
               <div className="mt-4">
-                <BrandColorBreakdown />
+                <FounderBios />
               </div>
-            </details>
 
-            <CTAButton href="/network" variant="secondary" className="mt-8">
-              Explore the Network
-            </CTAButton>
-          </PressSection>
-        </Container>
-      </section>
+              {hasPhotos && (
+                <>
+                  <h3 id="photos" className="mt-10 scroll-mt-28 font-display text-xl uppercase text-ink">
+                    Editorial Photos
+                  </h3>
+                  <div className="mt-4">
+                    <PressPhotos />
+                  </div>
+                </>
+              )}
+
+              <h3 id="logos" className="mt-10 scroll-mt-28 font-display text-xl uppercase text-ink">
+                Logos
+              </h3>
+              <p className="mt-1 text-sm text-charcoal-light">
+                The official {SITE_NAME} mark, as transparent PNGs. Brand colors are{" "}
+                <a href="#brand" className={linkClass}>
+                  at the bottom of this page
+                </a>
+                .
+              </p>
+              <div className="mt-4">
+                <LogoDownloads assets={LOGOS} />
+              </div>
+
+              <h3 id="topics" className="mt-10 scroll-mt-28 font-display text-xl uppercase text-ink">
+                Interview Topics
+              </h3>
+              <div className="mt-4">
+                <InterviewTopics />
+              </div>
+            </PressSection>
+            <PressSection
+              id="facts"
+              title="Facts & Verification"
+              description={`Every figure below updates from the same data as the rest of the site. Fundraising verified as of ${verifiedOn}.`}
+            >
+              <FactsVerification rows={verificationRows} />
+            </PressSection>
+            {hasQuotes && (
+              <PressSection
+                id="quotes"
+                title="In Their Words"
+                description="Approved for use as written. To verify a quote with the speaker's organization, contact our media line and we'll connect you."
+              >
+                <PressQuotes />
+              </PressSection>
+            )}
+            {hasBeneficiaries && (
+              <PressSection
+                id="beneficiaries"
+                title="About the Beneficiaries"
+                description="Program facts supplied by the nonprofits The $70K Mission supports. For questions about their programs, contact them directly."
+              >
+                <BeneficiaryFactFiles />
+              </PressSection>
+            )}
+            <PressSection id="campaigns" title="Current Campaigns">
+              <ul className="grid gap-4 sm:grid-cols-2">
+                {currentCampaigns.map((campaign) => {
+                  const isSameSite = "url" in campaign && campaign.url.startsWith("/");
+                  const statusLine = [
+                    CAMPAIGN_STATUS_LABELS[campaign.status],
+                    campaign.type,
+                    campaign.location,
+                  ]
+                    .filter(Boolean)
+                    .join(" · ");
+                  return (
+                    <li key={campaign.name} className="rounded-xl border border-line bg-white p-5">
+                      <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">
+                        {statusLine}
+                      </p>
+                      <p className="mt-1 font-display text-xl uppercase text-ink">
+                        {campaign.name}
+                      </p>
+                      {"description" in campaign && (
+                        <p className="mt-2 text-sm leading-relaxed text-charcoal-light">
+                          {campaign.description}
+                        </p>
+                      )}
+                      {"url" in campaign &&
+                        (isSameSite ? (
+                          <Link
+                            href={campaign.url}
+                            className="mt-3 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
+                          >
+                            {campaign.name} &rarr;
+                          </Link>
+                        ) : (
+                          <a
+                            href={campaign.url}
+                            className="mt-3 inline-flex text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark"
+                          >
+                            {campaign.name} &rarr;
+                          </a>
+                        ))}
+                    </li>
+                  );
+                })}
+              </ul>
+              <p className="mt-4 text-sm text-charcoal-light">
+                Covering the triathlon specifically? The{" "}
+                <Link href="/campaigns/tri" className={linkClass}>
+                  Tri For The 22 page
+                </Link>{" "}
+                has the race facts.
+              </p>
+            </PressSection>
+            <PressSection id="contact" title="Media Contact">
+              <MediaContact email={CONTACT_EMAIL} fallbackHref="/contact" />
+            </PressSection>
+            <PressSection
+              id="brand"
+              title="Brand Reference"
+              description="For designers reproducing the mark. Reporters can skip this."
+            >
+              <p className="text-sm font-semibold uppercase tracking-wide text-charcoal-light">
+                {ORG_SUPPORTING_LINE}
+              </p>
+              <p className="mt-2 text-sm text-charcoal-light">{ORG_SUPPORTING_STATEMENT}</p>
+              <h3 id="brand-colors" className="mt-6 scroll-mt-28 text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">
+                Primary palette
+              </h3>
+              <div className="mt-3 flex flex-wrap gap-4">
+                {PRIMARY_PALETTE.map((swatch) => (
+                  <div key={swatch.name} className="flex items-center gap-2.5">
+                    <span
+                      aria-hidden="true"
+                      className="h-6 w-6 shrink-0 rounded-full border border-ink/10"
+                      style={{ backgroundColor: swatch.hex }}
+                    />
+                    <p className="text-xs text-charcoal-light">
+                      <span className="font-medium text-ink">{swatch.name}</span> — {swatch.hex}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              <details className="mt-6">
+                <summary className="cursor-pointer text-sm font-semibold uppercase tracking-wide text-bronze hover:text-bronze-dark">
+                  Full Mark Color Breakdown
+                </summary>
+                <p className="mt-3 text-sm text-charcoal-light">
+                  Every color in the mark is assigned, not decorative — the outer ring to a branch of
+                  the Armed Forces, the inner ring to a sector of first-responder service. See{" "}
+                  <Link href="/about#the-mark" className={linkClass}>
+                    The Mark
+                  </Link>{" "}
+                  on the About page for what the ring, star, and &quot;22&quot; represent.
+                </p>
+                <div className="mt-4">
+                  <BrandColorBreakdown />
+                </div>
+              </details>
+
+              <CTAButton href="/network" variant="secondary" className="mt-8">
+                Explore the Network
+              </CTAButton>
+            </PressSection>
+          </div>
+        </div>
+      </div>
     </>
   );
 }

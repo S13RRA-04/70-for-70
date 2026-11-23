@@ -34,22 +34,76 @@ export function formatPressDate(date: string): string {
 export interface PressNavItem {
   id: string;
   label: string;
+  /** A sub-anchor inside a section (e.g. the photos inside the media kit) — indented in the rail, omitted from the mobile chips. */
+  sub?: boolean;
 }
 
-/** In-page jump links — a reporter usually wants one thing (a photo, the bio, the contact). */
-export function PressJumpNav({ items }: { items: readonly PressNavItem[] }) {
+/** In-page jump links for narrow screens, where the side rail is hidden — a reporter usually wants one thing. */
+export function PressJumpNav({ items, className }: { items: readonly PressNavItem[]; className?: string }) {
   return (
-    <nav aria-label="On this page" className="flex flex-wrap gap-2">
-      {items.map((item) => (
-        <a
-          key={item.id}
-          href={`#${item.id}`}
-          className="rounded-full border border-line bg-white px-4 py-1.5 text-sm font-semibold text-navy transition-colors hover:border-navy"
-        >
-          {item.label}
-        </a>
-      ))}
+    <nav aria-label="On this page" className={cn("flex flex-wrap gap-2", className)}>
+      {items
+        .filter((item) => !item.sub)
+        .map((item) => (
+          <a
+            key={item.id}
+            href={`#${item.id}`}
+            className="rounded-full border border-line bg-white px-4 py-1.5 text-sm font-semibold text-navy transition-colors hover:border-navy"
+          >
+            {item.label}
+          </a>
+        ))}
     </nav>
+  );
+}
+
+/**
+ * Sticky left rail on wide screens: every section of a long newsroom one
+ * click away, with the media contact always in view instead of at the end.
+ */
+export function PressSideRail({
+  items,
+  contactHref,
+  email,
+}: {
+  items: readonly PressNavItem[];
+  contactHref: string;
+  email: string | null;
+}) {
+  return (
+    <aside className="hidden lg:block">
+      <div className="sticky top-28 space-y-6">
+        <nav aria-label="On this page">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-light">On this page</p>
+          <ul className="mt-3 border-l border-line">
+            {items.map((item) => (
+              <li key={item.id}>
+                <a
+                  href={`#${item.id}`}
+                  className={cn(
+                    "-ml-px block border-l-2 border-transparent py-1.5 transition-colors hover:border-navy hover:text-navy",
+                    item.sub ? "pl-7 text-[13px] text-charcoal-light" : "pl-4 text-sm font-semibold text-ink",
+                  )}
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <div className="rounded-xl border border-navy/20 bg-white p-4">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-bronze">Media contact</p>
+          <p className="mt-1.5 text-sm font-semibold text-ink">Cody Hitson, founder</p>
+          <a
+            href={contactHref}
+            className="mt-2 inline-flex items-center gap-1.5 break-all text-sm font-semibold text-navy hover:underline"
+          >
+            <Mail size={14} aria-hidden className="shrink-0" />
+            {email ?? "Contact form"}
+          </a>
+        </div>
+      </div>
+    </aside>
   );
 }
 
@@ -65,12 +119,16 @@ export function PressSection({
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} aria-labelledby={`${id}-heading`} className="scroll-mt-28">
-      <h2 id={`${id}-heading`} className="font-display text-2xl uppercase text-ink">
+    <section
+      id={id}
+      aria-labelledby={`${id}-heading`}
+      className="scroll-mt-28 border-t border-line pt-12 first:border-t-0 first:pt-0"
+    >
+      <h2 id={`${id}-heading`} className="font-display text-3xl uppercase text-ink">
         {title}
       </h2>
-      {description && <p className="mt-1 text-sm text-charcoal-light">{description}</p>}
-      <div className="mt-4">{children}</div>
+      {description && <p className="mt-1.5 max-w-2xl text-sm text-charcoal-light">{description}</p>}
+      <div className="mt-6">{children}</div>
     </section>
   );
 }
@@ -139,7 +197,7 @@ export function PressPhotos() {
       <p className="mb-4 rounded-lg border border-line bg-sand-light/60 px-4 py-3 text-sm text-charcoal-light">
         {PHOTO_USAGE_TERMS}
       </p>
-      <ul className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+      <ul className="grid grid-cols-2 gap-x-5 gap-y-6 sm:grid-cols-3">
         {PRESS_PHOTOS.map((photo) => (
           <li key={photo.src}>
             <figure>
@@ -148,7 +206,7 @@ export function PressPhotos() {
                   src={photo.src}
                   alt={photo.alt}
                   fill
-                  sizes="(min-width: 640px) 180px, 45vw"
+                  sizes="(min-width: 1024px) 300px, (min-width: 640px) 30vw, 45vw"
                   className="object-cover object-top"
                 />
               </div>
@@ -483,7 +541,7 @@ export function MediaKitDownload({ factSheetHref }: { factSheetHref: string }) {
           Logos, editorial photos with credits, 50- and 150-word bios, and usage terms in one ZIP.
         </p>
       </div>
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-2 sm:shrink-0">
         <a
           href={MEDIA_KIT_ZIP_PATH}
           download

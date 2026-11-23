@@ -32,6 +32,14 @@ test.describe("resource pathways", () => {
     await expect(page.getByRole("button", { name: /^Fraud & digital safety/, pressed: true })).toBeVisible();
   });
 
+  test("maps the adaptive outdoor pathway to the fitness and outdoors directory", async ({ page }) => {
+    await page.goto("/resources?pathway=adaptive-outdoor-sports");
+
+    await expect(page).toHaveURL(/\/resources\?need=fitness$/);
+    await expect(page.getByRole("button", { name: "Remove filter: Fitness & outdoors" })).toBeVisible();
+    await expect(page.getByRole("button", { name: /^Fitness & outdoors/, pressed: true })).toBeVisible();
+  });
+
   test("offers a special-needs follow-up for military children and dependents", async ({ page }) => {
     await page.goto("/resources/guide");
 
@@ -41,6 +49,20 @@ test.describe("resource pathways", () => {
 
     await expect(page.getByRole("button", { name: "Special medical or educational needs" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Child care or respite" })).toBeVisible();
+  });
+
+  test("offers disabled veterans a pathway into adaptive endurance and outdoor sports", async ({ page }) => {
+    await page.goto("/resources/guide");
+
+    await page.getByRole("button", { name: "Veteran" }).click();
+    await page.getByRole("button", { name: "Continue" }).click();
+    await page.getByRole("button", { name: "I want to get into adaptive sports or outdoor recreation" }).click();
+    await page.getByRole("button", { name: "Continue" }).click();
+
+    await expect(page.getByRole("button", { name: "Triathlon, running, cycling, or swimming" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Borrow or fund adaptive equipment" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Accessible hunting or fishing" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Outdoor respite with family or a caregiver" })).toBeVisible();
   });
 
   test("ranks a service-tag match ahead of broad category fallbacks", async ({ page }) => {

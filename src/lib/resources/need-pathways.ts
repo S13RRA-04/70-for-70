@@ -125,6 +125,13 @@ export const NEED_PATHWAYS = [
     categoryFallbackIds: ["legal-benefits", "financial-assistance"],
     searchPhrases: ["fraud", "scam", "identity theft", "phishing", "stolen identity", "benefits fraud", "online safety", "someone stole my information"],
   },
+  {
+    id: "adaptive-outdoor-sports",
+    label: "Adaptive sports or outdoor recreation",
+    prompt: "I want to get into adaptive sports or outdoor recreation",
+    categoryFallbackIds: ["sports-fitness", "outdoor-programs", "equipment-grants", "family-support"],
+    searchPhrases: ["disabled veteran sports", "adaptive sports", "paratriathlon", "adaptive triathlon", "handcycle", "racing wheelchair", "adaptive swimming", "adaptive equipment loan", "accessible hunting", "accessible fishing", "state park disability pass", "outdoor caregiver respite"],
+  },
 ] as const;
 
 export type NeedPathwayId = (typeof NEED_PATHWAYS)[number]["id"];
@@ -231,6 +238,13 @@ export const PATHWAY_FOLLOW_UPS: Record<NeedPathwayId, { id: string; label: stri
     { id: "safety-identity-theft", label: "Recover from identity theft", serviceTags: ["identity-theft", "recovery-plan", "victim-assistance"] },
     { id: "safety-prevention", label: "Check something suspicious", serviceTags: ["scam-prevention", "information-referral"] },
     { id: "safety-unsure", label: "I'm not sure what happened", serviceTags: [] },
+  ],
+  "adaptive-outdoor-sports": [
+    { id: "adaptive-endurance", label: "Triathlon, running, cycling, or swimming", serviceTags: ["paratriathlon", "adaptive-triathlon", "para-cycling", "adaptive-running", "adaptive-swimming", "endurance-sports"] },
+    { id: "adaptive-equipment", label: "Borrow or fund adaptive equipment", serviceTags: ["adaptive-equipment", "equipment-loan", "sports-equipment-grant", "handcycle", "racing-wheelchair"] },
+    { id: "accessible-field-sports", label: "Accessible hunting or fishing", serviceTags: ["adaptive-hunting", "adaptive-fishing", "hunting-license", "fishing-license"] },
+    { id: "recreation-benefits", label: "State park or recreation benefits", serviceTags: ["state-park-pass", "recreation-pass", "veteran-recreation-benefit"] },
+    { id: "outdoor-family-respite", label: "Outdoor respite with family or a caregiver", serviceTags: ["outdoor-respite", "caregiver-retreat", "family-retreat", "accessible-lodging"] },
   ],
 };
 
