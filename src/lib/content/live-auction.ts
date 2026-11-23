@@ -106,7 +106,7 @@ export const LIVE_AUCTION_ITEMS: LiveAuctionItem[] = [
       "An Epiphone J-45 Studio acoustic guitar in gloss black with ivory binding and a red tortoiseshell pickguard bearing the autographs of Gary Stanton and Charlie Muncaster. Muscadine Bloodline stepped up to support Tri For The 22 with this one-of-a-kind piece. Bidding closes May 17, 2027 at noon CT — the day after IRONMAN 70.3 Chattanooga.",
     provenanceLine:
       "Donated through Gibson Gives · Signed by Muscadine Bloodline · Benefiting Mighty Oaks Warrior Programs and Veterans and Athletes United",
-    biddingUrl: "https://givebutter.com/c/for-the-22-muscadine-bloodline-5v1dhv/auction",
+    biddingUrl: "https://givebutter.com/c/forthe22",
     platform: "Givebutter",
     // Relisted on Givebutter Nov. 18, 2026 — closes with every other Givebutter item.
     opensAtIso: "2026-11-18T00:00:00-06:00",

@@ -7,11 +7,15 @@ import { useSearchParams } from "next/navigation";
 import {
   Accessibility,
   Activity,
+  Baby,
   Briefcase,
+  Clock3,
   DollarSign,
   HeartPulse,
   Home,
+  MapPin,
   Scale,
+  ShieldCheck,
   SlidersHorizontal,
   Sunrise,
   Users,
@@ -58,6 +62,10 @@ const NEED_ICONS: Record<NeedId, LucideIcon> = {
   career: Briefcase,
   legal: Scale,
   fitness: Activity,
+  aging: Clock3,
+  children: Baby,
+  access: MapPin,
+  safety: ShieldCheck,
 };
 
 const btn = "inline-flex min-h-11 items-center justify-center gap-2 rounded-[4px] border-[1.5px] px-[18px] text-sm font-bold";

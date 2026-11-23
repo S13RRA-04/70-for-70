@@ -16,7 +16,7 @@
  */
 import { NEED_PATHWAYS } from "@/lib/resources/need-pathways";
 
-export const NEED_IDS = ["mental", "addiction", "health", "financial", "housing", "family", "career", "legal", "fitness"] as const;
+export const NEED_IDS = ["mental", "addiction", "health", "financial", "housing", "family", "career", "legal", "fitness", "aging", "children", "access", "safety"] as const;
 export type NeedId = (typeof NEED_IDS)[number];
 
 export const AUDIENCE_IDS = ["veteran", "military", "le", "fire", "ems", "dispatch", "corrections", "family"] as const;
@@ -60,6 +60,10 @@ const BASE_NEEDS: { id: NeedId; label: string; synonyms: string[] }[] = [
   { id: "career", label: "Career & education", synonyms: ["job", "resume", "school", "transition", "scholarship", "employment"] },
   { id: "legal", label: "Legal & benefits", synonyms: ["lawyer", "va claim", "disability claim", "discharge", "reentry", "benefits"] },
   { id: "fitness", label: "Fitness & outdoors", synonyms: ["sports", "running", "adaptive", "outdoor", "hunting", "fishing", "cycling"] },
+  { id: "aging", label: "Aging & long-term care", synonyms: ["older veteran", "elder care", "home health", "nursing home", "aid and attendance", "housebound"] },
+  { id: "children", label: "Children & dependents", synonyms: ["military child", "child care", "daycare", "tutoring", "school", "dependent"] },
+  { id: "access", label: "Rural & transportation access", synonyms: ["rural", "transportation", "travel reimbursement", "mileage", "telehealth", "remote care"] },
+  { id: "safety", label: "Fraud & digital safety", synonyms: ["fraud", "scam", "identity theft", "phishing", "online safety"] },
 ];
 
 /** Legacy `NEED_PATHWAYS` situation → need. Also used to fold each situation's search phrases into that need's synonyms. */
@@ -76,6 +80,11 @@ export const PATHWAY_TO_NEED: Record<string, NeedId> = {
   "fr-occupational": "mental",
   "women-veterans": "legal",
   "marriage-parenting": "family",
+  aging: "aging",
+  "children-dependents": "children",
+  "rural-access": "access",
+  "benefits-complications": "legal",
+  "digital-safety": "safety",
 };
 
 export const NEEDS: { id: NeedId; label: string; synonyms: string[] }[] = BASE_NEEDS.map((need) => ({

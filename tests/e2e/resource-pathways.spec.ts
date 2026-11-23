@@ -24,6 +24,25 @@ test.describe("resource pathways", () => {
     await expect(page.getByRole("button", { name: /^Remove filter:/ })).toHaveCount(0);
   });
 
+  test("maps newly added need pathways to focused directory filters", async ({ page }) => {
+    await page.goto("/resources?pathway=digital-safety");
+
+    await expect(page).toHaveURL(/\/resources\?need=safety$/);
+    await expect(page.getByRole("button", { name: "Remove filter: Fraud & digital safety" })).toBeVisible();
+    await expect(page.getByRole("button", { name: /^Fraud & digital safety/, pressed: true })).toBeVisible();
+  });
+
+  test("offers a special-needs follow-up for military children and dependents", async ({ page }) => {
+    await page.goto("/resources/guide");
+
+    await page.getByRole("button", { name: "Continue" }).click();
+    await page.getByRole("button", { name: "My children or dependents need support" }).click();
+    await page.getByRole("button", { name: "Continue" }).click();
+
+    await expect(page.getByRole("button", { name: "Special medical or educational needs" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Child care or respite" })).toBeVisible();
+  });
+
   test("ranks a service-tag match ahead of broad category fallbacks", async ({ page }) => {
     // The guided flow lives on its own page and starts at the first question.
     await page.goto("/resources/guide");

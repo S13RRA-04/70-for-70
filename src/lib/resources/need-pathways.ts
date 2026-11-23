@@ -90,6 +90,41 @@ export const NEED_PATHWAYS = [
     categoryFallbackIds: ["family-support", "mental-health"],
     searchPhrases: ["marriage", "relationship", "couples", "communication", "parenting", "family conflict", "military family", "deployment reunion", "my partner and i need help"],
   },
+  {
+    id: "aging",
+    label: "Aging or long-term care",
+    prompt: "I'm aging and need help staying independent",
+    categoryFallbackIds: ["health-disability", "family-support", "housing-transportation", "legal-benefits"],
+    searchPhrases: ["aging", "older veteran", "elder care", "long-term care", "nursing home", "home health", "adult day care", "aid and attendance", "housebound", "i need help staying independent"],
+  },
+  {
+    id: "children-dependents",
+    label: "Children or dependents",
+    prompt: "My children or dependents need support",
+    categoryFallbackIds: ["family-support", "financial-assistance", "career-education"],
+    searchPhrases: ["military child", "dependent", "child care", "daycare", "tutoring", "school", "deployment support for kids", "extracurricular grant", "my child needs help"],
+  },
+  {
+    id: "rural-access",
+    label: "Rural access or transportation",
+    prompt: "Distance or transportation is keeping me from care",
+    categoryFallbackIds: ["housing-transportation", "health-disability", "mental-health"],
+    searchPhrases: ["rural", "transportation", "travel reimbursement", "mileage", "telehealth", "loaned tablet", "internet access", "remote care", "i live far from care"],
+  },
+  {
+    id: "benefits-complications",
+    label: "Benefits denials or appeals",
+    prompt: "I'm fighting a denial, appeal, or complicated claim",
+    categoryFallbackIds: ["legal-benefits"],
+    searchPhrases: ["benefits denial", "va appeal", "decision review", "disability claim", "accredited representative", "discharge upgrade", "claims help", "my claim was denied"],
+  },
+  {
+    id: "digital-safety",
+    label: "Fraud or identity theft",
+    prompt: "I'm dealing with a scam, fraud, or identity theft",
+    categoryFallbackIds: ["legal-benefits", "financial-assistance"],
+    searchPhrases: ["fraud", "scam", "identity theft", "phishing", "stolen identity", "benefits fraud", "online safety", "someone stole my information"],
+  },
 ] as const;
 
 export type NeedPathwayId = (typeof NEED_PATHWAYS)[number]["id"];
@@ -166,6 +201,36 @@ export const PATHWAY_FOLLOW_UPS: Record<NeedPathwayId, { id: string; label: stri
     { id: "parenting-family", label: "Parenting or family support", serviceTags: ["parenting", "family-support", "deployment-support"] },
     { id: "helping-veteran-care", label: "Help encouraging a Veteran to seek care", serviceTags: ["family-coaching", "treatment-engagement", "mental-health-referral"] },
     { id: "relationship-unsure", label: "I'm not sure what kind of help fits", serviceTags: [] },
+  ],
+  aging: [
+    { id: "aging-home-community", label: "Help at home or in the community", serviceTags: ["home-health", "adult-day-care", "aging-in-place", "eldercare-referral"] },
+    { id: "aging-residential", label: "Residential or nursing-home care", serviceTags: ["long-term-care", "nursing-home"] },
+    { id: "aging-benefits", label: "Aid and Attendance or other benefits", serviceTags: ["aid-and-attendance", "housebound-benefit", "benefits-navigation"] },
+    { id: "aging-unsure", label: "Caregiver support or a break", serviceTags: ["caregiver-support", "respite-care", "caregiver-training"] },
+  ],
+  "children-dependents": [
+    { id: "children-childcare", label: "Child care or respite", serviceTags: ["childcare-assistance", "respite-care", "efmp"] },
+    { id: "children-school", label: "School, tutoring, or activities", serviceTags: ["tutoring", "extracurricular-grant", "education-support", "special-education", "iep-advocacy"] },
+    { id: "children-deployment", label: "Deployment, moves, or family change", serviceTags: ["deployment-support", "military-child", "family-resilience"] },
+    { id: "children-unsure", label: "Special medical or educational needs", serviceTags: ["special-needs-navigation", "efmp", "special-education"] },
+  ],
+  "rural-access": [
+    { id: "rural-transportation", label: "A ride or travel reimbursement", serviceTags: ["medical-transportation", "travel-reimbursement", "mileage-reimbursement", "charitable-flight", "long-distance-travel"] },
+    { id: "rural-telehealth", label: "Telehealth or a connected device", serviceTags: ["telehealth", "loaned-device", "digital-access"] },
+    { id: "rural-local-care", label: "Care closer to home", serviceTags: ["rural-health", "mobile-care", "community-care"] },
+    { id: "rural-unsure", label: "I'm not sure what would help", serviceTags: [] },
+  ],
+  "benefits-complications": [
+    { id: "benefits-claim", label: "Filing or reviewing a claim", serviceTags: ["benefits-navigation", "claims-assistance"] },
+    { id: "benefits-appeal", label: "A denial, review, or appeal", serviceTags: ["benefits-appeal", "decision-review"] },
+    { id: "benefits-discharge", label: "A discharge-status problem", serviceTags: ["discharge-upgrade"] },
+    { id: "benefits-unsure", label: "I'm not sure where to start", serviceTags: [] },
+  ],
+  "digital-safety": [
+    { id: "safety-report-fraud", label: "Report a scam or benefits fraud", serviceTags: ["fraud-reporting", "veteran-fraud"] },
+    { id: "safety-identity-theft", label: "Recover from identity theft", serviceTags: ["identity-theft", "recovery-plan", "victim-assistance"] },
+    { id: "safety-prevention", label: "Check something suspicious", serviceTags: ["scam-prevention", "information-referral"] },
+    { id: "safety-unsure", label: "I'm not sure what happened", serviceTags: [] },
   ],
 };
 
