@@ -8,6 +8,7 @@ import { DONATE_LINK, ORG_TAGLINE } from "@/lib/constants";
 import { ORG_PILLARS, PILLAR_TEXT, type MissionPillar } from "@/lib/pillars";
 import { cn } from "@/lib/utils";
 import { AuctionSpotlight } from "@/components/live/auction-spotlight";
+import { GivingTuesdaySpotlight } from "@/components/campaign/giving-tuesday-spotlight";
 
 /**
  * Org homepage — a front door, not the whole house.
@@ -131,6 +132,8 @@ export default async function HomePage() {
       </section>
 
       {/* Renders only while an auction is open or upcoming. */}
+      <GivingTuesdaySpotlight />
+
       <AuctionSpotlight />
 
       {/* Three doors — one per mission pillar. */}

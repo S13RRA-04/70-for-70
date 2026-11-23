@@ -15,6 +15,7 @@ import { PartnerCard } from "@/components/partners/partner-card";
 import { MissionProgress } from "@/components/campaign/mission-progress";
 import { CampaignAllocation } from "@/components/campaign/campaign-allocation";
 import { GivingLevels } from "@/components/campaign/giving-levels";
+import { GivingTuesdaySpotlight } from "@/components/campaign/giving-tuesday-spotlight";
 import { DONATE_URL, MISSION_NAME, SITE_NAME, SITE_URL } from "@/lib/constants";
 import { formatNumber } from "@/lib/utils";
 import { pageMetadata } from "@/lib/metadata";
@@ -79,7 +80,9 @@ export default async function DonatePage() {
         </p>
       </PageHero>
 
-      <section className="py-16 sm:py-20">
+      <GivingTuesdaySpotlight giveHref="#give" />
+
+      <section id="give" className="scroll-mt-28 py-16 sm:py-20">
         <Container>
           <SectionHeading eyebrow="Your Gift" title="Choose Where Your Gift Goes" />
           <RevealGrid>

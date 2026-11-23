@@ -228,7 +228,7 @@ export const AWARENESS_CALENDAR: AwarenessEntry[] = [
     priority: true,
     summary: "Recognizes the children of military families and the unique challenges they face.",
     description:
-      "Highlight the children and spouses who carry the weight of military service — the sacrifices made at home are part of the same story as the sacrifices made in uniform.",
+      "Military children move, adapt, and wait out deployments alongside the service member in their family. Month of the Military Child recognizes that the sacrifices made at home are part of the same story as the sacrifices made in uniform.",
     actionCTA: { label: "Meet Our Beneficiary Organizations", href: `${SITE_URL}/impact#beneficiaries` },
     resourceLinks: [
       { label: "Get Involved", href: `${SITE_URL}/campaigns` },
@@ -303,7 +303,7 @@ export const AWARENESS_CALENDAR: AwarenessEntry[] = [
     priority: true,
     summary: "A month recognizing active-duty service members, veterans, and military families.",
     description:
-      "Build a monthlong campaign around the Chattanooga 70.3 race and the $70K Mission — military appreciation, fallen officers, EMS, mental health, and Memorial Day all converge in May.",
+      "May honors the service members, veterans, and military families who carry the weight of service, and it closes with Memorial Day. It's also the month Tri For The 22 builds toward: IRONMAN 70.3 Chattanooga, raced to raise money for The $70K Mission.",
     actionCTA: { label: "Follow the Race Journey", href: TRI_PAGE_URL },
     resourceLinks: [
       { label: "Explore the $70K Mission", href: "/70k" },
@@ -322,7 +322,7 @@ export const AWARENESS_CALENDAR: AwarenessEntry[] = [
     priority: true,
     summary: "A national month raising awareness of mental health, including the toll of service-related trauma.",
     description:
-      "Mental health converges with Military Appreciation Month in May — pair storytelling with a direct path to vetted resources for anyone struggling.",
+      "Mental Health Awareness Month shares May with Military Appreciation Month, a reminder that the toll of service-related trauma is real and treatable. If you or someone you know is struggling, the For The 22 directory lists reviewed programs for veterans, first responders, and their families.",
     actionCTA: { label: "Find Mental Health Resources", href: "/resources" },
     resourceLinks: [{ label: "Crisis Resources", href: "/crisis" }],
   },
@@ -410,7 +410,7 @@ export const AWARENESS_CALENDAR: AwarenessEntry[] = [
     priority: true,
     summary: "A national month raising awareness of post-traumatic stress and its treatment.",
     description:
-      "Share recovery stories and vetted resources, including support from beneficiary organizations working directly with veterans and first responders managing PTSD.",
+      "Post-traumatic stress is common among veterans and first responders, and it is treatable. PTSD Awareness Month is a time to talk about it openly and to point people toward support, including the reviewed programs in the For The 22 directory.",
     actionCTA: { label: "Find PTSD Resources", href: "/resources" },
     resourceLinks: [{ label: "Meet Our Beneficiaries", href: `${SITE_URL}/impact#beneficiaries` }],
     bannerLeadDays: 0,
@@ -565,9 +565,10 @@ export const AWARENESS_CALENDAR: AwarenessEntry[] = [
     categoryIds: ["mental-health"],
     tone: "raise-awareness",
     priority: true,
-    summary: "A national month focused on suicide prevention, directly on-mission for an organization built around veteran and first-responder suicide prevention.",
+    // No bannerLeadDays: the bespoke AwarenessBanner already covers September, so this entry only feeds the calendar listing.
+    summary: "A national month focused on suicide prevention and on connecting people with help before a crisis.",
     description:
-      "Coordinate a monthlong resource and storytelling campaign focused on connection and getting help. The site's existing sitewide awareness banner already covers this month on its own — this calendar entry is for the directory listing, not a second banner.",
+      "Suicide prevention is why For The 22 exists. This month is about connection: checking in on the people around you, talking openly, and knowing where help is. If you're in crisis, call 988 and press 1 for the Veterans Crisis Line, or text 838255.",
     actionCTA: { label: "Find Crisis Resources", href: "/crisis" },
     resourceLinks: [
       { label: "Call or Text 988", href: "tel:988" },
@@ -706,7 +707,7 @@ export const AWARENESS_CALENDAR: AwarenessEntry[] = [
     priority: true,
     summary: "A national month honoring veterans, service members, and the families who support them.",
     description:
-      "Publish veteran and family stories, spotlight Mighty Oaks and Veterans and Athletes United, and recruit supporters for the mission.",
+      "November honors veterans, service members, and the families who serve alongside them. For The 22 supports that work year-round through Mighty Oaks Foundation and Veterans and Athletes United, the organizations The $70K Mission funds.",
     actionCTA: { label: "Meet Our Beneficiary Organizations", href: `${SITE_URL}/impact#beneficiaries` },
     resourceLinks: [
       { label: "Read Veteran Stories", href: TRI_PAGE_URL },
@@ -772,12 +773,16 @@ export const AWARENESS_CALENDAR: AwarenessEntry[] = [
     categoryIds: [],
     tone: "celebrate",
     priority: true,
-    summary: "A global day of generosity — the date moves every year (the Tuesday after Thanksgiving), so this entry is refreshed annually.",
-    description: "Seek a matching donor or sponsor and run a concentrated 24-hour fundraising appeal.",
+    // The date moves every year (the Tuesday after Thanksgiving): re-date dateRule/displayDate/bannerCopy annually.
+    // src/lib/giving-tuesday.ts reads dateRule to time the homepage and /donate spotlight.
+    summary: "A global day of generosity, held each year on the Tuesday after Thanksgiving.",
+    description:
+      "GivingTuesday is a global day of giving, held each year on the Tuesday after Thanksgiving. For The 22 marks it by asking supporters to give directly to Mighty Oaks Foundation and Veterans and Athletes United, the organizations The $70K Mission funds. Every verified gift counts toward the goal.",
     actionCTA: { label: "Donate Now", href: DONATE_URL },
     resourceLinks: [{ label: "See the $70K Mission", href: "/70k" }],
     bannerLeadDays: 5,
-    bannerCopy: "GivingTuesday is here — a day of generosity for the organizations behind the mission.",
+    // Shown from 5 days out through the day itself, so it names the date rather than saying "is here".
+    bannerCopy: "December 1 is GivingTuesday — a day of generosity for the organizations behind the mission.",
   },
   {
     slug: "pearl-harbor-remembrance-day",
