@@ -30,7 +30,8 @@ interface RateLimitBinding {
 export type RateLimitBindingName =
   | "RATE_LIMITER_FORMS"
   | "RATE_LIMITER_AUTH"
-  | "RATE_LIMITER_ADMIN";
+  | "RATE_LIMITER_ADMIN"
+  | "RATE_LIMITER_FINANCE";
 
 const hits = new Map<string, { count: number; windowStart: number }>();
 
