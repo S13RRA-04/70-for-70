@@ -1,4 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
+import { FINANCE_API_TEST_KEY } from "./tests/e2e/finance-test-key";
 
 const baseURL = "http://127.0.0.1:3100";
 
@@ -30,6 +31,8 @@ export default defineConfig({
       ...process.env,
       SITE_LIVE: "true",
       CAMPAIGN_LIVE: "true",
+      // Test-only key so tests/e2e/finance-api.spec.ts can exercise auth and validation.
+      FINANCE_API_KEY: FINANCE_API_TEST_KEY,
     },
   },
 });

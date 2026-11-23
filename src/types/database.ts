@@ -98,6 +98,9 @@ export interface MileRow {
 
 export type DedicationType = "in_honor_of" | "in_memory_of";
 
+/** Who collected a donation's money. Null = not recorded. See supabase/2026-11-23-donation-collected-by.sql. */
+export type DonationCollectedBy = "for_the_22" | "beneficiary";
+
 export interface DonationRow {
   id: string;
   mile_id: string | null;
@@ -115,6 +118,7 @@ export interface DonationRow {
   dedication_public: boolean;
   date: string;
   external_reference: string | null;
+  collected_by: DonationCollectedBy | null;
   verified: boolean;
   created_at: string;
 }
@@ -126,7 +130,7 @@ export interface DonationRow {
  * never fetched into a public page's data, let alone rendered. See
  * src/lib/data/donation-columns.ts.
  */
-export type PublicDonationRow = Omit<DonationRow, "donor_email">;
+export type PublicDonationRow = Omit<DonationRow, "donor_email" | "collected_by">;
 
 /** Joined shape returned by getRecentDonations() — see src/lib/data/donations.ts. */
 export interface DonationWithMile extends PublicDonationRow {

@@ -54,16 +54,22 @@ Examples:
 | `counterparty` | Donor name or sponsoring organization |
 | `anonymous`    | The donor asked not to be named publicly |
 | `beneficiary`  | Organization the gift was credited to |
-| `received_by`  | Who actually took the money, when the site knows |
-| `pass_through` | `true` when someone other than For The 22 received it, `false` when For The 22 did, `null` when unknown |
+| `received_by`  | Who actually collected the money: `For The 22`, the beneficiary's name, or `null` when not recorded |
+| `pass_through` | `true` when the donor gave directly to the beneficiary, `false` when For The 22 collected it, `null` when not recorded |
 | `reference`    | Receipt or processor reference entered by an admin |
 | `status`       | `verified` for donations; `approved` or `completed` for sponsorships |
 | `memo`         | Human-readable description, including any dedication |
 
-- **Donations:** only verified ones. Unverified self-reports are left out. Gifts
-  made on a beneficiary's own platform (Mighty Oaks, VAU) have `pass_through: true`.
-  They're money raised *for* those organizations, not For The 22 income. Book them
-  in a memo or soft-credit account, or skip them.
+- **Donations:** only verified ones. Unverified self-reports are left out.
+  `beneficiary` says who a gift is *for*. Who *collected* it comes from the
+  donation's "Who collected the money?" field in `/admin/donations`
+  (`donations.collected_by`):
+  - *For The 22 collected it* (booth cash, Venmo): `received_by: "For The 22"`,
+    `pass_through: false`. This is cash For The 22 holds until it's passed on.
+  - *Donor gave on the beneficiary's platform* (OneCause, PayPal):
+    `received_by: <beneficiary>`, `pass_through: true`. This is money raised for
+    them, not For The 22 income.
+  - *Not recorded*: both `null`. The API never guesses from `beneficiary`.
 - **Sponsorships:** only `approved` and `completed`, split into a cash line and an
   in-kind line. The site doesn't record who received sponsorship money or whether
   it was paid, so `received_by` and `pass_through` are `null`. Confirm before
@@ -89,4 +95,7 @@ Responses are `Cache-Control: no-store`. In CSV output, values starting with `=`
 `+`, `-` or `@` are prefixed with `'` so a donor-entered name can't run as a
 spreadsheet formula.
 
-Code: `src/app/api/finance/transactions/route.ts`, `src/lib/finance/ledger.ts`.
+Code: `src/app/api/finance/transactions/route.ts`, `src/lib/finance/ledger.ts`
+(queries), `src/lib/finance/ledger-format.ts` (row mapping and CSV). Tests:
+`tests/e2e/finance-api.spec.ts`, which run in CI before every deploy. The
+Google Sheets sync is `scripts/google-sheets/` (Apps Script and its manifest).

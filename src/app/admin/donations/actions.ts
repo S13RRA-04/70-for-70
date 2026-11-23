@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { requireAdminUser } from "@/lib/supabase/require-admin";
 import { createAdminClient } from "@/lib/supabase/admin";
-import type { DedicationType, MileStatus } from "@/types/database";
+import type { DedicationType, DonationCollectedBy, MileStatus } from "@/types/database";
 
 const LIST_PATH = "/admin/donations";
 
@@ -17,6 +17,7 @@ function withError(path: string, message: string) {
 }
 
 const DEDICATION_TYPES: DedicationType[] = ["in_honor_of", "in_memory_of"];
+const COLLECTED_BY: DonationCollectedBy[] = ["for_the_22", "beneficiary"];
 
 /** Fields shared by create/update, parsed from FormData and validated. */
 function parseDonationFields(formData: FormData) {
@@ -37,6 +38,8 @@ function parseDonationFields(formData: FormData) {
   const dedicationMessage = String(formData.get("dedication_message") ?? "").trim() || null;
   const dedicationPublic = formData.get("dedication_public") === "on";
   const verified = formData.get("verified") === "on";
+  const collectedByRaw = String(formData.get("collected_by") ?? "").trim();
+  const collectedBy = COLLECTED_BY.includes(collectedByRaw as DonationCollectedBy) ? (collectedByRaw as DonationCollectedBy) : null;
 
   if (!donorName || !Number.isFinite(amount) || amount <= 0 || !dateRaw) {
     return { ok: false, error: "Donor name, a positive amount, and a date are required." } as const;
@@ -64,6 +67,7 @@ function parseDonationFields(formData: FormData) {
       dedication_public: dedicationPublic,
       date: date.toISOString(),
       external_reference: externalReference,
+      collected_by: collectedBy,
       verified,
     },
     mileNumber,

@@ -68,6 +68,7 @@ export default async function DonationDetailPage(props: PageProps<"/admin/donati
             date: d.date.slice(0, 10),
             anonymous: d.anonymous,
             external_reference: d.external_reference,
+            collected_by: d.collected_by,
             dedication_type: d.dedication_type,
             dedication_name: d.dedication_name,
             dedication_branch: d.dedication_branch,

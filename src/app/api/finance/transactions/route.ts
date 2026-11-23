@@ -60,7 +60,8 @@ export async function GET(request: Request) {
   if (from && to && from > to) return error(400, "from must be on or before to.");
 
   const typeParam = params.get("type");
-  const types = typeParam ? typeParam.split(",").map((type) => type.trim()) : [...LEDGER_TYPES];
+  // An explicit but empty ?type= is an error, not "all types".
+  const types = typeParam === null ? [...LEDGER_TYPES] : typeParam.split(",").map((type) => type.trim());
   if (!types.length || types.some((type) => !(LEDGER_TYPES as readonly string[]).includes(type))) {
     return error(400, `type must be a comma-separated list of: ${LEDGER_TYPES.join(", ")}.`);
   }

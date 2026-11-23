@@ -1,4 +1,4 @@
-import type { DedicationType } from "@/types/database";
+import type { DedicationType, DonationCollectedBy } from "@/types/database";
 
 const DEDICATION_TYPES: { value: DedicationType; label: string }[] = [
   { value: "in_honor_of", label: "In Honor Of" },
@@ -14,6 +14,7 @@ export interface DonationFieldDefaults {
   date?: string;
   anonymous?: boolean;
   external_reference?: string | null;
+  collected_by?: DonationCollectedBy | null;
   dedication_type?: DedicationType | null;
   dedication_name?: string | null;
   dedication_branch?: string | null;
@@ -120,6 +121,19 @@ export function DonationFields({
           />
         </Field>
       </div>
+
+      <Field label="Who collected the money? (for bookkeeping)" htmlFor="collected_by">
+        <select
+          id="collected_by"
+          name="collected_by"
+          defaultValue={defaults.collected_by ?? ""}
+          className="mt-1 w-full rounded-sm border border-ink/20 bg-off-white px-3 py-2 text-sm text-ink"
+        >
+          <option value="">— Not recorded —</option>
+          <option value="for_the_22">For The 22 collected it (booth cash, Venmo) and passes it on</option>
+          <option value="beneficiary">Donor gave directly on the beneficiary&apos;s platform</option>
+        </select>
+      </Field>
 
       <Field label="Reference Note" htmlFor="external_reference">
         <input

@@ -95,9 +95,15 @@ create table if not exists public.donations (
   dedication_public boolean not null default true,
   date timestamptz not null default now(),
   external_reference text,
+  -- Who collected the money (see supabase/2026-11-23-donation-collected-by.sql):
+  -- for_the_22, beneficiary, or null when not recorded.
+  collected_by text check (collected_by is null or collected_by in ('for_the_22', 'beneficiary')),
   verified boolean not null default false,
   created_at timestamptz not null default now()
 );
+
+-- Existing databases: added after the table was first created.
+alter table public.donations add column if not exists collected_by text;
 
 create index if not exists donations_mile_id_idx on public.donations (mile_id);
 create index if not exists donations_verified_idx on public.donations (verified);
