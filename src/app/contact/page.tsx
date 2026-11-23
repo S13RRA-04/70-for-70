@@ -6,7 +6,8 @@ import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
   title: "Contact",
-  description: "General contact for For The 22 — media and other questions.",
+  description:
+    "Contact For The 22 about media requests, partnerships, sponsorships, in-kind support, or general questions. In crisis? Call 988 and press 1.",
   canonical: "/contact",
 });
 

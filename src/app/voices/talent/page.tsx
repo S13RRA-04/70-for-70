@@ -29,10 +29,9 @@ import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
-  title: "Voices For The 22 — Talent Participation | For The 22",
-  absoluteTitle: true,
+  title: "Voices For The 22 — Talent Participation",
   description:
-    "Voices For The 22 brings together influential voices to support the mental health of veterans, first responders and their families. Learn how to participate.",
+    "Record a 20–30 second message of encouragement for veterans, first responders and their families. A smartphone is enough, and there's no cost or travel.",
   canonical: PORTAL_PATHS.talent,
 });
 

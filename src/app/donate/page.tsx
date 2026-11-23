@@ -21,7 +21,7 @@ import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 
 export const metadata = pageMetadata({
-  title: "Donate",
+  title: "Donate to Veteran & First Responder Nonprofits",
   description: `Give directly to Mighty Oaks Foundation and Veterans and Athletes United — the organizations ${MISSION_NAME} funds — through each one's own donation platform.`,
   canonical: "/donate",
 });

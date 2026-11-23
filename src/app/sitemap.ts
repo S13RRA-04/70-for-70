@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { US_STATES_GRID } from "@/lib/content/us-states";
 import { slugifyResourceName } from "@/lib/content/resources";
-import { getResources } from "@/lib/data/resources";
+import { getPublishedDirectory } from "@/lib/data/resource-directory";
 import { getPublishedLiveEvents } from "@/lib/data/live-events";
 import { PREMIERES } from "@/lib/content/premieres";
 import { HAS_LISTED_AUCTION_ITEMS } from "@/lib/content/live-auction";
@@ -22,21 +22,24 @@ const ORG_ROUTES = [
   "/voices/talent", "/voices/talent/recording-guide", "/voices/talent/permissions",
 ];
 
+/**
+ * `lastModified` is only set where a real date exists (a resource's
+ * verification, a journal entry's publish date). Stamping static pages with
+ * the request time told crawlers every page changed on every fetch, which
+ * teaches them to ignore lastmod for the whole site.
+ */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   if (!isOrgLive()) return [{ url: `${SITE_URL}/`, lastModified: new Date() }];
 
-  const orgEntries: MetadataRoute.Sitemap = ORG_ROUTES.map((path) => ({
-    url: `${SITE_URL}${path}`,
-    lastModified: new Date(),
-  }));
+  const orgEntries: MetadataRoute.Sitemap = ORG_ROUTES.map((path) => ({ url: `${SITE_URL}${path}` }));
   const stateEntries: MetadataRoute.Sitemap = US_STATES_GRID.map((state) => ({
     url: `${SITE_URL}/resources/${state.code.toLowerCase()}`,
-    lastModified: new Date(),
   }));
-  const resources = await getResources();
+  // The same published, de-duplicated list the detail pages render, so the sitemap never lists a URL that 404s.
+  const { resources } = await getPublishedDirectory();
   const resourceEntries: MetadataRoute.Sitemap = resources.map((resource) => ({
     url: `${SITE_URL}/resources/${slugifyResourceName(resource.name)}`,
-    lastModified: resource.verifiedDate ? new Date(resource.verifiedDate) : new Date(),
+    ...(resource.verifiedDate && { lastModified: new Date(resource.verifiedDate) }),
   }));
   const [liveEvents, journalEntries, voices] = await Promise.all([getPublishedLiveEvents(), getJournalEntries(), getVoiceGallery()]);
   const campaignEntries: MetadataRoute.Sitemap = [
@@ -44,14 +47,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: TRI_BIKE_BUILD_URL, lastModified: new Date(getBikeBuildLastUpdated()) },
     ...journalEntries.map((entry) => ({
       url: `${TRI_JOURNAL_URL}/${entry.slug}`,
-      lastModified: entry.published_at ? new Date(entry.published_at) : new Date(),
+      ...(entry.published_at && { lastModified: new Date(entry.published_at) }),
     })),
     ...COMPLETED_RUCK_MISSIONS.map((mission) => ({
       url: `${SITE_URL}/campaigns/ruck/missions/${mission.slug}`,
       lastModified: new Date(mission.date),
     })),
-    ...(HAS_LISTED_AUCTION_ITEMS ? [{ url: `${SITE_URL}/campaigns/live/auction`, lastModified: new Date() }] : []),
-    ...PREMIERES.map((premiere) => ({ url: `${SITE_URL}${TRI_PAGE_PATH}/premiere/${premiere.slug}`, lastModified: new Date() })),
+    ...(HAS_LISTED_AUCTION_ITEMS ? [{ url: `${SITE_URL}/campaigns/live/auction` }] : []),
+    ...PREMIERES.map((premiere) => ({ url: `${SITE_URL}${TRI_PAGE_PATH}/premiere/${premiere.slug}` })),
     ...voices.map((voice) => ({ url: `${SITE_URL}/voices/${voice.slug}`, lastModified: new Date(`${voice.publishedOn}T00:00:00Z`) })),
     ...liveEvents.map((event) => ({
       url: `${SITE_URL}/campaigns/live/${event.slug}`,

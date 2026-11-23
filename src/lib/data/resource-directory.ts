@@ -124,10 +124,34 @@ export function isFreeResource(resource: Resource): boolean {
   return /^(free|no[- ]cost|\$0)/i.test(cost) || /\bat no cost\b|\bno cost to\b|\bfree of charge\b/i.test(cost);
 }
 
+/** Words ending in "." that don't end a sentence ("St. Louis", "Maryland Dept. of …", "Heroes Inc."). */
+const ABBREVIATIONS = new Set([
+  "st", "mt", "ft", "dept", "inc", "intl", "corp", "co", "ltd", "est", "no", "vs", "etc", "jr", "sr", "dr",
+  "gen", "lt", "col", "sgt", "capt", "cpl", "maj", "adm", "ret", "approx", "e.g", "i.e",
+]);
+
+function isAbbreviation(word: string): boolean {
+  const bare = word.replace(/^[("'“]+/, "");
+  // Initials and dotted acronyms: "C.", "U.S.", "C.O.P.S."
+  if (/^([A-Za-z]\.)+$/.test(bare)) return true;
+  return ABBREVIATIONS.has(bare.slice(0, -1).toLowerCase());
+}
+
+/** The first sentence: ends at . ! or ? followed by a capitalized word, skipping abbreviations. */
+function leadSentence(text: string): string {
+  for (const match of text.matchAll(/[.!?](?=\s+["'“(]?[A-Z0-9])/g)) {
+    const end = match.index + 1;
+    const word = text.slice(text.lastIndexOf(" ", match.index) + 1, end);
+    if (match[0] === "." && isAbbreviation(word)) continue;
+    return text.slice(0, end);
+  }
+  return text;
+}
+
 /** One sentence, ≤ 160 chars, cut on a word boundary if it has to be. */
 export function shortSummary(description: string): string {
   const text = description.replace(/\s+/g, " ").trim();
-  const firstSentence = text.match(/^.+?[.!?](?=\s|$)/)?.[0] ?? text;
+  const firstSentence = leadSentence(text);
   if (firstSentence.length <= 160) return firstSentence;
   return `${firstSentence.slice(0, 157).replace(/\s+\S*$/, "").replace(/[,;:—–-]$/, "")}…`;
 }

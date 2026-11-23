@@ -15,7 +15,6 @@ import {
   FUNDRAISING_GOAL,
   MISSION_NAME,
   MISSION_ORIGIN_LINE,
-  MISSION_SUPPORTING_LINE,
   MOVEMENT_CAMPAIGNS,
   isCurrentCampaign,
   SITE_NAME,
@@ -40,8 +39,8 @@ import type { MovementCampaign } from "@/types/organization";
 export async function generateMetadata(): Promise<Metadata> {
   const { fundraisingGoal } = await getMissionMetrics();
   return pageMetadata({
-    title: "Campaigns",
-    description: `${MISSION_SUPPORTING_LINE} Tri For The 22, Ruck For The 22, For The 22: Live, For The 22: SEEN, and 22 For the 22 all contribute toward ${SITE_NAME}'s shared ${formatCurrency(fundraisingGoal ?? FUNDRAISING_GOAL)} fundraising goal.`,
+    title: "Campaigns: Ruck, Tri, Live, SEEN & 22 For the 22",
+    description: `Five campaigns, one goal: Tri, Ruck, Live, SEEN, and 22 For the 22 all raise money toward ${SITE_NAME}'s shared ${formatCurrency(fundraisingGoal ?? FUNDRAISING_GOAL)} goal for veterans and first responders.`,
     canonical: "/campaigns",
   });
 }

@@ -6,8 +6,9 @@ import { SITE_NAME } from "@/lib/constants";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
-  title: "Crisis Support",
-  description: "Immediate crisis support for veterans and first responders.",
+  title: "Get Help Now: Veteran & First Responder Crisis Lines",
+  description:
+    "Call 988 and press 1, or text 838255, for the Veterans Crisis Line. In danger now? Call 911. Free 24/7 crisis lines for veterans, first responders and families.",
   canonical: "/crisis",
 });
 

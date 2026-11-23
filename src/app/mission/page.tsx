@@ -32,8 +32,8 @@ import { INNER_RING_COLORS, OUTER_RING_COLORS } from "@/lib/ring-colors";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
-  title: "Mission",
-  description: `${ORG_SUPPORTING_STATEMENT} Who we serve, how the resource directory works, and why it exists.`,
+  title: "Our Mission: Connection, Mobilization, Impact",
+  description: `${SITE_NAME} connects veterans, first responders, and their families with trusted resources, and mobilizes communities to fund the organizations serving them.`,
   canonical: "/mission",
 });
 

@@ -17,8 +17,8 @@ import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 
 export const metadata = pageMetadata({
-  title: "The Network",
-  description: `The resource network, current beneficiaries, campaign partners, and community that make ${SITE_NAME} work — programs we connect people to, organizations campaigns fund, and the people who move the mission forward.`,
+  title: "The Network: Resources, Beneficiaries & Partners",
+  description: `The programs ${SITE_NAME} connects people to, the nonprofits its campaigns fund, and the partners and community who move the mission forward.`,
   canonical: "/network",
 });
 

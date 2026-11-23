@@ -14,7 +14,8 @@ import { pageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = pageMetadata({
   title: "Official Rules | 22 For the 22",
-  description: "Official Rules for the 22 For the 22 free giveaway/sweepstakes.",
+  description:
+    "Official rules for the 22 For the 22 giveaway: eligibility, how to enter, prize details, and how winners are selected. No purchase or donation necessary.",
   canonical: `${EVENT22_CAMPAIGN_URL}/rules`,
 });
 

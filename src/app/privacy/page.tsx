@@ -8,7 +8,8 @@ import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
   title: "Privacy Policy",
-  description: "How the For The 22 website collects, uses, and shares information.",
+  description:
+    "How the For The 22 website collects, uses, and shares information: what each form asks for, why, and how to ask for your submission to be removed.",
   canonical: "/privacy",
 });
 

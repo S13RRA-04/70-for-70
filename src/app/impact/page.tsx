@@ -24,8 +24,8 @@ import { pageMetadata } from "@/lib/metadata";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 
 export const metadata = pageMetadata({
-  title: "Impact",
-  description: `The fundraising behind ${MISSION_NAME} and the organizations it funds — Mighty Oaks Foundation and Veterans and Athletes United — plus the mission work beyond the money, with every number verified and published.`,
+  title: "Impact: Funds Raised & Where They Go",
+  description: `Verified totals for ${MISSION_NAME} and the nonprofits it funds, Mighty Oaks Foundation and Veterans and Athletes United, plus the work beyond the money.`,
   canonical: "/impact",
 });
 

@@ -14,7 +14,7 @@ import { pageMetadata } from "@/lib/metadata";
 import { FOUNDER_PERSON_JSON_LD, jsonLdScriptProps } from "@/lib/json-ld";
 
 export const metadata = pageMetadata({
-  title: "About",
+  title: "About Founder Cody Hitson",
   description: `Founder Cody Hitson's own story of service, struggle, and recovery — and how it became ${SITE_NAME}.`,
   canonical: "/about",
 });
