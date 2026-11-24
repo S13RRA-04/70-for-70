@@ -132,6 +132,13 @@ export const NEED_PATHWAYS = [
     categoryFallbackIds: ["sports-fitness", "outdoor-programs", "equipment-grants", "family-support"],
     searchPhrases: ["disabled veteran sports", "adaptive sports", "paratriathlon", "adaptive triathlon", "handcycle", "racing wheelchair", "adaptive swimming", "adaptive equipment loan", "accessible hunting", "accessible fishing", "state park disability pass", "outdoor caregiver respite"],
   },
+  {
+    id: "first-adaptive-event",
+    label: "First adaptive sports event",
+    prompt: "I want a path into my first adaptive sports event",
+    categoryFallbackIds: ["sports-fitness", "outdoor-programs", "equipment-grants", "purpose-community"],
+    searchPhrases: ["first adaptive event", "first 5k", "first race", "beginner adaptive sports", "recreational adaptive sports", "adaptive division", "race accommodation", "para classification", "paralympic classification", "race entry grant", "sports travel grant"],
+  },
 ] as const;
 
 export type NeedPathwayId = (typeof NEED_PATHWAYS)[number]["id"];
@@ -245,6 +252,12 @@ export const PATHWAY_FOLLOW_UPS: Record<NeedPathwayId, { id: string; label: stri
     { id: "accessible-field-sports", label: "Accessible hunting or fishing", serviceTags: ["adaptive-hunting", "adaptive-fishing", "hunting-license", "fishing-license"] },
     { id: "recreation-benefits", label: "State park or recreation benefits", serviceTags: ["state-park-pass", "recreation-pass", "veteran-recreation-benefit"] },
     { id: "outdoor-family-respite", label: "Outdoor respite with family or a caregiver", serviceTags: ["outdoor-respite", "caregiver-retreat", "family-retreat", "accessible-lodging"] },
+  ],
+  "first-adaptive-event": [
+    { id: "first-event-recreation", label: "Try the sport recreationally first", serviceTags: ["adaptive-recreation", "beginner-clinic", "no-classification", "equipment-fitting"] },
+    { id: "first-event-local", label: "Enter a first local event without classification", serviceTags: ["first-event", "adaptive-division", "race-accommodations", "no-classification"] },
+    { id: "first-event-classification", label: "Pursue classification or championship competition", serviceTags: ["para-classification", "competition-pathway", "elite-development"] },
+    { id: "first-event-funding", label: "Help with entry fees, travel, or equipment", serviceTags: ["race-entry-grant", "travel-grant", "sports-equipment-grant", "competition-expenses"] },
   ],
 };
 

@@ -86,6 +86,7 @@ export const PATHWAY_TO_NEED: Record<string, NeedId> = {
   "benefits-complications": "legal",
   "digital-safety": "safety",
   "adaptive-outdoor-sports": "fitness",
+  "first-adaptive-event": "fitness",
 };
 
 export const NEEDS: { id: NeedId; label: string; synonyms: string[] }[] = BASE_NEEDS.map((need) => ({

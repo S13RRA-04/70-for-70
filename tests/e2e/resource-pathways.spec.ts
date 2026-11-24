@@ -40,6 +40,13 @@ test.describe("resource pathways", () => {
     await expect(page.getByRole("button", { name: /^Fitness & outdoors/, pressed: true })).toBeVisible();
   });
 
+  test("maps the first adaptive event pathway to the fitness and outdoors directory", async ({ page }) => {
+    await page.goto("/resources?pathway=first-adaptive-event");
+
+    await expect(page).toHaveURL(/\/resources\?need=fitness$/);
+    await expect(page.getByRole("button", { name: "Remove filter: Fitness & outdoors" })).toBeVisible();
+  });
+
   test("offers a special-needs follow-up for military children and dependents", async ({ page }) => {
     await page.goto("/resources/guide");
 
@@ -63,6 +70,20 @@ test.describe("resource pathways", () => {
     await expect(page.getByRole("button", { name: "Borrow or fund adaptive equipment" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Accessible hunting or fishing" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Outdoor respite with family or a caregiver" })).toBeVisible();
+  });
+
+  test("separates a recreational first event from classification-based competition", async ({ page }) => {
+    await page.goto("/resources/guide");
+
+    await page.getByRole("button", { name: "Veteran" }).click();
+    await page.getByRole("button", { name: "Continue" }).click();
+    await page.getByRole("button", { name: "I want a path into my first adaptive sports event" }).click();
+    await page.getByRole("button", { name: "Continue" }).click();
+
+    await expect(page.getByRole("button", { name: "Try the sport recreationally first" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Enter a first local event without classification" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Pursue classification or championship competition" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Help with entry fees, travel, or equipment" })).toBeVisible();
   });
 
   test("ranks a service-tag match ahead of broad category fallbacks", async ({ page }) => {
