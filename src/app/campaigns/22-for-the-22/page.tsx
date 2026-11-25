@@ -11,6 +11,7 @@ import { getCurrentEventStatus } from "@/lib/22-for-the-22/event-status";
 import {
   EVENT_ACCESSIBILITY_CONTENT,
   EVENT_CHALLENGE_FORMAT_CONTENT,
+  EVENT_FINAL_RESULTS,
   EVENT_HOW_IT_WORKS_STEPS,
   EVENT_SEO,
   EVENT_TRI_CONNECTION_CONTENT,
@@ -19,6 +20,7 @@ import {
   NO_PURCHASE_NECESSARY_DISCLOSURE,
   SAFETY_LANGUAGE_PARAGRAPHS,
 } from "@/lib/content/22-for-the-22";
+import { TOTAL_SESSIONS } from "@/lib/content/22-for-the-22-tracker";
 import { EventHero } from "@/components/22-for-the-22/event-hero";
 import { EventGiveawaySection } from "@/components/22-for-the-22/event-giveaway-section";
 import { LiveEventPanel } from "@/components/22-for-the-22/live-event-panel";
@@ -81,6 +83,43 @@ export default async function EventPage() {
       />
 
       <EventHero event={event} status={status} registerHref={event.registration_open ? "#register" : "#giveaway"} />
+
+      {EVENT_FINAL_RESULTS && (
+        <section id="results" className="scroll-mt-28 border-b border-ink/10 bg-sand-light py-16 sm:py-20">
+          <Container className="max-w-3xl">
+            <RevealOnScroll>
+              <SectionHeading
+                eyebrow="Final Results"
+                title="The Results Are In"
+                description="Every minute below was moved for veterans, first responders, and the communities that stand behind them. Thank you to everyone who took part."
+              />
+              <div className="mt-8 grid grid-cols-3 gap-3">
+                <StatCard label="Minutes Moved" value={EVENT_FINAL_RESULTS.totalMinutes.toLocaleString("en-US")} />
+                <StatCard label="Sessions" value={String(EVENT_FINAL_RESULTS.totalSessions)} />
+                <StatCard label="Participants" value={String(EVENT_FINAL_RESULTS.participants)} />
+              </div>
+              <ol className="mt-8 divide-y divide-line rounded-xl border border-line bg-white">
+                {EVENT_FINAL_RESULTS.entries.map((entry) => (
+                  <li key={entry.name} className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 px-5 py-4">
+                    <span className="font-display text-lg uppercase text-ink">
+                      {entry.name}
+                      {entry.sessions >= TOTAL_SESSIONS && (
+                        <span className="ml-3 align-middle text-xs font-bold tracking-[0.2em] text-bronze">
+                          Mission Complete
+                        </span>
+                      )}
+                    </span>
+                    <span className="text-sm tabular-nums text-charcoal-light">
+                      {entry.sessions} {entry.sessions === 1 ? "session" : "sessions"} ·{" "}
+                      <span className="font-semibold text-ink">{entry.minutes.toLocaleString("en-US")} minutes</span>
+                    </span>
+                  </li>
+                ))}
+              </ol>
+            </RevealOnScroll>
+          </Container>
+        </section>
+      )}
 
       {status === "live" && (
         <LiveEventPanel

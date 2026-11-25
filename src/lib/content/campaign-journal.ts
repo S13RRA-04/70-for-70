@@ -1,4 +1,4 @@
-import { RUCK_CAMPAIGN_URL, TRI_PAGE_PATH } from "@/lib/constants";
+import { EVENT22_CAMPAIGN_PATH, RUCK_CAMPAIGN_URL, TRI_PAGE_PATH } from "@/lib/constants";
 import type { CampaignJournalEntry } from "@/types/campaign-journal";
 
 /**
@@ -145,6 +145,18 @@ export const CAMPAIGN_JOURNAL_ENTRIES: CampaignJournalEntry[] = [
       },
     ],
     link: { label: "Explore Tri For The 22", href: TRI_PAGE_PATH },
+  },
+  {
+    id: "22-for-the-22-2026-results",
+    date: "2026-11-25",
+    title: "The Results Are In: 22 For the 22",
+    summary:
+      "The final 22 For the 22 numbers are in: 806 minutes of movement across 28 sessions, with Team HOPE completing all 22 sessions.",
+    body: [
+      "The final results for 22 For the 22 are in: 806 minutes of movement across 28 sessions, all moved for veterans, first responders, and the communities that stand behind them.",
+      "Team HOPE completed the full challenge, logging all 22 sessions and 484 minutes. Thank you to everyone who registered, moved, and shared the mission.",
+    ],
+    link: { label: "See the Final Results", href: `${EVENT22_CAMPAIGN_PATH}#results` },
   },
 ];
 

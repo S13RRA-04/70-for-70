@@ -286,3 +286,32 @@ export const EVENT_RULES_PLACEHOLDER_SECTIONS: TermsSection[] = [
     body: ["[PLACEHOLDER — \"Void where prohibited by law\" and any related jurisdictional exclusions to be inserted here.]"],
   },
 ];
+
+/**
+ * Final 22 For the 22 (2026) results, rendered as the #results section on
+ * /campaigns/22-for-the-22 and announced in the campaign journal. A
+ * hand-published snapshot, not a live query: sessions logged in the app
+ * (public.activities) plus Cody's 5 × 60-minute sessions, logged off-app.
+ * Set to null to hide the section.
+ */
+export interface EventFinalResultsEntry {
+  name: string;
+  sessions: number;
+  minutes: number;
+}
+
+export const EVENT_FINAL_RESULTS: {
+  totalMinutes: number;
+  totalSessions: number;
+  participants: number;
+  entries: EventFinalResultsEntry[];
+} | null = {
+  totalMinutes: 806,
+  totalSessions: 28,
+  participants: 3,
+  entries: [
+    { name: "Team HOPE", sessions: 22, minutes: 484 },
+    { name: "Cody", sessions: 5, minutes: 300 },
+    { name: "Participant", sessions: 1, minutes: 22 },
+  ],
+};
